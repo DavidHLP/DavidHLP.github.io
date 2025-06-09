@@ -1,3 +1,11 @@
+---
+title: Redis代替session的业务
+published: 2025-06-09
+tags: [Redis, Session, Java]
+category: Redis
+draft: false
+---
+
 # Redis代替session的业务
 
 ## 业务场景
