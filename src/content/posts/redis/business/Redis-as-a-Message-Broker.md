@@ -3,6 +3,7 @@ title: Redis消息队列
 published: 2025-06-09
 tags: [Redis, Java]
 category: Redis
+image: assets/images/94edf339-6526-4eb0-bb21-13f1b5c04682.png
 description: 深入解析Redis作为消息队列的三种实现方式：基于List的简单队列、基于Pub/Sub的发布订阅模式，以及基于Stream的完整消息队列解决方案，帮助开发者根据业务需求选择最合适的消息队列实现。
 draft: false
 ---

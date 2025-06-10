@@ -3,45 +3,51 @@ title: Redis代替session的业务
 published: 2025-06-09
 tags: [Redis, Session, Java]
 category: Redis
+image: assets/images/94edf339-6526-4eb0-bb21-13f1b5c04682.png
 description: 详细介绍如何使用Redis替代传统Session实现分布式会话管理，包括登录认证、会话管理、安全控制等核心场景，提供前后端完整实现方案和最佳实践。
 draft: false
 ---
-
 # Redis代替session的业务
 
 ## 业务场景
 
 ### 1. 用户登录认证
+
 - **邮箱/手机号+密码登录**
+
   - 用户输入邮箱/手机号和密码进行登录
   - 服务端验证通过后，生成唯一token作为用户凭证
   - 将token作为key，用户信息作为value存入Redis
   - 设置合理的过期时间（如7天）
-
 - **验证码登录**
+
   - 用户输入手机号/邮箱，请求发送验证码
-  - 服务端生成6位验证码，以`login:code:{手机号/邮箱}`为key存入Redis
+  - 服务端生成6位验证码，以 `login:code:{手机号/邮箱}`为key存入Redis
   - 设置5分钟过期时间
   - 用户提交验证码，服务端进行比对验证
 
 ### 2. 会话管理
+
 - **用户信息缓存**
+
   - 用户登录后，将用户基本信息、权限等存入Redis
   - 使用Hash结构存储，key格式：`user:token:{token}`
   - 包含字段：userId, username, avatar, roles等
-
 - **登录设备管理**
+
   - 支持多设备同时在线
   - 使用Set结构存储用户的所有登录设备token
   - 实现单点登录/登出功能
 
 ### 3. 安全控制
-- **登录失败限制**
-  - 记录登录失败次数，防止暴力破解
-  - 使用`login:fail:{账号}`作为key，设置过期时间
-  - 达到阈值后临时锁定账号
 
+- **登录失败限制**
+
+  - 记录登录失败次数，防止暴力破解
+  - 使用 `login:fail:{账号}`作为key，设置过期时间
+  - 达到阈值后临时锁定账号
 - **敏感操作验证**
+
   - 修改密码、更换绑定手机等操作需要二次验证
   - 生成临时token，短时间有效
   - 验证通过后方可执行敏感操作
@@ -52,7 +58,7 @@ draft: false
 
 - **request.d.ts**
 
->  定义请求接口
+> 定义请求接口
 
 ```typescript
 declare module '@/utils/request' {
@@ -401,22 +407,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 ## 最佳实践
 
 1. **合理设置过期时间**
+
    - 会话token：建议7-30天
    - 验证码：5-10分钟
    - 临时token：10-30分钟
-
 2. **安全建议**
+
    - 使用HTTPS传输
    - Token设置httpOnly和Secure属性
    - 定期轮换密钥
    - 记录登录日志
-
 3. **性能优化**
+
    - 使用Pipeline批量操作
    - 合理使用连接池
    - 避免大Key和热Key问题
-
 4. **高可用**
+
    - 配置Redis主从复制
    - 开启持久化
    - 监控Redis性能指标
@@ -424,17 +431,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 ## 常见问题
 
 1. **会话失效问题**
+
    - 实现token续期机制
    - 使用Redisson的看门狗机制
-
 2. **分布式会话一致性**
+
    - 使用Redis Cluster保证数据分片
    - 配置合理的主从复制策略
-
 3. **缓存击穿/穿透**
+
    - 对不存在的key设置空值
    - 使用布隆过滤器
-
 4. **数据一致性**
+
    - 使用Redis事务
    - 实现最终一致性方案

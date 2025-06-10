@@ -3,6 +3,7 @@ title: 分布式锁-redission
 published: 2025-06-09
 tags: [Redis, Lock, Redission, Java]
 category: Redis
+image: assets/images/94edf339-6526-4eb0-bb21-13f1b5c04682.png
 description: 深入解析Redission分布式锁的实现原理，包括可重入锁、WatchDog自动续期机制以及MultiLock多节点锁的实现方式，帮助开发者理解并正确使用Redission解决分布式环境下的并发控制问题。
 draft: false
 ---
