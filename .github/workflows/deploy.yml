@@ -18,16 +18,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: git@github.com:DavidHLP/DavidHLP.github.io.git
         uses: actions/checkout@v4
-      - name: Install Playwright browsers
-        run: pnpm exec playwright install
       - name: Install, build, and upload your site
         uses: withastro/action@v3
         with:
           path: . # The root location of your Astro project inside the repository. (optional)
           node-version: 20 # The specific version of Node that should be used to build your site. Defaults to 20. (optional)
           # package-manager is automatically detected from package.json
+          run: |
+            pnpm exec playwright install
+            pnpm run build
 
   deploy:
     needs: build
