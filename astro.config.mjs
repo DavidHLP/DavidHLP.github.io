@@ -8,10 +8,10 @@ import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import { defineConfig } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeComponents from "rehype-components"; /* Render the custom directive content */
+import rehypeComponents from "rehype-components"; /* 渲染自定义指令内容 */
 import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
-import remarkDirective from "remark-directive"; /* Handle directives */
+import remarkDirective from "remark-directive"; /* 处理指令 */
 import remarkGithubAdmonitionsToDirectives from "remark-github-admonitions-to-directives";
 import remarkMath from "remark-math";
 import remarkSectionize from "remark-sectionize";
@@ -25,7 +25,7 @@ import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
 import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-copy-button.js";
 import rehypeMermaid from "rehype-mermaid";
 
-// https://astro.build/config
+// Astro 配置文件 - 参考 https://astro.build/config
 export default defineConfig({
   experimental: {
     headingIdCompat: true,
@@ -40,9 +40,8 @@ export default defineConfig({
     }),
     swup({
       theme: false,
-      animationClass: "transition-swup-", // see https://swup.js.org/options/#animationselector
-      // the default value `transition-` cause transition delay
-      // when the Tailwind class `transition-all` is used
+      animationClass: "transition-swup-", // 参考 https://swup.js.org/options/#animationselector
+      // 默认值 `transition-` 会导致使用 Tailwind 的 `transition-all` 类时出现过渡延迟
       containers: ["main", "#toc"],
       smoothScrolling: true,
       cache: true,
@@ -168,7 +167,7 @@ export default defineConfig({
     build: {
       rollupOptions: {
         onwarn(warning, warn) {
-          // temporarily suppress this warning
+          // 临时抑制此警告
           if (
             warning.message.includes("is dynamically imported by") &&
             warning.message.includes("but also statically imported by")
