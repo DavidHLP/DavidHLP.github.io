@@ -3,6 +3,7 @@ title: 分布式锁
 published: 2025-06-09
 tags: [Redis, Lock, Java]
 category: Redis
+description: 深入解析基于Redis的分布式锁实现原理，包括SETNX命令的使用、锁误删问题的解决方案、Lua脚本保证原子性操作等核心知识点，帮助开发者构建高可用的分布式锁机制。
 draft: false
 ---
 

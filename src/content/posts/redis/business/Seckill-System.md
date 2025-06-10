@@ -3,6 +3,7 @@ title: 秒杀任务
 published: 2025-06-09
 tags: [Redis, 秒杀, Java]
 category: Redis
+description: 深入解析基于Redis的高并发秒杀系统实现，涵盖全局唯一ID生成、分布式锁实现、异步下单处理等核心功能，提供完整的代码实现和性能优化方案。
 draft: false
 ---
 

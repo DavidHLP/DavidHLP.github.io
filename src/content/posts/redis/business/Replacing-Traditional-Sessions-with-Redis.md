@@ -3,6 +3,7 @@ title: Redis代替session的业务
 published: 2025-06-09
 tags: [Redis, Session, Java]
 category: Redis
+description: 详细介绍如何使用Redis替代传统Session实现分布式会话管理，包括登录认证、会话管理、安全控制等核心场景，提供前后端完整实现方案和最佳实践。
 draft: false
 ---
 
