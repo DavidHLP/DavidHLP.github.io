@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   # Trigger the workflow every time you push to the `main` branch
-  # Using a different branch name? Replace `main` with your branch’s name
+  # Using a different branch name? Replace `main` with your branch's name
   push:
     branches: [main]
   # Allows you to run this workflow manually from the Actions tab on GitHub.
@@ -18,17 +18,31 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: git@github.com:DavidHLP/DavidHLP.github.io.git
+      - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install, build, and upload your site
-        uses: withastro/action@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          path: . # The root location of your Astro project inside the repository. (optional)
-          node-version: 20 # The specific version of Node that should be used to build your site. Defaults to 20. (optional)
-          # package-manager is automatically detected from package.json
-          run: |
-            pnpm exec playwright install
-            pnpm run build
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install pnpm
+        run: npm install -g pnpm@8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install
+
+      - name: Build with Astro
+        run: pnpm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./dist"
 
   deploy:
     needs: build
