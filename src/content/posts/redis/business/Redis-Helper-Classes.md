@@ -3,7 +3,7 @@ title: Redis工具类实现
 published: 2025-06-09
 tags: [Redis, Java]
 category: Redis
-image: assets/images/94edf339-6526-4eb0-bb21-13f1b5c04682.png
+image: ./image/94edf339-6526-4eb0-bb21-13f1b5c04682.png
 description: 一个功能全面的Redis工具类实现，包含分布式锁、缓存管理、集合操作等常用功能，支持缓存穿透、击穿、雪崩等常见问题的解决方案，基于Redisson和Spring RedisTemplate封装。
 draft: false
 ---

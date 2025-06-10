@@ -3,7 +3,7 @@ title: Redis缓存模型和思路
 published: 2025-06-09
 tags: [Redis, Java]
 category: Redis
-image: assets/images/94edf339-6526-4eb0-bb21-13f1b5c04682.png
+image: ./image/94edf339-6526-4eb0-bb21-13f1b5c04682.png
 description: 深入解析Redis缓存模型的核心概念，包括缓存更新策略、数据库缓存一致性解决方案，以及缓存穿透、雪崩、击穿等常见问题的处理思路和最佳实践。
 draft: false
 ---

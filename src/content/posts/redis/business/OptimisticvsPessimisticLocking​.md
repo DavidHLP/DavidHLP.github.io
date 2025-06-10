@@ -3,7 +3,7 @@ title: 乐观锁和悲观锁
 published: 2025-06-09
 tags: [Java]
 category: Java
-image: assets/images/94edf339-6526-4eb0-bb21-13f1b5c04682.png
+image: ./image/94edf339-6526-4eb0-bb21-13f1b5c04682.png
 description: 深入解析乐观锁与悲观锁的核心概念、实现原理及适用场景，包括CAS操作、版本号控制等关键机制，以及在高并发环境下如何选择合适的锁策略来优化系统性能。
 draft: false
 ---
