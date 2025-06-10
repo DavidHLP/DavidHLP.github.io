@@ -20,6 +20,15 @@ jobs:
     steps:
       - name: git@github.com:DavidHLP/DavidHLP.github.io.git
         uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Install dependencies
+        run: pnpm install
       - name: Install Playwright browsers
         run: pnpm exec playwright install
       - name: Install, build, and upload your site
