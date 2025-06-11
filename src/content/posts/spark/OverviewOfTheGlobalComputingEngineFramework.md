@@ -1,7 +1,7 @@
 ---
 title: Spark：分布式计算引擎框架深度解析
 published: 2025-06-11
-tags: [Spark, Java]
+tags: [Spark, 大数据]
 category: Spark
 description: 全面解析Apache Spark分布式计算引擎的架构设计与实现原理，包括RDD抽象、内存计算、DAG调度等核心概念，帮助开发者深入理解Spark的高性能计算模型及其在大数据处理中的应用。
 draft: false
