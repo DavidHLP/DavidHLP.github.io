@@ -25,10 +25,7 @@ HBase 系统由以下几个关键进程组成：
 
 HBase 的数据模型是层层递进的结构，从宏观到微观依次为：
 
-<div align="center">
-  <img src="image/RegionServer-structure.png" />
-   <p style="margin-top: 2px;">RegionServer结构</p>
-</div>
+![RegionServer-structure](image/RegionServer-structure.png)
 
 #### Region
 
@@ -37,15 +34,11 @@ HBase 的数据模型是层层递进的结构，从宏观到微观依次为：
 - Region 中的数据按照 rowkey 的字典序排列
 - Region 根据 rowkey 进行横向切割
 
-<div align="center">
-  <img src="image/Region1.png" />
-</div>
+![Region1](image/Region1.png)
 
 - 每张表的 Region 数量：
 
-<div align="center">
-  <img src="image/Region2.png" />
-</div>
+![Region2](image/Region2.png)
 
 #### Store
 
@@ -53,10 +46,7 @@ HBase 的数据模型是层层递进的结构，从宏观到微观依次为：
 - 每个列族对应一个 Store
 - Store 负责存储列族的数据
 
-<div align="center">
-  <img src="image/Region-is-split-vertically-by-column-family.png" />
-  <p style="margin-top: 2px;">Region按列族垂直切分</p>
-</div>
+![Region-is-split-vertically-by-column-family](image/Region-is-split-vertically-by-column-family.png)
 
 #### MemStore
 

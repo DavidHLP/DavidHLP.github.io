@@ -18,15 +18,9 @@ draft: false
 - HBase 默认名称空间是「default」，创建表时默认使用此名称空间
 - HBase 系统内建名称空间「hbase」，用于存放系统内建表（namespace、meta）
 
-<div align="center">
-  <img src="image/namespace-default.png " />
-   <p style="margin-top: 2px;">namespace default</p>
-</div>
+![namespace-default](image/namespace-default.png)
 
-<div align="center">
-  <img src="image/namespace-hbase.png" />
-   <p style="margin-top: 2px;">namespace hbase</p>
-</div>
+![namespace-hbase](image/namespace-hbase.png)
 
 ### 2. 名称空间操作语法
 
@@ -156,10 +150,7 @@ enable 'MOMO_CHAT:MSG'
 - 单一 Region 在数据量大时会分裂，但初始阶段负载不均衡
 - 预分区数量建议为节点数的倍数，根据预估数据量和默认 Region 大小计算
 
-<div align="center">
-  <img src="image/StartKey-EndKey.png" />
-   <p style="margin-top: 2px;">Start Key - End Key</p>
-</div>
+![StartKey-EndKey](image/StartKey-EndKey.png)
 
 #### 解决方案 B：ROWKEY 设计优化
 
@@ -237,12 +228,13 @@ HBase 预分区可通过多种方式实现：
 create 'MOMO_CHAT:MSG', {NAME => 'C1', COMPRESSION => 'GZ'}, {NUMREGIONS => 6, SPLITALGO => 'HexStringSplit'}
 ```
 
-<div align="center">
-  <img src="image/p1.png" />
-   <p style="margin-top: 2px;">观察Hadoop HDFS中的内容 和 Hbase Web UI 中显示的内容</p>
-   <p style="margin-top: 2px;">Region其实对应着HDFS中的文件</p>
-  <img src="image/p2.png" />
-</div>
+![p1](image/p1.png)
+
+观察 Hadoop HDFS 中的内容 和 Hbase Web UI 中显示的内容
+
+Region 其实对应着 HDFS 中的文件
+
+![p2](image/p2.png)
 
 ### 3. RowKey 设计示例
 

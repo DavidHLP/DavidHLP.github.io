@@ -13,10 +13,7 @@ draft: false
 
 HBase 是一个分布式、可扩展的 NoSQL 数据库，建立在 HDFS 之上，提供面向列的实时读写能力。
 
-<div align="center">
-  <img src="image/hbase.png" />
-   <p style="margin-top: 2px;">HBase系统架构图</p>
-</div>
+![hbase](image/hbase.png)
 
 HBase 系统主要由以下几个核心组件构成：
 
@@ -55,10 +52,7 @@ ZooKeeper 在 HBase 中扮演协调服务的角色，主要职责：
 
 Master 是 HBase 集群的管理者，负责管理和协调整个系统。
 
-<div align="center">
-  <img src="image/Master-Web-UI.png" />
-  <p style="margin-top: 2px;">Master Web UI</p>
-</div>
+![Master-Web-UI](image/Master-Web-UI.png)
 
 Master 主要职责：
 
@@ -75,10 +69,7 @@ Master 主要职责：
 
 RegionServer 是实际存储 HBase 数据并处理客户端读写请求的服务器。
 
-<div align="center">
-  <img src="image/RegionServer.png" />
-  <p style="margin-top: 2px;">RegionServer结构图</p>
-</div>
+![RegionServer](image/RegionServer.png)
 
 RegionServer 主要职责：
 
