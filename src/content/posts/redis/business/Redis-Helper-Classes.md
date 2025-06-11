@@ -35,10 +35,7 @@ public class RedisCacheVo<T> implements Serializable {
 - `RedisCache`
 
 ```java
-package com.redis.api.redis.utils;
-
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -46,12 +43,16 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.redisson.api.RLock;
 import org.redisson.api.RReadWriteLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
 
@@ -104,11 +105,24 @@ public class RedisCache {
         return (Long) redisTemplate.opsForValue().increment("icr:" + keyPrefix + ":" + date);
     }
 
+    // ==============================String=============================
+
     /**
      * 缓存基本的对象
      */
     public <T> void setCacheObject(final String key, final T value) {
         redisTemplate.opsForValue().set(key, value);
+    }
+
+    /**
+     * 获取缓存的基本对象
+     *
+     * @param key 缓存的键
+     * @return 缓存的对象
+     */
+    public <T> T getCacheObject(final String key) {
+        ValueOperations<String, T> operation = redisTemplate.opsForValue();
+        return operation.get(key);
     }
 
     /**
@@ -120,16 +134,293 @@ public class RedisCache {
     }
 
     /**
-     * 设置有效时间
+     * 删除缓存对象
+     *
+     * @param key 缓存的键
+     * @return 是否删除成功
      */
-    public boolean expire(final String key, final long timeout) {
-        return expire(key, timeout, TimeUnit.SECONDS);
+    public Boolean deleteObject(final String key) {
+        if (key == null) {
+            return Boolean.FALSE;
+        }
+        return redisTemplate.delete(key);
     }
+
+    // ==============================Hash=============================
+
+
+    /**
+     * 缓存Hash数据
+     */
+    public <T> void setCacheMap(final String key, final Map<String, T> dataMap) {
+        if (dataMap != null && !dataMap.isEmpty()) {
+            redisTemplate.opsForHash().putAll(key, dataMap);
+        }
+    }
+
+    /**
+     * 获取整个Hash缓存
+     *
+     * @param key 缓存的键
+     * @return Hash对象
+     */
+    public <T> Map<String, T> getCacheMap(final String key) {
+        return redisTemplate.<String, T>opsForHash().entries(key);
+    }
+
+    /**
+     * 缓存Hash数据（带过期时间）
+     */
+    public <T> Boolean setCacheMap(final String key, final Map<String, T> dataMap, final long timeout, final TimeUnit timeUnit) {
+        if (dataMap != null) {
+            redisTemplate.opsForHash().putAll(key, dataMap);
+            return expire(key, timeout, timeUnit);
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
+     * 删除Hash中的指定字段
+     *
+     * @param key   缓存的键
+     * @param hKeys 要删除的字段数组
+     * @return 删除的字段数量
+     */
+    public Long deleteHashKeys(final String key, final Object... hKeys) {
+        if (key == null || hKeys == null || hKeys.length == 0) {
+            return 0L;
+        }
+        return redisTemplate.opsForHash().delete(key, hKeys);
+    }
+
+    // ==============================List=============================
+
+
+    /**
+     * 缓存List数据
+     */
+    public <T> Long setCacheList(final String key, final List<T> dataList) {
+        if (dataList != null && !dataList.isEmpty()) {
+            return redisTemplate.opsForList().rightPushAll(key, dataList);
+        }
+        return 0L;
+    }
+
+    /**
+     * 获取List缓存
+     *
+     * @param key 缓存的键
+     * @return List对象
+     */
+    public <T> List<T> getCacheList(final String key) {
+        return redisTemplate.opsForList().range(key, 0, -1);
+    }
+
+    /**
+     * 缓存List数据（带过期时间）
+     */
+    public <T> Boolean setCacheList(final String key, final List<T> dataList, final long timeout, final TimeUnit timeUnit) {
+        if (dataList != null && !dataList.isEmpty()) {
+            redisTemplate.opsForList().rightPushAll(key, dataList);
+            return expire(key, timeout, timeUnit);
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
+     * 删除List中的值
+     *
+     * @param key   缓存的键
+     * @param count 要删除的数量
+     * @param value 要删除的值
+     * @return 删除的元素数量
+     */
+    public <T> Long deleteFromList(final String key, long count, T value) {
+        if (key == null) {
+            return 0L;
+        }
+        return redisTemplate.opsForList().remove(key, count, value);
+    }
+
+    /**
+     * 裁剪List，只保留指定区间内的元素
+     *
+     * @param key   缓存的键
+     * @param start 开始位置
+     * @param end   结束位置
+     */
+    public void trimList(final String key, long start, long end) {
+        if (key != null) {
+            redisTemplate.opsForList().trim(key, start, end);
+        }
+    }
+
+    // ==============================Set=============================
+
+
+    /**
+     * 缓存Set数据
+     */
+    public <T> Long setCacheSet(final String key, final Set<T> dataSet) {
+        if (dataSet != null && !dataSet.isEmpty()) {
+            return redisTemplate.opsForSet().add(key, dataSet.toArray());
+        }
+        return 0L;
+    }
+
+    /**
+     * 获取Set缓存
+     *
+     * @param key 缓存的键
+     * @return Set对象
+     */
+    public <T> Set<T> getCacheSet(final String key) {
+        return redisTemplate.opsForSet().members(key);
+    }
+
+    /**
+     * 缓存Set数据（带过期时间）
+     */
+    public <T> Boolean setCacheSet(final String key, final Set<T> dataSet, final long timeout, final TimeUnit timeUnit) {
+        if (dataSet != null && !dataSet.isEmpty()) {
+            redisTemplate.opsForSet().add(key, dataSet.toArray());
+            return expire(key, timeout, timeUnit);
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
+     * 从Set中移除元素
+     *
+     * @param key    缓存的键
+     * @param values 要移除的值数组
+     * @return 移除的元素数量
+     */
+    public <T> Long removeFromSet(final String key, final Object... values) {
+        if (key == null || values == null || values.length == 0) {
+            return 0L;
+        }
+        return redisTemplate.opsForSet().remove(key, values);
+    }
+
+    /**
+     * 从Set中随机移除并返回一个元素
+     *
+     * @param key 缓存的键
+     * @return 被移除的元素
+     */
+    public <T> T popFromSet(final String key) {
+        if (key == null) {
+            return null;
+        }
+        return (T) redisTemplate.opsForSet().pop(key);
+    }
+
+    // ==============================ZSet=============================
+
+
+    /**
+     * 缓存ZSet数据
+     */
+    public <T> Boolean setCacheZSet(final String key, final Set<T> dataSet, final double score) {
+        if (dataSet != null && !dataSet.isEmpty()) {
+            Set<ZSetOperations.TypedTuple<T>> tuples = dataSet.stream()
+                    .map(value -> new DefaultTypedTuple<>(value, score))
+                    .collect(Collectors.toSet());
+            Long result = redisTemplate.opsForZSet().add(key, tuples);
+            return result != null && result > 0L;
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
+     * 获取ZSet缓存（按分数升序）
+     *
+     * @param key 缓存的键
+     * @return Set对象
+     */
+    public <T> Set<T> getCacheZSet(final String key) {
+        return (Set<T>) redisTemplate.opsForZSet().range(key, 0, -1);
+    }
+
+    /**
+     * 获取ZSet缓存（按分数范围）
+     *
+     * @param key 缓存的键
+     * @param min 最小分数
+     * @param max 最大分数
+     * @return Set对象
+     */
+    public <T> Set<T> getCacheZSetByScore(final String key, double min, double max) {
+        return (Set<T>) redisTemplate.opsForZSet().rangeByScore(key, min, max);
+    }
+
+    /**
+     * 缓存ZSet数据（带过期时间）
+     */
+    public <T> Boolean setCacheZSet(final String key, final Set<T> dataSet, final double score, final long timeout, final TimeUnit timeUnit) {
+        if (dataSet != null && !dataSet.isEmpty()) {
+            Set<ZSetOperations.TypedTuple<T>> tuples = dataSet.stream()
+                    .map(value -> new DefaultTypedTuple<>(value, score))
+                    .collect(Collectors.toSet());
+            Long result = redisTemplate.opsForZSet().add(key, tuples);
+            if (result != null && result > 0) {
+                return expire(key, timeout, timeUnit);
+            }
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
+     * 从ZSet中移除元素
+     *
+     * @param key    缓存的键
+     * @param values 要移除的值数组
+     * @return 移除的元素数量
+     */
+    public <T> Long removeFromZSet(final String key, final Object... values) {
+        if (key == null || values == null || values.length == 0) {
+            return 0L;
+        }
+        return redisTemplate.opsForZSet().remove(key, values);
+    }
+
+    /**
+     * 移除ZSet中指定分数区间的元素
+     *
+     * @param key 缓存的键
+     * @param min 最小分数
+     * @param max 最大分数
+     * @return 移除的元素数量
+     */
+    public Long removeFromZSetByScore(final String key, double min, double max) {
+        if (key == null) {
+            return 0L;
+        }
+        return redisTemplate.opsForZSet().removeRangeByScore(key, min, max);
+    }
+
+    /**
+     * 移除ZSet中指定排名区间的元素
+     *
+     * @param key   缓存的键
+     * @param start 开始排名
+     * @param end   结束排名
+     * @return 移除的元素数量
+     */
+    public Long removeFromZSetByRank(final String key, long start, long end) {
+        if (key == null) {
+            return 0L;
+        }
+        return redisTemplate.opsForZSet().removeRange(key, start, end);
+    }
+
+    // ==============================Other=============================
 
     /**
      * 设置有效时间
      */
-    public boolean expire(final String key, final long timeout, final TimeUnit unit) {
+    private boolean expire(final String key, final long timeout, final TimeUnit unit) {
         return Boolean.TRUE.equals(redisTemplate.expire(key, timeout, unit));
     }
 
@@ -145,27 +436,6 @@ public class RedisCache {
      */
     public Boolean hasKey(String key) {
         return redisTemplate.hasKey(key);
-    }
-
-    /**
-     * 获得缓存的基本对象
-     */
-    public <T> T getCacheObject(final String key) {
-        return (T) redisTemplate.opsForValue().get(key);
-    }
-
-    /**
-     * 删除单个对象
-     */
-    public boolean deleteObject(final String key) {
-        return Boolean.TRUE.equals(redisTemplate.delete(key));
-    }
-
-    /**
-     * 删除集合对象
-     */
-    public boolean deleteObject(final Collection collection) {
-        return redisTemplate.delete(collection) > 0;
     }
 
     /**
@@ -277,87 +547,6 @@ public class RedisCache {
     }
 
     /**
-     * 缓存List数据
-     */
-    public <T> long setCacheList(final String key, final List<T> dataList) {
-        Long count = redisTemplate.opsForList().rightPushAll(key, dataList);
-        return count == null ? 0 : count;
-    }
-
-    /**
-     * 获得缓存的list对象
-     */
-    public <T> List<T> getCacheList(final String key) {
-        return redisTemplate.opsForList().range(key, 0, -1);
-    }
-
-    /**
-     * 缓存Set
-     */
-    public <T> void setCacheSet(final String key, final Set<T> dataSet) {
-        redisTemplate.opsForSet().add(key, dataSet.toArray());
-    }
-
-    /**
-     * 获得缓存的set
-     */
-    public <T> Set<T> getCacheSet(final String key) {
-        return redisTemplate.opsForSet().members(key);
-    }
-
-    /**
-     * 设置缓存Map
-     */
-    public void setCacheMap(String key, Map<String, Object> data, final long timeout, final TimeUnit unit) {
-        redisTemplate.opsForHash().putAll(key, data);
-        if (timeout > 0) {
-            redisTemplate.expire(key, timeout, unit);
-        }
-    }
-
-    /**
-     * 获取缓存Map
-     */
-    public Map<String, Object> getCacheMap(String key) {
-        return redisTemplate.opsForHash().entries(key);
-    }
-
-    /**
-     * 往Hash中存入数据
-     */
-    public <T> void setCacheMapValue(final String key, final String hKey, final T value) {
-        redisTemplate.opsForHash().put(key, hKey, value);
-    }
-
-    /**
-     * 获取Hash中的数据
-     */
-    public <T> T getCacheMapValue(final String key, final String hKey) {
-        return (T) redisTemplate.opsForHash().get(key, hKey);
-    }
-
-    /**
-     * 获取多个Hash中的数据
-     */
-    public <T> List<T> getMultiCacheMapValue(final String key, final Collection<Object> hKeys) {
-        return redisTemplate.opsForHash().multiGet(key, hKeys);
-    }
-
-    /**
-     * 删除Hash中的某条数据
-     */
-    public boolean deleteCacheMapValue(final String key, final String hKey) {
-        return redisTemplate.opsForHash().delete(key, hKey) > 0;
-    }
-
-    /**
-     * 获得缓存的基本对象列表
-     */
-    public Collection<String> keys(final String pattern) {
-        return redisTemplate.keys(pattern);
-    }
-
-    /**
      * 设置带逻辑过期的缓存
      */
     public <T> void setWithLogicalExpire(String key, T value, Long time, TimeUnit unit) {
@@ -430,16 +619,9 @@ public class RedisCache {
                     unlock(lockKey);
                 }
             } else {
-                // 6. 获取锁失败，等待后重试
-                log.warn("获取分布式锁失败, 准备重试, lockKey: {}", lockKey);
-                try {
-                    Thread.sleep(100);
-                    return getWithMutex(key, lockKey, waitTime, leaseTime, cacheTimeout, timeUnit, loader);
-                } catch (InterruptedException e) {
-                    log.error("重试获取缓存时线程被中断, key: {}", key, e);
-                    Thread.currentThread().interrupt();
-                    throw new RuntimeException("获取缓存时线程被中断", e);
-                }
+                // 6. 获取锁失败，直接返回空
+                log.warn("获取分布式锁失败, 直接返回空, lockKey: {}", lockKey);
+                return loader.emptyInstance();
             }
         } catch (Exception e) {
             log.error("获取缓存失败, key: {}", key, e);
