@@ -3,7 +3,7 @@ title: 秒杀任务
 published: 2025-06-09
 tags: [Redis, 秒杀, Java]
 category: Redis
-image: ./image/94edf339-6526-4eb0-bb21-13f1b5c04682.png
+image: ./images/f0375368-1382-4a10-85bc-acbcad593169.png
 description: 深入解析基于Redis的高并发秒杀系统实现，涵盖全局唯一ID生成、分布式锁实现、异步下单处理等核心功能，提供完整的代码实现和性能优化方案。
 draft: false
 ---
@@ -23,11 +23,11 @@ draft: false
 
 **全局ID生成器**，是一种在分布式系统下用来生成全局唯一ID的工具，一般要满足下列特性：
 
-![1653363100502](image/秒杀任务/1653363100502.png)
+![1653363100502](images/秒杀任务/1653363100502.png)
 
 为了增加ID的安全性，我们可以不直接使用Redis自增的数值，而是拼接一些其它信息：
 
-![1653363172079](image/秒杀任务/1653363172079.png)
+![1653363172079](images/秒杀任务/1653363172079.png)
 
 - ID的组成部分：
   - 符号位：1bit，永远为0
@@ -38,7 +38,7 @@ draft: false
 
 优惠卷是为了引流，但是目前的情况是，一个人可以无限制的抢这个优惠卷，所以我们应当增加一层逻辑，让一个用户只能下一个单，而不是让一个用户下多个单。
 
-![1653371854389](image/秒杀任务/1653371854389.png)
+![1653371854389](images/秒杀任务/1653371854389.png)
 
 - `SeckillVoucherController`
 
@@ -198,7 +198,7 @@ synchronized (voucherId.toString().intern()) {
 
 > 单机锁性问题，在分布式高并发环境下，单机锁无法保证线程安全，不同的jvm的锁是独立的。
 
-![1653374296906](image/秒杀任务/1653374296906.png)
+![1653374296906](images/秒杀任务/1653374296906.png)
 
 ### 分布式锁的实现方式
 
@@ -321,7 +321,7 @@ public class SeckillVoucherLock extends SimpleRedisLock {
 > 异步任务最核心的点是，定时同步数据，保证数据的一致性。
 > 核心数据做保底机制，保证数据的准确性。
 
-![1653561657295](image/秒杀任务/1653561657295.png)
+![1653561657295](images/秒杀任务/1653561657295.png)
 
 - 业务流程
 - `AsyncSeckillVoucherServiceImpl`
@@ -564,4 +564,4 @@ public class AsyncSeckillVoucherServiceImpl {
 
 - 有效控制秒杀商品的并发
 
-![1749374505858](image/秒杀任务/1749374505858.png)
+![1749374505858](images/秒杀任务/1749374505858.png)

@@ -3,7 +3,7 @@ title: 分布式锁-redission
 published: 2025-06-09
 tags: [Redis, Lock, Redission, Java]
 category: Redis
-image: ./image/94edf339-6526-4eb0-bb21-13f1b5c04682.png
+image: ./images/f0375368-1382-4a10-85bc-acbcad593169.png
 description: 深入解析Redission分布式锁的实现原理，包括可重入锁、WatchDog自动续期机制以及MultiLock多节点锁的实现方式，帮助开发者理解并正确使用Redission解决分布式环境下的并发控制问题。
 draft: false
 ---
@@ -157,7 +157,7 @@ Redission使用Lua脚本保证加锁的原子性，主要参数：
 
 Redission使用Lua脚本来保证加锁操作的原子性，完整的加锁脚本如下：
 
-![1653548087334](image/分布式锁-redission/1653548087334.png)
+![1653548087334](images/分布式锁-redission/1653548087334.png)
 
 ```lua
 -- 1. 检查锁是否存在
@@ -424,7 +424,7 @@ Redission的 `MultiLock`（联锁）通过以下方式解决上述问题：
    - 使用看门狗机制为每个锁单独续期
    - 任何一个锁续期失败都会导致整个MultiLock续期失败
 
-![1653553093967](image/分布式锁-redission/1653553093967.png)
+![1653553093967](images/分布式锁-redission/1653553093967.png)
 
 ### 关键代码示例
 
