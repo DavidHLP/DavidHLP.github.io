@@ -83,8 +83,15 @@ export const licenseConfig: LicenseConfig = {
 	url: "https://creativecommons.org/licenses/by-nc-sa/4.0/", // 许可证链接
 };
 
-export const expressiveCodeConfig: ExpressiveCodeConfig = {
+export const darkCodeConfig: ExpressiveCodeConfig = {
 	// 请注意，某些样式（例如背景颜色）被覆盖，见 astro.config.mjs 文件。
 	// 请选择一个暗黑主题，因为当前博客主题仅支持暗黑背景颜色
-	theme: "github-dark",
+	theme: "laserwave",
 };
+
+export const lightCodeConfig: ExpressiveCodeConfig = {
+	// 请注意，某些样式（例如背景颜色）被覆盖，见 astro.config.mjs 文件。
+	// 请选择一个暗黑主题，因为当前博客主题仅支持暗黑背景颜色
+	theme: "everforest-light",
+};
+

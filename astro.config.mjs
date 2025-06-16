@@ -10,20 +10,20 @@ import { defineConfig } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeComponents from "rehype-components"; /* 渲染自定义指令内容 */
 import rehypeKatex from "rehype-katex";
+import rehypeMermaid from "rehype-mermaid";
 import rehypeSlug from "rehype-slug";
 import remarkDirective from "remark-directive"; /* 处理指令 */
 import remarkGithubAdmonitionsToDirectives from "remark-github-admonitions-to-directives";
 import remarkMath from "remark-math";
 import remarkSectionize from "remark-sectionize";
-import { expressiveCodeConfig } from "./src/config.ts";
+import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-copy-button.js";
 import { pluginLanguageBadge } from "./src/plugins/expressive-code/language-badge.ts";
 import { AdmonitionComponent } from "./src/plugins/rehype-component-admonition.mjs";
 import { GithubCardComponent } from "./src/plugins/rehype-component-github-card.mjs";
 import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
 import { remarkExcerpt } from "./src/plugins/remark-excerpt.js";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
-import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-copy-button.js";
-import rehypeMermaid from "rehype-mermaid";
+import { darkCodeConfig, lightCodeConfig } from "./src/config.ts";
 
 // Astro 配置文件 - 参考 https://astro.build/config
 export default defineConfig({
@@ -60,7 +60,7 @@ export default defineConfig({
       },
     }),
     expressiveCode({
-      themes: [expressiveCodeConfig.theme, expressiveCodeConfig.theme],
+      themes: [lightCodeConfig.theme, darkCodeConfig.theme],
       plugins: [
         pluginCollapsibleSections(),
         pluginLineNumbers(),
@@ -76,7 +76,7 @@ export default defineConfig({
         },
       },
       styleOverrides: {
-        codeBackground: "var(--codeblock-bg)",
+        // codeBackground: "var(--codeblock-bg)",
         borderRadius: "0.75rem",
         borderColor: "none",
         codeFontSize: "0.875rem",
@@ -84,14 +84,14 @@ export default defineConfig({
           "'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
         codeLineHeight: "1.5rem",
         frames: {
-          editorBackground: "var(--codeblock-bg)",
-          terminalBackground: "var(--codeblock-bg)",
-          terminalTitlebarBackground: "var(--codeblock-topbar-bg)",
-          editorTabBarBackground: "var(--codeblock-topbar-bg)",
+          // editorBackground: "var(--codeblock-bg)",
+          // terminalBackground: "var(--codeblock-bg)",
+          // terminalTitlebarBackground: "var(--codeblock-topbar-bg)",
+          // editorTabBarBackground: "var(--codeblock-topbar-bg)",
           editorActiveTabBackground: "none",
-          editorActiveTabIndicatorBottomColor: "var(--primary)",
+          // editorActiveTabIndicatorBottomColor: "var(--primary)",
           editorActiveTabIndicatorTopColor: "none",
-          editorTabBarBorderBottomColor: "var(--codeblock-topbar-bg)",
+          // editorTabBarBorderBottomColor: "var(--codeblock-topbar-bg)",
           terminalTitlebarBorderBottomColor: "none",
         },
         textMarkers: {
@@ -124,7 +124,7 @@ export default defineConfig({
     rehypePlugins: [
       rehypeKatex,
       rehypeSlug,
-      rehypeMermaid,
+      [rehypeMermaid, { dark: true, colorScheme: "dark" }],
       [
         rehypeComponents,
         {
