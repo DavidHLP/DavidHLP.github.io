@@ -185,7 +185,7 @@ FutureTask is not done
 Callable / FutureTask Hello World
 ```
 
-## 5. 关键点总结
+## 5. 关键点
 
 1. **异步执行**：FutureTask 可以在单独的线程中执行耗时操作，不阻塞主线程。
 2. **结果获取**：通过 `get()` 方法获取计算结果，该方法会阻塞直到计算完成。

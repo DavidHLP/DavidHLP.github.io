@@ -186,10 +186,3 @@ sequenceDiagram
 | **性能**       | Java 1.6 后，经锁膨胀、自旋等优化，性能很高 | 在高竞争下，配合特定功能（如公平性）时，展现优势     |
 
 ---
-
-## 总结
-
-- `synchronized`是 Java 语言层面的管程语法糖，其实现由 JVM 在底层完成，为开发者提供了便捷的并发控制手段。
-- 每个 Java 对象都可以作为管程，其核心是与一个`ObjectMonitor`实例的绑定。
-- HotSpot 中的`ObjectMonitor`通过`_EntryList`（竞争队列）和`_WaitSet`（条件等待队列）这两个关键数据结构，高效地管理线程的阻塞与唤醒，实现了互斥与协作。
-- 深入理解`ObjectMonitor`的工作原理、锁升级机制以及与`ReentrantLock`的差异，是 Java 资深开发者进行并发编程、性能调优和疑难问题排查的必备知识。

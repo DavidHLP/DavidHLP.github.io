@@ -242,14 +242,3 @@ class AtomicCancelTask implements Runnable {
 | **自定义标志**   | 逻辑简单直观                               | **无法中断阻塞方法**，适用范围受限           | 计算密集型循环，或需要管理多个取消条件的复杂逻辑 |
 
 **结论**：作为首选，应当始终使用 Java 的内置中断机制。它是一个经过深思熟虑的、通用的取消框架。只有在你完全清楚任务不会陷入深度阻塞，或者需要一个不依赖`InterruptedException`的简单取消标志时，才考虑使用`volatile`或`AtomicBoolean`作为补充。
-
-## 总结
-
-- Java 中断是一种**协作式**的线程间通信机制，而非强制命令。
-- `interrupt()`仅设置标志位；响应中断是线程自身的责任。
-- 在`RUNNABLE`状态下，需**轮询检查**`isInterrupted()`。
-- 阻塞方法通过抛出`InterruptedException`来响应中断，并**清除中断状态**。
-- 捕获`InterruptedException`后，要么**向上抛出**，要么**恢复中断状态** (`Thread.currentThread().interrupt()`)，绝不能"吞掉"它。
-- 警惕无法响应中断的 I/O 等阻塞操作。
-
-深刻理解并严格遵循这些原则，是构建健壮、可控、易于维护的并发系统的关键。
