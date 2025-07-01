@@ -1,6 +1,6 @@
 ---
 title: 深入理解Java CAS：从原理到实践
-published: 2024-07-25
+published: 2025-07-1
 description: 本文从Java资深开发者的视角，深入探讨了CAS（Compare-And-Swap）的原理、Unsafe类的使用、原子类、自旋锁实现、ABA问题及其解决方案AtomicStampedReference，旨在为高级开发者提供一份详尽的CAS学习指南。
 tags: [Java, JUC, CAS, Concurrency]
 category: JUC
