@@ -3,7 +3,7 @@ title: 深入解析 Java 可重入锁 (Reentrancy)
 published: 2025-06-26
 description: 深度剖析Java可重入锁，阐明其工作原理、`synchronized`与`ReentrantLock`的实现方式，以及在复杂并发场景中的应用价值和如何防止死锁。
 tags: [Java, 并发编程, 可重入锁, Reentrancy, synchronized, ReentrantLock, AQS]
-category: Java并发编程
+category: JUC
 draft: false
 ---
 

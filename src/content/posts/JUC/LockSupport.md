@@ -3,7 +3,7 @@ title: Java LockSupport 深度解析
 published: 2025-06-26
 description: 深度解析JUC底层的线程阻塞和唤醒工具LockSupport，阐明其核心API park/unpark 的"许可"工作机制，并与wait/notify、await/signal进行对比，展示其灵活和精准的线程调度能力。
 tags: [Java, 并发编程, JUC, LockSupport, park, unpark, AQS]
-category: Java并发编程
+category: JUC
 draft: false
 ---
 

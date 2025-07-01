@@ -3,7 +3,7 @@ title: synchronized 关键字中的对象锁与类锁详解
 published: 2025-06-26
 description: 详解Java中synchronized关键字的本质，区分对象锁（实例锁）和类锁（静态锁）的监视器对象、作用范围和应用场景，并阐明其如何实现互斥访问。
 tags: [Java, 并发编程, synchronized, 对象锁, 类锁, Monitor]
-category: Java并发编程
+category: JUC
 draft: false
 ---
 

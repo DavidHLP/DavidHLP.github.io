@@ -3,7 +3,7 @@ title: FutureTask
 published: 2025-06-24
 description: 本文全面介绍 FutureTask 的使用场景、优势劣势及最佳实践，结合代码示例帮助开发者掌握 Java 线程池中异步任务管理的常用模式。
 tags: [FutureTask, Java, 多线程]
-category: Java
+category: JUC
 draft: false
 ---
 

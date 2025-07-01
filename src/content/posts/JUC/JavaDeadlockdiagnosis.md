@@ -3,7 +3,7 @@ title: Java 死锁诊断与规避策略深度解析
 published: 2025-06-26
 description: 系统性地梳理 Java 死锁的成因、jps 与 jstack 等排查工具链的使用，以及通过保证锁顺序、使用超时锁等方法在架构层面预防和规避死锁的策略。
 tags: [Java, 并发编程, 死锁, Deadlock, jstack, jps, JConsole]
-category: Java并发编程
+category: JUC
 draft: false
 ---
 
