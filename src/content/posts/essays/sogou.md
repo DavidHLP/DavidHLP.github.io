@@ -1,6 +1,6 @@
 ---
 title: 解决 Ubuntu 24.04 下 Chrome 无法使用 Fcitx5 搜狗输入法的问题
-published: 2024-07-16
+published: 2025-07-9
 tags: [Chrome, Ubuntu, Sogou, Fcitx5]
 category: Ubuntu
 description: 本文记录了在 Ubuntu 24.04 LTS 环境下，由于 GTK4 前端模块缺失导致 Chrome 浏览器无法正常调用 Fcitx5 输入法（如搜狗输入法）的诊断过程和解决方案。
