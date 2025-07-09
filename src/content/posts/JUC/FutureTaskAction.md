@@ -3,7 +3,7 @@ title: FutureTask
 published: 2025-06-24
 description: 本文全面介绍 FutureTask 的使用场景、优势劣势及最佳实践，结合代码示例帮助开发者掌握 Java 线程池中异步任务管理的常用模式。
 tags: [FutureTask, Java, 多线程]
-category: Java
+category: JUC
 draft: false
 ---
 
@@ -185,7 +185,7 @@ FutureTask is not done
 Callable / FutureTask Hello World
 ```
 
-## 5. 关键点总结
+## 5. 关键点
 
 1. **异步执行**：FutureTask 可以在单独的线程中执行耗时操作，不阻塞主线程。
 2. **结果获取**：通过 `get()` 方法获取计算结果，该方法会阻塞直到计算完成。

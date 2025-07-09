@@ -3,7 +3,7 @@ title: ReentrantLock 深度解析：公平性与性能的权衡
 published: 2025-06-26
 description: 深度解析JUC中的ReentrantLock，重点探讨其公平与非公平两种策略的AQS底层实现、对性能和线程饥饿的影响，并提供架构选型建议。
 tags: [Java, 并发编程, JUC, ReentrantLock, AQS, 公平锁, 非公平锁]
-category: Java并发编程
+category: JUC
 draft: false
 ---
 
@@ -147,7 +147,7 @@ sequenceDiagram
 
 ---
 
-## 总结与选型建议
+## 选型建议
 
 | 特性     | 非公平锁 (默认)                                      | 公平锁                         |
 | :------- | :--------------------------------------------------- | :----------------------------- |

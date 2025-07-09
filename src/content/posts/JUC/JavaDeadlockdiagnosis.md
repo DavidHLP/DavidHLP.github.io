@@ -3,7 +3,7 @@ title: Java 死锁诊断与规避策略深度解析
 published: 2025-06-26
 description: 系统性地梳理 Java 死锁的成因、jps 与 jstack 等排查工具链的使用，以及通过保证锁顺序、使用超时锁等方法在架构层面预防和规避死锁的策略。
 tags: [Java, 并发编程, 死锁, Deadlock, jstack, jps, JConsole]
-category: Java并发编程
+category: JUC
 draft: false
 ---
 
@@ -256,7 +256,3 @@ public class DeadlockAnalysis {
 
 4.  **利用高级并发工具**：
     优先使用 J.U.C 包提供的高级并发组件，如`ConcurrentHashMap`、`BlockingQueue`、`Semaphore`等，它们内部已经处理了复杂的同步问题，能有效避免手动加锁带来的风险。
-
-## 总结
-
-死锁是并发系统中一种隐蔽且危害巨大的问题。作为 Java 专家，我们不仅要熟练掌握`jstack`等诊断工具，能够在问题发生时快速定位根源，更要在系统设计和代码实现阶段，通过**遵循锁顺序、使用超时锁、最小化锁范围**等策略，主动规避死锁风险，构建稳定、高效的并发系统。

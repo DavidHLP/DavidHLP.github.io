@@ -3,10 +3,9 @@ title: CompletableFuture
 published: 2025-06-24
 description: 本文系统梳理了 CompletableFuture 的核心 API、典型用法与实践示例，涵盖任务创建、结果处理、组合操作及常见陷阱，帮助开发者快速掌握 Java 异步编程要点。
 tags: [CompletableFuture, Java, 多线程]
-category: Java
+category: JUC
 draft: false
 ---
-
 
 # CompletableFuture
 
@@ -54,6 +53,7 @@ pool.shutdown();
 ```
 
 **结果（示例）**
+
 ```text
 ForkJoinPool.commonPool-worker-1
 null
@@ -74,11 +74,13 @@ System.out.println("Main Thread:" + 3);
 ```
 
 **结果**（主线程未休眠时）
+
 ```text
 Main Thread:3
 ```
 
 **结果**（主线程休眠 1s）
+
 ```text
 Main Thread:3
 whenComplete:2
@@ -102,6 +104,7 @@ System.out.println("CompletableFutureJoin:" + r);
 ```
 
 **结果**
+
 ```text
 CompletableFutureJoin:1
 Main Thread
@@ -123,6 +126,7 @@ System.out.println("Timeout 200ms:" + f.get(200, TimeUnit.MILLISECONDS));
 ```
 
 **结果（示例）**
+
 ```text
 get: ForkJoinPool.commonPool-worker-1
 join: ForkJoinPool.commonPool-worker-1
@@ -147,6 +151,7 @@ System.out.println(f.get());
 ```
 
 **结果**
+
 ```text
 Hello World
 ```
@@ -157,27 +162,27 @@ Hello World
 
 ### 7.0 回调方法区别速查
 
-| 方法 | Lambda 类型 | 是否需要上一步结果 | 是否有返回值 |
-|------|-------------|--------------------|--------------|
-| `thenRun` | `Runnable` | 否 | 否 |
-| `thenAccept` | `Consumer<T>` | 是 | 否 |
-| `thenApply` | `Function<T,R>` | 是 | 是 |
+| 方法         | Lambda 类型     | 是否需要上一步结果 | 是否有返回值 |
+| ------------ | --------------- | ------------------ | ------------ |
+| `thenRun`    | `Runnable`      | 否                 | 否           |
+| `thenAccept` | `Consumer<T>`   | 是                 | 否           |
+| `thenApply`  | `Function<T,R>` | 是                 | 是           |
 
 > 任务 A 执行完毕后：
+>
 > - **thenRun**：直接执行任务 B，B 不关心 A 的结果；
 > - **thenAccept**：执行任务 B，B 依赖 A 的结果，但 B 自身无返回值；
 > - **thenApply**：执行任务 B，B 依赖 A 的结果，并且 B 产生新的返回值。
 
 ### 常用函数式接口对照表
 
-| 函数式接口 | 抽象方法 | 参数数量 | 返回值 |
-|-------------|----------|----------|--------|
-| `Runnable` | `void run()` | 0 | 无 |
-| `Function<T,R>` | `R apply(T t)` | 1 | 有 |
-| `Consumer<T>` | `void accept(T t)` | 1 | 无 |
-| `Supplier<T>` | `T get()` | 0 | 有 |
-| `BiConsumer<T,U>` | `void accept(T t,U u)` | 2 | 无 |
-
+| 函数式接口        | 抽象方法               | 参数数量 | 返回值 |
+| ----------------- | ---------------------- | -------- | ------ |
+| `Runnable`        | `void run()`           | 0        | 无     |
+| `Function<T,R>`   | `R apply(T t)`         | 1        | 有     |
+| `Consumer<T>`     | `void accept(T t)`     | 1        | 无     |
+| `Supplier<T>`     | `T get()`              | 0        | 有     |
+| `BiConsumer<T,U>` | `void accept(T t,U u)` | 2        | 无     |
 
 ### 7.1 `thenApply`（链式转换）
 
@@ -190,6 +195,7 @@ System.out.println("Main Thread");
 ```
 
 **结果**
+
 ```text
 Main Thread
 2
@@ -222,6 +228,7 @@ CompletableFuture.supplyAsync(() -> 1, pool)
 ```
 
 **结果**
+
 ```text
 Main Thread
 11            // thenAccept 输出
@@ -260,6 +267,7 @@ f2.thenAccept(System.out::println);      // future2 slow
 ```
 
 **结果**
+
 ```text
 future1 fast
 future2 slow
@@ -277,6 +285,7 @@ r.thenAccept(System.out::println); // 30
 ```
 
 **结果**
+
 ```text
 30
 ```

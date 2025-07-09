@@ -3,7 +3,7 @@ title: Java 中断机制深度解析与最佳实践
 published: 2025-06-26
 description: 深度剖析Java的协作式中断机制，阐明其设计哲学、核心API（interrupt, isInterrupted, interrupted）的工作原理，并提供处理InterruptedException和自定义中断信令的最佳实践。
 tags: [Java, 并发编程, 中断机制, Interrupt, InterruptedException, 线程池]
-category: Java并发编程
+category: JUC
 draft: false
 ---
 
@@ -175,7 +175,7 @@ graph TD
 
 ## 6. 自定义中断信令：`volatile` 与 `AtomicBoolean`
 
-尽管Java内置的中断机制功能强大且是标准范式，但在某些特定场景下，资深开发者也会采用更轻量级的自定义信令来实现任务的取消。最常见的便是使用`volatile boolean`或`AtomicBoolean`作为协作标志。
+尽管 Java 内置的中断机制功能强大且是标准范式，但在某些特定场景下，资深开发者也会采用更轻量级的自定义信令来实现任务的取消。最常见的便是使用`volatile boolean`或`AtomicBoolean`作为协作标志。
 
 ### 6.1 `volatile boolean`：轻量级的可见性保证
 
@@ -185,6 +185,7 @@ graph TD
 一个`volatile`布尔标志位被所有相关线程共享。一个线程（通常是任务提交者）通过修改该标志位来发出取消信号，而工作线程则在其主循环中不断检查该标志位，以决定是否继续执行。
 
 **案例分析**:
+
 ```java
 class VolatileCancelTask implements Runnable {
     private volatile boolean cancelled = false;
@@ -211,6 +212,7 @@ class VolatileCancelTask implements Runnable {
 `AtomicBoolean`提供了与`volatile boolean`相同的内存可见性保证，但将其封装在一个提供了原子操作（如`compareAndSet()`）的类中。虽然在简单的标志位检查场景下，其表现与`volatile`无异，但它通常被认为是更佳的工程实践，因为它更清晰地表达了"这是一个可能被多线程原子性操作的状态"的意图。
 
 **案例分析**:
+
 ```java
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -234,20 +236,9 @@ class AtomicCancelTask implements Runnable {
 
 ### 6.3 对比与选型考量
 
-| 机制             | 优点                                       | 缺点                                           | 适用场景                               |
-| :--------------- | :----------------------------------------- | :--------------------------------------------- | :------------------------------------- |
-| **内置中断机制** | **标准范式**，能中断阻塞方法，生态整合度高 | 概念稍复杂，`InterruptedException`易被误处理 | **所有场景**，尤其是涉及阻塞操作的任务   |
-| **自定义标志**   | 逻辑简单直观                               | **无法中断阻塞方法**，适用范围受限             | 计算密集型循环，或需要管理多个取消条件的复杂逻辑 |
+| 机制             | 优点                                       | 缺点                                         | 适用场景                                         |
+| :--------------- | :----------------------------------------- | :------------------------------------------- | :----------------------------------------------- |
+| **内置中断机制** | **标准范式**，能中断阻塞方法，生态整合度高 | 概念稍复杂，`InterruptedException`易被误处理 | **所有场景**，尤其是涉及阻塞操作的任务           |
+| **自定义标志**   | 逻辑简单直观                               | **无法中断阻塞方法**，适用范围受限           | 计算密集型循环，或需要管理多个取消条件的复杂逻辑 |
 
-**结论**：作为首选，应当始终使用Java的内置中断机制。它是一个经过深思熟虑的、通用的取消框架。只有在你完全清楚任务不会陷入深度阻塞，或者需要一个不依赖`InterruptedException`的简单取消标志时，才考虑使用`volatile`或`AtomicBoolean`作为补充。
-
-## 总结
-
-- Java 中断是一种**协作式**的线程间通信机制，而非强制命令。
-- `interrupt()`仅设置标志位；响应中断是线程自身的责任。
-- 在`RUNNABLE`状态下，需**轮询检查**`isInterrupted()`。
-- 阻塞方法通过抛出`InterruptedException`来响应中断，并**清除中断状态**。
-- 捕获`InterruptedException`后，要么**向上抛出**，要么**恢复中断状态** (`Thread.currentThread().interrupt()`)，绝不能"吞掉"它。
-- 警惕无法响应中断的 I/O 等阻塞操作。
-
-深刻理解并严格遵循这些原则，是构建健壮、可控、易于维护的并发系统的关键。
+**结论**：作为首选，应当始终使用 Java 的内置中断机制。它是一个经过深思熟虑的、通用的取消框架。只有在你完全清楚任务不会陷入深度阻塞，或者需要一个不依赖`InterruptedException`的简单取消标志时，才考虑使用`volatile`或`AtomicBoolean`作为补充。
