@@ -1,6 +1,6 @@
 ---
 title: Java8 引用类型详解：从 `Reference` 四大引用
-published: 2025-06-24
+published: 2025-07-12
 description: 深入理解 Java 四种引用类型的底层机制、应用场景与架构设计哲学，掌握 JDK 8 中的引用处理协议。
 tags: [Java, 引用类型, 垃圾回收]
 category: Java
