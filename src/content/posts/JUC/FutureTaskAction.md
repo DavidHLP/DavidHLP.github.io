@@ -73,15 +73,6 @@ public static void futureTaskExample() throws Exception {
 FutureTask time: 310
 ```
 
-private static FutureTask<String> createFutureTask(long sleepTime) {
-return new FutureTask<>(() -> {
-Thread.sleep(sleepTime);
-return "Result";
-});
-}
-
-````
-
 ### 2.2 单线程串行执行
 
 ```java
@@ -98,15 +89,13 @@ public static void singleThreadExample() {
     long endTime = System.currentTimeMillis();
     System.out.println("Single thread time: " + (endTime - startTime)); // 约600ms
 }
-````
+```
 
 **运行结果：**
 
 ```
 NoFutureTask time: 900
 ```
-
-````
 
 ## 3. FutureTask 的阻塞特性
 
@@ -117,7 +106,7 @@ NoFutureTask time: 900
 ```java
 // 主线程会阻塞在 get() 方法，直到任务完成
 String result = futureTask.get();
-````
+```
 
 **运行结果：**
 
