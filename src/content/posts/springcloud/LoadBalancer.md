@@ -101,6 +101,7 @@ Spring Cloud LoadBalancer 的设计非常模块化，其核心由以下几个关
 首先，你需要确保项目中包含了 Spring Cloud LoadBalancer 的启动器。
 
 ```xml
+// spring-cloud-starter-loadbalancer
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-starter-loadbalancer</artifactId>
@@ -114,6 +115,7 @@ Spring Cloud LoadBalancer 的设计非常模块化，其核心由以下几个关
 **RestTemplate (传统阻塞式)**:
 
 ```java
+// AppConfig
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -141,6 +143,7 @@ public class AppConfig {
 ```
 
 ```java
+// WebClientConfig
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
