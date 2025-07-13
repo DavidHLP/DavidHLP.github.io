@@ -269,6 +269,9 @@ public class MainApplication {
 
 #### 1. 粘性会话 (Sticky Sessions)
 
+    discovery:
+            instance-zone: "cn-hangzhou-g"
+
 在某些场景下，你可能希望来自同一个客户端的连续请求都被路由到同一个服务实例上，这被称为粘性会话或会话亲和性。Spring Cloud LoadBalancer 本身不直接提供开箱即用的粘性会话实现，但可以通过自定义 `ServiceInstanceChooser` 或 `ReactorLoadBalancer` 来实现。
 
 一种常见的实现思路是：
@@ -310,47 +313,9 @@ public class StickySessionLoadBalancer implements ReactorLoadBalancer<ServiceIns
 }
 ```
 
-#### 2. 重试机制
-
-负载均衡本身不负责重试，但它与重试机制紧密集成。当一次调用因为网络问题或实例临时不可用而失败时，我们希望能够自动重试，并且下一次重试应该由负载均衡器选择**另一个**实例。
-
-Spring Retry 是实现此功能的标准方式。当与 Spring Cloud LoadBalancer 结合使用时，`LoadBalancerInterceptor` (用于 `RestTemplate`) 或 `LoadBalancerClientFilter` (用于 `WebClient`) 确保了每次重试都会触发一次新的负载均衡选择。
-
-**配置示例 (`RestTemplate` + Spring Retry):**
-
-```xml
-<dependency>
-    <groupId>org.springframework.retry</groupId>
-    <artifactId>spring-retry</artifactId>
-</dependency>
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-aspects</artifactId>
-</dependency>
-```
-
-```java
-// 在启动类上开启重试
-@EnableRetry
-@SpringBootApplication
-public class Application { //...
-}
-```
-
-```yaml
-spring:
-  cloud:
-    loadbalancer:
-      retry:
-        enabled: true
-        max-retries-on-same-service-instance: 0 # 不在同一个实例上重试
-        max-retries-on-next-service-instance: 2 # 在下一个实例上最多重试2次
-        retryable-status-codes: 502, 503, 504 # 针对这些状态码进行重试
-```
-
 这个配置意味着，如果对一个实例的调用返回 502，负载均衡器会选择一个新的实例，然后再次发起请求，这个过程最多发生 2 次。
 
-#### 3. 区域感知（Zone-Aware）负载均衡
+#### 2. 区域感知（Zone-Aware）负载均衡
 
 在多区域、多数据中心部署中，为了降低网络延迟和提高容错性，我们总是希望请求优先被路由到与客户端处于同一区域（Zone）的服务实例。
 
@@ -367,13 +332,14 @@ Spring Cloud LoadBalancer 通过 `ZonePreferenceServiceInstanceListSupplier` 提
           zone: "cn-hangzhou-g" # 假设客户端在杭州G区
     ```
 
-2.  **服务端实例元数据**: 确保你的服务实例在注册到服务中心时，也包含了区域信息。以 Eureka 为例：
+2.  **服务端实例元数据**: 确保你的服务实例在注册到服务中心时，也包含了区域信息。以 Consul 为例：
 
     ```yaml
-    eureka:
-      instance:
-        metadata-map:
-          zone: "cn-hangzhou-g" # 服务实例也在杭州G区
+    spring:
+      cloud:
+        consul:
+          discovery:
+            instance-zone: "cn-hangzhou-g"
     ```
 
 启用后，`ZonePreferenceServiceInstanceListSupplier` 会过滤服务列表，优先返回与客户端 `spring.cloud.loadbalancer.zone` 属性值相同的实例。如果同区域内没有可用实例，它才会将其他区域的实例也纳入选择范围，实现了跨区域的故障转移（Failover）。
