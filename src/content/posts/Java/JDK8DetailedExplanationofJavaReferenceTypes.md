@@ -468,23 +468,9 @@ public abstract class Reference<T> {
   程序结束
   ```
 
-- **架构性考量**: `SoftReference` 因其回收时机的不可预测性，在追求高性能、低延迟的严肃系统中应被视为一种**反模式**。它可能导致系统性能的非预期抖动或引发长时间的 Full GC。在 生态中，现代高性能缓存框架（如 **Caffeine 3.x**、**Chronicle Map**）采用**确定性的淘汰算法**（如 W-TinyLFU、LRU 的变体）配合堆外存储，是更为优越的解决方案。的 **Foreign Function & Memory API (预览特性)** 为构建高效的堆外缓存提供了原生支持。
-
-### **弱引用 (Weak Reference)**
-
-- **底层行为**: `WeakReference` 的回收策略具有高度确定性：只要垃圾回收器发现一个对象仅被弱引用指向，**无论当前内存资源是否充裕，该对象都将在下一次垃圾回收过程中被回收**。在 的 ZGC 和 G1GC 中，弱引用的处理得到了进一步优化。
-
-- **应用实践 (`WeakHashMap` + `WeakReference`)**:
-
-  ```java
-  import java.lang.ref.WeakReference;
-  import java.util.Map;
-  import java.util.WeakHashMap;
-  ```
-
-- **架构性考量**: 在 时代，虚引用是确保资源清理的重要手段，常与 `finalize()` 方法配合使用。虽然 `finalize()` 方法在后续版本中被废弃，但在 中它仍是处理堆外资源的标准方式。虚引用提供了一个比 `finalize()` 更可靠的清理时机通知机制。通过 `虚引用+队列+守护线程` 的模式，可以实现对 JNI 内存、`DirectByteBuffer`、文件句柄等堆外资源的安全管理。这种模式在 的企业级应用中被广泛采用。
-
----
+- **架构性考量**:
+  - `SoftReference` 因其回收时机的不可预测性，在追求高性能、低延迟的严肃系统中应被视为一种**反模式**。它可能导致系统性能的非预期抖动或引发长时间的 Full GC。在 生态中，现代高性能缓存框架（如 **Caffeine 3.x**、**Chronicle Map**）采用**确定性的淘汰算法**（如 W-TinyLFU、LRU 的变体）配合堆外存储，是更为优越的解决方案。的 **Foreign Function & Memory API (预览特性)** 为构建高效的堆外缓存提供了原生支持。
+  - 在 时代，虚引用是确保资源清理的重要手段，常与 `finalize()` 方法配合使用。虽然 `finalize()` 方法在后续版本中被废弃，但在 中它仍是处理堆外资源的标准方式。虚引用提供了一个比 `finalize()` 更可靠的清理时机通知机制。通过 `虚引用+队列+守护线程` 的模式，可以实现对 JNI 内存、`DirectByteBuffer`、文件句柄等堆外资源的安全管理。这种模式在 的企业级应用中被广泛采用。
 
 ## **第三部分：架构师决策矩阵与系统设计哲学**
 
