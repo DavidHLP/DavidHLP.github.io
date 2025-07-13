@@ -98,7 +98,7 @@ Spring Cloud LoadBalancer 的设计非常模块化，其核心由以下几个关
 
 ## 四、 基础与高级配置
 
-### 1. 添加依赖
+### 1.添加依赖
 
 首先，你需要确保项目中包含了 Spring Cloud LoadBalancer 的启动器。
 
@@ -109,7 +109,7 @@ Spring Cloud LoadBalancer 的设计非常模块化，其核心由以下几个关
 </dependency>
 ```
 
-### 2. 启用负载均衡
+### 2.启用负载均衡
 
 对于 `RestTemplate` 和 `WebClient`，启用方式非常简单，只需在它们的 `Bean` 定义上添加 `@LoadBalanced` 注解。
 
