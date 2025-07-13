@@ -1,21 +1,21 @@
 ---
-
 title: Spring Cloud LoadBalancer 负载均衡深度解析与实战指南
 published: 2025-07-13
 tags:
 [
-Spring Cloud,
-LoadBalancer,
-负载均衡,
-微服务,
-RestTemplate,
-WebClient,
-响应式编程,
+    Spring Cloud,
+    LoadBalancer,
+    负载均衡,
+    微服务,
+    RestTemplate,
+    WebClient,
+    响应式编程,
 ]
 category: Spring Cloud
 description: 深入剖析 Spring Cloud LoadBalancer 的架构原理、核心组件和工作流程，涵盖从基础配置到高级定制的完整实践，包括粘性会话、重试机制、区域感知等企业级负载均衡解决方案
 draft: false
 image: ./images/Gemini_Generated_Image_6r28di6r28di6r28.png
+---
 
 在现代微服务架构中，服务之间的相互调用是常态。为了确保系统的可伸缩性（Scalability）和高可用性（High Availability），通常我们会为同一个服务部署多个实例。这时，客户端在发起请求时就需要一个机制来决定到底调用哪一个服务实例，这个机制就是“负载均衡”。
 
