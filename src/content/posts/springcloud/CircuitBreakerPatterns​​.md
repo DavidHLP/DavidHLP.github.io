@@ -1,6 +1,6 @@
 ---
 title: CircuitBreaker的原理解析与Resilience4j实现
-published: 2025-06-17
+published: 2025-07-13
 tags: [SpringCloud, Resilience4j]
 category: SpringCloud
 description: 全面解析CircuitBreaker熔断器模式原理，包括其如何通过CLOSED、OPEN、HALF_OPEN三种状态转换防止雪崩效应，并结合Resilience4j框架在SpringCloud微服务中的实现细节与测试案例
