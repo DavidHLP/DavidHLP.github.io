@@ -2,7 +2,7 @@
 title: Spring Cloud LoadBalancer 负载均衡深度解析与实战指南
 published: 2025-07-13
 tags:
-[
+  [
     Spring Cloud,
     LoadBalancer,
     负载均衡,
@@ -10,7 +10,7 @@ tags:
     RestTemplate,
     WebClient,
     响应式编程,
-]
+  ]
 category: Spring Cloud
 description: 深入剖析 Spring Cloud LoadBalancer 的架构原理、核心组件和工作流程，涵盖从基础配置到高级定制的完整实践，包括粘性会话、重试机制、区域感知等企业级负载均衡解决方案
 draft: false
