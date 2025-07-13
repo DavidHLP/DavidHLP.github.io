@@ -101,7 +101,6 @@ Spring Cloud LoadBalancer 的设计非常模块化，其核心由以下几个关
 首先，你需要确保项目中包含了 Spring Cloud LoadBalancer 的启动器。
 
 ```xml
-// spring-cloud-starter-loadbalancer
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-starter-loadbalancer</artifactId>
@@ -115,7 +114,7 @@ Spring Cloud LoadBalancer 的设计非常模块化，其核心由以下几个关
 **RestTemplate (传统阻塞式)**:
 
 ```java
-// AppConfig
+// AppConfig.java
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -143,7 +142,7 @@ public class AppConfig {
 ```
 
 ```java
-// WebClientConfig
+// WebClientConfig.java
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -165,6 +164,7 @@ public class WebClientConfig {
 你可以通过 `application.yml` 文件对所有服务进行全局配置。
 
 ```yaml
+// application.yml
 spring:
   cloud:
     loadbalancer:
@@ -270,9 +270,6 @@ public class MainApplication {
 
 ### 1. 粘性会话 (Sticky Sessions)
 
-    discovery:
-            instance-zone: "cn-hangzhou-g"
-
 在某些场景下，你可能希望来自同一个客户端的连续请求都被路由到同一个服务实例上，这被称为粘性会话或会话亲和性。Spring Cloud LoadBalancer 本身不直接提供开箱即用的粘性会话实现，但可以通过自定义 `ServiceInstanceChooser` 或 `ReactorLoadBalancer` 来实现。
 
 一种常见的实现思路是：
@@ -280,9 +277,8 @@ public class MainApplication {
 - **客户端标识**: 在请求中加入一个唯一标识（如 `userId` 或 `sessionId`），可以放在请求头（Header）或 Cookie 中。
 - **哈希路由**: 在自定义的负载均衡器中，获取这个标识，并对其进行哈希运算。然后用哈希值对可用实例列表的大小取模，从而得到一个固定的索引，确保相同的标识总是被路由到同一个实例。
 
-<!-- end list -->
-
 ```java
+// StickySessionLoadBalancer.java
 // 这是一个简化的概念实现
 public class StickySessionLoadBalancer implements ReactorLoadBalancer<ServiceInstance> {
     // ... 构造函数注入 serviceId 和 supplier
