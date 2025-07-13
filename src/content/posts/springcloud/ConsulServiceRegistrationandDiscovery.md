@@ -5,6 +5,7 @@ tags: [Spring Cloud, Consul, 微服务, 服务注册, 服务发现, 分布式配
 category: Spring Cloud
 description: 深入探讨 Spring Cloud 与 Consul 集成实现微服务注册发现、负载均衡、分布式配置管理，以及生产环境高可用集群部署的完整实践指南
 draft: false
+image: ./images/Gemini_Generated_Image_goodjvgoodjvgood.png
 ---
 
 在现代微服务架构中，服务间的通信是构建系统的核心。传统地，我们可能会在配置文件中硬编码依赖服务的 IP 地址和端口号。这种看似简单的方式，在动态和复杂的微服务环境中会迅速演变成一场噩梦，主要体现在以下几个方面：
