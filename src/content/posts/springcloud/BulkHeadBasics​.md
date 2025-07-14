@@ -1,9 +1,9 @@
 ---
-title: BulkHead 舱壁模式详解
-published: 2025-06-17
-tags: [SpringCloud, Resilience4j]
+title: BulkHead 舱壁模式详解 - SpringCloud微服务容错实战
+published: 2025-07-14
+tags: [SpringCloud, Resilience4j, 微服务, 容错, 舱壁模式, 限流]
 category: SpringCloud
-description: 详解BulkHead舱壁模式如何通过线程池和信号量隔离实现系统保护，防止故障扩散，并结合Resilience4j框架的SpringCloud微服务实战案例
+description: 详解BulkHead舱壁模式的核心原理与实现方式，包括信号量隔离和线程池隔离两种策略。结合Resilience4j框架，通过实战案例展示如何在SpringCloud微服务架构中实现系统保护、防止故障扩散，并深入讲解限流算法的选型与最佳实践
 draft: false
 ---
 
