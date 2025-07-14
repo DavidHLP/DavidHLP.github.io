@@ -1834,4 +1834,8 @@ public CompletableFuture<String> callExternalApi(String request) {
     <groupId>io.github.resilience4j</groupId>
     <artifactId>resilience4j-bulkhead</artifactId>
 </dependency>
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-ratelimiter</artifactId>
+</dependency>
 ```
