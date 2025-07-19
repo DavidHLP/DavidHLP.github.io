@@ -39,10 +39,6 @@ graph TB
         AuthService -- "注册/发现" --> Nacos
         OutherService -- "注册/发现" --> Nacos
     end
-
-    style Gateway fill:#f9f,stroke:#333,stroke-width:2px
-    style AuthService fill:#ccf,stroke:#333,stroke-width:2px
-    style OutherService fill:#9cf,stroke:#333,stroke-width:2px
 ```
 
 ### 1.2 核心设计原则
