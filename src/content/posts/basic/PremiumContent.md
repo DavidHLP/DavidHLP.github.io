@@ -11,7 +11,8 @@ draft: false
 
 ### 工厂方法模式
 
-> ![NOTE] 工厂方法模式（Factory Method Pattern）是一种创建型设计模式。
+> ![NOTE] 
+> 工厂方法模式（Factory Method Pattern）是一种创建型设计模式。
 > 亦称：虚拟构造函数、Virtual Constructor、Factory Method
 
 #### 设计意图
