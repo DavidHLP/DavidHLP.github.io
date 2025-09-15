@@ -2,6 +2,7 @@
 title: 设计模式
 published: 2025-07-26
 description: 设计模式
+tags: [设计模式, 创建型模式, 工厂方法模式, Factory Method, Java]
 category: 设计模式
 draft: false
 ---
