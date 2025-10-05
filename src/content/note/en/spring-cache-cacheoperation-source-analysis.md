@@ -4,12 +4,12 @@ timestamp: 2025-09-29 10:57:00+08:00
 series: Spring Cache
 contents: true
 tags: [Spring, Cache, Source Code Analysis]
-description: In-depth analysis of core source code for annotation processing in Spring Cache module
+description: In-depth analysis of core source code in Spring Cache module regarding annotation processing
 ---
 
 ## Overview
 
-This document provides an in-depth analysis of the core source code for annotation processing in the Spring Cache module, focusing on four key interfaces and classes: `CacheOperationSource`, `AbstractFallbackCacheOperationSource`, `AnnotationCacheOperationSource`, and `CacheAnnotationParser`. These components form the core infrastructure for Spring Cache annotation processing, and understanding their design and collaborative relationships is crucial for mastering how Spring Cache works.
+This document provides an in-depth analysis of the core source code in Spring Cache module regarding annotation processing, focusing on four key interfaces and classes: `CacheOperationSource`, `AbstractFallbackCacheOperationSource`, `AnnotationCacheOperationSource`, and `CacheAnnotationParser`. These components form the fundamental infrastructure of Spring Cache annotation processing, and understanding their design and collaboration is crucial for mastering how Spring Cache works.
 
 ## Component Overview
 
@@ -17,11 +17,11 @@ This document provides an in-depth analysis of the core source code for annotati
 
 ```mermaid
 flowchart TD
-    A["CacheInterceptor AOP Interceptor"] --> B["CacheOperationSource Interface: Defines cache operation retrieval contract"]
-    B --> C["AbstractFallbackCacheOperationSource Abstract class: Provides caching and fallback strategies"]
-    C --> D["AnnotationCacheOperationSource Implementation: Annotation-based cache operation parsing"]
-    D --> E["CacheAnnotationParser Strategy interface: Concrete annotation parsing strategies"]
-    E --> F["SpringCacheAnnotationParser Implementation: Spring standard annotation parser"]
+    A["CacheInterceptor AOP Interceptor"] --> B["CacheOperationSource Interface: Define Cache Operation Retrieval Contract"]
+    B --> C["AbstractFallbackCacheOperationSource Abstract Class: Provide Cache and Fallback Strategy"]
+    C --> D["AnnotationCacheOperationSource Implementation: Annotation-based Cache Operation Parsing"]
+    D --> E["CacheAnnotationParser Strategy Interface: Concrete Annotation Parsing Strategy"]
+    E --> F["SpringCacheAnnotationParser Implementation: Spring Standard Annotation Parser"]
 
     style A fill:#e1f5fe
     style B fill:#fff3e0
@@ -76,99 +76,99 @@ classDiagram
         +isCandidateClass(Class) boolean
     }
 
-    CacheInterceptor --> CacheOperationSource : calls getCacheOperations()
-    CacheOperationSource <|-- AbstractFallbackCacheOperationSource : inherits
-    AbstractFallbackCacheOperationSource <|-- AnnotationCacheOperationSource : inherits
-    AnnotationCacheOperationSource o--> CacheAnnotationParser : composition
-    CacheAnnotationParser <|.. SpringCacheAnnotationParser : implements
+    CacheInterceptor --> CacheOperationSource : Call getCacheOperations()
+    CacheOperationSource <|-- AbstractFallbackCacheOperationSource : Inheritance
+    AbstractFallbackCacheOperationSource <|-- AnnotationCacheOperationSource : Inheritance
+    AnnotationCacheOperationSource o--> CacheAnnotationParser : Composition
+    CacheAnnotationParser <|.. SpringCacheAnnotationParser : Implementation
 ```
 
 ## Detailed Component Analysis
 
-### 1. CacheOperationSource - Top-Level Interface Definition
+### 1. CacheOperationSource - Top-level Interface Definition
 
 #### Core Responsibilities
 
-`CacheOperationSource` serves as the top-level interface in the Spring Cache system, defining the core contract for retrieving cache operation metadata.
+`CacheOperationSource` serves as the top-level interface of the Spring Cache system, defining the core contract for obtaining cache operation metadata.
 
 #### Key Design Patterns
 
-Uses the **Strategy Pattern** to provide a unified interface for different cache operation retrieval strategies (such as annotation-based, XML configuration, etc.).
+Employs the **Strategy Pattern**, providing a unified interface for different cache operation retrieval strategies (such as annotation-based, XML configuration, etc.).
 
-#### Source Code Analysis Points
+#### Source Code Analysis Highlights
 
 **Interface Definition Analysis:**
 
 ```java
 public interface CacheOperationSource {
 
-    // Core method: get collection of cache operations for a method
+    // Core method: Get collection of cache operations for a method
     @Nullable
     Collection<CacheOperation> getCacheOperations(Method method, @Nullable Class<?> targetClass);
 
-    // Optimization method: determine if class is a candidate to avoid unnecessary method traversal
+    // Optimization method: Determine if class is a candidate to avoid unnecessary method traversal
     default boolean isCandidateClass(Class<?> targetClass) {
         return true;
     }
 }
 ```
 
-**Method Signature Analysis:**
+**Method Signature Interpretation:**
 
 1. **`getCacheOperations(Method method, @Nullable Class<?> targetClass)`**
 
 - **Input Parameters**:
-    - `method`: Target method to analyze, never null
-    - `targetClass`: Target class, may be null (uses method's declaring class when null)
-- **Return Value**: `Collection<CacheOperation>` - All cache operations associated with the method, returns null if no cache operations found
-- **Semantics**: This is the entry point for the entire caching framework, responsible for converting method calls into concrete cache operation instructions
+    - `method`: The target method to analyze, never null
+    - `targetClass`: The target class, can be null (when null, the method's declaring class is used)
+- **Return Value**: `Collection<CacheOperation>` - All cache operations associated with this method, returns null if no cache operations are found
+- **Semantics**: This is the entry point of the entire caching framework, responsible for converting method invocations into concrete cache operation instructions
 
 2. **`isCandidateClass(Class<?> targetClass)`**
 
 - **Optimization Purpose**: Quickly determine if a class might contain cache annotations before traversing all its methods
-- **Performance Consideration**: Returning false allows skipping the entire class, avoiding expensive method-level checks
-- **Default Implementation**: Returns true, meaning full checking is required (conservative strategy)
+- **Performance Consideration**: Returning false can skip the entire class, avoiding expensive method-level checks
+- **Default Implementation**: Returns true, meaning a complete check is needed (conservative strategy)
 
 ### 2. AbstractFallbackCacheOperationSource - Abstract Skeleton Implementation
 
 #### Core Responsibilities
 
-`AbstractFallbackCacheOperationSource` serves as a skeleton implementation, providing caching mechanisms and fallback lookup strategies, which is a classic application of the Template Method pattern.
+`AbstractFallbackCacheOperationSource` serves as a skeleton implementation, providing caching mechanism and fallback lookup strategy, a classic application of the Template Method pattern.
 
 #### Key Design Patterns
 
-Uses the **Template Method Pattern** to define the algorithm skeleton for cache operation retrieval, deferring specific lookup logic to subclass implementations.
+Employs the **Template Method Pattern**, defining the algorithm skeleton for cache operation retrieval while deferring specific lookup logic to subclass implementations.
 
-#### Source Code Analysis Points
+#### Source Code Analysis Highlights
 
 **Core Field Analysis:**
 
 ```java
 public abstract class AbstractFallbackCacheOperationSource implements CacheOperationSource {
 
-    // Empty marker used to identify methods with no cache operations found, avoiding repeated lookups
+    // Empty marker to identify methods without cache operations, avoiding repeated lookups
     private static final Collection<CacheOperation> NULL_CACHING_MARKER = Collections.emptyList();
 
-    // Operation cache: avoid repeatedly parsing cache operations for the same method
+    // Operation cache: Avoid re-parsing cache operations for the same method
     // Key: MethodClassKey(method, targetClass)
     // Value: Collection<CacheOperation> or NULL_CACHING_MARKER
     private final Map<Object, Collection<CacheOperation>> operationCache = new ConcurrentHashMap<>(1024);
 }
 ```
 
-**Caching Mechanism Design Analysis:**
+**Cache Mechanism Design Analysis:**
 
-1. **Why do we need `operationCache`?**
+1. **Why is `operationCache` needed?**
 
-- **Performance Optimization**: Annotation parsing is relatively expensive (involves reflection, annotation lookup, etc.)
+- **Performance Optimization**: Annotation parsing is a relatively expensive operation (involving reflection, annotation lookup, etc.)
 - **Frequent Calls**: The same method will be called multiple times during application runtime
-- **Immutability**: Method cache operations are immutable at runtime, suitable for caching
+- **Immutability**: A method's cache operations are immutable at runtime, suitable for caching
 
-2. **The role of `NULL_CACHING_MARKER`:**
+2. **Purpose of `NULL_CACHING_MARKER`:**
 
-- **Avoid Repeated Lookups**: For methods that don't contain cache annotations, avoid going through the complete parsing process each time
-- **State Distinction**: Distinguish between "not yet searched" and "searched but not found" states
-- **Memory Optimization**: Use singleton empty collection to save memory space
+- **Avoid Repeated Lookups**: For methods without cache annotations, avoid going through the complete parsing process each time
+- **State Differentiation**: Distinguish between "not yet looked up" and "looked up but found nothing" states
+- **Memory Optimization**: Use a singleton empty collection to save memory
 
 **getCacheOperations Method Implementation Analysis:**
 
@@ -176,7 +176,7 @@ public abstract class AbstractFallbackCacheOperationSource implements CacheOpera
 @Override
 @Nullable
 public Collection<CacheOperation> getCacheOperations(Method method, @Nullable Class<?> targetClass) {
-    // 1. Exclude Object class methods (such as toString, equals, etc.)
+    // 1. Exclude Object class methods (like toString, equals, etc.)
     if (method.getDeclaringClass() == Object.class) {
         return null;
     }
@@ -188,11 +188,11 @@ public Collection<CacheOperation> getCacheOperations(Method method, @Nullable Cl
     Collection<CacheOperation> cached = this.operationCache.get(cacheKey);
 
     if (cached != null) {
-        // 4. Cache hit: return actual result or null (if NULL_CACHING_MARKER)
+        // 4. Cache hit: Return actual result or null (if NULL_CACHING_MARKER)
         return (cached != NULL_CACHING_MARKER ? cached : null);
     }
     else {
-        // 5. Cache miss: execute actual lookup logic
+        // 5. Cache miss: Execute actual lookup logic
         Collection<CacheOperation> cacheOps = computeCacheOperations(method, targetClass);
 
         // 6. Cache result
@@ -217,7 +217,7 @@ protected Object getCacheKey(Method method, @Nullable Class<?> targetClass) {
 ```
 
 - **Uniqueness Guarantee**: `MethodClassKey` ensures different methods produce different keys, and the same method produces the same key
-- **Method Overloading Support**: Can correctly distinguish method overloading scenarios
+- **Method Overloading Support**: Can correctly distinguish overloaded methods
 - **Proxy Compatibility**: Considers AOP proxy situations where `targetClass` may differ from `method.getDeclaringClass()`
 
 **Fallback Lookup Strategy Analysis:**
@@ -230,31 +230,31 @@ private Collection<CacheOperation> computeCacheOperations(Method method, @Nullab
         return null;
     }
 
-    // 2. Get the most specific method (handle interface proxy cases)
+    // 2. Get most specific method (handle interface proxy cases)
     Method specificMethod = AopUtils.getMostSpecificMethod(method, targetClass);
 
     // 3. Four-level fallback lookup strategy:
 
-    // Level 1: Look for annotations on the target method
+    // First level: Find annotations on target method
     Collection<CacheOperation> opDef = findCacheOperations(specificMethod);
     if (opDef != null) {
         return opDef;
     }
 
-    // Level 2: Look for annotations on the target class
+    // Second level: Find annotations on target class
     opDef = findCacheOperations(specificMethod.getDeclaringClass());
     if (opDef != null && ClassUtils.isUserLevelMethod(method)) {
         return opDef;
     }
 
-    // Level 3: If method is different, look for annotations on the original method
+    // Third level: If method differs, find annotations on original method
     if (specificMethod != method) {
         opDef = findCacheOperations(method);
         if (opDef != null) {
             return opDef;
         }
 
-        // Level 4: Look for annotations on the original method's declaring class
+        // Fourth level: Find annotations on original method's declaring class
         opDef = findCacheOperations(method.getDeclaringClass());
         if (opDef != null && ClassUtils.isUserLevelMethod(method)) {
             return opDef;
@@ -268,35 +268,35 @@ private Collection<CacheOperation> computeCacheOperations(Method method, @Nullab
 **Design Philosophy of Fallback Strategy:**
 
 1. **Decreasing Priority**: Method-level annotations > Class-level annotations > Interface method annotations > Interface class annotations
-2. **Proximity Principle**: Annotations closer to the actual call point have higher priority
+2. **Proximity Principle**: Annotations closer to the actual invocation point have higher priority
 3. **Override Mechanism**: Method-level annotations completely override class-level annotations, rather than merging
-4. **Proxy Compatibility**: Correctly handles JDK dynamic proxy and CGLIB proxy scenarios
+4. **Proxy Compatibility**: Correctly handles both JDK dynamic proxy and CGLIB proxy cases
 
-**Four-Level Fallback Lookup Strategy Flowchart:**
+**Four-level Fallback Lookup Strategy Flow Chart:**
 
 ```mermaid
 flowchart TD
-    A["Start cache operation lookup"] --> B["Public method check"]
-    B --> C{"Only allow public methods?"}
-    C -->|Yes, and method is non-public| D["Return null"]
-    C -->|No, or method is public| E["Get most specific method getMostSpecificMethod"]
+    A["Start Cache Operation Lookup"] --> B["Public Method Check"]
+    B --> C{"Public methods only?"}
+    C -->|Yes, and method not public| D["Return null"]
+    C -->|No, or method is public| E["Get Most Specific Method - getMostSpecificMethod"]
 
-    E --> F["Level 1: Find target method annotations findCacheOperations - specificMethod"]
-    F --> G{"Found annotations?"}
-    G -->|Yes| H["Return operation collection"]
+    E --> F["Level 1: Find Target Method Annotations - findCacheOperations - specificMethod"]
+    F --> G{"Annotations Found?"}
+    G -->|Yes| H["Return Operation Collection"]
 
-    G -->|No| I["Level 2: Find target class annotations findCacheOperations - specificMethod.getDeclaringClass"]
+    G -->|No| I["Level 2: Find Target Class Annotations - findCacheOperations - specificMethod.getDeclaringClass"]
     I --> J{"Found annotations and is user-level method?"}
     J -->|Yes| H
 
     J -->|No| K{"specificMethod != method?"}
-    K -->|No| L["Return null - lookup ended"]
+    K -->|No| L["Return null - Lookup Complete"]
 
-    K -->|Yes| M["Level 3: Find original method annotations findCacheOperations - method"]
-    M --> N{"Found annotations?"}
+    K -->|Yes| M["Level 3: Find Original Method Annotations - findCacheOperations - method"]
+    M --> N{"Annotations Found?"}
     N -->|Yes| H
 
-    N -->|No| O["Level 4: Find original method declaring class annotations findCacheOperations - method.getDeclaringClass"]
+    N -->|No| O["Level 4: Find Original Method Declaring Class Annotations - findCacheOperations - method.getDeclaringClass"]
     O --> P{"Found annotations and is user-level method?"}
     P -->|Yes| H
     P -->|No| L
@@ -310,7 +310,7 @@ flowchart TD
 **Template Method Manifestation:**
 
 ```java
-// Abstract methods: concrete lookup logic implemented by subclasses
+// Abstract methods: Subclasses implement specific lookup logic
 @Nullable
 protected abstract Collection<CacheOperation> findCacheOperations(Class<?> clazz);
 
@@ -322,13 +322,13 @@ protected abstract Collection<CacheOperation> findCacheOperations(Method method)
 
 #### Core Responsibilities
 
-`AnnotationCacheOperationSource` serves as an annotation-based cache operation parser, utilizing the Strategy pattern to collaborate with multiple `CacheAnnotationParser` instances, supporting different types of cache annotations.
+`AnnotationCacheOperationSource` serves as an annotation-based cache operation parser, utilizing the Strategy Pattern to collaborate with multiple `CacheAnnotationParser` instances, supporting different types of cache annotations.
 
 #### Key Design Patterns
 
-Uses **Strategy Pattern + Composite Pattern**, combining multiple annotation parsing strategies to support different annotation systems (such as Spring standard annotations, JCache annotations, etc.).
+Employs **Strategy Pattern + Composite Pattern**, supporting different annotation systems (such as Spring standard annotations, JCache annotations, etc.) through composition of multiple annotation parsing strategies.
 
-#### Source Code Analysis Points
+#### Source Code Analysis Highlights
 
 **Core Fields and Constructor Analysis:**
 
@@ -338,25 +338,25 @@ public class AnnotationCacheOperationSource extends AbstractFallbackCacheOperati
     private final boolean publicMethodsOnly;
     private final Set<CacheAnnotationParser> annotationParsers;
 
-    // Default constructor: only supports public methods, uses Spring standard annotation parser
+    // Default constructor: Only supports public methods, uses Spring standard annotation parser
     public AnnotationCacheOperationSource() {
         this(true);
     }
 
-    // Basic constructor: configure method visibility, defaults to Spring standard annotation parser
+    // Basic constructor: Configure method visibility, default uses Spring standard annotation parser
     public AnnotationCacheOperationSource(boolean publicMethodsOnly) {
         this.publicMethodsOnly = publicMethodsOnly;
         this.annotationParsers = Collections.singleton(new SpringCacheAnnotationParser());
     }
 
-    // Custom parser constructor: supports single custom parser
+    // Custom parser constructor: Supports single custom parser
     public AnnotationCacheOperationSource(CacheAnnotationParser annotationParser) {
         this.publicMethodsOnly = true;
         Assert.notNull(annotationParser, "CacheAnnotationParser must not be null");
         this.annotationParsers = Collections.singleton(annotationParser);
     }
 
-    // Multi-parser constructor: supports multiple parser combination
+    // Multi-parser constructor: Supports multiple parser composition
     public AnnotationCacheOperationSource(Set<CacheAnnotationParser> annotationParsers) {
         this.publicMethodsOnly = true;
         Assert.notEmpty(annotationParsers, "At least one CacheAnnotationParser needs to be specified");
@@ -367,10 +367,10 @@ public class AnnotationCacheOperationSource extends AbstractFallbackCacheOperati
 
 **Constructor Design Analysis:**
 
-1. **Progressive Complexity**: From simple default configuration to fully customized configuration
-2. **Reasonable Defaults**: Defaults to processing only public methods, using Spring standard parser
-3. **Extensibility Support**: Supports adding custom parsers, supports multi-parser combination
-4. **Parameter Validation**: Ensures parser collection is not empty, demonstrating defensive programming
+1. **Progressive Complexity**: From simple default configuration to fully customizable configuration
+2. **Reasonable Defaults**: By default, only processes public methods and uses Spring standard parser
+3. **Extensibility Support**: Supports adding custom parsers and multiple parser composition
+4. **Parameter Validation**: Ensures parser set is not empty, embodying defensive programming
 
 **Candidate Class Check Implementation:**
 
@@ -386,11 +386,11 @@ public boolean isCandidateClass(Class<?> targetClass) {
 }
 ```
 
-- **Short-Circuit Optimization**: Returns true as soon as any parser considers it a candidate class
+- **Short-circuit Optimization**: Returns true if any parser considers it a candidate class
 - **Delegation Pattern**: Delegates specific judgment logic to individual parsers
-- **Performance Optimization**: Avoids expensive method traversal on irrelevant classes
+- **Performance Optimization**: Avoids expensive method traversal on unrelated classes
 
-**核心解析方法实现：**
+**Core Parsing Method Implementation:**
 
 ```java
 @Override
@@ -406,25 +406,25 @@ protected Collection<CacheOperation> findCacheOperations(Method method) {
 }
 ```
 
-**策略模式的核心实现：**
+**Core Implementation of Strategy Pattern:**
 
 ```java
 @Nullable
 protected Collection<CacheOperation> determineCacheOperations(CacheOperationProvider provider) {
     Collection<CacheOperation> ops = null;
 
-    // 遍历所有注解解析器
+    // Iterate through all annotation parsers
     for (CacheAnnotationParser parser : this.annotationParsers) {
-        // 使用当前解析器解析注解
+        // Parse annotations using current parser
         Collection<CacheOperation> annOps = provider.getCacheOperations(parser);
 
         if (annOps != null) {
             if (ops == null) {
-                // 第一次发现操作
+                // First operation discovered
                 ops = annOps;
             }
             else {
-                // 合并多个解析器的结果
+                // Merge results from multiple parsers
                 Collection<CacheOperation> combined = new ArrayList<>(ops.size() + annOps.size());
                 combined.addAll(ops);
                 combined.addAll(annOps);
@@ -436,7 +436,7 @@ protected Collection<CacheOperation> determineCacheOperations(CacheOperationProv
 }
 ```
 
-**函数式接口设计：**
+**Functional Interface Design:**
 
 ```java
 @FunctionalInterface
@@ -446,73 +446,73 @@ protected interface CacheOperationProvider {
 }
 ```
 
-**determineCacheOperations方法的设计亮点：**
+**Design Highlights of determineCacheOperations Method:**
 
-1. **函数式编程**：使用`CacheOperationProvider`函数式接口，提高代码复用性
-2. **延迟计算**：只有在需要时才创建合并集合
-3. **内存优化**：当只有一个解析器有结果时，直接返回原集合，避免不必要的复制
-4. **结果合并**：支持多个解析器的结果合并，实现注解体系的扩展
+1. **Functional Programming**: Uses `CacheOperationProvider` functional interface, improving code reusability
+2. **Lazy Evaluation**: Creates merged collection only when needed
+3. **Memory Optimization**: When only one parser has results, returns original collection directly, avoiding unnecessary copying
+4. **Result Merging**: Supports merging results from multiple parsers, enabling annotation system extension
 
-### 4. CacheAnnotationParser - 策略接口扩展点
+### 4. CacheAnnotationParser - Strategy Interface Extension Point
 
-#### 核心职责
+#### Core Responsibilities
 
-`CacheAnnotationParser`作为注解解析的策略接口，为Spring Cache体系提供了强大的扩展点，支持不同的注解标准和自定义注解。
+`CacheAnnotationParser` serves as the strategy interface for annotation parsing, providing a powerful extension point for the Spring Cache system, supporting different annotation standards and custom annotations.
 
-#### 关键设计模式
+#### Key Design Patterns
 
-采用**策略模式**，为不同的注解解析策略提供统一接口，是整个注解体系扩展性的关键。
+Employs the **Strategy Pattern**, providing a unified interface for different annotation parsing strategies, the key to the entire annotation system's extensibility.
 
-#### 源码分析要点
+#### Source Code Analysis Highlights
 
-**接口定义分析：**
+**Interface Definition Analysis:**
 
 ```java
 public interface CacheAnnotationParser {
 
-    // 候选类检查：性能优化的关键
+    // Candidate class check: Key to performance optimization
     default boolean isCandidateClass(Class<?> targetClass) {
         return true;
     }
 
-    // 解析类级别的缓存注解
+    // Parse class-level cache annotations
     @Nullable
     Collection<CacheOperation> parseCacheAnnotations(Class<?> type);
 
-    // 解析方法级别的缓存注解
+    // Parse method-level cache annotations
     @Nullable
     Collection<CacheOperation> parseCacheAnnotations(Method method);
 }
 ```
 
-**接口设计的扩展性体现：**
+**Extensibility Embodiment of Interface Design:**
 
-1. **`isCandidateClass`方法的意义：**
+1. **Significance of `isCandidateClass` Method:**
 
 ```java
 default boolean isCandidateClass(Class<?> targetClass) {
-    return true;  // 保守的默认实现
+    return true;  // Conservative default implementation
 }
 ```
 
-- **性能优化作用**：在解析注解之前快速过滤无关的类
-- **默认实现**：返回true确保向后兼容
-- **自定义空间**：子类可以根据注解特征实现快速判断逻辑
+- **Performance Optimization Purpose**: Quickly filter unrelated classes before parsing annotations
+- **Default Implementation**: Returns true to ensure backward compatibility
+- **Customization Space**: Subclasses can implement quick judgment logic based on annotation characteristics
 
-2. **`parseCacheAnnotations`方法的统一性：**
+2. **Uniformity of `parseCacheAnnotations` Methods:**
 
-- **一致的方法签名**：类和方法级别的解析采用相同的返回类型
-- **null语义**：返回null表示没有找到相关注解
-- **集合返回**：支持一个元素上有多个缓存操作（如@Caching注解）
+- **Consistent Method Signatures**: Class and method-level parsing use the same return type
+- **Null Semantics**: Returning null indicates no related annotations found
+- **Collection Return**: Supports multiple cache operations on one element (such as @Caching annotation)
 
-**SpringCacheAnnotationParser实现示例：**
+**SpringCacheAnnotationParser Implementation Example:**
 
 ```java
 public class SpringCacheAnnotationParser implements CacheAnnotationParser {
 
     @Override
     public boolean isCandidateClass(Class<?> targetClass) {
-        // 检查类上是否有Spring Cache相关注解
+        // Check if class has Spring Cache-related annotations
         return AnnotationUtils.isCandidateClass(targetClass, CACHE_OPERATION_ANNOTATIONS);
     }
 
@@ -532,12 +532,12 @@ public class SpringCacheAnnotationParser implements CacheAnnotationParser {
 }
 ```
 
-**扩展点的价值：**
+**Value of Extension Points:**
 
-1. **多标准支持**：可以同时支持Spring Cache注解、JCache注解、自定义注解
-2. **渐进迁移**：支持从一种注解标准向另一种标准迁移
-3. **业务定制**：支持根据业务需求定制特殊的缓存注解
-4. **第三方集成**：第三方缓存框架可以通过实现此接口集成到Spring Cache体系
+1. **Multi-standard Support**: Can simultaneously support Spring Cache annotations, JCache annotations, and custom annotations
+2. **Progressive Migration**: Supports migrating from one annotation standard to another
+3. **Business Customization**: Supports customizing special cache annotations based on business needs
+4. **Third-party Integration**: Third-party caching frameworks can integrate into Spring Cache system by implementing this interface
 
 ## Complete Call Chain Analysis
 
@@ -573,7 +573,7 @@ sequenceDiagram
             Abstract->>Annotation: findCacheOperations()
             Annotation->>Annotation: determineCacheOperations()
 
-            loop Iterate parsers
+            loop Iterate through parsers
                 Annotation->>Parser: parseCacheAnnotations()
                 Parser->>Spring: Concrete parsing implementation
 
@@ -593,10 +593,10 @@ sequenceDiagram
         Abstract-->>Interceptor: Return final result
     end
 
-    Interceptor-->>User: Execute caching logic
+    Interceptor-->>User: Execute cache logic
 ```
 
-### Key Call Path Details
+### Key Call Path Detailed Explanation
 
 1. **Entry Call:**
 
@@ -620,7 +620,7 @@ Collection<CacheOperation> cached = this.operationCache.get(cacheKey);
 // Four-level fallback strategy
 Collection<CacheOperation> opDef = findCacheOperations(specificMethod);
 if (opDef != null) return opDef;
-// ... other levels of fallback
+// ... other fallback levels
 ```
 
 4. **Strategy Delegation:**
@@ -643,7 +643,7 @@ if (cacheable != null) {
 }
 ```
 
-## Design Patterns In-Depth Analysis
+## Design Patterns In-depth Analysis
 
 **Overview of Design Patterns Applied in Spring Cache Architecture:**
 
@@ -667,14 +667,14 @@ graph TB
         F[AbstractFallbackCacheOperationSource]
         G[Algorithm Skeleton Definition]
         H[Hook Method Extensions]
-        I[Enforced Subclass Implementation]
+        I[Force Subclass Implementation]
         F --> G
         G --> H
         H --> I
     end
 
     subgraph "Composite Pattern"
-        J[Multi-Parser Composition]
+        J[Multi-parser Composition]
         K[Unified Interface Handling]
         L[Transparency Design]
         M[Dynamic Add/Remove]
@@ -692,7 +692,7 @@ graph TB
     end
 
     subgraph "Builder Pattern"
-        Q[CacheOperation Construction]
+        Q[CacheOperation Building]
         R[Fluent Interface]
         S[Parameter Validation]
         Q --> R
@@ -720,34 +720,34 @@ graph TB
 ```java
 public abstract class AbstractFallbackCacheOperationSource {
 
-    // Template method: define algorithm skeleton
+    // Template method: Define algorithm skeleton
     public final Collection<CacheOperation> getCacheOperations(Method method, Class<?> targetClass) {
-        // 1. Preprocessing: check Object class methods
+        // 1. Preprocessing: Check Object class methods
         // 2. Cache lookup
         // 3. If cache miss, call computeCacheOperations
         // 4. Result caching
     }
 
-    // Hook method: behavior that subclasses can override
+    // Hook method: Behavior subclasses can override
     protected boolean allowPublicMethodsOnly() {
         return false;
     }
 
-    // Abstract methods: enforced subclass implementation
+    // Abstract methods: Force subclass implementation
     protected abstract Collection<CacheOperation> findCacheOperations(Class<?> clazz);
     protected abstract Collection<CacheOperation> findCacheOperations(Method method);
 }
 ```
 
-**Advantage Analysis:**
+**Advantages Analysis:**
 
-1. **Algorithm Reuse**: Caching logic and fallback strategies are identical across all subclasses
+1. **Algorithm Reuse**: Caching logic and fallback strategy are the same in all subclasses
 2. **Clear Extension Points**: Subclasses only need to focus on specific annotation lookup logic
 3. **Consistency Guarantee**: All implementations follow the same execution flow
 
-### 2. 策略模式在注解解析中的应用
+### 2. Strategy Pattern Application in Annotation Parsing
 
-**策略接口：**
+**Strategy Interface:**
 
 ```java
 public interface CacheAnnotationParser {
@@ -756,56 +756,56 @@ public interface CacheAnnotationParser {
 }
 ```
 
-**策略上下文：**
+**Strategy Context:**
 
 ```java
 public class AnnotationCacheOperationSource {
     private final Set<CacheAnnotationParser> annotationParsers;
 
     protected Collection<CacheOperation> determineCacheOperations(CacheOperationProvider provider) {
-        // 遍历所有策略，合并结果
+        // Iterate through all strategies, merge results
     }
 }
 ```
 
-**具体策略：**
+**Concrete Strategies:**
 
-- `SpringCacheAnnotationParser`：处理Spring标准注解
-- `JCacheAnnotationParser`：处理JCache标准注解
-- 自定义解析器：处理业务特定注解
+- `SpringCacheAnnotationParser`: Handle Spring standard annotations
+- `JCacheAnnotationParser`: Handle JCache standard annotations
+- Custom parsers: Handle business-specific annotations
 
-**优势分析：**
+**Advantages Analysis:**
 
-1. **开闭原则**：可以添加新的注解标准而不修改现有代码
-2. **职责分离**：每个解析器只关注特定的注解类型
-3. **组合灵活**：可以同时使用多种注解标准
+1. **Open-Closed Principle**: Can add new annotation standards without modifying existing code
+2. **Separation of Concerns**: Each parser only focuses on specific annotation types
+3. **Flexible Composition**: Can use multiple annotation standards simultaneously
 
-### 3. 组合模式的应用
+### 3. Composite Pattern Application
 
-**组合结构：**
+**Composite Structure:**
 
 ```java
 AnnotationCacheOperationSource {
-    Set<CacheAnnotationParser> annotationParsers;  // 叶子节点集合
+    Set<CacheAnnotationParser> annotationParsers;  // Leaf node collection
 
     determineCacheOperations() {
-        // 遍历所有叶子节点，收集结果
+        // Iterate through all leaf nodes, collect results
         for (CacheAnnotationParser parser : annotationParsers) {
-            // 调用叶子节点的处理方法
+            // Call leaf node processing method
         }
     }
 }
 ```
 
-**优势分析：**
+**Advantages Analysis:**
 
-1. **统一处理**：对单个解析器和解析器集合使用相同的接口
-2. **透明性**：客户端不需要知道是在处理单个解析器还是解析器集合
-3. **扩展性**：可以动态添加或移除解析器
+1. **Unified Handling**: Use the same interface for single parser and parser collection
+2. **Transparency**: Client doesn't need to know if it's handling a single parser or a parser collection
+3. **Extensibility**: Can dynamically add or remove parsers
 
 ## Performance Optimization Strategy Analysis
 
-### 1. Multi-Level Cache Design
+### 1. Multi-level Cache Design
 
 **Cache Hierarchy:**
 
@@ -819,28 +819,28 @@ private final Map<Class<?>, Boolean> candidateCache;
 // Level 3: Annotation lookup result cache (in AnnotationUtils)
 ```
 
-**多级缓存架构图：**
+**Multi-level Cache Architecture Diagram:**
 
 ```mermaid
 graph TD
-    A["请求: getCacheOperations"] --> B{"第一级缓存检查 operationCache"}
+    A["Request: getCacheOperations"] --> B{"Level 1 Cache Check - operationCache"}
 
-    B -->|缓存命中| C["返回缓存的CacheOperation集合"]
-    B -->|缓存未命中| D{"第二级缓存检查 candidateCache"}
+    B -->|Cache hit| C["Return cached CacheOperation collection"]
+    B -->|Cache miss| D{"Level 2 Cache Check - candidateCache"}
 
-    D -->|非候选类| E["返回 null 避免进一步处理"]
-    D -->|是候选类或未知| F["开始注解解析流程"]
+    D -->|Non-candidate class| E["Return null to avoid further processing"]
+    D -->|Is candidate or unknown| F["Start annotation parsing process"]
 
-    F --> G{"第三级缓存检查 AnnotationUtils缓存"}
-    G -->|注解缓存命中| H["使用缓存的注解信息"]
-    G -->|注解缓存未命中| I["执行反射注解查找"]
+    F --> G{"Level 3 Cache Check - AnnotationUtils cache"}
+    G -->|Annotation cache hit| H["Use cached annotation info"]
+    G -->|Annotation cache miss| I["Execute reflection annotation lookup"]
 
-    H --> J["解析为CacheOperation"]
-    I --> K["缓存注解查找结果"]
+    H --> J["Parse to CacheOperation"]
+    I --> K["Cache annotation lookup result"]
     K --> J
 
-    J --> L["缓存操作解析结果 operationCache.put"]
-    L --> M["返回CacheOperation集合"]
+    J --> L["Cache operation parse result - operationCache.put"]
+    L --> M["Return CacheOperation collection"]
 
     style A fill:#e3f2fd
     style C fill:#c8e6c9
@@ -851,7 +851,7 @@ graph TD
     style G fill:#e8f5e8
 ```
 
-**缓存键设计：**
+**Cache Key Design:**
 
 ```java
 protected Object getCacheKey(Method method, @Nullable Class<?> targetClass) {
@@ -859,47 +859,47 @@ protected Object getCacheKey(Method method, @Nullable Class<?> targetClass) {
 }
 ```
 
-- **唯一性**：确保不同方法有不同的键
-- **一致性**：相同方法始终产生相同的键
-- **高效性**：基于方法和类的hashCode计算
+- **Uniqueness**: Ensure different methods have different keys
+- **Consistency**: Same method always produces the same key
+- **Efficiency**: Based on method and class hashCode calculation
 
-### 2. 延迟计算和短路优化
+### 2. Lazy Evaluation and Short-circuit Optimization
 
-**候选类短路：**
+**Candidate Class Short-circuit:**
 
 ```java
 public boolean isCandidateClass(Class<?> targetClass) {
     for (CacheAnnotationParser parser : this.annotationParsers) {
         if (parser.isCandidateClass(targetClass)) {
-            return true;  // 短路返回
+            return true;  // Short-circuit return
         }
     }
     return false;
 }
 ```
 
-**空结果标记：**
+**Empty Result Marker:**
 
 ```java
 private static final Collection<CacheOperation> NULL_CACHING_MARKER = Collections.emptyList();
 
-// 避免重复查找已知无结果的方法
+// Avoid repeated lookups for known no-result methods
 if (cached != null) {
     return (cached != NULL_CACHING_MARKER ? cached : null);
 }
 ```
 
-### 3. 内存优化
+### 3. Memory Optimization
 
-**集合复用：**
+**Collection Reuse:**
 
 ```java
-// 只有在需要合并时才创建新集合
+// Only create new collection when merging is needed
 if (ops == null) {
-    ops = annOps;  // 直接引用，避免复制
+    ops = annOps;  // Direct reference, avoid copying
 }
 else {
-    // 确实需要合并时才创建新集合
+    // Create new collection only when merging is truly needed
     Collection<CacheOperation> combined = new ArrayList<>(ops.size() + annOps.size());
     combined.addAll(ops);
     combined.addAll(annOps);
@@ -907,52 +907,52 @@ else {
 }
 ```
 
-**不可变集合：**
+**Immutable Collections:**
 
 ```java
-return Collections.unmodifiableList(ops);  // 返回不可变视图，防止意外修改
+return Collections.unmodifiableList(ops);  // Return immutable view, prevent accidental modification
 ```
 
-## Practical Case Study: RedisCacheOperationSource
+## Real-world Case Study: RedisCacheOperationSource
 
-To better understand how to implement a custom `CacheOperationSource`, let's analyze a practical case: `RedisCacheOperationSource` from the CacheGuard project. This implementation demonstrates how to extend Spring Cache to support Redis-specific caching functionality.
+To better understand how to implement a custom `CacheOperationSource`, let's analyze a real-world case: `RedisCacheOperationSource` from the CacheGuard project. This implementation demonstrates how to extend Spring Cache to support Redis-specific caching functionality.
 
 ### Case Study Overview
 
-`RedisCacheOperationSource` extends `AnnotationCacheOperationSource`, supporting custom Redis cache annotations such as `@RedisCacheable`, `@RedisCacheEvict`, and `@RedisCaching`. This implementation showcases several key design principles:
+`RedisCacheOperationSource` extends `AnnotationCacheOperationSource` to support custom Redis cache annotations such as `@RedisCacheable`, `@RedisCacheEvict`, and `@RedisCaching`. This implementation showcases several key design principles:
 
-1. **Extension Rather Than Replacement**: Extending existing Spring Cache infrastructure
-2. **Custom Annotation Support**: Handling Redis-specific cache annotations
-3. **Comprehensive Validation**: Providing robust error checking and logging
-4. **Composite Annotation Handling**: Supporting complex annotation combinations
+1. **Extension Over Replacement**: Extends existing Spring Cache infrastructure
+2. **Custom Annotation Support**: Handles Redis-specific cache annotations
+3. **Comprehensive Validation**: Provides robust error checking and logging
+4. **Composite Annotation Handling**: Supports complex annotation combinations
 
-**RedisCacheOperationSource 架构图：**
+**RedisCacheOperationSource Architecture Diagram:**
 
 ```mermaid
 graph TB
-    subgraph "Spring Cache 核心"
-        A["AbstractFallbackCacheOperationSource 抽象骨架实现"]
-        B["AnnotationCacheOperationSource 注解解析实现"]
+    subgraph "Spring Cache Core"
+        A["AbstractFallbackCacheOperationSource - Abstract Skeleton Implementation"]
+        B["AnnotationCacheOperationSource - Annotation Parsing Implementation"]
         A --> B
     end
 
-    subgraph "自定义扩展"
-        C["RedisCacheOperationSource Redis特定实现"]
+    subgraph "Custom Extension"
+        C["RedisCacheOperationSource - Redis-specific Implementation"]
         B --> C
     end
 
-    subgraph "支持的注解"
-        D["@RedisCacheable Redis缓存注解"]
-        E["@RedisCacheEvict Redis缓存清除注解"]
-        F["@RedisCaching Redis复合注解"]
+    subgraph "Supported Annotations"
+        D["@RedisCacheable - Redis Cache Annotation"]
+        E["@RedisCacheEvict - Redis Cache Eviction Annotation"]
+        F["@RedisCaching - Redis Composite Annotation"]
     end
 
-    subgraph "处理流程"
-        G["parseCacheAnnotations 统一注解解析"]
-        H["parseRedisCacheable 解析@RedisCacheable"]
-        I["parseRedisCacheEvict 解析@RedisCacheEvict"]
-        J["parseRedisCaching 解析@RedisCaching"]
-        K["validateCacheOperation 验证配置"]
+    subgraph "Processing Flow"
+        G["parseCacheAnnotations - Unified Annotation Parsing"]
+        H["parseRedisCacheable - Parse @RedisCacheable"]
+        I["parseRedisCacheEvict - Parse @RedisCacheEvict"]
+        J["parseRedisCaching - Parse @RedisCaching"]
+        K["validateCacheOperation - Validate Configuration"]
     end
 
     C --> G
@@ -974,16 +974,16 @@ graph TB
     style K fill:#ffecb3
 ```
 
-### 实现分析
+### Implementation Analysis
 
-#### 1. 核心结构
+#### 1. Core Structure
 
 ```java
 @Slf4j
 public class RedisCacheOperationSource extends AnnotationCacheOperationSource {
 
     public RedisCacheOperationSource() {
-        super(false);  // 允许非公共方法
+        super(false);  // Allow non-public methods
     }
 
     @Override
@@ -998,13 +998,13 @@ public class RedisCacheOperationSource extends AnnotationCacheOperationSource {
 }
 ```
 
-**设计决策：**
+**Design Decisions:**
 
-- **构造函数参数**：`super(false)`允许处理非公共方法，提供比Spring默认行为更大的灵活性
-- **模板方法实现**：重写父类的抽象方法，委托给自定义的解析逻辑
-- **统一解析**：使用单个`parseCacheAnnotations(Object target)`方法处理类和方法目标
+- **Constructor Parameter**: `super(false)` allows processing non-public methods, providing more flexibility than Spring's default behavior
+- **Template Method Implementation**: Overrides parent class abstract methods, delegating to custom parsing logic
+- **Unified Parsing**: Uses single `parseCacheAnnotations(Object target)` method to handle both class and method targets
 
-#### 2. 自定义注解解析策略
+#### 2. Custom Annotation Parsing Strategy
 
 ```java
 @Nullable
@@ -1012,7 +1012,7 @@ private Collection<CacheOperation> parseCacheAnnotations(Object target) {
     List<CacheOperation> ops = new ArrayList<>();
     log.trace("Parsing cache annotations for target: {}", target);
 
-    // 处理 @RedisCacheable 注解
+    // Handle @RedisCacheable annotation
     RedisCacheable cacheable = null;
     if (target instanceof Method) {
         cacheable = AnnotatedElementUtils.findMergedAnnotation(
@@ -1029,7 +1029,7 @@ private Collection<CacheOperation> parseCacheAnnotations(Object target) {
         ops.add(operation);
     }
 
-    // 处理 @RedisCaching 复合注解
+    // Handle @RedisCaching composite annotation
     RedisCaching caching = null;
     if (target instanceof Method) {
         caching = AnnotatedElementUtils.findMergedAnnotation((Method) target, RedisCaching.class);
@@ -1039,7 +1039,7 @@ private Collection<CacheOperation> parseCacheAnnotations(Object target) {
 
     if (caching != null) {
         log.debug("Found @RedisCaching annotation on target: {}", target);
-        // 处理多个嵌套注解
+        // Process multiple nested annotations
         for (RedisCacheable c : caching.redisCacheable()) {
             CacheOperation operation = parseRedisCacheable(c, target);
             validateCacheOperation(target, operation);
@@ -1056,38 +1056,38 @@ private Collection<CacheOperation> parseCacheAnnotations(Object target) {
 }
 ```
 
-**应用的关键设计模式：**
+**Key Design Patterns Applied:**
 
-1. **多态目标处理**：使用`Object target`参数统一处理`Method`和`Class`类型
-2. **合并注解支持**：使用`AnnotatedElementUtils.findMergedAnnotation()`支持注解继承和元注解
-3. **组合模式**：通过相同接口处理单个注解和复合注解
-4. **防御性编程**：每一步都进行全面的日志记录和验证
+1. **Polymorphic Target Handling**: Uses `Object target` parameter to uniformly handle both `Method` and `Class` types
+2. **Merged Annotation Support**: Uses `AnnotatedElementUtils.findMergedAnnotation()` to support annotation inheritance and meta-annotations
+3. **Composite Pattern**: Handles single annotations and composite annotations through the same interface
+4. **Defensive Programming**: Comprehensive logging and validation at each step
 
-#### 3. 注解到操作的转换
+#### 3. Annotation to Operation Conversion
 
 ```java
 private CacheOperation parseRedisCacheable(RedisCacheable ann, Object target) {
     String name = (target instanceof Method) ? ((Method) target).getName() : target.toString();
     log.trace("Parsing @RedisCacheable annotation for target: {}", target);
 
-    // 使用标准的Spring CacheableOperation.Builder
+    // Use standard Spring CacheableOperation.Builder
     CacheableOperation.Builder builder = new CacheableOperation.Builder();
     builder.setName(name);
     builder.setCacheNames(ann.value().length > 0 ? ann.value() : ann.cacheNames());
 
-    // 仅在存在时设置key
+    // Only set key if present
     if (StringUtils.hasText(ann.key())) {
         builder.setKey(ann.key());
     }
 
-    // 仅在存在时设置condition
+    // Only set condition if present
     if (StringUtils.hasText(ann.condition())) {
         builder.setCondition(ann.condition());
     }
 
     builder.setSync(ann.sync());
 
-    // 仅在指定时设置keyGenerator
+    // Only set keyGenerator if specified
     if (StringUtils.hasText(ann.keyGenerator())) {
         builder.setKeyGenerator(ann.keyGenerator());
     }
@@ -1098,19 +1098,19 @@ private CacheOperation parseRedisCacheable(RedisCacheable ann, Object target) {
 }
 ```
 
-**建造者模式的卓越应用：**
+**Excellent Application of Builder Pattern:**
 
-- **流畅接口**：使用Spring内置的`CacheableOperation.Builder`实现清晰、可读的代码
-- **条件设置**：仅在有意义的值时设置属性，避免空字符串污染
-- **标准兼容**：重用Spring的标准操作类以实现最大兼容性
+- **Fluent Interface**: Uses Spring's built-in `CacheableOperation.Builder` for clear, readable code
+- **Conditional Setting**: Only sets properties when meaningful values exist, avoiding empty string pollution
+- **Standard Compatibility**: Reuses Spring's standard operation classes for maximum compatibility
 
-#### 4. 全面的验证框架
+#### 4. Comprehensive Validation Framework
 
 ```java
 private void validateCacheOperation(Object target, CacheOperation operation) {
     log.trace("Validating cache operation for target: {}", target);
 
-    // 验证key与keyGenerator的互斥性
+    // Validate mutual exclusivity of key and keyGenerator
     if (StringUtils.hasText(operation.getKey()) &&
         StringUtils.hasText(operation.getKeyGenerator())) {
         String errorMsg = "Invalid cache annotation configuration on '" + target +
@@ -1120,7 +1120,7 @@ private void validateCacheOperation(Object target, CacheOperation operation) {
         throw new IllegalStateException(errorMsg);
     }
 
-    // 验证缓存名称的存在性
+    // Validate presence of cache names
     if (operation.getCacheNames().isEmpty()) {
         String errorMsg = "Invalid cache annotation configuration on '" + target +
                          "'. At least one cache name must be specified.";
@@ -1132,76 +1132,76 @@ private void validateCacheOperation(Object target, CacheOperation operation) {
 }
 ```
 
-**验证策略的优势：**
+**Validation Strategy Advantages:**
 
-1. **早期错误检测**：在启动时而非运行时捕获配置错误
-2. **清晰的错误消息**：提供详细的、可操作的错误消息
-3. **快速失败原则**：对无效配置抛出`IllegalStateException`
-4. **全面覆盖**：验证所有关键配置组合
+1. **Early Error Detection**: Catches configuration errors at startup time rather than runtime
+2. **Clear Error Messages**: Provides detailed, actionable error messages
+3. **Fail-fast Principle**: Throws `IllegalStateException` for invalid configurations
+4. **Comprehensive Coverage**: Validates all critical configuration combinations
 
-### 案例研究中的设计模式应用
+### Design Pattern Applications in Case Study
 
-#### 1. 模板方法模式的使用
+#### 1. Use of Template Method Pattern
 
 ```java
 public class RedisCacheOperationSource extends AnnotationCacheOperationSource {
-    // 从父类继承缓存和回退逻辑
+    // Inherits caching and fallback logic from parent class
 
     @Override
     protected Collection<CacheOperation> findCacheOperations(Method method) {
-        return parseCacheAnnotations(method);  // 自定义实现
+        return parseCacheAnnotations(method);  // Custom implementation
     }
 
     @Override
     protected Collection<CacheOperation> findCacheOperations(Class<?> clazz) {
-        return parseCacheAnnotations(clazz);   // 自定义实现
+        return parseCacheAnnotations(clazz);   // Custom implementation
     }
 }
 ```
 
-**实现的优势：**
+**Implementation Advantages:**
 
-- **代码复用**：继承父类的缓存、回退和性能优化
-- **专注核心逻辑**：只需实现注解解析逻辑
-- **一致性**：遵循与标准Spring实现相同的执行模式
+- **Code Reuse**: Inherits parent class's caching, fallback, and performance optimizations
+- **Focus on Core Logic**: Only needs to implement annotation parsing logic
+- **Consistency**: Follows the same execution pattern as standard Spring implementations
 
-#### 2. 多注解的策略模式
+#### 2. Strategy Pattern for Multiple Annotations
 
 ```java
 private Collection<CacheOperation> parseCacheAnnotations(Object target) {
     List<CacheOperation> ops = new ArrayList<>();
 
-    // 策略1：处理@RedisCacheable
+    // Strategy 1: Handle @RedisCacheable
     RedisCacheable cacheable = findAnnotation(target, RedisCacheable.class);
     if (cacheable != null) {
         ops.add(parseRedisCacheable(cacheable, target));
     }
 
-    // 策略2：处理@RedisCacheEvict
+    // Strategy 2: Handle @RedisCacheEvict
     RedisCacheEvict cacheEvict = findAnnotation(target, RedisCacheEvict.class);
     if (cacheEvict != null) {
         ops.add(parseRedisCacheEvict(cacheEvict, target));
     }
 
-    // 策略3：处理@RedisCaching复合注解
+    // Strategy 3: Handle @RedisCaching composite annotation
     RedisCaching caching = findAnnotation(target, RedisCaching.class);
     if (caching != null) {
-        // 处理多个嵌套注解
+        // Handle multiple nested annotations
     }
 
     return ops.isEmpty() ? null : Collections.unmodifiableList(ops);
 }
 ```
 
-### 案例研究的关键要点
+### Key Takeaways from Case Study
 
-1. **扩展策略**：扩展`AnnotationCacheOperationSource`最大化利用Spring现有基础设施
-2. **验证重要性**：全面验证防止运行时错误并提供清晰反馈
-3. **日志策略**：多级日志支持开发和生产调试
-4. **模式应用**：实际实现展示了模板方法、策略和建造者模式的有效使用
-5. **性能意识**：高效的注解处理和内存管理对高性能应用至关重要
+1. **Extension Strategy**: Extending `AnnotationCacheOperationSource` maximizes use of Spring's existing infrastructure
+2. **Validation Importance**: Comprehensive validation prevents runtime errors and provides clear feedback
+3. **Logging Strategy**: Multi-level logging supports both development and production debugging
+4. **Pattern Application**: Real-world implementation demonstrates effective use of Template Method, Strategy, and Builder patterns
+5. **Performance Awareness**: Efficient annotation processing and memory management are critical for high-performance applications
 
-这个案例研究展示了Spring Cache架构的理论概念如何转化为实际的、可用于生产的实现，扩展和增强了框架的能力。
+This case study demonstrates how the theoretical concepts of Spring Cache architecture translate into practical, production-ready implementations that extend and enhance the framework's capabilities.
 
 ## Extension and Customization Guide
 
@@ -1246,7 +1246,7 @@ public class CustomCacheAnnotationParser implements CacheAnnotationParser {
 }
 ```
 
-### 2. 自定义CacheOperationSource
+### 2. Custom CacheOperationSource
 
 ```java
 public class CustomCacheOperationSource extends AbstractFallbackCacheOperationSource {
@@ -1265,7 +1265,7 @@ public class CustomCacheOperationSource extends AbstractFallbackCacheOperationSo
 }
 ```
 
-### 3. 配置自定义解析器
+### 3. Configure Custom Parser
 
 ```java
 @Configuration
@@ -1274,8 +1274,8 @@ public class CacheConfig {
     @Bean
     public CacheOperationSource cacheOperationSource() {
         Set<CacheAnnotationParser> parsers = new LinkedHashSet<>();
-        parsers.add(new SpringCacheAnnotationParser());  // 保持Spring标准支持
-        parsers.add(new CustomCacheAnnotationParser());  // 添加自定义支持
+        parsers.add(new SpringCacheAnnotationParser());  // Keep Spring standard support
+        parsers.add(new CustomCacheAnnotationParser());  // Add custom support
         return new AnnotationCacheOperationSource(parsers);
     }
 }
@@ -1283,19 +1283,19 @@ public class CacheConfig {
 
 ## Summary
 
-The Spring Cache CacheOperationSource system demonstrates excellent software design principles:
+Spring Cache's CacheOperationSource system demonstrates excellent software design principles:
 
 1. **Single Responsibility Principle**: Each component has clear responsibility boundaries
-2. **Open-Closed Principle**: Supports extension without modifying existing code through the Strategy pattern
+2. **Open-Closed Principle**: Supports extension without modifying existing code through strategy pattern
 3. **Dependency Inversion Principle**: High-level modules depend on abstractions rather than concrete implementations
-4. **Interface Segregation Principle**: Interface design is streamlined with clear responsibilities
+4. **Interface Segregation Principle**: Interface design is lean and responsibility is clear
 5. **Liskov Substitution Principle**: Subclasses can completely replace parent classes
 
 **Spring Cache Architecture Design Principles Overview:**
 
 ```mermaid
 graph LR
-    subgraph "Design Principle Implementation"
+    subgraph "Design Principles Implementation"
         A["Single Responsibility Principle"]
         B["Open-Closed Principle"]
         C["Dependency Inversion Principle"]
@@ -1304,10 +1304,10 @@ graph LR
     end
 
     subgraph "Core Components"
-        F["CacheOperationSource Top-level Interface"]
-        G["AbstractFallbackCacheOperationSource Abstract Implementation"]
-        H["AnnotationCacheOperationSource Annotation Implementation"]
-        I["CacheAnnotationParser Strategy Interface"]
+        F["CacheOperationSource - Top-level Interface"]
+        G["AbstractFallbackCacheOperationSource - Abstract Implementation"]
+        H["AnnotationCacheOperationSource - Annotation Implementation"]
+        I["CacheAnnotationParser - Strategy Interface"]
     end
 
     subgraph "Design Patterns"
