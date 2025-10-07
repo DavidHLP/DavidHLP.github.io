@@ -167,7 +167,7 @@ public class SafeResource implements AutoCloseable {
 ```
 
 > [!note]
-> 为什么使用 AtomicBoolean 而不是 Boolean 详细见 [AtomicBoolean 随笔](https://davidhlp.github.io/zh-cn/jotting/javaautocloseable/)
+> 为什么使用 AtomicBoolean 而不是 Boolean 详细见 [AtomicBoolean 随笔](https://davidhlp.github.io/zh-cn/jotting/javaatomicboolean/)
 
 ### 2. **避免抛出 `InterruptedException`**
 
