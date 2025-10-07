@@ -1,6 +1,6 @@
 ---
 title: AutoCloseable 随笔
-timestamp: 2025-09-30 14:30:00+08:00
+timestamp: 2025-10-07 20:25:00+08:00
 series: Java
 contents: true
 tags: [Java, 随笔]
@@ -153,18 +153,21 @@ Caught main exception: Exception from work()
 
 ```java
 public class SafeResource implements AutoCloseable {
-    private boolean isClosed = false;
+     private final AtomicBoolean closed = new AtomicBoolean(false);
 
     @Override
     public void close() { // 可以不抛出异常
-        if (!isClosed) {
-            isClosed = true;
+         if (!closed.compareAndSet(false, true)) {
             // ... 执行实际的关闭逻辑 ...
             System.out.println("Resource is now closed.");
+            return;
         }
     }
 }
 ```
+
+> [!note]
+> 为什么使用 AtomicBoolean 而不是 Boolean 详细见 [AtomicBoolean 随笔](https://davidhlp.github.io/zh-cn/jotting/javaautocloseable/)
 
 ### 2. **避免抛出 `InterruptedException`**
 

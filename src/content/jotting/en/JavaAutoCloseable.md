@@ -148,18 +148,21 @@ According to official documentation recommendations, when implementing your own 
 
 ```java
 public class SafeResource implements AutoCloseable {
-    private boolean isClosed = false;
+   private final AtomicBoolean closed = new AtomicBoolean(false);
 
     @Override
     public void close() { // Can choose not to throw exceptions
-        if (!isClosed) {
-            isClosed = true;
+        if (!closed.compareAndSet(false, true)) {
             // ... perform actual closing logic ...
             System.out.println("Resource is now closed.");
+            return;
         }
     }
 }
 ```
+
+> [!note]
+> Why use AtomicBoolean instead of Boolean? For details, see [Notes on AtomicBoolean](https://davidhlp.github.io/jotting/javaautocloseable/).
 
 ### 2. **Avoid Throwing `InterruptedException`**
 
