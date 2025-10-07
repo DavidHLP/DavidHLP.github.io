@@ -195,16 +195,8 @@ public class SafeResource implements AutoCloseable {
 
 ---
 
-## 总结
-
 `AutoCloseable` 接口是 Java 现代化演进中的一个重要里程碑。它与 `try-with-resources` 语句的结合使用，是目前 Java
 中处理外部资源的首选方式。
-
-**核心优势**：
-
-- ✅ **代码简洁**：消除了模板化的 `try-finally` 代码。
-- ✅ **安全性高**：保证资源一定会被关闭，避免了资源泄漏。
-- ✅ **异常处理完善**：通过“抑制异常”机制，保留了完整的异常堆栈信息。
 
 在编写任何需要手动释放资源（如数据库连接、文件流、锁等）的代码时，都应该优先考虑实现 `AutoCloseable` 接口，并使用
 `try-with-resources` 来消费它。`AutoCloseable` 接口是 Java 语言在资源管理方面的一个巨大进步。通过与 `try-with-resources`

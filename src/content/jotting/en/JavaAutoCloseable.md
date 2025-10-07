@@ -188,14 +188,6 @@ You may also encounter a similar interface `java.io.Closeable`. There's a clear 
 
 ---
 
-## Summary
-
 The `AutoCloseable` interface is an important milestone in Java's modernization evolution. Its combination with the `try-with-resources` statement is currently the preferred way to handle external resources in Java.
-
-**Core Advantages**:
-
-- ✅ **Concise code**: Eliminates boilerplate `try-finally` code.
-- ✅ **High safety**: Guarantees resources will be closed, avoiding resource leaks.
-- ✅ **Comprehensive exception handling**: Through the "suppressed exceptions" mechanism, preserves complete exception stack information.
 
 When writing any code that requires manual resource release (such as database connections, file streams, locks, etc.), you should prioritize implementing the `AutoCloseable` interface and use `try-with-resources` to consume it. The `AutoCloseable` interface represents a huge advancement in Java's resource management. Through its combination with the `try-with-resources` statement, it greatly simplifies code, reduces the risk of memory leaks and system errors caused by unclosed resources, and is the **preferred approach** for handling resources in modern Java development.
