@@ -2,11 +2,11 @@
 	"title": "ThoughtLite",
 	"prologue": "Life is sailing.\nWith heart as the compass, just soar into the clouds.",
 	"author": {
-		"name": "Your Name",
-		"email": "hi@your.mail",
-		"link": "https://your.website"
+		"name": "DavidHLP",
+		"email": "lysf15520112973@163.com",
+		"link": "https://github.com/DavidHLP"
 	},
-	"description": "A modern Astro theme focused on content creation.",
+	"description": "ThoughtLite - A personal blog exploring Java, Spring, and software engineering. Sharing in-depth technical notes, jottings, and insights on modern development practices.",
 	"copyright": {
 		"type": "CC BY-NC-ND 4.0",
 		"year": "2025"
