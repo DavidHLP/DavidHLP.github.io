@@ -8,19 +8,6 @@ import i18nit from "$i18n";
 
 export const prerender = true;
 
-export async function getStaticPaths() {
-	// Get all notes excluding drafts
-	const notes = await getCollection("note", note => !note.data.draft);
-
-	return notes.map(note => {
-		// Extract language and note ID from file path structure
-		const [language, ...id] = note.id.split("/");
-
-		// Generate path params with optional locale (omit for default locale)
-		return { params: { locale: language == i18n?.defaultLocale ? undefined : language, id: id.join("/") }, props: { note } };
-	});
-}
-
 const { locale = i18n!.defaultLocale } = Astro.params;
 
 const t = i18nit(locale);
@@ -38,23 +25,27 @@ const sortedNotes = allNotes.sort((a, b) => {
 	return new Date(b.data.timestamp).getTime() - new Date(a.data.timestamp).getTime();
 });
 
-// Static data for GitHub Pages
-const size = 20;
-const page = 1; // Static: always show first page for GitHub Pages
-const notes = sortedNotes.slice(0, size);
-const pages = Math.ceil(allNotes.length / size);
-const index = page;
+// Prepare notes data for client-side rendering
+const notesData = sortedNotes.map(note => ({
+	id: note.id,
+	data: {
+		top: note.data.top,
+		title: note.data.title,
+		series: note.data.series,
+		tags: note.data.tags || [],
+		sensitive: note.data.sensitive,
+		timestamp: note.data.timestamp
+	}
+}));
 
 // Extract unique series and tags
-const series_list = [...new Set(allNotes.map(note => note.data.series).filter(Boolean))];
-const tag_list = [...new Set(allNotes.flatMap(note => note.data.tags || []))];
-const series = null; // Static: no series filter for GitHub Pages
-const tags: string[] = []; // Static: no tag filter for GitHub Pages
+const series_list = [...new Set(allNotes.map(note => note.data.series).filter(Boolean))].sort();
+const tag_list = [...new Set(allNotes.flatMap(note => note.data.tags || []))].sort();
 ---
 
 <Base title={t("navigation.note")} {locale}>
 	<main class="flex flex-col grow">
-		<Note client:load {locale} {notes} {pages} page={index} {size} {series_list} {tag_list} {series} {tags}>
+		<Note client:load {locale} allNotes={notesData} {series_list} {tag_list}>
 			<Icon name="lucide:flag-triangle-right" slot="top" />
 			<Icon name="lucide:siren" title={t("sensitive.icon")} slot="sensitive" />
 			<Icon name="lucide:arrow-left" slot="left" />

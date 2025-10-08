@@ -106,17 +106,38 @@
 </main>
 
 <script lang="ts">
-	import { actions } from "astro:actions";
 	import { getRelativeLocaleUrl } from "astro:i18n";
 	import { untrack, type Snippet } from "svelte";
 	import { flip } from "svelte/animate";
 	import { fade } from "svelte/transition";
-	import { push_tip } from "$components/Tip.svelte";
 	import i18nit from "$i18n";
 
-	let { locale, jottings, pages, page, size, tag_list, tags, top, sensitive, left, right, dots }: { locale: string; jottings: any[]; pages: number; page: number; size: number; tag_list: string[]; tags: string[]; top: Snippet; sensitive: Snippet; left: Snippet; right: Snippet; dots: Snippet } = $props();
+	let {
+		locale,
+		allJottings,
+		tag_list,
+		top,
+		sensitive,
+		left,
+		right,
+		dots
+	}: {
+		locale: string;
+		allJottings: any[];
+		tag_list: string[];
+		top: Snippet;
+		sensitive: Snippet;
+		left: Snippet;
+		right: Snippet;
+		dots: Snippet;
+	} = $props();
 
 	const t = i18nit(locale);
+
+	// Pagination settings
+	const size = 20;
+	let page = $state(1);
+	let tags: string[] = $state([]);
 
 	/**
 	 * Toggle tag inclusion/exclusion in the filter list
@@ -129,34 +150,29 @@
 
 		// Add tag if turning on and not included, or remove if turning off
 		tags = turn ? (included ? tags : [...tags, tag]) : tags.filter(item => item !== tag);
+		page = 1; // Reset to first page when changing filters
 	}
 
-	// Track initial load to prevent unnecessary API calls
-	let initial = $state(true);
-	let list: any[] = $state(jottings);
+	// Computed values for filtering and pagination
+	let list = $derived.by(() => {
+		// Filter by selected tags
+		let filtered = allJottings.filter(jotting => tags.length === 0 || tags.every(tag => jotting.data.tags?.includes(tag)));
+
+		// Calculate pagination
+		const totalPages = Math.ceil(filtered.length / size);
+		const currentPage = Math.max(1, Math.min(page, totalPages || 1));
+
+		// Return paginated results
+		return filtered.slice((currentPage - 1) * size, currentPage * size);
+	});
+
+	let pages = $derived(Math.max(1, Math.ceil(allJottings.filter(jotting => tags.length === 0 || tags.every(tag => jotting.data.tags?.includes(tag))).length / size)));
+
 	$effect(() => {
 		// Build URL with current page and tag filters
 		let url = getRelativeLocaleUrl(locale, `/jotting?page=${page}${tags.map(tag => `&tag=${tag}`).join("")}`);
 
 		// Match https://github.com/swup/swup/blob/main/src/helpers/history.ts#L22
 		window.history.replaceState({ url, random: Math.random(), source: "swup" }, "", url);
-
-		// Prevent initial load from fetching data
-		if (untrack(() => initial)) {
-			untrack(() => (initial = false));
-			return;
-		}
-
-		// Fetch jotting list with current filters and pagination
-		actions.jotting.list({ locale, size, page, tags }).then(({ data, error }) => {
-			if (!error) {
-				// Update local state with fetched data
-				list = data.jottings;
-				pages = data.pages;
-				page = data.page;
-			} else {
-				push_tip("error", t("jotting.fetch.failure"));
-			}
-		});
 	});
 </script>

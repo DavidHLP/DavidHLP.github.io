@@ -8,16 +8,6 @@ import i18nit from "$i18n";
 
 export const prerender = true;
 
-export async function getStaticPaths() {
-	const jottings = await getCollection("jotting", jotting => !jotting.data.draft);
-
-	return jottings.map(jotting => {
-		const [language, ...id] = jotting.id.split("/");
-
-		return { params: { locale: language == i18n?.defaultLocale ? undefined : language, id: id.join("/") }, props: { jotting } };
-	});
-}
-
 const { locale = i18n!.defaultLocale } = Astro.params;
 
 const t = i18nit(locale);
@@ -35,21 +25,24 @@ const sortedJottings = allJottings.sort((a, b) => {
 	return new Date(b.data.timestamp).getTime() - new Date(a.data.timestamp).getTime();
 });
 
-// Static data for GitHub Pages
-const size = 20;
-const page = 1; // Static: always show first page for GitHub Pages
-const jottings = sortedJottings.slice(0, size);
-const pages = Math.ceil(allJottings.length / size);
-const index = page;
+// Prepare jottings data for client-side rendering
+const jottingsData = sortedJottings.map(jotting => ({
+	id: jotting.id,
+	data: {
+		top: jotting.data.top,
+		title: jotting.data.title,
+		tags: jotting.data.tags || [],
+		sensitive: jotting.data.sensitive
+	}
+}));
 
 // Extract unique tags
 const tag_list = [...new Set(allJottings.flatMap(jotting => jotting.data.tags || []))];
-const tags: string[] = []; // Static: no tag filter for GitHub Pages
 ---
 
 <Base title={t("navigation.jotting")} {locale}>
 	<main class="flex flex-col grow">
-		<Jotting client:load {locale} {jottings} {pages} page={index} {size} {tag_list} {tags}>
+		<Jotting client:load {locale} allJottings={jottingsData} {tag_list}>
 			<Icon name="lucide:flag-triangle-right" slot="top" />
 			<Icon name="lucide:siren" title={t("sensitive.icon")} slot="sensitive" />
 			<Icon name="lucide:arrow-left" slot="left" />
