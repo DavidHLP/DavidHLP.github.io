@@ -8,6 +8,17 @@ import i18nit from "$i18n";
 
 export const prerender = true;
 
+export async function getStaticPaths() {
+	// Generate paths for all available locales
+	const locales = i18n?.locales || ["en", "zh-cn"];
+
+	return locales.map(locale => ({
+		params: {
+			locale: locale === i18n?.defaultLocale ? undefined : locale
+		}
+	}));
+}
+
 const { locale = i18n!.defaultLocale } = Astro.params;
 
 const t = i18nit(locale);
