@@ -14,16 +14,16 @@ description: Java中String、StringBuffer和StringBuilder的区别是什么
 
 - 回答重点
     - 它们都是 Java 中处理字符串的类，区别主要体现在**可变性**、**线程安全性**和**性能**上：
-    - 1）**String**
+    - 1 **String**
         - **不可变**：`String` 是不可变类，字符串一旦创建，其内容无法更改。每次对 `String` 进行修改操作（如拼接、截取等），都会创建新的 `String` 对象。
         - **适合场景**：`String` 适用于字符串内容不会频繁变化的场景，例如少量的字符串拼接操作或字符串常量。
 
-    - 2）**StringBuffer**
+    - 2 **StringBuffer**
         - **可变**：`StringBuffer` 是可变的，可以进行字符串的追加、删除、插入等操作。
         - **线程安全**：`StringBuffer` 是线程安全的，内部使用了 `synchronized` 关键字来保证多线程环境下的安全性。
         - **适合场景**：`StringBuffer` 适用于在多线程环境中需要频繁修改字符串的场景。
 
-    - 3）**StringBuilder**
+    - 3 **StringBuilder**
         - **可变**：`StringBuilder` 也是可变的，提供了与 `StringBuffer` 类似的操作接口。
         - **非线程安全**：`StringBuilder` 不保证线程安全，性能比 `StringBuffer` 更高。
         - **适合场景**：`StringBuilder` 适用于单线程环境中需要大量修改字符串的场景，如高频拼接操作。
