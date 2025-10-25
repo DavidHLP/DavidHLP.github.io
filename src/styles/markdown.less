@@ -446,14 +446,18 @@
 
 	.markmap-container {
 		width: 100%;
+		max-width: none; // 移除最大宽度限制
 		padding: 1rem;
 		border-radius: 0.3rem;
 		background-color: var(--block-color);
 		overflow: auto;
 
 		svg.markmap {
-			width: 100%;
-			min-height: 320px;
+			display: block; // 确保 SVG 正确显示
+			width: 100% !important;
+			height: 400px !important;
+			min-width: 100%;
+			min-height: 400px;
 		}
 	}
 }
