@@ -20,6 +20,7 @@ const title = config.title;
 <script>
 	import zoom from "medium-zoom/dist/pure";
 	import { initMermaid } from "$utils/mermaid-init";
+	import { initMarkmap } from "$utils/markmap-init";
 
 	window.zoom = () => zoom(".markdown img", { background: "#00000044" });
 	window.zoom();
@@ -27,10 +28,12 @@ const title = config.title;
 	document.addEventListener("astro:page-load", () => {
 		window.zoom();
 		initMermaid();
+		initMarkmap();
 	});
 
-	// 首次加载时初始化 Mermaid
+	// 首次加载时初始化 Mermaid、Markmap
 	initMermaid();
+	initMarkmap();
 </script>
 
 <App {title} {subtitle} {description} {article} author={typeof config.author == "string" ? config.author : config.author.name}>

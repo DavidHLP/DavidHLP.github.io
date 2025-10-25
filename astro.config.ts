@@ -54,7 +54,7 @@ export default defineConfig({
 	markdown: {
 		syntaxHighlight: {
 			type: "shiki",
-			excludeLangs: ["mermaid", "math"]
+			excludeLangs: ["mermaid", "math", "markmap"]
 		},
 		remarkPlugins: [[GFM, { singleTilde: false }], ins, mark, spoiler, CJK, [CJK_strikethrough, { singleTilde: false }], math, gemoji, footnote, abbr, wrapper, [table, { colspanWithEmpty: true }], wrapper, directive, ruby, [alerts, { legacyTitle: true }]],
 		remarkRehype: {
