@@ -1,0 +1,106 @@
+---
+export const prerender = true;
+
+import type { MarkdownHeading } from "astro";
+import { i18n } from "astro:config/client";
+import { getCollection, render } from "astro:content";
+import read from "reading-time";
+import Time from "$utils/time";
+import Base from "$layouts/Base.astro";
+import Icon from "$components/Icon.astro";
+import TOC from "$components/repetition/TOC.astro";
+import Position from "$components/Position.astro";
+import Sensitive from "$components/Sensitive.svelte";
+import i18nit from "$i18n";
+
+export async function getStaticPaths() {
+	const repetitions = await getCollection("repetition", repetition => !repetition.data.draft);
+
+	return repetitions.map(repetition => {
+		const [language, ...id] = repetition.id.split("/");
+
+		return {
+			params: {
+				locale: language == i18n?.defaultLocale ? undefined : language,
+				id: id.join("/")
+			},
+			props: { repetition }
+		};
+	});
+}
+
+const { locale = i18n!.defaultLocale } = Astro.params;
+const { repetition } = Astro.props;
+
+const { Content, headings } = await render(repetition);
+
+const reading = read(repetition.body ?? "");
+
+type Heading = MarkdownHeading & { subheadings: Heading[] };
+const table_of_contents: Heading[] = [];
+const stack: Heading[] = [];
+for (const item of headings) {
+	while (stack[stack.length - 1]?.depth >= item.depth) stack.pop();
+	const heading: Heading = { ...item, subheadings: [] };
+
+	if (stack.length > 0) {
+		const parent = stack[stack.length - 1];
+		parent.subheadings.push(heading);
+	} else {
+		table_of_contents.push(heading);
+	}
+
+	stack.push(heading);
+}
+
+const t = i18nit(locale);
+---
+
+<Base title={repetition.data.title} {locale} description={repetition.data.description} article={{ timestamp: repetition.data.timestamp, section: repetition.data.series, tags: repetition.data.tags }}>
+	<main class="flex flex-col gap-6">
+		<header class="flex flex-col gap-4">
+			<h1 class="text-3xl">{repetition.data.title}</h1>
+			<div class="flex flex-col gap-3 sm:flex-row children:(flex items-center gap-1 text-3.5 c-secondary)">
+				<time title={Time.full(repetition.data.timestamp)}><Icon name="lucide:calendar" />{Time(repetition.data.timestamp)}</time>
+				{
+					repetition.data.series && (
+						<span>
+							<Icon name="lucide:library" />
+							{repetition.data.series}
+						</span>
+					)
+				}
+				{
+					repetition.data.tags?.length && (
+						<span>
+							<Icon name="lucide:tag" />
+							{repetition.data.tags?.join("; ")}
+						</span>
+					)
+				}
+				<span><Icon name="lucide:pilcrow" />{t("read.words", { words: reading.words })}</span>
+			</div>
+			<hr class="b-b b-b-solid b-weak" />
+		</header>
+
+		<Sensitive {locale} back="/repetition" sensitive={repetition.data.sensitive} client:load>
+			<div class="flex gap-5">
+				<section id="markdown-content" class="markdown"><Content /></section>
+				{
+					repetition.data.contents && (
+						<aside class="hidden sm:(block flex-shrink-0 w-200px)">
+							<div class="sticky top-3 flex flex-col gap-2">
+								<h3>{t("repetition.contents")}</h3>
+								<nav class="overflow-y-auto">
+									<TOC headings={table_of_contents} />
+								</nav>
+							</div>
+						</aside>
+					)
+				}
+			</div>
+		</Sensitive>
+
+		<Position {locale} />
+	</main>
+</Base>

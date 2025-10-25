@@ -31,6 +31,7 @@ navigation:
   home: Home
   jotting: Jotting
   note: Note
+  repetition: Repetition
   policy: Policy
   preface: Preface
   subscription: Subscription
@@ -41,6 +42,12 @@ note:
   series: Series
   tag: Tag
   top: To Top
+repetition:
+  contents: Contents
+  fetch:
+    failure: Error loading repetitions
+  series: Series
+  tag: Tag
 read:
   words: '{words} words'
 sensitive:

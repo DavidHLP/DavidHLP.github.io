@@ -22,6 +22,25 @@ const note = defineCollection({
 });
 
 /**
+ * Repetition collection configuration
+ * Mirrors note structure for dedicated repetition entries
+ */
+const repetition = defineCollection({
+	loader: glob({ pattern: ["**/*.md", "!**/_*.md", "!**/_*/*.md"], base: "./src/content/repetition" }),
+	schema: z.object({
+		title: z.string(),
+		timestamp: z.date(),
+		series: z.string().optional(),
+		tags: z.array(z.string()).optional(),
+		description: z.string().optional(),
+		sensitive: z.boolean().default(false),
+		contents: z.boolean().default(false),
+		top: z.number().int().nonnegative().default(0),
+		draft: z.boolean().default(false)
+	})
+});
+
+/**
  * Jotting collection configuration
  * Represents shorter posts, quick thoughts, or micro-blog entries
  */
@@ -62,4 +81,4 @@ const information = defineCollection({
 	loader: glob({ pattern: "**/*.(md|yaml)", base: "./src/content/information" })
 });
 
-export const collections = { note, jotting, preface, information };
+export const collections = { note, repetition, jotting, preface, information };

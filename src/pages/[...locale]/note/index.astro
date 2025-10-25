@@ -19,7 +19,8 @@ export async function getStaticPaths() {
 	}));
 }
 
-const { locale = i18n!.defaultLocale } = Astro.params;
+const localeParam = Astro.params.locale;
+const locale = typeof localeParam === "string" ? localeParam : i18n!.defaultLocale;
 
 const t = i18nit(locale);
 

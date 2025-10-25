@@ -29,6 +29,7 @@ navigation:
   home: 序章
   jotting: 随笔
   note: 文记
+  repetition: 复读
   policy: 政策
   preface: 序文
   subscription: 订阅
@@ -39,6 +40,12 @@ note:
   series: 系列
   tag: 标签
   top: 回到顶部
+repetition:
+  contents: 目录
+  fetch:
+    failure: 获取复读内容出错
+  series: 系列
+  tag: 标签
 read:
   words: '{words} 字'
 sensitive:

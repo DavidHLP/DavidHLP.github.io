@@ -111,7 +111,7 @@ export default defineConfig({
 		icon({
 			include: {
 				"fa6-brands": ["creative-commons", "creative-commons-by", "creative-commons-sa", "creative-commons-nc", "creative-commons-nd", "creative-commons-zero"],
-				lucide: ["align-justify", "arrow-left", "arrow-right", "arrow-up-to-line", "at-sign", "calendar", "circle-alert", "circle-check", "circle-question-mark", "circle-x", "clock-arrow-down", "clock-arrow-up", "copyright", "earth", "ellipsis", "feather", "file-search", "flag-triangle-right", "history", "house", "info", "library", "list", "log-out", "message-square", "moon", "pencil", "pilcrow", "refresh-cw", "reply", "rss", "scale", "send", "share-2", "signature", "siren", "smile", "sun", "tag", "tent", "timer", "trash", "triangle-alert", "user-round", "user-round-pen", "user-round-x", "x"],
+				lucide: ["align-justify", "arrow-left", "arrow-right", "arrow-up-to-line", "at-sign", "calendar", "circle-alert", "circle-check", "circle-question-mark", "circle-x", "clock-arrow-down", "clock-arrow-up", "copyright", "earth", "ellipsis", "feather", "file-search", "flag-triangle-right", "history", "house", "info", "library", "list", "log-out", "message-square", "moon", "pencil", "pilcrow", "refresh-ccw", "refresh-cw", "reply", "rss", "scale", "send", "share-2", "signature", "siren", "smile", "sun", "tag", "tent", "timer", "trash", "triangle-alert", "user-round", "user-round-pen", "user-round-x", "x"],
 				"simple-icons": ["astro", "svelte", "github", "google", "x"],
 				"svg-spinners": ["3-dots-move", "pulse-3", "pulse-rings-3"]
 			}

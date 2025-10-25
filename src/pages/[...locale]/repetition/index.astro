@@ -2,14 +2,13 @@
 import { i18n } from "astro:config/client";
 import { getCollection } from "astro:content";
 import Base from "$layouts/Base.astro";
-import Jotting from "$components/Jotting.svelte";
+import Repetition from "$components/repetition/Repetition.svelte";
 import Icon from "$components/Icon.astro";
 import i18nit from "$i18n";
 
 export const prerender = true;
 
 export async function getStaticPaths() {
-	// Generate paths for all available locales
 	const locales = i18n?.locales || ["en", "zh-cn"];
 
 	return locales.map(locale => ({
@@ -24,42 +23,41 @@ const locale = typeof localeParam === "string" ? localeParam : i18n!.defaultLoca
 
 const t = i18nit(locale);
 
-// Get all jottings for this locale
-const allJottings = await getCollection('jotting', (entry) => {
-	return entry.id.startsWith(locale + '/') && !entry.data.draft;
+const allRepetitions = await getCollection("repetition", entry => {
+	return entry.id.startsWith(locale + "/") && !entry.data.draft;
 });
 
-// Sort jottings by timestamp (newest first) and then by top priority
-const sortedJottings = allJottings.sort((a, b) => {
+const sortedRepetitions = allRepetitions.sort((a, b) => {
 	if (b.data.top !== a.data.top) {
 		return b.data.top - a.data.top;
 	}
 	return new Date(b.data.timestamp).getTime() - new Date(a.data.timestamp).getTime();
 });
 
-// Prepare jottings data for client-side rendering
-const jottingsData = sortedJottings.map(jotting => ({
-	id: jotting.id,
+const repetitionsData = sortedRepetitions.map(item => ({
+	id: item.id,
 	data: {
-		top: jotting.data.top,
-		title: jotting.data.title,
-		tags: jotting.data.tags || [],
-		sensitive: jotting.data.sensitive
+		top: item.data.top,
+		title: item.data.title,
+		series: item.data.series,
+		tags: item.data.tags || [],
+		sensitive: item.data.sensitive,
+		timestamp: item.data.timestamp
 	}
 }));
 
-// Extract unique tags
-const tag_list = [...new Set(allJottings.flatMap(jotting => jotting.data.tags || []))];
+const series_list = [...new Set(allRepetitions.map(item => item.data.series).filter(Boolean))].sort();
+const tag_list = [...new Set(allRepetitions.flatMap(item => item.data.tags || []))].sort();
 ---
 
-<Base title={t("navigation.jotting")} {locale}>
+<Base title={t("navigation.repetition")} {locale}>
 	<main class="flex flex-col grow">
-		<Jotting client:load {locale} allJottings={jottingsData} {tag_list}>
+		<Repetition client:load {locale} allRepetitions={repetitionsData} {series_list} {tag_list}>
 			<Icon name="lucide:flag-triangle-right" slot="top" />
 			<Icon name="lucide:siren" title={t("sensitive.icon")} slot="sensitive" />
 			<Icon name="lucide:arrow-left" slot="left" />
 			<Icon name="lucide:arrow-right" slot="right" />
 			<Icon name="lucide:ellipsis" slot="dots" />
-		</Jotting>
+		</Repetition>
 	</main>
 </Base>
