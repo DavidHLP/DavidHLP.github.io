@@ -2,7 +2,7 @@
 title: Markdown 扩展手册
 timestamp: 2025-11-24 00:00:00+00:00
 series: Astro
-tags: [Markup, Demo]
+tags: [Markup]
 description: 详细介绍主题中扩展的 Markdown 语法功能，包括 Ruby 注音、缩写、剧透文本等特殊标记语法。
 ---
 
@@ -129,7 +129,7 @@ ABBR abbr xABBRx
 
 ABBR abbr xABBRx
 
-*[ABBR]: Abbreviation
+\*[ABBR]: Abbreviation
 
 ## GitHub Alerts
 
@@ -195,11 +195,11 @@ ABBR abbr xABBRx
 | 普通单元格 |       ^      || 普通单元格 |
 ```
 
-| 左对齐 | 居中 | 右对齐 | 居中 |
-|:- |:-:| -:| - |
-| 普通单元格 | 合并单元格 || 合并列 |
-| 普通单元格 | 2×2 单元格 ||^|
-| 普通单元格 | ^ || 普通单元格 |
+| 左对齐     |    居中    | 右对齐 | 居中       |
+| :--------- | :--------: | -----: | ---------- |
+| 普通单元格 | 合并单元格 |        | 合并列     |
+| 普通单元格 | 2×2 单元格 |        | ^          |
+| 普通单元格 |     ^      |        | 普通单元格 |
 
 ## 内联元素属性扩展 {#custom-id}
 
@@ -225,7 +225,7 @@ ABBR abbr xABBRx
 *多个*{.red .big}类名
 ```
 
-*多个*{.red .big}类名
+_多个_{.red .big}类名
 
 ```
 **自定义属性**{key="This is a value"}

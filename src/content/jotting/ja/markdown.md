@@ -2,7 +2,7 @@
 title: Markdown 拡張マニュアル
 timestamp: 2025-11-24 00:00:00+00:00
 series: Astro
-tags: [Markup, Demo]
+tags: [Markup]
 description: テーマで拡張されたMarkdown構文機能の詳細ガイド、ルビ注釈、略語、ネタバレテキストなどの特殊マークアップ構文を含む。
 ---
 
@@ -129,7 +129,7 @@ ABBR abbr xABBRx
 
 ABBR abbr xABBRx
 
-*[ABBR]: Abbreviation
+\*[ABBR]: Abbreviation
 
 ## GitHub Alerts
 
@@ -195,11 +195,11 @@ ABBR abbr xABBRx
 | 通常セル |      ^       || 通常セル |
 ```
 
-| 左揃え | 中央 | 右揃え | 中央 |
-|:- |:-:| -:| - |
-| 通常セル | マージセル || マージ列 |
-| 通常セル | 2×2 セル ||^|
-| 通常セル | ^ || 通常セル |
+| 左揃え   |    中央    | 右揃え | 中央     |
+| :------- | :--------: | -----: | -------- |
+| 通常セル | マージセル |        | マージ列 |
+| 通常セル |  2×2 セル  |        | ^        |
+| 通常セル |     ^      |        | 通常セル |
 
 ## インライン要素の属性拡張 {#custom-id}
 
@@ -225,7 +225,7 @@ ABBR abbr xABBRx
 *複数の*{.red .big}クラス名
 ```
 
-*複数の*{.red .big}クラス名
+_複数の_{.red .big}クラス名
 
 ```
 **カスタム属性**{key="This is a value"}
