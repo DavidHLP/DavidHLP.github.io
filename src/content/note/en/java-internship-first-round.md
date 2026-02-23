@@ -1,5 +1,5 @@
 ---
-title: Boyan Java Backend Developer Intern - First Round Interview
+title: Java Backend Developer Intern - First Round Interview
 timestamp: 2026-02-23 00:00:00+08:00
 series: Interview Experience
 tags: [Java, Interview, Backend, Internship]

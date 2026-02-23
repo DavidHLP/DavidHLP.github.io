@@ -30,15 +30,15 @@ Supported locales: `en`, `zh-cn`, `ja`
 
 ```yaml
 ---
-title: Post Title                    # Required
+title: Post Title # Required
 timestamp: 2025-04-04 00:00:00+00:00 # Required (ISO format)
-series: Astro                        # Optional - for grouped posts
-tags: [Guide, Demo]                  # Optional - array of tags
-description: "Brief description"     # Optional - for SEO/excerpt
-toc: true                            # Optional - show table of contents
-top: 1                               # Optional - pin priority (higher = more important)
-draft: false                         # Optional - exclude from public listing
-sensitive: false                     # Optional - mark as sensitive content
+series: Astro # Optional - for grouped posts
+tags: [Guide] # Optional - array of tags
+description: "Brief description" # Optional - for SEO/excerpt
+toc: true # Optional - show table of contents
+top: 1 # Optional - pin priority (higher = more important)
+draft: false # Optional - exclude from public listing
+sensitive: false # Optional - mark as sensitive content
 ---
 ```
 
@@ -46,13 +46,13 @@ sensitive: false                     # Optional - mark as sensitive content
 
 ```yaml
 ---
-title: Jotting Title                 # Required
+title: Jotting Title # Required
 timestamp: 2025-04-04 00:00:00+00:00 # Required
-tags: [Tag1, Tag2]                   # Optional
-description: "Brief description"     # Optional
-top: 0                               # Optional
-draft: false                         # Optional
-sensitive: false                     # Optional
+tags: [Tag1, Tag2] # Optional
+description: "Brief description" # Optional
+top: 0 # Optional
+draft: false # Optional
+sensitive: false # Optional
 ---
 ```
 
@@ -100,6 +100,7 @@ Reference: [Emoji Cheat Sheet](https://github.com/ikatyang/emoji-cheat-sheet)
 Inline: `$e^{ix} = \cos x + i \sin x$`
 
 Block:
+
 ```
 $$
 (f*g)(t)=\int f(\tau)g(t-\tau)d\tau
@@ -182,6 +183,7 @@ src/content/note/en/
 ```
 
 In `index.md`:
+
 ```md
 ![Image description](photo.png)
 ```
@@ -195,7 +197,7 @@ In `index.md`:
 ### Not Recommended: Absolute Path
 
 ```md
-![Description](/photo.png)  # No Astro optimization
+![Description](/photo.png) # No Astro optimization
 ```
 
 ## Code Blocks
@@ -209,6 +211,7 @@ const greeting: string = "Hello";
 ````
 
 Supported themes:
+
 - Light: `github-light`
 - Dark: `dark-plus`
 
@@ -226,13 +229,13 @@ title: Linkroll
 import Linkroll from "$components/Linkroll.astro";
 
 export const links = [
-  {
-    title: "Example Site",
-    url: "https://example.com",
-    image: "https://example.com/favicon.ico",
-    description: "Site description",
-    type: "resources"  // resources|community|insights|technology|expertise|creative|lifestyle|general
-  }
+	{
+		title: "Example Site",
+		url: "https://example.com",
+		image: "https://example.com/favicon.ico",
+		description: "Site description",
+		type: "resources" // resources|community|insights|technology|expertise|creative|lifestyle|general
+	}
 ];
 
 <Linkroll locale={props.locale} links={links} />
@@ -241,21 +244,25 @@ export const links = [
 ## Writing Guidelines
 
 ### Notes (文记)
+
 - Structured, in-depth long-form content
 - Complete arguments or narratives
 - Examples: reviews, research, stories, detailed guides
 
 ### Jottings (随笔)
+
 - Lightweight, immediate recordings
 - Scattered thoughts, inspirations, daily observations
 - Short and concise format
 
 ### Preface (序文)
+
 - Site homepage introduction
 - Life updates, insights, site announcements
 - Displayed as visitor's first impression
 
 ### Information
+
 - `introduction.md`: Site characteristics and value proposition
 - `policy.md`: Privacy policy, terms of service
 - `linkroll.mdx`: Friend links and recommended resources
@@ -276,6 +283,7 @@ When creating translated versions:
 3. Maintain same file ID across locales for cross-referencing
 
 Example:
+
 - `src/content/note/en/my-article.md`
 - `src/content/note/zh-cn/my-article.md`
 - `src/content/note/ja/my-article.md`

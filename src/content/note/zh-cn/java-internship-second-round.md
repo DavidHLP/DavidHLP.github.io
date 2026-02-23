@@ -1,5 +1,5 @@
 ---
-title: 博研Java后端开发实习生二面面经
+title: Java后端开发实习生二面面经
 timestamp: 2026-02-23 00:00:00+08:00
 series: 面试经验
 tags: [Java, 面试, 后端, 实习]

@@ -2,7 +2,7 @@
 title: Markdown 图片预览
 timestamp: 2025-04-04 00:00:00+00:00
 series: Astro
-tags: [Content, Demo]
+tags: [Content]
 description: 演示 Markdown 中图片引用的三种方式：相对路径、绝对路径和外部链接，展示图片优化和管理最佳实践。
 ---
 
