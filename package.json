@@ -1,29 +1,28 @@
 {
-	"name": "astro-theme-thought-lite",
+	"name": "davidhlp-github-io",
 	"type": "module",
 	"private": true,
-	"version": "0.36.3",
-	"description": "A modern Astro theme focused on content creation",
+	"version": "1.0.0",
+	"description": "DavidHLPL 的技术博客，基于 Astro ThoughtLite 主题构建",
 	"keywords": [
 		"astro",
-		"theme",
 		"blog",
 		"svelte",
 		"typescript",
 		"i18n"
 	],
-	"homepage": "https://github.com/tuyuritio/astro-theme-thought-lite",
+	"homepage": "https://github.com/DavidHLP/DavidHLP.github.io",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/tuyuritio/astro-theme-thought-lite.git"
+		"url": "https://github.com/DavidHLP/DavidHLP.github.io.git"
 	},
 	"bugs": {
-		"url": "https://github.com/tuyuritio/astro-theme-thought-lite/issues"
+		"url": "https://github.com/DavidHLP/DavidHLP.github.io/issues"
 	},
 	"license": "GPL-3.0",
 	"author": {
-		"name": "tuyuritio",
-		"url": "https://github.com/tuyuritio"
+		"name": "DavidHLPL",
+		"url": "https://github.com/DavidHLP"
 	},
 	"packageManager": "pnpm@10.30.0",
 	"scripts": {
