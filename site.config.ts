@@ -2,10 +2,10 @@ import siteConfig from "./src/utils/config";
 
 const config = siteConfig({
 	title: "DavidHLPL",
-	prologue: "技术分享与学习笔记\n记录成长历程中的点点滴滴",
+	prologue: "Talk is cheap. Show me the code.",
 	author: {
 		name: "DavidHLPL",
-		email: "david@example.com",
+		email: "lysf15520112973@163.com",
 		link: "https://github.com/DavidHLP"
 	},
 	description: "DavidHLPL 的技术博客，分享编程学习心得与项目经验",
@@ -15,7 +15,7 @@ const config = siteConfig({
 	},
 	i18n: {
 		locales: ["en", "zh-cn", "ja"],
-		defaultLocale: "en"
+		defaultLocale: "zh-cn"
 	},
 	pagination: {
 		note: 15,
