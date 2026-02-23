@@ -2,7 +2,7 @@
 title: Markdown Extension Manual
 timestamp: 2025-11-24 00:00:00+00:00
 series: Astro
-tags: [Markup, Demo]
+tags: [Markup]
 description: Detailed guide to extended Markdown syntax features in the theme, including Ruby annotations, abbreviations, spoiler text, and other special markup syntax.
 ---
 
@@ -129,7 +129,7 @@ ABBR abbr xABBRx
 
 ABBR abbr xABBRx
 
-*[ABBR]: Abbreviation
+\*[ABBR]: Abbreviation
 
 ## GitHub Alerts
 
@@ -195,11 +195,11 @@ ABBR abbr xABBRx
 | Normal Cell |          ^          ||  Normal Cell  |
 ```
 
-| Left Align | Center | Right Align | Center |
-|:- |:-:| -:| - |
-| Normal Cell | Merged Cell || Merged Column |
-| Normal Cell | 2×2 Cell ||^|
-| Normal Cell | ^ || Normal Cell |
+| Left Align  |   Center    | Right Align | Center        |
+| :---------- | :---------: | ----------: | ------------- |
+| Normal Cell | Merged Cell |             | Merged Column |
+| Normal Cell |  2×2 Cell   |             | ^             |
+| Normal Cell |      ^      |             | Normal Cell   |
 
 ## Inline Element Attributes Extension {#custom-id}
 
@@ -225,7 +225,7 @@ ABBR abbr xABBRx
 *Multiple*{.red .big} classes
 ```
 
-*Multiple*{.red .big} classes
+_Multiple_{.red .big} classes
 
 ```
 **Custom attributes**{key="This is a value"}
