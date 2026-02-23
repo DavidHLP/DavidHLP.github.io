@@ -1,7 +1,7 @@
 ---
 title: 敏感内容示例
 timestamp: 2025-08-28 00:00:00+00:00
-tags: [Sensitive, Demo]
+tags: [Sensitive]
 description: 这是一个演示敏感内容警告的示例文档。
 sensitive: true
 ---

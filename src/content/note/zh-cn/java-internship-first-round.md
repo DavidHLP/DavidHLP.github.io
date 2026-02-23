@@ -1,9 +1,9 @@
 ---
-title: 博研Java后端开发实习生一面面经
+title: Java后端开发实习生一面面经
 timestamp: 2026-02-23 00:00:00+08:00
 series: 面试经验
 tags: [Java, 面试, 后端, 实习]
-description: 博研Java后端开发实习生一面面经，考察重点包括Redis缓存、Docker容器化、Java基础集合类等
+description: Java后端开发实习生一面面经，考察重点包括Redis缓存、Docker容器化、Java基础集合类等
 toc: true
 ---
 
