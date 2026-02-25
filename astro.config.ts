@@ -33,6 +33,7 @@ import copy from "@tuyuritio/shiki-code-copy";
 import reading from "./src/utils/reading";
 
 import siteConfig from "./site.config";
+import ZeoSevenFonts from "./src/fonts/zeo-seven-fonts";
 
 // https://astro.build/config
 export default defineConfig({
@@ -142,12 +143,10 @@ export default defineConfig({
 				cssVariable: "--font-playwrite-mx"
 			},
 			{
-				name: "JetBrains Mono",
-				provider: fontProviders.google(),
-				weights: [400, 700],
+				name: "Maple Mono NF CN",
+				provider: ZeoSevenFonts(),
 				optimizedFallbacks: false,
 				fallbacks: [
-					"JetBrains Mono",
 					"Maple Mono NF CN",
 					"Maple Mono NF",
 					"Maple Mono CN",
@@ -161,11 +160,10 @@ export default defineConfig({
 				cssVariable: "--font-maple-mono-nf-cn"
 			},
 			{
-				name: "Noto Serif",
-				provider: fontProviders.google(),
-				weights: [400, 700],
+				name: "The Peak Font Plus",
+				provider: ZeoSevenFonts(),
 				optimizedFallbacks: false,
-				fallbacks: ["The Peak Font Plus", "Georgia", "STSong", "serif"],
+				fallbacks: ["Georgia", "STSong", "serif"],
 				cssVariable: "--font-the-peak-font-plus"
 			}
 		]
