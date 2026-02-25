@@ -39,6 +39,8 @@ vim /etc/containerd/config.toml
 ### Step 4: Restart containerd
 ```bash
 systemctl restart containerd
+```
+
 ---
 
 ## 2. Clear Kubernetes Layer Credentials (Master Node)
@@ -89,6 +91,8 @@ crictl info | grep -i "registry\|auth"
 crictl rmi cr-ee.registry.cn-wulan-env1-d01.inter.env1.shuguang.com/aegis/aegis-hc-install:latest
 # Or (if using Docker runtime)
 docker rmi cr-ee.registry.cn-wulan-env1-d01.inter.env1.shuguang.com/aegis/aegis-hc-install:latest
+```
+
 ---
 
 ## Verify the Fix
