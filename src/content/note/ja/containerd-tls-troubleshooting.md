@@ -2,11 +2,11 @@
 title: containerd TLS 証明書検証問題の解決：設定と認証情報クリーンアップガイド
 timestamp: 2026-02-25 00:00:00+08:00
 tags: [Kubernetes, containerd, TLS, 運用, トラブルシューティング]
-description: containerd イメージプル時の TLS 証明書検証エラーの解決方法，包括设定跳过 TLS 验证、清理 Kubernetes 层凭证、清理节点运行时凭证的完整流程。
+description: containerd イメージプル時の TLS 証明書検証エラーの解決方法を詳く説明します。TLS 検証をスキップする設定、Kubernetes レイヤー認証情報のクリーンアップ、ノードランタイムレイヤー認証情報のクリーンアップを含む完全な手順です。
 toc: true
 ---
 
-`tls: failed to verify certificate: x509` エラーは通常、以下 причины:
+`tls: failed to verify certificate: x509` エラーは通常、以下の原因で発生します:
 - イメージレジストリが自己署名証明書または非 HTTPS 接続を使用している
 - containerd はデフォルトで TLS 検証を強制しており、信頼の設定がない
 
