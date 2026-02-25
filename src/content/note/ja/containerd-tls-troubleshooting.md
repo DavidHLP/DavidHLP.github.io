@@ -6,7 +6,7 @@ description: containerd イメージプル時の TLS 証明書検証エラーの
 toc: true
 ---
 
-`tls: failed to verify certificate: x509` エラーは通常、以下の原因で発生します:
+`tls: failed to verify certificate: x509` エラーは通常、以下の原因で発生します
 - イメージレジストリが自己署名証明書または非 HTTPS 接続を使用している
 - containerd はデフォルトで TLS 検証を強制しており、信頼の設定がない
 
