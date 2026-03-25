@@ -21,6 +21,7 @@ import footnote from "remark-footnotes-extra";
 import abbr from "@tuyuritio/remark-abbreviation";
 import { remarkExtendedTable as table, extendedTableHandlers as tableHandler } from "remark-extended-table";
 import alerts from "@tuyuritio/remark-github-alert";
+import mermaid from "./src/utils/mermaid";
 import { rehypeHeadingIds as ids } from "@astrojs/markdown-remark";
 import anchor from "rehype-autolink-headings";
 import links from "rehype-external-links";
@@ -61,6 +62,7 @@ export default defineConfig({
 			abbr,
 			[table, { colspanWithEmpty: true }],
 			[alerts, { typeFormat: "capitalize" }],
+			mermaid,
 			reading
 		],
 		remarkRehype: {

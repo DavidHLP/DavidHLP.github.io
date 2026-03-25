@@ -14,6 +14,7 @@ const title = config.title;
 
 <script>
 	import MediumnZoom, { type Zoom } from "medium-zoom/dist/pure";
+	import mermaid from "mermaid";
 	import Time from "$utils/time";
 
 	// Set the `title` attribute of all `<time>` elements to localized date-time strings
@@ -26,14 +27,48 @@ const title = config.title;
 		zoom.attach(".markdown img:not([data-nozoom])");
 	};
 
+	// Initialize Mermaid diagrams
+	const initializeMermaid = async () => {
+		const elements = document.querySelectorAll(".mermaid");
+		if (elements.length > 0) {
+			// Clear existing rendered diagrams to force re-render
+			for (const el of elements) {
+				if (el.getAttribute("data-processed")) {
+					el.removeAttribute("data-processed");
+					el.innerHTML = el.getAttribute("data-original-content") || el.innerHTML;
+				} else {
+					el.setAttribute("data-original-content", el.innerHTML);
+				}
+			}
+
+			mermaid.initialize({
+				startOnLoad: false,
+				theme: document.documentElement.dataset.theme === "dark" ? "dark" : "default",
+				securityLevel: "loose",
+			});
+			await mermaid.run();
+		}
+	};
+
 	// Page initialization function
 	function initialize() {
 		localizeTimes();
 		window.zoom();
+		initializeMermaid();
 	}
+
+	// Watch for theme changes to re-render Mermaid
+	const observer = new MutationObserver((mutations) => {
+		for (const mutation of mutations) {
+			if (mutation.type === "attributes" && mutation.attributeName === "data-theme") {
+				initializeMermaid();
+			}
+		}
+	});
 
 	// Execute initialization on first load
 	initialize();
+	observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
 	// Listen for page load event and re-initialize on page transitions
 	document.addEventListener("astro:page-load", initialize);
