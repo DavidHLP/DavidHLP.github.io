@@ -61,6 +61,7 @@
 		"katex": "^0.16.28",
 		"mdast-util-to-string": "^4.0.0",
 		"medium-zoom": "^1.1.0",
+		"mermaid": "^11.13.0",
 		"reading-time": "^1.5.0",
 		"rehype-autolink-headings": "^7.1.0",
 		"rehype-external-links": "^3.0.0",
@@ -78,7 +79,8 @@
 		"tailwindcss": "^4.1.18",
 		"temporal-polyfill": "^0.3.0",
 		"typescript": "^5.9.3",
-		"unified": "^11.0.5"
+		"unified": "^11.0.5",
+		"unist-util-visit": "^5.1.0"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.6",

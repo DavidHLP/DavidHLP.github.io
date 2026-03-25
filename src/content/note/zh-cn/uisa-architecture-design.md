@@ -128,8 +128,7 @@ sequenceDiagram
     else 节点离线
         Gateway->>Queue: 任务入队 (Pending)
         Note over Gateway,Queue: 等待节点心跳唤醒
-        deactivate Gateway
-        return 任务挂起
+        Gateway-->>Engine: 任务挂起
     end
     deactivate Gateway
     
