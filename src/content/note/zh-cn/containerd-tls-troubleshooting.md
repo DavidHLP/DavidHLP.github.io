@@ -1,111 +1,135 @@
 ---
-title: 解决 containerd TLS 证书验证问题：配置与凭证清理指南
+title: 解决 containerd TLS 证书验证问题：从跳过验证到受信配置
 timestamp: 2026-02-25 00:00:00+08:00
 tags: [Kubernetes, containerd, TLS, 运维, 问题排查]
-description: 详细讲解如何解决 containerd 镜像拉取时的 TLS 证书验证错误，包括配置跳过 TLS 验证、清理 Kubernetes 层凭证、清理节点运行时凭证的完整流程。
+description: 深度解析 containerd 镜像拉取时的 TLS 验证机制，提供从“临时跳过”到“生产级 CA 配置”的完整解决方案，并涵盖凭证清理与缓存重置流程。
 toc: true
 ---
 
-`tls: failed to verify certificate: x509` 错误通常由以下原因导致：
-- 镜像仓库使用自签名证书或非 HTTPS 连接
-- containerd 默认强制 TLS 验证，未配置信任
+在 Kubernetes 环境中，使用私有镜像仓库（如 Harbor、Nexus）或自签名证书仓库时，常会遇到 `tls: failed to verify certificate: x509: certificate signed by unknown authority` 错误。
+
+这类问题通常涉及两个层面：**信任链路未建立**（证书不被信任）或**配置路径不匹配**（containerd 未读取到配置）。本文将带你从底层配置到上层凭证清理，彻底解决这一顽疾。
 
 ---
 
-## 一、修改 containerd 配置（跳过 TLS 验证）
+## 一、 快速止血：修改 containerd 配置（跳过 TLS 验证）
 
-### 步骤 1：定位配置项
+如果你处于测试环境，或者急于拉取镜像，可以通过修改 `config.toml` 直接跳过证书验证。
+
+### 1. 定位配置项
+`containerd` 的插件配置通常位于 `/etc/containerd/config.toml`。首先确认 CRI 插件是否启用了注册表配置：
 ```bash
-cat /etc/containerd/config.toml | grep -n 'plugins."io.containerd.grpc.v1.cri".registry.configs'
+grep -n "registry.configs" /etc/containerd/config.toml
 ```
 
-### 步骤 2：编辑配置文件
-```bash
-vim /etc/containerd/config.toml
-```
+### 2. 编辑配置（区分版本）
+根据你使用的 `containerd` 版本，配置路径略有不同。
 
-### 步骤 3：添加 TLS 跳过配置
+**对于常用版本：**
 ```toml
 [plugins."io.containerd.grpc.v1.cri".registry]
   [plugins."io.containerd.grpc.v1.cri".registry.configs]
-    [plugins."io.containerd.grpc.v1.cri".registry.configs."your.registry".tls]
+    [plugins."io.containerd.grpc.v1.cri".registry.configs."your.registry.addr".tls]
       insecure_skip_verify = true
 ```
 
-> **关键说明**
-> `insecure_skip_verify = true`：**跳过 TLS 验证**（允许自签名证书/非 HTTPS 连接）
-> `your.registry` 需替换为实际镜像仓库地址（如 `cr-ee.registry.cn-wulan-env1-d01.inter.env1.shuguang.com`）
+> [!CAUTION]
+> **注意：** `your.registry.addr` 必须与镜像地址中的域名完全一致。如果地址带端口，配置中也必须带端口。
 
-### 步骤 4：重启 containerd
+### 3. 重启生效
 ```bash
-systemctl restart containerd
+sudo systemctl restart containerd
 ```
 
 ---
 
-## 二、清除 Kubernetes 层凭证（Master 节点）
+## 二、 生产推荐：配置受信 CA 证书
 
-### 步骤 1：备份默认 ServiceAccount 凭证
+直接跳过验证存在中间人攻击风险。生产环境建议将仓库的 CA 证书分发到节点。
+
+### 1. 证书放置路径
+Containerd 会默认搜索特定目录下的证书。将你的 `ca.crt` 放入：
+`/etc/containerd/certs.d/your.registry.addr/ca.crt`
+
+### 2. 更新主机信任列表（可选但推荐）
 ```bash
-kubectl get sa default -o jsonpath='{.imagePullSecrets[*].name}'
-# 记录输出（如：default-secret）
+cp ca.crt /usr/local/share/ca-certificates/my-registry.crt
+update-ca-certificates
 ```
 
-### 步骤 2：临时移除凭证
+### 3. 验证证书有效性
+使用 `openssl` 模拟 containerd 握手：
+```bash
+openssl s_client -showcerts -connect your.registry.addr:443 < /dev/null
+```
+
+---
+
+## 三、 清除 Kubernetes 层凭证（Master 节点）
+
+有时证书配置正确，但 K8s 内部缓存了旧的 `imagePullSecrets` 或错误的 `default` SA 凭证，导致拉取失败。
+
+### 1. 检查 ServiceAccount
+```bash
+kubectl get sa default -o yaml
+```
+如果发现 `imagePullSecrets` 列表中存在过期的 Secret，需将其移除。
+
+### 2. 补丁操作
 ```bash
 kubectl patch sa default -p '{"imagePullSecrets": []}'
 ```
-> **影响**：所有使用 `default` ServiceAccount 的 Pod 将失去镜像拉取凭证
+> **提示：** 这一步是“清空”，随后你需要确保 Pod 的 YAML 中显式声明了正确的 `imagePullSecrets`，或者重新给 SA 绑定正确的 Secret。
 
 ---
 
-## 三、清理节点运行时层凭证（Worker 节点）
+## 四、 清理节点运行时层凭证（Worker 节点）
 
-### 步骤 1：登录目标节点
+Containerd 可能会持久化认证信息在 `/var/lib/kubelet/config.json` 或环境变量中。
+
+### 1. 深度清理
 ```bash
-ssh k8s-worker1
+# 停止服务
+sudo systemctl stop containerd
+
+# 清理可能存在的 Docker 残留配置（CRI 有时会参考）
+rm -f /root/.docker/config.json
+rm -f /var/lib/kubelet/config.json
+
+# 检查环境变量
+env | grep -i "proxy\|auth"
 ```
 
-### 步骤 2：清理 containerd 配置
+### 2. 验证凭证状态
+使用 `crictl` 检查运行时是否还存有旧的 Auth 信息：
 ```bash
-sudo sed -i '/$plugins.*registry.configs$/,/^$/d' /etc/containerd/config.toml
-sudo systemctl restart containerd
-```
-
-### 步骤 3：清理残留认证文件
-```bash
-sudo rm -f /root/.docker/config.json /var/lib/kubelet/config.json
-sudo systemctl restart containerd
-```
-
-### 步骤 4：验证凭证已清除
-```bash
-crictl info | grep -i "registry\|auth"
-# 确保输出中无目标仓库认证信息
-```
-
----
-
-## 四、清除本地镜像缓存
-```bash
-crictl rmi cr-ee.registry.cn-wulan-env1-d01.inter.env1.shuguang.com/aegis/aegis-hc-install:latest
-# 或（若使用 Docker 运行时）
-docker rmi cr-ee.registry.cn-wulan-env1-d01.inter.env1.shuguang.com/aegis/aegis-hc-install:latest
+crictl info | jq '.config.registry'
 ```
 
 ---
 
-## 验证修复
+## 五、 清理本地镜像缓存与重试
 
-1. 重新拉取镜像：
-   ```bash
-   crictl pull cr-ee.registry.cn-wulan-env1-d01.inter.env1.shuguang.com/aegis/aegis-hc-install:latest
-   ```
-2. 检查日志：
-   ```bash
-   journalctl -u containerd -f | grep -i "pull\|tls"
-   ```
+如果之前拉取失败，本地可能残留了损坏的镜像层。
 
-> **重要提示**
-> `insecure_skip_verify = true` **仅用于测试环境**，生产环境应使用有效证书。
-> 此配置**不会影响 Kubernetes 证书管理**，仅作用于 containerd 运行时层。
+```bash
+# 获取损坏镜像的 ID
+crictl images | grep "your.registry.addr"
+
+# 强制删除
+crictl rmi <IMAGE_ID>
+
+# 重新拉取并查看实时日志
+crictl pull your.registry.addr/repo/image:tag
+journalctl -u containerd -f -n 100
+```
+
+---
+
+## 避坑指南总结
+
+1. **域名 vs IP**：证书颁发给域名时，`config.toml` 中必须写域名，写 IP 会导致 SNI 校验失败。
+2. **端口号**：`certs.d` 下的文件夹名称必须包含端口（如果不是 443/80）。
+3. **Containerd 1.5+ 变化**：新版本推荐使用 `config_path` 模式管理证书，将证书逻辑与主配置文件解耦。
+4. **Proxy 干扰**：检查是否配置了系统代理（`HTTP_PROXY`），导致内网镜像仓库请求被转发到了外网代理。
+
