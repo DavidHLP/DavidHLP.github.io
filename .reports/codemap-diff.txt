@@ -1,0 +1,54 @@
+# Codemap Analysis Report
+Generated: 2026-06-01
+
+## Project Overview
+- **Type**: Single Astro blog application
+- **Framework**: Astro 5.x + Svelte 5.x
+- **Deployment**: GitHub Pages
+- **Source Files**: 45 (TypeScript, Svelte, Astro, CSS)
+- **Content Files**: 47 (Markdown articles)
+
+## Codemaps Generated
+1. `docs/CODEMAPS/architecture.md` - System architecture overview
+2. `docs/CODEMAPS/frontend.md` - Page tree and component hierarchy
+3. `docs/CODEMAPS/content.md` - Content collections and i18n
+4. `docs/CODEMAPS/dependencies.md` - External dependencies
+
+## Architecture Highlights
+
+### Content Collections
+- **note**: 15 items/page, supports TOC, series, top pinning
+- **jotting**: 24 items/page, micro-blog format
+- **preface**: Introductory content
+- **information**: Static pages (about, policy, chronicle)
+
+### i18n Support
+- **Locales**: en, zh-cn, ja (default: zh-cn)
+- **Routing**: `[...locale]/` dynamic routes
+- **Translations**: YAML-based (index, script, linkroll namespaces)
+
+### Rendering Pipeline
+- **Remark**: GFM, math, mermaid, CJK, alerts, footnotes, tables
+- **Rehype**: Heading IDs, anchors, KaTeX, figures, sectionize
+- **Shiki**: Code highlighting with copy button
+
+### Key Features
+- Dark/light theme (localStorage)
+- Contribution heatmap
+- OG image generation (satori + sharp)
+- RSS feed
+- Page transitions (swup)
+- Image zoom (medium-zoom)
+- Mermaid diagram support
+
+## Dependencies Summary
+- **Core**: Astro, Svelte, Tailwind CSS, TypeScript
+- **Content**: 15+ remark/rehype plugins
+- **UI**: Iconify, medium-zoom, swup
+- **Build**: Biome, Husky, Prettier, lint-staged
+- **External**: Google Fonts, Iconify CDN, GitHub Pages
+
+## Notes
+- No existing codemaps found (fresh generation)
+- All codemaps optimized for AI context consumption (<1000 tokens each)
+- Architecture follows Astro best practices (content collections, i18n routing)
