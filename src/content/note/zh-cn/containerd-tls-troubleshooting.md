@@ -4,7 +4,7 @@ title: 解决 containerd TLS 证书验证问题：从跳过验证到受信配置
 timestamp: 2026-02-25 00:00:00+08:00
 tags: [Kubernetes, containerd, TLS, Harbor, 运维, 问题排查]
 description: 深度解析 containerd 拉取私有镜像仓库时的 TLS 证书验证机制，提供从临时跳过验证到生产级 CA 信任配置的完整方案，并覆盖 Kubernetes 凭证清理、运行时缓存重置与排查闭环。
----------
+---
 
 ## 一、问题背景：为什么 containerd 会拉取镜像失败？
 
