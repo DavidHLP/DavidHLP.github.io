@@ -59,6 +59,40 @@ const title = config.title;
 	};
 	window.zoom = initViewer;
 
+	const openMermaidPreview = (svg: SVGSVGElement, width: number, height: number) => {
+		const clone = svg.cloneNode(true) as SVGSVGElement;
+		if (!clone.getAttribute("xmlns")) {
+			clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+		}
+		clone.setAttribute("width", String(width));
+		clone.setAttribute("height", String(height));
+		clone.setAttribute("style", "max-width: " + width + "px;");
+		const viewBox = clone.getAttribute("viewBox")?.split(/\s+/).map(Number);
+		const rectX = viewBox && viewBox.length === 4 ? viewBox[0] : 0;
+		const rectY = viewBox && viewBox.length === 4 ? viewBox[1] : 0;
+		const rectW = viewBox && viewBox.length === 4 ? viewBox[2] : width;
+		const rectH = viewBox && viewBox.length === 4 ? viewBox[3] : height;
+		const background = document.documentElement.dataset.theme === "dark" ? "#0f2a3d" : "#fffffd";
+		const backgroundRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+		backgroundRect.setAttribute("x", String(rectX));
+		backgroundRect.setAttribute("y", String(rectY));
+		backgroundRect.setAttribute("width", String(rectW));
+		backgroundRect.setAttribute("height", String(rectH));
+		backgroundRect.setAttribute("fill", background);
+		clone.insertBefore(backgroundRect, clone.firstChild);
+
+		const svgString = new XMLSerializer().serializeToString(clone);
+		const dataUrl = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgString)));
+		const preview = new PhotoSwipe({
+			dataSource: [{ src: dataUrl, width, height, alt: "Mermaid diagram" }],
+			index: 0,
+			bgOpacity: 1,
+			padding: { top: 20, bottom: 20, left: 20, right: 20 },
+			showHideAnimationType: "zoom",
+		});
+		preview.init();
+	};
+
 	// Initialize Mermaid diagrams
 	const initializeMermaid = async () => {
 		const elements = document.querySelectorAll(".mermaid");
@@ -80,26 +114,28 @@ const title = config.title;
 			});
 			await mermaid.run();
 
-			// Convert rendered SVGs to <img> elements for PhotoSwipe compatibility
+			// Normalize rendered SVGs in-place so Mermaid diagrams stay as plain diagrams
 			document.querySelectorAll(".mermaid svg").forEach(svg => {
 				// Resolve explicit pixel dimensions from viewBox; Mermaid emits `width="100%"`
-				// which is meaningless to an <img> loader and produces a 65×150 default.
-				const viewBox = svg.getAttribute("viewBox")?.split(/\s+/);
-				const svgW = viewBox && viewBox.length === 4 ? parseFloat(viewBox[2]) : parseFloat(svg.getAttribute("width") || "800");
-				const svgH = viewBox && viewBox.length === 4 ? parseFloat(viewBox[3]) : parseFloat(svg.getAttribute("height") || "600");
+				// which makes repeated theme renders harder to size consistently.
+				const vb = svg.getAttribute("viewBox")?.split(/\s+/);
+				let svgW = vb && vb.length === 4 ? parseFloat(vb[2]) : parseFloat(svg.getAttribute("width") || "800");
+				let svgH = vb && vb.length === 4 ? parseFloat(vb[3]) : parseFloat(svg.getAttribute("height") || "600");
+				const vbX = vb && vb.length === 4 ? parseFloat(vb[0]) : 0;
+				const vbY = vb && vb.length === 4 ? parseFloat(vb[1]) : 0;
 
-				const svgClone = svg.cloneNode(true) as SVGElement;
-				if (!svgClone.getAttribute("xmlns")) {
-					svgClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+
+				if (!svg.getAttribute("xmlns")) {
+					svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
 				}
-				svgClone.setAttribute("width", String(svgW));
-				svgClone.setAttribute("height", String(svgH));
-				// Strip the percentage constraint so the embedded style does not override the explicit size
-				svgClone.setAttribute("style", "max-width: " + svgW + "px;");
+				svg.setAttribute("viewBox", `${vbX} ${vbY} ${svgW} ${svgH}`);
+				svg.setAttribute("width", String(svgW));
+				svg.setAttribute("height", String(svgH));
+				svg.setAttribute("style", "max-width: " + svgW + "px; width: 100%; height: auto;");
 
-				// Append CJK font fallbacks to the embedded <style> block. When the SVG is
-				// loaded via <img> it cannot inherit page fonts, so we must inline them.
-				svgClone.querySelectorAll("style").forEach(styleEl => {
+				// Append CJK font fallbacks to the embedded <style> block so labels render
+				// correctly when Mermaid injects its own font stack.
+				svg.querySelectorAll("style").forEach(styleEl => {
 					const text = styleEl.textContent || "";
 					if (!/Noto Serif CJK|Noto Sans CJK|Source Han|PingFang|Microsoft YaHei/.test(text)) {
 						styleEl.textContent = text.replace(
@@ -108,30 +144,14 @@ const title = config.title;
 						);
 					}
 				});
-
-				const svgString = new XMLSerializer().serializeToString(svgClone);
-				const dataUrl = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgString)));
-
-				const img = document.createElement("img");
-				img.src = dataUrl;
-				img.alt = "Mermaid diagram";
-				img.dataset.pswpWidth = String(svgW);
-				img.dataset.pswpHeight = String(svgH);
-				img.className = "pswp-trigger-img";
-
-				const anchor = document.createElement("a");
-				anchor.href = dataUrl;
-				anchor.dataset.pswpTrigger = "";
-				anchor.dataset.pswpWidth = String(svgW);
-				anchor.dataset.pswpHeight = String(svgH);
-				anchor.className = "pswp-trigger";
-
-				svg.parentNode!.insertBefore(anchor, svg);
-				anchor.appendChild(img);
-				svg.remove();
+				svg.style.cursor = "zoom-in";
+				svg.addEventListener("dblclick", event => {
+					event.preventDefault();
+					openMermaidPreview(svg as SVGSVGElement, svgW, svgH);
+				});
 			});
 
-			// Re-initialize viewer to pick up mermaid images
+			// Keep the image viewer current for regular markdown images.
 			initViewer();
 		}
 	};

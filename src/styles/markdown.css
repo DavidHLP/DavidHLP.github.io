@@ -216,11 +216,13 @@
 		}
 
 		div.table-wrapper {
+			width: 100%;
 			padding-bottom: 0.5em;
 			overflow-x: auto;
 		}
 
 		table {
+			width: 100%;
 			border-collapse: collapse;
 			border-top: 3px solid var(--primary-color);
 			border-bottom: 3px solid var(--primary-color);
@@ -366,13 +368,24 @@
 
 		/* Mermaid diagrams */
 		.mermaid {
-			display: flex;
-			justify-content: center;
+			display: block;
 			background-color: transparent;
 			padding: 1em 0;
-			overflow-x: auto;
+			overflow-x: visible;
 
-			svg {
+			> a,
+			> svg {
+				display: block;
+				width: 100%;
+				max-width: 100%;
+				height: auto;
+				line-height: 0;
+				margin-inline: auto;
+			}
+
+			> a > img {
+				display: block;
+				width: 100%;
 				max-width: 100%;
 				height: auto;
 			}
