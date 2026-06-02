@@ -1,8 +1,8 @@
 ---
-title: AtomicBoolean Notes: From boolean Concurrency Pitfalls to CAS Lock-Free State Management
+title: "AtomicBoolean Notes: From boolean Concurrency Pitfalls to CAS Lock-Free State Management"
 timestamp: 2025-10-07 20:25:00+08:00
 tags: [Java, Concurrency, AtomicBoolean, CAS, JUC]
-description: A deep dive into Java AtomicBoolean — its role, principles, common methods, and best practices. Starting from plain boolean concurrency pitfalls, we explore CAS, volatile, VarHandle, and practical lock-free state management.
+description: "A deep dive into Java AtomicBoolean — its role, principles, common methods, and best practices. Starting from plain boolean concurrency pitfalls, we explore CAS, volatile, VarHandle, and practical lock-free state management."
 ---
 
 ## 1. Introduction: Why Can a Simple boolean Have Concurrency Issues?
