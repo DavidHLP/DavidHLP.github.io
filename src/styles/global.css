@@ -188,11 +188,7 @@
 	}
 }
 
-.medium-zoom-overlay {
-	z-index: 1000;
-}
-
-.medium-zoom-image--opened {
+.pswp {
 	z-index: 1000;
 }
 
