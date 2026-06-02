@@ -9,7 +9,10 @@ const t = i18nit(locale);
 
 function dismiss() {
 	sensitive = false;
-	setTimeout(() => window.zoom(), 50);
+	setTimeout(async () => {
+		await window.initializeMermaid?.();
+		window.zoom?.();
+	}, 50);
 }
 </script>
 
