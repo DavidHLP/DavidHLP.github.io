@@ -1,8 +1,8 @@
 ---
-title: NullValue Notes: How Spring Cache Elegantly Caches null
+title: "NullValue Notes: How Spring Cache Elegantly Caches null"
 timestamp: 2025-10-07 21:43:00+08:00
 tags: [Java, Spring Cache, Caching, Design Pattern, Notes]
-description: A deep dive into the design philosophy of NullValue in Spring Cache, understanding how it solves the problem of caching null values and cache penetration through the Null Object pattern, Singleton pattern, and readResolve.
+description: "A deep dive into the design philosophy of NullValue in Spring Cache, understanding how it solves the problem of caching null values and cache penetration through the Null Object pattern, Singleton pattern, and readResolve."
 ---
 
 ## 1. Problem Background: Why Cache null?
