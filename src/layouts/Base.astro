@@ -5,7 +5,7 @@ import Header from "$layouts/header/Header.astro";
 import Footer from "$layouts/Footer.astro";
 import "$styles/global.css";
 import "$styles/markdown.css";
-import "medium-zoom/dist/style.css";
+import "photoswipe/style.css";
 import "katex/dist/katex.min.css";
 
 const { locale = config.i18n.defaultLocale, title: subtitle, description = config.description, article } = Astro.props;
@@ -13,19 +13,51 @@ const title = config.title;
 ---
 
 <script>
-	import MediumnZoom, { type Zoom } from "medium-zoom/dist/pure";
+	import PhotoSwipeLightbox from "photoswipe/lightbox";
+	import PhotoSwipe from "photoswipe";
 	import mermaid from "mermaid";
 	import Time from "$utils/time";
+
+	let lightbox: PhotoSwipeLightbox | null = null;
 
 	// Set the `title` attribute of all `<time>` elements to localized date-time strings
 	const localizeTimes = () => document.querySelectorAll("time").forEach(time => time.dateTime && (time.title = Time.toLocaleString(time.dateTime, navigator.language, true)));
 
-	// Add zoom effect to images within markdown content
-	const zoom: Zoom = MediumnZoom(undefined, { background: "#00000044" });
-	window.zoom = () => {
-		zoom.detach();
-		zoom.attach(".markdown img:not([data-nozoom])");
+	// Initialize PhotoSwipe image viewer
+	const initViewer = () => {
+		// Wrap zoomable images with <a> tags for PhotoSwipe
+		document.querySelectorAll<HTMLElement>(".markdown img:not([data-nozoom])").forEach(img => {
+			if (img.closest("a[data-pswp-trigger]")) return; // already wrapped
+
+			const w = (img as HTMLImageElement).naturalWidth || img.width || 800;
+			const h = (img as HTMLImageElement).naturalHeight || img.height || 600;
+
+			const anchor = document.createElement("a");
+			anchor.href = (img as HTMLImageElement).src;
+			anchor.dataset.pswpTrigger = "";
+			anchor.dataset.pswpWidth = String(w);
+			anchor.dataset.pswpHeight = String(h);
+			anchor.className = "pswp-trigger";
+
+			img.parentNode!.insertBefore(anchor, img);
+			anchor.appendChild(img);
+		});
+
+		// Destroy old instance, create new one
+		lightbox?.destroy();
+		lightbox = new PhotoSwipeLightbox({
+			gallery: ".markdown",
+			children: "a[data-pswp-trigger]",
+			pswpModule: PhotoSwipe,
+			zoom: true,
+			closeOnVerticalDrag: true,
+			bgOpacity: 0.75,
+			padding: { top: 20, bottom: 20, left: 20, right: 20 },
+			showHideAnimationType: "zoom",
+		});
+		lightbox.init();
 	};
+	window.zoom = initViewer;
 
 	// Initialize Mermaid diagrams
 	const initializeMermaid = async () => {
@@ -48,26 +80,59 @@ const title = config.title;
 			});
 			await mermaid.run();
 
-			// Convert rendered SVGs to <img> elements for medium-zoom compatibility
+			// Convert rendered SVGs to <img> elements for PhotoSwipe compatibility
 			document.querySelectorAll(".mermaid svg").forEach(svg => {
+				// Resolve explicit pixel dimensions from viewBox; Mermaid emits `width="100%"`
+				// which is meaningless to an <img> loader and produces a 65×150 default.
+				const viewBox = svg.getAttribute("viewBox")?.split(/\s+/);
+				const svgW = viewBox && viewBox.length === 4 ? parseFloat(viewBox[2]) : parseFloat(svg.getAttribute("width") || "800");
+				const svgH = viewBox && viewBox.length === 4 ? parseFloat(viewBox[3]) : parseFloat(svg.getAttribute("height") || "600");
+
 				const svgClone = svg.cloneNode(true) as SVGElement;
 				if (!svgClone.getAttribute("xmlns")) {
 					svgClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
 				}
+				svgClone.setAttribute("width", String(svgW));
+				svgClone.setAttribute("height", String(svgH));
+				// Strip the percentage constraint so the embedded style does not override the explicit size
+				svgClone.setAttribute("style", "max-width: " + svgW + "px;");
+
+				// Append CJK font fallbacks to the embedded <style> block. When the SVG is
+				// loaded via <img> it cannot inherit page fonts, so we must inline them.
+				svgClone.querySelectorAll("style").forEach(styleEl => {
+					const text = styleEl.textContent || "";
+					if (!/Noto Serif CJK|Noto Sans CJK|Source Han|PingFang|Microsoft YaHei/.test(text)) {
+						styleEl.textContent = text.replace(
+							/font-family\s*:\s*([^;}]+)/g,
+							(_, families) => `font-family:${families},"Noto Serif CJK SC","Source Han Serif SC","Source Han Sans SC","Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif`
+						);
+					}
+				});
+
 				const svgString = new XMLSerializer().serializeToString(svgClone);
 				const dataUrl = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgString)));
 
 				const img = document.createElement("img");
 				img.src = dataUrl;
 				img.alt = "Mermaid diagram";
-				img.style.maxWidth = "100%";
-				img.style.height = "auto";
+				img.dataset.pswpWidth = String(svgW);
+				img.dataset.pswpHeight = String(svgH);
+				img.className = "pswp-trigger-img";
 
-				svg.parentElement!.replaceChild(img, svg);
+				const anchor = document.createElement("a");
+				anchor.href = dataUrl;
+				anchor.dataset.pswpTrigger = "";
+				anchor.dataset.pswpWidth = String(svgW);
+				anchor.dataset.pswpHeight = String(svgH);
+				anchor.className = "pswp-trigger";
+
+				svg.parentNode!.insertBefore(anchor, svg);
+				anchor.appendChild(img);
+				svg.remove();
 			});
 
-			// Re-attach zoom to pick up the new <img> elements
-			window.zoom();
+			// Re-initialize viewer to pick up mermaid images
+			initViewer();
 		}
 	};
 	window.initializeMermaid = initializeMermaid;
