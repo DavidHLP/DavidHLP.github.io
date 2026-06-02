@@ -367,14 +367,12 @@ Java 中还有一个常见接口：`java.io.Closeable`。
 
 ```mermaid
 classDiagram
-    class AutoCloseable
-    <<interface>> AutoCloseable
-    AutoCloseable : +close()
-
-    class Closeable
-    <<interface>> Closeable
-    Closeable : +close()
-
+    class AutoCloseable {
+        +close()
+    }
+    class Closeable {
+        +close()
+    }
     AutoCloseable <|-- Closeable
 ```
 
