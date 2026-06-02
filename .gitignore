@@ -35,3 +35,4 @@ wrangler.toml
 
 # jetbrains setting folder
 .idea/
+.playwright-mcp
