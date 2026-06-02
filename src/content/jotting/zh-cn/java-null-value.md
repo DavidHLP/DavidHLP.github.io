@@ -3,7 +3,7 @@ title: NullValue 随笔：Spring Cache 如何优雅缓存 null
 timestamp: 2025-10-07 21:43:00+08:00
 tags: [Java, Spring Cache, 缓存, 设计模式, 随笔]
 description: 深入解析 Spring Cache 中 NullValue 的设计思想，理解它如何通过空对象模式、单例模式和 readResolve 解决缓存 null 值与缓存穿透问题。
----------
+---
 
 ## 一、问题背景：为什么要缓存 null？
 
