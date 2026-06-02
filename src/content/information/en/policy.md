@@ -1,6 +1,6 @@
 ## Privacy Policy
 
-> **Last Updated**: Sep 20, 2025
+> **Last Updated**: Jun 2, 2026
 
 We highly value your privacy and only collect the minimal data necessary to provide basic services. This policy explains how we collect, use, and protect your data.
 
@@ -42,7 +42,7 @@ As a data subject, you have the following rights regarding your personal data:
 
 ## Terms of Service
 
-> **Last Updated**: Sep 20, 2025
+> **Last Updated**: Jun 2, 2026
 
 ### Service Content
 
@@ -76,7 +76,7 @@ When using this site's services, you need to comply with:
 
 ## Disclaimer
 
-> **Last Updated**: July 27, 2025
+> **Last Updated**: Jun 2, 2026
 
 ### Content Disclaimer
 
