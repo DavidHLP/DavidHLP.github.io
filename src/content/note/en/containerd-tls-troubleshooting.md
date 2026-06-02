@@ -1,8 +1,8 @@
 ---
-title: Resolving containerd TLS Certificate Verification Issues: From Skipping Verification to Trusted Configuration
+title: "Resolving containerd TLS Certificate Verification Issues: From Skipping Verification to Trusted Configuration"
 timestamp: 2026-02-25 00:00:00+08:00
 tags: [Kubernetes, containerd, TLS, Harbor, Operations, Troubleshooting]
-description: An in-depth guide to containerd TLS certificate verification when pulling from private image registries, providing a complete path from temporarily skipping verification to production-grade CA trust configuration, covering Kubernetes credential cleanup, runtime cache resets, and a full troubleshooting loop.
+description: "An in-depth guide to containerd TLS certificate verification when pulling from private image registries, providing a complete path from temporarily skipping verification to production-grade CA trust configuration, covering Kubernetes credential cleanup, runtime cache resets, and a full troubleshooting loop."
 ---
 
 ## 1. Background: Why Does containerd Fail to Pull Images?

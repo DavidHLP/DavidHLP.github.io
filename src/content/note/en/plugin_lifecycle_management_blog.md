@@ -1,8 +1,8 @@
 ---
-title: Designing a Plugin Lifecycle Management System for Millions of Endpoints: From Merged Heartbeats to Canary Circuit Breakers
+title: "Designing a Plugin Lifecycle Management System for Millions of Endpoints: From Merged Heartbeats to Canary Circuit Breakers"
 timestamp: 2026-06-02 00:00:00+08:00
 tags: [Distributed Systems, Architecture Design, Endpoint Management, Canary Release, High Availability]
-description: A systematic design for plugin keep-alive, installation, upgrade, uninstallation, rule push, and receipt closure across millions of distributed endpoints, with deep analysis of merged heartbeats, state machines, deduplication dispatch, canary release, automatic circuit breaking, environment adaptation, and eventual consistency.
+description: "A systematic design for plugin keep-alive, installation, upgrade, uninstallation, rule push, and receipt closure across millions of distributed endpoints, with deep analysis of merged heartbeats, state machines, deduplication dispatch, canary release, automatic circuit breaking, environment adaptation, and eventual consistency."
 ---
 
 ## 1. Problem Background: Why Can't Endpoint Plugin Management Simply Be "Send a Task"?

@@ -1,10 +1,10 @@
 ---
-title: From Round One to Round Two: Java Backend Internship Interview Retrospective
-subtitle: A Guide to Bridging Project Depth, Engineering Thinking, and Production Troubleshooting
+title: "From Round One to Round Two: Java Backend Internship Interview Retrospective"
+subtitle: "A Guide to Bridging Project Depth, Engineering Thinking, and Production Troubleshooting"
 timestamp: 2026-02-25 00:00:00+08:00
 category: Interview Experience
 tags: [Java, Backend, Internship Interview, Redis, Docker, Kafka, WebSocket, JVM, Production Troubleshooting]
-description: Based on real retrospectives from both rounds of a Java backend internship interview, this article systematically covers project presentation, Redis cache protection, Docker code sandbox, Kafka async judging, WebSocket push, JWT authentication, and Linux CPU spike troubleshooting.
+description: "Based on real retrospectives from both rounds of a Java backend internship interview, this article systematically covers project presentation, Redis cache protection, Docker code sandbox, Kafka async judging, WebSocket push, JWT authentication, and Linux CPU spike troubleshooting."
 ---
 
 # From Round One to Round Two: Java Backend Internship Interview Retrospective
