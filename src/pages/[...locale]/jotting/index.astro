@@ -41,7 +41,23 @@ const tags = Array.from(new Set(jottings.flatMap(jotting => jotting.data.tags).f
 ---
 
 <Base title={t("navigation.jotting")} {locale}>
-	<main class="flex flex-col grow">
+	<main class="flex flex-col grow py-4">
+		<!-- Page Header -->
+		<header class="flex flex-col gap-2 mb-10 border-b border-weak/10 pb-6 relative">
+			<!-- Corner Marks -->
+			<span class="absolute -bottom-1 -left-1 text-[8px] font-mono text-weak/40">+</span>
+			<span class="absolute -bottom-1 -right-1 text-[8px] font-mono text-weak/40">+</span>
+
+			<div class="flex items-center gap-2 text-[10px] font-mono text-weak uppercase tracking-widest">
+				<span>[ ARCHIVE.INDEX // 03 ]</span>
+				<span class="h-px w-8 bg-weak/20"></span>
+				<span>{t("navigation.jotting").toUpperCase()}</span>
+			</div>
+			<h1 class="font-serif font-light text-3xl sm:text-4xl text-primary mt-1 select-text">
+				{t("navigation.jotting")}
+			</h1>
+		</header>
+
 		<Jotting client:load {locale} jottings={list} {tags} />
 	</main>
 </Base>
