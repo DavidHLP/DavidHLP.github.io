@@ -16,13 +16,13 @@
 
 :root,
 [data-theme="light"] {
-	--primary-color: #2a2a28;
-	--secondary-color: #50504d;
-	--remark-color: #757575;
-	--weak-color: #9f9f9c;
-	--background-color: #fffffd;
-	--block-color: #eeeeee;
-	--shadow-color: #cdcdcc;
+	--primary-color: #1a1a18;
+	--secondary-color: #4a4a47;
+	--remark-color: #6a6a67;
+	--weak-color: #a3a3a0;
+	--background-color: #fafaf8;
+	--block-color: #f0f0ed;
+	--shadow-color: #e2e2df;
 	--selection-color: #adadacc3;
 
 	--swup-fade-theme-duration: 0.15s;
@@ -34,13 +34,13 @@
 }
 
 [data-theme="dark"] {
-	--primary-color: #dddddb;
-	--secondary-color: #aaaaa8;
-	--remark-color: #a5a5a5;
-	--weak-color: #5d5d5a;
+	--primary-color: #f2f2eb;
+	--secondary-color: #a5a5a0;
+	--remark-color: #7c7c78;
+	--weak-color: #3e3e3c;
 	--background-color: #0e0e0c;
-	--block-color: #1e1e1e;
-	--shadow-color: #323231;
+	--block-color: #1c1c1a;
+	--shadow-color: #2a2a28;
 	--selection-color: #adadacc3;
 
 	.astro-code,
@@ -72,7 +72,7 @@
 
 	::-webkit-scrollbar-thumb {
 		border-radius: 5px;
-		background-color: var(--primary-color);
+		background-color: var(--weak-color);
 	}
 
 	*:focus-visible {
@@ -83,7 +83,7 @@
 	@supports not selector(::-webkit-scrollbar) {
 		:root {
 			scrollbar-width: thin;
-			scrollbar-color: var(--primary-color) transparent;
+			scrollbar-color: var(--weak-color) transparent;
 		}
 	}
 
@@ -297,4 +297,54 @@
 	@variant ltr {
 		clip-path: inset(0 0 0 0);
 	}
+}
+
+/* Custom engineering & literary styling */
+@utility dot-grid {
+	background-image: radial-gradient(color-mix(in srgb, var(--weak-color) 20%, transparent) 1px, transparent 1px);
+	background-size: 20px 20px;
+}
+
+@utility text-vertical {
+	writing-mode: vertical-rl;
+	text-orientation: mixed;
+}
+
+.tech-border {
+	border: 1px solid color-mix(in srgb, var(--weak-color) 15%, transparent);
+}
+
+.tech-dashed {
+	border: 1px dashed color-mix(in srgb, var(--weak-color) 20%, transparent);
+}
+
+/* Print/Resume optimizations */
+@media print {
+	body {
+		background: #ffffff !important;
+		color: #000000 !important;
+		font-size: 11pt !important;
+	}
+	header,
+	footer,
+	nav,
+	aside {
+		display: none !important;
+	}
+	main {
+		width: 100% !important;
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+	.no-print {
+		display: none !important;
+	}
+}
+
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+.no-scrollbar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 }

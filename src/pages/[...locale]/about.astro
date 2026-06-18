@@ -29,13 +29,20 @@ const chronicles = Object.entries<string[]>(chronicle ?? {})
 ---
 
 <Base title={t("navigation.about")} {locale}>
-	<main class="flex flex-col sm:flex-row justify-between gap-5">
-		<article class="flex flex-col">
+	<main class="flex flex-col md:flex-row justify-between gap-12 py-6 relative">
+		<!-- Print button -->
+		<div class="absolute top-0 end-0 no-print">
+			<button onclick="window.print()" class="border border-weak/20 hover:border-primary text-xs font-mono px-3 py-1.5 bg-background select-none transition-all duration-150 flex items-center gap-1.5 cursor-pointer shadow-sm rounded-sm">
+				<span>[ PRINT.PDF ]</span>
+			</button>
+		</div>
+
+		<!-- Left Column: Resume & Links -->
+		<article class="flex flex-col grow max-w-4xl min-w-0 pt-8 md:pt-4">
 			{
 				introduction && (
-					<div class="mb-6">
-						<h2 class="mb-4">{t("about.introduction")}</h2>
-						<div class="markdown">
+					<div class="mb-12">
+						<div class="markdown select-text">
 							<Introduction />
 						</div>
 					</div>
@@ -43,9 +50,11 @@ const chronicles = Object.entries<string[]>(chronicle ?? {})
 			}
 			{
 				linkroll && (
-					<div>
-						<h2 class="mb-4">{t("about.linkroll")}</h2>
-						<div class="markdown">
+					<div class="no-print mt-4">
+						<div class="flex items-center gap-2 mb-6 border-b border-weak/10 pb-2">
+							<span class="text-xs font-mono text-weak uppercase tracking-widest">[ {t("about.linkroll")} ]</span>
+						</div>
+						<div class="markdown select-text">
 							<Linkroll {locale} />
 						</div>
 					</div>
@@ -53,17 +62,26 @@ const chronicles = Object.entries<string[]>(chronicle ?? {})
 			}
 		</article>
 
+		<!-- Right Column: Site Chronicle -->
 		{
 			chronicles.length > 0 && (
-				<aside class="flex flex-col justify-between basis-60 shrink-0">
-					<ul class="list-none relative before:absolute before:content-[''] before:h-full before:top-2 before:border-s-2 before:border-primary after:absolute after:content-[''] after:w-3 after:h-3 after:-bottom-2 after:-start-[0.325rem] after:border-2 after:border-primary after:rounded-full after:bg-primary">
+				<aside class="no-print flex flex-col basis-64 shrink-0 md:pt-4">
+					<div class="flex items-center gap-2 mb-6 border-b border-weak/10 pb-2">
+						<span class="text-xs font-mono text-weak uppercase tracking-widest">[ CHRONICLE ]</span>
+					</div>
+					
+					<ul class="list-none relative before:absolute before:content-[''] before:h-full before:top-2 before:border-s before:border-weak/10 after:absolute after:content-[''] after:w-2 after:h-2 after:-bottom-1 after:-start-[0.275rem] after:border after:border-primary after:rounded-full after:bg-primary">
 						{chronicles.map(chronicle => (
-							<li class="relative mb-2 pb-2 ps-3 before:absolute before:content-[''] before:w-3 before:h-3 before:top-2 before:-start-[0.325rem] before:border-2 before:border-primary before:rounded-full before:bg-background">
-								<span class="relative font-mono">{Time.toDateString(chronicle.date)}</span>
-								<ul class="my-2 ps-3.5 list-none">
+							<li class="relative mb-6 pb-2 ps-4 before:absolute before:content-[''] before:w-2 before:h-2 before:top-2 before:-start-[0.275rem] before:border before:border-primary before:rounded-full before:bg-background">
+								<span class="relative font-mono text-xs text-weak">{Time.toDateString(chronicle.date)}</span>
+								<ul class="my-2 ps-3 list-none text-xs text-secondary space-y-1.5">
 									{chronicle.events.map(event => {
 										const remove = event?.match(/^~(?!~)(.*)$/);
-										return <li class="relative before:absolute before:content-[''] before:top-2.5 before:-start-3 before:w-1.75 before:h-1.75 before:border before:border-primary before:rounded-full">{remove ? <del>{remove[1]}</del> : event}</li>;
+										return (
+											<li class="relative before:absolute before:content-[''] before:top-1.5 before:-start-3.5 before:w-1 before:h-1 before:bg-weak/30 before:rounded-full">
+												{remove ? <del>{remove[1]}</del> : event}
+											</li>
+										);
 									})}
 								</ul>
 							</li>
