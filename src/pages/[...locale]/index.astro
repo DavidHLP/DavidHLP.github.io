@@ -74,51 +74,213 @@ const latest = items.sort((a, b) => b.data.timestamp.getTime() - a.data.timestam
 const preface = prefaces[0];
 // Render preface content if available, otherwise use empty object
 const { Content } = preface ? await render(preface) : ({} as any);
+
+// Localized profile translations
+const profileData = {
+	"zh-cn": {
+		name: "贺恋棚",
+		title: "Java 后端开发工程师",
+		meta: ["重庆 / 22岁", "洛阳师范学院 · 本科", "GPA: 3.6 / 4.0"],
+		highlightsTitle: "核心实力点 (HIGHLIGHTS)",
+		highlights: [
+			"<strong>阿里云实习经历</strong>：参与专有云安全产品安骑士研发，独立完成多源 GPU 资源链条接入，开发 AI 资产识别模块，深入 containerd/Harbor 集群排障，编写自动化脚本并处理 20+ 个缺陷。",
+			"<strong>独立高内聚项目</strong>：自研 <code>ResiCache</code> 缓存防护组件（基于责任链设计与 SPI），以及 <code>UltiCode</code> 在线评测系统（Docker 沙箱隔离判题与 Redis Stream 评测流转），具备完整工程设计与闭环排障能力。",
+			"<strong>专业功底与奖项</strong>：熟悉 Java/JVM、MySQL 索引调优、Redis 多级缓存与分布式锁、Arthas 线上诊断；获 2025 蓝桥杯 Java 软件设计全国三等奖。"
+		],
+		linkText: "VIEW FULL RESUME"
+	},
+	en: {
+		name: "Helian Peng (David)",
+		title: "Java Backend Engineer",
+		meta: ["Chongqing, China / Age: 22", "Luoyang Normal University", "GPA: 3.6 / 4.0"],
+		highlightsTitle: "CORE HIGHLIGHTS",
+		highlights: [
+			"<strong>Alibaba Cloud Internship</strong>: Developed Aegis host security products, integrated GPU resources, designed AI asset risk identifiers, resolved 20+ defects, and debugged containerd/Harbor TLS environments.",
+			"<strong>Engineering Projects</strong>: Built <code>ResiCache</code> (SPI-based cache defense middleware) and <code>UltiCode</code> (online judge with Docker seccomp sandbox and Redis Stream async task pipeline).",
+			"<strong>Core Skills & Awards</strong>: Java/JVM, MySQL tuning, Redis locks, Arthas diagnostics. National 3rd Prize in the 2025 Blue Bridge Cup."
+		],
+		linkText: "VIEW FULL RESUME"
+	},
+	ja: {
+		name: "賀恋棚 (が れんほう)",
+		title: "Java バックエンドエンジニア",
+		meta: ["中国 重慶 / 22歳", "洛陽師範学院・学士", "GPA: 3.6 / 4.0"],
+		highlightsTitle: "核心ハイライト (HIGHLIGHTS)",
+		highlights: [
+			"<strong>アリババクラウド実務</strong>：セキュリティ製品のサーバー開発に従事。GPU情報収集基盤やAI実行リスク検出を実装、containerd証明書検証のトラブルシューティングを主導。",
+			"<strong>独自開発実績</strong>：責任連鎖・SPIを採用した <code>ResiCache</code> および Docker seccomp サンドボックス・Redis Stream 非同期判定を採用した <code>UltiCode</code> システムを構築。",
+			"<strong>技術・受賞歴</strong>：Java/JVM、MySQLチューニング、Redis分散ロック、Arthasオンライン診断。2025年「藍橋杯」Java全国三等賞。"
+		],
+		linkText: "VIEW FULL RESUME"
+	}
+};
+
+const profile = profileData[locale as keyof typeof profileData] || profileData["zh-cn"];
 ---
 
 <Base title={t("navigation.home")} {locale}>
-	<main class="flex flex-col gap-5 sm:gap-20 grow">
-		<header class="flex items-center justify-center flex-wrap-reverse grow-[0.6]">
-			{config.prologue && <article class="me-auto font-cursive font-thin text-xl sm:text-2xl leading-loose whitespace-pre-line">{config.prologue}</article>}
-			<Logo width={100} />
+	<main class="flex flex-col gap-12 sm:gap-24 grow py-6 relative">
+		<!-- Background subtle grid line -->
+		<div class="absolute inset-y-0 start-1/4 border-s border-weak/5 hidden md:block pointer-events-none"></div>
+
+		<header class="grid grid-cols-1 md:grid-cols-4 gap-8 items-start relative z-10">
+			<div class="md:col-span-3 flex flex-col gap-4">
+				<div class="flex items-center gap-2 text-[10px] font-mono text-weak uppercase tracking-widest">
+					<span>[ PROLOGUE.INIT ]</span>
+					<span class="h-px w-8 bg-weak/20"></span>
+					<span>TALK_IS_CHEAP</span>
+				</div>
+				{config.prologue && (
+					<article class="font-serif font-light text-2xl sm:text-4xl leading-relaxed tracking-wide text-primary/90 max-w-2xl select-text italic">
+						"{config.prologue}"
+					</article>
+				)}
+			</div>
+			
+			<div class="md:col-span-1 flex md:justify-end items-center">
+				<div class="relative tech-border p-5 bg-background shadow-sm group">
+					<!-- Corner Crosshairs -->
+					<span class="absolute -top-1.5 -left-1.5 text-[9px] font-mono text-weak/60">+</span>
+					<span class="absolute -top-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
+					<span class="absolute -bottom-1.5 -left-1.5 text-[9px] font-mono text-weak/60">+</span>
+					<span class="absolute -bottom-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
+					
+					<Logo width={70} class="text-primary opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300" />
+					
+					<span class="absolute -bottom-2.5 right-3 px-1.5 py-0.5 bg-background border border-weak/10 text-[8px] font-mono text-weak tracking-wider uppercase">
+						[SYS.ACTIVE]
+					</span>
+				</div>
+			</div>
 		</header>
+
+		<!-- Profile/Dossier Card -->
+		<section class="grid grid-cols-1 md:grid-cols-4 gap-8 relative border-t border-weak/10 pt-8 select-text">
+			<div class="md:col-span-1 flex flex-col gap-1">
+				<span class="text-[10px] font-mono text-weak uppercase tracking-widest">[ PROFILE.DOSSIER ]</span>
+				<span class="text-[9px] font-mono text-remark">DEVELOPER BRIEF</span>
+			</div>
+			
+			<div class="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
+				<!-- Bio Column -->
+				<div class="md:col-span-1 flex flex-col justify-between border-b md:border-b-0 md:border-r border-weak/10 pb-6 md:pb-0 md:pr-4">
+					<div>
+						<h3 class="text-xl font-serif font-light mb-1">{profile.name}</h3>
+						<p class="text-xs font-mono text-weak uppercase tracking-wider">// {profile.title}</p>
+						<div class="mt-4 space-y-1.5 text-xs text-secondary font-mono">
+							{profile.meta.map(item => (
+								<div>{item}</div>
+							))}
+						</div>
+					</div>
+					<div class="mt-6">
+						<a href={getRelativeLocaleUrl(locale, "/about")} class="text-[10px] font-mono text-primary hover:text-secondary tracking-wider transition-colors duration-150 uppercase flex items-center gap-1.5">
+							<span>{profile.linkText}</span>
+							<span>→</span>
+						</a>
+					</div>
+				</div>
+				
+				<!-- Highlights Column -->
+				<div class="md:col-span-2 flex flex-col gap-2">
+					<h4 class="text-xs font-mono text-weak uppercase tracking-wider">// {profile.highlightsTitle}</h4>
+					<ul class="list-disc pl-4 text-xs text-secondary space-y-2 leading-relaxed">
+						{profile.highlights.map(item => (
+							<li set:html={item} />
+						))}
+					</ul>
+				</div>
+			</div>
+		</section>
 
 		{
 			preface && (
-				<section class="flex flex-col">
-					<article class="markdown">
-						<Content />
-					</article>
-					<a href={getRelativeLocaleUrl(locale, "/preface")} class="self-end my-2 text-sm text-secondary">
-						—— {Time.toLocaleDateString(preface.data.timestamp, locale)}
-					</a>
+				<section class="grid grid-cols-1 md:grid-cols-4 gap-8 relative border-y border-weak/10 py-8 dot-grid">
+					<!-- Border Corner Dots -->
+					<span class="absolute -top-1 -left-1 text-[8px] font-mono text-weak/50">¤</span>
+					<span class="absolute -top-1 -right-1 text-[8px] font-mono text-weak/50">¤</span>
+					<span class="absolute -bottom-1 -left-1 text-[8px] font-mono text-weak/50">¤</span>
+					<span class="absolute -bottom-1 -right-1 text-[8px] font-mono text-weak/50">¤</span>
+
+					<div class="md:col-span-1 flex flex-col gap-1">
+						<span class="text-[10px] font-mono text-weak uppercase tracking-widest">[ 01 / PREFACE ]</span>
+						<span class="text-[9px] font-mono text-remark">{Time.toLocaleDateString(preface.data.timestamp, locale)}</span>
+					</div>
+
+					<div class="md:col-span-3">
+						<article class="markdown font-serif text-lg leading-relaxed select-text font-light max-w-3xl">
+							<Content />
+						</article>
+						<div class="mt-4 flex justify-end">
+							<a href={getRelativeLocaleUrl(locale, "/preface")} class="text-[10px] font-mono text-remark hover:text-primary tracking-wider transition-colors duration-150 uppercase flex items-center gap-1.5">
+								<span>VIEW PREFACE ARCHIVE</span>
+								<span>→</span>
+							</a>
+						</div>
+					</div>
 				</section>
 			)
 		}
 
 		{
 			latest && (
-				<footer class="flex items-center justify-center flex-wrap-reverse gap-10">
-					<Heatmap {locale} {notes} {jottings} />
+				<footer class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+					<!-- Heatmap panel -->
+					<div class="lg:col-span-7 relative tech-border p-6 bg-background/50 flex flex-col justify-between min-w-0">
+						<!-- Corner Crosshairs -->
+						<span class="absolute -top-1.5 -left-1.5 text-[9px] font-mono text-weak/60">+</span>
+						<span class="absolute -top-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
+						<span class="absolute -bottom-1.5 -left-1.5 text-[9px] font-mono text-weak/60">+</span>
+						<span class="absolute -bottom-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
 
-					<blockquote class="grow flex flex-col">
-						<h4>{t("home.latest")}</h4>
-						<div class="flex flex-col sm:flex-row justify-between gap-1 mt-1">
-							<a href={getRelativeLocaleUrl(locale, `/${latest.type}/${monolocale ? latest.id : latest.id.split("/").slice(1).join("/")}`)} class="link">
-								{latest.data.series && `${latest.data.series} | `}
+						<div class="flex items-center justify-between gap-4 mb-4 border-b border-weak/10 pb-2">
+							<span class="text-[10px] font-mono text-weak uppercase tracking-widest">[ 02 / ACTIVITY.LOG ]</span>
+							<span class="text-[9px] font-mono text-remark">UNIT: {config.heatmap?.unit || "DAY"}</span>
+						</div>
+
+						<div class="flex justify-center items-center py-4 overflow-x-auto min-w-0 no-scrollbar">
+							<Heatmap {locale} {notes} {jottings} />
+						</div>
+					</div>
+
+					<!-- Latest release panel -->
+					<blockquote class="lg:col-span-5 relative tech-border p-6 bg-background flex flex-col justify-between gap-4">
+						<!-- Corner Crosshairs -->
+						<span class="absolute -top-1.5 -left-1.5 text-[9px] font-mono text-weak/60">+</span>
+						<span class="absolute -top-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
+						<span class="absolute -bottom-1.5 -left-1.5 text-[9px] font-mono text-weak/60">+</span>
+						<span class="absolute -bottom-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
+
+						<div class="flex items-center justify-between border-b border-weak/10 pb-2 mb-2">
+							<span class="text-[10px] font-mono text-weak uppercase tracking-widest">[ 03 / LATEST.RELEASE ]</span>
+							<span class="text-[9px] font-mono text-remark">{latest.type?.toUpperCase()}</span>
+						</div>
+
+						<div class="flex flex-col gap-2">
+							{latest.data.series && (
+								<span class="text-[10px] font-mono text-weak uppercase tracking-wider">
+									// SERIES: {latest.data.series}
+								</span>
+							)}
+							<a href={getRelativeLocaleUrl(locale, `/${latest.type}/${monolocale ? latest.id : latest.id.split("/").slice(1).join("/")}`)} class="font-serif text-xl sm:text-2xl font-light hover:text-secondary transition-colors duration-150 leading-snug block select-text">
 								{latest.data.title}
 							</a>
-							<div class="flex gap-1">
+							
+							<div class="flex flex-wrap gap-2 mt-2">
 								{latest.data.tags?.map(tag => (
-									<a href={`${getRelativeLocaleUrl(locale, `/${latest.type}`)}?tag=${encodeURIComponent(tag)}`} class="text-remark text-sm link">
+									<a href={`${getRelativeLocaleUrl(locale, `/${latest.type}`)}?tag=${encodeURIComponent(tag)}`} class="text-[10px] font-mono text-remark hover:text-primary transition-colors bg-block px-2 py-0.5 rounded-sm">
 										#{tag}
 									</a>
 								))}
 							</div>
 						</div>
-						<time datetime={latest.data.timestamp.toISOString()} class="text-remark font-mono text-xs">
-							{Time.toString(latest.data.timestamp)}
-						</time>
+
+						<div class="border-t border-weak/10 pt-2 flex items-center justify-between mt-4">
+							<time datetime={latest.data.timestamp.toISOString()} class="text-remark font-mono text-xs">
+								{Time.toString(latest.data.timestamp)}
+							</time>
+							<span class="text-[8px] font-mono text-weak/60">[HASH.{(latest.id.split('/').pop() || '').slice(0, 8)}]</span>
+						</div>
 					</blockquote>
 				</footer>
 			)
