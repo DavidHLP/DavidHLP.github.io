@@ -1,6 +1,8 @@
 about:
   introduction: Introduction
   linkroll: Linkroll
+  printPdf: PRINT.PDF
+  chronicle: CHRONICLE
 feed:
   address: Subscription address
   copy:
@@ -14,6 +16,8 @@ feed:
     content and get the latest content updates in time.
   visit: This is the feed page. Visit {title} for the full website experience.
 home:
+  profileTag: PROFILE.DOSSIER
+  profileBrief: DEVELOPER BRIEF
   heatmap:
     empty: No words
     jotting:
