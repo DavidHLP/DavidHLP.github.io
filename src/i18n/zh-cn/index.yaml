@@ -1,6 +1,8 @@
 about:
   introduction: ○○自述
   linkroll: ○○连结
+  printPdf: 打印.PDF
+  chronicle: 编年史
 feed:
   address: 订阅地址
   copy:
@@ -12,6 +14,8 @@ feed:
   usage: 您可以在任何支持的阅读器中添加当前地址来订阅此内容，以便及时获取最新内容更新。
   visit: 这是订阅源页面。访问 {title} 以获得完整的网站体验。
 home:
+  profileTag: 个人·档案
+  profileBrief: 开发者简介
   heatmap:
     empty: 无字
     jotting:

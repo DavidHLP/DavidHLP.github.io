@@ -1,6 +1,8 @@
 about:
   introduction: ○○紹介
   linkroll: ○○連結
+  printPdf: 印刷.PDF
+  chronicle: クロニクル
 feed:
   address: 購読アドレス
   copy:
@@ -12,6 +14,8 @@ feed:
   usage: 対応しているリーダーで現在のアドレスを追加して、このコンテンツを購読し、最新の記事更新を適時に取得できます。
   visit: これはフィードページです。完全なウェブサイト体験のために {title} を訪問してください。
 home:
+  profileTag: プロフィール·資料
+  profileBrief: 開発者ブリーフ
   heatmap:
     empty: 無字
     jotting:
