@@ -29,18 +29,31 @@ const translations = {
 };
 
 // Define Language type based on available translations
-type Language = keyof typeof translations;
+export type Language = keyof typeof translations;
 
 // Define Namespace type based on keys in the translation objects
-type TranslationNamespace = keyof (typeof translations)[Language];
+export type TranslationNamespace = keyof (typeof translations)[Language];
 
 /**
  * Validate if the provided language is supported
  * @param language - The target language/locale code (e.g., "en", "zh-cn", "ja")
  * @throws Error if the language is not supported
  */
-function validateLanguage(language: string): asserts language is Language {
+export function validateLanguage(language: string): asserts language is Language {
 	if (!(language in translations)) throw new Error(`Unsupported language: ${language}. Available: ${Object.keys(translations).join(", ")}`);
+}
+
+/**
+ * Get the raw translation dictionary for a specific language and namespace.
+ * Use this when you need access to structured data (arrays, nested objects)
+ * rather than localized strings, e.g. the homepage profile card.
+ * @param language - The target language/locale code (e.g., "en", "zh-cn", "ja")
+ * @param namespace - Optional namespace (defaults to "index")
+ * @returns The raw translation dictionary as a nested object
+ */
+export function i18nData(language: string, namespace: TranslationNamespace = "index"): Record<string, any> {
+	validateLanguage(language);
+	return translations[language][namespace] as Record<string, any>;
 }
 
 /**
