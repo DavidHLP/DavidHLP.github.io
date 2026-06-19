@@ -25,6 +25,7 @@ home:
   latest: 最新記事
   prefaces: 序文歴史
   prologue: "Talk is cheap. Show me the code."
+  prologue_author: "Linus Torvalds"
   viewPrefaceArchive: 序文アーカイブを見る
   unit:
     day: 日
