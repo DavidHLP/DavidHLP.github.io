@@ -55,9 +55,6 @@ const tags = Array.from(new Set(notes.flatMap(note => note.data.tags).filter((ta
 				<span class="h-px w-8 bg-weak/20"></span>
 				<span>{t("navigation.note").toUpperCase()}</span>
 			</div>
-			<h1 class="font-serif font-light text-3xl sm:text-4xl text-primary mt-1 select-text">
-				{t("navigation.note")}
-			</h1>
 		</header>
 
 		<Note client:load {locale} notes={list} {series} {tags} />
