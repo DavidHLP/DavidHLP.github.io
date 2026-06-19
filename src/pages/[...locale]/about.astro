@@ -33,7 +33,7 @@ const chronicles = Object.entries<string[]>(chronicle ?? {})
 		<!-- Print button -->
 		<div class="absolute top-0 end-0 no-print">
 			<button onclick="window.print()" class="border border-weak/20 hover:border-primary text-xs font-mono px-3 py-1.5 bg-background select-none transition-all duration-150 flex items-center gap-1.5 cursor-pointer shadow-sm rounded-sm">
-				<span>[ PRINT.PDF ]</span>
+				<span>[ {t("about.printPdf")} ]</span>
 			</button>
 		</div>
 
@@ -67,7 +67,7 @@ const chronicles = Object.entries<string[]>(chronicle ?? {})
 			chronicles.length > 0 && (
 				<aside class="no-print flex flex-col basis-64 shrink-0 md:pt-4">
 					<div class="flex items-center gap-2 mb-6 border-b border-weak/10 pb-2">
-						<span class="text-xs font-mono text-weak uppercase tracking-widest">[ CHRONICLE ]</span>
+						<span class="text-xs font-mono text-weak uppercase tracking-widest">[ {t("about.chronicle")} ]</span>
 					</div>
 					
 					<ul class="list-none relative before:absolute before:content-[''] before:h-full before:top-2 before:border-s before:border-weak/10 after:absolute after:content-[''] after:w-2 after:h-2 after:-bottom-1 after:-start-[0.275rem] after:border after:border-primary after:rounded-full after:bg-primary">
