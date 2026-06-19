@@ -24,6 +24,29 @@ home:
       other: '{count} notes'
   latest: Latest
   prefaces: Prefaces
+  prologue: "Talk is cheap. Show me the code."
+  viewPrefaceArchive: VIEW PREFACE ARCHIVE
+  unit:
+    day: day
+    week: week
+    month: month
+  section:
+    preface: PREFACE
+    activity: ACTIVITY.LOG
+    latest: LATEST.RELEASE
+  profile:
+    name: "Helian Peng (David)"
+    title: Java Backend Engineer
+    meta:
+      - Chongqing, China / Age: 22
+      - Luoyang Normal University
+      - "GPA: 3.6 / 4.0"
+    highlightsTitle: CORE HIGHLIGHTS
+    highlights:
+      - "<strong>Alibaba Cloud Internship</strong>: Developed Aegis host security products, integrated GPU resources, designed AI asset risk identifiers, resolved 20+ defects, and debugged containerd/Harbor TLS environments."
+      - "<strong>Engineering Projects</strong>: Built <code>ResiCache</code> (SPI-based cache defense middleware) and <code>UltiCode</code> (online judge with Docker seccomp sandbox and Redis Stream async task pipeline)."
+      - "<strong>Core Skills & Awards</strong>: Java/JVM, MySQL tuning, Redis locks, Arthas diagnostics. National 3rd Prize in the 2025 Blue Bridge Cup."
+    linkText: VIEW FULL RESUME
 jotting:
   empty: No jottings available
   tag: Tag

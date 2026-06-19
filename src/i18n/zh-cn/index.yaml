@@ -20,6 +20,29 @@ home:
       other: 文记 {count} 篇
   latest: 最新内容
   prefaces: 序文一览
+  prologue: "Talk is cheap. Show me the code."
+  viewPrefaceArchive: 查看序文档案
+  unit:
+    day: 天
+    week: 周
+    month: 月
+  section:
+    preface: 序文
+    activity: 活动日志
+    latest: 最新发布
+  profile:
+    name: 贺恋棚
+    title: Java 后端开发工程师
+    meta:
+      - 重庆 / 22岁
+      - 洛阳师范学院 · 本科
+      - "GPA: 3.6 / 4.0"
+    highlightsTitle: 核心实力点 (HIGHLIGHTS)
+    highlights:
+      - "<strong>阿里云实习经历</strong>：参与专有云安全产品安骑士研发，独立完成多源 GPU 资源链条接入，开发 AI 资产识别模块，深入 containerd/Harbor 集群排障，编写自动化脚本并处理 20+ 个缺陷。"
+      - "<strong>独立高内聚项目</strong>：自研 <code>ResiCache</code> 缓存防护组件（基于责任链设计与 SPI），以及 <code>UltiCode</code> 在线评测系统（Docker 沙箱隔离判题与 Redis Stream 评测流转），具备完整工程设计与闭环排障能力。"
+      - "<strong>专业功底与奖项</strong>：熟悉 Java/JVM、MySQL 索引调优、Redis 多级缓存与分布式锁、Arthas 线上诊断；获 2025 蓝桥杯 Java 软件设计全国三等奖。"
+    linkText: VIEW FULL RESUME
 jotting:
   empty: 暂无随笔
   tag: 标签
