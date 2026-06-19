@@ -1,4 +1,5 @@
 import sys
+import re
 from PIL import Image
 
 def get_binary_grid(img, thresh=128):
@@ -148,29 +149,140 @@ def main():
         path_str += " Z"
         svg_paths.append(path_str)
 
-    # Write the output SVG file
-    svg_content = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" width="{width}" height="{height}">\n'
-    svg_content += '  <style>\n'
-    svg_content += '    path {\n'
-    svg_content += '      fill: #1a1a1a;\n'
-    svg_content += '    }\n'
-    svg_content += '    @media (prefers-color-scheme: dark) {\n'
-    svg_content += '      path {\n'
-    svg_content += '        fill: #fffffd;\n'
-    svg_content += '      }\n'
-    svg_content += '    }\n'
-    svg_content += '  </style>\n'
-
+    # Calculate bounding box of all paths to crop empty space
+    all_x = []
+    all_y = []
     for path_str in svg_paths:
-        svg_content += f'  <path d="{path_str}" />\n'
+        numbers = [float(x) for x in re.findall(r'[-+]?\d*\.\d+|\d+', path_str)]
+        all_x.extend(numbers[0::2])
+        all_y.extend(numbers[1::2])
+
+    if all_x and all_y:
+        min_x = min(all_x)
+        max_x = max(all_x)
+        min_y = min(all_y)
+        max_y = max(all_y)
+
+        # Add 10px padding
+        padding = 10
+        view_x = max(0, min_x - padding)
+        view_y = max(0, min_y - padding)
+        view_w = (max_x + padding) - view_x
+        view_h = (max_y + padding) - view_y
+    else:
+        view_x, view_y, view_w, view_h = 0, 0, width, height
+
+    # Classify paths
+    boat_paths = []
+    wave_paths = []
+    for path_str in svg_paths:
+        # Find all Y coordinates
+        numbers = [float(x) for x in re.findall(r'[-+]?\d*\.\d+|\d+', path_str)]
+        y_coords = numbers[1::2]
+        if y_coords and max(y_coords) >= 448:
+            wave_paths.append(path_str)
+        else:
+            boat_paths.append(path_str)
+
+    # SVG Styling & Animation
+    style_content = """  <style>
+    path {
+      fill: #1a1a1a;
+      fill-rule: evenodd;
+    }
+    @media (prefers-color-scheme: dark) {
+      path {
+        fill: #fffffd;
+      }
+    }
+    .boat-group {
+      transform-origin: 333px 400px;
+      animation: sail-float 3.5s ease-in-out infinite;
+    }
+    .waves-group path {
+      animation: wave-ripple 6s ease-in-out infinite;
+    }
+    .waves-group path:nth-child(even) {
+      animation-delay: -3s;
+    }
+    @keyframes sail-float {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-5px) rotate(1.5deg);
+      }
+    }
+    @keyframes wave-ripple {
+      0%, 100% {
+        transform: translateX(0) scaleY(1);
+      }
+      50% {
+        transform: translateX(8px) scaleY(0.95);
+      }
+    }
+  </style>"""
+
+    # For Logo: uses fill="currentColor", but needs the same float animation!
+    logo_style_content = """  <style>
+    path {
+      fill-rule: evenodd;
+    }
+    .boat-group {
+      transform-origin: 333px 400px;
+      animation: sail-float 3.5s ease-in-out infinite;
+    }
+    .waves-group path {
+      animation: wave-ripple 6s ease-in-out infinite;
+    }
+    .waves-group path:nth-child(even) {
+      animation-delay: -3s;
+    }
+    @keyframes sail-float {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-5px) rotate(1.5deg);
+      }
+    }
+    @keyframes wave-ripple {
+      0%, 100% {
+        transform: translateX(0) scaleY(1);
+      }
+      50% {
+        transform: translateX(8px) scaleY(0.95);
+      }
+    }
+  </style>"""
+
+    # Construct public/favicon.svg
+    svg_content = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{view_x} {view_y} {view_w} {view_h}" width="{view_w}" height="{view_h}" fill-rule="evenodd">\n'
+    svg_content += style_content + "\n"
+    svg_content += '  <g class="boat-group">\n'
+    for path_str in boat_paths:
+        svg_content += f'    <path d="{path_str}" />\n'
+    svg_content += '  </g>\n'
+    svg_content += '  <g class="waves-group">\n'
+    for path_str in wave_paths:
+        svg_content += f'    <path d="{path_str}" />\n'
+    svg_content += '  </g>\n'
     svg_content += '</svg>\n'
 
     with open("public/favicon.svg", "w") as f:
         f.write(svg_content)
 
-    logo_content = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" fill="currentColor">\n'
-    for path_str in svg_paths:
-        logo_content += f'  <path d="{path_str}" />\n'
+    # Construct src/icons/site-logo.svg
+    logo_content = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{view_x} {view_y} {view_w} {view_h}" fill="currentColor" fill-rule="evenodd">\n'
+    logo_content += logo_style_content + "\n"
+    logo_content += '  <g class="boat-group">\n'
+    for path_str in boat_paths:
+        logo_content += f'    <path d="{path_str}" />\n'
+    logo_content += '  </g>\n'
+    logo_content += '  <g class="waves-group">\n'
+    for path_str in wave_paths:
+        logo_content += f'    <path d="{path_str}" />\n'
+    logo_content += '  </g>\n'
     logo_content += '</svg>\n'
 
     with open("src/icons/site-logo.svg", "w") as f:
