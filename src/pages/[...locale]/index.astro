@@ -6,7 +6,7 @@ import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
 import Heatmap from "$components/Heatmap.astro";
 import Logo from "$icons/site-logo.svg";
-import i18nit from "$i18n";
+import i18nit, { i18nData } from "$i18n";
 
 export async function getStaticPaths() {
 	// Create path for each locale, omitting default locale from URL
@@ -16,6 +16,14 @@ export async function getStaticPaths() {
 const { locale = config.i18n.defaultLocale } = Astro.params;
 
 const t = i18nit(locale);
+
+// Resolve the localized profile card from the i18n system.
+// The dictionary is guaranteed to be defined for supported locales.
+const localeData = i18nData(locale);
+const profile = localeData.home?.profile ?? i18nData("zh-cn").home.profile;
+
+// Resolve the localized prologue (per-locale override) with config fallback.
+const prologue = t("home.prologue") !== "home.prologue" ? t("home.prologue") : config.prologue;
 
 // Get preface content for current locale, sorted by timestamp (latest first)
 const prefaces = (
@@ -75,47 +83,17 @@ const preface = prefaces[0];
 // Render preface content if available, otherwise use empty object
 const { Content } = preface ? await render(preface) : ({} as any);
 
-// Localized profile translations
-const profileData = {
-	"zh-cn": {
-		name: "贺恋棚",
-		title: "Java 后端开发工程师",
-		meta: ["重庆 / 22岁", "洛阳师范学院 · 本科", "GPA: 3.6 / 4.0"],
-		highlightsTitle: "核心实力点 (HIGHLIGHTS)",
-		highlights: [
-			"<strong>阿里云实习经历</strong>：参与专有云安全产品安骑士研发，独立完成多源 GPU 资源链条接入，开发 AI 资产识别模块，深入 containerd/Harbor 集群排障，编写自动化脚本并处理 20+ 个缺陷。",
-			"<strong>独立高内聚项目</strong>：自研 <code>ResiCache</code> 缓存防护组件（基于责任链设计与 SPI），以及 <code>UltiCode</code> 在线评测系统（Docker 沙箱隔离判题与 Redis Stream 评测流转），具备完整工程设计与闭环排障能力。",
-			"<strong>专业功底与奖项</strong>：熟悉 Java/JVM、MySQL 索引调优、Redis 多级缓存与分布式锁、Arthas 线上诊断；获 2025 蓝桥杯 Java 软件设计全国三等奖。"
-		],
-		linkText: "VIEW FULL RESUME"
-	},
-	en: {
-		name: "Helian Peng (David)",
-		title: "Java Backend Engineer",
-		meta: ["Chongqing, China / Age: 22", "Luoyang Normal University", "GPA: 3.6 / 4.0"],
-		highlightsTitle: "CORE HIGHLIGHTS",
-		highlights: [
-			"<strong>Alibaba Cloud Internship</strong>: Developed Aegis host security products, integrated GPU resources, designed AI asset risk identifiers, resolved 20+ defects, and debugged containerd/Harbor TLS environments.",
-			"<strong>Engineering Projects</strong>: Built <code>ResiCache</code> (SPI-based cache defense middleware) and <code>UltiCode</code> (online judge with Docker seccomp sandbox and Redis Stream async task pipeline).",
-			"<strong>Core Skills & Awards</strong>: Java/JVM, MySQL tuning, Redis locks, Arthas diagnostics. National 3rd Prize in the 2025 Blue Bridge Cup."
-		],
-		linkText: "VIEW FULL RESUME"
-	},
-	ja: {
-		name: "賀恋棚 (が れんほう)",
-		title: "Java バックエンドエンジニア",
-		meta: ["中国 重慶 / 22歳", "洛陽師範学院・学士", "GPA: 3.6 / 4.0"],
-		highlightsTitle: "核心ハイライト (HIGHLIGHTS)",
-		highlights: [
-			"<strong>アリババクラウド実務</strong>：セキュリティ製品のサーバー開発に従事。GPU情報収集基盤やAI実行リスク検出を実装、containerd証明書検証のトラブルシューティングを主導。",
-			"<strong>独自開発実績</strong>：責任連鎖・SPIを採用した <code>ResiCache</code> および Docker seccomp サンドボックス・Redis Stream 非同期判定を採用した <code>UltiCode</code> システムを構築。",
-			"<strong>技術・受賞歴</strong>：Java/JVM、MySQLチューニング、Redis分散ロック、Arthasオンライン診断。2025年「藍橋杯」Java全国三等賞。"
-		],
-		linkText: "VIEW FULL RESUME"
-	}
-};
+// Resolve the localized unit label for the heatmap (day / week / month).
+const heatmapUnit = config.heatmap?.unit || "day";
+const unitLabel = t(`home.unit.${heatmapUnit}`);
 
-const profile = profileData[locale as keyof typeof profileData] || profileData["zh-cn"];
+// Resolve the localized activity log section number prefix.
+const sectionLabel = (n: number, key: string) => {
+	const label = t(key);
+	return label === key
+		? `[ ${String(n).padStart(2, "0")} / ${key.split(".").pop()?.toUpperCase()} ]`
+		: `[ ${String(n).padStart(2, "0")} / ${label} ]`;
+};
 ---
 
 <Base title={t("navigation.home")} {locale}>
@@ -130,9 +108,9 @@ const profile = profileData[locale as keyof typeof profileData] || profileData["
 					<span class="h-px w-8 bg-weak/20"></span>
 					<span>TALK_IS_CHEAP</span>
 				</div>
-				{config.prologue && (
+				{prologue && (
 					<article class="font-serif font-light text-2xl sm:text-4xl leading-relaxed tracking-wide text-primary/90 max-w-2xl select-text italic">
-						"{config.prologue}"
+						"{prologue}"
 					</article>
 				)}
 			</div>
@@ -168,7 +146,7 @@ const profile = profileData[locale as keyof typeof profileData] || profileData["
 						<h3 class="text-xl font-serif font-light mb-1">{profile.name}</h3>
 						<p class="text-xs font-mono text-weak uppercase tracking-wider">// {profile.title}</p>
 						<div class="mt-4 space-y-1.5 text-xs text-secondary font-mono">
-							{profile.meta.map(item => (
+							{profile.meta.map((item: string) => (
 								<div>{item}</div>
 							))}
 						</div>
@@ -185,7 +163,7 @@ const profile = profileData[locale as keyof typeof profileData] || profileData["
 				<div class="md:col-span-2 flex flex-col gap-2">
 					<h4 class="text-xs font-mono text-weak uppercase tracking-wider">// {profile.highlightsTitle}</h4>
 					<ul class="list-disc pl-4 text-xs text-secondary space-y-2 leading-relaxed">
-						{profile.highlights.map(item => (
+						{profile.highlights.map((item: string) => (
 							<li set:html={item} />
 						))}
 					</ul>
@@ -203,7 +181,7 @@ const profile = profileData[locale as keyof typeof profileData] || profileData["
 					<span class="absolute -bottom-1 -right-1 text-[8px] font-mono text-weak/50">¤</span>
 
 					<div class="md:col-span-1 flex flex-col gap-1">
-						<span class="text-[10px] font-mono text-weak uppercase tracking-widest">[ 01 / PREFACE ]</span>
+						<span class="text-[10px] font-mono text-weak uppercase tracking-widest">{sectionLabel(1, "home.section.preface")}</span>
 						<span class="text-[9px] font-mono text-remark">{Time.toLocaleDateString(preface.data.timestamp, locale)}</span>
 					</div>
 
@@ -213,7 +191,7 @@ const profile = profileData[locale as keyof typeof profileData] || profileData["
 						</article>
 						<div class="mt-4 flex justify-end">
 							<a href={getRelativeLocaleUrl(locale, "/preface")} class="text-[10px] font-mono text-remark hover:text-primary tracking-wider transition-colors duration-150 uppercase flex items-center gap-1.5">
-								<span>VIEW PREFACE ARCHIVE</span>
+								<span>{t("home.viewPrefaceArchive")}</span>
 								<span>→</span>
 							</a>
 						</div>
@@ -234,8 +212,8 @@ const profile = profileData[locale as keyof typeof profileData] || profileData["
 						<span class="absolute -bottom-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
 
 						<div class="flex items-center justify-between gap-4 mb-4 border-b border-weak/10 pb-2">
-							<span class="text-[10px] font-mono text-weak uppercase tracking-widest">[ 02 / ACTIVITY.LOG ]</span>
-							<span class="text-[9px] font-mono text-remark">UNIT: {config.heatmap?.unit || "DAY"}</span>
+							<span class="text-[10px] font-mono text-weak uppercase tracking-widest">{sectionLabel(2, "home.section.activity")}</span>
+							<span class="text-[9px] font-mono text-remark">UNIT: {unitLabel}</span>
 						</div>
 
 						<div class="flex justify-center items-center py-4 overflow-x-auto min-w-0 no-scrollbar">
@@ -252,7 +230,7 @@ const profile = profileData[locale as keyof typeof profileData] || profileData["
 						<span class="absolute -bottom-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
 
 						<div class="flex items-center justify-between border-b border-weak/10 pb-2 mb-2">
-							<span class="text-[10px] font-mono text-weak uppercase tracking-widest">[ 03 / LATEST.RELEASE ]</span>
+							<span class="text-[10px] font-mono text-weak uppercase tracking-widest">{sectionLabel(3, "home.section.latest")}</span>
 							<span class="text-[9px] font-mono text-remark">{latest.type?.toUpperCase()}</span>
 						</div>
 

@@ -20,6 +20,29 @@ home:
       other: 文記 {count} 篇
   latest: 最新記事
   prefaces: 序文歴史
+  prologue: "Talk is cheap. Show me the code."
+  viewPrefaceArchive: 序文アーカイブを見る
+  unit:
+    day: 日
+    week: 週
+    month: 月
+  section:
+    preface: 序文
+    activity: 活動ログ
+    latest: 最新リリース
+  profile:
+    name: 賀恋棚 (が れんほう)
+    title: Java バックエンドエンジニア
+    meta:
+      - 中国 重慶 / 22歳
+      - 洛陽師範学院・学士
+      - "GPA: 3.6 / 4.0"
+    highlightsTitle: 核心ハイライト (HIGHLIGHTS)
+    highlights:
+      - "<strong>アリババクラウド実務</strong>：セキュリティ製品のサーバー開発に従事。GPU情報収集基盤やAI実行リスク検出を実装、containerd証明書検証のトラブルシューティングを主導。"
+      - "<strong>独自開発実績</strong>：責任連鎖・SPIを採用した <code>ResiCache</code> および Docker seccomp サンドボックス・Redis Stream 非同期判定を採用した <code>UltiCode</code> システムを構築。"
+      - "<strong>技術・受賞歴</strong>：Java/JVM、MySQLチューニング、Redis分散ロック、Arthasオンライン診断。2025年「藍橋杯」Java全国三等賞。"
+    linkText: VIEW FULL RESUME
 jotting:
   empty: 随筆がありません
   tag: 付札
