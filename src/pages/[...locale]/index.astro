@@ -24,6 +24,7 @@ const profile = localeData.home?.profile ?? i18nData("zh-cn").home.profile;
 
 // Resolve the localized prologue (per-locale override) with config fallback.
 const prologue = t("home.prologue") !== "home.prologue" ? t("home.prologue") : config.prologue;
+const prologueAuthor = t("home.prologue_author") !== "home.prologue_author" ? t("home.prologue_author") : config.prologueAuthor;
 
 // Get preface content for current locale, sorted by timestamp (latest first)
 const prefaces = (
@@ -109,9 +110,16 @@ const sectionLabel = (n: number, key: string) => {
 					<span>TALK_IS_CHEAP</span>
 				</div>
 				{prologue && (
-					<article class="font-serif font-light text-2xl sm:text-4xl leading-relaxed tracking-wide text-primary/90 max-w-2xl select-text italic">
-						"{prologue}"
-					</article>
+					<div class="flex flex-col gap-2 max-w-2xl">
+						<article class="font-serif font-light text-2xl sm:text-4xl leading-relaxed tracking-wide text-primary/90 select-text italic">
+							"{prologue}"
+						</article>
+						{prologueAuthor && (
+							<span class="text-xs font-mono text-weak self-end">
+								— {prologueAuthor}
+							</span>
+						)}
+					</div>
 				)}
 			</div>
 			
@@ -185,11 +193,16 @@ const sectionLabel = (n: number, key: string) => {
 						<span class="text-[9px] font-mono text-remark">{Time.toLocaleDateString(preface.data.timestamp, locale)}</span>
 					</div>
 
-					<div class="md:col-span-3">
+					<div class="md:col-span-3 flex flex-col gap-4">
 						<article class="markdown font-serif text-lg leading-relaxed select-text font-light max-w-3xl">
 							<Content />
 						</article>
-						<div class="mt-4 flex justify-end">
+						{preface.data.author && (
+							<span class="text-xs font-mono text-weak max-w-3xl text-right pr-4">
+								— {preface.data.author}
+							</span>
+						)}
+						<div class="mt-2 flex justify-end">
 							<a href={getRelativeLocaleUrl(locale, "/preface")} class="text-[10px] font-mono text-remark hover:text-primary tracking-wider transition-colors duration-150 uppercase flex items-center gap-1.5">
 								<span>{t("home.viewPrefaceArchive")}</span>
 								<span>→</span>

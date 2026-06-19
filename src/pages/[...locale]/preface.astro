@@ -45,6 +45,11 @@ const entries = await Promise.all(prefaces.map(async preface => ({ ...preface, c
 						<article class="markdown">
 							<preface.content />
 						</article>
+						{preface.data.author && (
+							<div class="mt-2 text-right text-xs font-mono text-weak pr-4">
+								— {preface.data.author}
+							</div>
+						)}
 					</li>
 				])
 			}

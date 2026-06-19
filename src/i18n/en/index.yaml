@@ -29,6 +29,7 @@ home:
   latest: Latest
   prefaces: Prefaces
   prologue: "Talk is cheap. Show me the code."
+  prologue_author: "Linus Torvalds"
   viewPrefaceArchive: VIEW PREFACE ARCHIVE
   unit:
     day: day

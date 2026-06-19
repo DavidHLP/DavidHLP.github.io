@@ -15,6 +15,9 @@ interface SiteConfigOptions<Locales extends readonly string[] = readonly string[
 	/** Site Prologue */
 	prologue?: string;
 
+	/** Prologue Author */
+	prologueAuthor?: string;
+
 	/** Author Information */
 	author: {
 		/** Author Name */
