@@ -25,6 +25,7 @@ home:
   latest: 最新内容
   prefaces: 序文一览
   prologue: "Talk is cheap. Show me the code."
+  prologue_author: "Linus Torvalds"
   viewPrefaceArchive: 查看序文档案
   unit:
     day: 天

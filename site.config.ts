@@ -3,6 +3,7 @@ import siteConfig from "./src/utils/config";
 const config = siteConfig({
 	title: "DavidHLPL",
 	prologue: "Talk is cheap. Show me the code.",
+	prologueAuthor: "Linus Torvalds",
 	author: {
 		name: "DavidHLPL",
 		email: "lysf15520112973@163.com",
