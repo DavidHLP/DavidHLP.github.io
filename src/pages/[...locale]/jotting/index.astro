@@ -53,9 +53,6 @@ const tags = Array.from(new Set(jottings.flatMap(jotting => jotting.data.tags).f
 				<span class="h-px w-8 bg-weak/20"></span>
 				<span>{t("navigation.jotting").toUpperCase()}</span>
 			</div>
-			<h1 class="font-serif font-light text-3xl sm:text-4xl text-primary mt-1 select-text">
-				{t("navigation.jotting")}
-			</h1>
 		</header>
 
 		<Jotting client:load {locale} jottings={list} {tags} />
