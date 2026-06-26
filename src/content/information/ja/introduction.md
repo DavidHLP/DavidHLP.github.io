@@ -4,8 +4,8 @@
     <p class="text-xs font-mono text-weak uppercase tracking-wider">// ジュニア Java バックエンドエンジニア</p>
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-xs font-mono text-secondary">
-    <div>居住地: 中国 重慶 / 年齢: 22歳</div>
-    <div>WeChat: b1372998589</div>
+    <div>居住地: 中国 重慶 / 年齢: 23歳</div>
+    <div>WeChat: B1372998589</div>
     <div>メール: <a href="mailto:lysf15520112973@163.com" class="hover:underline">lysf15520112973@163.com</a></div>
     <div>電話: +86 15520112973</div>
     <div>GitHub: <a href="https://github.com/DavidHLP" target="_blank" class="hover:underline">github.com/DavidHLP</a></div>
