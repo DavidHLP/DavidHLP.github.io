@@ -4,8 +4,8 @@
     <p class="text-xs font-mono text-weak uppercase tracking-wider">// 初级 Java 后端开发工程师</p>
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-xs font-mono text-secondary">
-    <div>城市: 重庆 / 22岁</div>
-    <div>微信: b1372998589</div>
+    <div>城市: 重庆 / 23岁</div>
+    <div>微信: B1372998589</div>
     <div>邮箱: <a href="mailto:lysf15520112973@163.com" class="hover:underline">lysf15520112973@163.com</a></div>
     <div>电话: 15520112973</div>
     <div>GitHub: <a href="https://github.com/DavidHLP" target="_blank" class="hover:underline">github.com/DavidHLP</a></div>

@@ -4,8 +4,8 @@
     <p class="text-xs font-mono text-weak uppercase tracking-wider">// Junior Java Backend Engineer</p>
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-xs font-mono text-secondary">
-    <div>Chongqing, China / Age: 22</div>
-    <div>WeChat: b1372998589</div>
+    <div>Chongqing, China / Age: 23</div>
+    <div>WeChat: B1372998589</div>
     <div>Email: <a href="mailto:lysf15520112973@163.com" class="hover:underline">lysf15520112973@163.com</a></div>
     <div>Phone: +86 15520112973</div>
     <div>GitHub: <a href="https://github.com/DavidHLP" target="_blank" class="hover:underline">github.com/DavidHLP</a></div>
