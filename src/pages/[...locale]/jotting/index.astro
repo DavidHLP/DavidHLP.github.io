@@ -2,7 +2,8 @@
 import config from "$config";
 import { contentUrl, getPublishedByLocale, localeStaticPaths } from "$utils/content";
 import Base from "$layouts/Base.astro";
-import Jotting from "$components/Jotting.svelte";
+import ContentList from "$components/ContentList.svelte";
+import ContentListingHeader from "$components/ContentListingHeader.astro";
 import i18nit from "$i18n";
 
 export const getStaticPaths = localeStaticPaths;
@@ -13,8 +14,8 @@ const t = i18nit(locale);
 
 const jottings = await getPublishedByLocale("jotting", locale);
 
-// Standardize note structure
-let list = jottings.map(jotting => ({
+// Standardize jotting structure
+const list = jottings.map(jotting => ({
 	id: jotting.id,
 	url: contentUrl(locale, "jotting", jotting.id),
 	data: {
@@ -26,25 +27,13 @@ let list = jottings.map(jotting => ({
 	}
 }));
 
-// Extract all unique tags from the filtered notes
+// Extract all unique tags from the filtered jottings
 const tags = Array.from(new Set(jottings.flatMap(jotting => jotting.data.tags).filter((tag): tag is string => Boolean(tag)))).sort();
 ---
 
 <Base title={t("navigation.jotting")} {locale}>
 	<main class="flex flex-col grow py-4">
-		<!-- Page Header -->
-		<header class="flex flex-col gap-2 mb-10 border-b border-weak/10 pb-6 relative">
-			<!-- Corner Marks -->
-			<span class="absolute -bottom-1 -left-1 text-[8px] font-mono text-weak/40">+</span>
-			<span class="absolute -bottom-1 -right-1 text-[8px] font-mono text-weak/40">+</span>
-
-			<div class="flex items-center gap-2 text-[10px] font-mono text-weak uppercase tracking-widest">
-				<span>[ ARCHIVE.INDEX // 03 ]</span>
-				<span class="h-px w-8 bg-weak/20"></span>
-				<span>{t("navigation.jotting").toUpperCase()}</span>
-			</div>
-		</header>
-
-		<Jotting client:load {locale} jottings={list} {tags} />
+		<ContentListingHeader index={3} label={t("navigation.jotting")} />
+		<ContentList client:load {locale} section="jotting" items={list} {tags} />
 	</main>
 </Base>
