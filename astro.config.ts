@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig, fontProviders } from "astro/config";
+import { fileURLToPath } from "node:url";
 import yaml from "@rollup/plugin-yaml";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
@@ -95,7 +96,22 @@ export default defineConfig({
 	},
 	vite: {
 		// @ts-expect-error
-		plugins: [yaml(), tailwindcss()]
+		plugins: [yaml(), tailwindcss()],
+		resolve: {
+			alias: {
+				$config: fileURLToPath(new URL("./site.config.ts", import.meta.url)),
+				$public: fileURLToPath(new URL("./public", import.meta.url)),
+				$assets: fileURLToPath(new URL("./src/assets", import.meta.url)),
+				$icons: fileURLToPath(new URL("./src/icons", import.meta.url)),
+				$graph: fileURLToPath(new URL("./src/graph", import.meta.url)),
+				$utils: fileURLToPath(new URL("./src/utils", import.meta.url)),
+				$components: fileURLToPath(new URL("./src/components", import.meta.url)),
+				$i18n: fileURLToPath(new URL("./src/i18n", import.meta.url)),
+				$layouts: fileURLToPath(new URL("./src/layouts", import.meta.url)),
+				$scripts: fileURLToPath(new URL("./src/scripts/index.ts", import.meta.url)),
+				$styles: fileURLToPath(new URL("./src/styles", import.meta.url))
+			}
+		}
 	},
 	integrations: [
 		svelte(),
