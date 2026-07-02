@@ -1,8 +1,7 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
 import { Temporal } from "temporal-polyfill";
-import config, { monolocale } from "$config";
-import type { Section } from "$utils/config";
+import config from "$config";
+import { contentUrl, type Section } from "$utils/content";
 import Time from "$utils/time";
 import i18nit from "$i18n";
 
@@ -45,7 +44,7 @@ notes.forEach(note => {
 		section: "note",
 		title: note.data.title,
 		date: Time(note.data.timestamp.toISOString()).toPlainDate(),
-		link: getRelativeLocaleUrl(locale, `/note/${monolocale ? note.id : note.id.split("/").slice(1).join("/")}`)
+		link: contentUrl(locale, "note", note.id)
 	});
 });
 
@@ -55,7 +54,7 @@ jottings.forEach(jotting => {
 		section: "jotting",
 		title: jotting.data.title,
 		date: Time(jotting.data.timestamp.toISOString()).toPlainDate(),
-		link: getRelativeLocaleUrl(locale, `/jotting/${monolocale ? jotting.id : jotting.id.split("/").slice(1).join("/")}`)
+		link: contentUrl(locale, "jotting", jotting.id)
 	});
 });
 
