@@ -8,19 +8,45 @@ import Icon from "$components/Icon.svelte";
 import Pagination from "$components/Pagination.svelte";
 import i18nit from "$i18n";
 
-let { locale, jottings, tags: tagList }: { locale: string; jottings: any[]; tags: string[] } = $props();
+/**
+ * The two content publications the site renders as paginated lists.
+ * Drives every feature flag below (series support, pagination size, i18n prefix).
+ */
+export type Section = "note" | "jotting";
+
+/** Lean card shape that the list page constructs from a CollectionEntry. */
+export interface ContentCard {
+	id: string;
+	url: string;
+	data: {
+		title: string;
+		timestamp: Date;
+		series?: string;
+		tags?: string[];
+		sensitive?: boolean;
+		top: number;
+	};
+}
+
+let {
+	locale,
+	section,
+	items,
+	series: seriesList = [],
+	tags: tagList
+}: { locale: string; section: Section; items: ContentCard[]; series?: string[]; tags: string[] } = $props();
 
 const t = i18nit(locale);
+const supportsSeries = section === "note";
+const size: number = config.pagination?.[section] ?? (section === "note" ? 15 : 24);
 
 /** Track initial load to parse URL parameters */
 let initial = $state(true);
 
-/** Pagination size */
-const size: number = config.pagination?.jotting || 24;
-
 let pages: number = $state(1);
 let page: number = $state(1);
 let pageParam: boolean = $state(false);
+let series: string | null = $state(null);
 let tags: string[] = $state([]);
 
 /**
@@ -29,7 +55,7 @@ let tags: string[] = $state([]);
  * @param turn whether to include or exclude the tag
  */
 function switchTag(tag: string, turn?: boolean) {
-	let included = tags.includes(tag);
+	const included = tags.includes(tag);
 	if (turn === undefined) turn = !included;
 
 	// Add tag if turning on and not included, or remove if turning off
@@ -40,24 +66,44 @@ function switchTag(tag: string, turn?: boolean) {
 	page = 1;
 }
 
-/** Filtered and paginated list of jottings */
-let list: any[] = $derived.by(() => {
-	let filtered: any[] = jottings
-		// Check if jotting contains all specified tags
-		.filter(jotting => tags.every(tag => jotting.data.tags?.includes(tag)))
-		// Sort by timestamp (newest first)
+/**
+ * Select or deselect a series filter (only one series can be active at a time)
+ * @param seriesChoice the series to select or deselect
+ * @param turn whether to include or exclude the series
+ */
+function chooseSeries(seriesChoice: string, turn?: boolean) {
+	if (turn === undefined) turn = series !== seriesChoice;
+	// Set series if turning on, or clear if turning off
+	series = turn ? seriesChoice : null;
+
+	// Reset page parameter
+	pageParam = false;
+	page = 1;
+}
+
+/** Filtered and paginated list of cards */
+let list: ContentCard[] = $derived.by(() => {
+	let filtered: ContentCard[] = items
+		.filter(item => {
+			// Check if item matches the specified series (only for sections that support series)
+			const matchSeries = !supportsSeries || !series || item.data.series === series;
+
+			// Check if item contains all specified tags
+			const matchTags = tags.every(tag => item.data.tags?.includes(tag));
+
+			return matchSeries && matchTags;
+		})
+		// Sort by top priority (descending) then timestamp (newest first)
 		.sort((a, b) => b.data.top - a.data.top || b.data.timestamp.getTime() - a.data.timestamp.getTime());
 
 	untrack(() => {
 		// Ensure page is within valid range
-		pages = Math.ceil(filtered.length / size);
+		pages = Math.max(1, Math.ceil(filtered.length / size));
 		page = Math.max(1, Math.min(Math.floor(page), pages));
 	});
 
 	// Apply pagination by slicing the array
-	filtered = filtered.slice((page - 1) * size, page * size);
-
-	return filtered;
+	return filtered.slice((page - 1) * size, page * size);
 });
 
 $effect(() => {
@@ -71,15 +117,18 @@ $effect(() => {
 			page = Number.isNaN(value) ? 1 : value;
 		}
 
+		if (supportsSeries) series = params.get("series");
 		tags = params.getAll("tag");
 
 		initial = false;
 	} else {
 		// Build URL with current page, series, and tag filters using URLSearchParams
 		const url = new URL(window.location.href);
+		url.searchParams.delete("series");
 		url.searchParams.delete("tag");
 		url.searchParams.delete("page");
 
+		if (supportsSeries && series) url.searchParams.set("series", series);
 		for (const tag of tags) url.searchParams.append("tag", tag);
 
 		if (page > 1) pageParam = true;
@@ -93,31 +142,35 @@ $effect(() => {
 
 <main class="flex flex-col-reverse sm:flex-row gap-10 grow relative">
 	<article class="flex flex-col grow min-w-0">
-		{#each list as jotting (jotting.id)}
+		{#each list as item (item.id)}
 			<section animate:flip={{ duration: 150 }} class="flex flex-col gap-2 border-b border-weak/10 pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0 relative select-text">
 				<div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
 					<div class="leading-[1.55] font-serif font-light text-lg">
-						{#if jotting.data.top > 0}
+						{#if item.data.top > 0}
 							<span class="text-remark inline-block align-middle mr-1" title="Pinned"><Icon name="lucide--flag-triangle-right" class="rtl:-scale-x-100" /></span>
 						{/if}
-						{#if jotting.data.sensitive}
+						{#if item.data.sensitive}
 							<span class="text-remark inline-block align-middle mr-1" title={t("sensitive.icon")}><Icon name="lucide--siren" /></span>
 						{/if}
-						<a href={jotting.url} class="text-primary hover:text-secondary transition-colors duration-150 link align-middle">{jotting.data.title}</a>
+						{#if supportsSeries && item.data.series}
+							<button onclick={() => chooseSeries(item.data.series!, true)} class="font-mono text-xs text-weak hover:text-primary mr-1 transition-colors">// {item.data.series}</button>
+							<span aria-hidden="true" class="text-weak/30 mr-1">|</span>
+						{/if}
+						<a href={item.url} class="text-primary hover:text-secondary transition-colors duration-150 link align-middle">{item.data.title}</a>
 					</div>
 					<span class="inline-flex items-center sm:justify-end gap-1.5 flex-wrap content-start">
-						{#each jotting.data.tags as tag}
+						{#each item.data.tags ?? [] as tag}
 							<button onclick={() => switchTag(tag, true)} class="text-[10px] font-mono text-remark hover:text-primary transition-colors bg-block px-2 py-0.5 rounded-sm">#{tag}</button>
 						{/each}
 					</span>
 				</div>
 				<div class="flex items-center justify-between mt-1">
-					<time datetime={jotting.data.timestamp.toISOString()} class="font-mono text-[10px] text-remark">{Time.toString(jotting.data.timestamp)}</time>
-					<span class="text-[8px] font-mono text-weak/40 select-none">[HASH.{getContentHash(jotting.id)}]</span>
+					<time datetime={item.data.timestamp.toISOString()} class="font-mono text-[10px] text-remark">{Time.toString(item.data.timestamp)}</time>
+					<span class="text-[8px] font-mono text-weak/40 select-none">[HASH.{getContentHash(item.id)}]</span>
 				</div>
 			</section>
 		{:else}
-			<div class="pt-[10vh] text-center text-secondary font-bold text-xl">{t("jotting.empty")}</div>
+			<div class="pt-[10vh] text-center text-secondary font-bold text-xl">{t(`${section}.empty`)}</div>
 		{/each}
 
 		<div class="mt-8">
@@ -126,8 +179,18 @@ $effect(() => {
 	</article>
 
 	<aside class="sm:basis-60 shrink-0 flex flex-col gap-6 sm:border-l sm:border-weak/10 sm:pl-8 no-print">
+		{#if supportsSeries && seriesList.length > 0}
+			<section>
+				<h4>[ {t(`${section}.series`)} ]</h4>
+				<p>
+					{#each seriesList as seriesItem (seriesItem)}
+						<button class:selected={seriesItem == series} onclick={() => chooseSeries(seriesItem)}>{seriesItem}</button>
+					{/each}
+				</p>
+			</section>
+		{/if}
 		<section>
-			<h4>[ {t("jotting.tag")} ]</h4>
+			<h4>[ {t(`${section}.tag`)} ]</h4>
 			<p>
 				{#each tagList as tag (tag)}
 					<button class:selected={tags.includes(tag)} onclick={() => switchTag(tag)}>{tag}</button>

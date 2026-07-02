@@ -1,0 +1,47 @@
+---
+import Time from "$utils/time";
+import Icon from "$components/Icon.svelte";
+import i18nit from "$i18n";
+
+/**
+ * Renders the article header (h1 + meta bar) shared between the note and
+ * jotting detail pages. The meta bar always shows the publication date and
+ * the reading-word count; series and tags are rendered only when present.
+ */
+export interface Props {
+	locale: string;
+	title: string;
+	timestamp: Date;
+	series?: string;
+	tags?: string[];
+	words: number;
+}
+
+const { locale, title, timestamp, series, tags, words } = Astro.props;
+const t = i18nit(locale);
+---
+
+<header class="flex flex-col gap-4">
+	<h1 class="select-text">{title}</h1>
+	<div class="flex flex-col gap-3 sm:flex-row *:flex *:items-center *:gap-1 *:text-[0.875rem] *:text-secondary">
+		<time datetime={timestamp.toISOString()}><Icon name="lucide--calendar" />{Time.toString(timestamp)}</time>
+		{
+			series && (
+				<span>
+					<Icon name="lucide--layers" />
+					{series}
+				</span>
+			)
+		}
+		{
+			!!tags?.length && (
+				<span>
+					<Icon name="lucide--hash" />
+					{tags.join("; ")}
+				</span>
+			)
+		}
+		<span><Icon name="lucide--pilcrow" />{t("read.words", { count: words })}</span>
+	</div>
+	<hr class="border-b border-weak" />
+</header>

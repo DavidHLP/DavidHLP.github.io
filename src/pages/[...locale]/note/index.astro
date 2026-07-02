@@ -2,7 +2,8 @@
 import config from "$config";
 import { contentUrl, getPublishedByLocale, localeStaticPaths } from "$utils/content";
 import Base from "$layouts/Base.astro";
-import Note from "$components/Note.svelte";
+import ContentList from "$components/ContentList.svelte";
+import ContentListingHeader from "$components/ContentListingHeader.astro";
 import i18nit from "$i18n";
 
 export const getStaticPaths = localeStaticPaths;
@@ -14,7 +15,7 @@ const t = i18nit(locale);
 const notes = await getPublishedByLocale("note", locale);
 
 // Standardize note structure
-let list = notes.map(note => ({
+const list = notes.map(note => ({
 	id: note.id,
 	url: contentUrl(locale, "note", note.id),
 	data: {
@@ -28,25 +29,13 @@ let list = notes.map(note => ({
 }));
 
 // Extract all unique series and tags from the filtered notes
-const series = Array.from(new Set(notes.map(note => note.data.series).filter((series): series is string => Boolean(series)))).sort();
+const series = Array.from(new Set(notes.map(note => note.data.series).filter((s): s is string => Boolean(s)))).sort();
 const tags = Array.from(new Set(notes.flatMap(note => note.data.tags).filter((tag): tag is string => Boolean(tag)))).sort();
 ---
 
 <Base title={t("navigation.note")} {locale}>
 	<main class="flex flex-col grow py-4">
-		<!-- Page Header -->
-		<header class="flex flex-col gap-2 mb-10 border-b border-weak/10 pb-6 relative">
-			<!-- Corner Marks -->
-			<span class="absolute -bottom-1 -left-1 text-[8px] font-mono text-weak/40">+</span>
-			<span class="absolute -bottom-1 -right-1 text-[8px] font-mono text-weak/40">+</span>
-
-			<div class="flex items-center gap-2 text-[10px] font-mono text-weak uppercase tracking-widest">
-				<span>[ ARCHIVE.INDEX // 02 ]</span>
-				<span class="h-px w-8 bg-weak/20"></span>
-				<span>{t("navigation.note").toUpperCase()}</span>
-			</div>
-		</header>
-
-		<Note client:load {locale} notes={list} {series} {tags} />
+		<ContentListingHeader index={2} label={t("navigation.note")} />
+		<ContentList client:load {locale} section="note" items={list} {series} {tags} />
 	</main>
 </Base>
