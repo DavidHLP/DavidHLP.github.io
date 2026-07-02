@@ -3,7 +3,7 @@
  *
  * The actual implementations live in focused modules:
  *
- * - `content-routing.ts` — `getStaticPaths` builders
+ * - `content-routing.ts` — `getStaticPaths` builders + `buildEntryParams` seam
  * - `content-fetch.ts`   — entry fetch, locale strip, URL synthesis
  * - `content-card.ts`    — `ContentCard` shape and `toCard` / `feedLink`
  * - `content-facets.ts`  — facet and word-count aggregations
@@ -18,7 +18,7 @@
  */
 export type { Section, ContentCollection, ListableCollection } from "$utils/config";
 export { monolocale } from "$config";
-export { localeStaticPaths, contentStaticPaths } from "./content-routing";
+export { localeStaticPaths, contentStaticPaths, buildEntryParams, type EntryParams } from "./content-routing";
 export { getPublishedByLocale, stripLocale, contentUrl, infoKey, getInfoEntry } from "./content-fetch";
 export type { ContentCard } from "./content-card";
 export { toCard, feedLink } from "./content-card";

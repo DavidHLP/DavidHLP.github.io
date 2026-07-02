@@ -79,11 +79,11 @@ wires the two together: shape the pool via `toCard`, call
 | Module file                    | Responsibility                                                |
 | ------------------------------ | ------------------------------------------------------------- |
 | `src/utils/config.ts`          | site-config type, `Section` / `ContentCollection` / `ListableCollection` aliases, pass-through validator |
-| `src/utils/content-routing.ts` | `getStaticPaths` builders for locale and content detail routes |
+| `src/utils/content-routing.ts` | `getStaticPaths` builders + `buildEntryParams` seam (pure locale-split + default-locale mapping; consumed by both the page route and the OG image route) |
 | `src/utils/content-fetch.ts`   | locale-aware entry fetch, locale-prefix strip, URL synthesis  |
 | `src/utils/content-card.ts`    | `ContentCard` shape and `toCard` / `feedLink` adapters        |
 | `src/utils/content-facets.ts`  | facet aggregation + word-count aggregation                    |
-| `src/utils/og-paths.ts`        | OG image `getStaticPaths` + display-date helper               |
+| `src/utils/og-paths.ts`        | OG image `getStaticPaths` (delegates locale split to `buildEntryParams` in `content-routing.ts`) + `toDisplayDate` UTC date helper |
 | `src/utils/latest.ts`          | homepage-specific `latestByTimestamp` aggregation            |
 | `src/utils/labels.ts`          | pure label formatting (section index, sentinel fallback)     |
 | `src/utils/id-hash.ts`         | short, stable content-id hash                                  |
