@@ -2,6 +2,7 @@
 import { untrack } from "svelte";
 import { flip } from "svelte/animate";
 import config from "$config";
+import { getContentHash } from "$utils/id-hash";
 import Time from "$utils/time";
 import Icon from "$components/Icon.svelte";
 import Pagination from "$components/Pagination.svelte";
@@ -112,7 +113,7 @@ $effect(() => {
 				</div>
 				<div class="flex items-center justify-between mt-1">
 					<time datetime={jotting.data.timestamp.toISOString()} class="font-mono text-[10px] text-remark">{Time.toString(jotting.data.timestamp)}</time>
-					<span class="text-[8px] font-mono text-weak/40 select-none">[HASH.{(jotting.id.split('/').pop() || '').slice(0, 8)}]</span>
+					<span class="text-[8px] font-mono text-weak/40 select-none">[HASH.{getContentHash(jotting.id)}]</span>
 				</div>
 			</section>
 		{:else}

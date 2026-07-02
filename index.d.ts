@@ -4,6 +4,7 @@ declare global {
 	interface Window {
 		swup: Swup;
 		zoom: () => void;
+		initializeMermaid?: () => Promise<void> | void;
 	}
 
 	declare module "*.yaml" {
