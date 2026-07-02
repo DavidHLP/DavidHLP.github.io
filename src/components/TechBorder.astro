@@ -1,0 +1,46 @@
+---
+/**
+ * TechBorder — the four-corner crosshair decoration.
+ *
+ * The site uses a tech-noir visual language in which bordered panels are
+ * dressed with four tiny `+` (or `¤`) corner markers absolutely positioned
+ * at the panel's outside corners. Before this component, those eight spans
+ * (four per panel) were hand-copied across the homepage (and risked drifting
+ * out of sync if a designer wanted to nudge offsets or switch the marker).
+ *
+ * Interface is intentionally tiny: callers pick a `marker` flavour and pass
+ * their own positioning/padding classes via the `class` prop. Everything else
+ * — the four corner anchors, the marker glyph, the font/size — is owned here
+ * so visual changes happen in exactly one place.
+ *
+ * Deletion test: removing this module re-spreads the eight-span block across
+ * every panel that uses it. That re-spread is the signal this seam is earning
+ * its keep.
+ */
+export interface Props {
+	/** Marker glyph rendered at each corner. `plus` (default) reads as a
+	 *  crosshair, `dot` reads as a hollow square bracket pair. */
+	marker?: "plus" | "dot";
+	/** Marker size bucket. `default` matches the `-1.5` / `text-[9px]` tokens
+	 *  used in the main panels; `tight` matches the `-1` / `text-[8px]` tokens
+	 *  used inside the prose-style preface band. */
+	size?: "default" | "tight";
+	/** Extra classes appended to the outer wrapper. Use this for positioning
+	 *  (`absolute inset-0`, `pointer-events-none`) and any per-call colour tweaks. */
+	class?: string;
+}
+
+const { marker = "plus", size = "default", class: extraClass = "" } = Astro.props;
+
+const markerText = marker === "plus" ? "+" : "¤";
+const sizeClass = size === "tight" ? "text-[8px] text-weak/50" : "text-[9px] text-weak/60";
+const offsets = size === "tight" ? "-top-1 -left-1 -right-1 -bottom-1" : "-top-1.5 -left-1.5 -right-1.5 -bottom-1.5";
+const fontClass = "font-mono";
+---
+
+<div class={extraClass} aria-hidden="true">
+	<span class:list={["absolute", offsets, "start-0", fontClass, sizeClass]}>{markerText}</span>
+	<span class:list={["absolute", offsets, "end-0", fontClass, sizeClass]}>{markerText}</span>
+	<span class:list={["absolute", offsets, "bottom-0 start-0", fontClass, sizeClass]}>{markerText}</span>
+	<span class:list={["absolute", offsets, "bottom-0 end-0", fontClass, sizeClass]}>{markerText}</span>
+</div>
