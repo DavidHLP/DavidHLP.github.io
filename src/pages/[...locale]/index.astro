@@ -2,7 +2,7 @@
 import { render } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import config from "$config";
-import { getPublishedByLocale, latestCard, localeStaticPaths } from "$utils/content";
+import { getPublishedByLocale, latestByTimestamp, listBySections, localeStaticPaths } from "$utils/content";
 import { sectionLabel, ts } from "$utils/labels";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
@@ -34,16 +34,16 @@ const prologueAuthor = t("home.prologue_author") ?? config.prologueAuthor;
 // seam as Note and Jotting, and the input entry is never mutated.
 const prefaces = (await getPublishedByLocale("preface", locale)).sort((a, b) => b.data.timestamp.getTime() - a.data.timestamp.getTime());
 
-// Fetched once, then consumed by the heatmap (entries list) and the
-// latestCard aggregator (most recent card). The aggregator owns the
-// "shape into ContentCard, sort, pick" decision in `src/utils/sections.ts`.
-const notes = await getPublishedByLocale("note", locale);
-const jottings = await getPublishedByLocale("jotting", locale);
-
-// "Latest" aggregation. The seam in `src/utils/sections.ts` owns the
-// listable-section iteration, the locale filter, the card shaping, and
-// the most-recent pick. The page just asks for the card.
-const latest = await latestCard(config.latest || "*", locale);
+// Fetch + shape every listable card once. The seam in `src/utils/sections.ts`
+// owns the listable-section iteration, the locale filter, and the `toCard`
+// projection. The page reads the pool; both the "latest" pick and the
+// heatmap consume the same array — no second fetch, no second shape pass.
+// The previous version called `latestCard` (which re-fetched internally)
+// and fetched `notes` / `jottings` separately for the heatmap inputs.
+// Collapsing the two fetches into one is a pure locality win: change
+// happens in one place, not three.
+const cards = await listBySections(config.latest || "*", locale);
+const latest = latestByTimestamp(cards);
 
 // The most recent preface drives the preface panel.
 const preface = prefaces[0];
@@ -174,7 +174,7 @@ const unitLabel = ts(t, `home.unit.${heatmapUnit}`);
 						</div>
 
 						<div class="flex justify-center items-center py-4 overflow-x-auto min-w-0 no-scrollbar">
-							<Heatmap {locale} {notes} {jottings} />
+							<Heatmap {locale} {cards} />
 						</div>
 					</div>
 

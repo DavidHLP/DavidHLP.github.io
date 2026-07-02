@@ -1,39 +1,46 @@
 ---
 import { Temporal } from "temporal-polyfill";
 import config from "$config";
-import { getStrategy, toHeatmapEntries, type HeatmapBin, type HeatmapConfig, type HeatmapUnit } from "$utils/heatmap-bins";
+import { getStrategy, type HeatmapBin, type HeatmapConfig, type HeatmapUnit } from "$utils/heatmap-bins";
+import type { ContentCard } from "$utils/content";
 import { ts } from "$utils/labels";
 import Time from "$utils/time";
 import i18nit from "$i18n";
 
 /**
- * Heatmap component props
+ * Heatmap component props.
+ *
+ * The input is the same `ContentCard[]` shape the listing pages, the
+ * Atom feed, and `<LatestCard />` consume. The pre-deepening module
+ * took parallel `notes` / `jottings` raw-entry arrays and re-shaped
+ * them via `toHeatmapEntries`; the deepening collapses that into a
+ * single `cards` input so the data shape lives in one place.
  */
 interface Props {
 	locale: string;
-	notes: { id: string; data: { title: string; timestamp: Date } }[];
-	jottings: { id: string; data: { title: string; timestamp: Date } }[];
+	cards: ContentCard[];
 }
 
-let { locale, notes, jottings } = Astro.props;
+let { locale, cards } = Astro.props;
 
 // Initialise the translation function for the popup labels.
 const t = i18nit(locale);
 
 // Pick the strategy once at the seam; the rest of the component never
 // branches on `unit`. The strategy owns the grid class, the per-cell
-// size class, and the bin construction.
+// size class, the popup-rendering shape, and the bin construction.
 const unit: HeatmapUnit = config.heatmap?.unit ?? "day";
 const strategy = getStrategy(unit);
 const heatmapConfig: HeatmapConfig = config.heatmap ?? { unit: "day" };
 const now: Temporal.PlainDate = Time().toPlainDate();
 
-// Normalise entries through the seam.
-const entries = toHeatmapEntries(notes, jottings, locale);
-
 // Build the bins. The pipeline (init empty bins, distribute entries)
-// is now the strategy's job; this component just renders.
-const cells: HeatmapBin[] = strategy.buildBins(entries, now, heatmapConfig, locale);
+// is the strategy's job; this component just renders. The strategy's
+// `showEntryTitles` discriminator decides whether the cell popup lists
+// each card's title with a link (day / week) or just an aggregate
+// count (month), so the if-ladder below never inspects `unit` directly.
+const cells: HeatmapBin[] = strategy.buildBins(cards, now, heatmapConfig, locale);
+const showTitles = strategy.showEntryTitles;
 ---
 
 <section class:list={["grid gap-1", strategy.gridClass]}>
@@ -44,44 +51,44 @@ const cells: HeatmapBin[] = strategy.buildBins(entries, now, heatmapConfig, loca
 
 			// Generate details for the popup based on cell content
 			if (count) {
-				const notes = cell.contents.filter(content => content.section === "note");
-				const jottings = cell.contents.filter(content => content.section === "jotting");
+				const notes = cell.contents.filter(card => card.section === "note");
+				const jottings = cell.contents.filter(card => card.section === "jotting");
 
 				if (notes.length) {
-					if (unit === "month") {
-						details.push(<p>{ts(t, "home.heatmap.note", { count: notes.length })}</p>);
-					} else {
+					if (showTitles) {
 						details.push(
 							<p class="my-1">{ts(t, "home.heatmap.note", { count: notes.length })}：</p>,
 							<ul class="flex flex-col gap-0.5">
 								{notes.map(note => (
 									<li>
-										<a href={note.link} aria-label={note.title} class="ms-1 link">
-											{note.title}
+										<a href={note.url} aria-label={note.data.title} class="ms-1 link">
+											{note.data.title}
 										</a>
 									</li>
 								))}
 							</ul>
 						);
+					} else {
+						details.push(<p>{ts(t, "home.heatmap.note", { count: notes.length })}</p>);
 					}
 				}
 
 				if (jottings.length) {
-					if (unit === "month") {
-						details.push(<p>{ts(t, "home.heatmap.jotting", { count: jottings.length })}</p>);
-					} else {
+					if (showTitles) {
 						details.push(
 							<p class="my-1">{ts(t, "home.heatmap.jotting", { count: jottings.length })}：</p>,
 							<ul class="flex flex-col gap-0.5">
 								{jottings.map(jotting => (
 									<li>
-										<a href={jotting.link} aria-label={jotting.title} class="ms-1 link">
-											{jotting.title}
+										<a href={jotting.url} aria-label={jotting.data.title} class="ms-1 link">
+											{jotting.data.title}
 										</a>
 									</li>
 								))}
 							</ul>
 						);
+					} else {
+						details.push(<p>{ts(t, "home.heatmap.jotting", { count: jottings.length })}</p>);
 					}
 				}
 			} else {
