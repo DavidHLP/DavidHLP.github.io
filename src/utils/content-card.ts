@@ -6,20 +6,29 @@
  * type and its constructor live together; adding a field is a single
  * edit instead of three.
  *
+ * `section` is the publication the card came from (note or jotting).
+ * The listing pages and the feed already know their section from the
+ * collection they fetched from, so the field is unused by them — but
+ * the homepage's "latest" card needs to know the section of an entry
+ * it picked from a mixed pool. The field is set by `toCard` so every
+ * adapter agrees on the value.
+ *
  * `feedLink` is the absolute-URL adapter for the Atom feed; it lives
  * here because the URL is the link-shaped value the card carries.
  *
- * Deletion test: removing this file forces every listing page and
- * the feed to re-shape entries inline. The re-spread is the signal
- * this seam is earning its keep.
+ * Deletion test: removing this file forces every listing page, the
+ * feed, and the homepage to re-shape entries inline. The re-spread is
+ * the signal this seam is earning its keep.
  */
 import type { CollectionEntry } from "astro:content";
 import { contentUrl } from "$utils/content-fetch";
-import type { ListableCollection } from "./content-types";
+import type { ListableCollection, Section } from "$utils/config";
 
-/** Lean card shape consumed by `ContentList.svelte` and the Atom feed. */
+/** Lean card shape consumed by `ContentList.svelte`, the Atom feed, and the homepage latest card. */
 export interface ContentCard {
 	id: string;
+	/** Publication this card came from. Set by `toCard` so every adapter agrees. */
+	section: Section;
 	url: string;
 	data: {
 		title: string;
@@ -35,6 +44,7 @@ export interface ContentCard {
 export function toCard<C extends ListableCollection>(entry: CollectionEntry<C>, section: C, locale: string): ContentCard {
 	return {
 		id: entry.id,
+		section,
 		url: contentUrl(locale, section, entry.id),
 		data: {
 			title: entry.data.title,

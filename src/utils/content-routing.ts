@@ -13,7 +13,7 @@
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import config, { monolocale } from "$config";
-import type { ContentCollection } from "./content-types";
+import type { ContentCollection } from "$utils/config";
 
 /**
  * Build `getStaticPaths` params for routes that take a `locale` segment.

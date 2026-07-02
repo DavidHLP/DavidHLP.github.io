@@ -49,6 +49,34 @@ export interface I18nOptions {
 }
 
 /**
+ * Deep-merge `override` onto `base` with `override` winning on leaf values.
+ *
+ * Both branches must be plain objects for the merge to recurse; arrays
+ * and primitives are replaced wholesale. Used by `i18nData` to compose
+ * the fallback dictionary under the active one, matching the
+ * `t(...)` fallback semantics from ADR 0004 at the structured-data
+ * layer.
+ */
+function deepMerge<T extends Record<string, unknown>>(base: T, override: T): T {
+	const result: Record<string, unknown> = { ...base };
+	for (const key of Object.keys(override)) {
+		const baseValue = base[key];
+		const overrideValue = override[key];
+		if (isPlainObject(baseValue) && isPlainObject(overrideValue)) {
+			result[key] = deepMerge(baseValue, overrideValue);
+		} else {
+			result[key] = overrideValue;
+		}
+	}
+	return result as T;
+}
+
+/** Narrowing guard for the deep-merge recursion. */
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+	return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/**
  * Validate if the provided language is supported
  * @param language - The target language/locale code (e.g. "en", "zh-cn", "ja")
  * @throws Error if the language is not supported
@@ -58,16 +86,36 @@ export function validateLanguage(language: string): asserts language is Language
 }
 
 /**
- * Get the raw translation dictionary for a specific language and namespace.
+ * Get the merged translation dictionary for a specific language and namespace.
+ *
+ * The returned dictionary is the active locale with the fallback locale
+ * merged underneath: a key missing in the active locale resolves to the
+ * fallback's value for the same key. Arrays are replaced wholesale
+ * (not concatenated). The fallback defaults to `config.i18n.defaultLocale`
+ * and is disabled by passing `{ fallbackLocale: <active locale> }` or
+ * `{ fallbackLocale: undefined }` (the seam short-circuits when the
+ * active and fallback dictionaries are the same object).
+ *
  * Use this when you need access to structured data (arrays, nested objects)
- * rather than localized strings, e.g. the homepage profile card.
+ * rather than localized strings, e.g. the homepage profile card. For
+ * single-string lookups, prefer `i18nit(...)(key)` which honours the
+ * same fallback policy and handles pluralization.
+ *
  * @param language - The target language/locale code (e.g. "en", "zh-cn", "ja")
  * @param namespace - Optional namespace (defaults to "index")
- * @returns The raw translation dictionary as a nested object
+ * @param options - Optional fallback-locale configuration
+ * @returns The merged translation dictionary as a nested object
  */
-export function i18nData(language: string, namespace: TranslationNamespace = "index"): Record<string, any> {
+export function i18nData(language: string, namespace: TranslationNamespace = "index", options: I18nOptions = {}): Record<string, any> {
 	validateLanguage(language);
-	return translations[language][namespace] as Record<string, any>;
+	const activeLanguage: Language = language;
+	const fallbackLocale = (options.fallbackLocale ?? config.i18n.defaultLocale) as Language;
+	const activeDictionary = translations[activeLanguage][namespace ?? "index"] as Record<string, any>;
+
+	if (fallbackLocale === activeLanguage) return activeDictionary;
+
+	const fallbackDictionary = translations[fallbackLocale][namespace ?? "index"] as Record<string, any>;
+	return deepMerge(fallbackDictionary, activeDictionary);
 }
 
 /**

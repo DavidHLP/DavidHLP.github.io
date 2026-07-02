@@ -19,7 +19,7 @@
 import { getCollection } from "astro:content";
 import config, { monolocale } from "$config";
 import i18nit from "$i18n";
-import type { ContentCollection } from "./content-types";
+import type { ContentCollection } from "$utils/config";
 
 /** Format a Date as `YYYY/MM/DD` in UTC for OG image metadata. */
 export function toDisplayDate(time: Date): string {

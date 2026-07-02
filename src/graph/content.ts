@@ -45,7 +45,7 @@ type ContentProps = {
 };
 
 /** VDOM template for per-entry (Note / Jotting) Open Graph cards. */
-const template: OgTemplate = props => {
+export const template: OgTemplate = props => {
 	const { type, site, author, title, time, series, tags } = props as ContentProps;
 	return {
 		type: "div",

@@ -1,0 +1,69 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import type { ContentCard } from "$utils/content";
+import { getContentHash } from "$utils/id-hash";
+import Time from "$utils/time";
+import TechBorder from "$components/TechBorder.astro";
+
+/**
+ * The homepage's "latest release" panel.
+ *
+ * The card shows the most recent published entry (Note or Jotting)
+ * with its section badge, series, title, tags, publication time, and
+ * the short content-hash label. The shape consumed is the same
+ * ContentCard used by the listing pages, so the page wires the
+ * latestByTimestamp result straight in.
+ *
+ * Deletion test: removing this file forces the homepage to re-inline
+ * the blockquote markup (50+ lines) at the bottom of index.astro.
+ * The re-spread is the signal this seam is earning its keep.
+ */
+export interface Props {
+	entry: ContentCard;
+	locale: string;
+}
+
+const { entry, locale } = Astro.props;
+---
+
+<blockquote class="relative tech-border p-6 bg-background flex flex-col justify-between gap-4">
+	<TechBorder class="absolute inset-0 pointer-events-none" />
+
+	<div class="flex items-center justify-between border-b border-weak/10 pb-2 mb-2">
+		<span class="text-[10px] font-mono text-weak uppercase tracking-widest">[ 03 / LATEST.RELEASE ]</span>
+		<span class="text-[9px] font-mono text-remark">{entry.section.toUpperCase()}</span>
+	</div>
+
+	<div class="flex flex-col gap-2">
+		{
+			entry.data.series && (
+				<span class="text-[10px] font-mono text-weak uppercase tracking-wider">
+					// SERIES: {entry.data.series}
+				</span>
+			)
+		}
+		<a href={entry.url} class="font-serif text-xl sm:text-2xl font-light hover:text-secondary transition-colors duration-150 leading-snug block select-text">
+			{entry.data.title}
+		</a>
+
+		<div class="flex flex-wrap gap-2 mt-2">
+			{
+				entry.data.tags?.map(tag => (
+					<a
+						href={`${getRelativeLocaleUrl(locale, `/${entry.section}`)}?tag=${encodeURIComponent(tag)}`}
+						class="text-[10px] font-mono text-remark hover:text-primary transition-colors bg-block px-2 py-0.5 rounded-sm"
+					>
+						#{tag}
+					</a>
+				))
+			}
+		</div>
+	</div>
+
+	<div class="border-t border-weak/10 pt-2 flex items-center justify-between mt-4">
+		<time datetime={entry.data.timestamp.toISOString()} class="text-remark font-mono text-xs">
+			{Time.toString(entry.data.timestamp)}
+		</time>
+		<span class="text-[8px] font-mono text-weak/60">[HASH.{getContentHash(entry.id)}]</span>
+	</div>
+</blockquote>

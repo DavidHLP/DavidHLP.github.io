@@ -19,7 +19,7 @@ import { getCollection, getEntry } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { monolocale } from "$config";
 import type { Section } from "$utils/config";
-import type { ContentCollection } from "./content-types";
+import type { ContentCollection } from "$utils/config";
 
 /** Filter a content collection to entries for the given locale, excluding drafts. */
 export async function getPublishedByLocale<C extends ContentCollection>(collection: C, locale: string) {

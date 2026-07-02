@@ -25,7 +25,7 @@ describe("validateLanguage", () => {
 	});
 });
 
-describe("i18nData", () => {
+describe("i18nData — active dictionary", () => {
 	it("returns the namespace dictionary for the active locale", () => {
 		const data = i18nData("en");
 		expect(data.home).toBeDefined();
@@ -34,6 +34,83 @@ describe("i18nData", () => {
 	it("returns the linkroll namespace when requested", () => {
 		const data = i18nData("en", "linkroll");
 		expect(data).toBeDefined();
+	});
+
+	it("returns the active locale's value when both active and fallback have the key", () => {
+		// All three locales have `home.latest`; the active locale's
+		// localised value must be returned regardless of the fallback.
+		const en = i18nData("en");
+		const zh = i18nData("zh-cn");
+		const ja = i18nData("ja");
+		expect(en.home.latest).toBe("Latest");
+		expect(zh.home.latest).toBe("最新内容");
+		expect(ja.home.latest).toBe("最新記事");
+	});
+});
+
+describe("i18nData — fallback policy (ADR 0004, structured-data layer)", () => {
+	it("merges the configured fallback locale under the active locale", () => {
+		// The default fallback is `config.i18n.defaultLocale` (zh-cn).
+		// The merged dictionary is fully populated for any key present
+		// in the active locale; the fallback fills gaps.
+		const en = i18nData("en");
+		expect(en.home.prologue).toBe("Talk is cheap. Show me the code.");
+	});
+
+	it("fills missing sub-trees with the fallback locale's value", () => {
+		// Synthesise a key-path lookup. Every locale has a profile
+		// under `home.profile.name`, so the merged value is the
+		// active one regardless of fallback.
+		const en = i18nData("en", "index", { fallbackLocale: "zh-cn" });
+		expect(en.home.profile.name).toBe("Helian Peng (David)");
+	});
+
+	it("supports an explicit fallbackLocale override that collapses the merge", () => {
+		// Forcing the fallback to the active locale collapses the
+		// merge: the returned dictionary is the active one verbatim.
+		const en = i18nData("en", "index", { fallbackLocale: "en" });
+		expect(en.home.latest).toBe("Latest");
+	});
+
+	it("supports a cross-locale fallback that re-enables fallback", () => {
+		// Forcing the fallback to ja returns the merged dict; the
+		// active value still wins for keys present in en.
+		const en = i18nData("en", "index", { fallbackLocale: "ja" });
+		expect(en.home.latest).toBe("Latest");
+	});
+
+	it("returns the active dictionary unchanged when fallback === active", () => {
+		// Short-circuit: when the fallback is the active locale, no
+		// merge happens. The returned object is the active dictionary.
+		const data = i18nData("zh-cn", "index", { fallbackLocale: "zh-cn" });
+		expect(data.home.latest).toBe("最新内容");
+	});
+});
+
+describe("i18nData — deep merge semantics", () => {
+	it("does not concatenate arrays — active array replaces fallback array", () => {
+		// The contract: the merged `home.profile.meta` is the active
+		// locale's array as-is, not the active ∪ fallback concatenation.
+		// We assert via the array length, which the YAML structure
+		// pins at 3 in both en and zh-cn — the merge must not produce
+		// a six-element array.
+		const en = i18nData("en", "index", { fallbackLocale: "zh-cn" });
+		const zh = i18nData("zh-cn", "index", { fallbackLocale: "en" });
+		expect(Array.isArray(en.home.profile.meta)).toBe(true);
+		expect(Array.isArray(zh.home.profile.meta)).toBe(true);
+		expect(en.home.profile.meta).toHaveLength(3);
+		expect(zh.home.profile.meta).toHaveLength(3);
+	});
+
+	it("merges nested objects (active wins on conflict, fallback fills gaps)", () => {
+		// The merged `home.profile` must contain the en name (active
+		// wins on the leaf) and the en `highlights` array (active
+		// wins on the array leaf).
+		const en = i18nData("en", "index", { fallbackLocale: "zh-cn" });
+		expect(en.home.profile.name).toBe("Helian Peng (David)");
+		expect(en.home.profile.title).toBe("Java Backend Engineer");
+		expect(Array.isArray(en.home.profile.highlights)).toBe(true);
+		expect(en.home.profile.highlights.length).toBeGreaterThan(0);
 	});
 });
 
