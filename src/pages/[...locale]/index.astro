@@ -1,17 +1,16 @@
 ---
 import { render, getCollection } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import config, { monolocale } from "$config";
+import config from "$config";
+import { contentUrl, getPublishedByLocale, localeStaticPaths, monolocale } from "$utils/content";
+import { getContentHash } from "$utils/id-hash";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
 import Heatmap from "$components/Heatmap.astro";
 import Logo from "$icons/site-logo.svg";
 import i18nit, { i18nData } from "$i18n";
 
-export async function getStaticPaths() {
-	// Create path for each locale, omitting default locale from URL
-	return config.i18n.locales.map(locale => ({ params: { locale: config.i18n.defaultLocale === locale ? undefined : locale } }));
-}
+export const getStaticPaths = localeStaticPaths;
 
 const { locale = config.i18n.defaultLocale } = Astro.params;
 
@@ -42,39 +41,20 @@ const prefaces = (
 ).sort((a, b) => b.data.timestamp.getTime() - a.data.timestamp.getTime());
 
 // Get published notes for current locale
-const notes = await getCollection("note", note => {
-	// Assign type property
-	Reflect.set(note, "type", "note");
-
-	// Filter by publication status and locale
-	let published = !note.data.draft;
-	let localed = monolocale || note.id.split("/")[0] === locale;
-
-	// Filter published notes by current locale
-	return published && localed;
-});
+const notes = await getPublishedByLocale("note", locale);
 
 // Get published jottings for current locale
-const jottings = await getCollection("jotting", jotting => {
-	// Assign type property
-	Reflect.set(jotting, "type", "jotting");
+const jottings = await getPublishedByLocale("jotting", locale);
 
-	// Check monolocale setup or extract language to match locale
-	let localed = monolocale || jotting.id.split("/")[0] === locale;
-
-	// Filter published notes by current locale
-	return !jotting.data.draft && localed;
-});
-
-// Combine contents
-let items: { id: string; type?: string; data: { timestamp: Date; tags?: string[]; [key: string]: any } }[] = [];
+// Combine contents, tagging each entry with its section so the latest-card template can render the badge.
+let items: { id: string; type: "note" | "jotting"; data: { timestamp: Date; tags?: string[]; [key: string]: any } }[] = [];
 
 // Determine which sections to include
 const sections = config.latest || "*";
 
 // Add contents based on config
-if (sections === "*" || sections.includes("note")) items = items.concat(notes);
-if (sections === "*" || sections.includes("jotting")) items = items.concat(jottings);
+if (sections === "*" || sections.includes("note")) for (const note of notes) items.push({ ...note, type: "note" });
+if (sections === "*" || sections.includes("jotting")) for (const jotting of jottings) items.push({ ...jotting, type: "jotting" });
 
 // Get the latest content for display
 const latest = items.sort((a, b) => b.data.timestamp.getTime() - a.data.timestamp.getTime())[0];
@@ -130,9 +110,7 @@ const sectionLabel = (n: number, key: string) => {
 					<span class="absolute -top-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
 					<span class="absolute -bottom-1.5 -left-1.5 text-[9px] font-mono text-weak/60">+</span>
 					<span class="absolute -bottom-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
-					
 					<Logo width={70} class="text-primary opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300" />
-					
 					<span class="absolute -bottom-2.5 right-3 px-1.5 py-0.5 bg-background border border-weak/10 text-[8px] font-mono text-weak tracking-wider uppercase">
 						[SYS.ACTIVE]
 					</span>
@@ -253,7 +231,7 @@ const sectionLabel = (n: number, key: string) => {
 									// SERIES: {latest.data.series}
 								</span>
 							)}
-							<a href={getRelativeLocaleUrl(locale, `/${latest.type}/${monolocale ? latest.id : latest.id.split("/").slice(1).join("/")}`)} class="font-serif text-xl sm:text-2xl font-light hover:text-secondary transition-colors duration-150 leading-snug block select-text">
+							<a href={contentUrl(locale, latest.type as "note" | "jotting", latest.id)} class="font-serif text-xl sm:text-2xl font-light hover:text-secondary transition-colors duration-150 leading-snug block select-text">
 								{latest.data.title}
 							</a>
 							
@@ -270,7 +248,7 @@ const sectionLabel = (n: number, key: string) => {
 							<time datetime={latest.data.timestamp.toISOString()} class="text-remark font-mono text-xs">
 								{Time.toString(latest.data.timestamp)}
 							</time>
-							<span class="text-[8px] font-mono text-weak/60">[HASH.{(latest.id.split('/').pop() || '').slice(0, 8)}]</span>
+							<span class="text-[8px] font-mono text-weak/60">[HASH.{getContentHash(latest.id)}]</span>
 						</div>
 					</blockquote>
 				</footer>

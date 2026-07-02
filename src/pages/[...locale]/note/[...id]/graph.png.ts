@@ -1,36 +1,10 @@
 import type { APIRoute } from "astro";
-import { getCollection } from "astro:content";
-import config, { monolocale } from "$config";
+import config from "$config";
+import { contentGraphStaticPaths } from "$utils/content";
 import graph from "$graph/content";
-import i18nit from "$i18n";
 
 export async function getStaticPaths() {
-	const notes = await getCollection("note", note => !note.data.draft);
-
-	return notes.map(note => {
-		let locale: string | undefined;
-		let id: string;
-
-		if (monolocale) {
-			locale = undefined;
-			id = note.id;
-		} else {
-			const [language, ...ids] = note.id.split("/");
-			locale = config.i18n.defaultLocale === language ? undefined : language;
-			id = ids.join("/");
-		}
-
-		return {
-			params: { locale, id },
-			props: {
-				type: i18nit(locale || config.i18n.defaultLocale)(`navigation.note`),
-				title: note.data.title,
-				time: note.data.timestamp.toISOString().split("T")[0].replace(/-/g, "/"),
-				series: note.data.series,
-				tags: note.data.tags
-			}
-		};
-	});
+	return contentGraphStaticPaths("note", "navigation.note");
 }
 
 /**

@@ -1,7 +1,7 @@
 ---
-import { getCollection, getEntry, render } from "astro:content";
+import { render } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { monolocale } from "$config";
+import { getInfoEntry, getPublishedByLocale } from "$utils/content";
 import Icon from "$components/Icon.svelte";
 import i18nit from "$i18n";
 
@@ -66,13 +66,7 @@ if (copyright.type === "CC0 1.0") {
 
 // Fetch notes and jottings collections to calculate total word count
 
-const notes = await getCollection("note", note => {
-	// Filter by publication status and locale
-	let published = !note.data.draft;
-	let localed = monolocale || note.id.split("/")[0] === locale;
-
-	return published && localed;
-});
+const notes = await getPublishedByLocale("note", locale);
 
 // Calculate total word count across all notes
 const noteWords = (await Promise.all(notes.map(async note => (await render(note)).remarkPluginFrontmatter.words))).reduce(
@@ -80,13 +74,7 @@ const noteWords = (await Promise.all(notes.map(async note => (await render(note)
 	0
 );
 
-const jottings = await getCollection("jotting", jotting => {
-	// Filter by publication status and locale
-	let published = !jotting.data.draft;
-	let localed = monolocale || jotting.id.split("/")[0] === locale;
-
-	return published && localed;
-});
+const jottings = await getPublishedByLocale("jotting", locale);
 
 // Calculate total word count across all jottings
 const jottingWords = (await Promise.all(jottings.map(async jotting => (await render(jotting)).remarkPluginFrontmatter.words))).reduce(
@@ -98,8 +86,7 @@ const jottingWords = (await Promise.all(jottings.map(async jotting => (await ren
 const totalWords = noteWords + jottingWords;
 
 // Check if policy file exists for current locale
-const localePrefix = monolocale ? "" : `${locale}/`;
-const policy = await getEntry("information", `${localePrefix}policy`);
+const policy = await getInfoEntry(locale, "policy");
 ---
 
 <footer class="flex flex-col sm:flex-row items-center justify-between gap-2 mt-8 mb-5 sm:mb-3 text-sm font-mono">
