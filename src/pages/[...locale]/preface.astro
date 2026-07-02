@@ -1,7 +1,7 @@
 ---
 import { render } from "astro:content";
 import config from "$config";
-import { getPublishedByLocale, localeStaticPaths } from "$utils/content";
+import { listPrefaces, localeStaticPaths } from "$utils/content";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
 import i18nit from "$i18n";
@@ -13,9 +13,10 @@ const { locale = config.i18n.defaultLocale } = Astro.params;
 
 const t = i18nit(locale);
 
-// Route through `getPublishedByLocale` so Preface shares the same locale-filter
-// seam as Note and Jotting; the input entries stay immutable.
-const prefaces = (await getPublishedByLocale("preface", locale)).sort((a, b) => b.data.timestamp.getTime() - a.data.timestamp.getTime());
+// Route through the preface seam so the locale-filter + sort by
+// timestamp desc lives in one place (the previous inline version
+// was duplicated in `index.astro` and `preface.astro`).
+const prefaces = await listPrefaces(locale);
 
 // Render each entry
 const entries = await Promise.all(prefaces.map(async preface => ({ ...preface, content: (await render(preface)).Content })));
