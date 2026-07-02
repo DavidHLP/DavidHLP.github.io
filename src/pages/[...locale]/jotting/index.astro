@@ -1,6 +1,6 @@
 ---
 import config from "$config";
-import { contentUrl, getPublishedByLocale, localeStaticPaths } from "$utils/content";
+import { collectFacets, getPublishedByLocale, localeStaticPaths, toCard } from "$utils/content";
 import Base from "$layouts/Base.astro";
 import ContentList from "$components/ContentList.svelte";
 import ContentListingHeader from "$components/ContentListingHeader.astro";
@@ -14,21 +14,11 @@ const t = i18nit(locale);
 
 const jottings = await getPublishedByLocale("jotting", locale);
 
-// Standardize jotting structure
-const list = jottings.map(jotting => ({
-	id: jotting.id,
-	url: contentUrl(locale, "jotting", jotting.id),
-	data: {
-		title: jotting.data.title,
-		timestamp: jotting.data.timestamp,
-		tags: jotting.data.tags,
-		sensitive: jotting.data.sensitive,
-		top: jotting.data.top
-	}
-}));
+// Route through the listing-card seam.
+const list = jottings.map(jotting => toCard(jotting, "jotting", locale));
 
-// Extract all unique tags from the filtered jottings
-const tags = Array.from(new Set(jottings.flatMap(jotting => jotting.data.tags).filter((tag): tag is string => Boolean(tag)))).sort();
+// Jotting has no series; only collect tags.
+const { tags } = collectFacets(jottings);
 ---
 
 <Base title={t("navigation.jotting")} {locale}>

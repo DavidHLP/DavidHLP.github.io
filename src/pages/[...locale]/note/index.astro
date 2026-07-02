@@ -1,6 +1,6 @@
 ---
 import config from "$config";
-import { contentUrl, getPublishedByLocale, localeStaticPaths } from "$utils/content";
+import { collectFacets, getPublishedByLocale, localeStaticPaths, toCard } from "$utils/content";
 import Base from "$layouts/Base.astro";
 import ContentList from "$components/ContentList.svelte";
 import ContentListingHeader from "$components/ContentListingHeader.astro";
@@ -14,23 +14,11 @@ const t = i18nit(locale);
 
 const notes = await getPublishedByLocale("note", locale);
 
-// Standardize note structure
-const list = notes.map(note => ({
-	id: note.id,
-	url: contentUrl(locale, "note", note.id),
-	data: {
-		title: note.data.title,
-		timestamp: note.data.timestamp,
-		series: note.data.series,
-		tags: note.data.tags,
-		sensitive: note.data.sensitive,
-		top: note.data.top
-	}
-}));
+// Route through the listing-card seam: one adapter, one shape, three callers.
+const list = notes.map(note => toCard(note, "note", locale));
 
-// Extract all unique series and tags from the filtered notes
-const series = Array.from(new Set(notes.map(note => note.data.series).filter((s): s is string => Boolean(s)))).sort();
-const tags = Array.from(new Set(notes.flatMap(note => note.data.tags).filter((tag): tag is string => Boolean(tag)))).sort();
+// Extract facets (series is only present in Note).
+const { series, tags } = collectFacets(notes, true);
 ---
 
 <Base title={t("navigation.note")} {locale}>

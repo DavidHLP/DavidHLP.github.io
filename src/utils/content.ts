@@ -4,15 +4,17 @@
  * This module is the single seam between i18n configuration and Astro content
  * collections. Every page in `[...locale]/` was previously hand-rolling the
  * same `getStaticPaths` pattern, the same `getCollection` locale filter, the
- * same `id.split("/").slice(1).join("/")` ID strip, and the same hash
- * extraction. Centralising the four operations here turns twelve sites of
- * duplicated logic into one testable interface.
+ * same `id.split("/").slice(1).join("/")` ID strip, the same card adapter,
+ * the same facet extraction, and the same word-count aggregation. Centralising
+ * the operations here turns N sites of duplicated logic into one testable
+ * interface.
  *
- * Deletion test: removing this module re-spreads the routing logic across
- * every page. That re-spread is the signal that this seam is earning its keep.
+ * Deletion test: removing this module re-spreads the routing and listing
+ * logic across every page. That re-spread is the signal that this seam is
+ * earning its keep.
  */
 import type { CollectionEntry } from "astro:content";
-import { getCollection, getEntry } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import config, { monolocale } from "$config";
 import type { Section } from "$utils/config";
@@ -26,6 +28,9 @@ export { monolocale };
 
 /** Site-managed content collections. */
 export type ContentCollection = "note" | "jotting" | "preface" | "information";
+
+/** Collections that carry the listing-card shape. */
+export type ListableCollection = "note" | "jotting";
 
 /**
  * Build `getStaticPaths` params for routes that take a `locale` segment.
@@ -139,4 +144,75 @@ export async function contentGraphStaticPaths<C extends ContentCollection>(colle
 			}
 		};
 	});
+}
+
+// ---------------------------------------------------------------------------
+// Listing-card seam
+//
+// Note and Jotting listing pages (and the Atom feed) all need the same
+// lean card shape that `ContentList.svelte` consumes. Centralising the
+// adapter means the type and its constructor live together; adding a field
+// is a single edit instead of three.
+// ---------------------------------------------------------------------------
+
+/** Lean card shape consumed by `ContentList.svelte` and the Atom feed. */
+export interface ContentCard {
+	id: string;
+	url: string;
+	data: {
+		title: string;
+		timestamp: Date;
+		series?: string;
+		tags?: string[];
+		sensitive?: boolean;
+		top: number;
+	};
+}
+
+/** Adapt a Note/Jotting entry to the listing-card shape. */
+export function toCard<C extends ListableCollection>(entry: CollectionEntry<C>, section: C, locale: string): ContentCard {
+	return {
+		id: entry.id,
+		url: contentUrl(locale, section, entry.id),
+		data: {
+			title: entry.data.title,
+			timestamp: entry.data.timestamp,
+			series: (entry.data as { series?: string }).series,
+			tags: entry.data.tags,
+			sensitive: entry.data.sensitive,
+			top: entry.data.top
+		}
+	};
+}
+
+/** Build the absolute feed link for a Note/Jotting entry against the given site origin. */
+export function feedLink<C extends ListableCollection>(entry: CollectionEntry<C>, section: C, locale: string, site: URL): string {
+	return new URL(contentUrl(locale, section, entry.id), site).toString();
+}
+
+/** Aggregate sorted series + tag facets over a collection of listable entries. */
+export function collectFacets<C extends ListableCollection>(
+	entries: CollectionEntry<C>[],
+	includeSeries: boolean = false
+): { series: string[]; tags: string[] } {
+	const tags = Array.from(new Set(entries.flatMap(entry => entry.data.tags).filter((tag): tag is string => Boolean(tag)))).sort();
+	const series = includeSeries
+		? Array.from(new Set(entries.map(entry => (entry.data as { series?: string }).series).filter((s): s is string => Boolean(s)))).sort()
+		: [];
+	return { series, tags };
+}
+
+// ---------------------------------------------------------------------------
+// Word-count seam
+//
+// The reading-time remark plugin writes `remarkPluginFrontmatter.words` onto
+// every rendered entry. Footer (and any future statistics surface) sums the
+// same array. Centralising the render-then-reduce keeps the dependency on
+// `astro:content` server-side and exposes a single `number` to callers.
+// ---------------------------------------------------------------------------
+
+/** Sum the `words` frontmatter over a collection of listable entries. */
+export async function totalWordCount<C extends ListableCollection>(entries: CollectionEntry<C>[]): Promise<number> {
+	const counts = await Promise.all(entries.map(async entry => ((await render(entry)).remarkPluginFrontmatter.words as number) ?? 0));
+	return counts.reduce((sum, words) => sum + words, 0);
 }

@@ -2,6 +2,7 @@
 import { untrack } from "svelte";
 import { flip } from "svelte/animate";
 import config from "$config";
+import type { ContentCard } from "$utils/content";
 import { getContentHash } from "$utils/id-hash";
 import Time from "$utils/time";
 import Icon from "$components/Icon.svelte";
@@ -13,20 +14,6 @@ import i18nit from "$i18n";
  * Drives every feature flag below (series support, pagination size, i18n prefix).
  */
 export type Section = "note" | "jotting";
-
-/** Lean card shape that the list page constructs from a CollectionEntry. */
-export interface ContentCard {
-	id: string;
-	url: string;
-	data: {
-		title: string;
-		timestamp: Date;
-		series?: string;
-		tags?: string[];
-		sensitive?: boolean;
-		top: number;
-	};
-}
 
 let {
 	locale,
@@ -93,8 +80,12 @@ let list: ContentCard[] = $derived.by(() => {
 
 			return matchSeries && matchTags;
 		})
-		// Sort by top priority (descending) then timestamp (newest first)
-		.sort((a, b) => b.data.top - a.data.top || b.data.timestamp.getTime() - a.data.timestamp.getTime());
+		.sort((a, b) => {
+			// Pinned (`top > 0`) items always lead
+			if (a.data.top !== b.data.top) return b.data.top - a.data.top;
+			// Newer first
+			return b.data.timestamp.getTime() - a.data.timestamp.getTime();
+		});
 
 	untrack(() => {
 		// Ensure page is within valid range

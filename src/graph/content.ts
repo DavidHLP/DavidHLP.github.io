@@ -1,8 +1,3 @@
-import satori from "satori";
-import sharp from "sharp";
-import icon from "$public/favicon.svg?raw";
-import { loadFont } from ".";
-
 /*
 <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "3rem", width: "100%", height: "100%", background: "#fffffd" }}>
 	<div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", flexGrow: 1 }}>
@@ -35,16 +30,10 @@ import { loadFont } from ".";
 </div>
 */
 
-export default async ({
-	locale,
-	type,
-	site,
-	author,
-	title,
-	time,
-	series,
-	tags
-}: {
+import type { OgTemplate } from "./render";
+import { ICON_DATA_URL, renderOg } from "./render";
+
+type ContentProps = {
 	locale: string;
 	type: string;
 	site: string;
@@ -53,178 +42,170 @@ export default async ({
 	time: string;
 	series?: string;
 	tags?: string[];
-}) => {
-	const svg = await satori(
-		{
-			type: "div",
-			props: {
-				style: {
-					display: "flex",
-					flexDirection: "column",
-					justifyContent: "space-between",
-					padding: "3rem",
-					width: "100%",
-					height: "100%",
-					background: "#fffffd"
-				},
-				children: [
-					{
-						type: "div",
-						props: {
-							style: {
-								display: "flex",
-								flexDirection: "column",
-								justifyContent: "space-between",
-								flexGrow: 1
-							},
-							children: [
-								{
-									type: "span",
-									props: {
-										style: {
-											alignSelf: "flex-start",
-											borderLeft: "0.5rem solid black",
-											padding: "0.25rem 1rem 0.75rem",
-											fontSize: "1.5rem"
-										},
-										children: [
-											type,
-											series
-												? {
-														type: "span",
-														props: {
-															children: [
-																{
-																	type: "span",
-																	props: {
-																		style: { padding: "0 0.5rem" },
-																		children: "·"
-																	}
-																},
-																series
-															]
-														}
-													}
-												: null
-										]
-									}
-								},
-								{
-									type: "span",
-									props: {
-										style: { fontSize: "4rem" },
-										children: title
-									}
-								},
-								{
-									type: "div",
-									props: {
-										style: {
-											display: "flex",
-											gap: "1rem",
-											alignItems: "center",
-											fontSize: "1.25rem",
-											color: "#555555"
-										},
-										children: [
-											{
-												type: "time",
-												props: { children: time }
-											},
-											...(tags?.length
-												? [
-														{
-															type: "span",
-															key: "separator",
-															props: {
-																style: {
-																	height: "100%",
-																	borderLeft: "0.125rem solid"
+};
+
+/** VDOM template for per-entry (Note / Jotting) Open Graph cards. */
+const template: OgTemplate = props => {
+	const { type, site, author, title, time, series, tags } = props as ContentProps;
+	return {
+		type: "div",
+		props: {
+			style: {
+				display: "flex",
+				flexDirection: "column",
+				justifyContent: "space-between",
+				padding: "3rem",
+				width: "100%",
+				height: "100%",
+				background: "#fffffd"
+			},
+			children: [
+				{
+					type: "div",
+					props: {
+						style: {
+							display: "flex",
+							flexDirection: "column",
+							justifyContent: "space-between",
+							flexGrow: 1
+						},
+						children: [
+							{
+								type: "span",
+								props: {
+									style: {
+										alignSelf: "flex-start",
+										borderLeft: "0.5rem solid black",
+										padding: "0.25rem 1rem 0.75rem",
+										fontSize: "1.5rem"
+									},
+									children: [
+										type,
+										series
+											? {
+													type: "span",
+													props: {
+														children: [
+															{
+																type: "span",
+																props: {
+																	style: { padding: "0 0.5rem" },
+																	children: "·"
 																}
-															}
-														},
-														...tags.map(tag => ({
-															type: "span",
-															key: tag,
-															props: { children: `#${tag}` }
-														}))
-													]
-												: [])
-										]
-									}
+															},
+															series
+														]
+													}
+												}
+											: null
+									]
 								}
-							]
-						}
-					},
-					{
-						type: "hr",
-						props: {
-							style: {
-								margin: "2.5rem 0 2rem",
-								borderTop: "0.25rem solid black"
-							}
-						}
-					},
-					{
-						type: "div",
-						props: {
-							style: {
-								display: "flex",
-								alignItems: "center",
-								justifyContent: "space-between"
 							},
-							children: [
-								{
-									type: "div",
-									props: {
-										style: {
-											display: "flex",
-											alignItems: "center",
-											gap: "1rem"
-										},
-										children: [
-											{
-												type: "img",
-												props: {
-													src: `data:image/svg+xml;base64,${Buffer.from(icon).toString("base64")}`,
-													alt: "LOGO",
-													height: 48
-												}
-											},
-											{
-												type: "span",
-												props: {
-													style: { fontSize: "2rem" },
-													children: site
-												}
-											}
-										]
-									}
-								},
-								{
-									type: "div",
-									props: {
-										style: { fontSize: "1.5rem" },
-										children: author
-									}
+							{
+								type: "span",
+								props: {
+									style: { fontSize: "4rem" },
+									children: title
 								}
-							]
+							},
+							{
+								type: "div",
+								props: {
+									style: {
+										display: "flex",
+										gap: "1rem",
+										alignItems: "center",
+										fontSize: "1.25rem",
+										color: "#555555"
+									},
+									children: [
+										{
+											type: "time",
+											props: { children: time }
+										},
+										...(tags?.length
+											? [
+													{
+														type: "span",
+														key: "separator",
+														props: {
+															style: {
+																height: "100%",
+																borderLeft: "0.125rem solid"
+															}
+														}
+													},
+													...tags.map(tag => ({
+														type: "span",
+														key: tag,
+														props: { children: `#${tag}` }
+													}))
+												]
+											: [])
+									]
+								}
+							}
+						]
+					}
+				},
+				{
+					type: "hr",
+					props: {
+						style: {
+							margin: "2.5rem 0 2rem",
+							borderTop: "0.25rem solid black"
 						}
 					}
-				]
-			}
-		},
-		{
-			width: 1200,
-			height: 630,
-			fonts: [
+				},
 				{
-					name: "Serif",
-					data: await loadFont(locale)
+					type: "div",
+					props: {
+						style: {
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "space-between"
+						},
+						children: [
+							{
+								type: "div",
+								props: {
+									style: {
+										display: "flex",
+										alignItems: "center",
+										gap: "1rem"
+									},
+									children: [
+										{
+											type: "img",
+											props: {
+												src: ICON_DATA_URL,
+												alt: "LOGO",
+												height: 48
+											}
+										},
+										{
+											type: "span",
+											props: {
+												style: { fontSize: "2rem" },
+												children: site
+											}
+										}
+									]
+								}
+							},
+							{
+								type: "div",
+								props: {
+									style: { fontSize: "1.5rem" },
+									children: author
+								}
+							}
+						]
+					}
 				}
 			]
 		}
-	);
-
-	return sharp(Buffer.from(svg)).resize(1200).png().toBuffer();
+	};
 };
+
+export default (props: ContentProps) => renderOg<ContentProps>(template, props);
