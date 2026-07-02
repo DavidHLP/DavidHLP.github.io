@@ -3,6 +3,7 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import config from "$config";
 import { localeStaticPaths } from "$utils/content";
 import i18nit from "$i18n";
+import { ts } from "$utils/labels";
 
 export const getStaticPaths = localeStaticPaths;
 
@@ -19,7 +20,7 @@ export const GET: APIRoute = ({ params }) => {
     <head>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>${t("navigation.subscription")} | <xsl:value-of select="atom:feed/atom:title" /></title>
+      <title>${ts(t, "navigation.subscription")} | <xsl:value-of select="atom:feed/atom:title" /></title>
       <link rel="stylesheet" href="/feed.css" />
       <link rel="icon" type="image/x-icon" href="{atom:feed/atom:icon}" />
     </head>
@@ -37,19 +38,19 @@ export const GET: APIRoute = ({ params }) => {
       </header>
 
       <blockquote>
-        <p>${t("feed.description")}</p>
-        <p>${t("feed.usage")}</p>
+        <p>${ts(t, "feed.description")}</p>
+        <p>${ts(t, "feed.usage")}</p>
         <p>
-          ${t("feed.address")}:
+          ${ts(t, "feed.address")}:
           <code id="feed-url"><xsl:value-of select="concat(atom:feed/atom:link[@rel='alternate']/@href, '${getRelativeLocaleUrl(locale, "feed.xml").slice(1)}')" /></code>
-          <button type="button" onclick="copy()" class="copy-btn">${t("feed.copy.name")}</button>
+          <button type="button" onclick="copy()" class="copy-btn">${ts(t, "feed.copy.name")}</button>
         </p>
       </blockquote>
 
       <script>
         function copy() {
           const URL = document.getElementById('feed-url').textContent;
-          navigator.clipboard.writeText(URL).then(() => alert('${t("feed.copy.success")}')).catch((() => alert('${t("feed.copy.failure")}')));
+          navigator.clipboard.writeText(URL).then(() => alert('${ts(t, "feed.copy.success")}')).catch((() => alert('${ts(t, "feed.copy.failure")}')));
         }
       </script>
 
@@ -78,9 +79,9 @@ export const GET: APIRoute = ({ params }) => {
       </main>
 
       <footer>
-        <p>${t("feed.visit", { title: `<a href="{atom:feed/atom:link[@rel='alternate']/@href}"><xsl:value-of select="atom:feed/atom:title" /></a>` })}</p>
+        <p>${ts(t, "feed.visit", { title: `<a href="{atom:feed/atom:link[@rel='alternate']/@href}"><xsl:value-of select="atom:feed/atom:title" /></a>` })}</p>
         <p>
-          ${t("feed.last")}:
+          ${ts(t, "feed.last")}:
           <xsl:value-of select="substring(atom:feed/atom:updated, 1, 10)" />
           <xsl:text> </xsl:text>
           <xsl:value-of select="substring(atom:feed/atom:updated, 12, 8)" />

@@ -1,5 +1,6 @@
 import { defineConfig } from "vitest/config";
 import { fileURLToPath } from "node:url";
+import yaml from "@rollup/plugin-yaml";
 
 /**
  * Vitest config for the unit-test seam.
@@ -11,8 +12,12 @@ import { fileURLToPath } from "node:url";
  *
  * The aliases mirror `tsconfig.json` so imports of `$config`, `$utils`,
  * `$i18n` resolve the same way under vitest as they do at build time.
+ * The `@rollup/plugin-yaml` plugin matches the build-time YAML loader
+ * used in `astro.config.ts` so `i18n` tests can import translation files.
  */
 export default defineConfig({
+	// @ts-expect-error — `@rollup/plugin-yaml` is rollup-only; astro.config.ts uses the same escape hatch.
+	plugins: [yaml()],
 	resolve: {
 		alias: {
 			$config: fileURLToPath(new URL("./site.config.ts", import.meta.url)),

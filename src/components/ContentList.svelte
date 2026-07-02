@@ -8,6 +8,7 @@ import Time from "$utils/time";
 import Icon from "$components/Icon.svelte";
 import Pagination from "$components/Pagination.svelte";
 import i18nit from "$i18n";
+import { ts } from "$utils/labels";
 
 /**
  * The two content publications the site renders as paginated lists.
@@ -144,7 +145,7 @@ $effect(() => {
 							<span class="text-remark inline-block align-middle mr-1" title="Pinned"><Icon name="lucide--flag-triangle-right" class="rtl:-scale-x-100" /></span>
 						{/if}
 						{#if item.data.sensitive}
-							<span class="text-remark inline-block align-middle mr-1" title={t("sensitive.icon")}><Icon name="lucide--siren" /></span>
+							<span class="text-remark inline-block align-middle mr-1" title={ts(t, "sensitive.icon")}><Icon name="lucide--siren" /></span>
 						{/if}
 						{#if supportsSeries && item.data.series}
 							<button onclick={() => chooseSeries(item.data.series!, true)} class="font-mono text-xs text-weak hover:text-primary mr-1 transition-colors">// {item.data.series}</button>

@@ -69,6 +69,7 @@ alphabetically. Surfaced as filter buttons in the listing sidebar.
 | `src/utils/config.ts`          | site-config type and pass-through validator                   |
 | `src/utils/reading.ts`         | remark plugin: word count for `frontmatter.words`             |
 | `src/utils/mermaid.ts`         | remark plugin: transform `mermaid` code blocks into `<div>`   |
+| `src/utils/heatmap-bins.ts`     | heatmap bin strategy: one pipeline, three adapters (day / week / month); `getStrategy(unit)`, `toHeatmapEntries(notes, jottings, locale)` |
 | `src/i18n/index.ts`            | `i18nit(locale, ns, options?)` returns a `t(key)` translator  |
 | `src/graph/render.ts`          | shared satori → sharp → PNG pipeline (`renderOg`)             |
 | `src/graph/load-font.ts`       | locale-keyed OG font registry + cached loader                 |
@@ -79,4 +80,4 @@ alphabetically. Surfaced as filter buttons in the listing sidebar.
 
 - **Default locale is URL-omitted.** Both `astro.config.ts` (`prefixDefaultLocale: false`) and every `getStaticPaths` builder agree on this. The same default locale appears at the URL root across all four content sections.
 - **Entry ids carry the locale.** In multi-locale mode, an entry id is `{locale}/{slug}`; the slice is consumed by `stripLocale` and `contentUrl`. The `monolocale` shortcut removes the slice and the strip step.
-- **Seam-policy lives at the seam.** i18n fallback policy is set on `i18nit(...)` via the `fallbackLocale` option, not at every call site. `t(...)` returns `string | undefined`; callers narrow with `??`.
+- **Seam-policy lives at the seam.** i18n fallback policy is set on `i18nit(...)` via the `fallbackLocale` option, not at every call site. `t(...)` returns `string | undefined`; visible UI strings narrow with the `ts(t, key)` helper from `src/utils/labels.ts` (sentinel fallback to the key) and config-side fallbacks compose explicitly with `t(key) ?? configValue` at the call site.

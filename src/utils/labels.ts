@@ -1,33 +1,25 @@
 /**
  * Localised label helpers.
  *
- * Two tiny pure functions that previously lived inline in `pages/[...locale]/index.astro`:
+ * `sectionLabel` builds the `[ 02 / ACTIVITY ]` style index that opens
+ * each homepage section. The localised suffix is taken from the i18n
+ * dictionary when present, otherwise the last dot-segment of the key is
+ * uppercased — the same fallback the homepage used inline.
  *
- * - `tOr` resolves a translation key but quietly falls back to a config-side
- *   string when the i18n dictionary has no entry. Used for the site
- *   prologue / prologue author, which the user may want to override either
- *   per-locale (i18n yaml) or globally (site.config.ts).
- * - `sectionLabel` formats the `[ 02 / ACTIVITY ]` style index that opens
- *   each homepage section. The localised suffix is taken from the i18n
- *   dictionary when present, otherwise the last dot-segment of the key is
- *   uppercased — the same fallback the homepage used inline.
+ * `ts` is the "t with sentinel" wrapper: it calls the i18n seam and
+ * falls back to the key itself when the seam returns `undefined`. The
+ * i18n seam returns `string | undefined` per ADR 0004, but visible UI
+ * strings want the original sentinel behaviour — "show the key when
+ * the translation is missing" — so the call site can either compose
+ * with `t(key) ?? key` inline or use `ts(key)` for the same effect.
  *
- * Both are pure: given the same `t`, key and value they always return the
- * same string, so they sit comfortably at a single function-call seam and
- * can be exercised without a DOM.
+ * The `tOr` band-aid used to live here too. It was removed once the
+ * i18n seam started returning `string | undefined` directly (ADR 0004);
+ * callers now compose with `ts(t, key)` (sentinel fallback to the key)
+ * or with `t(key) ?? configValue` when the fallback is a config-side
+ * value, as in `src/pages/[...locale]/index.astro` for the prologue.
  */
-export type Translator = (key: string, params?: Record<string, string | number>) => string;
-
-/**
- * Look up `key` via `t`. If the dictionary is missing the key (i18n returns
- * the key itself), return `fallback` instead. Returns `undefined` when both
- * are absent so the caller can decide whether to render anything.
- */
-export function tOr(t: Translator, key: string, fallback?: string): string | undefined {
-	const translated = t(key);
-	if (translated !== key) return translated;
-	return fallback;
-}
+export type Translator = (key: string, params?: Record<string, string | number>) => string | undefined;
 
 /**
  * Build a `[ 02 / ACTIVITY ]` style section index label.
@@ -41,6 +33,15 @@ export function tOr(t: Translator, key: string, fallback?: string): string | und
 export function sectionLabel(t: Translator, n: number, key: string): string {
 	const label = t(key);
 	const fallback = key.split(".").pop()?.toUpperCase() ?? key;
-	const suffix = label === key ? fallback : label;
+	const suffix = label === undefined || label === key ? fallback : label;
 	return `[ ${String(n).padStart(2, "0")} / ${suffix} ]`;
+}
+
+/**
+ * Look up `key` via the i18n seam and fall back to the key itself on a
+ * miss. Returns the key verbatim when the seam returns `undefined`,
+ * preserving the original sentinel behaviour for visible UI strings.
+ */
+export function ts(t: Translator, key: string, params?: Record<string, string | number>): string {
+	return t(key, params) ?? key;
 }

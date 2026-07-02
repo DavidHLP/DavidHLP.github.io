@@ -1,5 +1,6 @@
 ---
 import i18nit from "$i18n";
+import { ts } from "$utils/labels";
 import Icon from "$components/Icon.svelte";
 
 interface Props {
@@ -30,14 +31,14 @@ const { locale, links } = Astro.props;
 const t = i18nit(locale, "linkroll");
 
 const types = {
-	resources: { name: t("type.resources"), icon: "lucide--tool-case" },
-	community: { name: t("type.community"), icon: "lucide--network" },
-	insights: { name: t("type.insights"), icon: "lucide--lightbulb" },
-	technology: { name: t("type.technology"), icon: "lucide--terminal" },
-	expertise: { name: t("type.expertise"), icon: "lucide--book-open-text" },
-	creative: { name: t("type.creative"), icon: "lucide--palette" },
-	lifestyle: { name: t("type.lifestyle"), icon: "lucide--coffee" },
-	general: { name: t("type.general"), icon: "lucide--box" }
+	resources: { name: ts(t, "type.resources"), icon: "lucide--tool-case" },
+	community: { name: ts(t, "type.community"), icon: "lucide--network" },
+	insights: { name: ts(t, "type.insights"), icon: "lucide--lightbulb" },
+	technology: { name: ts(t, "type.technology"), icon: "lucide--terminal" },
+	expertise: { name: ts(t, "type.expertise"), icon: "lucide--book-open-text" },
+	creative: { name: ts(t, "type.creative"), icon: "lucide--palette" },
+	lifestyle: { name: ts(t, "type.lifestyle"), icon: "lucide--coffee" },
+	general: { name: ts(t, "type.general"), icon: "lucide--box" }
 } as const;
 
 const fallback = "/linkback.webp";
