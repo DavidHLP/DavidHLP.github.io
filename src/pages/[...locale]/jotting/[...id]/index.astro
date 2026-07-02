@@ -1,30 +1,27 @@
 ---
 import { render } from "astro:content";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import type { CollectionEntry } from "astro:content";
 import config from "$config";
 import { contentStaticPaths } from "$utils/content";
-import Base from "$layouts/Base.astro";
-import ContentHeader from "$components/ContentHeader.astro";
-import Position from "$components/Position.astro";
-import Sensitive from "$components/Sensitive.svelte";
+import ContentDetail from "$layouts/ContentDetail.astro";
 
+/**
+ * Jotting detail page.
+ *
+ * The chrome (Base meta, header, sensitive wrapper, optional TOC, position
+ * button) lives in `$layouts/ContentDetail.astro`. The layout closes the
+ * "note has TOC + series, jotting does not" decision at the section seam
+ * (`supportsToc` and the `articleSection` derivation), so this page is a
+ * mirror of the note page with the section id swapped.
+ */
 export async function getStaticPaths() {
 	return contentStaticPaths("jotting");
 }
 
 const { locale = config.i18n.defaultLocale } = Astro.params;
-const { jotting } = Astro.props as { jotting: import("astro:content").CollectionEntry<"jotting"> };
-const { Content, remarkPluginFrontmatter: frontmatter } = await render(jotting);
+const { jotting } = Astro.props as { jotting: CollectionEntry<"jotting"> };
+
+const { Content, headings, remarkPluginFrontmatter: frontmatter } = await render(jotting);
 ---
 
-<Base title={jotting.data.title} {locale} description={jotting.data.description} article={{ timestamp: jotting.data.timestamp, tags: jotting.data.tags }}>
-	<main class="flex flex-col gap-6">
-		<ContentHeader {locale} title={jotting.data.title} timestamp={jotting.data.timestamp} tags={jotting.data.tags} words={frontmatter.words} />
-
-		<Sensitive {locale} back={getRelativeLocaleUrl(locale, "/jotting")} sensitive={jotting.data.sensitive} client:load>
-			<section id="markdown-content" class="markdown"><Content /></section>
-		</Sensitive>
-
-		<Position {locale} />
-	</main>
-</Base>
+<ContentDetail {locale} section="jotting" entry={jotting} {Content} {headings} {frontmatter} />

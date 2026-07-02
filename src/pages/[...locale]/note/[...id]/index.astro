@@ -1,51 +1,32 @@
 ---
 import { render } from "astro:content";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import type { CollectionEntry } from "astro:content";
 import config from "$config";
 import { contentStaticPaths } from "$utils/content";
-import Base from "$layouts/Base.astro";
-import ContentHeader from "$components/ContentHeader.astro";
-import TOC from "$components/TOC.astro";
-import Position from "$components/Position.astro";
-import Sensitive from "$components/Sensitive.svelte";
-import i18nit from "$i18n";
-import { ts } from "$utils/labels";
+import ContentDetail from "$layouts/ContentDetail.astro";
 
+/**
+ * Note detail page.
+ *
+ * The chrome (Base meta, header, sensitive wrapper, optional TOC, position
+ * button) lives in `$layouts/ContentDetail.astro` behind the
+ * `ContentDetailProps` interface. This file owns only what is *page-level*:
+ * the `getStaticPaths` builder for the note collection, the props
+ * extraction, the `render(entry)` call, and the layout invocation.
+ *
+ * Adding a third listable section is a near-mirror of this file: the only
+ * differences are the section id passed to `contentStaticPaths` and the
+ * variable destructured from `Astro.props`. The seam at the layout closes
+ * the rest.
+ */
 export async function getStaticPaths() {
 	return contentStaticPaths("note");
 }
 
 const { locale = config.i18n.defaultLocale } = Astro.params;
-const { note } = Astro.props as { note: import("astro:content").CollectionEntry<"note"> };
+const { note } = Astro.props as { note: CollectionEntry<"note"> };
 
-// Render markdown content and extract headings for TOC
 const { Content, headings, remarkPluginFrontmatter: frontmatter } = await render(note);
-
-const t = i18nit(locale);
 ---
 
-<Base title={note.data.title} {locale} description={note.data.description} article={{ timestamp: note.data.timestamp, section: note.data.series, tags: note.data.tags }}>
-	<main class="flex flex-col gap-6">
-		<ContentHeader {locale} title={note.data.title} timestamp={note.data.timestamp} series={note.data.series} tags={note.data.tags} words={frontmatter.words} />
-
-		<Sensitive {locale} back={getRelativeLocaleUrl(locale, "/note")} sensitive={note.data.sensitive} client:load>
-			<div class="flex gap-5">
-				<section id="markdown-content" class="markdown"><Content /></section>
-				{
-					note.data.toc && (
-						<aside class="hidden sm:block sm:shrink-0 sm:w-50">
-							<div class="sticky top-3 flex flex-col gap-1">
-								<h4>{ts(t, "note.contents")}</h4>
-								<nav class="overflow-y-auto">
-									<TOC {headings} />
-								</nav>
-							</div>
-						</aside>
-					)
-				}
-			</div>
-		</Sensitive>
-
-		<Position {locale} />
-	</main>
-</Base>
+<ContentDetail {locale} section="note" entry={note} {Content} {headings} {frontmatter} />

@@ -1,0 +1,128 @@
+---
+import type { MarkdownHeading } from "astro";
+import type { CollectionEntry } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import type { ListableCollection } from "$utils/config";
+import Base from "$layouts/Base.astro";
+import ContentHeader from "$components/ContentHeader.astro";
+import Position from "$components/Position.astro";
+import Sensitive from "$components/Sensitive.svelte";
+import TOC from "$components/TOC.astro";
+import i18nit from "$i18n";
+import { ts } from "$utils/labels";
+
+/**
+ * The chrome (Base meta, header, sensitive wrapper, optional TOC, position
+ * button) shared by every listable content detail page.
+ *
+ * The pre-deepening shape had two near-identical `.astro` files
+ * (`[...locale]/note/[...id]/index.astro` and
+ * `[...locale]/jotting/[...id]/index.astro`) that each repeated:
+ *
+ *   - the `<Base>` wrapping with the article-shape meta;
+ *   - the `<ContentHeader>` invocation (note passes `series`, jotting omits it);
+ *   - the `<Sensitive>` wrapper with the section-aware back link;
+ *   - the optional TOC sidebar (note-only);
+ *   - the `<Position>` scroll button.
+ *
+ * Adding a third listable section ("essay", etc.) meant copy-pasting one of
+ * the two files. The chrome — sensitive flow, position button, OG meta,
+ * header layout — was a per-file decision rather than a project-level seam.
+ *
+ * The deepening moves the chrome behind a typed interface at the layout
+ * seam. The two detail pages become thin page stubs:
+ *
+ *   1. they delegate `getStaticPaths` to `contentStaticPaths(section)` (the
+ *      shared seam in `$utils/content-routing`);
+ *   2. they call `render(entry)` and forward `(Content, headings, frontmatter)`
+ *      to the layout;
+ *   3. they render the layout with `(locale, section, entry)`.
+ *
+ * The "is this note-with-TOC or jotting-without-TOC" decision is owned
+ * here: `supportsToc` is derived from the section id, and the TOC sidebar
+ * renders only when both the section supports it and the entry opts in
+ * via `entry.data.toc`. The `article.section` meta (the Open Graph
+ * `article:section` tag in `<Base>`) is `entry.data.series` for note —
+ * series is the closest thing to a "section" in the article meta — and
+ * `undefined` for jotting, which has no equivalent.
+ *
+ * Deletion test: removing this file forces both detail pages to re-inline
+ * the chrome. The re-spread is the signal this seam is earning its keep.
+ */
+export interface ContentDetailProps {
+	/** Active locale segment. `undefined` for the default locale (URL prefix omitted). */
+	locale: string;
+	/** The listable section the entry belongs to (`"note"` or `"jotting"`). */
+	section: ListableCollection;
+	/** The rendered entry — provides title, timestamp, series, tags, sensitive, description, etc. */
+	entry: CollectionEntry<ListableCollection>;
+	/** The rendered markdown component returned by `render(entry)`. */
+	Content: (props?: Record<string, unknown>) => unknown;
+	/** The headings tree returned by `render(entry)` — empty array for jotting. */
+	headings: MarkdownHeading[];
+	/** The remark frontmatter returned by `render(entry)`. Owns `words`. */
+	frontmatter: { words?: number; [key: string]: unknown };
+}
+
+const { locale, section, entry, Content, headings, frontmatter } = Astro.props;
+
+// `supportsToc` closes the seam: a fourth listable section that wants a TOC
+// only edits the strategy check here, not the page stub. The "note has
+// series" knowledge is the only section-specific quirk in this layout —
+// everything else branches on `entry.data.*` fields that the entry owns.
+const supportsToc = section === "note";
+const showToc = supportsToc && entry.data.toc === true && headings.length > 0;
+
+// The Open Graph `article:section` tag (per `<Base>`) is `entry.data.series`
+// for note and `undefined` for jotting. Series is the closest thing to a
+// "section" the article meta has; jotting has no equivalent.
+const articleSection = section === "note" ? entry.data.series : undefined;
+
+// The `<ContentHeader>` reads `series?` and `tags?` as optional props;
+// note passes both, jotting passes only tags. The interface is uniform.
+const series = section === "note" ? entry.data.series : undefined;
+const tags = entry.data.tags;
+const words = frontmatter.words ?? 0;
+
+const t = i18nit(locale);
+---
+
+<Base
+	title={entry.data.title}
+	{locale}
+	description={entry.data.description}
+	article={{
+		timestamp: entry.data.timestamp,
+		section: articleSection,
+		tags
+	}}
+>
+	<main class="flex flex-col gap-6">
+		<ContentHeader {locale} title={entry.data.title} timestamp={entry.data.timestamp} {series} {tags} {words} />
+
+		<Sensitive
+			{locale}
+			back={getRelativeLocaleUrl(locale, `/${section}`)}
+			sensitive={entry.data.sensitive ?? false}
+			client:load
+		>
+			<div class="flex gap-5">
+				<section id="markdown-content" class="markdown"><Content /></section>
+				{
+					showToc && (
+						<aside class="hidden sm:block sm:shrink-0 sm:w-50">
+							<div class="sticky top-3 flex flex-col gap-1">
+								<h4>{ts(t, "note.contents")}</h4>
+								<nav class="overflow-y-auto">
+									<TOC {headings} />
+								</nav>
+							</div>
+						</aside>
+					)
+				}
+			</div>
+		</Sensitive>
+
+		<Position {locale} />
+	</main>
+</Base>
