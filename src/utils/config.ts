@@ -5,8 +5,20 @@ type CCLicenseType = "CC0 1.0" | "CC BY 4.0" | "CC BY-SA 4.0" | "CC BY-NC 4.0" |
 
 /**
  * Content Section Type
+ *
+ * The listable publication pair: Note and Jotting. This is the public
+ * name for the union consumed by the listing page, the Atom feed, the
+ * homepage latest card, and the heatmap. The full content collection
+ * union (`ContentCollection`) also includes `preface` and `information`,
+ * which are single-document and never appear in the paginated list view.
  */
 export type Section = "note" | "jotting";
+
+/** Site-managed content collections. */
+export type ContentCollection = "note" | "jotting" | "preface" | "information";
+
+/** Collections that carry the listing-card shape. */
+export type ListableCollection = "note" | "jotting";
 
 interface SiteConfigOptions<Locales extends readonly string[] = readonly string[]> {
 	/** Site Title */

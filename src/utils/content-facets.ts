@@ -14,7 +14,7 @@
  */
 import type { CollectionEntry } from "astro:content";
 import { render } from "astro:content";
-import type { ListableCollection } from "./content-types";
+import type { ListableCollection } from "$utils/config";
 
 /** Aggregate sorted series + tag facets over a collection of listable entries. */
 export function collectFacets<C extends ListableCollection>(

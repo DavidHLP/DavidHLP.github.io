@@ -2,13 +2,13 @@
 import { render } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import config from "$config";
-import { contentUrl, getPublishedByLocale, localeStaticPaths, stripLocale } from "$utils/content";
+import { getPublishedByLocale, latestByTimestamp, localeStaticPaths, toCard } from "$utils/content";
 import { sectionLabel, ts } from "$utils/labels";
-import { getContentHash } from "$utils/id-hash";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
 import Heatmap from "$components/Heatmap.astro";
 import TechBorder from "$components/TechBorder.astro";
+import LatestCard from "$components/LatestCard.astro";
 import Logo from "$icons/site-logo.svg";
 import i18nit, { i18nData } from "$i18n";
 
@@ -18,53 +18,44 @@ const { locale = config.i18n.defaultLocale } = Astro.params;
 
 const t = i18nit(locale);
 
-// Resolve the localized profile card from the i18n system. When the active
-// locale has no profile entry, fall back to the site default locale's profile
-// (was hardcoded "zh-cn"; now driven by `config.i18n.defaultLocale`).
-const localeData = i18nData(locale);
-const profile = localeData.home?.profile ?? i18nData(config.i18n.defaultLocale).home.profile;
+// Profile card resolves through the i18n seam's `fallbackLocale` policy
+// (ADR 0004 + Phase B of the architecture review): a key missing in the
+// active locale transparently resolves to the configured fallback locale,
+// so the page no longer needs to compose the fallback at the call site.
+const profile = i18nData(locale).home?.profile;
 
 // Resolve the localized prologue and author via the i18n seam so per-locale
 // i18n entries fall back to the site-wide `site.config.ts` values (ADR 0004).
 const prologue = t("home.prologue") ?? config.prologue;
 const prologueAuthor = t("home.prologue_author") ?? config.prologueAuthor;
 
-// Get preface content for current locale, sorted by timestamp (latest first).
+// Preface content for the current locale, sorted by timestamp (latest first).
 // Routes through `getPublishedByLocale` so Preface shares the same locale-filter
 // seam as Note and Jotting, and the input entry is never mutated.
 const prefaces = (await getPublishedByLocale("preface", locale)).sort((a, b) => b.data.timestamp.getTime() - a.data.timestamp.getTime());
 
-// Get published notes for current locale
+// Published entries for the current locale, one fetch per listable section.
 const notes = await getPublishedByLocale("note", locale);
-
-// Get published jottings for current locale
 const jottings = await getPublishedByLocale("jotting", locale);
 
-// Combine contents, tagging each entry with its section so the latest-card template can render the badge.
-let items: { id: string; type: "note" | "jotting"; data: { timestamp: Date; tags?: string[]; [key: string]: any } }[] = [];
-
-// Determine which sections to include
+// "Latest" aggregation. The card pool is shaped through the listing-card
+// seam (one adapter, one shape) and the most-recent pick lives in
+// `utils/latest.ts` so the "what is latest" decision is testable in
+// isolation. The page just asks for the card.
 const sections = config.latest || "*";
+const cardPool: import("$utils/content").ContentCard[] = [];
+if (sections === "*" || sections.includes("note")) cardPool.push(...notes.map(note => toCard(note, "note", locale)));
+if (sections === "*" || sections.includes("jotting")) cardPool.push(...jottings.map(jotting => toCard(jotting, "jotting", locale)));
+const latest = latestByTimestamp(cardPool);
 
-// Add contents based on config
-if (sections === "*" || sections.includes("note")) for (const note of notes) items.push({ ...note, type: "note" });
-if (sections === "*" || sections.includes("jotting")) for (const jotting of jottings) items.push({ ...jotting, type: "jotting" });
-
-// Get the latest content for display
-const latest = items.sort((a, b) => b.data.timestamp.getTime() - a.data.timestamp.getTime())[0];
-
-// Get the latest preface for display
+// The most recent preface drives the preface panel.
 const preface = prefaces[0];
-// Render preface content if available, otherwise use empty object
+// Render preface content if available, otherwise use an empty object.
 const { Content } = preface ? await render(preface) : ({} as any);
 
 // Resolve the localized unit label for the heatmap (day / week / month).
 const heatmapUnit = config.heatmap?.unit || "day";
 const unitLabel = ts(t, `home.unit.${heatmapUnit}`);
-
-// Strip the locale prefix from the latest entry's id for the content hash label.
-// The link itself is built via `contentUrl`, which already strips the prefix.
-const latestSlug = latest ? stripLocale(latest.id) : "";
 ---
 
 <Base title={ts(t, "navigation.home")} {locale}>
@@ -191,40 +182,9 @@ const latestSlug = latest ? stripLocale(latest.id) : "";
 					</div>
 
 					<!-- Latest release panel -->
-					<blockquote class="lg:col-span-5 relative tech-border p-6 bg-background flex flex-col justify-between gap-4">
-						<TechBorder class="absolute inset-0 pointer-events-none" />
-
-						<div class="flex items-center justify-between border-b border-weak/10 pb-2 mb-2">
-							<span class="text-[10px] font-mono text-weak uppercase tracking-widest">{sectionLabel(t, 3, "home.section.latest")}</span>
-							<span class="text-[9px] font-mono text-remark">{latest.type?.toUpperCase()}</span>
-						</div>
-
-						<div class="flex flex-col gap-2">
-							{latest.data.series && (
-								<span class="text-[10px] font-mono text-weak uppercase tracking-wider">
-									// SERIES: {latest.data.series}
-								</span>
-							)}
-							<a href={contentUrl(locale, latest.type as "note" | "jotting", latest.id)} class="font-serif text-xl sm:text-2xl font-light hover:text-secondary transition-colors duration-150 leading-snug block select-text">
-								{latest.data.title}
-							</a>
-
-							<div class="flex flex-wrap gap-2 mt-2">
-								{latest.data.tags?.map(tag => (
-									<a href={`${getRelativeLocaleUrl(locale, `/${latest.type}`)}?tag=${encodeURIComponent(tag)}`} class="text-[10px] font-mono text-remark hover:text-primary transition-colors bg-block px-2 py-0.5 rounded-sm">
-										#{tag}
-									</a>
-								))}
-							</div>
-						</div>
-
-						<div class="border-t border-weak/10 pt-2 flex items-center justify-between mt-4">
-							<time datetime={latest.data.timestamp.toISOString()} class="text-remark font-mono text-xs">
-								{Time.toString(latest.data.timestamp)}
-							</time>
-							<span class="text-[8px] font-mono text-weak/60">[HASH.{getContentHash(latestSlug)}]</span>
-						</div>
-					</blockquote>
+					<div class="lg:col-span-5">
+						<LatestCard entry={latest} {locale} />
+					</div>
 				</footer>
 			)
 		}

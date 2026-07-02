@@ -18,7 +18,7 @@ type DefaultProps = {
 };
 
 /** VDOM template for the site-wide Open Graph card. */
-const template: OgTemplate = props => {
+export const template: OgTemplate = props => {
 	const { title, description, author } = props as DefaultProps;
 	return {
 		type: "div",
