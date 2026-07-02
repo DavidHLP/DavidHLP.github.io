@@ -2,7 +2,7 @@
 import { render } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import config from "$config";
-import { getPublishedByLocale, latestByTimestamp, listBySections, localeStaticPaths } from "$utils/content";
+import { latestByTimestamp, latestPreface, listBySections, localeStaticPaths } from "$utils/content";
 import { sectionLabel, ts } from "$utils/labels";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
@@ -29,10 +29,12 @@ const profile = i18nData(locale).home?.profile;
 const prologue = t("home.prologue") ?? config.prologue;
 const prologueAuthor = t("home.prologue_author") ?? config.prologueAuthor;
 
-// Preface content for the current locale, sorted by timestamp (latest first).
-// Routes through `getPublishedByLocale` so Preface shares the same locale-filter
-// seam as Note and Jotting, and the input entry is never mutated.
-const prefaces = (await getPublishedByLocale("preface", locale)).sort((a, b) => b.data.timestamp.getTime() - a.data.timestamp.getTime());
+// Fetch the most recent preface for the current locale via the preface
+// seam. The sort + take-0 decision lives in `src/utils/preface.ts`,
+// shared with the preface archive page. The page reads the latest
+// preface; if none exists, the panel is suppressed.
+const preface = await latestPreface(locale);
+const { Content } = preface ? await render(preface) : ({} as any);
 
 // Fetch + shape every listable card once. The seam in `src/utils/sections.ts`
 // owns the listable-section iteration, the locale filter, and the `toCard`
@@ -44,11 +46,6 @@ const prefaces = (await getPublishedByLocale("preface", locale)).sort((a, b) => 
 // happens in one place, not three.
 const cards = await listBySections(config.latest || "*", locale);
 const latest = latestByTimestamp(cards);
-
-// The most recent preface drives the preface panel.
-const preface = prefaces[0];
-// Render preface content if available, otherwise use an empty object.
-const { Content } = preface ? await render(preface) : ({} as any);
 
 // Resolve the localized unit label for the heatmap (day / week / month).
 const heatmapUnit = config.heatmap?.unit || "day";

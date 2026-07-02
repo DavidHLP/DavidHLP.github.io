@@ -10,7 +10,11 @@
  * - `og-paths.ts`        — OG image `getStaticPaths` + display date
  * - `latest.ts`          — pure `latestByTimestamp` over a pre-built card pool
  * - `sections.ts`        — listable section aggregation: `listBySections` (async,
- *                          fetches + shapes) and `latestCard` (one-card convenience)
+ *                          accepts an optional per-entry shape adapter) and
+ *                          `latestCard` (one-card convenience)
+ * - `preface.ts`         — preface aggregation: `listPrefaces` (sort by
+ *                          timestamp desc) and `latestPreface` (one-entry
+ *                          convenience for the homepage)
  *
  * This file exists so existing call sites (`import { ... } from "$utils/content"`)
  * keep working unchanged. New code should import from the focused module
@@ -26,4 +30,5 @@ export { collectFacets, totalWordCount } from "./content-facets";
 export { contentGraphStaticPaths, toDisplayDate } from "./og-paths";
 export { latestByTimestamp } from "./latest";
 export { LISTABLE_SECTIONS, listBySections, latestCard, resolveSections } from "./sections";
-export type { SectionSelector } from "./sections";
+export type { SectionSelector, ListableShape } from "./sections";
+export { listPrefaces, latestPreface } from "./preface";

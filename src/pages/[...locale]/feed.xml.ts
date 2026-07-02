@@ -4,7 +4,7 @@ import { experimental_AstroContainer as AstroContainer } from "astro/container";
 import { render } from "astro:content";
 import { Feed } from "feed";
 import config from "$config";
-import { feedLink, getPublishedByLocale, localeStaticPaths, resolveSections, type SectionSelector } from "$utils/content";
+import { feedLink, listBySections, localeStaticPaths } from "$utils/content";
 import i18nit from "$i18n";
 import { ts } from "$utils/labels";
 
@@ -35,36 +35,31 @@ export const GET: APIRoute = async ({ site, params }) => {
 		stylesheet: "feed.xsl" // XSL stylesheet for feed
 	});
 
-	// Aggregate items from the resolved sections. The section-iteration
-	// pattern (turn "*" into the canonical list, iterate, fetch per section)
-	// lives in `src/utils/sections.ts`; this page owns the feed-specific
-	// "spread entry with absolute link" projection.
-	const sectionSelector: SectionSelector = config.feed?.section || "*";
-	const resolvedSections = resolveSections(sectionSelector);
+	// The section-iteration pattern (turn "*" into the canonical list,
+	// iterate, fetch per section) lives in `src/utils/sections.ts`;
+	// the per-section fetch + parallel merge is now shared with the
+	// homepage. The feed owns the feed-specific projection (entry +
+	// absolute link) via the `shape` adapter, and the per-entry
+	// `render(item)` rendering pass below.
+	const sectionSelector = config.feed?.section || "*";
 
 	/** A listable collection entry plus the absolute link used by the Atom feed. */
 	type FeedItem = CollectionEntry<"note" | "jotting"> & { link: string };
 
-	const items: FeedItem[] = [];
-	for (const section of resolvedSections) {
-		// The locale-filter seam (and the monolocale shortcut) live in
-		// `getPublishedByLocale`; the feed iterates the resolved list and
-		// materialises the link via `feedLink`.
-		const entries = await getPublishedByLocale(section, language);
-		for (const entry of entries) {
-			items.push({ ...entry, link: feedLink(entry, section, language, site!) });
-		}
-	}
+	const items: FeedItem[] = await listBySections<FeedItem>(sectionSelector, language, (entry, section, locale) => ({
+		...entry,
+		link: feedLink(entry, section, locale, site!)
+	}));
 
-	// Sort all items by timestamp and limit to configured number
-	const sorted = items
-		.sort((a, b) => b.data.timestamp.getTime() - a.data.timestamp.getTime()) // Sort by newest first
-		.slice(0, config.feed?.limit || items.length); // Limit to number of items
+	// Limit to the configured number of items; the sort is owned by
+	// `listBySections` (newest first) so the slice is a straight take.
+	const limit = config.feed?.limit || items.length;
+	const top = items.slice(0, limit);
 
 	// Create an Astro container for rendering content
 	const container = await AstroContainer.create();
 	await Promise.all(
-		sorted.map(async item => {
+		top.map(async item => {
 			if (item.rendered) {
 				// Render content for each item
 				const content = await container.renderToString((await render(item)).Content);
@@ -76,7 +71,7 @@ export const GET: APIRoute = async ({ site, params }) => {
 	);
 
 	// Add each filtered note as a feed item
-	sorted.forEach(item => {
+	top.forEach(item => {
 		feed.addItem({
 			id: item.id, // Unique item identifier
 			title: item.data.title, // Post title
