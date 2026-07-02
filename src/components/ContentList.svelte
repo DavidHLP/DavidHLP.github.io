@@ -2,7 +2,7 @@
 import { untrack } from "svelte";
 import { flip } from "svelte/animate";
 import config from "$config";
-import type { ContentCard } from "$utils/content";
+import { type ContentCard, type Section } from "$utils/content";
 import { getContentHash } from "$utils/id-hash";
 import Time from "$utils/time";
 import Icon from "$components/Icon.svelte";
@@ -12,8 +12,11 @@ import i18nit from "$i18n";
 /**
  * The two content publications the site renders as paginated lists.
  * Drives every feature flag below (series support, pagination size, i18n prefix).
+ *
+ * `Section` is the canonical publication type re-exported from `$utils/content`
+ * (which itself imports it from `$utils/config`); keep this comment as the
+ * pointer future readers need to trace the seam.
  */
-export type Section = "note" | "jotting";
 
 let {
 	locale,

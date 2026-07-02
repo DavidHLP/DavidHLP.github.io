@@ -3,10 +3,12 @@ import { render } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import config from "$config";
 import { contentUrl, getPublishedByLocale, localeStaticPaths, stripLocale } from "$utils/content";
+import { sectionLabel, tOr } from "$utils/labels";
 import { getContentHash } from "$utils/id-hash";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
 import Heatmap from "$components/Heatmap.astro";
+import TechBorder from "$components/TechBorder.astro";
 import Logo from "$icons/site-logo.svg";
 import i18nit, { i18nData } from "$i18n";
 
@@ -16,14 +18,16 @@ const { locale = config.i18n.defaultLocale } = Astro.params;
 
 const t = i18nit(locale);
 
-// Resolve the localized profile card from the i18n system.
-// The dictionary is guaranteed to be defined for supported locales.
+// Resolve the localized profile card from the i18n system. When the active
+// locale has no profile entry, fall back to the site default locale's profile
+// (was hardcoded "zh-cn"; now driven by `config.i18n.defaultLocale`).
 const localeData = i18nData(locale);
-const profile = localeData.home?.profile ?? i18nData("zh-cn").home.profile;
+const profile = localeData.home?.profile ?? i18nData(config.i18n.defaultLocale).home.profile;
 
-// Resolve the localized prologue (per-locale override) with config fallback.
-const prologue = t("home.prologue") !== "home.prologue" ? t("home.prologue") : config.prologue;
-const prologueAuthor = t("home.prologue_author") !== "home.prologue_author" ? t("home.prologue_author") : config.prologueAuthor;
+// Resolve the localized prologue and author via the `tOr` seam so per-locale
+// i18n entries quietly fall back to the site-wide `site.config.ts` values.
+const prologue = tOr(t, "home.prologue", config.prologue);
+const prologueAuthor = tOr(t, "home.prologue_author", config.prologueAuthor);
 
 // Get preface content for current locale, sorted by timestamp (latest first).
 // Routes through `getPublishedByLocale` so Preface shares the same locale-filter
@@ -58,14 +62,6 @@ const { Content } = preface ? await render(preface) : ({} as any);
 const heatmapUnit = config.heatmap?.unit || "day";
 const unitLabel = t(`home.unit.${heatmapUnit}`);
 
-// Resolve the localized activity log section number prefix.
-const sectionLabel = (n: number, key: string) => {
-	const label = t(key);
-	return label === key
-		? `[ ${String(n).padStart(2, "0")} / ${key.split(".").pop()?.toUpperCase()} ]`
-		: `[ ${String(n).padStart(2, "0")} / ${label} ]`;
-};
-
 // Strip the locale prefix from the latest entry's id for the content hash label.
 // The link itself is built via `contentUrl`, which already strips the prefix.
 const latestSlug = latest ? stripLocale(latest.id) : "";
@@ -96,14 +92,10 @@ const latestSlug = latest ? stripLocale(latest.id) : "";
 					</div>
 				)}
 			</div>
-			
+
 			<div class="md:col-span-1 flex md:justify-end items-center">
 				<div class="relative tech-border p-5 bg-background shadow-sm group">
-					<!-- Corner Crosshairs -->
-					<span class="absolute -top-1.5 -left-1.5 text-[9px] font-mono text-weak/60">+</span>
-					<span class="absolute -top-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
-					<span class="absolute -bottom-1.5 -left-1.5 text-[9px] font-mono text-weak/60">+</span>
-					<span class="absolute -bottom-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
+					<TechBorder class="absolute inset-0 pointer-events-none" />
 					<Logo width={70} class="text-primary opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300" />
 					<span class="absolute -bottom-2.5 right-3 px-1.5 py-0.5 bg-background border border-weak/10 text-[8px] font-mono text-weak tracking-wider uppercase">
 						[SYS.ACTIVE]
@@ -118,7 +110,7 @@ const latestSlug = latest ? stripLocale(latest.id) : "";
 				<span class="text-[10px] font-mono text-weak uppercase tracking-widest">[ {t("home.profileTag")} ]</span>
 				<span class="text-[9px] font-mono text-remark">{t("home.profileBrief")}</span>
 			</div>
-			
+
 			<div class="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
 				<!-- Bio Column -->
 				<div class="md:col-span-1 flex flex-col justify-between border-b md:border-b-0 md:border-r border-weak/10 pb-6 md:pb-0 md:pr-4">
@@ -138,7 +130,7 @@ const latestSlug = latest ? stripLocale(latest.id) : "";
 						</a>
 					</div>
 				</div>
-				
+
 				<!-- Highlights Column -->
 				<div class="md:col-span-2 flex flex-col gap-2">
 					<h4 class="text-xs font-mono text-weak uppercase tracking-wider">// {profile.highlightsTitle}</h4>
@@ -154,14 +146,10 @@ const latestSlug = latest ? stripLocale(latest.id) : "";
 		{
 			preface && (
 				<section class="grid grid-cols-1 md:grid-cols-4 gap-8 relative border-y border-weak/10 py-8 dot-grid">
-					<!-- Border Corner Dots -->
-					<span class="absolute -top-1 -left-1 text-[8px] font-mono text-weak/50">¤</span>
-					<span class="absolute -top-1 -right-1 text-[8px] font-mono text-weak/50">¤</span>
-					<span class="absolute -bottom-1 -left-1 text-[8px] font-mono text-weak/50">¤</span>
-					<span class="absolute -bottom-1 -right-1 text-[8px] font-mono text-weak/50">¤</span>
+					<TechBorder marker="dot" size="tight" class="absolute inset-0 pointer-events-none" />
 
 					<div class="md:col-span-1 flex flex-col gap-1">
-						<span class="text-[10px] font-mono text-weak uppercase tracking-widest">{sectionLabel(1, "home.section.preface")}</span>
+						<span class="text-[10px] font-mono text-weak uppercase tracking-widest">{sectionLabel(t, 1, "home.section.preface")}</span>
 						<span class="text-[9px] font-mono text-remark">{Time.toLocaleDateString(preface.data.timestamp, locale)}</span>
 					</div>
 
@@ -190,14 +178,10 @@ const latestSlug = latest ? stripLocale(latest.id) : "";
 				<footer class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
 					<!-- Heatmap panel -->
 					<div class="lg:col-span-7 relative tech-border p-6 bg-background/50 flex flex-col justify-between min-w-0">
-						<!-- Corner Crosshairs -->
-						<span class="absolute -top-1.5 -left-1.5 text-[9px] font-mono text-weak/60">+</span>
-						<span class="absolute -top-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
-						<span class="absolute -bottom-1.5 -left-1.5 text-[9px] font-mono text-weak/60">+</span>
-						<span class="absolute -bottom-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
+						<TechBorder class="absolute inset-0 pointer-events-none" />
 
 						<div class="flex items-center justify-between gap-4 mb-4 border-b border-weak/10 pb-2">
-							<span class="text-[10px] font-mono text-weak uppercase tracking-widest">{sectionLabel(2, "home.section.activity")}</span>
+							<span class="text-[10px] font-mono text-weak uppercase tracking-widest">{sectionLabel(t, 2, "home.section.activity")}</span>
 							<span class="text-[9px] font-mono text-remark">UNIT: {unitLabel}</span>
 						</div>
 
@@ -208,14 +192,10 @@ const latestSlug = latest ? stripLocale(latest.id) : "";
 
 					<!-- Latest release panel -->
 					<blockquote class="lg:col-span-5 relative tech-border p-6 bg-background flex flex-col justify-between gap-4">
-						<!-- Corner Crosshairs -->
-						<span class="absolute -top-1.5 -left-1.5 text-[9px] font-mono text-weak/60">+</span>
-						<span class="absolute -top-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
-						<span class="absolute -bottom-1.5 -left-1.5 text-[9px] font-mono text-weak/60">+</span>
-						<span class="absolute -bottom-1.5 -right-1.5 text-[9px] font-mono text-weak/60">+</span>
+						<TechBorder class="absolute inset-0 pointer-events-none" />
 
 						<div class="flex items-center justify-between border-b border-weak/10 pb-2 mb-2">
-							<span class="text-[10px] font-mono text-weak uppercase tracking-widest">{sectionLabel(3, "home.section.latest")}</span>
+							<span class="text-[10px] font-mono text-weak uppercase tracking-widest">{sectionLabel(t, 3, "home.section.latest")}</span>
 							<span class="text-[9px] font-mono text-remark">{latest.type?.toUpperCase()}</span>
 						</div>
 
@@ -228,7 +208,7 @@ const latestSlug = latest ? stripLocale(latest.id) : "";
 							<a href={contentUrl(locale, latest.type as "note" | "jotting", latest.id)} class="font-serif text-xl sm:text-2xl font-light hover:text-secondary transition-colors duration-150 leading-snug block select-text">
 								{latest.data.title}
 							</a>
-							
+
 							<div class="flex flex-wrap gap-2 mt-2">
 								{latest.data.tags?.map(tag => (
 									<a href={`${getRelativeLocaleUrl(locale, `/${latest.type}`)}?tag=${encodeURIComponent(tag)}`} class="text-[10px] font-mono text-remark hover:text-primary transition-colors bg-block px-2 py-0.5 rounded-sm">
