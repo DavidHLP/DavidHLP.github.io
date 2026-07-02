@@ -2,7 +2,7 @@
 import { render } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import config from "$config";
-import { getPublishedByLocale, latestByTimestamp, localeStaticPaths, toCard } from "$utils/content";
+import { getPublishedByLocale, latestCard, localeStaticPaths } from "$utils/content";
 import { sectionLabel, ts } from "$utils/labels";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
@@ -34,19 +34,16 @@ const prologueAuthor = t("home.prologue_author") ?? config.prologueAuthor;
 // seam as Note and Jotting, and the input entry is never mutated.
 const prefaces = (await getPublishedByLocale("preface", locale)).sort((a, b) => b.data.timestamp.getTime() - a.data.timestamp.getTime());
 
-// Published entries for the current locale, one fetch per listable section.
+// Fetched once, then consumed by the heatmap (entries list) and the
+// latestCard aggregator (most recent card). The aggregator owns the
+// "shape into ContentCard, sort, pick" decision in `src/utils/sections.ts`.
 const notes = await getPublishedByLocale("note", locale);
 const jottings = await getPublishedByLocale("jotting", locale);
 
-// "Latest" aggregation. The card pool is shaped through the listing-card
-// seam (one adapter, one shape) and the most-recent pick lives in
-// `utils/latest.ts` so the "what is latest" decision is testable in
-// isolation. The page just asks for the card.
-const sections = config.latest || "*";
-const cardPool: import("$utils/content").ContentCard[] = [];
-if (sections === "*" || sections.includes("note")) cardPool.push(...notes.map(note => toCard(note, "note", locale)));
-if (sections === "*" || sections.includes("jotting")) cardPool.push(...jottings.map(jotting => toCard(jotting, "jotting", locale)));
-const latest = latestByTimestamp(cardPool);
+// "Latest" aggregation. The seam in `src/utils/sections.ts` owns the
+// listable-section iteration, the locale filter, the card shaping, and
+// the most-recent pick. The page just asks for the card.
+const latest = await latestCard(config.latest || "*", locale);
 
 // The most recent preface drives the preface panel.
 const preface = prefaces[0];

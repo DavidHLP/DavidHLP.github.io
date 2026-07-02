@@ -4,7 +4,7 @@ import { experimental_AstroContainer as AstroContainer } from "astro/container";
 import { render } from "astro:content";
 import { Feed } from "feed";
 import config from "$config";
-import { feedLink, getPublishedByLocale, localeStaticPaths } from "$utils/content";
+import { feedLink, getPublishedByLocale, localeStaticPaths, resolveSections, type SectionSelector } from "$utils/content";
 import i18nit from "$i18n";
 import { ts } from "$utils/labels";
 
@@ -35,24 +35,25 @@ export const GET: APIRoute = async ({ site, params }) => {
 		stylesheet: "feed.xsl" // XSL stylesheet for feed
 	});
 
-	// Aggregate items from specified sections
-	const sections = config.feed?.section || "*";
+	// Aggregate items from the resolved sections. The section-iteration
+	// pattern (turn "*" into the canonical list, iterate, fetch per section)
+	// lives in `src/utils/sections.ts`; this page owns the feed-specific
+	// "spread entry with absolute link" projection.
+	const sectionSelector: SectionSelector = config.feed?.section || "*";
+	const resolvedSections = resolveSections(sectionSelector);
 
 	/** A listable collection entry plus the absolute link used by the Atom feed. */
 	type FeedItem = CollectionEntry<"note" | "jotting"> & { link: string };
 
 	const items: FeedItem[] = [];
-
-	// Determine which sections to include
-	if (sections === "*" || sections.includes("note")) {
-		const notes = await getPublishedByLocale("note", language);
-		// Use the listing-card seam to materialise a link, no entry mutation.
-		items.push(...notes.map(note => ({ ...note, link: feedLink(note, "note", language, site!) })));
-	}
-
-	if (sections === "*" || sections.includes("jotting")) {
-		const jottings = await getPublishedByLocale("jotting", language);
-		items.push(...jottings.map(jotting => ({ ...jotting, link: feedLink(jotting, "jotting", language, site!) })));
+	for (const section of resolvedSections) {
+		// The locale-filter seam (and the monolocale shortcut) live in
+		// `getPublishedByLocale`; the feed iterates the resolved list and
+		// materialises the link via `feedLink`.
+		const entries = await getPublishedByLocale(section, language);
+		for (const entry of entries) {
+			items.push({ ...entry, link: feedLink(entry, section, language, site!) });
+		}
 	}
 
 	// Sort all items by timestamp and limit to configured number
