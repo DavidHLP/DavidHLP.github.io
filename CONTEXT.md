@@ -49,14 +49,14 @@ itself; per-page fallbacks are not supported.
 ## Card
 
 A **ContentCard** is the lean shape consumed by the listing page
-(`ContentList.svelte`), the Atom feed, and the homepage's `<LatestCard />`.
-The `section` field on the card records the publication the card came
-from; the listing pages and feed already know their section from the
-collection they fetched, so the field is unused by them — but the
-homepage's "latest" pick needs it to know whether the most-recent entry
-is a Note or a Jotting. The shape and its `toCard` / `feedLink` adapters
-live in `src/utils/content-card.ts`; adding a card field is one edit
-there instead of three.
+(`ContentList.svelte`), the Atom feed, the homepage's `<LatestCard />`,
+and the homepage's `<Heatmap />`. Four surfaces, one shape — the listing
+pages and feed know their section from the collection they fetched, so
+the `section` field is unused by them, but the homepage's "latest" pick
+and the heatmap's "notes vs jottings" cell both need it. The shape and
+its `toCard` / `feedLink` adapters live in `src/utils/content-card.ts`;
+adding a card field is one edit there instead of four. ADR 0005 records
+the "single listable shape" decision.
 
 ## Facet
 
@@ -90,11 +90,12 @@ wires the two together: shape the pool via `toCard`, call
 | `src/utils/time.ts`            | `Temporal`-based date/time formatting                         |
 | `src/utils/reading.ts`         | remark plugin: word count for `frontmatter.words`             |
 | `src/utils/mermaid.ts`         | remark plugin: transform `mermaid` code blocks into `<div>`   |
-| `src/utils/heatmap-bins.ts`     | heatmap bin strategy: one pipeline, three adapters (day / week / month); `getStrategy(unit)`, `toHeatmapEntries(notes, jottings, locale)` |
+| `src/utils/heatmap-bins.ts`     | heatmap bin strategy: one pipeline, three adapters (day / week / month); `getStrategy(unit)` returns a `HeatmapBinStrategy` whose `buildBins(cards: ContentCard[], ...)` consumes the universal listable shape (ADR 0005) |
 | `src/i18n/index.ts`            | `i18nit(locale, ns, options?)` returns a `t(key)` translator; `i18nData(locale, ns, options?)` returns a merged dictionary honouring `options.fallbackLocale` |
 | `src/graph/render.ts`          | shared satori → sharp → PNG pipeline (`renderOg`)             |
 | `src/graph/default.ts`         | site-wide OG VDOM template (also exported as `template` for tests) |
 | `src/graph/content.ts`         | per-entry OG VDOM template (also exported as `template` for tests) |
+| `src/utils/og-endpoint.ts`     | `defineContentGraphEndpoint` factory for per-content OG endpoints (ADR 0006) |
 | `src/components/LatestCard.astro` | homepage "latest release" card; consumes a `ContentCard` + locale |
 
 ## Top-level invariants
@@ -102,4 +103,4 @@ wires the two together: shape the pool via `toCard`, call
 - **Default locale is URL-omitted.** Both `astro.config.ts` (`prefixDefaultLocale: false`) and every `getStaticPaths` builder agree on this. The same default locale appears at the URL root across all four content sections.
 - **Entry ids carry the locale.** In multi-locale mode, an entry id is `{locale}/{slug}`; the slice is consumed by `stripLocale` and `contentUrl`. The `monolocale` shortcut removes the slice and the strip step.
 - **Seam-policy lives at the seam.** i18n fallback policy is set on `i18nit(...)` via the `fallbackLocale` option and on `i18nData(...)` via the same option (deep-merged under the active dictionary), not at every call site. `t(...)` returns `string | undefined`; visible UI strings narrow with the `ts(t, key)` helper from `src/utils/labels.ts` (sentinel fallback to the key) and config-side fallbacks compose explicitly with `t(key) ?? configValue` at the call site.
-- **The listing-card shape has a single home.** `ContentCard` (with its `section` field set by `toCard`) is the shape consumed by `ContentList.svelte`, the Atom feed, and `<LatestCard />`. Adding a card field is one edit in `src/utils/content-card.ts`.
+- **The listable shape has a single home.** `ContentCard` (with its `section` field set by `toCard`) is the shape consumed by `ContentList.svelte`, the Atom feed, `<LatestCard />`, and `<Heatmap />`. Adding a card field is one edit in `src/utils/content-card.ts` (ADR 0005).
