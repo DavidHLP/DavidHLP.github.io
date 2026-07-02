@@ -1,7 +1,6 @@
 ---
-import { render } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { getInfoEntry, getPublishedByLocale } from "$utils/content";
+import { getInfoEntry, getPublishedByLocale, totalWordCount } from "$utils/content";
 import Icon from "$components/Icon.svelte";
 import i18nit from "$i18n";
 
@@ -64,26 +63,12 @@ if (copyright.type === "CC0 1.0") {
 	if (copyright.type.includes("ND")) ccIcons.push("fa6-brands--creative-commons-nd"); // No derivatives
 }
 
-// Fetch notes and jottings collections to calculate total word count
-
+// Fetch notes and jottings collections, then collapse their word counts through
+// the centralised seam so each new collection is a single addition.
 const notes = await getPublishedByLocale("note", locale);
-
-// Calculate total word count across all notes
-const noteWords = (await Promise.all(notes.map(async note => (await render(note)).remarkPluginFrontmatter.words))).reduce(
-	(summary, words) => summary + words,
-	0
-);
-
 const jottings = await getPublishedByLocale("jotting", locale);
 
-// Calculate total word count across all jottings
-const jottingWords = (await Promise.all(jottings.map(async jotting => (await render(jotting)).remarkPluginFrontmatter.words))).reduce(
-	(summary, words) => summary + words,
-	0
-);
-
-// Aggregate total word count
-const totalWords = noteWords + jottingWords;
+const totalWords = await totalWordCount([...notes, ...jottings]);
 
 // Check if policy file exists for current locale
 const policy = await getInfoEntry(locale, "policy");

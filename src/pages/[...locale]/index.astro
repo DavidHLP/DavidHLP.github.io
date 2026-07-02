@@ -1,8 +1,8 @@
 ---
-import { render, getCollection } from "astro:content";
+import { render } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import config from "$config";
-import { contentUrl, getPublishedByLocale, localeStaticPaths, monolocale } from "$utils/content";
+import { contentUrl, getPublishedByLocale, localeStaticPaths, stripLocale } from "$utils/content";
 import { getContentHash } from "$utils/id-hash";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
@@ -25,20 +25,10 @@ const profile = localeData.home?.profile ?? i18nData("zh-cn").home.profile;
 const prologue = t("home.prologue") !== "home.prologue" ? t("home.prologue") : config.prologue;
 const prologueAuthor = t("home.prologue_author") !== "home.prologue_author" ? t("home.prologue_author") : config.prologueAuthor;
 
-// Get preface content for current locale, sorted by timestamp (latest first)
-const prefaces = (
-	await getCollection("preface", preface => {
-		// Handle single locale setup
-		if (monolocale) return true;
-
-		// Extract language and ID from file path structure
-		const [language, id] = preface.id.split("/");
-		preface.id = id;
-
-		// Filter by current locale
-		return language === locale;
-	})
-).sort((a, b) => b.data.timestamp.getTime() - a.data.timestamp.getTime());
+// Get preface content for current locale, sorted by timestamp (latest first).
+// Routes through `getPublishedByLocale` so Preface shares the same locale-filter
+// seam as Note and Jotting, and the input entry is never mutated.
+const prefaces = (await getPublishedByLocale("preface", locale)).sort((a, b) => b.data.timestamp.getTime() - a.data.timestamp.getTime());
 
 // Get published notes for current locale
 const notes = await getPublishedByLocale("note", locale);
@@ -75,6 +65,10 @@ const sectionLabel = (n: number, key: string) => {
 		? `[ ${String(n).padStart(2, "0")} / ${key.split(".").pop()?.toUpperCase()} ]`
 		: `[ ${String(n).padStart(2, "0")} / ${label} ]`;
 };
+
+// Strip the locale prefix from the latest entry's id for the content hash label.
+// The link itself is built via `contentUrl`, which already strips the prefix.
+const latestSlug = latest ? stripLocale(latest.id) : "";
 ---
 
 <Base title={t("navigation.home")} {locale}>
@@ -248,7 +242,7 @@ const sectionLabel = (n: number, key: string) => {
 							<time datetime={latest.data.timestamp.toISOString()} class="text-remark font-mono text-xs">
 								{Time.toString(latest.data.timestamp)}
 							</time>
-							<span class="text-[8px] font-mono text-weak/60">[HASH.{getContentHash(latest.id)}]</span>
+							<span class="text-[8px] font-mono text-weak/60">[HASH.{getContentHash(latestSlug)}]</span>
 						</div>
 					</blockquote>
 				</footer>
