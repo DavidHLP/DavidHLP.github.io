@@ -8,7 +8,9 @@
  * - `content-card.ts`    — `ContentCard` shape and `toCard` / `feedLink`
  * - `content-facets.ts`  — facet and word-count aggregations
  * - `og-paths.ts`        — OG image `getStaticPaths` + display date
- * - `latest.ts`          — homepage-specific `latestByTimestamp` aggregation
+ * - `latest.ts`          — pure `latestByTimestamp` over a pre-built card pool
+ * - `sections.ts`        — listable section aggregation: `listBySections` (async,
+ *                          fetches + shapes) and `latestCard` (one-card convenience)
  *
  * This file exists so existing call sites (`import { ... } from "$utils/content"`)
  * keep working unchanged. New code should import from the focused module
@@ -23,3 +25,5 @@ export { toCard, feedLink } from "./content-card";
 export { collectFacets, totalWordCount } from "./content-facets";
 export { contentGraphStaticPaths, toDisplayDate } from "./og-paths";
 export { latestByTimestamp } from "./latest";
+export { LISTABLE_SECTIONS, listBySections, latestCard, resolveSections } from "./sections";
+export type { SectionSelector } from "./sections";
