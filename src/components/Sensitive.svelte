@@ -2,6 +2,7 @@
 import type { Snippet } from "svelte";
 import { fade } from "svelte/transition";
 import i18nit from "$i18n";
+import { ts } from "$utils/labels";
 
 let { locale, sensitive = false, back, children }: { locale: string; sensitive: boolean; back: string; children: Snippet } = $props();
 
@@ -18,17 +19,17 @@ function dismiss() {
 
 {#if sensitive}
 	<div transition:fade={{ duration: 150 }} class="flex flex-col items-center justify-end gap-6">
-		<h2>{t("sensitive.title")}</h2>
+		<h2>{ts(t, "sensitive.title")}</h2>
 		<div class="flex flex-col items-center justify-end gap-3">
-			<p>{t("sensitive.description")}</p>
-			<p>{t("sensitive.warning")}</p>
+			<p>{ts(t, "sensitive.description")}</p>
+			<p>{ts(t, "sensitive.warning")}</p>
 		</div>
 		<div class="flex gap-3">
 			<button class="font-bold text-background bg-red-500 py-1 px-2 rounded-md" onclick={dismiss}>
-				{t("sensitive.continue")}
+				{ts(t, "sensitive.continue")}
 			</button>
 			<a href={back} class="flex items-center font-bold text-background bg-secondary py-1 px-2 rounded-md">
-				{t("sensitive.back")}
+				{ts(t, "sensitive.back")}
 			</a>
 		</div>
 	</div>

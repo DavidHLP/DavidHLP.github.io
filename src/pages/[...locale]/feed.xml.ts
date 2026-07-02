@@ -6,6 +6,7 @@ import { Feed } from "feed";
 import config from "$config";
 import { feedLink, getPublishedByLocale, localeStaticPaths } from "$utils/content";
 import i18nit from "$i18n";
+import { ts } from "$utils/labels";
 
 export const getStaticPaths = localeStaticPaths;
 
@@ -80,7 +81,7 @@ export const GET: APIRoute = async ({ site, params }) => {
 			title: item.data.title, // Post title
 			link: item.link, // URL to the post
 			date: item.data.timestamp, // Publication date
-			content: item.data.sensitive ? t("sensitive.feed", { link: item.link }) : item.rendered?.html, // Rendered content
+			content: item.data.sensitive ? ts(t, "sensitive.feed", { link: item.link }) : item.rendered?.html, // Rendered content
 			description: item.data.description, // Summary of the post
 			category: item.data.tags?.map(tag => ({ term: tag })) // Tags as categories
 		});

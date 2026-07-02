@@ -5,6 +5,7 @@ import { getPublishedByLocale, localeStaticPaths } from "$utils/content";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
 import i18nit from "$i18n";
+import { ts } from "$utils/labels";
 
 export const getStaticPaths = localeStaticPaths;
 
@@ -20,9 +21,9 @@ const prefaces = (await getPublishedByLocale("preface", locale)).sort((a, b) => 
 const entries = await Promise.all(prefaces.map(async preface => ({ ...preface, content: (await render(preface)).Content })));
 ---
 
-<Base title={t("navigation.preface")} {locale}>
+<Base title={ts(t, "navigation.preface")} {locale}>
 	<main class="flex flex-col">
-		<h2>{t("home.prefaces")}</h2>
+		<h2>{ts(t, "home.prefaces")}</h2>
 		<ul class="flex flex-col list-none">
 			{
 				entries.map(preface => [

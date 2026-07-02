@@ -5,6 +5,7 @@ import Base from "$layouts/Base.astro";
 import ContentList from "$components/ContentList.svelte";
 import ContentListingHeader from "$components/ContentListingHeader.astro";
 import i18nit from "$i18n";
+import { ts } from "$utils/labels";
 
 export const getStaticPaths = localeStaticPaths;
 
@@ -21,9 +22,9 @@ const list = notes.map(note => toCard(note, "note", locale));
 const { series, tags } = collectFacets(notes, true);
 ---
 
-<Base title={t("navigation.note")} {locale}>
+<Base title={ts(t, "navigation.note")} {locale}>
 	<main class="flex flex-col grow py-4">
-		<ContentListingHeader index={2} label={t("navigation.note")} />
+		<ContentListingHeader index={2} label={ts(t, "navigation.note")} />
 		<ContentList client:load {locale} section="note" items={list} {series} {tags} />
 	</main>
 </Base>

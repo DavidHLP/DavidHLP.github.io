@@ -2,6 +2,7 @@
 import Time from "$utils/time";
 import Icon from "$components/Icon.svelte";
 import i18nit from "$i18n";
+import { ts } from "$utils/labels";
 
 /**
  * Renders the article header (h1 + meta bar) shared between the note and
@@ -41,7 +42,7 @@ const t = i18nit(locale);
 				</span>
 			)
 		}
-		<span><Icon name="lucide--pilcrow" />{t("read.words", { count: words })}</span>
+		<span><Icon name="lucide--pilcrow" />{ts(t, "read.words", { count: words })}</span>
 	</div>
 	<hr class="border-b border-weak" />
 </header>

@@ -4,6 +4,7 @@ import config from "$config";
 import { getInfoEntry, localeStaticPaths } from "$utils/content";
 import Base from "$layouts/Base.astro";
 import i18nit from "$i18n";
+import { ts } from "$utils/labels";
 
 export const getStaticPaths = localeStaticPaths;
 
@@ -15,7 +16,7 @@ const policy = await getInfoEntry(locale, "policy");
 const { Content } = policy ? await render(policy) : ({} as any);
 ---
 
-<Base title={t("navigation.policy")} {locale}>
+<Base title={ts(t, "navigation.policy")} {locale}>
 	<main>
 		{
 			policy && (

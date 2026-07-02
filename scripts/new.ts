@@ -6,27 +6,28 @@ import { dirname, join } from "node:path";
 import { cancel, confirm, intro, isCancel, log, multiselect, note, outro, select, spinner, text } from "@clack/prompts";
 import { Temporal } from "temporal-polyfill";
 import i18nit from "$i18n";
+import { ts } from "$utils/labels";
 import config, { monolocale } from "../site.config";
 
 const t = i18nit(config.i18n.defaultLocale, "script");
 
-const CANCEL_MESSAGE = t("new.cancel");
+const CANCEL_MESSAGE = ts(t, "new.cancel");
 
 // Main function: Interactive CLI script for creating new articles
 !(async () => {
 	console.clear();
-	intro(`📝 ${t("new.welcome")}`);
+	intro(`📝 ${ts(t, "new.welcome")}`);
 
 	// Determine the base content directory path
 	let path = join(dirname(fileURLToPath(import.meta.url)), "..", "src", "content");
 
 	// Select content type: Note, Jotting, or Preface
 	const contentType = await select({
-		message: t("new.step.type"),
+		message: ts(t, "new.step.type"),
 		options: [
-			{ label: t("new.note.name"), value: "note", hint: t("new.note.description") },
-			{ label: t("new.jotting.name"), value: "jotting", hint: t("new.jotting.description") },
-			{ label: t("new.preface.name"), value: "preface", hint: t("new.preface.description") }
+			{ label: ts(t, "new.note.name"), value: "note", hint: ts(t, "new.note.description") },
+			{ label: ts(t, "new.jotting.name"), value: "jotting", hint: ts(t, "new.jotting.description") },
+			{ label: ts(t, "new.preface.name"), value: "preface", hint: ts(t, "new.preface.description") }
 		]
 	});
 
@@ -40,7 +41,7 @@ const CANCEL_MESSAGE = t("new.cancel");
 	let locale: string | symbol = config.i18n.defaultLocale;
 	if (!monolocale) {
 		locale = await select({
-			message: t("new.step.language"),
+			message: ts(t, "new.step.language"),
 			options: config.i18n.locales.map(locale => ({ label: i18nit(locale)("language"), value: locale })),
 			initialValue: config.i18n.defaultLocale
 		});
@@ -71,9 +72,9 @@ const CANCEL_MESSAGE = t("new.cancel");
 
 		// Prompt user to input article title
 		const title = await text({
-			message: t("new.step.title.name"),
-			placeholder: t("new.step.title.placeholder"),
-			validate: value => (value ? undefined : t("new.step.title.validate"))
+			message: ts(t, "new.step.title.name"),
+			placeholder: ts(t, "new.step.title.placeholder"),
+			validate: value => (value ? undefined : ts(t, "new.step.title.validate"))
 		});
 
 		// Exit if user cancels the input
@@ -97,10 +98,10 @@ const CANCEL_MESSAGE = t("new.cancel");
 		// Prompt user to input content ID (filename)
 		let id: string | symbol = slugify(title);
 		id = await text({
-			message: t("new.step.id.name"),
-			placeholder: t("new.step.id.placeholder"),
+			message: ts(t, "new.step.id.name"),
+			placeholder: ts(t, "new.step.id.placeholder"),
 			initialValue: id,
-			validate: value => (value && value === slugify(value) ? undefined : t("new.step.id.validate"))
+			validate: value => (value && value === slugify(value) ? undefined : ts(t, "new.step.id.validate"))
 		});
 
 		// Exit if user cancels the input
@@ -110,8 +111,8 @@ const CANCEL_MESSAGE = t("new.cancel");
 		if (contentType === "note") {
 			// Prompt user to input series name (optional)
 			const series = await text({
-				message: t("new.step.series.name"),
-				placeholder: t("new.step.series.placeholder")
+				message: ts(t, "new.step.series.name"),
+				placeholder: ts(t, "new.step.series.placeholder")
 			});
 
 			// Exit if user cancels the input
@@ -123,8 +124,8 @@ const CANCEL_MESSAGE = t("new.cancel");
 
 		// Prompt user to input tags (comma-separated)
 		const tags = await text({
-			message: t("new.step.tags.name"),
-			placeholder: t("new.step.tags.placeholder")
+			message: ts(t, "new.step.tags.name"),
+			placeholder: ts(t, "new.step.tags.placeholder")
 		});
 
 		// Exit if user cancels the input
@@ -135,8 +136,8 @@ const CANCEL_MESSAGE = t("new.cancel");
 
 		// Prompt user to input description (optional)
 		const description = await text({
-			message: t("new.step.description.name"),
-			placeholder: t("new.step.description.placeholder")
+			message: ts(t, "new.step.description.name"),
+			placeholder: ts(t, "new.step.description.placeholder")
 		});
 
 		// Exit if user cancels the input
@@ -147,12 +148,12 @@ const CANCEL_MESSAGE = t("new.cancel");
 
 		// Prompt user to select additional options (draft, toc, top, sensitive)
 		const options = await multiselect({
-			message: t("new.step.options.name"),
+			message: ts(t, "new.step.options.name"),
 			options: [
-				{ label: t("new.step.options.draft"), value: "draft" },
-				...(contentType === "note" ? [{ label: t("new.step.options.toc"), value: "toc" }] : []),
-				{ label: t("new.step.options.top"), value: "top" },
-				{ label: t("new.step.options.sensitive"), value: "sensitive" }
+				{ label: ts(t, "new.step.options.draft"), value: "draft" },
+				...(contentType === "note" ? [{ label: ts(t, "new.step.options.toc"), value: "toc" }] : []),
+				{ label: ts(t, "new.step.options.top"), value: "top" },
+				{ label: ts(t, "new.step.options.sensitive"), value: "sensitive" }
 			],
 			initialValues: ["draft"],
 			required: false
@@ -169,10 +170,10 @@ const CANCEL_MESSAGE = t("new.cancel");
 
 		// Prompt user to choose file structure: flat (single .md file) or folder (with index.md)
 		const folder = await select({
-			message: t("new.step.structure.name"),
+			message: ts(t, "new.step.structure.name"),
 			options: [
-				{ label: t("new.step.structure.flat"), value: "flat", hint: `${id}.md` },
-				{ label: t("new.step.structure.folder"), value: "folder", hint: `${id}/index.md` }
+				{ label: ts(t, "new.step.structure.flat"), value: "flat", hint: `${id}.md` },
+				{ label: ts(t, "new.step.structure.folder"), value: "folder", hint: `${id}/index.md` }
 			],
 			initialValue: "flat"
 		});
@@ -201,11 +202,11 @@ ${content}
 `;
 
 	// Display the generated content to the user for review
-	`${note(content, t("new.preview", { path }))}:`;
+	`${note(content, ts(t, "new.preview", { path }))}:`;
 
 	// Confirm with user to proceed with file creation
 	const proceed = await confirm({
-		message: t("new.step.confirm"),
+		message: ts(t, "new.step.confirm"),
 		initialValue: true
 	});
 
@@ -215,7 +216,7 @@ ${content}
 	// Check if file already exists and prompt for confirmation to overwrite
 	if (existsSync(path)) {
 		const overwrite = await confirm({
-			message: t("new.step.overwrite", { path })
+			message: ts(t, "new.step.overwrite", { path })
 		});
 
 		// Exit if user cancels or chooses not to overwrite
@@ -227,27 +228,27 @@ ${content}
 
 	// Write the file to disk
 	const waiting = spinner();
-	waiting.start(t("new.creating"));
+	waiting.start(ts(t, "new.creating"));
 
 	writeFileSync(path, content, "utf-8");
-	waiting.stop(`✅ ${t("new.created")}`);
+	waiting.stop(`✅ ${ts(t, "new.created")}`);
 
 	// Ask if user wants to open the file in VS Code
 	const openInVSCode = await confirm({
-		message: `🖥️ ${t("new.open.message")}`,
+		message: `🖥️ ${ts(t, "new.open.message")}`,
 		initialValue: true
 	});
 
 	// Open file in VS Code if confirmed
 	if (!isCancel(openInVSCode) && openInVSCode) {
 		const { exec } = await import("node:child_process");
-		exec(`code "${path}"`, error => error && log.error(`${t("new.open.error")}: ${error.message}`));
+		exec(`code "${path}"`, error => error && log.error(`${ts(t, "new.open.error")}: ${error.message}`));
 	}
 
-	outro(`🎉 ${t("new.done")}`);
+	outro(`🎉 ${ts(t, "new.done")}`);
 })().catch(error => {
 	// Handle any errors that occur during execution
-	log.error(`${t("new.error")}:`);
+	log.error(`${ts(t, "new.error")}:`);
 	log.error(error);
 	process.exit(1);
 });

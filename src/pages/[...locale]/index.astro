@@ -3,7 +3,7 @@ import { render } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import config from "$config";
 import { contentUrl, getPublishedByLocale, localeStaticPaths, stripLocale } from "$utils/content";
-import { sectionLabel, tOr } from "$utils/labels";
+import { sectionLabel, ts } from "$utils/labels";
 import { getContentHash } from "$utils/id-hash";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
@@ -24,10 +24,10 @@ const t = i18nit(locale);
 const localeData = i18nData(locale);
 const profile = localeData.home?.profile ?? i18nData(config.i18n.defaultLocale).home.profile;
 
-// Resolve the localized prologue and author via the `tOr` seam so per-locale
-// i18n entries quietly fall back to the site-wide `site.config.ts` values.
-const prologue = tOr(t, "home.prologue", config.prologue);
-const prologueAuthor = tOr(t, "home.prologue_author", config.prologueAuthor);
+// Resolve the localized prologue and author via the i18n seam so per-locale
+// i18n entries fall back to the site-wide `site.config.ts` values (ADR 0004).
+const prologue = t("home.prologue") ?? config.prologue;
+const prologueAuthor = t("home.prologue_author") ?? config.prologueAuthor;
 
 // Get preface content for current locale, sorted by timestamp (latest first).
 // Routes through `getPublishedByLocale` so Preface shares the same locale-filter
@@ -60,14 +60,14 @@ const { Content } = preface ? await render(preface) : ({} as any);
 
 // Resolve the localized unit label for the heatmap (day / week / month).
 const heatmapUnit = config.heatmap?.unit || "day";
-const unitLabel = t(`home.unit.${heatmapUnit}`);
+const unitLabel = ts(t, `home.unit.${heatmapUnit}`);
 
 // Strip the locale prefix from the latest entry's id for the content hash label.
 // The link itself is built via `contentUrl`, which already strips the prefix.
 const latestSlug = latest ? stripLocale(latest.id) : "";
 ---
 
-<Base title={t("navigation.home")} {locale}>
+<Base title={ts(t, "navigation.home")} {locale}>
 	<main class="flex flex-col gap-12 sm:gap-24 grow py-6 relative">
 		<!-- Background subtle grid line -->
 		<div class="absolute inset-y-0 start-1/4 border-s border-weak/5 hidden md:block pointer-events-none"></div>
@@ -107,8 +107,8 @@ const latestSlug = latest ? stripLocale(latest.id) : "";
 		<!-- Profile/Dossier Card -->
 		<section class="grid grid-cols-1 md:grid-cols-4 gap-8 relative border-t border-weak/10 pt-8 select-text">
 			<div class="md:col-span-1 flex flex-col gap-1">
-				<span class="text-[10px] font-mono text-weak uppercase tracking-widest">[ {t("home.profileTag")} ]</span>
-				<span class="text-[9px] font-mono text-remark">{t("home.profileBrief")}</span>
+				<span class="text-[10px] font-mono text-weak uppercase tracking-widest">[ {ts(t, "home.profileTag")} ]</span>
+				<span class="text-[9px] font-mono text-remark">{ts(t, "home.profileBrief")}</span>
 			</div>
 
 			<div class="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -164,7 +164,7 @@ const latestSlug = latest ? stripLocale(latest.id) : "";
 						)}
 						<div class="mt-2 flex justify-end">
 							<a href={getRelativeLocaleUrl(locale, "/preface")} class="text-[10px] font-mono text-remark hover:text-primary tracking-wider transition-colors duration-150 uppercase flex items-center gap-1.5">
-								<span>{t("home.viewPrefaceArchive")}</span>
+								<span>{ts(t, "home.viewPrefaceArchive")}</span>
 								<span>→</span>
 							</a>
 						</div>

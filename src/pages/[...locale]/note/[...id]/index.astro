@@ -9,6 +9,7 @@ import TOC from "$components/TOC.astro";
 import Position from "$components/Position.astro";
 import Sensitive from "$components/Sensitive.svelte";
 import i18nit from "$i18n";
+import { ts } from "$utils/labels";
 
 export async function getStaticPaths() {
 	return contentStaticPaths("note");
@@ -34,7 +35,7 @@ const t = i18nit(locale);
 					note.data.toc && (
 						<aside class="hidden sm:block sm:shrink-0 sm:w-50">
 							<div class="sticky top-3 flex flex-col gap-1">
-								<h4>{t("note.contents")}</h4>
+								<h4>{ts(t, "note.contents")}</h4>
 								<nav class="overflow-y-auto">
 									<TOC {headings} />
 								</nav>
