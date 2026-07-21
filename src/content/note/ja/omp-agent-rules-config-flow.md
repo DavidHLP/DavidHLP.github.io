@@ -251,17 +251,17 @@ omp ttsr scan -v src/
 ```mermaid
 flowchart TD
   Q1{"ルールはプロジェクト固有か、<br/>マシン全局か?"}
-  Q1 -- プロジェクト --> Q2{"どの harness が読み込むか?"}
-  Q1 -- 全局 --> U1["~/.omp/agent/rules/<name>.md<br/>または ~/.omp/agent/RULES.md（常駐）"]
-  Q2 -- OMP のみ --> O1[".omp/rules/<name>.md<br/>正規 OMP frontmatter を使用"]
-  Q2 -- OMP + pi + Claude --> D1["デュアルキー frontmatter<br/>（上の案 b）<br/>.claude/rules/ に配置<br/>+ シンボリックリンク .omp/rules → ../.claude/rules"]
-  Q2 -- pi のみ --> P1[".pi/rules/<name>.md<br/>pi-rules 形式（paths: 必須）"]
-  Q3{"ルールはいつ発火すべきか?"}
+  Q1 -- "全局" --> U1["~/.omp/agent/rules/&lt;name&gt;.md<br/>または ~/.omp/agent/RULES.md（常駐）"]
+  Q1 -- "プロジェクト" --> Q2{"どの harness が読み込むか?"}
+  Q2 -- "OMP のみ" --> O1[".omp/rules/&lt;name&gt;.md<br/>正規 OMP frontmatter を使用"]
+  Q2 -- "OMP + pi + Claude" --> D1["デュアルキー frontmatter<br/>（上の案 b）<br/>.claude/rules/ に配置<br/>+ シンボリックリンク .omp/rules → ../.claude/rules"]
+  Q2 -- "pi のみ" --> P1[".pi/rules/&lt;name&gt;.md<br/>pi-rules 形式（paths 必須）"]
+  Q2 --> Q3{"ルールはいつ発火すべきか?"}
   Q3 -- "パス一致のファイル編集時" --> G1["globs: を設定（デュアルキーなら paths: も）"]
   Q3 -- "編集/書込ストリームにパターン出現時" --> T1["condition / astCondition + scope を設定"]
   Q3 -- "毎ターン、常に" --> A1["alwaysApply: true<br/>または RULES.md に改名してスコープルートへ"]
   Q3 -- "オンデマンド要求のみ" --> D2["description: のみ設定"]
-  G1 --> V1["omp ttsr scan -v <path>"]
+  G1 --> V1["omp ttsr scan -v &lt;path&gt;"]
   T1 --> V1
   A1 --> V1
   D2 --> V1
