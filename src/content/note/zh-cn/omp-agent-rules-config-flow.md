@@ -251,17 +251,17 @@ omp ttsr scan -v src/
 ```mermaid
 flowchart TD
   Q1{"规则是项目专属<br/>还是本机全局?"}
-  Q1 -- 项目 --> Q2{"哪些 harness 会加载它?"}
-  Q1 -- 本机全局 --> U1["~/.omp/agent/rules/<name>.md<br/>或 ~/.omp/agent/RULES.md（常驻）"]
-  Q2 -- 仅 OMP --> O1[".omp/rules/<name>.md<br/>用规范 OMP frontmatter"]
-  Q2 -- OMP + pi + Claude --> D1["双键 frontmatter<br/>（上方方案 b）<br/>放在 .claude/rules/<br/>+ 软链 .omp/rules → ../.claude/rules"]
-  Q2 -- 仅 pi --> P1[".pi/rules/<name>.md<br/>pi-rules 格式（paths: 必填）"]
-  Q3{"规则该在何时触发?"}
+  Q1 -- "本机全局" --> U1["~/.omp/agent/rules/&lt;name&gt;.md<br/>或 ~/.omp/agent/RULES.md（常驻）"]
+  Q1 -- "项目" --> Q2{"哪些 harness 会加载它?"}
+  Q2 -- "仅 OMP" --> O1[".omp/rules/&lt;name&gt;.md<br/>用规范 OMP frontmatter"]
+  Q2 -- "OMP + pi + Claude" --> D1["双键 frontmatter<br/>（上方方案 b）<br/>放在 .claude/rules/<br/>+ 软链 .omp/rules → ../.claude/rules"]
+  Q2 -- "仅 pi" --> P1[".pi/rules/&lt;name&gt;.md<br/>pi-rules 格式（paths 必填）"]
+  Q2 --> Q3{"规则该在何时触发?"}
   Q3 -- "编辑路径匹配的文件时" --> G1["设 globs:（双键则同时设 paths:）"]
   Q3 -- "编辑/写入流中出现模式时" --> T1["设 condition / astCondition + scope"]
   Q3 -- "每轮都触发" --> A1["alwaysApply: true<br/>或改名 RULES.md 放在作用域根"]
   Q3 -- "仅按需请求" --> D2["只设 description:"]
-  G1 --> V1["omp ttsr scan -v <path>"]
+  G1 --> V1["omp ttsr scan -v &lt;path&gt;"]
   T1 --> V1
   A1 --> V1
   D2 --> V1
