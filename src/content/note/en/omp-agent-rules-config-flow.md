@@ -251,17 +251,17 @@ Decision tree for adding a **new** rule. Each step has a concrete command or fil
 ```mermaid
 flowchart TD
   Q1{"Rule is project-specific<br/>or box-global?"}
-  Q1 -- project --> Q2{"Which harnesses will load it?"}
-  Q1 -- box-global --> U1["~/.omp/agent/rules/<name>.md<br/>or ~/.omp/agent/RULES.md (sticky)"]
-  Q2 -- omp only --> O1[".omp/rules/<name>.md<br/>use canonical omp frontmatter"]
-  Q2 -- omp + pi + Claude --> D1["dual-key frontmatter<br/>(option b above)<br/>place under .claude/rules/<br/>+ symlink .omp/rules → ../.claude/rules"]
-  Q2 -- pi only --> P1[".pi/rules/<name>.md<br/>pi-rules format (paths: required)"]
-  Q3{"Rule should fire when?"}
+  Q1 -- "box-global" --> U1["~/.omp/agent/rules/&lt;name&gt;.md<br/>or ~/.omp/agent/RULES.md (sticky)"]
+  Q1 -- "project" --> Q2{"Which harnesses will load it?"}
+  Q2 -- "omp only" --> O1[".omp/rules/&lt;name&gt;.md<br/>use canonical omp frontmatter"]
+  Q2 -- "omp + pi + Claude" --> D1["dual-key frontmatter<br/>(option b above)<br/>place under .claude/rules/<br/>+ symlink .omp/rules → ../.claude/rules"]
+  Q2 -- "pi only" --> P1[".pi/rules/&lt;name&gt;.md<br/>pi-rules format (paths required)"]
+  Q2 --> Q3{"Rule should fire when?"}
   Q3 -- "on editing path-matched files" --> G1["set globs: (and paths: if dual-keyed)"]
   Q3 -- "on pattern in edit/write stream" --> T1["set condition / astCondition + scope"]
   Q3 -- "every turn, always" --> A1["alwaysApply: true<br/>OR rename to RULES.md at scope root"]
   Q3 -- "on agent request only" --> D2["set description: only"]
-  G1 --> V1["omp ttsr scan -v <path>"]
+  G1 --> V1["omp ttsr scan -v &lt;path&gt;"]
   T1 --> V1
   A1 --> V1
   D2 --> V1
