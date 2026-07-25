@@ -1,6 +1,7 @@
 ---
 title: OMP Agent 规则系统剖析：多源发现、三种注入与 paths/globs 静默失效陷阱
 timestamp: 2026-07-21 00:00:00+08:00
+series: OMP 规则与配置体系
 tags: [DevOps, Agent, OMP, Rules, Configuration, Operations]
 description: 面向 AI Agent 编排场景，系统剖析 OMP Agent 的规则配置全景——多源发现链、统一的 buildRuleFromMarkdown 规范化管线、路径/流/常驻三种注入模式，并重点拆解从 pi-rules 或 Claude Code 迁移规则时 paths 与 globs 两个键静默失效的根因与双键修复方案。
 toc: true
