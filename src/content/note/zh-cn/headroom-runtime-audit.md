@@ -103,7 +103,7 @@ flowchart LR
 关键认知（严格区分已验证与未证实）：
 
 - **已观察事实**：代理启动日志明确写出当前激活的 context tool 是 RTK；RTK 有自己独立的配置目录（`~/.config/rtk/`，含 tracking / tee / filters / limits 等节）；编排器的插件清单里只有 context-mode，没有独立的 RTK 插件。
-- **文档声明（未作为本机运行时集成证实）**：上游 README 说 Headroom 自带 RTK 二进制、会自动选择 RTK 作为 context tool——这属于文档声明，单凭启动日志不能反推出"自动选择"的机制细节。
+- **文档声明（未作为运行时集成得到证实）**：上游 README 说 Headroom 自带 RTK 二进制、会自动选择 RTK 作为 context tool——这属于文档声明，单凭启动日志不能反推出"自动选择"的机制细节。
 - **未证实**：Headroom 调用 RTK 的具体注入钩子 / 进程间通信方式、关闭 RTK 的确切方法、`/stats` 里 RTK 统计字段的真实数据来源——这三项都标注为未知，不应在文档里写成确定结论。
 
 ### 4.1 两套不同的拦截，别混为一谈
