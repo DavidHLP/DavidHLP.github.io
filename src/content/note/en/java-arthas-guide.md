@@ -1,6 +1,7 @@
 ---
 title: "Arthas in Practice: From Getting Started to Online Code Hot-Swapping"
 timestamp: 2026-02-25 00:00:00+08:00
+series: "System Operations & Backend Tuning"
 tags: [Java, Ops, Troubleshooting, Arthas, JVM, Hot-Swapping]
 description: "An in-depth guide to Alibaba's Java diagnostic tool Arthas, covering core commands, advanced OGNL usage, online incident troubleshooting workflows, code hot-swapping (Hotfix), remote diagnostics via Tunnel, and production environment best practices."
 ---

@@ -1,9 +1,9 @@
 ---
 title: "全局 OMP 配置解析：分层模型路由、智能降级链与硬护栏实践"
 timestamp: 2026-07-25 00:00:00+08:00
-series: OMP 规则与配置体系
+series: "OMP 规则与配置体系"
 tags: [DevOps, Agent, OMP, Configuration, Architecture]
-description: 系统化剖析当前全局 OMP (Oh My Pi) 的完整配置体系与实践经验——覆盖 10 大模型角色、回退锚点池 (_fallback_anchors)、全 9 角色智能降级链 (fallbackChains)、Hindsight 记忆与预查 (advisor/prewalk/eager)、TTSR/分支摘要细节，以及 Hook 命令级硬护栏的安全治理机制。
+description: "系统化剖析当前全局 OMP (Oh My Pi) 的完整配置体系与实践经验——覆盖 10 大模型角色、回退锚点池 (_fallback_anchors)、全 9 角色智能降级链 (fallbackChains)、Hindsight 记忆与预查 (advisor/prewalk/eager)、TTSR/分支摘要细节，以及 Hook 命令级硬护栏的安全治理机制。"
 toc: true
 ---
 

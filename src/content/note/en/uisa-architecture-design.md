@@ -1,6 +1,7 @@
 ---
 title: "Enhanced UISA: High-Reliability Information Sync Architecture Design for Hybrid Cloud and Heterogeneous Nodes"
 timestamp: 2026-03-25 00:00:00+00:00
+series: "Architecture Design & Engineering Practice"
 tags: [Architecture, Distribution, Security, Infrastructure, Sync, HybridCloud]
 description: "A systematic design of a high-reliability, scalable, auditable, and recoverable general-purpose information synchronization architecture for heterogeneous scenarios including ECS, IDC physical servers, and edge nodes, covering identity authentication, incremental sync, offline tasks, consistency guarantees, disaster recovery, data models, and engineering implementation practices."
 ---

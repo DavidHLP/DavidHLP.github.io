@@ -1,9 +1,9 @@
 ---
-title: 把 Hook 状态送进 OMP 顶栏：一次从误诊到源码 Patch 的完整行军
+title: "把 Hook 状态送进 OMP 顶栏：一次从误诊到源码 Patch 的完整行军"
 timestamp: 2026-07-25 00:00:00+08:00
-series: OMP 插件与扩展开发
+series: "OMP 插件与扩展开发"
 tags: [OMP, Agent, Hooks, TUI, DevOps, Plugin, Extension]
-description: 起因是一个看似简单的需求——让 GitHub 写门禁（GH-gate）的状态显示在 OMP 的 statusline 上。真实的答案却散落在四个层面：一个已经在工作但被看漏的渲染通道、一条写死的 segment 白名单、一次"伪需求"的识别，以及一个最终提交给上游的五文件 patch。本文完整记录这次行军：如何用 tmux 伪终端代替用户截图做 TUI 实证，如何识别 config 死胡同，为什么 session_name 搭车方案被否决，border 溢出预算如何把新 segment 第一个挤掉，以及截断如何把它救回来。
+description: "起因是一个看似简单的需求——让 GitHub 写门禁（GH-gate）的状态显示在 OMP 的 statusline 上。真实的答案却散落在四个层面：一个已经在工作但被看漏的渲染通道、一条写死的 segment 白名单、一次\"伪需求\"的识别，以及一个最终提交给上游的五文件 patch。本文完整记录这次行军：如何用 tmux 伪终端代替用户截图做 TUI 实证，如何识别 config 死胡同，为什么 session_name 搭车方案被否决，border 溢出预算如何把新 segment 第一个挤掉，以及截断如何把它救回来。"
 toc: true
 ---
 

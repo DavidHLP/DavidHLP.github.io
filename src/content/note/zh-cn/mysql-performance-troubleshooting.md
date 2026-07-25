@@ -1,7 +1,7 @@
 ---
 title: "MySQL 性能与问题排查实战手册"
 timestamp: 2026-07-01 00:00:00+08:00
-series: Database
+series: "系统运维与后端调优"
 tags: [MySQL, Database, Troubleshooting, Performance, InnoDB, Operations]
 description: "一份从线上紧急止血到根因深挖的 MySQL 性能排查全流程手册：覆盖连接会话、慢查询、索引、锁、事务 MVCC、Buffer Pool 内存瓶颈、IO/CPU、临时表排序、主从复制、统计信息等十大维度，并附带完整案例（内存饱和导致索引失效）、排查决策树、状态指标速查表与监控告警配置。"
 toc: true

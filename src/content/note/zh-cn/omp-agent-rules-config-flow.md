@@ -1,9 +1,9 @@
 ---
-title: OMP Agent 规则系统剖析：多源发现、三种注入与 paths/globs 静默失效陷阱
+title: "OMP Agent 规则系统剖析：多源发现、三种注入与 paths/globs 静默失效陷阱"
 timestamp: 2026-07-21 00:00:00+08:00
-series: OMP 规则与配置体系
+series: "OMP 规则与配置体系"
 tags: [DevOps, Agent, OMP, Rules, Configuration, Operations]
-description: 面向 AI Agent 编排场景，系统剖析 OMP Agent 的规则配置全景——多源发现链、统一的 buildRuleFromMarkdown 规范化管线、路径/流/常驻三种注入模式，并重点拆解从 pi-rules 或 Claude Code 迁移规则时 paths 与 globs 两个键静默失效的根因与双键修复方案。
+description: "面向 AI Agent 编排场景，系统剖析 OMP Agent 的规则配置全景——多源发现链、统一的 buildRuleFromMarkdown 规范化管线、路径/流/常驻三种注入模式，并重点拆解从 pi-rules 或 Claude Code 迁移规则时 paths 与 globs 两个键静默失效的根因与双键修复方案。"
 toc: true
 ---
 
@@ -126,7 +126,7 @@ flowchart LR
 ```yaml
 ---
 # 规范 OMP frontmatter（任意子集，全部可选）
-description: 一句话，供按需检索。无 globs/condition 时必填。
+description: "一句话，供按需检索。无 globs/condition 时必填。"
 globs:
   - "backend-spring/src/**/*.java"
   - "docker/sandbox/harness/java/src/**/*.java"
@@ -205,7 +205,7 @@ paths:
 ---
 globs:
   - "backend-spring/src/**/*.java"
-description: Java 17 后端源码规则。
+description: "Java 17 后端源码规则。"
 ---
 ```
 
@@ -219,7 +219,7 @@ paths:                      # pi-rules / Claude Code 路径作用域
 globs:                      # OMP 规范路径作用域
   - "backend-spring/src/**/*.java"
 summary: Java backend rules. # pi-rules 摘要（OMP 忽略）
-description: Java backend rules. # OMP 检索键（pi 忽略）
+description: "Java backend rules. # OMP 检索键（pi 忽略）"
 ---
 ```
 

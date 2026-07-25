@@ -1,8 +1,9 @@
 ---
-title: Linux 高 CPU 应急排查指南：从快速止血到根因复盘
+title: "Linux 高 CPU 应急排查指南：从快速止血到根因复盘"
 timestamp: 2026-02-25 00:00:00+08:00
+series: "系统运维与后端调优"
 tags: [Linux, 运维, SRE, 性能排查, CPU, Java, 生产事故]
-description: 一篇面向开发、运维、SRE 的 Linux 高 CPU 排查实战指南，覆盖快速止血、现场存证、线程级定位、Java/C++/系统内核场景分析、恢复决策、长期治理与复盘模板。
+description: "一篇面向开发、运维、SRE 的 Linux 高 CPU 排查实战指南，覆盖快速止血、现场存证、线程级定位、Java/C++/系统内核场景分析、恢复决策、长期治理与复盘模板。"
 ---
 
 # Linux 高 CPU 应急排查指南：从快速止血到根因复盘

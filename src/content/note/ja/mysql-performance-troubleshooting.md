@@ -1,7 +1,7 @@
 ---
 title: "MySQLパフォーマンス・トラブルシューティング実戦ハンドブック"
 timestamp: 2026-07-01 00:00:00+08:00
-series: Database
+series: "システム運用とバックエンドチューニング"
 tags: [MySQL, Database, Troubleshooting, Performance, InnoDB, Operations]
 description: "オンコール時の止血対応から根本原因の深掘りまでを一気通貫で扱う MySQL パフォーマンス・トラブルシューティングの完全マニュアル。接続/セッション・スロークエリ・インデックス・ロック・MVCC/undo・Buffer Pool メモリ・I/O・CPU・一時テーブル/ソート・レプリケーション・オプティマイザ統計という 10 つの観点を網羅し、メモリ飽和によるインデックス破綻の事例、症状別ディシジョンツリー、状態指標のチートシート、モニタリングアラートも添付する。"
 toc: true

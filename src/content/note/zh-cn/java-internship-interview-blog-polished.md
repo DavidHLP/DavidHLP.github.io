@@ -1,10 +1,11 @@
 ---
-title: 从一面到二面：Java 后端实习面试复盘
-subtitle: 项目深度、工程化思维与线上排障能力补齐指南
+title: "从一面到二面：Java 后端实习面试复盘"
+subtitle: "项目深度、工程化思维与线上排障能力补齐指南"
 timestamp: 2026-02-25 00:00:00+08:00
-category: 面试经验
+series: "系统运维与后端调优"
+category: "面试经验"
 tags: [Java, 后端, 实习面试, Redis, Docker, Kafka, WebSocket, JVM, 线上排障]
-description: 基于 Java 后端实习一面与二面的真实复盘，系统梳理项目表达、Redis 缓存保护、Docker 代码沙箱、Kafka 异步判题、WebSocket 推送、JWT 鉴权与 Linux CPU 飙高排障。
+description: "基于 Java 后端实习一面与二面的真实复盘，系统梳理项目表达、Redis 缓存保护、Docker 代码沙箱、Kafka 异步判题、WebSocket 推送、JWT 鉴权与 Linux CPU 飙高排障。"
 ---
 
 # 从一面到二面：Java 后端实习面试复盘
