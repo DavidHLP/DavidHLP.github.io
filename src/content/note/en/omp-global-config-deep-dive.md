@@ -1,9 +1,9 @@
 ---
 title: "Global OMP Configuration Deep Dive: Model Roles, Fallback Chains, and Guardrails Practice"
 timestamp: 2026-07-25 00:00:00+08:00
-series: OMP Rules & Architecture
+series: "OMP Rules & Architecture"
 tags: [DevOps, Agent, OMP, Configuration, Architecture]
-description: A systematic breakdown of the active global OMP (Oh My Pi) configuration, covering 10 model roles, fallback anchor pools (_fallback_anchors), all 9 role fallback chains, Hindsight long-term memory, and pre-tool-call guardrails.
+description: "A systematic breakdown of the active global OMP (Oh My Pi) configuration, covering 10 model roles, fallback anchor pools (_fallback_anchors), all 9 role fallback chains, Hindsight long-term memory, and pre-tool-call guardrails."
 toc: true
 ---
 

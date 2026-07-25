@@ -1,7 +1,7 @@
 ---
 title: "MySQL Performance & Troubleshooting Field Manual"
 timestamp: 2026-07-01 00:00:00+08:00
-series: Database
+series: "System Operations & Backend Tuning"
 tags: [MySQL, Database, Troubleshooting, Performance, InnoDB, Operations]
 description: "A full-lifecycle MySQL troubleshooting handbook, from on-call bleeding control to root-cause analysis. Covers ten dimensions — connections/sessions, slow queries, indexes, locks, MVCC/undo, Buffer Pool memory, I/O, CPU, temp tables/sort, replication, and optimizer statistics — plus a real-world case study (memory saturation breaking indexes), a symptom-based decision tree, status-indicator cheat sheet, and monitoring alerts."
 toc: true

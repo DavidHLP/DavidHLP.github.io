@@ -1,9 +1,9 @@
 ---
-title: Headroom × OMP：自定义模型供应商接入、治理与运行时实测全指南
+title: "Headroom × OMP：自定义模型供应商接入、治理与运行时实测全指南"
 timestamp: 2026-07-21 00:00:00+08:00
-series: OMP 架构与工程实践
+series: "OMP 规则与配置体系"
 tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, RTK]
-description: 面向 AI Agent 编排场景，系统讲解如何通过 Headroom 压缩代理层将自定义大模型供应商接入 OMP 编排框架，覆盖四层制品职责、接入流程、模型约束执行、RTK 与 Headroom 组合关系、三层路由验证与深度运维探针。
+description: "面向 AI Agent 编排场景，系统讲解如何通过 Headroom 压缩代理层将自定义大模型供应商接入 OMP 编排框架，覆盖四层制品职责、接入流程、模型约束执行、RTK 与 Headroom 组合关系、三层路由验证与深度运维探针。"
 toc: true
 ---
 

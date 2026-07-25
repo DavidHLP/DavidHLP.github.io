@@ -1,8 +1,9 @@
 ---
-title: Arthas 实战：从入门到线上代码热替换
+title: "Arthas 实战：从入门到线上代码热替换"
 timestamp: 2026-02-25 00:00:00+08:00
+series: "系统运维与后端调优"
 tags: [Java, 运维, 问题排查, Arthas, JVM, 热替换]
-description: 深度解析阿里巴巴 Java 诊断利器 Arthas，覆盖核心命令、OGNL 高级用法、线上故障排查流程、代码热替换 Hotfix、远程诊断 Tunnel 与生产环境最佳实践。
+description: "深度解析阿里巴巴 Java 诊断利器 Arthas，覆盖核心命令、OGNL 高级用法、线上故障排查流程、代码热替换 Hotfix、远程诊断 Tunnel 与生产环境最佳实践。"
 ---
 
 # Arthas 实战：从入门到线上代码热替换

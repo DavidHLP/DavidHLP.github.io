@@ -1,9 +1,9 @@
 ---
 title: "グローバル OMP 設定の解説：モデルロール、自動フォールバック、ハードガードレール"
 timestamp: 2026-07-25 00:00:00+08:00
-series: OMP 規則と設定体系
+series: "OMP 規則と設定体系"
 tags: [DevOps, Agent, OMP, Configuration, Architecture]
-description: 現在稼働中のグローバル OMP (Oh My Pi) 設定体系を解説。10のモデルロール、フォールバックアンカー池 (_fallback_anchors)、全9ロール自動フォールバック、Hindsight 長期記憶、命令レベルのハードガードレールについて詳述します。
+description: "現在稼働中のグローバル OMP (Oh My Pi) 設定体系を解説。10のモデルロール、フォールバックアンカー池 (_fallback_anchors)、全9ロール自動フォールバック、Hindsight 長期記憶、命令レベルのハードガードレールについて詳述します。"
 toc: true
 ---
 

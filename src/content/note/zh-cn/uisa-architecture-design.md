@@ -1,8 +1,9 @@
 ---
-title: Enhanced UISA：面向混合云与异构节点的高可靠信息同步架构设计
+title: "Enhanced UISA：面向混合云与异构节点的高可靠信息同步架构设计"
 timestamp: 2026-03-25 00:00:00+00:00
+series: "架构设计与工程实践"
 tags: [Architecture, Distribution, Security, Infrastructure, Sync, HybridCloud]
-description: 面向 ECS、IDC 物理机、边缘节点等异构场景，系统化设计一套高可靠、可扩展、可审计、可恢复的通用信息同步架构，覆盖身份认证、增量同步、离线任务、一致性保障、异常容灾、数据模型与工程落地实践。
+description: "面向 ECS、IDC 物理机、边缘节点等异构场景，系统化设计一套高可靠、可扩展、可审计、可恢复的通用信息同步架构，覆盖身份认证、增量同步、离线任务、一致性保障、异常容灾、数据模型与工程落地实践。"
 ---
 
 # Enhanced UISA：面向混合云与异构节点的高可靠信息同步架构设计

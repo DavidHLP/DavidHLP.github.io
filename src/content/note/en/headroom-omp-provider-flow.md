@@ -1,7 +1,7 @@
 ---
 title: "Headroom × OMP: Onboarding, Governance, and Runtime Audit Master Guide"
 timestamp: 2026-07-21 00:00:00+08:00
-series: OMP Architecture & Engineering
+series: "OMP Rules & Architecture"
 tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, RTK]
 description: "A production-grade master guide to routing custom LLM providers through the Headroom compression proxy into the OMP agent harness — covering end-to-end architecture, the four-artifact responsibility model, the onboarding flow, model-constraint enforcement, three-level routing verification, the RTK composition, and the deeper operational probes."
 toc: true

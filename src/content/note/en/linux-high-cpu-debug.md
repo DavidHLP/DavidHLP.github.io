@@ -1,8 +1,9 @@
 ---
-title: Linux High CPU Emergency Troubleshooting Guide — From Quick Mitigation to Root Cause Review
+title: "Linux High CPU Emergency Troubleshooting Guide — From Quick Mitigation to Root Cause Review"
 timestamp: 2026-02-25 00:00:00+08:00
+series: "System Operations & Backend Tuning"
 tags: [Linux, Ops, SRE, Performance Troubleshooting, CPU, Java, Production Incident]
-description: A practical Linux high CPU troubleshooting guide for developers, ops engineers, and SREs, covering quick mitigation, evidence preservation, thread-level diagnosis, Java/C++/kernel scenario analysis, recovery decisions, long-term governance, and incident review templates.
+description: "A practical Linux high CPU troubleshooting guide for developers, ops engineers, and SREs, covering quick mitigation, evidence preservation, thread-level diagnosis, Java/C++/kernel scenario analysis, recovery decisions, long-term governance, and incident review templates."
 ---
 
 # Linux High CPU Emergency Troubleshooting Guide — From Quick Mitigation to Root Cause Review
