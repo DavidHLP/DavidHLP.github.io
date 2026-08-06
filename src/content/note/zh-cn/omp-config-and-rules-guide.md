@@ -1,6 +1,6 @@
 ---
 title: "OMP 配置与规则体系全指南：全局配置、Headroom 代理与 Agent 规则系统"
-timestamp: 2026-07-25 00:00:00+08:00
+timestamp: 2026-08-01 00:00:00+08:00
 series: "OMP 规则与配置体系"
 tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, RTK, Rules, Configuration, Architecture]
 description: "面向 AI Agent 编排场景，系统讲解 OMP 的完整配置与规则体系——涵盖 10 大模型角色与降级链的全局配置、Headroom 压缩代理层的自定义供应商接入与三层路由验证、以及 Agent 规则系统的多源发现、三种注入模式与 paths/globs 静默失效陷阱。"
@@ -228,15 +228,17 @@ flowchart TD
 
 ---
 
-## 三、Headroom 压缩代理：自定义供应商接入
+## 三、Headroom 压缩代理：单端口动态路由
 
 全局配置决定了"用哪个模型"，而 Headroom 解决的是"流量怎么走"的问题。
 
+> **2026-08-01 演进说明**：本文早期版本按 provider 划分多个 Headroom 端口；当前实现已经收敛为一个 loopback 入口 `127.0.0.1:8787`。请求级 header 和 provider override 负责选择真实上游，`headroom-proxy.service` 只负责一个统一代理进程。
+
 ### 3.1 为什么需要一层压缩代理？
 
-OMP 根据角色把请求路由到不同的 provider/model。理想情况下，每个供应商都该具备 Prompt 缓存、上下文压缩与工具结果缓存。但现实是，并非所有上游都原生支持这些能力。Headroom 的角色就是补齐这一层：它作为本地反向代理，对所有经过的流量做透明的压缩、缓存与协议归一。
+OMP 根据角色把请求路由到不同的 provider/model。理想情况下，每个供应商都该具备 Prompt 缓存、上下文压缩与工具结果缓存。但现实是，并非所有上游都原生支持这些能力。Headroom 的角色就是补齐这一层：它作为本地反向代理，对经过的流量做透明的压缩、缓存与协议归一。
 
-**代理覆盖原则：只对需要治理的供应商走代理，其余直连。** 在本方案中，只有三个国产供应商经过 Headroom，其他供应商（Vertex Claude、本地 Ollama、LM Studio、llama.cpp 等）全部直连。
+**代理覆盖原则：只对需要治理的供应商走代理，其余直连。** 当前已经把 Zhipu、Kimi、MiniMax 与 Codex 的目标流量接入同一个 8787；其他供应商只有在显式使用该入口或相应路由 header 时才会进入这个统一代理。特别是，未标记的 Anthropic `/v1/messages` 请求会采用服务配置中的 Kimi 默认目标，不能再简单描述为"所有其他供应商全部直连"。
 
 #### 价值全貌：RTK 才是过滤主力
 
@@ -247,111 +249,193 @@ OMP 根据角色把请求路由到不同的 provider/model。理想情况下，�
 
 Headroom 的角色不仅是"压缩"，更是"缓存稳定器 + 协议归一层"，而主动剥离工具噪音的主力是 RTK。
 
-### 3.2 整体架构：四层制品与职责边界
+### 3.2 整体架构：单端口入口与请求级上游
 
-OMP 把请求路由到三个经过 Headroom 压缩代理的国产供应商，每个供应商对应一个独立的代理进程；其余供应商全部直连。
+OMP 和 Kimi CLI 都把需要治理的请求送到 `127.0.0.1:8787`。代理不再通过端口号猜 provider，而是读取 `x-headroom-base-url`、`x-headroom-original-path` 等请求信息；没有动态 header 的 Anthropic 请求才使用 `ANTHROPIC_TARGET_API_URL` 作为默认目标。
 
 ```mermaid
 flowchart LR
-  subgraph OMP["OMP Agent（config.yml + models.db）"]
-    A["chat 调用<br/>role → provider/model"]
-  end
-  subgraph Headroom["systemd --user 单元（loopback）"]
-    Z[":8787<br/>zhipu"]
-    M[":8788<br/>minimax"]
-    K[":8790<br/>kimi"]
-  end
-  subgraph Upstream["上游 Anthropic 兼容 API"]
-    U1["open.bigmodel.cn<br/>api/anthropic"]
-    U2["api.minimaxi.com<br/>anthropic"]
-    U3["api.kimi.com<br/>coding"]
-  end
-  A -->|"http://127.0.0.1:PORT<br/>/v1/messages"| Z
-  A --> M
-  A --> K
-  Z -->|"压缩 + 转发<br/>Anthropic 协议"| U1
-  M --> U2
-  K --> U3
+  A["OMP / Kimi CLI"] --> H["127.0.0.1:8787<br/>headroom-proxy.service"]
+  H --> Z["Zhipu<br/>x-headroom-base-url"]
+  H --> K["Kimi<br/>Anthropic 默认目标"]
+  H --> M["MiniMax<br/>x-headroom-base-url"]
+  H --> C["Codex<br/>Responses WebSocket"]
+  Z --> ZU["open.bigmodel.cn"]
+  K --> KU["api.kimi.com/coding"]
+  M --> MU["api.minimaxi.com/v1"]
+  C --> CU["chatgpt.com/backend-api/codex"]
 ```
 
-理解这套架构的关键，是搞清楚**四个制品各自负责什么、不负责什么**：
+当前 provider 路由可以拆成四类：
+
+| Provider | 客户端路由方式 | Headroom 上游 |
+| --- | --- | --- |
+| Zhipu | `models.db` 的 `baseUrl` + `x-headroom-*` headers | `https://open.bigmodel.cn/api/coding/paas/v4/chat/completions` |
+| Kimi | `models.db` / Kimi CLI 配置；无 header 的 Anthropic 请求使用默认目标 | `https://api.kimi.com/coding/v1/messages` |
+| MiniMax | `~/.omp/agent/models.yml` 覆盖内置 provider，并附带 `x-headroom-*` headers | `https://api.minimaxi.com/v1/chat/completions` |
+| Codex | `models.db` 指向 8787，Headroom 识别 ChatGPT subscription | `wss://chatgpt.com/backend-api/codex/responses` |
+
+理解这套架构的关键，是搞清楚四个制品各自负责什么、不负责什么：
 
 | 层 | 制品（文件/对象） | 负责什么 | 不负责什么 |
 | --- | --- | --- | --- |
 | **1. 角色→模型绑定** | `config.yml`（`modelRoles`、`task.agentModelOverrides`、`retry.fallbackChains`） | 每个 OMP 角色用哪个 provider/model；模型失败时的回退图 | 网络路由 |
-| **2. 模型→路由绑定** | `models.db` 表 `model_cache`（`provider_id`、`models[].api`、`models[].baseUrl`） | 每个 provider 的模型：协议（`anthropic-messages`）+ base URL | 鉴权、角色分配 |
-| **3. 代理进程** | systemd 单元 `headroom-proxy-*.service`（每个供应商一个） | 监听端口、上游 URL、provider 名、代理环境、重启策略 | 模型存在与否 |
-| **4. 上游 API** | 供应商的 Anthropic 兼容端点 | 真正的模型推理 | 是否知道 Headroom 的存在 |
+| **2. 模型→入口绑定** | `models.db` 表 `model_cache`（`provider_id`、`models[].api`、`models[].baseUrl`） | provider 是否指向 `http://127.0.0.1:8787/v1`、协议与模型元数据 | 真实上游的动态选择 |
+| **3. 请求级路由** | `x-headroom-base-url`、`x-headroom-original-path`、`models.yml` override | 把单一入口映射到真实上游并保留原始 path | 角色分配与凭据生成 |
+| **4. 统一代理进程** | `headroom-proxy.service` | 监听 8787、压缩、缓存、协议归一、转发与重启策略 | 哪个 OMP role 选择了请求 |
 
 除了这四层，还有两个关注点：
 - **凭据存储**（`agent.db` 表 `auth_credentials`）：Headroom 只转发 OMP 发来的鉴权头，从不自己注入凭据。
-- **CLI 配置**（`~/.config/claude-profile/*.json`）：仅给独立的 `claude` CLI 使用，OMP 本身不读取。
+- **CLI 配置**（`~/.kimi-code/config.toml` 等）：给独立 CLI 提供 provider、OAuth 和 header 语义，不能假设 OMP 会读取每一个 CLI 配置。
 
-### 3.3 端到端接入流程
+### 3.3 单端口接入流程
 
-接入一个新的自定义供应商，需依次使四层制品就位：
+单端口迁移的重点不是为每个 provider 再创建一个 unit，而是让模型路由、请求 header 和统一服务形成闭环：
 
 ```mermaid
 flowchart TD
-  Q1{"models.db 的 model_cache<br/>里已经有该 provider?"}
-  Q1 -- 否 --> T1["先从 OMP 触发一次请求<br/>让它写入该行，再重新检查"]
-  Q1 -- 是 --> Q2{"上游暴露了<br/>Anthropic 兼容端点?"}
-  Q2 -- 否 --> STOP["无法经 Headroom 路由<br/>OpenAI 路由存在路径拼装 bug"]
-  Q2 -- 是 --> Q3{"agent.db 的<br/>auth_credentials 里有凭据?"}
-  Q3 -- 否 --> SEED["先用 OMP UI / 鉴权流<br/>写入凭据"]
-  Q3 -- 是 --> P1["1. 选端口：做裸绑定测试<br/>（WSL2 有端口占用陷阱）"]
-  P1 --> P2["2. 写 systemd 单元<br/>照抄 zhipu 单元模板"]
-  P2 --> P3["3. daemon-reload + enable --now<br/>验证 /livez 单调递增"]
-  P3 --> P4["4. 改 models.db 该行<br/>api=anthropic-messages<br/>baseUrl=http://127.0.0.1:PORT"]
-  P4 --> P5["5. 冒烟测试 /v1/messages<br/>用已存凭据，期望 HTTP 200<br/>查 ~/.headroom/logs/proxy.log"]
-  P5 --> P6["6. 提示用户重启 OMP<br/>model_cache 是进程内缓存"]
-  P6 --> P7["7. 更新安装文档<br/>拓扑 + 路由 + 验证 + 回滚"]
+  Q1{"provider 是否已经解析到<br/>127.0.0.1:8787/v1？"}
+  Q1 -- 否 --> T1["先检查 models.db<br/>或 models.yml override"]
+  Q1 -- 是 --> Q2{"该请求是否携带<br/>动态上游 header？"}
+  Q2 -- 否 --> D1["检查 Anthropic 默认目标<br/>避免误发到 Kimi"]
+  Q2 -- 是 --> P1["检查 x-headroom-base-url<br/>与 x-headroom-original-path"]
+  D1 --> P2["保留统一 systemd 单元<br/>不要重新拆分 provider 端口"]
+  P1 --> P2
+  P2 --> P3["daemon-reload + restart<br/>确认 8787 单独监听"]
+  P3 --> P4["分别执行 Zhipu / Kimi / MiniMax / Codex<br/>的真实 selector 冒烟"]
+  P4 --> P5["查 proxy.log 的真实上游 URL<br/>再记录拓扑与回滚证据"]
 ```
 
-#### 端口选择：Python 裸绑定校验
+#### 统一 systemd 单元
 
-WSL2 环境下可能出现网络栈报告空闲但绑定报 `EADDRINUSE` 的现象，需用 Python 进行真实绑定探针：
+当前服务的关键设置如下。它不设置 `OPENAI_TARGET_API_URL`，以免覆盖 Codex 的 Responses WebSocket 路由：
 
-```python
-import socket
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(("127.0.0.1", PORT))
-s.close()
+```ini
+[Unit]
+Description=Headroom Unified Context Optimization Proxy
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment=HOME=%h
+Environment=HEADROOM_HOST=127.0.0.1
+Environment=ANTHROPIC_TARGET_API_URL=https://api.kimi.com/coding
+Environment=ALL_PROXY=
+Environment=LITELLM_PROXY=
+Environment=all_proxy=
+Environment=SOCKS_PROXY=
+Environment=socks_proxy=
+ExecStart=/home/davidhlp/.local/bin/headroom proxy --port 8787
+RestartSec=8
+StandardOutput=append:%h/.headroom/logs/headroom-proxy.log
+StandardError=append:%h/.headroom/logs/headroom-proxy.log
+
+[Install]
+WantedBy=default.target
 ```
 
-#### `models.db` 幂等补丁
+`RestartSec=8` 用于给 TCP `TIME_WAIT` 释放留出时间，避免重启过快造成假性端口冲突或 crash loop。
 
-改 `models.db` 的 `model_cache` 时，务必将 `authoritative` 设为 `1`。若保持为 `0`，OMP 可能会重新从内置注册表拉取并覆盖 `baseUrl`，导致请求绕过代理。
+#### MiniMax 内置 provider override
 
-#### 重启 OMP 进程
+MiniMax 是 OMP 内置 provider，不能把不存在或不稳定的动态 `model_cache` 行当成唯一配置来源。当前用 `models.yml` 覆盖它：
 
-`model_cache` 存在进程内缓存，修改 `models.db` 后必须重启 OMP 进程方可生效。
+```yaml
+# Managed local override: route the built-in MiniMax provider through Headroom.
+providers:
+  minimax-code-cn:
+    baseUrl: http://127.0.0.1:8787/v1
+    headers:
+      x-headroom-base-url: https://api.minimaxi.com/v1
+      x-headroom-original-path: /chat/completions
+```
+
+其中 `x-headroom-base-url` 选择真实上游，`x-headroom-original-path` 保留 `/chat/completions`，防止 `/v1` 被重复拼接。
+
+#### Kimi 默认目标边界
+
+Kimi CLI 的 Anthropic 请求可以通过 `x-headroom-base-url=https://api.kimi.com/coding` 明确选择 Kimi；但部分 OMP 请求只到达 8787，不携带动态 header，因此服务使用：
+
+```ini
+Environment=ANTHROPIC_TARGET_API_URL=https://api.kimi.com/coding
+```
+
+任何没有动态路由 header 的 Anthropic `/v1/messages` 请求都会默认发送到 Kimi，而不是 Anthropic 官方端点。若普通 Claude 流量也要使用 8787，必须使用独立入口、显式 header 或基于客户端身份的条件路由。
+
+#### Codex 特殊路由
+
+Codex subscription 使用 Responses WebSocket：
+
+```text
+/v1/responses
+→ wss://chatgpt.com/backend-api/codex/responses
+```
+
+因此不要配置 `OPENAI_TARGET_API_URL`。必须在日志中看到 `wss://chatgpt.com/backend-api/codex/responses` 与 `response.completed`，而不是只看到一个普通 `/v1/chat/completions` 的 200。
+
+#### 清理旧服务
+
+单端口迁移后，旧 provider unit、drop-in 与 enable 状态都应清理：
+
+```bash
+systemctl --user disable --now \
+  headroom-proxy-zhipu.service \
+  headroom-proxy-kimi.service \
+  headroom-proxy-minimax.service \
+  headroom-proxy-codex.service \
+  headroom-proxy-webui.service || true
+
+rm -rf ~/.config/systemd/user/headroom-proxy-zhipu.service.d
+rm -rf ~/.config/systemd/user/headroom-proxy-kimi.service.d
+rm -rf ~/.config/systemd/user/headroom-proxy-minimax.service.d
+rm -rf ~/.config/systemd/user/headroom-proxy-codex.service.d
+rm -rf ~/.config/systemd/user/headroom-proxy-webui.service.d
+
+systemctl --user daemon-reload
+systemctl --user enable --now headroom-proxy.service
+```
+
+#### `models.db` 与进程缓存
+
+如果修改 `models.db` 的 `model_cache`，保留 `authoritative=1` 并重启 OMP；否则静态 registry 或进程内缓存可能让旧 `baseUrl` 继续生效。MiniMax 的稳定覆盖优先放在 `models.yml`，不要重复手工插入同一 provider 的缓存行。
 
 ### 3.4 三层路由验证方法论
 
-验证流量是否真正经过代理，切忌仅依赖二层冒烟测试，必须做到三层证据递进：
+验证流量是否真正经过代理，切忌仅依赖健康端点或 HTTP 200，必须做到三层证据递进：
 
 | 层级 | 验证手段 | 能证明什么 | 不能证明什么 |
 | --- | --- | --- | --- |
-| **L1 配置** | 查 `models.db` 的 `baseUrl` 指向 loopback | 编排器若解析该模型必走代理 | 编排器运行时是否真的选了该模型 |
-| **L2 bare-proxy** | 直接向 loopback 端点发 `/v1/messages` | 代理可达、协议正常、凭据透传成功 | 编排器自身路由是否将流量发至此处 |
-| **L3 编排器原生** | 查 `proxy.log` 的 `PERF` 行 + 实时连接（`ss`） | 编排器确实将原生流量发到了代理 | — |
+| **L1 配置** | 查 `models.db` / `models.yml` 的 `baseUrl` 指向 8787 | 编排器有机会通过统一入口发送请求 | 运行时是否真的选了该模型与 header |
+| **L2 协议** | 直接向 8787 发各协议最小请求 | 代理可达、协议正常、凭据透传成功 | 编排器自身路由是否使用此入口 |
+| **L3 编排器原生** | 运行真实 selector，并查 `proxy.log` 上游 URL、`ss` 与 `PERF` | 编排器确实将原生流量送到正确上游 | — |
 
 **L3 验证命令：**
 
 ```bash
-# 1. 监控日志中目标模型的 PERF 行
-tail -f ~/.headroom/logs/proxy.log | grep 'PERF model='
-
-# 2. 查看编排器进程建立的出站连接
-ss -tnp state established | grep <OMP_PID>
+for selector in \
+  zhipu-coding-plan/glm-4.7 \
+  kimi-code/k3 \
+  minimax-code-cn/MiniMax-M3 \
+  openai-codex/gpt-5.6-luna; do
+  env -u ALL_PROXY -u all_proxy -u HTTP_PROXY -u HTTPS_PROXY \
+    omp --no-session --no-tools --no-skills --no-rules --no-extensions \
+      --mode=json --model "$selector" -p 'Reply with exactly PONG'
+done
 ```
 
-确认连接目的地为 `127.0.0.1:<PORT>` 而非直连上游 IP。
+然后检查 `~/.headroom/logs/proxy.log`：
+
+| Provider | 关键上游证据 | 期望结果 |
+| --- | --- | --- |
+| Zhipu | `path=https://open.bigmodel.cn/api/coding/paas/v4/chat/completions` | `status=200` |
+| Kimi | `path=https://api.kimi.com/coding/v1/messages` | `status=200` |
+| MiniMax | `path=https://api.minimaxi.com/v1/chat/completions` | `status=200` |
+| Codex | `wss://chatgpt.com/backend-api/codex/responses` | `response.completed` |
 
 ### 3.5 RTK 与 Headroom 的组合架构
 
-RTK 与 Headroom 是两个独立组件：RTK 负责在靠近 Agent 端过滤 CLI/工具输出中的日志噪音；Headroom 负责在网络层维持前缀缓存与上下文压缩。
+RTK 与 Headroom 是两个独立组件：RTK 负责在靠近 Agent 端过滤 CLI/工具输出中的日志噪音；Headroom 负责在网络层维持前缀缓存与上下文压缩。单端口只改变 Headroom 的网络入口，不改变两者的职责边界。
 
 ```mermaid
 flowchart LR
@@ -359,11 +443,11 @@ flowchart LR
     T["工具调用<br/>shell / read / grep ..."]
     R["RTK<br/>过滤工具输出噪音"]
   end
-  subgraph Proxy["Headroom 代理层（loopback）"]
+  subgraph Proxy["Headroom 代理层（127.0.0.1:8787）"]
     H["cache 冻结<br/>CCR 延迟注入<br/>content-router 压缩"]
   end
-  subgraph Up["上游 API"]
-    U["Anthropic 兼容端点"]
+  subgraph Up["按请求选择的上游"]
+    U["Zhipu / Kimi / MiniMax / Codex"]
   end
   T --> R
   R -->|"过滤后内容"| H
@@ -380,14 +464,15 @@ flowchart LR
 #### 服务控制
 
 ```bash
-# 查看状态
-systemctl --user status headroom-proxy-zhipu headroom-proxy-minimax headroom-proxy-kimi
+# 查看统一服务状态
+systemctl --user status headroom-proxy.service
 
 # 重启 / 停止
-systemctl --user restart headroom-proxy-zhipu headroom-proxy-minimax headroom-proxy-kimi
+systemctl --user restart headroom-proxy.service
+systemctl --user stop headroom-proxy.service
 
 # 查看实时日志
-journalctl --user -u headroom-proxy-zhipu -f
+journalctl --user -u headroom-proxy.service -f
 ```
 
 #### CLI 探针
@@ -401,13 +486,17 @@ headroom perf
 
 # 查看 Token 节省统计
 headroom savings
+
+# 确认只剩一个监听入口
+ss -tlnp | grep -E '127\.0\.0\.1:(8787|8788|8790|8791|8800)'
 ```
 
 #### 探针注意事项
 
 - `/livez` 实时反映代理进程状态；
-- `/readyz` 会尝试探测默认 Anthropic 地址而报 unhealthy，**属于正常现象**，请以 `/livez` 和实际流量日志为准。
-
+- `/readyz` 可能探测默认 Anthropic 地址并报告 unhealthy，**不等于统一代理转发失败**；
+- `headroom doctor` 的 Claude、Codex、shell-env 或 budget warning 也不能替代真实 selector 和上游 URL 证据；
+- 最终判断以 `proxy.log` 中的 `open.bigmodel.cn`、`api.kimi.com`、`api.minimaxi.com` 或 `chatgpt.com` 为准。
 ---
 
 ## 四、规则系统：多源发现、三种注入与 paths/globs 陷阱
@@ -694,12 +783,13 @@ ln -s ../.pi/rules .omp/rules
 
 | 陷阱 | 现象 | 解决对策 |
 | --- | --- | --- |
-| **WSL2 端口幽灵占用** | 端口显示空闲但绑定 `EADDRINUSE` | 用 Python `socket.bind` 验证；避开 8789，选择 8790+ |
-| **OpenAI 路由路径 Bug** | `/paas/v4` 或 `/coding/v1` 被误拼装导致 404 | 统一使用 `api: anthropic-messages` 协议端点 |
+| **WSL2 端口幽灵占用** | 端口显示空闲但绑定 `EADDRINUSE` | 用 Python 对 `127.0.0.1:8787` 做裸绑定，并用 `ss` 确认旧 unit 没有占用入口 |
+| **Headroom 请求级 path 路由错误** | `/paas/v4`、`/coding/v1` 或 `/chat/completions` 被重复拼接导致 404 | 保留 `x-headroom-base-url` 与 `x-headroom-original-path`；Codex 不要设置 `OPENAI_TARGET_API_URL` |
 | **`RestartSec=3` 崩溃循环** | 重启时进入 50+ 次循环 | 将 `RestartSec` 设为 `8` 秒，确保 TCP TIME_WAIT 完全释放 |
 | **`authoritative=0` 被静默重置** | 运行一段时间后 `baseUrl` 恢复默认 | 修改 `models.db` 时强制指定 `authoritative=1` |
-| **OMP 内存缓存 `model_cache`** | 修改数据库后配置不生效 | 修改 `models.db` 后告知用户重启 OMP 进程 |
-| **8789 上的幽灵 Windows 代理** | `/livez` 返回 200 但实际请求 401 | 用 `ss -tlnp` 确认绑定 PID 为自己的 systemd 单元 |
+| **OMP 内存缓存 `model_cache`** | 修改数据库后配置不生效 | 修改 `models.db` 后重启 OMP 进程；MiniMax 稳定覆盖放在 `models.yml` |
+| **统一入口的 Kimi 默认目标** | 无 header 的非 OMP Anthropic 请求被静默发送到 Kimi | 为真实 Anthropic 流量使用独立端口，或显式设置 `x-headroom-base-url=https://api.anthropic.com` |
+| **旧 provider unit 未清理** | 看似只有 8787，实际旧进程仍抢占路由或写旧日志 | `disable --now` 旧 unit，删除 drop-in，`daemon-reload` 后只启用 `headroom-proxy.service` |
 | **子代理模型覆盖被静默忽略** | 子代理使用父会话模型而非配置模型 | 验证必须到达 L3（`proxy.log` + `ss`） |
 | **context-mode 与 Headroom 双重压缩** | 模型输出过于简短，丢失上下文 | 逐层关闭以隔离：停 Headroom 或禁用 `context-mode` 插件 |
 
