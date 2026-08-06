@@ -1,6 +1,6 @@
 ---
 title: "OMP 設定・ルール体系マスターガイド：グローバル設定、Headroom プロキシ、Agent ルールシステム"
-timestamp: 2026-07-25 00:00:00+08:00
+timestamp: 2026-08-01 00:00:00+08:00
 series: "OMP 規則と設定体系"
 tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, RTK, Rules, Configuration, Architecture]
 description: "AI Agent オーケストレーションにおける OMP の設定・ルール体系の包括的ガイド。10のモデルロールとフォールバックチェーンを持つグローバル設定、カスタムプロバイダ導入と三階層ルーティング検証を備えた Headroom 圧縮プロキシ層、そしてマルチソース検出・三つの注入モード・paths/globs サイレント失敗の罠を含む Agent ルールシステムを網羅。"
@@ -228,15 +228,17 @@ API レート制限（RPM/TPM）や一時障害が発生した際、**全9つの
 
 ---
 
-## 三、Headroom 圧縮プロキシ：カスタムプロバイダの導入
+## 三、Headroom 圧縮プロキシ：単一ポートの動的ルーティング
 
 グローバル設定は「どのモデルを使うか」を決め、Headroom は「トラフィックをどう流すか」を解決する。
 
+> **2026-08-01 の進化メモ：** この記事の以前の版では provider ごとに複数の Headroom ポートを割り当てていた。現在の実装は loopback の一つの入口 `127.0.0.1:8787` に収束している。リクエストヘッダーと provider override が実際の上流を選び、`headroom-proxy.service` は一つの統合プロキシプロセスだけを管理する。
+
 ### 3.1 なぜ圧縮プロキシ層が必要なのか？
 
-OMP はロールに基づいてリクエストを異なる provider/model にルーティングする。理想的には、すべてのプロバイダがプロンプトキャッシュ、コンテキスト圧縮、ツール結果キャッシュを備えているべきだ。しかし現実には、すべての上流がこれらをネイティブにサポートしているわけではない。Headroom はこの隙間を埋める：ローカルリバースプロキシとして、通過するすべてのトラフィックに対して透過的な圧縮、キャッシュ、プロトコル正規化を行う。
+OMP はロールに基づいてリクエストを異なる provider/model にルーティングする。理想的には、すべてのプロバイダがプロンプトキャッシュ、コンテキスト圧縮、ツール結果キャッシュを備えているべきだ。しかし現実には、すべての上流がこれらをネイティブにサポートしているわけではない。Headroom はこの隙間を埋めるローカルリバースプロキシとして、通過するトラフィックの圧縮、キャッシュ、プロトコル正規化を行う。
 
-**プロキシカバレッジ原則：ガバナンスが必要なプロバイダだけをプロキシ経由にし、それ以外は直接接続する。** 本構成では三つの中国圏プロバイダだけが Headroom を経由し、それ以外（Vertex Claude、ローカル Ollama、LM Studio、llama.cpp など）はすべて直接接続。
+**プロキシカバレッジ原則：ガバナンスが必要なプロバイダだけをプロキシ経由にし、それ以外は直接接続する。** 現在は Zhipu、Kimi、MiniMax、Codex の対象トラフィックが同じ 8787 入口に入る。それ以外の provider は、明示的にこの入口またはルーティングヘッダーを使った場合だけ統合プロキシに入る。特に、マークされていない Anthropic `/v1/messages` リクエストはサービス設定の Kimi デフォルト先を使うため、「他の provider はすべて直接接続」とは安全に言えない。
 
 #### 価値の全体像：主戦力は RTK
 
@@ -247,111 +249,195 @@ OMP はロールに基づいてリクエストを異なる provider/model にル
 
 Headroom の役割は「キャッシュ安定化＋プロトコル正規化」に近く、真の節約を担っているのは RTK である。
 
-### 3.2 全体アーキテクチャ：四層アーティファクトと責務の境界
+### 3.2 全体アーキテクチャ：単一入口とリクエスト単位の上流
 
-OMP は三つの中国圏プロバイダをプロバイダごとの Headroom 圧縮プロキシ経由でルーティングする。それ以外のプロバイダはすべて直接接続。
+OMP と Kimi CLI は管理対象のトラフィックを `127.0.0.1:8787` に送る。プロキシはもうポート番号から provider を推測しない。`x-headroom-base-url`、`x-headroom-original-path` などのリクエスト情報を読み、動的ヘッダーのない Anthropic リクエストだけが `ANTHROPIC_TARGET_API_URL` をデフォルト先として使う。
 
 ```mermaid
 flowchart LR
-  subgraph OMP["OMP Agent（config.yml + models.db）"]
-    A["chat 呼び出し<br/>role → provider/model"]
-  end
-  subgraph Headroom["systemd --user ユニット（loopback）"]
-    Z[":8787<br/>zhipu"]
-    M[":8788<br/>minimax"]
-    K[":8790<br/>kimi"]
-  end
-  subgraph Upstream["上流 Anthropic 互換 API"]
-    U1["open.bigmodel.cn<br/>api/anthropic"]
-    U2["api.minimaxi.com<br/>anthropic"]
-    U3["api.kimi.com<br/>coding"]
-  end
-  A -->|"http://127.0.0.1:PORT<br/>/v1/messages"| Z
-  A --> M
-  A --> K
-  Z -->|"圧縮 + 転送<br/>Anthropic プロトコル"| U1
-  M --> U2
-  K --> U3
+  A["OMP / Kimi CLI"] --> H["127.0.0.1:8787<br/>headroom-proxy.service"]
+  H --> Z["Zhipu<br/>x-headroom-base-url"]
+  H --> K["Kimi<br/>Anthropic デフォルト先"]
+  H --> M["MiniMax<br/>x-headroom-base-url"]
+  H --> C["Codex<br/>Responses WebSocket"]
+  Z --> ZU["open.bigmodel.cn"]
+  K --> KU["api.kimi.com/coding"]
+  M --> MU["api.minimaxi.com/v1"]
+  C --> CU["chatgpt.com/backend-api/codex"]
 ```
 
-このアーキテクチャを理解する鍵は、**四つのアーティファクトがそれぞれ何を担い、何を担わないか**を明確にすることだ：
+現在の provider ルートは四つのケースに分けられる。
+
+| Provider | クライアント側のルーティング | Headroom の上流 |
+| --- | --- | --- |
+| Zhipu | `models.db` の `baseUrl` + `x-headroom-*` ヘッダー | `https://open.bigmodel.cn/api/coding/paas/v4/chat/completions` |
+| Kimi | `models.db` / Kimi CLI 設定。ヘッダーなしの Anthropic リクエストはデフォルト先を使用 | `https://api.kimi.com/coding/v1/messages` |
+| MiniMax | `~/.omp/agent/models.yml` で組み込み provider を上書きし、`x-headroom-*` ヘッダーを付与 | `https://api.minimaxi.com/v1/chat/completions` |
+| Codex | `models.db` が 8787 を指し、Headroom が ChatGPT subscription を検出 | `wss://chatgpt.com/backend-api/codex/responses` |
+
+OMP 以外の Anthropic クライアントで本来の Anthropic ルーティングを維持する場合は、別の Headroom インスタンス/ポートを使うか、`x-headroom-base-url=https://api.anthropic.com` を明示すること。Kimi のデフォルトは安全網ではなく、静かなリダイレクトである。
+
+このアーキテクチャを理解する鍵は、各アーティファクトが何を担い、何を担わないかを明確にすることだ：
 
 | 層 | アーティファクト（ファイル/オブジェクト） | 担うもの | 担わないもの |
 | --- | --- | --- | --- |
 | **1. ロール→モデル束縛** | `config.yml`（`modelRoles`、`task.agentModelOverrides`、`retry.fallbackChains`） | 各 OMP ロールが使う provider/model；モデル障害時のフォールバックグラフ | ネットワークルーティング |
-| **2. モデル→ルート束縛** | `models.db` テーブル `model_cache`（`provider_id`、`models[].api`、`models[].baseUrl`） | 各 provider のモデルのプロトコル（`anthropic-messages`）+ base URL | 認証、ロール割り当て |
-| **3. プロキシプロセス** | systemd ユニット `headroom-proxy-*.service`（プロバイダごとに一つ） | 待受ポート、上流 URL、provider 名、再起動ポリシー | モデルの有無 |
-| **4. 上流 API** | プロバイダの Anthropic 互換エンドポイント | 実際のモデル推論 | Headroom の存在を知っているか |
+| **2. モデル→入口束縛** | `models.db` テーブル `model_cache`（`provider_id`、`models[].api`、`models[].baseUrl`） | provider が `http://127.0.0.1:8787/v1` を指すか、プロトコルとモデルメタデータ | 動的な上流選択 |
+| **3. リクエスト単位のルーティング** | `x-headroom-base-url`、`x-headroom-original-path`、`models.yml` override | 一つの入口を実際の上流へ対応付け、元の path を保持 | ロール割り当てと認証情報の生成 |
+| **4. 統合プロキシプロセス** | `headroom-proxy.service` | 8787 の待受、圧縮、キャッシュ、プロトコル正規化、転送、再起動ポリシー | どの OMP role がリクエストを選んだか |
 
-さらに二つの直交する関心事：
+さらに二つの直交する関心事がある：
 - **クレデンシャルストア**（`agent.db` テーブル `auth_credentials`）：Headroom は OMP が送る認証ヘッダを転送するだけで、自ら認証を注入することはない。
-- **CLI プロファイル**（`~/.config/claude-profile/*.json`）：独立した `claude` CLI 専用であり、OMP 自身は読み込まない。
+- **CLI 設定**（`~/.kimi-code/config.toml` など）：独立 CLI の provider、OAuth、ヘッダー意味論を提供する。OMP がすべての CLI 設定を読むとは限らない。
 
-### 3.3 エンドツーエンドの導入フロー
+### 3.3 単一ポート導入フロー
 
-新しいプロバイダの導入は、四層のアーティファクトを順に所定の位置に置くことである：
+単一ポート移行の要点は、provider ごとに別の unit を作ることではない。モデルルーティング、リクエストヘッダー、統合サービスを一つの閉じた流れにすることである。
 
 ```mermaid
 flowchart TD
-  Q1{"models.db の model_cache に<br/>その provider は既にある?"}
-  Q1 -- いいえ --> T1["まず OMP から一度リクエストを発生させ<br/>行を書き込ませてから再確認"]
-  Q1 -- はい --> Q2{"上流は Anthropic 互換<br/>エンドポイントを公開している?"}
-  Q2 -- いいえ --> STOP["Headroom 経由でルーティング不可<br/>OpenAI ルートにはパス組み立てバグがある"]
-  Q2 -- はい --> Q3{"agent.db の<br/>auth_credentials に認証情報はある?"}
-  Q3 -- いいえ --> SEED["まず OMP UI / 認証フローで<br/>クレデンシャルを追加"]
-  Q3 -- はい --> P1["1. ポート選択：生バインドテスト<br/>（WSL2 にはポート占有の罠あり）"]
-  P1 --> P2["2. systemd ユニットを記述<br/>zhipu ユニットのテンプレートを踏襲"]
-  P2 --> P3["3. daemon-reload + enable --now<br/>/livez が単調増加するか検証"]
-  P3 --> P4["4. models.db の該当行を修正<br/>api=anthropic-messages<br/>baseUrl=http://127.0.0.1:PORT"]
-  P4 --> P5["5. /v1/messages のスモークテスト<br/>保存済み認証で HTTP 200 を期待<br/>~/.headroom/logs/proxy.log を確認"]
-  P5 --> P6["6. ユーザに OMP の再起動を指示<br/>model_cache はプロセス内キャッシュ"]
-  P6 --> P7["7. 導入ドキュメントを更新<br/>トポロジ + ルーティング + 検証 + ロールバック"]
+  Q1{"provider は<br/>127.0.0.1:8787/v1 に解決される？"}
+  Q1 -- いいえ --> T1["models.db または<br/>models.yml override を確認"]
+  Q1 -- はい --> Q2{"リクエストに動的な<br/>上流ヘッダーがある？"}
+  Q2 -- いいえ --> D1["Anthropic デフォルト先を確認し<br/>意図しない Kimi ルーティングを防ぐ"]
+  Q2 -- はい --> P1["x-headroom-base-url と<br/>x-headroom-original-path を確認"]
+  D1 --> P2["統合 systemd unit を維持し<br/>provider ポートへ再分割しない"]
+  P1 --> P2
+  P2 --> P3["daemon-reload + restart<br/>8787 だけが待受することを確認"]
+  P3 --> P4["Zhipu / Kimi / MiniMax / Codex の<br/>実 selector スモークテストを実行"]
+  P4 --> P5["proxy.log の実際の上流 URL を読み<br/>トポロジーとロールバック証拠を記録"]
 ```
 
-#### ポート選択：Python 生バインドテスト
+#### 統合 systemd ユニット
 
-WSL2 のミラードネットワークでは、「システムはポート空きと見なしているのに、実際にバインドすると `EADDRINUSE` が出る」現象が起きる。Python で検証する：
+現在のサービスの重要な設定は次のとおりである。Codex の Responses WebSocket ルートを上書きしないよう、`OPENAI_TARGET_API_URL` は設定しない。
 
-```python
-import socket
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(("127.0.0.1", PORT))
-s.close()
+```ini
+[Unit]
+Description=Headroom Unified Context Optimization Proxy
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment=HOME=%h
+Environment=HEADROOM_HOST=127.0.0.1
+Environment=ANTHROPIC_TARGET_API_URL=https://api.kimi.com/coding
+Environment=ALL_PROXY=
+Environment=LITELLM_PROXY=
+Environment=all_proxy=
+Environment=SOCKS_PROXY=
+Environment=socks_proxy=
+ExecStart=/home/davidhlp/.local/bin/headroom proxy --port 8787
+RestartSec=8
+StandardOutput=append:%h/.headroom/logs/headroom-proxy.log
+StandardError=append:%h/.headroom/logs/headroom-proxy.log
+
+[Install]
+WantedBy=default.target
 ```
 
-#### `models.db` の冪等パッチ
+`RestartSec=8` は TCP `TIME_WAIT` ソケットが解放される時間を確保し、再起動が速すぎて偽のポート競合や crash loop が起きるのを防ぐ。
 
-`models.db` の `model_cache` 行を修正する際、`authoritative` を `1` に設定する。`0` のままだと、OMP は同梱の静的レジストリからプロバイダを再取得し、`baseUrl` をこっそり元に戻し、トラフィックがプロキシを迂回する。
+#### MiniMax 組み込み provider の override
 
-#### 変更後は必ず OMP を再起動
+MiniMax は OMP の組み込み provider である。不在または不安定な動的 `model_cache` 行を唯一の設定元とみなしてはいけない。現在は `models.yml` で上書きしている。
 
-`model_cache` は OMP の**プロセス内キャッシュ**である。`models.db` を修正後は再起動が必須。
+```yaml
+# Managed local override: route the built-in MiniMax provider through Headroom.
+providers:
+  minimax-code-cn:
+    baseUrl: http://127.0.0.1:8787/v1
+    headers:
+      x-headroom-base-url: https://api.minimaxi.com/v1
+      x-headroom-original-path: /chat/completions
+```
+
+`x-headroom-base-url` は実際の上流を選び、`x-headroom-original-path` は `/chat/completions` を保持して `/v1` の二重連結を防ぐ。
+
+#### Kimi デフォルト先の境界
+
+Kimi CLI の Anthropic リクエストは `x-headroom-base-url=https://api.kimi.com/coding` で Kimi を明示的に選べる。しかし一部の OMP リクエストは動的ヘッダーなしで 8787 に到達するため、サービスには次の設定がある。
+
+```ini
+Environment=ANTHROPIC_TARGET_API_URL=https://api.kimi.com/coding
+```
+
+動的ルーティングヘッダーを持たない Anthropic `/v1/messages` リクエストはすべて、Anthropic 公式エンドポイントではなく Kimi に送られる。通常の Claude 通信も 8787 を使うなら、別入口、明示的なヘッダー、またはクライアント識別に基づく条件ルーティングが必要である。
+
+#### Codex の特殊ルート
+
+Codex subscription は Responses WebSocket を使用する。
+
+```text
+/v1/responses
+→ wss://chatgpt.com/backend-api/codex/responses
+```
+
+`OPENAI_TARGET_API_URL` は設定してはいけない。ログには `wss://chatgpt.com/backend-api/codex/responses` と `response.completed` が必要であり、通常の `/v1/chat/completions` の成功だけでは不十分である。
+
+#### 旧サービスの削除
+
+単一ポート移行後は、旧 provider unit、drop-in、enable 状態を削除する。
+
+```bash
+systemctl --user disable --now \
+  headroom-proxy-zhipu.service \
+  headroom-proxy-kimi.service \
+  headroom-proxy-minimax.service \
+  headroom-proxy-codex.service \
+  headroom-proxy-webui.service || true
+
+rm -rf ~/.config/systemd/user/headroom-proxy-zhipu.service.d
+rm -rf ~/.config/systemd/user/headroom-proxy-kimi.service.d
+rm -rf ~/.config/systemd/user/headroom-proxy-minimax.service.d
+rm -rf ~/.config/systemd/user/headroom-proxy-codex.service.d
+rm -rf ~/.config/systemd/user/headroom-proxy-webui.service.d
+
+systemctl --user daemon-reload
+systemctl --user enable --now headroom-proxy.service
+```
+
+#### `models.db` とプロセス内キャッシュ
+
+`models.db` の `model_cache` 行を変更する場合は `authoritative=1` を維持し、OMP を再起動する。そうしないと静的レジストリまたはプロセス内キャッシュが古い `baseUrl` を使い続ける可能性がある。MiniMax の安定した上書きは `models.yml` に置き、重複したキャッシュ行を手動挿入しない。
 
 ### 3.4 三階層のルーティング検証
 
-トラフィックが本当にプロキシを経由しているかの検証は、三階層の証拠を順に積む必要がある：
+トラフィックが本当にプロキシを経由しているかは、ヘルスエンドポイントや HTTP 200 だけで判断してはいけない。三階層の証拠を積み上げる。
 
 | 階層 | 検証手段 | 証明できること | 証明できないこと |
 | --- | --- | --- | --- |
-| **L1 設定** | `models.db` の `baseUrl` が loopback を指す | オーケストレータがこのモデルを解決すれば必ずプロキシ経由 | 実行時にこのモデルを選ぶか |
-| **L2 bare-proxy** | loopback ポートに直接 `/v1/messages` を送信 | プロキシ起動、プロトコル正常、認証パススルー成功 | オーケストレータのルーティングがここに送るか |
-| **L3 オーケストレータ原生** | `proxy.log` の `PERF` 行＋`ss` でライブ接続確認 | オーケストレータが実際に原生トラフィックをプロキシへ送信 | — |
+| **L1 設定** | `models.db` / `models.yml` の `baseUrl` が 8787 を指すか確認 | オーケストレータが統合入口へ送れること | 実行時の選択とヘッダーが実際に使われるか |
+| **L2 プロトコル** | 各プロトコルの最小リクエストを 8787 に直接送る | プロキシ到達性、プロトコル処理、認証パススルー | オーケストレータがここへルーティングするか |
+| **L3 オーケストレータ原生** | 実 selector を実行し、`proxy.log` の上流 URL、`ss`、`PERF` を確認 | オーケストレータが正しい上流へ原生トラフィックを送ったこと | — |
 
 **L3 検証コマンド：**
 
 ```bash
-# 1. 対象モデルの PERF 行を監視
-tail -f ~/.headroom/logs/proxy.log | grep 'PERF model='
-
-# 2. オーケストレータプロセスの出站接続を確認
-ss -tnp state established | grep <OMP_PID>
+for selector in \
+  zhipu-coding-plan/glm-4.7 \
+  kimi-code/k3 \
+  minimax-code-cn/MiniMax-M3 \
+  openai-codex/gpt-5.6-luna; do
+  env -u ALL_PROXY -u all_proxy -u HTTP_PROXY -u HTTPS_PROXY \
+    omp --no-session --no-tools --no-skills --no-rules --no-extensions \
+      --mode=json --model "$selector" -p 'Reply with exactly PONG'
+done
 ```
 
-接続先が `127.0.0.1:<PORT>` であり、上流 IP への直接接続でないことを確認する。
+次に `~/.headroom/logs/proxy.log` を確認する。
+
+| Provider | 決定的な上流証拠 | 期待結果 |
+| --- | --- | --- |
+| Zhipu | `path=https://open.bigmodel.cn/api/coding/paas/v4/chat/completions` | `status=200` |
+| Kimi | `path=https://api.kimi.com/coding/v1/messages` | `status=200` |
+| MiniMax | `path=https://api.minimaxi.com/v1/chat/completions` | `status=200` |
+| Codex | `wss://chatgpt.com/backend-api/codex/responses` | `response.completed` |
 
 ### 3.5 RTK と Headroom の組み合わせアーキテクチャ
 
-RTK と Headroom は二つの独立したコンポーネントである：RTK は Agent 側近くで CLI/ツール出力のノイズをフィルタリングし、Headroom はネットワーク層でプレフィックスキャッシュとコンテキスト圧縮を維持する。
+RTK と Headroom は二つの独立したコンポーネントである。RTK は Agent 側近くで CLI/ツール出力のノイズをフィルタリングし、Headroom はネットワーク層でプレフィックスキャッシュとコンテキスト圧縮を維持する。単一ポートは Headroom のネットワーク入口を変えるだけで、責務の境界は変えない。
 
 ```mermaid
 flowchart LR
@@ -359,35 +445,36 @@ flowchart LR
     T["ツール呼び出し<br/>shell / read / grep ..."]
     R["RTK<br/>ツール出力のノイズを剥離"]
   end
-  subgraph Proxy["Headroom プロキシ層（loopback）"]
+  subgraph Proxy["Headroom プロキシ層（127.0.0.1:8787）"]
     H["cache 凍結<br/>CCR 遅延注入<br/>content-router 圧縮"]
   end
-  subgraph Up["上流"]
-    U["Anthropic 互換エンドポイント"]
+  subgraph Up["リクエストが選ぶ上流"]
+    U["Zhipu / Kimi / MiniMax / Codex"]
   end
   T --> R
   R -->|"フィルタ済み内容"| H
   H --> U
 ```
 
-#### 拦截区別
+#### 介入箇所の区別
 
-- **インライン HTTP リダイレクト**（curl 等の拦截）：オーケストレータの `context-mode` プラグインが処理。
-- **大コマンド出力リダイレクト**（ログ截断等）：**RTK** が処理。
+- **インライン HTTP リダイレクト**（`curl` のインターセプトなど）：オーケストレータの `context-mode` プラグインが処理。
+- **大きなコマンド出力のリダイレクト**（ログ切り詰めなど）：RTK が処理。
 
 ### 3.6 日常運用とプローブツール
 
 #### サービス制御
 
 ```bash
-# 状態確認
-systemctl --user status headroom-proxy-zhipu headroom-proxy-minimax headroom-proxy-kimi
+# 統合サービスの状態
+systemctl --user status headroom-proxy.service
 
 # 再起動 / 停止
-systemctl --user restart headroom-proxy-zhipu headroom-proxy-minimax headroom-proxy-kimi
+systemctl --user restart headroom-proxy.service
+systemctl --user stop headroom-proxy.service
 
 # リアルタイムログ追跡
-journalctl --user -u headroom-proxy-zhipu -f
+journalctl --user -u headroom-proxy.service -f
 ```
 
 #### CLI プローブ
@@ -401,13 +488,17 @@ headroom perf
 
 # トークン節約統計
 headroom savings
+
+# 一つの入口だけが待受していることを確認
+ss -tlnp | grep -E '127\.0\.0\.1:(8787|8788|8790|8791|8800)'
 ```
 
 #### プローブ注意事項
 
-- `/livez` はプロキシプロセスのリアルタイム状態を反映；
-- `/readyz` はデフォルトの Anthropic URL を探査して unhealthy を返す——**これは正常現象**。`/livez` と実際のトラフィックログを基準にすること。
-
+- `/livez` はプロキシプロセスのリアルタイム状態を反映する。
+- `/readyz` はデフォルトの Anthropic URL を探査して unhealthy を返す場合があるが、**統合プロキシの転送失敗を意味しない**。
+- `headroom doctor` の Claude、Codex、shell-env、budget warning は、実 selector と上流 URL の証拠の代わりにならない。
+- 最終的な基準は `proxy.log` に `open.bigmodel.cn`、`api.kimi.com`、`api.minimaxi.com`、または `chatgpt.com` が現れることである。
 ---
 
 ## 四、ルールシステム：マルチソース検出、三つの注入モード、paths/globs の罠
@@ -694,14 +785,15 @@ ln -s ../.pi/rules .omp/rules
 
 | 罠 | 症状 | 緩和策 |
 | --- | --- | --- |
-| **WSL2 ミラードネットのポート幽霊占有** | `ss`/`/proc/net/tcp` は空きと表示するがバインドで `EADDRINUSE` | Python `socket.bind(("127.0.0.1", PORT))` で生バインドテスト。8789 は避け 8790+ を使用 |
-| **Headroom OpenAI ルートパスバグ** | `/paas/v4` や `/coding/v1` の base が誤組み立て → 404 | 全プロバイダで `api: anthropic-messages` に統一。Anthropic エンドポイントがなければ Headroom 経由不可 |
-| **`RestartSec=3` クラッシュループ** | stop/restart 後に 50 回以上の再起動ループ | `RestartSec=8` で TCP TIME_WAIT のクリア時間を確保 |
-| **`authoritative=0` サイレントロールバック** | 一段时间后 `baseUrl` がデフォルトに戻る | `models.db` 修正時に `authoritative=1` を強制 |
-| **OMP `model_cache` のメモリキャッシュ** | DB 変更後に設定が反映されない | `models.db` 修正後に OMP 再起動を指示 |
-| **8789 上の幽霊 Windows プロキシ** | `/livez` は 200 を返すが実際のリクエストは 401 | `ss -tlnp` でバインド PID が自分の systemd ユニットの MainPID か確認 |
-| **サブエージェントのモデルオーバーライドが無視される** | サブエージェントが親セッションのモデルを使用 | 検証は L3 まで到達させる（`proxy.log` + `ss`） |
-| **context-mode と Headroom の二重圧縮** | モデル出力が過度に簡略化、コンテキスト欠落 | 一層ずつ無効化して切り分け：Headroom 停止または `context-mode` プラグイン無効化 |
+| **WSL2 ミラードネットのポート幽霊占有** | ポートは空きに見えるがバインドで `EADDRINUSE` | `127.0.0.1:8787` を Python で生バインドテストし、`ss` で旧 unit が入口を占有していないことを確認 |
+| **Headroom のリクエスト単位 path ルーティングエラー** | `/paas/v4`、`/coding/v1`、`/chat/completions` が二重連結され 404 | `x-headroom-base-url` と `x-headroom-original-path` を保持し、Codex では `OPENAI_TARGET_API_URL` を設定しない |
+| **`RestartSec=3` クラッシュループ** | unit が 50 回以上の再起動ループに入る | `RestartSec=8` で TCP TIME_WAIT のクリア時間を確保 |
+| **`authoritative=0` サイレントロールバック** | 一定時間後に `baseUrl` がデフォルトへ戻る | `models.db` 修正時に `authoritative=1` を強制 |
+| **OMP `model_cache` のメモリキャッシュ** | DB 変更後に設定が反映されない | `models.db` 修正後に OMP を再起動し、MiniMax の安定した override は `models.yml` に置く |
+| **統合入口の Kimi デフォルト先** | ヘッダーなしの非 OMP Anthropic リクエストが Kimi に静かに送られる | 本来の Anthropic 通信は別ポートを使うか、`x-headroom-base-url=https://api.anthropic.com` を明示 |
+| **廃止 provider unit の未削除** | 8787 だけに見えても旧プロセスがルーティングや旧ログ出力を続ける | 旧 unit を `disable --now`、drop-in を削除し、`daemon-reload` 後に `headroom-proxy.service` だけを有効化 |
+| **サブエージェントのモデルオーバーライドが無視される** | サブエージェントが設定済みモデルではなく親セッションのモデルを使用 | 検証は L3 まで到達させる（`proxy.log` + `ss`） |
+| **context-mode と Headroom の二重圧縮** | モデル出力が過度に簡略化されコンテキストが欠落 | 一層ずつ無効化して切り分け：Headroom 停止または `context-mode` プラグイン無効化 |
 
 ### ルールシステムの罠
 
@@ -712,10 +804,10 @@ ln -s ../.pi/rules .omp/rules
 | **`.pi/rules/` が OMP に読み込まれない** | pi 専用規約；OMP に `pi.ts` 検出モジュールなし | シンボリックリンクブリッジ：`.omp/rules → ../.pi/rules` |
 | **最上位 `RULES.md` が深層サブツリーで無視される** | 常駐ルールがネストされたサブツリーで効かない | `RULES.md` はリポジトリルートに配置、サブディレクトリ不可 |
 | **`alwaysApply: true` がコンテキストを満たす** | 毎ルール毎ターン再注入でコンテキスト膨張 | `alwaysApply` は真のグローバル制約にreserved。95% の場合は `globs:` か TTSR を優先 |
-| **シンボリックリンク `.omp/rules/` の陳旧化** | ソースツリーの新增ファイルが現れない | ディレクトリシンボリックリンクを使用（ファイルごとならず）。新增後に `omp ttsr list` で検証 |
+| **シンボリックリンク `.omp/rules/` の陳旧化** | ソースツリーの新規ファイルが現れない | ディレクトリシンボリックリンクを使用（ファイルごとに作らない）。追加後に `omp ttsr list` で検証 |
 | **`AGENTS.md` と `rules/*.md` の重複** | 同一制約が両側に書かれ、必ずドリフト | `AGENTS.md` は*境界とフロー*；`rules/*.md` は*パススコープ制約* |
 | **1ファイルに複数ハーネスの frontmatter が混在** | どのハーネスがどのキーを認識するか不明 | キーごとにコメントラベルを付与、またはハーネス別にファイル分割 |
 
 ---
 
-「グローバル設定の層を明確にし、三階層のルーティング検証を厳格にし、ルールの归一を統一し、ツールの組み合わせを維持する」ことで、本番環境において高効率で安定し、監査可能な OMP Agent ガバナンスアーキテクチャを構築できる。
+「グローバル設定の層を明確にし、三階層のルーティング検証を厳格にし、ルール正規化を統一し、ツールの組み合わせを維持する」ことで、本番環境において高効率で安定し、監査可能な OMP Agent ガバナンスアーキテクチャを構築できる。

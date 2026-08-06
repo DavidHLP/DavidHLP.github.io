@@ -1,6 +1,6 @@
 ---
 title: "OMP Configuration & Rules Master Guide: Global Config, Headroom Proxy, and Agent Rules System"
-timestamp: 2026-07-25 00:00:00+08:00
+timestamp: 2026-08-01 00:00:00+08:00
 series: "OMP Rules & Architecture"
 tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, RTK, Rules, Configuration, Architecture]
 description: "A comprehensive guide to the OMP configuration and rules ecosystem for AI Agent orchestration — covering the global configuration with 10 model roles and fallback chains, the Headroom compression proxy layer for custom provider onboarding with three-level routing verification, and the Agent rules system with multi-source discovery, three injection modes, and the silent paths/globs pitfall."
@@ -228,15 +228,17 @@ When API rate limits (RPM/TPM) or transient outages occur, OMP activates explici
 
 ---
 
-## 3. Headroom Compression Proxy: Custom Provider Onboarding
+## 3. Headroom Compression Proxy: Single-Port Dynamic Routing
 
 Global config decides "which model to use"; Headroom solves "how traffic flows."
 
+> **Evolution note (2026-08-01):** The earlier version of this article assigned multiple Headroom ports by provider. The current implementation has converged on one loopback entry point, `127.0.0.1:8787`. Request headers and provider overrides select the real upstream; `headroom-proxy.service` manages one unified proxy process.
+
 ### 3.1 Why a Compression Proxy Layer?
 
-OMP routes requests to different provider/model pairs based on roles. Ideally, every provider would offer prompt caching, context compression, and tool-result caching. In practice, not every upstream supports these natively. Headroom fills the gap: as a local reverse proxy, it transparently compresses, caches, and normalizes the protocol for every byte that passes through.
+OMP routes requests to different provider/model pairs based on roles. Ideally, every provider would offer prompt caching, context compression, and tool-result caching. In practice, not every upstream supports these natively. Headroom fills the gap as a local reverse proxy that transparently compresses, caches, and normalizes the protocol for traffic that passes through it.
 
-**Proxy coverage principle: only providers that need governance go through the proxy; everything else stays direct.** In this setup, only three CN-region providers pass through Headroom; every other provider (Vertex Claude, local Ollama, LM Studio, llama.cpp, etc.) is untouched and direct.
+**Proxy coverage principle: only providers that need governance go through the proxy; everything else stays direct.** Zhipu, Kimi, MiniMax, and Codex target traffic now enters the same 8787 endpoint. Other providers enter this unified proxy only when they explicitly use the entry point or its routing headers. In particular, an unmarked Anthropic `/v1/messages` request uses the Kimi default target from the service configuration, so the old statement that "every other provider is direct" is no longer safe.
 
 #### The Value Picture: RTK Is the Workhorse
 
@@ -247,111 +249,195 @@ Runtime measurement by "how many tokens it saved":
 
 Headroom is best described as a "cache stabilizer + protocol normalizer"; the real savings come from RTK's tool-output noise reduction.
 
-### 3.2 Overall Architecture: Four Artifacts and Responsibilities
+### 3.2 Overall Architecture: One Entry Point and Request-Level Upstreams
 
-OMP routes three CN-region providers through per-provider Headroom compression proxies; every other provider goes direct.
+OMP and Kimi CLI send governed traffic to `127.0.0.1:8787`. The proxy no longer guesses the provider from the port number. It reads request data such as `x-headroom-base-url` and `x-headroom-original-path`; only unmarked Anthropic requests use `ANTHROPIC_TARGET_API_URL` as the default target.
 
 ```mermaid
 flowchart LR
-  subgraph OMP["OMP Agent (config.yml + models.db)"]
-    A["chat call<br/>role → provider/model"]
-  end
-  subgraph Headroom["systemd --user units (loopback)"]
-    Z[":8787<br/>zhipu"]
-    M[":8788<br/>minimax"]
-    K[":8790<br/>kimi"]
-  end
-  subgraph Upstream["Upstream Anthropic-compatible API"]
-    U1["open.bigmodel.cn<br/>api/anthropic"]
-    U2["api.minimaxi.com<br/>anthropic"]
-    U3["api.kimi.com<br/>coding"]
-  end
-  A -->|"http://127.0.0.1:PORT<br/>/v1/messages"| Z
-  A --> M
-  A --> K
-  Z -->|"compress + forward<br/>Anthropic protocol"| U1
-  M --> U2
-  K --> U3
+  A["OMP / Kimi CLI"] --> H["127.0.0.1:8787<br/>headroom-proxy.service"]
+  H --> Z["Zhipu<br/>x-headroom-base-url"]
+  H --> K["Kimi<br/>Anthropic default target"]
+  H --> M["MiniMax<br/>x-headroom-base-url"]
+  H --> C["Codex<br/>Responses WebSocket"]
+  Z --> ZU["open.bigmodel.cn"]
+  K --> KU["api.kimi.com/coding"]
+  M --> MU["api.minimaxi.com/v1"]
+  C --> CU["chatgpt.com/backend-api/codex"]
 ```
 
-The key to understanding this architecture is knowing **what each of the four artifacts owns — and what it does not**:
+The current provider routes can be described as four cases:
+
+| Provider | Client-side routing | Headroom upstream |
+| --- | --- | --- |
+| Zhipu | `models.db` `baseUrl` + `x-headroom-*` headers | `https://open.bigmodel.cn/api/coding/paas/v4/chat/completions` |
+| Kimi | `models.db` / Kimi CLI config; unmarked Anthropic requests use the default target | `https://api.kimi.com/coding/v1/messages` |
+| MiniMax | `~/.omp/agent/models.yml` overrides the built-in provider and adds `x-headroom-*` headers | `https://api.minimaxi.com/v1/chat/completions` |
+| Codex | `models.db` points to 8787 and Headroom detects the ChatGPT subscription | `wss://chatgpt.com/backend-api/codex/responses` |
+
+If a non-OMP Anthropic client must preserve real Anthropic routing, use a separate Headroom instance/port or attach `x-headroom-base-url=https://api.anthropic.com` explicitly; the Kimi default is a silent redirect, not a safety net.
+
+The key to understanding this architecture is knowing what each artifact owns — and what it does not:
 
 | Layer | Artifact (file/object) | Owns | Does NOT own |
 | --- | --- | --- | --- |
 | **1. Role → model binding** | `config.yml` (`modelRoles`, `task.agentModelOverrides`, `retry.fallbackChains`) | Which provider/model each OMP role uses; the fallback graph | Network routing |
-| **2. Model → route binding** | `models.db` table `model_cache` (`provider_id`, `models[].api`, `models[].baseUrl`) | Protocol (`anthropic-messages`) + base URL per provider's models | Auth, role assignment |
-| **3. Proxy process** | systemd unit `headroom-proxy-*.service` (one per provider) | Listening port, upstream URL, provider name, restart policy | Which models exist |
-| **4. Upstream API** | The provider's Anthropic-compatible endpoint | Actual model inference | Whether Headroom exists |
+| **2. Model → entry binding** | `models.db` table `model_cache` (`provider_id`, `models[].api`, `models[].baseUrl`) | Whether the provider points to `http://127.0.0.1:8787/v1`, plus protocol and model metadata | Dynamic upstream selection |
+| **3. Request-level routing** | `x-headroom-base-url`, `x-headroom-original-path`, `models.yml` override | Maps one entry point to the real upstream and preserves the original path | Role assignment and credential generation |
+| **4. Unified proxy process** | `headroom-proxy.service` | Listens on 8787; compression, caching, protocol normalization, forwarding, and restart policy | Which OMP role selected the request |
 
 Two further orthogonal concerns:
-- **Credential store** (`agent.db` table `auth_credentials`): Headroom only forwards auth headers from OMP; it never injects auth itself.
-- **CLI profiles** (`~/.config/claude-profile/*.json`): Used only by the standalone `claude` CLI; OMP does not read them.
+- **Credential store** (`agent.db` table `auth_credentials`): Headroom only forwards auth headers from OMP; it never injects credentials itself.
+- **CLI configuration** (`~/.kimi-code/config.toml`, etc.): Provides provider, OAuth, and header semantics to standalone CLIs; OMP does not necessarily read every CLI configuration.
 
-### 3.3 End-to-End Onboarding Flow
+### 3.3 Single-Port Onboarding Flow
 
-Onboarding a new provider means putting each of the four artifacts in place:
+The single-port migration is not about creating another unit for every provider. It is about closing the loop between model routing, request headers, and the unified service:
 
 ```mermaid
 flowchart TD
-  Q1{"Provider already in<br/>models.db model_cache?"}
-  Q1 -- No --> T1["Trigger one request from OMP<br/>to seed the row, then re-check"]
-  Q1 -- Yes --> Q2{"Upstream exposes an<br/>Anthropic-compatible endpoint?"}
-  Q2 -- No --> STOP["Cannot route via Headroom<br/>OpenAI route has a path-assembly bug"]
-  Q2 -- Yes --> Q3{"Auth stored in<br/>agent.db auth_credentials?"}
-  Q3 -- No --> SEED["Add the credential via<br/>the OMP UI / auth flow first"]
-  Q3 -- Yes --> P1["1. Pick a port: raw-bind test<br/>(WSL2 has a port-haunting trap)"]
-  P1 --> P2["2. Write the systemd unit<br/>mirror the zhipu unit template"]
-  P2 --> P3["3. daemon-reload + enable --now<br/>verify /livez is monotonically increasing"]
-  P3 --> P4["4. Patch the models.db row<br/>api=anthropic-messages<br/>baseUrl=http://127.0.0.1:PORT"]
-  P4 --> P5["5. Smoke-test /v1/messages<br/>with stored credential, expect HTTP 200<br/>check ~/.headroom/logs/proxy.log"]
-  P5 --> P6["6. Tell the user to restart OMP<br/>model_cache is process-cached"]
-  P6 --> P7["7. Update the install doc<br/>topology + routing + verify + rollback"]
+  Q1{"Does the provider resolve to<br/>127.0.0.1:8787/v1?"}
+  Q1 -- No --> T1["Inspect models.db<br/>or the models.yml override"]
+  Q1 -- Yes --> Q2{"Does the request carry<br/>dynamic upstream headers?"}
+  Q2 -- No --> D1["Inspect the Anthropic default target<br/>to prevent accidental Kimi routing"]
+  Q2 -- Yes --> P1["Check x-headroom-base-url<br/>and x-headroom-original-path"]
+  D1 --> P2["Keep the unified systemd unit<br/>do not split provider ports again"]
+  P1 --> P2
+  P2 --> P3["daemon-reload + restart<br/>confirm that 8787 is the only listener"]
+  P3 --> P4["Run real Zhipu / Kimi / MiniMax / Codex<br/>selector smoke tests"]
+  P4 --> P5["Read the real upstream URL in proxy.log<br/>then record topology and rollback evidence"]
 ```
 
-#### Port Selection: Python Raw-Bind Test
+#### The Unified systemd Unit
 
-Under WSL2 mirrored networking, the system may report the port as free but binding throws `EADDRINUSE`. Verify with Python:
+The important settings of the current service are below. It does not set `OPENAI_TARGET_API_URL`, so Codex's Responses WebSocket route is not overridden:
 
-```python
-import socket
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(("127.0.0.1", PORT))
-s.close()
+```ini
+[Unit]
+Description=Headroom Unified Context Optimization Proxy
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment=HOME=%h
+Environment=HEADROOM_HOST=127.0.0.1
+Environment=ANTHROPIC_TARGET_API_URL=https://api.kimi.com/coding
+Environment=ALL_PROXY=
+Environment=LITELLM_PROXY=
+Environment=all_proxy=
+Environment=SOCKS_PROXY=
+Environment=socks_proxy=
+ExecStart=/home/davidhlp/.local/bin/headroom proxy --port 8787
+RestartSec=8
+StandardOutput=append:%h/.headroom/logs/headroom-proxy.log
+StandardError=append:%h/.headroom/logs/headroom-proxy.log
+
+[Install]
+WantedBy=default.target
 ```
 
-#### Idempotent `models.db` Patch
+`RestartSec=8` gives TCP `TIME_WAIT` sockets time to clear and prevents an overly fast restart from creating a false port conflict or crash loop.
 
-When patching a `model_cache` row in `models.db`, set `authoritative` to `1`. If left at `0`, OMP may re-fetch from its bundled static registry and silently revert `baseUrl`, causing traffic to bypass the proxy.
+#### MiniMax Built-In Provider Override
 
-#### Restart OMP After Patching
+MiniMax is an OMP built-in provider. An absent or unstable dynamic `model_cache` row must not be treated as its only configuration source. The current setup overrides it through `models.yml`:
 
-`model_cache` is an in-process cache. After patching `models.db`, you must restart OMP for changes to take effect.
+```yaml
+# Managed local override: route the built-in MiniMax provider through Headroom.
+providers:
+  minimax-code-cn:
+    baseUrl: http://127.0.0.1:8787/v1
+    headers:
+      x-headroom-base-url: https://api.minimaxi.com/v1
+      x-headroom-original-path: /chat/completions
+```
+
+`x-headroom-base-url` selects the real upstream, while `x-headroom-original-path` preserves `/chat/completions` and prevents `/v1` from being duplicated.
+
+#### Kimi Default-Target Boundary
+
+Kimi CLI Anthropic requests can select Kimi explicitly with `x-headroom-base-url=https://api.kimi.com/coding`. Some OMP requests, however, reach 8787 without a dynamic header, so the service uses:
+
+```ini
+Environment=ANTHROPIC_TARGET_API_URL=https://api.kimi.com/coding
+```
+
+Every Anthropic `/v1/messages` request without a dynamic routing header is sent to Kimi instead of the official Anthropic endpoint. If ordinary Claude traffic should also use 8787, it needs a separate entry point, an explicit header, or conditional routing based on client identity.
+
+#### Codex's Special Route
+
+Codex subscription uses the Responses WebSocket:
+
+```text
+/v1/responses
+→ wss://chatgpt.com/backend-api/codex/responses
+```
+
+Do not set `OPENAI_TARGET_API_URL`. The logs must show `wss://chatgpt.com/backend-api/codex/responses` and `response.completed`, not merely a successful ordinary `/v1/chat/completions` request.
+
+#### Removing the Old Services
+
+After the single-port migration, remove the old provider units, drop-ins, and enable state:
+
+```bash
+systemctl --user disable --now \
+  headroom-proxy-zhipu.service \
+  headroom-proxy-kimi.service \
+  headroom-proxy-minimax.service \
+  headroom-proxy-codex.service \
+  headroom-proxy-webui.service || true
+
+rm -rf ~/.config/systemd/user/headroom-proxy-zhipu.service.d
+rm -rf ~/.config/systemd/user/headroom-proxy-kimi.service.d
+rm -rf ~/.config/systemd/user/headroom-proxy-minimax.service.d
+rm -rf ~/.config/systemd/user/headroom-proxy-codex.service.d
+rm -rf ~/.config/systemd/user/headroom-proxy-webui.service.d
+
+systemctl --user daemon-reload
+systemctl --user enable --now headroom-proxy.service
+```
+
+#### `models.db` and the Process Cache
+
+When changing a `model_cache` row in `models.db`, keep `authoritative=1` and restart OMP. Otherwise the static registry or the in-process cache can keep an old `baseUrl` active. Prefer `models.yml` for the stable MiniMax override instead of manually inserting duplicate cache rows.
 
 ### 3.4 Three-Level Routing Verification
 
-Verifying that traffic actually traverses the proxy requires three levels of evidence in sequence:
+Verifying that traffic actually traverses the proxy must not stop at a health endpoint or HTTP 200. Build three levels of evidence:
 
 | Level | Verification means | What it proves | What it does not prove |
 | --- | --- | --- | --- |
-| **L1 Config** | Read `models.db` `baseUrl` pointing at loopback | If the orchestrator resolves this model, it must use the proxy | Whether the orchestrator actually selects this model at runtime |
-| **L2 Bare-proxy** | Send `/v1/messages` directly to the loopback port | Proxy starts, protocol works, credential passthrough succeeds | Whether the orchestrator's routing sends traffic here |
-| **L3 Orchestrator-native** | Check `proxy.log` `PERF` lines + live connections (`ss`) | The orchestrator actually sent native traffic to the proxy | — |
+| **L1 Config** | Read `models.db` / `models.yml` `baseUrl` pointing to 8787 | The orchestrator can send traffic through the unified entry point | Whether runtime selection and headers actually use it |
+| **L2 Protocol** | Send the smallest request for each protocol directly to 8787 | Proxy reachability, protocol handling, and credential passthrough | Whether the orchestrator routes traffic here |
+| **L3 Orchestrator-native** | Run real selectors and inspect upstream URLs, `ss`, and `PERF` in `proxy.log` | The orchestrator sent native traffic to the correct upstream | — |
 
-**L3 verification commands:**
+**L3 verification command:**
 
 ```bash
-# 1. Monitor PERF lines for the target model
-tail -f ~/.headroom/logs/proxy.log | grep 'PERF model='
-
-# 2. Check outbound connections from the orchestrator process
-ss -tnp state established | grep <OMP_PID>
+for selector in \
+  zhipu-coding-plan/glm-4.7 \
+  kimi-code/k3 \
+  minimax-code-cn/MiniMax-M3 \
+  openai-codex/gpt-5.6-luna; do
+  env -u ALL_PROXY -u all_proxy -u HTTP_PROXY -u HTTPS_PROXY \
+    omp --no-session --no-tools --no-skills --no-rules --no-extensions \
+      --mode=json --model "$selector" -p 'Reply with exactly PONG'
+done
 ```
 
-Confirm the connection destination is `127.0.0.1:<PORT>`, not a direct connection to the upstream IP.
+Then inspect `~/.headroom/logs/proxy.log`:
+
+| Provider | Decisive upstream evidence | Expected result |
+| --- | --- | --- |
+| Zhipu | `path=https://open.bigmodel.cn/api/coding/paas/v4/chat/completions` | `status=200` |
+| Kimi | `path=https://api.kimi.com/coding/v1/messages` | `status=200` |
+| MiniMax | `path=https://api.minimaxi.com/v1/chat/completions` | `status=200` |
+| Codex | `wss://chatgpt.com/backend-api/codex/responses` | `response.completed` |
 
 ### 3.5 RTK and Headroom: Independent but Composed
 
-RTK and Headroom are two independent components: RTK filters CLI/tool output noise near the Agent end; Headroom maintains prefix caching and context compression at the network layer.
+RTK and Headroom are two independent components: RTK filters CLI/tool output noise near the Agent end; Headroom maintains prefix caching and context compression at the network layer. Single-port routing changes Headroom's network entry point, not this responsibility boundary.
 
 ```mermaid
 flowchart LR
@@ -359,11 +445,11 @@ flowchart LR
     T["tool call<br/>shell / read / grep ..."]
     R["RTK<br/>strips tool-output noise"]
   end
-  subgraph Proxy["Headroom proxy layer (loopback)"]
+  subgraph Proxy["Headroom proxy layer (127.0.0.1:8787)"]
     H["cache freeze<br/>CCR deferred injection<br/>content-router compression"]
   end
-  subgraph Up["Upstream"]
-    U["Anthropic-compatible endpoint"]
+  subgraph Up["Request-selected upstream"]
+    U["Zhipu / Kimi / MiniMax / Codex"]
   end
   T --> R
   R -->|"filtered content"| H
@@ -375,19 +461,20 @@ flowchart LR
 - **Inline HTTP redirection** (e.g., `curl` intercepted): Handled by the orchestrator's `context-mode` plugin.
 - **Large command output redirection** (e.g., log truncation): Handled by RTK.
 
-### 3.6 Daily Operations & Probes
+### 3.6 Daily Operations and Probes
 
 #### Service Control
 
 ```bash
-# Status
-systemctl --user status headroom-proxy-zhipu headroom-proxy-minimax headroom-proxy-kimi
+# Status of the unified service
+systemctl --user status headroom-proxy.service
 
 # Restart / stop
-systemctl --user restart headroom-proxy-zhipu headroom-proxy-minimax headroom-proxy-kimi
+systemctl --user restart headroom-proxy.service
+systemctl --user stop headroom-proxy.service
 
 # Tail live logs
-journalctl --user -u headroom-proxy-zhipu -f
+journalctl --user -u headroom-proxy.service -f
 ```
 
 #### CLI Probes
@@ -401,13 +488,17 @@ headroom perf
 
 # Token savings statistics
 headroom savings
+
+# Confirm that only one entry point is listening
+ss -tlnp | grep -E '127\.0\.0\.1:(8787|8788|8790|8791|8800)'
 ```
 
 #### Probe Notes
 
 - `/livez` reflects real-time proxy process status;
-- `/readyz` probes the default Anthropic URL and reports unhealthy — **this is normal**. Trust `/livez` and actual traffic logs.
-
+- `/readyz` may probe the default Anthropic URL and report unhealthy — **this does not mean unified forwarding failed**;
+- Claude, Codex, shell-env, or budget warnings from `headroom doctor` do not replace real selector and upstream URL evidence;
+- The final authority is `proxy.log`, which should show `open.bigmodel.cn`, `api.kimi.com`, `api.minimaxi.com`, or `chatgpt.com`.
 ---
 
 ## 4. Rules System: Multi-Source Discovery, Three Injection Modes, and the paths/globs Pitfall
@@ -694,14 +785,15 @@ Consolidating pitfall records from all three articles into a unified experience 
 
 | Trap | Symptom | Mitigation |
 | --- | --- | --- |
-| **WSL2 mirrored-net port haunting** | `ss`/`/proc/net/tcp` show port free, but bind crashes with `EADDRINUSE` | Raw-bind test with Python `socket.bind(("127.0.0.1", PORT))`. Avoid 8789; use 8790+ |
-| **Headroom OpenAI-route path bug** | `/paas/v4` or `/coding/v1` bases get misassembled → 404 | All providers use `api: anthropic-messages`. If upstream lacks Anthropic endpoint, cannot route through Headroom |
-| **`RestartSec=3` crash-loops** | Unit enters 50+ restart loop | Set `RestartSec=8`, giving TCP TIME_WAIT time to clear |
+| **WSL2 mirrored-net port haunting** | The port appears free but raw bind throws `EADDRINUSE` | Run a Python raw-bind test on `127.0.0.1:8787` and use `ss` to confirm retired units are not holding the entry point |
+| **Headroom request-level path routing error** | `/paas/v4`, `/coding/v1`, or `/chat/completions` is duplicated and returns 404 | Preserve `x-headroom-base-url` and `x-headroom-original-path`; do not set `OPENAI_TARGET_API_URL` for Codex |
+| **`RestartSec=3` crash-loops** | Unit enters a 50+ restart loop | Set `RestartSec=8`, giving TCP TIME_WAIT time to clear |
 | **`authoritative=0` silent rollback** | `baseUrl` reverts to default after a while | Force `authoritative=1` when patching `models.db` |
-| **OMP caches `model_cache` in memory** | Config doesn't take effect after DB change | Tell user to restart OMP after modifying `models.db` |
-| **Phantom Windows proxy on 8789** | `/livez` returns 200 but real requests get 401 | Use `ss -tlnp` to confirm bound PID is your systemd unit's MainPID |
-| **Subagent model override silently ignored** | Subagent uses parent's model instead of configured one | Verification must reach L3 (`proxy.log` + `ss`) |
-| **context-mode + Headroom double compression** | Model output too terse, missing context | Disable one layer at a time to isolate: stop Headroom or disable `context-mode` plugin |
+| **OMP caches `model_cache` in memory** | Config does not take effect after a DB change | Restart OMP after modifying `models.db`; keep the stable MiniMax override in `models.yml` |
+| **Kimi default target on the unified entry point** | An unmarked non-OMP Anthropic request is silently sent to Kimi | Use a separate port for real Anthropic traffic or set `x-headroom-base-url=https://api.anthropic.com` explicitly |
+| **Retired provider units not cleaned up** | 8787 appears to be the only port, but old processes still route traffic or write old logs | `disable --now` old units, remove drop-ins, run `daemon-reload`, and enable only `headroom-proxy.service` |
+| **Subagent model override silently ignored** | Subagent uses the parent's model instead of the configured one | Verification must reach L3 (`proxy.log` + `ss`) |
+| **context-mode + Headroom double compression** | Model output is too terse and loses context | Disable one layer at a time to isolate: stop Headroom or disable the `context-mode` plugin |
 
 ### Rules System Traps
 
