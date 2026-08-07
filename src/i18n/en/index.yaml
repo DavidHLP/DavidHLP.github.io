@@ -60,10 +60,17 @@ navigation:
   about: About
   home: Home
   jotting: Jotting
-  note: Note
+  kb: Knowledge Base
+  note: Knowledge Pages
   policy: Policy
   preface: Preface
   subscription: Subscription
+kb:
+  title: Knowledge Base
+  subtitle: Personal AI knowledge base · maintained incrementally by LLM
+  index: Knowledge Base Index
+  log: Operation Log
+  canonical: "Canonical language: zh-cn"
 note:
   contents: Contents
   empty: No notes available

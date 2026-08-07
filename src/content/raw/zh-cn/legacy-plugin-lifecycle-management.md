@@ -1,7 +1,9 @@
 ---
 title: "百万级终端插件生命周期管理系统设计：从合并心跳到灰度熔断"
-timestamp: 2026-06-02 00:00:00+08:00
-series: "架构设计与工程实践"
+capturedAt: 2026-06-02 00:00:00+08:00
+sourceType: legacy-note
+sourceUrl: "https://github.com/DavidHLP/DavidHLP.github.io/blob/6f3d114a6ef9eb08b730f5f4740afe5b7d22d426/src/content/note/zh-cn/plugin_lifecycle_management_blog.md"
+immutable: true
 tags: [分布式系统, 架构设计, 终端管理, 灰度发布, 高可用]
 description: "面向百万级/千万级分布式终端，系统化设计插件保活、安装、升级、卸载、规则推送与回执闭环，重点解析合并心跳、状态机、防重调度、灰度发布、自动熔断、环境自适应与最终一致性。"
 ---

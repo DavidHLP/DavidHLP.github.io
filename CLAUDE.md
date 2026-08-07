@@ -7,6 +7,7 @@
 **每次任务启动时，必须读取以下技能文件以获取项目领域知识：**
 
 ```bash
+cat .claude/skills/knowledge-base.md
 cat .claude/skills/site-config-mastery.md
 cat .claude/skills/content-authoring.md
 cat .claude/skills/i18n-integration.md
@@ -16,6 +17,16 @@ cat .claude/skills/astro-theme-dev.md
 ```
 
 这些技能文件包含站点配置、内容创作、国际化、组件使用、多语言管理、主题开发等核心知识，是理解和操作本项目的基础。
+
+## 知识库维护宪法
+
+项目按 Karpathy LLM-Wiki 模式维护个人 AI 知识库，详细不变量和操作触发词见 `KB.md`。维护知识库前必须先读取 `KB.md` 与 `.claude/skills/knowledge-base.md`。
+
+- `src/content/raw/{locale}/` 是不可变原始来源，LLM 只读。
+- `src/content/note/{locale}/` 是有证据的 wiki 知识页。
+- `src/content/jotting/{locale}/` 是待摄入收件箱，不等于稳定知识。
+- `src/content/information/{locale}/kb-index.md` 与 `kb-log.md` 分别负责内容索引和 append-only 操作日志。
+- 知识库以 `zh-cn` 为正典语言；首页和 `information/{locale}/introduction.md` 简历属于保护面。
 
 ## 技术栈
 

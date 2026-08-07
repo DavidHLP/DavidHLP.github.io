@@ -1,8 +1,11 @@
 ---
-title: AtomicBoolean 随笔：从 boolean 并发陷阱到 CAS 无锁状态管理
-timestamp: 2025-10-07 20:25:00+08:00
-tags: [Java, 并发编程, AtomicBoolean, CAS, JUC]
-description: 深入理解 Java AtomicBoolean 的作用、原理、常用方法与最佳实践，从普通 boolean 的并发陷阱出发，解析 CAS、volatile、VarHandle 与无锁状态管理的实际应用。
+title: "AtomicBoolean 随笔：从 boolean 并发陷阱到 CAS 无锁状态管理"
+capturedAt: 2026-08-07 00:00:00+00:00
+sourceType: legacy-blog
+sourceUrl: "https://github.com/DavidHLP/DavidHLP.github.io/blob/6f3d114a6ef9eb08b730f5f4740afe5b7d22d426/src/content/jotting/zh-cn/java-atomic-boolean.md"
+immutable: true
+tags: ["Java", "并发编程", "AtomicBoolean", "CAS", "JUC"]
+description: "深入理解 Java AtomicBoolean 的作用、原理、常用方法与最佳实践，从普通 boolean 的并发陷阱出发，解析 CAS、volatile、VarHandle 与无锁状态管理的实际应用。"
 ---
 
 ## 一、引言：为什么一个 boolean 也会有并发问题？
