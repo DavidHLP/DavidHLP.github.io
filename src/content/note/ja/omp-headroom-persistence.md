@@ -1,17 +1,32 @@
 ---
-title: "OMP 更新後も Headroom のルートを維持する：named profile と model_cache reconciler"
+title: "歴史的な Headroom ルート復旧：named profile と model_cache reconciler"
 timestamp: 2026-08-06 00:00:00+08:00
 series: "OMP 規則と設定体系"
 tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, Routing, Proxy, Codex, OpenCode]
-description: "OMP の更新で runtime model cache が書き換えられる場合に、named profile、外部ルート宣言、冪等な SQLite reconciler で Headroom のルートを保持する実録。実際の Codex WebSocket と OpenCode HTTP リクエストで検証した。"
+description: "OMP の更新で runtime model cache が書き換えられる場合の旧移行・復旧方式を記録する。named profile、外部ルート宣言、冪等な SQLite reconciler は移行証拠のみであり、現在の日常起動は公式の headroom wrap omp だけを使う。"
 toc: true
 ---
 
-# OMP 更新後も Headroom のルートを維持する：named profile と model_cache reconciler
+# 歴史的な Headroom ルート復旧：named profile と model_cache reconciler
 
-今回の要点は、プロキシ URL をもう一度書き換えることではない。設定を **ユーザーの宣言、派生した runtime state、外部インフラ** の三層に分けることだった。これにより、OMP が更新時に自分の cache を再構築しても、Headroom は一つの loopback 入口を保ち、ルート復元を一回限りの手動 SQLite 編集に依存しなくて済む。
+日常の起動で推奨する唯一の経路は、常駐サービスではなく公式 wrapper である。[公式 Headroom README](https://github.com/headroomlabs-ai/headroom/blob/main/README.md)を参照する。
 
-最終的な構成は次のとおりである。
+```bash
+# 公式 CLI は一度だけインストールする（Python 3.13+）
+uv tool install --python 3.13 "headroom-ai[all]"
+
+# OMP の通常起動に使う唯一の推奨入口
+headroom wrap omp
+
+# wrapped セッションの実行中に別ターミナルで検証する
+headroom doctor
+headroom perf
+headroom dashboard
+```
+
+`headroom wrap omp` は OMP を起動し、そのセッションに必要なローカルプロキシを管理する。通常は旧式の `~/.config/systemd/user/headroom-proxy.service` を作成・保守したり、provider ごとの systemd unit を有効化したり、`headroom proxy --port 8787` を手動実行したり、reconciler を起動手順にしたりしてはいけない。これらは廃止済みの手動・移行経路であり、推奨ライフサイクルではない。wrap は route state を `models.yml` に永続化するため、プロセス終了だけでは復元されない。セッション後は明示的に `headroom unwrap omp` を実行する（デフォルトは wrapper 管理の route state を削除してローカルプロキシを停止）。プロキシを意図的に残す場合だけ `--no-stop-proxy` を使う。
+
+以下の永続化モデルは、route intent と派生状態の過去の背景を説明するためのものである。
 
 ```text
 OMP named profile
@@ -20,13 +35,15 @@ OMP named profile
     ├─ agent.db                       profile 固有の認証・セッション状態
     └─ models.db                      再生成可能な runtime model_cache
                   ▲
-                  │ omp-headroom-reconcile
+                  │ 旧移行時だけの reconciler
                   │
 $HOME/.config/omp/headroom-routes.json 外部ルート宣言
                   │
                   ▼
-127.0.0.1:8787                        Headroom loopback proxy
+Headroom ローカルプロキシ              headroom wrap omp がライフサイクルを管理
 ```
+
+wrapped セッションが active プロキシのライフサイクルを所有するが、プロセス終了時に route state を自動消去するわけではない。宣言ファイルと `models.db` はルート／設定の成果物であり、毎回 SQLite を手動編集したりユーザーサービスを常駐させたりする指示ではない。終了時は明示的に `headroom unwrap omp` を実行すること。
 
 ## 1. 誤解しやすい前提を修正する
 
@@ -38,12 +55,12 @@ $HOME/.config/omp/headroom-routes.json 外部ルート宣言
 
 今回使用した OMP では、すでに存在する authoritative な `model_cache` row が `models.yml` の provider override によって確実に置き換わるわけではなかった。したがって、`models.yml` に新しい `baseUrl` を書いても、現在選択されている provider が必ずその URL を使うとは限らない。
 
-永続化の設計は「`models.yml` を編集する」または「`models.db` を手で patch する」ではなく、次のようにする。
+永続化の設計は「`models.yml` を編集する」または「`models.db` を手で patch する」ことを日常起動にするのではなく、次のようにする。
 
 1. named profile で OMP の設定、認証、session を分離する。
-2. OMP のインストール領域外に Headroom のルート意図を JSON で保存する。
+2. 必要に応じて OMP のインストール領域外に Headroom のルート意図を JSON で保存する。
 3. `models.db` を派生状態として扱う。
-4. OMP 更新後に宣言から runtime route を reconcile する。
+4. reconciler は旧移行時だけの復旧ツールと明記し、通常の `headroom wrap omp` 起動経路にはしない。
 
 ## 2. named profile で状態を分離する
 
@@ -63,15 +80,17 @@ profile は専用の agent directory を持つ。
 └── managed-skills/
 ```
 
-明示的に profile を選択する。
+以下のコマンドは移行時の旧 profile 分離診断専用であり、現在の起動入口ではない。現在の session は `headroom wrap omp` から開始する。
 
 ```bash
+# 旧移行/profile 診断のみ。通常の起動には使わない。
 OMP_PROFILE=headroom omp
 ```
 
-または固定入口を使う。
+下の固定 `omp-headroom` 入口も同じく歴史的なものであり、`headroom wrap omp` の代わりにしてはいけない。
 
 ```bash
+# 旧移行/profile 診断のみ。通常の起動には使わない。
 omp-headroom
 ```
 
@@ -140,13 +159,14 @@ omp-headroom
 
 これは OMP catalog ではなく宣言層である。provider/protocol ごとにどの local entry point を使い、どの upstream 情報を request に載せるかを明確にする。
 
-## 4. 宣言された runtime row だけを reconcile する
+## 4. 旧 reconciler：移行時だけ、非推奨
 
-reconciler の入口は次のとおりである。
+以下の reconciler は旧永続化設計の歴史的な証拠として残している。日常の起動には使わず、現在の OMP session では `headroom wrap omp` を使う。
 
 ```text
 ~/.local/bin/omp-headroom-reconcile
 ```
+
 
 処理順序は次のとおりである。
 
@@ -173,21 +193,36 @@ BEGIN IMMEDIATE
 
 今回の検証では、reconciler が既存の cache version を保持し、該当 row の `authoritative=1` も維持することを確認した。検証していない固定値をデータベースへ強制的に書き戻すより安全な方法である。
 
-## 5. update wrapper に復元処理を組み込む
+## 5. 旧 update wrapper：移行時だけ、非推奨
 
-通常のコマンド：
+この節のコマンドは、旧 update 後復元フローを説明するものにすぎない。`omp-headroom update` を OMP の通常起動に使ったり、reconciler を起動時に実行したりしてはいけない。現在の session では公式 wrapper を使う。
+
+```bash
+uv tool install --python 3.13 "headroom-ai[all]"
+headroom wrap omp
+```
+
+wrapped session の実行中に、別ターミナルで検証する。
+
+```bash
+headroom doctor
+headroom perf
+headroom dashboard
+```
+
+過去の通常コマンドは次のとおりだった。
 
 ```bash
 omp update
 ```
 
-は OMP 自体を更新するが、外部 Headroom 宣言を `models.db` に復元する保証はない。そのため固定入口を用意する。
+これは外部 Headroom 宣言を `models.db` に復元する保証がなく、旧固定入口は次のものだった。
 
 ```bash
 omp-headroom update
 ```
 
-処理の流れは次のとおりである。
+旧フロー：
 
 ```text
 OMP_PROFILE=headroom omp update
@@ -196,43 +231,18 @@ OMP_PROFILE=headroom omp update
 → 最終的な provider/cache 状態を表示
 ```
 
-通常の wrapper は薄く保てる。
+この wrapper は移行の説明のためだけに残す。token、API key、完全な provider catalog を wrapper に複製してはいけない。
 
-```bash
-#!/usr/bin/env bash
-set -euo pipefail
 
-export OMP_PROFILE=headroom
-exec "$HOME/.local/bin/omp" "$@"
-```
+## 6. 旧 systemd service：推奨ライフサイクルには含めない
 
-update wrapper は `update` という特別な操作だけを更新用スクリプトへ渡し、それ以外の引数は固定 profile の OMP へそのまま転送する。token、API key、完全な provider catalog を wrapper に複製してはいけない。
+旧 user service `~/.config/systemd/user/headroom-proxy.service` と provider ごとの variant は廃止済みである。`headroom wrap omp` には不要であり、通常は作成・有効化・再起動・保守してはいけない。
 
-## 6. Headroom の systemd service を OMP から分離する
+推奨ライフサイクルでは `headroom wrap omp` が現在の session のローカルプロキシを管理する。OMP は provider と protocol を選択し、route declaration は任意の設定意図、`models.db` は派生 runtime state として扱う。日常の起動に常駐 systemd process は必要ない。
 
-user service は次に置く。
+## 7. 検証で得られた証拠（旧 reconciler の証拠）
 
-```text
-~/.config/systemd/user/headroom-proxy.service
-```
 
-listen するのは次だけである。
-
-```text
-127.0.0.1:8787
-```
-
-service file は OMP のインストール領域に置かず、provider credential も含めない。責務を次のように分ける。
-
-- OMP は provider と protocol を選択する。
-- `models.db` は再生成可能な runtime result を保存する。
-- 外部宣言は永続的な route intent を保存する。
-- Headroom は protocol forwarding、compression、cache を担当する。
-- systemd は Headroom process の lifecycle を担当する。
-
-この分離により、OMP update が systemd unit を上書きすることも、Headroom の再起動が OMP の credential database を変更することもない。
-
-## 7. 検証で得られた証拠
 
 ### 7.1 profile と cache
 
@@ -258,9 +268,9 @@ cache_version=preserved
 
 これは、復元が現在の database だけに対する一回限りの patch ではなく、update 後に再実行できる処理であることを示す。
 
-### 7.3 Codex の実 WebSocket request
+### 7.3 歴史的な Codex WebSocket request（明示的な custom route）
 
-固定 profile を通して最小 request を送ると、次の結果になった。
+以下の証拠は旧移行構成のものであり、通常の `headroom wrap omp` の結果ではない。固定 profile と、明示的に設定した Codex custom provider route で取得した。
 
 ```text
 PERSISTED-OK
@@ -274,11 +284,11 @@ connecting to wss://chatgpt.com/backend-api/codex/responses
 last_upstream_type=response.completed
 ```
 
-つまり request は loopback proxy に到達しただけでなく、Codex subscription の WebSocket upstream まで到達している。
+この歴史的な request は loopback proxy と Codex subscription WebSocket upstream に到達した。現在の `openai-codex` role はデフォルトで直接接続であり、明示的な custom provider 設定で Headroom 経由にした場合だけこの検証を再実行する。
 
-### 7.4 OpenCode Go の実 HTTP request
+### 7.4 歴史的な OpenCode Go HTTP request（明示的な custom route）
 
-同じ profile から最小 request を送ると、次の結果になった。
+この旧移行証拠では、同じ profile に明示的な OpenCode Go custom provider route を設定した。
 
 ```text
 PERSISTED-OK
@@ -291,6 +301,8 @@ path=https://opencode.ai/zen/go/v1/chat/completions
 status=200
 ```
 
+現在の `opencode-go` role はデフォルトで直接接続である。通常の `headroom wrap omp` が自動的に Headroom route に変えるわけではない。明示的な custom provider 設定を追加した場合だけ `proxy.log` で検証する。
+
 ### 7.5 proxy 通過と compression savings を混同しない
 
 短い request は Headroom を通過していても、圧縮できる内容が少なく savings が発生しない場合がある。検証では次の層を分けて確認する。
@@ -301,8 +313,7 @@ status=200
 4. `/stats` の compression 統計。
 
 `127.0.0.1:8787` や HTTP 200 だけでは upstream route の正しさを証明できない。savings が 0 であることだけでも、Headroom を bypass したとは言えない。
-
-## 8. セキュリティ、backup、rollback の境界
+## 8. セキュリティ、backup、rollback の境界（旧移行コンテキスト）
 
 - `agent.db`、OAuth token、API key、session file は local profile にだけ置く。
 - 外部ルート宣言の mode は `600` にする。
@@ -311,29 +322,23 @@ status=200
 - transaction を使い、失敗時に中途半端な header を残さない。
 - 必須 row がなければ推測して補完せず、停止して報告する。
 - rollback は reconciler の backup と前回の宣言を戻して行い、`models.db` 全体を直接削除しない。
-- すでに起動している OMP process は古い in-memory 設定を保持する場合があるため、新しい session は `omp-headroom` を使う。
-
-## 9. 今後のメンテナンス手順
+- すでに起動している OMP process は古い in-memory 設定を保持する場合があるため、新しい session は `headroom wrap omp` を使う。
+通常の起動には公式 wrapper だけを使う。
 
 ```bash
-# 1. 外部ルート宣言を編集
-$EDITOR ~/.config/omp/headroom-routes.json
-
-# 2. 書き込まずに確認
-omp-headroom-reconcile --agent-dir "$HOME/.omp/profiles/headroom/agent" --check
-
-# 3. OMP を更新し、ルートを自動復元
-omp-headroom update
-
-# 4. runtime cache を再確認
-omp-headroom-reconcile --agent-dir "$HOME/.omp/profiles/headroom/agent" --check
-
-# 5. 固定 profile から最小 request を送信
-omp-headroom -p --no-session --no-tools --no-extensions --no-rules \
-  --model openai-codex/gpt-5.6-luna \
-  'Reply with exactly PERSISTED-OK.'
-
-# 6. Headroom log と最終 upstream を同時に確認
+uv tool install --python 3.13 "headroom-ai[all]"
+headroom wrap omp
 ```
 
-核心となる原則は一つである。**OMP update が上書きできない場所に route intent を置き、`models.db` は検証、backup、再構築が可能な派生状態として扱う。**
+wrapped session の実行中に、別ターミナルで確認する。
+
+```bash
+headroom doctor
+headroom perf
+headroom dashboard
+```
+
+route を検証するときは、active wrapper が管理する組み込み `anthropic` route、または明示的に設定した custom-provider route を使う selector に限って、実際の OMP selector を実行し、`~/.headroom/logs/proxy.log` または最終 upstream URL/WebSocket を確認する。通常の wrap は `openai-codex`、`opencode-go`、Zhipu、Kimi、MiniMax、Codex を自動的に proxy 経由にしない。前二者はデフォルトで直接接続、後四者は歴史的/条件付き route である。直接接続の role は別途その直接 upstream を確認する。loopback URL や HTTP 200 だけでは意図した provider への到達を証明できない。終了時は明示的に `headroom unwrap omp` を実行すること（デフォルトはローカルプロキシを停止、`--no-stop-proxy` は意図的に残す場合だけ使用）。
+
+
+核心となる原則は一つである。**OMP update が上書きできない場所に route intent を置き、`models.db` は派生状態として扱い、`headroom wrap omp` にローカルプロキシのライフサイクルを管理させる。**

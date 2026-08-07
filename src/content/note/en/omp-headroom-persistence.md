@@ -1,17 +1,32 @@
 ---
-title: "Keeping Headroom Routes after OMP Updates: Named Profiles and a model_cache Reconciler"
+title: "Historical Headroom Route Persistence: Named Profiles and a model_cache Reconciler"
 timestamp: 2026-08-06 00:00:00+08:00
 series: "OMP Rules & Configuration"
 tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, Routing, Proxy, Codex, OpenCode]
-description: "A field report on preserving Headroom routes when OMP updates rewrite runtime model caches, using a named profile, an external route declaration, and an idempotent SQLite reconciler verified with real Codex WebSocket and OpenCode HTTP requests."
+description: "A historical migration and recovery report on Headroom routes when OMP updates rewrite runtime model caches, using named profiles, an external route declaration, and an idempotent SQLite reconciler as migration evidence only; current daily startup uses the official headroom wrap omp path."
 toc: true
 ---
 
-# Keeping Headroom Routes after OMP Updates: Named Profiles and a model_cache Reconciler
+# Historical Headroom Route Persistence: Named Profiles and a model_cache Reconciler
 
-The important change was not another proxy URL edit. It was separating configuration into three layers: **user declarations, derived runtime state, and external infrastructure**. OMP can then rebuild its own cache during an update, Headroom can keep one loopback entry point, and route recovery no longer depends on a one-off manual SQLite edit.
+The recommended startup path is now the official wrapper, not a persistent service. Follow the [official Headroom README](https://github.com/headroomlabs-ai/headroom/blob/main/README.md):
 
-The final structure is:
+```bash
+# Install the official CLI once (Python 3.13+)
+uv tool install --python 3.13 "headroom-ai[all]"
+
+# The only recommended OMP startup entry point
+headroom wrap omp
+
+# In another terminal while the wrapped session is running
+headroom doctor
+headroom perf
+headroom dashboard
+```
+
+`headroom wrap omp` launches OMP and manages the local proxy required by the current session. Normally, do not create or maintain the legacy `~/.config/systemd/user/headroom-proxy.service`, enable per-provider systemd units, start `headroom proxy --port 8787` manually, or run a reconciler as part of startup. Those are obsolete/manual paths, not the recommended OMP lifecycle. Because wrap persists route state in `models.yml`, process exit does not restore it; after the session explicitly run `headroom unwrap omp` (default: remove wrapper-managed route state and stop the local proxy), using `--no-stop-proxy` only when intentionally keeping the proxy alive.
+
+The persistence model below is useful as historical background for route intent and derived state:
 
 ```text
 OMP named profile
@@ -20,13 +35,15 @@ OMP named profile
     ├─ agent.db                       profile-local auth and session state
     └─ models.db                      rebuildable runtime model_cache
                   ▲
-                  │ omp-headroom-reconcile
+                  │ legacy migration-only reconciler
                   │
 $HOME/.config/omp/headroom-routes.json external route declaration
                   │
                   ▼
-127.0.0.1:8787                        Headroom loopback proxy
+Headroom local proxy                 lifecycle managed by headroom wrap omp
 ```
+
+The wrapped session owns the active proxy lifecycle, but it does not auto-clean route state on process exit. The declaration and `models.db` are routing/configuration artifacts, not instructions to hand-edit SQLite or keep a user service alive during every session; explicitly run `headroom unwrap omp` when finished.
 
 ## 1. Correcting an easy-to-miss assumption
 
@@ -38,12 +55,12 @@ $HOME/.config/omp/headroom-routes.json external route declaration
 
 With the OMP version used for this migration, existing authoritative `model_cache` rows were not reliably taken over by a `models.yml` provider override. Writing a new `baseUrl` into `models.yml` therefore did not mean that the currently selected provider would certainly use it.
 
-The durable design is consequently not “edit `models.yml`” or “manually patch `models.db`”:
+The safe layering is consequently:
 
 1. isolate OMP configuration, credentials, and sessions with a named profile;
-2. store Headroom routing intent in JSON outside the OMP installation tree;
+2. optionally store Headroom routing intent in JSON outside the OMP installation tree;
 3. treat `models.db` as derived state;
-4. reconcile the runtime route from the declaration after an OMP update.
+4. regard the reconciler as a legacy, migration-only recovery tool, never as the normal `headroom wrap omp` startup path.
 
 ## 2. Isolating state with a named profile
 
@@ -63,15 +80,17 @@ The profile has its own agent directory:
 └── managed-skills/
 ```
 
-Select it explicitly:
+The following command is a legacy profile-isolation diagnostic from the migration, not a current startup entry. Current sessions must begin with `headroom wrap omp`:
 
 ```bash
+# Legacy migration/profile diagnostic only; not normal startup.
 OMP_PROFILE=headroom omp
 ```
 
-Or use the fixed entry point:
+The fixed `omp-headroom` entry below is likewise historical and must not replace `headroom wrap omp`:
 
 ```bash
+# Legacy migration/profile diagnostic only; not normal startup.
 omp-headroom
 ```
 
@@ -140,13 +159,14 @@ It describes providers, protocols, the loopback address, and Headroom routing he
 
 This is the declaration layer, not an OMP catalog. It answers which local entry point a provider/protocol should use and which upstream information must be carried in the request.
 
-## 4. Reconcile only declared runtime rows
+## 4. Legacy reconciler: migration-only, not recommended
 
-The reconciler is:
+The reconciler below is retained as historical evidence for an older persistence design. It is not part of normal startup, and `headroom wrap omp` must be used instead for current OMP sessions:
 
 ```text
 ~/.local/bin/omp-headroom-reconcile
 ```
+
 
 Its order of operations is:
 
@@ -173,21 +193,36 @@ The boundaries matter:
 
 The validation confirmed that the reconciler preserved the existing cache version and kept matching rows at `authoritative=1`, rather than forcing an unverified set of fixed database values.
 
-## 5. Make recovery part of the update wrapper
+## 5. Legacy update wrapper: migration-only, not recommended
 
-This command:
+The commands in this section describe the old update-time recovery workflow. Do not use `omp-headroom update` or run the reconciler as the normal way to start OMP. For current sessions, use the official wrapper:
+
+```bash
+uv tool install --python 3.13 "headroom-ai[all]"
+headroom wrap omp
+```
+
+While the wrapped session is active, verify it from another terminal:
+
+```bash
+headroom doctor
+headroom perf
+headroom dashboard
+```
+
+The historical command was:
 
 ```bash
 omp update
 ```
 
-updates OMP but does not by itself guarantee that the external Headroom declaration has been restored into `models.db`. The fixed entry point is:
+It did not guarantee that an external declaration had been restored into `models.db`; the old fixed entry point was:
 
 ```bash
 omp-headroom update
 ```
 
-Its flow is:
+Its old flow was:
 
 ```text
 OMP_PROFILE=headroom omp update
@@ -196,43 +231,17 @@ OMP_PROFILE=headroom omp update
 → print the final provider/cache state
 ```
 
-The regular wrapper can remain thin:
+This wrapper is retained only to explain the migration. Do not copy tokens, API keys, or a complete provider catalog into it.
 
-```bash
-#!/usr/bin/env bash
-set -euo pipefail
 
-export OMP_PROFILE=headroom
-exec "$HOME/.local/bin/omp" "$@"
-```
+## 6. Legacy systemd service: not part of the recommended lifecycle
 
-The update wrapper handles the special `update` action; other arguments are forwarded unchanged to OMP in the fixed profile. Do not copy tokens, API keys, or a complete provider catalog into the wrapper.
+The old user service at `~/.config/systemd/user/headroom-proxy.service` and its per-provider variants are obsolete. They are not required by `headroom wrap omp`, and normally must not be created, enabled, restarted, or maintained.
 
-## 6. Keep the Headroom systemd service outside OMP
+For the recommended lifecycle, `headroom wrap omp` manages the local proxy for the current session. OMP still selects the provider and protocol, the route declaration remains optional configuration intent, and `models.db` remains derived runtime state; no persistent systemd process is needed for daily startup.
 
-The user service lives at:
+## 7. Validation evidence (historical reconciliation evidence)
 
-```text
-~/.config/systemd/user/headroom-proxy.service
-```
-
-It listens only on:
-
-```text
-127.0.0.1:8787
-```
-
-The service file should not live inside the OMP installation tree and should not contain provider credentials. The separation of responsibilities is:
-
-- OMP selects the provider and protocol;
-- `models.db` stores a rebuildable runtime result;
-- the external declaration stores durable route intent;
-- Headroom handles protocol forwarding, compression, and caching;
-- systemd owns the Headroom process lifecycle.
-
-An OMP update therefore cannot overwrite the systemd unit, and restarting Headroom cannot alter OMP's credential database.
-
-## 7. Validation evidence
 
 ### 7.1 Profile and cache
 
@@ -258,9 +267,9 @@ cache_version=preserved
 
 This proves that recovery is an update-time operation, not a one-off patch against the current database.
 
-### 7.3 Real Codex WebSocket request
+### 7.3 Historical Codex WebSocket request (explicit custom route)
 
-A minimal request through the fixed profile returned:
+The following evidence belongs to the older migration setup, not to plain `headroom wrap omp`. It was collected through a fixed profile with an explicitly configured Codex custom provider route:
 
 ```text
 PERSISTED-OK
@@ -274,11 +283,11 @@ connecting to wss://chatgpt.com/backend-api/codex/responses
 last_upstream_type=response.completed
 ```
 
-The request therefore reached the loopback proxy and the Codex subscription WebSocket upstream.
+This historical request reached the loopback proxy and the Codex subscription WebSocket upstream. The current `openai-codex` role is direct by default; repeat this check only when an explicit custom provider configuration routes it through Headroom.
 
-### 7.4 Real OpenCode Go HTTP request
+### 7.4 Historical OpenCode Go HTTP request (explicit custom route)
 
-A minimal request through the same profile returned:
+This older migration evidence used the same profile with an explicitly configured OpenCode Go custom provider route:
 
 ```text
 PERSISTED-OK
@@ -291,6 +300,8 @@ path=https://opencode.ai/zen/go/v1/chat/completions
 status=200
 ```
 
+The current `opencode-go` role is direct by default. A plain `headroom wrap omp` session does not make it a Headroom route; verify it through `proxy.log` only after adding an explicit custom provider configuration.
+
 ### 7.5 Do not confuse proxy traversal with compression savings
 
 A short request may pass through Headroom but contain too little compressible content to produce savings. Check these layers separately:
@@ -301,8 +312,7 @@ A short request may pass through Headroom but contain too little compressible co
 4. compression statistics in `/stats`.
 
 A loopback URL or HTTP 200 alone does not prove the upstream route is correct. Zero savings alone does not prove that the request bypassed Headroom.
-
-## 8. Security, backups, and rollback boundaries
+## 8. Security, backups, and rollback boundaries (legacy migration context)
 
 - keep `agent.db`, OAuth tokens, API keys, and session files in the local profile;
 - set the external route declaration to mode `600`;
@@ -311,29 +321,23 @@ A loopback URL or HTTP 200 alone does not prove the upstream route is correct. Z
 - use a transaction so a failure cannot leave half-applied headers;
 - stop and report when a required row is missing instead of guessing values;
 - roll back by restoring the reconciler backup and the previous declaration, not by deleting the whole `models.db`;
-- an already-running OMP process may retain old in-memory settings, so new sessions should consistently use `omp-headroom`.
-
-## 9. The maintenance workflow
+- an already-running OMP process may retain old in-memory settings, so new sessions should consistently use `headroom wrap omp`.
+Use the wrapper as the sole normal startup path:
 
 ```bash
-# 1. Edit the external route declaration
-$EDITOR ~/.config/omp/headroom-routes.json
-
-# 2. Check without writing
-omp-headroom-reconcile --agent-dir "$HOME/.omp/profiles/headroom/agent" --check
-
-# 3. Update OMP and restore routes automatically
-omp-headroom update
-
-# 4. Check the runtime cache again
-omp-headroom-reconcile --agent-dir "$HOME/.omp/profiles/headroom/agent" --check
-
-# 5. Send a minimal request through the fixed profile
-omp-headroom -p --no-session --no-tools --no-extensions --no-rules \
-  --model openai-codex/gpt-5.6-luna \
-  'Reply with exactly PERSISTED-OK.'
-
-# 6. Check Headroom logs and the final upstream at the same time
+uv tool install --python 3.13 "headroom-ai[all]"
+headroom wrap omp
 ```
 
-The core rule is simple: **keep route intent where OMP updates cannot overwrite it, and treat `models.db` as derived state that can be validated, backed up, and rebuilt.**
+While the wrapped session is active, run the checks from another terminal:
+
+```bash
+headroom doctor
+headroom perf
+headroom dashboard
+```
+
+For route verification, exercise a real OMP selector only when it uses the built-in `anthropic` route managed by the active wrapper or an explicitly configured custom-provider route. The plain wrap path does not automatically proxy `openai-codex`, `opencode-go`, Zhipu, Kimi, MiniMax, or Codex routes; the first two are direct by default and the latter routes are historical/conditional. Inspect `~/.headroom/logs/proxy.log` or the final upstream URL/WebSocket for an active Anthropic or explicit custom route, and verify direct roles against their direct upstream separately. A loopback URL or HTTP 200 alone does not prove the request reached the intended provider. When finished, explicitly run `headroom unwrap omp`; the default stops the local proxy, while `--no-stop-proxy` is only for intentionally keeping it alive.
+
+
+The core rule is simple: **keep route intent where OMP updates cannot overwrite it, treat `models.db` as derived state, and let `headroom wrap omp` own the local proxy lifecycle.**
