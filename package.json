@@ -3,12 +3,12 @@
   "type": "module",
   "private": true,
   "version": "1.0.0",
-  "description": "DavidHLPL 的技术博客，基于 Astro ThoughtLite 主题构建",
+  "description": "DavidHLPL 的个人 AI 知识库，基于 Astro ThoughtLite 主题构建",
   "keywords": [
     "astro",
-    "blog",
-    "svelte",
-    "typescript",
+    "knowledge-base",
+    "llm-wiki",
+    "markdown",
     "i18n"
   ],
   "homepage": "https://github.com/DavidHLP/DavidHLP.github.io",
@@ -35,6 +35,7 @@
     "lint": "biome lint",
     "test": "vitest",
     "test:run": "vitest run",
+    "kb:lint": "tsx scripts/kb-lint.ts",
     "count": "git log --pretty=tformat: --numstat | grep -v package | awk '{ A += $1; S += $2; T += $1 - $2 } END { printf \"+ %s\\tLines\\n- %s\\tLines\\n= %s\\tLines\\n\", A, S, T }'",
     "prepare": "husky"
   },

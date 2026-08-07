@@ -1,47 +1,41 @@
 ---
-title: "跨越复杂网络：从 Cloudflare Tunnel、Tailscale 到 FRP 的 SSH 内网穿透实践与踩坑闭环"
+title: "SSH 内网访问方案：连接方向、暴露面与故障恢复"
 timestamp: 2026-08-01 00:00:00+08:00
-series: "系统运维与远程控制"
-tags: [内网穿透, Cloudflare, Tailscale, FRP, SSH, Termius, systemd, 运维实践]
-description: "深度剖析内网 Linux 服务器远程访问演进路径，对比 Cloudflare Tunnel、Tailscale 与 FRP 的适用场景，解析移动端 Termius 沙盒限制、控制面网络阻断与端口误用，并提供基于 systemd 和 linger 机制的生产级持久化部署方案。"
-sensitive: false
+series: "系统运维与基础设施"
+kind: concept
+status: active
+sources: ["legacy-intranet-penetration-ssh-guide"]
+related: ["containerd-tls-troubleshooting", "mysql-performance-troubleshooting"]
+tags: [Intranet Penetration, Cloudflare, Tailscale, FRP, SSH, Termius, systemd, DevOps]
+description: "以连接方向、暴露面、控制平面、数据平面和故障恢复比较 Cloudflare Tunnel、Tailscale 与 FRP，并提炼移动端限制、端口语义和 systemd/linger 的可验证边界。"
 toc: true
-top: 0
-draft: false
 ---
 
-## 一、问题背景与核心诉求
+本页回答一个远程访问决策：内网 Linux 没有可直连公网地址时，怎样按客户端能力、控制面可达性和公网暴露面选择 SSH 方案。重点不是堆叠教程，而是区分 Cloudflare Tunnel、Tailscale、FRP 的连接方向与故障域，再确定如何让 FRP 客户端在注销后恢复。
 
-在居家办公、移动运维或多端协作场景中，工程师经常需要从外部网络（如手机端 Termius、笔记本电脑）远程访问部署在家庭或实验室内网的 Linux 服务器。由于运营商多层 NAT 隔离、动态 IP 漂移以及公网 IPv4 资源的匮乏，直接建立连接往往不可行。
+## 核心机制
 
-在寻求“高稳定、固定接入点、零成本”的内网穿透方案时，工程师通常会经历以下三阶段的技术选型演进：
+### 1. 五个比较轴
 
-```mermaid
-flowchart LR
-    A["探索 1: Cloudflare Tunnel"] -->|遭遇移动端沙盒限制 & 绑卡门槛| B["探索 2: Tailscale 异地组网"]
-    B -->|遭遇国内控制面网络阻断| C["落地 3: FRP 端口映射"]
-    C --> D["生产级保活: systemd + Linger"]
-```
+| 轴 | Cloudflare Tunnel | Tailscale / WireGuard | FRP |
+| --- | --- | --- | --- |
+| 连接方向 | 内网 `cloudflared` 向 Cloudflare Edge 建立出站 WebSocket/TLS；外部先到 Edge | 设备加入虚拟网，数据面使用 UDP/WireGuard，必要时依赖 DERP | 公网 `frps` 监听端口，内网 `frpc` 保持长连接，把流量转到本地 `127.0.0.1:22` |
+| 暴露面 | 自定义 CNAME/Hostname 作为接入点 | 设备获得 `100.x.x.x` 虚拟地址；客户端需加入网络 | 公网域名/地址与 `remotePort` 作为接入点，标准 SSH 直接连映射端口 |
+| 控制平面 | Cloudflare Zero Trust/Access 与 Edge 服务 | `controlplane.tailscale.com`、登录状态和 DERP 可达性 | `frpc` 到 `frps` 的认证与长连接；配置中使用 `auth.token` |
+| 数据平面 | SSH 通过 `cloudflared access ssh` 代理进隧道 | WireGuard/UDP 虚拟链路 | TCP 映射到内网 SSH 端口 |
+| 故障恢复 | 依赖桌面端能运行 `cloudflared` 和服务账户条件 | 先恢复控制面，HTTP 代理不等于 UDP 数据面可用 | 用 systemd 用户服务自动重启，用 linger 保持用户服务实例 |
 
-三类主流方案的核心差异对比：
+### 2. 三种方案的边界
 
-| 方案维度 | Cloudflare Tunnel | Tailscale / WireGuard | FRP / SakuraFrp |
-| :--- | :--- | :--- | :--- |
-| **接入协议** | WebSocket / TLS 隧道 | UDP 虚拟点对点网段 | 原生 TCP / UDP 映射 |
-| **客户端要求** | 需运行 `cloudflared` | 需安装 Tailscale 客户端 | 标准 SSH 客户端直连 |
-| **移动端适配性** | 受限（Termius 无法运行 ProxyCommand）| 良好（需要系统 VPN 权限） | **极佳**（仅需填 IP/域名 + 映射端口） |
-| **服务门槛** | 需海外信用卡激活 Zero Trust | 控制面易受阻断 | 零信用卡门槛，支持国内/香港节点 |
-| **接入点稳定性**| 绑定自定义 CNAME 域名 | 固定 100.x 内网 IP / 域名 | 固定公网域名 + 指定映射端口 |
+| 方案 | 适合 | 明确限制 |
+| --- | --- | --- |
+| Cloudflare Tunnel | 桌面 macOS/Linux/Windows，标准 SSH 可执行 `ProxyCommand`，愿意使用自定义域名 | 移动 Termius 不能在沙盒内派生 `cloudflared`；raw 记录 Zero Trust/Access 开通的绑卡门槛，具体政策需现场确认。 |
+| Tailscale | 客户端可以安装 Tailscale 并获得系统 VPN 权限，且控制面/DERP 可达 | `sudo tailscale up` 可能因控制面阻断挂起；简单 `HTTP_PROXY` 不能代理所需的 UDP/WireGuard 流量。 |
+| FRP | 手机 Termius 只需填写域名和端口，公网中转节点可用，接受显式端口映射 | 公网接入点就是 `serverAddr + remotePort`；标准开源 `frpc` 与定制客户端的启动参数不能混用。 |
 
----
+### 3. 最小配置和两个高频语义错误
 
-## 二、方案探索一：Cloudflare Tunnel 的实践与局限
-
-### 1. 桌面端工作原理与配置
-
-Cloudflare Tunnel（前身为 Argo Tunnel）通过在本地服务器运行 `cloudflared` 守护进程，向 Cloudflare 边缘节点建立出站双向 WebSocket/TLS 连接。外部流量访问 Cloudflare 边缘时，流量顺着隧道加密回传至本地服务。
-
-在桌面端（macOS/Linux/Windows），可以通过配置客户端 `~/.ssh/config` 利用 `ProxyCommand` 将 SSH 流量封装进 `cloudflared`：
+桌面端 Cloudflare 的原始 SSH 入口是：
 
 ```sshconfig
 Host ssh.yourdomain.com
@@ -49,178 +43,96 @@ Host ssh.yourdomain.com
     StrictHostKeyChecking accept-new
 ```
 
-这种模式下，桌面端标准 SSH 命令行（如 `ssh <your-username>@ssh.yourdomain.com`）能够透明地通过隧道完成握手。
-
-### 2. 移动端与网络痛点
-
-在实际落地时，该方案面临两大核心卡点：
-1. **移动端 Termius 沙盒限制**：移动端操作系统（iOS/Android）对应用的进程派生（fork/exec）有严格限制，Termius 无法在后台调用第三方二进制 `cloudflared` 执行 `ProxyCommand`。
-2. **Zero Trust 绑卡门槛**：Cloudflare 默认要求为 Public Hostname 开通 Zero Trust/Access 策略，开通该服务强制需要绑定海外信用卡/PayPal。
-
----
-
-## 三、方案探索二：Tailscale 异地组网的痛点
-
-Tailscale 基于 WireGuard 协议构建点对点虚拟局域网，能为设备分配固定的 `100.x.x.x` 内网 IP。然而在国内网络环境下，`sudo tailscale up` 启动时往往会卡住挂起。
-
-### 核心卡点：控制平面阻断
-
-查看系统日志 `journalctl -u tailscaled -n 30` 经常会发现以下超时报错：
-
-```text
-logtail: dial "log.tailscale.com:443" failed: dial tcp ... i/o timeout
-health(warnable=login-state): error: fetch control key: Get "https://controlplane.tailscale.com/key?v=138": context canceled
-```
-
-Tailscale 的控制平面（`controlplane.tailscale.com`）与 DERP 中继服务器在国内网络环境中容易受到干扰或阻断。另外，简单的 HTTP 代理环境变量（`HTTP_PROXY`）无法代理 Tailscale 所需的底层 UDP/WireGuard 流量，导致握手持续超时。
-
----
-
-## 四、方案落地：基于 FRP 的通用端口映射
-
-为实现手机端 Termius 零额外依赖直连，且避开绑卡门槛与网络阻断，基于 TCP 协议映射的 FRP（Fast Reverse Proxy）成为最优解。
-
-### 1. 架构与现代 `frpc.toml` 配置
-
-在 FRP 架构中，公网服务器 `frps` 监听公网端口，内网服务器 `frpc` 维持长连接并将流量映射至本地 `127.0.0.1:22`。
-
-FRP v0.60+ 引入了现代 TOML 规范配置。创建 `~/frpc.toml` 配置文件（已脱敏）：
+FRP v0.60+ 的来源示例使用 TOML；关键数据面只保留本地和远端端口：
 
 ```toml
-user = "<YOUR_USER_ID>"
-auth.token = "<YOUR_AUTH_TOKEN>"
-
 serverAddr = "frp.example.com"
 serverPort = 8088
-
-transport.tls.enable = false
-transport.tls.disableCustomTLSFirstByte = false
+auth.token = "<YOUR_AUTH_TOKEN>"
 
 [[proxies]]
-name = "SSH"
 type = "tcp"
 localIP = "127.0.0.1"
 localPort = 22
 remotePort = <REMOTE_PORT>
 ```
 
-### 2. 踩坑闭环一：命令行 `-f` 参数语法冲突
+- 某些定制客户端支持 `-f <token>:<id>`，但 raw 记录标准开源 `frpc`（例如 v0.61.0）会把 `-f` 判为未知 shorthand flag；统一用 `/path/to/frpc -c ~/frpc.toml`，并先用 `verify -c`。
+- `ssh user@frp.example.com` 默认打中转服务器的 22 端口，不是映射端口；必须使用 `ssh -p <REMOTE_PORT> user@frp.example.com`。端口漏写会把“隧道不可用”和“登录了中转机”混为一谈。
 
-某些定制版 FRP 客户端提供 `-f <token>:<id>` 单行一键启动语法，但标准的开源 `frpc` 二进制（如 v0.61.0）使用 `cobra` 命令行解析器，直接传入 `-f` 会触发未知参数报错：
+### 4. systemd 与 linger 是两个不同的恢复条件
 
-```text
-Error: unknown shorthand flag: 'f' in -f
-Usage:
-  frpc [flags]
-  frpc [command]
-```
-
-**解法**：统一使用 `-c` / `--config` 显式指定规范的 `frpc.toml` 或 `frpc.ini` 配置文件：
-
-```bash
-/path/to/frpc verify -c ~/frpc.toml
-/path/to/frpc -c ~/frpc.toml
-```
-
-### 3. 踩坑闭环二：端口遗漏导致连接拒绝
-
-在测试连接时，终端容易出现以下错误：
-
-```text
-$ ssh <your-username>@frp.example.com
-The authenticity of host 'frp.example.com (198.18.0.x)' can't be established.
-...
-Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
-```
-
-**根因分析**：
-当运行 `ssh <your-username>@frp.example.com` 而不带 `-p` 参数时，SSH 客户端默认连接中转服务器本身的 **22 端口**，而非隧道配置中指定的映射端口（如 `<REMOTE_PORT>`）。中转服务器拒绝了非授权用户的公网登录。
-
-**解法**：必须显式指定公网映射端口 `-p <REMOTE_PORT>`：
-
-```bash
-ssh -p <REMOTE_PORT> <your-username>@frp.example.com
-```
-
----
-
-## 五、生产级高可用部署：systemd 与 linger 机制
-
-如果在终端中手动运行 `frpc`，当终端会话断开或用户注销时，进程会被系统发送 `SIGHUP` / `SIGKILL` 信号杀死。必须将其部署为系统服务。
-
-### 1. 配置 systemd 用户服务
-
-创建 `~/.config/systemd/user/frpc.service`：
+手工运行 `frpc` 时，终端断开或用户注销会使进程收到 `SIGHUP`/`SIGKILL`。来源推荐用户服务：
 
 ```ini
-[Unit]
-Description=FRP Client Security Service
-After=network.target network-online.target
-Wants=network-online.target
-
 [Service]
 Type=simple
 ExecStart=/path/to/frpc -c /home/<your-username>/frpc.toml
 Restart=always
 RestartSec=5s
-
-[Install]
-WantedBy=default.target
 ```
-
-加载并启动用户服务：
 
 ```bash
 systemctl --user daemon-reload
 systemctl --user enable --now frpc.service
+systemctl --user status frpc.service
+loginctl enable-linger $USER
+loginctl show-user $USER | grep Linger
 ```
 
-验证服务运行状态：
+`Restart=always` 负责服务退出后的重启；`enable-linger` 负责用户退出 SSH 会话后仍保留 `user@UID.service` 实例。两者不能互相替代。
+
+## 适用条件
+
+1. 移动端只支持标准 SSH 字段时，FRP 的 `Host/Address + remotePort + Username` 是来源中最直接的接入形状。
+2. 桌面端能运行第三方二进制且 Cloudflare 控制面条件满足时，Tunnel 可用 `ProxyCommand` 隐藏转发细节。
+3. Tailscale 适合控制面和 DERP 可达、客户端可取得 VPN 权限的网络；仅设置 HTTP 代理不能证明 WireGuard 数据面已恢复。
+4. FRP 适合需要固定公网域名和显式映射端口的场景；`frps`、`frpc`、远端端口及 token 必须属于同一配置事实。
+5. 需要长期驻留时，把服务文件放在 `~/.config/systemd/user/frpc.service`，并同时验证用户服务状态与 linger。
+
+## 不适用与风险
+
+- Cloudflare Tunnel 的移动端限制是客户端沙盒能力边界，不是 SSH 密钥或远端端口配置问题；Termius 不能执行 `ProxyCommand` 中的 `cloudflared`。
+- Cloudflare Zero Trust 的支付/开通要求来自 raw 的当时记录，可能随服务政策变化；不要把它当作永久产品契约。
+- Tailscale 日志中的 `log.tailscale.com` 或 `controlplane.tailscale.com` 超时只能证明控制面异常，不能单独证明内网主机或 SSH 服务故障。
+- FRP 的公网 `remotePort` 是暴露面；本页只证实端口映射和 token 配置，不替环境推断访问控制、审计或节点运营方的安全策略。
+- 不要用 `-f` 兼容语法猜测二进制版本，也不要省略 SSH 的 `-p`；参数冲突和端口误用会产生误导性的认证错误。
+- 用户服务的 `/path/to/frpc`、配置文件权限、网络服务可用性仍需由部署环境确认；linger 不是对 FRP 控制面可达性的保证。
+
+## 最小验证
+
+按故障域取最小证据：
+
+```bash
+# Tailscale 控制面
+journalctl -u tailscaled -n 30
+
+# FRP 配置和进程
+/path/to/frpc verify -c ~/frpc.toml
+/path/to/frpc -c ~/frpc.toml
+
+# 数据面端口
+ssh -p <REMOTE_PORT> <your-username>@frp.example.com
+```
+
+持久化部署后，观察：
 
 ```bash
 systemctl --user status frpc.service
-```
-
-成功启动日志输出示例：
-```text
-● frpc.service - FRP Client Security Service
-     Active: active (running) since Sat 2026-08-01 19:25:40 CST
-     Main PID: 146770 (frpc)
-...
-[I] [client/service.go:287] login to server success, get run id [...]
-[I] [client/control.go:168] [s-xxx.SSH] start proxy success
-```
-
-### 2. 关键防御：开启 `loginctl enable-linger`
-
-Linux systemd 默认会在非 root 用户退出所有 SSH 会话时，清除该用户的 `user@UID.service` 实例及其下属的所有用户服务。
-
-为了确保服务器重启或用户注销后 `frpc` 依然在后台持续守护，必须执行：
-
-```bash
-loginctl enable-linger $USER
-```
-
-可以通过以下命令确认开启状态：
-
-```bash
 loginctl show-user $USER | grep Linger
-# 输出 Linger=yes 即表示成功
 ```
 
----
+- Cloudflare 桌面链路应能让 `ssh <your-username>@ssh.yourdomain.com` 经过 `ProxyCommand`；移动 Termius 不具备同一执行前提。
+- FRP 配置校验成功不等于公网端口可达；`ssh -p` 仍需使用分配的 `remotePort`。
+- `Active: active (running)` 与 `Linger=yes` 分别证明用户服务运行和用户退出后的保活条件，不证明 SSH 认证或控制面本身健康。
 
-## 六、总结与客户端连接对账表
+## 证据与不确定性
 
-通过结合 **FRP 端口映射** 与 **systemd + Linger 保活**，我们构建了一套不依赖海外信用卡、不限制客户端环境的高可用 SSH 内网穿透架构。
+- **来源事实**：`legacy-intranet-penetration-ssh-guide` 记录 Cloudflare 的出站 WebSocket/TLS 与桌面 `ProxyCommand`、Termius 沙盒限制、Zero Trust 绑卡记录、Tailscale 控制面/DERP 超时、FRP v0.60+ TOML/v0.61.0 参数差异、`remotePort` 语义和 systemd/linger 命令。
+- **本页综合**：用连接方向、暴露面、控制平面、数据平面、恢复条件五个轴重排同一批事实，并把 `Restart=always` 与 linger 的职责拆开。
+- **未确认项**：当前网络是否能到 Cloudflare/Tailscale 控制面、服务商政策、FRP 节点实际 ACL/审计、二进制确切版本、Firewall 和 SSH 认证策略，均不由 raw 单独推出。
 
-### 客户端连接参数参照表
+## 相关页面
 
-| 客户端类型 | 填写字段 | 对应数值 / 配置 |
-| :--- | :--- | :--- |
-| **手机 Termius** | Host / Address | `frp.example.com`（或节点公网域名） |
-| | Port | **`<REMOTE_PORT>`**（分配的公网映射端口） |
-| | Username | `<your-username>`（Linux 系统用户名） |
-| | Password | Linux 系统登录密码 / 私钥 |
-| **桌面命令行** | SSH 命令 | `ssh -p <REMOTE_PORT> <your-username>@frp.example.com` |
-| **桌面 `~/.ssh/config`**| 配置段 | `Host my-server`<br>`  HostName frp.example.com`<br>`  Port <REMOTE_PORT>`<br>`  User <your-username>` |
+- [containerd TLS 信任链](/note/containerd-tls-troubleshooting)
+- [MySQL 性能问题模型](/note/mysql-performance-troubleshooting)

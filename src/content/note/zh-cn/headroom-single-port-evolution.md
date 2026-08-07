@@ -1,290 +1,91 @@
 ---
-title: "Headroom 单端口演进：让 Zhipu、Kimi、MiniMax 与 Codex 共用 8787"
+title: "Headroom 单端口路由综合：入口、动态上游与验证边界"
 timestamp: 2026-08-01 00:00:00+08:00
-series: "OMP 规则与配置体系"
-tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, Routing, Proxy, Codex, Kimi, MiniMax, Zhipu]
-description: "记录一次 Headroom 从多 provider、多端口 systemd 代理收敛到单一 127.0.0.1:8787 入口的实战：动态上游路由、MiniMax 内置 provider 覆盖、Kimi Anthropic 默认目标、Codex WebSocket 特殊处理、旧服务清理与三层验证。"
+series: "OMP 与 Agent 工程"
+kind: synthesis
+status: provisional
+sources: ["legacy-headroom-single-port-evolution", "legacy-omp-config-and-rules-guide", "legacy-omp-headroom-persistence"]
+related: ["omp-config-and-rules-guide", "omp-headroom-persistence", "omp-hook-extension-guide", "llm-wiki-pattern"]
+tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,Routing,Proxy,Codex,Kimi,MiniMax,Zhipu]
+description: "综合 Headroom 单端口路由的演进模型：一个 loopback 入口如何承接显式 custom provider、动态上游和不同协议，并把 OMP 角色选择、model_cache、请求级路由与 wrapper 生命周期分开验证。历史路由均标为 provisional。"
 toc: true
 ---
 
-# Headroom 单端口演进：让 Zhipu、Kimi、MiniMax 与 Codex 共用 8787
+这页综合一个迁移结论：单端口不是“所有 provider 自动改到 8787”，而是让已显式配置的 custom provider 共用一个 loopback 入口，再由请求级信息选择真实上游。当前 `headroom wrap omp` 的自动范围、OMP 的模型选择、`models.db` 的派生状态和 Headroom 的生命周期必须分开看；旧路由不能直接当作当前默认值。
 
-本文记录一次历史单端口迁移。官方 `headroom wrap omp` 的自动范围更窄：它只把 OMP 内置的 `anthropic` provider 注入 wrapper 管理的配置。当前 `openai-codex` 与 `opencode-go` role 仍使用 `models.db` 中的直连条目；wrap 不会自动把它们改成 loopback。
+## 核心机制
 
-下文的 Zhipu、Kimi、MiniMax 与 Codex loopback 路由都是历史迁移证据，必须有显式 custom provider 配置才会成立，并不是 `headroom wrap omp` 的默认结果。
-
-今天的启动请以[官方 Headroom README](https://github.com/headroomlabs-ai/headroom/blob/main/README.md)及其 wrapper 为准，不要使用常驻服务：
-
-```bash
-# 只需安装一次官方 CLI（Python 3.13+）
-uv tool install --python 3.13 "headroom-ai[all]"
-
-# 唯一推荐的 OMP 启动入口：由 wrap 管理会话和本地代理
-headroom wrap omp
-
-# 在 wrapped 会话运行期间，从另一个终端验证
-headroom doctor
-headroom perf
-headroom dashboard
-```
-
-`headroom wrap omp` 会启动 OMP，并管理当前会话所需的本地代理生命周期。它是 OMP 的唯一推荐启动入口。通常不要创建或维护旧的 `~/.config/systemd/user/headroom-proxy.service`，不要启用 provider 专用 unit，也不要手工运行 `headroom proxy --port 8787`。这些 systemd 和直接代理路径仅用于历史迁移背景，不推荐作为日常启动方式。
-
-```text
-历史 custom-provider 拓扑（不是 wrap-only 默认；自动范围仅内置 `anthropic`）
-OMP（由 headroom wrap omp 启动）
-      │
-      ├─ 内置 `anthropic` → wrapper 管理的路由（自动；Anthropic 上游）
-      ├─ 当前 `openai-codex` / `opencode-go` → `models.db` 直连上游
-      │
-      ▼
-条件性的 custom Headroom 入口（历史迁移；127.0.0.1:8787）
-      ├─ Zhipu    → https://open.bigmodel.cn/api/coding/paas/v4/chat/completions
-      ├─ Kimi     → https://api.kimi.com/coding/v1/messages
-      ├─ MiniMax  → https://api.minimaxi.com/v1/chat/completions
-      └─ Codex WS → wss://chatgpt.com/backend-api/codex/responses
-```
-
-wrapper 负责 active 会话生命周期，但进程退出不会自动恢复路由状态。会话结束后必须显式执行 `headroom unwrap omp`；默认行为会移除 wrapper 管理的路由状态并停止本地代理。只有明确要保留代理时才使用 `headroom unwrap omp --no-stop-proxy`，否则 loopback 路由可能残留。
-
-## 1. 为什么从多端口改成单端口
-
-早期方案为不同 provider 启动独立的 Headroom systemd 服务。这个旧拓扑已经过时且不推荐：它虽然便于为每个进程设置固定的 `*_TARGET_API_URL`，但也带来明显问题：
-
-- systemd 单元、端口、日志文件和生命周期变多；
-- OMP 与 Kimi CLI 需要记住不同的 loopback 地址；
-- 一个 provider 的重启、代理环境或 SOCKS 配置容易和其他 provider 漂移；
-- 端口本身表达了路由，而不是请求携带的 provider 事实。
-
-当前方案重新分开职责：
-
-1. **客户端**决定请求属于哪个 provider，并通过模型缓存或自定义 header 写入上游信息；
-2. **Headroom**负责协议识别、压缩、缓存和转发；
-3. **`headroom wrap omp`**负责 OMP 会话所需本地代理的生命周期。
-
-这样端口只表达“本机 Headroom 入口”，不再表达“某一个固定供应商”。
-
-## 2. 最终的单端口架构
+### 1. 单端口路由因果链
 
 ```mermaid
 flowchart LR
-  A["OMP role"] --> AN["内置 anthropic<br/>wrap 自动<br/>Anthropic 上游"]
-  A --> D["当前 openai-codex / opencode-go<br/>models.db 直连条目"]
-  A --> H["条件性 custom 入口<br/>127.0.0.1:8787<br/>历史迁移"]
-  H --> Z["Zhipu<br/>显式 custom 配置"]
-  H --> K["Kimi<br/>显式 header/env/config"]
-  H --> M["MiniMax<br/>历史 models.yml override"]
-  H --> C["Codex<br/>显式 Responses WebSocket"]
-  Z --> ZU["open.bigmodel.cn"]
-  K --> KU["api.kimi.com/coding"]
-  M --> MU["api.minimaxi.com/v1"]
-  C --> CU["chatgpt.com/backend-api/codex"]
+  A[OMP role] --> B[modelRoles / model_cache<br/>选择 provider]
+  B --> C{wrap 自动或显式 custom?}
+  C -- 内置 anthropic --> D[wrapper 管理的 Anthropic 路由]
+  C -- 显式 custom --> E[127.0.0.1:8787]
+  C -- 其他默认条目 --> F[直连上游]
+  E --> G[base-url + original-path + provider headers]
+  G --> H[动态上游/协议适配]
+  H --> I[HTTP 或 Codex WebSocket]
 ```
 
-下面这些路由是历史或有条件的 custom provider 路由，并不是 `headroom wrap omp` 自动创建的四条路由。wrap-only 自动覆盖内置 `anthropic` provider，默认仍使用配置的 Anthropic 上游，不会隐式指向 Kimi。当前 `openai-codex` 与 `opencode-go` 条目仍然直连，除非另行显式配置：
+| selector / 路由类型 | 默认或历史状态 | 单端口成立条件 | 关键边界 |
+| --- | --- | --- | --- |
+| 内置 `anthropic` | `headroom wrap omp` 可自动管理 | active wrapped session | 自动范围不等于所有 provider；默认目标仍是 Anthropic 上游 |
+| `openai-codex`、`opencode-go` | 当前 `models.db` 条目通常直连 | 需要显式 custom provider 才进入 loopback | wrap 不会自动把普通条目改成 8787 |
+| Zhipu / Kimi / MiniMax | 历史迁移中的 custom 路由 | provider 配置、loopback base URL、请求 header 均存在 | 旧 Kimi 目标覆盖可能把无 header 的 Anthropic 请求静默导向错误上游 |
+| Codex Responses | 历史显式 custom 路由 | WebSocket 目标与协议保持一致 | 不能用普通 OpenAI Chat Completions 假设覆盖 Responses WebSocket |
 
-| Provider | 客户端路由方式 | Headroom 上游结果 |
+### 2. 为什么从多端口收敛到一个入口
+
+- **配置面**：OMP 只需要对需要治理的 provider 声明同一个 loopback base URL；上游 host、原始 path 和协议差异留在请求级路由。
+- **运维面**：不再为每个 provider 维护独立代理进程和端口，减少端口冲突与 unit 漂移；代价是单端口故障会影响所有经过它的 provider。
+- **协议面**：HTTP Chat Completions、Anthropic Messages 和 Codex Responses WebSocket 不能只靠端口区分，必须保留 provider、原始 path 和协议元数据。
+- **生命周期面**：当前推荐由 `headroom wrap omp` 启动并管理 active 代理；旧的常驻服务和手工 `headroom proxy` 只属于迁移背景。
+
+### 3. 三层路由证据
+
+1. **L1 配置层**：区分 wrapper 自动的内置 `anthropic`、`models.db` 直连条目和显式 custom 条目。
+2. **L2 协议层**：在 active wrapped session 中，对已声明的 selector 发最小协议请求，确认 loopback 可达、header 透传和协议响应正确。
+3. **L3 上游层**：同时观察代理 inbound/outbound 日志、最终 HTTP URL 或 WebSocket `response.completed`；这才证明请求到达预期上游。
+
+## 适用条件
+
+- 多个已明确配置的 provider 需要共享本地代理能力，例如压缩、缓存、协议归一或统一观测。
+- 迁移中需要把端口拓扑从 provider 数量解耦，同时保留每个 provider 的 path/协议差异。
+- 需要比较“角色选了什么”“请求走了什么入口”“最终到哪台上游”这三种不同问题。
+- 能接受 wrapper 会话级生命周期，并在结束后显式清理路由状态。
+
+## 不适用与风险
+
+| 误用 | 结果 | 边界与处理 |
 | --- | --- | --- |
-| 内置 `anthropic` | wrapper 自动管理的路由；没有隐式 Kimi 目标 | 配置的 Anthropic 上游 |
-| `openai-codex` / `opencode-go` | 当前 `models.db` 直连条目；不会自动改成 loopback | 各自配置的直连上游 |
-| Zhipu | 历史 custom provider 路由；必须显式配置 `x-headroom-*` | `/v4/chat/completions` |
-| Kimi | 历史 custom provider 路由；必须显式配置 header、环境变量或 provider | `/coding/v1/messages` |
-| MiniMax | 历史 `models.yml` override 与 custom 路由；wrap 不需要 | `/v1/chat/completions` |
-| Codex | 历史 custom provider 路由；必须显式配置 Responses WebSocket | Codex Responses WebSocket |
+| 把 8787 当成全局默认入口 | 直连 role 仍绕过代理，排障结论错误 | 先核对 selector 的 model/cache 条目和是否有 custom 配置 |
+| 只验证 `/health` 或 HTTP 200 | 只能证明 loopback 可达，不能证明上游正确 | 做 L2 协议和 L3 最终上游验证 |
+| 把旧 provider unit 与 wrapper 同时启用 | 端口争用、旧 header 或旧日志污染 | 日常只使用 `headroom wrap omp`；旧服务只作迁移残留清理对象 |
+| 用 HTTP 规则处理 Codex WebSocket | 握手或 Responses 事件失败 | 保留 WebSocket URL、path 和协议完成事件证据 |
+| 依赖旧 Kimi/Anthropic 覆盖 | 无 header 请求静默发到错误上游 | 删除遗留覆盖，或使用显式 custom provider 路由 |
+| 把代理经过等同于压缩收益 | 短请求显示零 savings 就误判未经过代理 | 分别观察 loopback、代理日志和压缩统计 |
+| 把 `models.db` 手工改动当持久化契约 | 当前进程仍持有旧 cache，重启后又被重建 | 将 cache 当派生状态，使用新 wrapped session 验证 |
 
-不要从这些历史 `models.db` 或 provider 条目推断当前路由。先检查 active 配置，日常启动也不要手工编辑数据库。
-
-## 3. 官方 wrap 启动与生命周期
-
-每次正常使用 OMP 都走 README 推荐的 `wrap` 路径：
+## 最小验证
 
 ```bash
-uv tool install --python 3.13 "headroom-ai[all]"
+# 当前推荐的会话入口；版本与安装方式以官方 Headroom 文档为准
 headroom wrap omp
 ```
 
-wrapped 会话保持运行时，在另一个终端执行官方验证：
+在 wrapped 会话运行期间，另一个终端执行 `headroom doctor` 与 `headroom perf`；随后按 L1 → L2 → L3 顺序检查。只有当 selector 有显式 custom provider 时，才对它做 loopback 和最终上游探测；默认直连 selector 应单独核对其直连上游。会话结束时显式执行 `headroom unwrap omp`，除非明确需要保留代理。
 
-```bash
-headroom doctor
-headroom perf
-headroom dashboard
-```
+## 证据与不确定性
 
-wrapper 会管理当前会话所需的本地代理。wrap-only 不会把非 Anthropic provider 条目自动改成 loopback；手工维护 `~/.config/systemd/user/headroom-proxy.service`、provider 专用 systemd unit，或独立运行 `headroom proxy --port 8787`，都只是旧迁移路径，不推荐用于正常运行。
+- **来源事实**：`legacy-headroom-single-port-evolution` 记录多端口到 127.0.0.1:8787 的历史收敛、动态 headers、MiniMax 覆盖、Kimi/Anthropic 目标陷阱和 Codex WebSocket；`legacy-omp-config-and-rules-guide` 区分角色→模型、模型→入口、请求级路由和 wrapper 生命周期；`legacy-omp-headroom-persistence` 说明 `models.db` 是派生 cache。
+- **本页综合**：把单端口定义为“显式 custom 路由的共享入口”，并用 L1/L2/L3 分离配置、协议和最终上游证据。
+- **未确认项**：wrapper 当前自动覆盖的 provider 集合、header 名称、日志字段、各 provider 的协议适配和 8787 默认值会随 Headroom/OMP 版本变化；历史 Zhipu、Kimi、MiniMax、Codex 路由不是默认承诺。
 
-## 4. MiniMax 内置 provider 的覆盖（历史迁移证据）
+## 相关页面
 
-早期迁移曾用 `models.yml` 覆盖内置 provider。下面代码块只作为历史证据保留：当前 `headroom wrap omp` 不要求它。进程退出不会恢复 `models.yml`；wrapped 会话结束后必须显式执行 `headroom unwrap omp`（默认会停止本地代理），只有明确要保留代理时才使用 `--no-stop-proxy`。不要把这个 override 加入日常启动步骤：
-
-```yaml
-# 仅作历史迁移证据；当前 wrap 生命周期不要求。
-providers:
-  minimax-code-cn:
-    baseUrl: http://127.0.0.1:8787/v1
-    headers:
-      x-headroom-base-url: https://api.minimaxi.com/v1
-      x-headroom-original-path: /chat/completions
-```
-
-这两个 header 解决了两个不同问题：
-
-- `x-headroom-base-url` 选择真实上游；
-- `x-headroom-original-path` 保留 `/chat/completions`，避免把 `/v1` 重复拼接。
-
-最终日志必须看到类似结果，而不是只看到 loopback 请求：
-
-```text
-event=outbound_request forwarder=streaming
-path=https://api.minimaxi.com/v1/chat/completions
-
-event=proxy_inbound_response ... status=200
-```
-
-## 5. Kimi 的双协议与默认目标边界
-
-Kimi 同时存在两类请求：
-
-- OMP/Kimi CLI 的 Anthropic Messages 请求：`/v1/messages`；
-- 某些 OpenAI-compatible 客户端的 Chat Completions 请求：`/v1/chat/completions`。
-
-历史迁移曾将 Kimi CLI provider 指向统一端口，并保留动态 header：
-
-```toml
-[providers."managed:kimi-code"]
-type = "kimi"
-api_key = ""
-base_url = "http://127.0.0.1:8787/v1"
-custom_headers = { "x-headroom-base-url" = "https://api.kimi.com/coding", "x-headroom-original-path" = "/v1/messages" }
-
-[providers."managed:kimi-code".oauth]
-storage = "file"
-key = "oauth/kimi-code"
-```
-
-但是这个历史 custom `kimi-code` 路径有一个实际边界：某些请求到达 8787 时没有 `x-headroom-base-url`。旧 systemd 服务方案曾通过环境变量提供默认值；这只是迁移历史，不是日常启动要求。`headroom wrap omp` 不会自动创建这条 Kimi 路由，只有显式 provider 配置时才使用它。
-
-历史默认目标覆盖（仅显式额外配置）：
-
-```text
-# 旧配置；headroom wrap omp 不会设置这个变量。
-ANTHROPIC_TARGET_API_URL=https://api.kimi.com/coding
-```
-
-
-### 重要：这个历史默认值不是无副作用的透明路由
-
-在历史 custom 配置中，任何**没有动态路由 header 的 Anthropic `/v1/messages` 请求**都会被发送到 Kimi，而不是 Anthropic 官方端点。这是旧迁移的取舍，不是 wrap-only 的自动行为。纯 `headroom wrap omp` 不会设置 `ANTHROPIC_TARGET_API_URL`，默认仍是配置的 Anthropic 上游。若使用 custom 8787 入口，必须明确选择以下方式之一：
-
-- 为 Claude 使用独立入口；
-- 让客户端显式携带正确的 `x-headroom-base-url`；
-- 显式设置 `ANTHROPIC_TARGET_API_URL=https://api.kimi.com/coding`，或在代理层按客户端身份实现条件路由。
-
-不要把这个历史默认值描述成对所有 Anthropic 客户端透明兼容。
-
-## 6. Codex 为什么不能使用普通 OpenAI target
-
-Codex subscription 不是普通的 OpenAI Chat Completions 请求；历史 custom 路由使用 Responses API 的 WebSocket：
-
-```text
-/v1/responses
-→ wss://chatgpt.com/backend-api/codex/responses
-```
-
-对于当前的 `openai-codex` role，除非显式增加 custom provider 配置，否则应保持配置的直连上游。custom loopback 路由不能设置会覆盖 Codex Responses WebSocket 路由的通用 OpenAI target：
-
-```ini
-OPENAI_TARGET_API_URL=...
-```
-
-
-在历史 custom 配置中，Headroom 会检测 ChatGPT OAuth 凭据并使用内置的 `chatgpt_subscription` 路由。决定性验证日志是：
-
-```text
-WS /v1/responses connecting to wss://chatgpt.com/backend-api/codex/responses
-WS /v1/responses completed
-last_upstream_type=response.completed
-```
-
-## 7. 旧 provider 服务：仅限迁移，不推荐
-
-旧的 provider 专用 systemd unit 和常驻的 `headroom-proxy.service` 都已经废弃。这里只为解释历史迁移而提及；正常使用 OMP 时不要创建、启用或维护它们。如果机器上仍残留这些旧 unit，应只做一次性清理，然后回到第 3 节的 `headroom wrap omp` 代码块，把它作为唯一启动路径。
-
-迁移后的目标状态不是“有一个 enabled service”，而是由 wrapper 管理本地代理的 active wrapped OMP 会话。
-
-## 8. 三层验证：不要只看 HTTP 200
-
-单端口切换至少需要三层证据。
-
-### L1：配置层
-
-先区分自动、当前直连和历史 custom 状态：
-
-```text
-Wrap-only 自动范围：
-anthropic → 内置 Anthropic provider 的 wrapper 管理路由
-             （默认仍是 Anthropic 上游，不会隐式指向 Kimi）
-
-当前 models.db 直连条目：
-openai-codex → 配置的直连上游（不会自动改成 loopback）
-opencode-go  → 配置的直连上游（不会自动改成 loopback）
-
-历史/有条件的 custom 路由（仅在显式配置时）：
-zhipu-coding-plan → http://127.0.0.1:8787/v1
-kimi-code         → http://127.0.0.1:8787/v1
-minimax-code-cn   → http://127.0.0.1:8787/v1
-openai-codex      → http://127.0.0.1:8787/v1（仅 custom override）
-```
-
-### L2：协议层
-
-在 active wrapped 会话上，用已有凭据向各协议发送最小请求，确认返回的是上游响应。只验证 `/health` 或 loopback HTTP 200，不足以证明路由目标正确。
-
-### L3：编排器原生流量
-
-下面四个 selector 的循环只是历史迁移证据，不是 wrap-only 冒烟测试。只有在另一个终端已有 wrapped 会话运行、且每个 selector 都有显式 custom provider 配置时才可执行。当前配置中 `openai-codex` 与 `opencode-go` 是直连，除非你刻意另行配置：
-
-```bash
-# 有条件的历史/custom provider 冒烟；不是默认 wrap 拓扑。
-for selector in \
-  zhipu-coding-plan/glm-4.7 \
-  kimi-code/k3 \
-  minimax-code-cn/MiniMax-M3 \
-  openai-codex/gpt-5.6-luna; do
-  env -u ALL_PROXY -u all_proxy -u HTTP_PROXY -u HTTPS_PROXY \
-    omp --no-session --no-tools --no-skills --no-rules --no-extensions \
-      --mode=json --model "$selector" -p 'Reply with exactly PONG'
-done
-```
-
-然后在 `~/.headroom/logs/proxy.log` 中确认真正的上游：
-
-| Provider | 关键证据 | 结果 |
-| --- | --- | --- |
-| Zhipu | `path=https://open.bigmodel.cn/api/coding/paas/v4/chat/completions` | `status=200` |
-| Kimi | `path=https://api.kimi.com/coding/v1/messages` | `status=200` |
-| MiniMax | `path=https://api.minimaxi.com/v1/chat/completions` | `status=200` |
-| Codex | `wss://chatgpt.com/backend-api/codex/responses` | `response.completed` |
-
-## 9. 运行时检查与回滚
-
-wrapped 会话运行期间，在另一个终端执行官方检查：
-
-```bash
-headroom doctor
-headroom perf
-headroom dashboard
-```
-
-`headroom doctor` 的 Claude、Codex、shell-env 或 budget warning 不等同于代理转发失败；最终判断应以真实 selector、最终上游 URL 和 `~/.headroom/logs/proxy.log` 为准。loopback HTTP 200 永远不足以单独证明路由正确。
-
-不要把手工修改 `models.db`、运行 reconciler 或重启 systemd unit 纳入日常启动。这些是旧方案的恢复手段；`headroom wrap omp` 管理会话本地代理和自动的内置 `anthropic` 路由，但不会在没有显式 custom 配置时改写非 Anthropic provider 条目，也不会把未标记的 Anthropic 请求发送到 Kimi。
-
-## 10. 这次演进留下的原则
-
-1. **一个入口不等于一个固定上游**：单端口依赖请求级路由信息。
-2. **模型缓存和 provider override 是客户端契约的一部分**：保留声明，但不要把手工编辑 `models.db` 当成正常启动。
-3. **Codex 是特殊协议**：不能用普通 OpenAI target 覆盖 Responses WebSocket。
-4. **历史 Kimi 默认目标必须记录边界**：只有显式配置旧的 `ANTHROPIC_TARGET_API_URL` 或等价 custom 路由时，未标记的 Anthropic 请求才会去 Kimi；纯 `headroom wrap omp` 保持 Anthropic 上游。
-5. **验证必须看上游 URL**：`127.0.0.1:8787` 的 200 只能证明代理收到请求，不能证明它转发到了正确供应商。
-6. **wrapper 负责生命周期**：旧 systemd unit 和常驻 `headroom-proxy.service` 不是 OMP 推荐的启动路径。
+- [OMP 配置分层](/note/omp-config-and-rules-guide)
+- [Headroom 路由持久化](/note/omp-headroom-persistence)
+- [OMP Hook 扩展](/note/omp-hook-extension-guide)
+- [LLM wiki pattern](/note/llm-wiki-pattern)

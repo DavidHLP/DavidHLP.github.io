@@ -1,0 +1,55 @@
+---
+import { render } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import config from "$config";
+import Base from "$layouts/Base.astro";
+import { getInfoEntry, localeStaticPaths } from "$utils/content";
+import i18nit from "$i18n";
+import { ts } from "$utils/labels";
+
+export const getStaticPaths = localeStaticPaths;
+
+const { locale = config.i18n.defaultLocale } = Astro.params;
+const t = i18nit(locale);
+const canonicalLocale = config.i18n.defaultLocale;
+const indexEntry = await getInfoEntry(canonicalLocale, "kb-index");
+const logEntry = await getInfoEntry(canonicalLocale, "kb-log");
+const { Content: IndexContent } = indexEntry ? await render(indexEntry) : ({} as any);
+const { Content: LogContent } = logEntry ? await render(logEntry) : ({} as any);
+const canonicalUrl = getRelativeLocaleUrl(config.i18n.defaultLocale, "/kb");
+---
+
+<Base title={ts(t, "kb.title")} {locale}>
+	<main class="flex flex-col grow gap-10 py-4">
+		<header class="relative border-y border-weak/10 py-8 select-text">
+			<div class="flex flex-col gap-3 max-w-3xl">
+				<span class="text-[10px] font-mono text-weak uppercase tracking-widest">[ KNOWLEDGE.BASE ]</span>
+				<h1 class="text-3xl sm:text-5xl font-serif font-light tracking-wide text-primary">{ts(t, "kb.title")}</h1>
+				<p class="text-sm font-mono text-secondary">// {ts(t, "kb.subtitle")}</p>
+				<a href={canonicalUrl} class="text-xs font-mono text-remark hover:text-primary transition-colors">
+					{ts(t, "kb.canonical")}
+				</a>
+			</div>
+		</header>
+
+		<section id="index" class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+			<div class="lg:col-span-1 flex flex-col gap-1">
+				<span class="text-[10px] font-mono text-weak uppercase tracking-widest">[ {ts(t, "kb.index")} ]</span>
+				<span class="text-[9px] font-mono text-remark">CONTENT.ORIENTED</span>
+			</div>
+			<article class="lg:col-span-3 markdown select-text max-w-4xl">
+				{IndexContent ? <IndexContent /> : <p>{ts(t, "kb.index")} unavailable.</p>}
+			</article>
+		</section>
+
+		<section id="log" class="grid grid-cols-1 lg:grid-cols-4 gap-8 border-t border-weak/10 pt-8">
+			<div class="lg:col-span-1 flex flex-col gap-1">
+				<span class="text-[10px] font-mono text-weak uppercase tracking-widest">[ {ts(t, "kb.log")} ]</span>
+				<span class="text-[9px] font-mono text-remark">APPEND.ONLY</span>
+			</div>
+			<article class="lg:col-span-3 markdown select-text max-w-4xl">
+				{LogContent ? <LogContent /> : <p>{ts(t, "kb.log")} unavailable.</p>}
+			</article>
+		</section>
+	</main>
+</Base>

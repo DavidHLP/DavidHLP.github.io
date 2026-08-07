@@ -1,8 +1,11 @@
 ---
-title: AutoCloseable 随笔：Java 资源管理的优雅解法
-timestamp: 2025-10-07 20:25:00+08:00
-tags: [Java, JDK, 异常处理, 资源管理, try-with-resources]
-description: 深入解析 Java AutoCloseable 接口的设计思想、try-with-resources 的执行机制、异常抑制原理、Closeable 对比以及生产级资源关闭最佳实践。
+title: "AutoCloseable 随笔：Java 资源管理的优雅解法"
+capturedAt: 2026-08-07 00:00:00+00:00
+sourceType: legacy-blog
+sourceUrl: "https://github.com/DavidHLP/DavidHLP.github.io/blob/6f3d114a6ef9eb08b730f5f4740afe5b7d22d426/src/content/jotting/zh-cn/java-auto-closeable.md"
+immutable: true
+tags: ["Java", "JDK", "异常处理", "资源管理", "try-with-resources"]
+description: "深入解析 Java AutoCloseable 接口的设计思想、try-with-resources 的执行机制、异常抑制原理、Closeable 对比以及生产级资源关闭最佳实践。"
 ---
 
 # AutoCloseable 随笔：Java 资源管理的优雅解法

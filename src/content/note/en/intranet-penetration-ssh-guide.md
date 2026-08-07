@@ -1,47 +1,41 @@
 ---
-title: "Beyond Complex Networks: Practice and Troubleshooting of SSH Intranet Penetration from Cloudflare Tunnel to FRP"
+title: "SSH Intranet Access: Connection Direction, Exposure, and Recovery"
 timestamp: 2026-08-01 00:00:00+08:00
-series: "System Administration & Remote Control"
+series: "System Operations & Infrastructure"
+kind: concept
+status: active
+sources: ["legacy-intranet-penetration-ssh-guide"]
+related: ["containerd-tls-troubleshooting", "mysql-performance-troubleshooting"]
 tags: [Intranet Penetration, Cloudflare, Tailscale, FRP, SSH, Termius, systemd, DevOps]
-description: "In-depth analysis of remote access evolution for internal Linux servers, comparing Cloudflare Tunnel, Tailscale, and FRP, resolving Termius mobile sandbox restrictions, control plane blocking, and port misconfigurations, with a production-grade systemd + linger daemon deployment."
-sensitive: false
+description: "A five-axis comparison of Cloudflare Tunnel, Tailscale, and FRP—connection direction, exposure, control plane, data plane, and recovery—with evidence-backed boundaries for mobile clients, ports, and systemd/linger."
 toc: true
-top: 0
-draft: false
 ---
 
-## 1. Problem Background and Core Requirements
+This page answers a remote-access decision: when an internal Linux server has no directly reachable public address, how should SSH tooling be chosen by client capability, control-plane reachability, and public exposure? The useful result is not another tutorial; it is a map of each option's connection direction and failure domain, followed by the conditions that keep an FRP client alive after logout.
 
-In scenarios involving remote work, mobile maintenance, or multi-device collaboration, engineers frequently need to access Linux servers deployed behind home or laboratory internal networks from external networks (such as Termius on mobile devices or laptops). Due to multi-layer ISP NAT isolation, dynamic IP shifts, and the scarcity of public IPv4 addresses, establishing direct connections is often impossible.
+## Core mechanism
 
-When seeking a "highly stable, fixed endpoint, zero-cost" intranet penetration solution, engineers typically evolve through technology selections:
+### 1. Five comparison axes
 
-```mermaid
-flowchart LR
-    A["Exploration 1: Cloudflare Tunnel"] -->|Mobile Sandbox & Payment Barriers| B["Exploration 2: Tailscale Mesh Network"]
-    B -->|Control Plane Regional Blocking| C["Production: FRP Port Mapping"]
-    C --> D["Daemonization: systemd + Linger"]
-```
+| Axis | Cloudflare Tunnel | Tailscale / WireGuard | FRP |
+| --- | --- | --- | --- |
+| Connection direction | Internal `cloudflared` opens an outbound WebSocket/TLS connection to Cloudflare Edge; the outside client reaches Edge first | Devices join a virtual network; the data plane uses UDP/WireGuard and may rely on DERP | Public `frps` listens on a port; internal `frpc` keeps a long-lived connection and forwards to local `127.0.0.1:22` |
+| Exposure | A custom CNAME/Hostname is the entry point | Devices receive a `100.x.x.x` virtual address; clients must join the network | Public address/domain plus `remotePort` is the entry point; a standard SSH client connects to the mapped port |
+| Control plane | Cloudflare Zero Trust/Access and Edge service | `controlplane.tailscale.com`, login state, and DERP reachability | `frpc` authentication and its long-lived connection to `frps`; the source configuration includes `auth.token` |
+| Data plane | SSH is proxied through `cloudflared access ssh` | WireGuard/UDP virtual link | TCP mapping to the internal SSH port |
+| Recovery | Depends on a desktop client that can run `cloudflared` and on service-account conditions | Restore the control plane first; an HTTP proxy is not the same as a working UDP data plane | A systemd user service restarts the client; linger keeps the user-service instance after logout |
 
-Core comparison among the three mainstream solutions:
+### 2. Boundaries of the three options
 
-| Dimension | Cloudflare Tunnel | Tailscale / WireGuard | FRP / SakuraFrp |
-| :--- | :--- | :--- | :--- |
-| **Protocol** | WebSocket / TLS Tunnel | UDP Virtual Peer-to-Peer | Native TCP / UDP Mapping |
-| **Client Requirement** | Requires `cloudflared` | Requires Tailscale client | Standard SSH client direct connection |
-| **Mobile Suitability** | Restricted (Termius cannot run ProxyCommand) | Good (Requires VPN permissions) | **Excellent** (Only requires IP/Domain + Mapped Port) |
-| **Service Threshold** | Requires overseas credit card for Zero Trust | Control plane subject to regional blocking | Zero credit card threshold, supports domestic/HK nodes |
-| **Fixed Endpoint** | Bound custom CNAME domain | Fixed 100.x internal IP / domain | Fixed public domain + assigned mapped port |
+| Option | Fits | Explicit limitation |
+| --- | --- | --- |
+| Cloudflare Tunnel | Desktop macOS/Linux/Windows where standard SSH can run `ProxyCommand`, and a custom domain is acceptable | Mobile Termius cannot spawn `cloudflared` inside its sandbox; the raw record includes a Zero Trust/Access payment gate, which must be rechecked against current policy. |
+| Tailscale | Clients can install Tailscale and obtain system VPN permission, with control plane/DERP reachable | `sudo tailscale up` may hang when the control plane is blocked; a simple `HTTP_PROXY` cannot proxy the required UDP/WireGuard traffic. |
+| FRP | A mobile Termius client should need only a domain and port, and a public relay node is available | The public entry point is `serverAddr + remotePort`; standard open-source `frpc` and a customized client's startup flags must not be mixed. |
 
----
+### 3. Minimal configuration and two common semantic errors
 
-## 2. Exploration 1: Cloudflare Tunnel Practice and Limitations
-
-### 2.1 Desktop Working Principle and Configuration
-
-Cloudflare Tunnel (formerly Argo Tunnel) establishes outbound bidirectional WebSocket/TLS connections from the local server to Cloudflare edge nodes via the `cloudflared` daemon. External traffic accessing Cloudflare edges is encrypted and relayed back to local services.
-
-On desktop platforms (macOS/Linux/Windows), SSH traffic can be encapsulated into `cloudflared` using `ProxyCommand` in `~/.ssh/config`:
+The source's desktop Cloudflare entry is:
 
 ```sshconfig
 Host ssh.yourdomain.com
@@ -49,178 +43,96 @@ Host ssh.yourdomain.com
     StrictHostKeyChecking accept-new
 ```
 
-Under this model, standard SSH CLI commands (e.g., `ssh <your-username>@ssh.yourdomain.com`) transparently complete handshakes through the tunnel.
-
-### 2.2 Mobile Termius and Network Bottlenecks
-
-In actual deployment, this solution faces two major bottlenecks:
-1. **Mobile Termius Sandbox Limitation**: Mobile operating systems (iOS/Android) strictly restrict process spawning (`fork`/`exec`), preventing Termius from invoking `cloudflared` for `ProxyCommand`.
-2. **Zero Trust Payment Barrier**: Cloudflare requires enabling Zero Trust/Access policies for Public Hostnames, which strictly demands an overseas credit card or PayPal account.
-
----
-
-## 3. Exploration 2: Tailscale Mesh Network Pain Points
-
-Tailscale constructs a peer-to-peer virtual LAN based on the WireGuard protocol and assigns a fixed `100.x.x.x` internal IP. However, in certain network environments, `sudo tailscale up` frequently hangs during initialization.
-
-### Core Bottleneck: Control Plane Blocking
-
-Inspecting system logs via `journalctl -u tailscaled -n 30` often reveals timeout errors:
-
-```text
-logtail: dial "log.tailscale.com:443" failed: dial tcp ... i/o timeout
-health(warnable=login-state): error: fetch control key: Get "https://controlplane.tailscale.com/key?v=138": context canceled
-```
-
-Tailscale's control plane (`controlplane.tailscale.com`) and DERP relay servers are prone to regional blocking. Furthermore, basic HTTP proxy environment variables (`HTTP_PROXY`) cannot relay the underlying UDP/WireGuard traffic required by Tailscale, leading to continuous handshake timeouts.
-
----
-
-## 4. Production Solution: Generic FRP Port Mapping
-
-To achieve zero-dependency direct connections on mobile Termius and avoid payment barriers and network blocking, FRP (Fast Reverse Proxy) based on TCP mapping is the optimal choice.
-
-### 4.1 Architecture and Modern `frpc.toml` Configuration
-
-In FRP architecture, `frps` (server) running on a public node listens to public ports; `frpc` (client) running on the internal server maintains a persistent connection and forwards traffic arriving at the public mapped port to local `127.0.0.1:22`.
-
-FRP v0.60+ introduced modern TOML configurations. Create `~/frpc.toml` (sensitive credentials desensitized):
+The raw example for FRP v0.60+ uses TOML. Keep only the data-plane facts here:
 
 ```toml
-user = "<YOUR_USER_ID>"
-auth.token = "<YOUR_AUTH_TOKEN>"
-
 serverAddr = "frp.example.com"
 serverPort = 8088
-
-transport.tls.enable = false
-transport.tls.disableCustomTLSFirstByte = false
+auth.token = "<YOUR_AUTH_TOKEN>"
 
 [[proxies]]
-name = "SSH"
 type = "tcp"
 localIP = "127.0.0.1"
 localPort = 22
 remotePort = <REMOTE_PORT>
 ```
 
-### 4.2 Troubleshooting 1: CLI `-f` Flag Syntax Conflict
+- Some customized clients accept `-f <token>:<id>`, but the raw record says the standard open-source `frpc` binary (for example v0.61.0) reports `-f` as an unknown shorthand flag. Use `/path/to/frpc -c ~/frpc.toml` and run `verify -c` first.
+- `ssh user@frp.example.com` targets the relay's port 22 by default, not the mapped port. Use `ssh -p <REMOTE_PORT> user@frp.example.com`; otherwise “the tunnel is broken” and “the relay received an unauthorized login” look identical.
 
-Some customized FRP clients offer a single-line `-f <token>:<id>` start syntax. However, standard open-source `frpc` binaries (such as v0.61.0) use the `cobra` CLI parser, where passing `-f` triggers unknown flag errors:
+### 4. systemd and linger are separate recovery conditions
 
-```text
-Error: unknown shorthand flag: 'f' in -f
-Usage:
-  frpc [flags]
-  frpc [command]
-```
-
-**Resolution**: Consistently use `-c` / `--config` to explicitly specify the standard `frpc.toml` or `frpc.ini` configuration file:
-
-```bash
-/path/to/frpc verify -c ~/frpc.toml
-/path/to/frpc -c ~/frpc.toml
-```
-
-### 4.3 Troubleshooting 2: Connection Refusal due to Omitted Port
-
-During connection testing, the following terminal error frequently occurs:
-
-```text
-$ ssh <your-username>@frp.example.com
-The authenticity of host 'frp.example.com (198.18.0.x)' can't be established.
-...
-Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
-```
-
-**Root Cause**:
-Running `ssh <your-username>@frp.example.com` without `-p` causes the SSH client to default to port **22** of the relay server itself, rather than your assigned mapped port (`<REMOTE_PORT>`). The relay server rejects unauthorized public logins.
-
-**Resolution**: Explicitly specify the public mapped port `-p <REMOTE_PORT>`:
-
-```bash
-ssh -p <REMOTE_PORT> <your-username>@frp.example.com
-```
-
----
-
-## 5. Production-Grade High Availability: systemd and Linger Mechanism
-
-If `frpc` is executed manually in a terminal session, the process will be killed by `SIGHUP` / `SIGKILL` when the SSH session closes or the user logs out. Deploying it as a system service is required.
-
-### 5.1 Configuring systemd User Service
-
-Create `~/.config/systemd/user/frpc.service`:
+When `frpc` runs in a terminal, disconnecting or logging out can send `SIGHUP`/`SIGKILL`. The source recommends a user service:
 
 ```ini
-[Unit]
-Description=FRP Client Security Service
-After=network.target network-online.target
-Wants=network-online.target
-
 [Service]
 Type=simple
 ExecStart=/path/to/frpc -c /home/<your-username>/frpc.toml
 Restart=always
 RestartSec=5s
-
-[Install]
-WantedBy=default.target
 ```
-
-Reload and enable the user service:
 
 ```bash
 systemctl --user daemon-reload
 systemctl --user enable --now frpc.service
+systemctl --user status frpc.service
+loginctl enable-linger $USER
+loginctl show-user $USER | grep Linger
 ```
 
-Verify service status:
+`Restart=always` restarts the service after it exits; `enable-linger` keeps the `user@UID.service` instance after the user leaves SSH sessions. Neither substitutes for the other.
+
+## Applicable conditions
+
+1. When a mobile client supports only standard SSH fields, FRP's `Host/Address + remotePort + Username` is the most direct shape in the source.
+2. When a desktop can run a third-party binary and Cloudflare control-plane conditions are met, Tunnel can hide forwarding behind `ProxyCommand`.
+3. Tailscale fits a network where its control plane and DERP are reachable and the client can obtain VPN permission; setting an HTTP proxy alone does not prove that WireGuard data traffic works.
+4. FRP fits a fixed public domain and explicit mapped port; `frps`, `frpc`, the remote port, and the token must describe the same deployment.
+5. For long-lived operation, place the unit at `~/.config/systemd/user/frpc.service` and verify both user-service status and linger.
+
+## Not applicable and risks
+
+- The Cloudflare mobile limitation is a client sandbox boundary, not an SSH-key or remote-port problem: Termius cannot execute the `cloudflared` in `ProxyCommand`.
+- The Cloudflare Zero Trust payment requirement is a time-scoped observation in the raw source and may change; do not treat it as a permanent product contract.
+- A `log.tailscale.com` or `controlplane.tailscale.com` timeout proves a control-plane problem only; it does not by itself prove that the internal host or SSH daemon is broken.
+- The public FRP `remotePort` is an exposure surface. This page establishes port mapping and token configuration only; it does not infer access control, auditing, or the relay operator's security policy.
+- Do not guess binary versions from `-f` syntax, and do not omit SSH `-p`; flag conflicts and port mistakes create misleading authentication errors.
+- The `/path/to/frpc` binary, configuration permissions, and network service availability remain deployment-specific; linger does not guarantee FRP control-plane reachability.
+
+## Minimal verification
+
+Collect the smallest evidence for each failure domain:
+
+```bash
+# Tailscale control plane
+journalctl -u tailscaled -n 30
+
+# FRP configuration and process
+/path/to/frpc verify -c ~/frpc.toml
+/path/to/frpc -c ~/frpc.toml
+
+# Data-plane port
+ssh -p <REMOTE_PORT> <your-username>@frp.example.com
+```
+
+After enabling persistence, observe:
 
 ```bash
 systemctl --user status frpc.service
-```
-
-Successful startup log output:
-```text
-● frpc.service - FRP Client Security Service
-     Active: active (running) since Sat 2026-08-01 19:25:40 CST
-     Main PID: 146770 (frpc)
-...
-[I] [client/service.go:287] login to server success, get run id [...]
-[I] [client/control.go:168] [s-xxx.SSH] start proxy success
-```
-
-### 5.2 Essential Defense: Enabling `loginctl enable-linger`
-
-Linux systemd by default terminates a non-root user's `user@UID.service` instance and all subordinate user services when all SSH sessions for that user log out.
-
-To ensure `frpc` remains active in the background across reboots and logouts, execute:
-
-```bash
-loginctl enable-linger $USER
-```
-
-Confirm the status with:
-
-```bash
 loginctl show-user $USER | grep Linger
-# Output Linger=yes indicates success
 ```
 
----
+- A desktop Cloudflare path should allow `ssh <your-username>@ssh.yourdomain.com` to use the configured `ProxyCommand`; mobile Termius lacks that execution prerequisite.
+- Successful FRP config validation does not prove that the public port is reachable; the SSH command must still use the assigned `remotePort`.
+- `Active: active (running)` and `Linger=yes` prove user-service operation and logout persistence respectively, not SSH authentication or control-plane health.
 
-## 6. Summary and Client Connection Reference Table
+## Evidence and uncertainty
 
-By combining **FRP port mapping** with **systemd + Linger daemonization**, we established a resilient SSH intranet penetration architecture independent of overseas payment methods or client environments.
+- **Source facts**: `legacy-intranet-penetration-ssh-guide` records Cloudflare's outbound WebSocket/TLS and desktop `ProxyCommand`, the Termius sandbox limitation, the recorded Zero Trust payment gate, Tailscale control-plane/DERP timeouts, FRP v0.60+ TOML and v0.61.0 flag differences, `remotePort` semantics, and systemd/linger commands.
+- **Synthesis in this page**: those facts are reorganized around connection direction, exposure, control plane, data plane, and recovery; `Restart=always` and linger are deliberately assigned different responsibilities.
+- **Unconfirmed**: current reachability of Cloudflare/Tailscale control planes, provider policy, actual FRP ACL/audit behavior, exact binary versions, firewall rules, and SSH authentication policy are not established by the raw source alone.
 
-### Client Connection Reference Table
+## Related pages
 
-| Client Type | Field Name | Value / Configuration |
-| :--- | :--- | :--- |
-| **Mobile Termius** | Host / Address | `frp.example.com` (or node domain) |
-| | Port | **`<REMOTE_PORT>`** (Assigned public mapped port) |
-| | Username | `<your-username>` (Linux system username) |
-| | Password | Linux system password / Private key |
-| **Desktop CLI** | SSH Command | `ssh -p <REMOTE_PORT> <your-username>@frp.example.com` |
-| **Desktop `~/.ssh/config`**| Config Block | `Host my-server`<br>`  HostName frp.example.com`<br>`  Port <REMOTE_PORT>`<br>`  User <your-username>` |
+- [containerd TLS trust chain](/note/containerd-tls-troubleshooting)
+- [MySQL performance problem model](/note/mysql-performance-troubleshooting)

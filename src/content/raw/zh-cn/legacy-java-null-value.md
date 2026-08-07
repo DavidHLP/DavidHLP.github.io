@@ -1,8 +1,11 @@
 ---
-title: NullValue 随笔：Spring Cache 如何优雅缓存 null
-timestamp: 2025-10-07 21:43:00+08:00
-tags: [Java, Spring Cache, 缓存, 设计模式, 随笔]
-description: 深入解析 Spring Cache 中 NullValue 的设计思想，理解它如何通过空对象模式、单例模式和 readResolve 解决缓存 null 值与缓存穿透问题。
+title: "NullValue 随笔：Spring Cache 如何优雅缓存 null"
+capturedAt: 2026-08-07 00:00:00+00:00
+sourceType: legacy-blog
+sourceUrl: "https://github.com/DavidHLP/DavidHLP.github.io/blob/6f3d114a6ef9eb08b730f5f4740afe5b7d22d426/src/content/jotting/zh-cn/java-null-value.md"
+immutable: true
+tags: ["Java", "Spring Cache", "缓存", "设计模式", "随笔"]
+description: "深入解析 Spring Cache 中 NullValue 的设计思想，理解它如何通过空对象模式、单例模式和 readResolve 解决缓存 null 值与缓存穿透问题。"
 ---
 
 ## 一、问题背景：为什么要缓存 null？

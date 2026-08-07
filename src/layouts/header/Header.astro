@@ -16,8 +16,8 @@ const t = i18nit(locale);
 /** Define navigation routes configuration */
 const routes: { path: string; extra?: string[]; icon: `${string}--${string}`; label: string }[] = [
 	{ label: ts(t, "navigation.home"), path: getRelativeLocaleUrl(locale), extra: [getRelativeLocaleUrl(locale, "/preface")], icon: "lucide--tent" },
+	{ label: ts(t, "navigation.kb"), path: getRelativeLocaleUrl(locale, "/kb"), icon: "lucide--library" },
 	{ label: ts(t, "navigation.note"), path: getRelativeLocaleUrl(locale, "/note"), icon: "lucide--list" },
-	{ label: ts(t, "navigation.jotting"), path: getRelativeLocaleUrl(locale, "/jotting"), icon: "lucide--feather" },
 	{ label: ts(t, "navigation.about"), path: getRelativeLocaleUrl(locale, "/about"), icon: "lucide--at-sign" }
 ];
 

@@ -9,7 +9,7 @@ const config = siteConfig({
 		email: "lysf15520112973@163.com",
 		link: "https://github.com/DavidHLP"
 	},
-	description: "DavidHLPL 的技术博客，分享编程学习心得与项目经验",
+	description: "DavidHLPL 的个人 AI 知识库，使用 LLM 持续整理可追溯的技术与工程知识",
 	copyright: {
 		type: "CC BY-NC-ND 4.0",
 		year: "2025"

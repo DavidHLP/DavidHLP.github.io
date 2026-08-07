@@ -56,10 +56,17 @@ navigation:
   about: 情報
   home: 玄関
   jotting: 随筆
-  note: 文記
+  kb: ナレッジベース
+  note: 知識ページ
   policy: 規約
   preface: 序文
   subscription: 購読
+kb:
+  title: ナレッジベース
+  subtitle: 個人AIナレッジベース · LLMによる増分保守
+  index: ナレッジベース目次
+  log: 操作日誌
+  canonical: "正典言語：zh-cn"
 note:
   contents: 目次
   empty: 文記がありません
