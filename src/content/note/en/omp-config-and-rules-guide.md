@@ -232,13 +232,30 @@ When API rate limits (RPM/TPM) or transient outages occur, OMP activates explici
 
 Global config decides "which model to use"; Headroom solves "how traffic flows."
 
-> **Evolution note (2026-08-01):** The earlier version of this article assigned multiple Headroom ports by provider. The current implementation has converged on one loopback entry point, `127.0.0.1:8787`. Request headers and provider overrides select the real upstream; `headroom-proxy.service` manages one unified proxy process.
+The normal OMP lifecycle now follows the [official Headroom README](https://github.com/headroomlabs-ai/headroom/blob/main/README.md), not a persistent systemd service:
+
+```bash
+# Install the official CLI once (Python 3.13+)
+uv tool install --python 3.13 "headroom-ai[all]"
+
+# The only recommended OMP startup entry point
+headroom wrap omp
+
+# In another terminal while the wrapped session is running
+headroom doctor
+headroom perf
+headroom dashboard
+```
+
+`headroom wrap omp` launches OMP and manages the local proxy required by that session. Normally, do not create or maintain the legacy `~/.config/systemd/user/headroom-proxy.service`, enable per-provider systemd units, or start `headroom proxy --port 8787` manually. Those are obsolete/manual paths, not the recommended OMP lifecycle.
+
+> **Evolution note (2026-08-01):** The earlier version of this article assigned multiple Headroom ports by provider. That topology and its persistent service units are legacy and not recommended. The official wrap-only path automatically covers only OMP's built-in `anthropic` provider and keeps its configured Anthropic upstream. The current `openai-codex` and `opencode-go` roles remain direct; Zhipu, Kimi, MiniMax, and Codex loopback routes are historical/conditional custom-provider evidence.
 
 ### 3.1 Why a Compression Proxy Layer?
 
 OMP routes requests to different provider/model pairs based on roles. Ideally, every provider would offer prompt caching, context compression, and tool-result caching. In practice, not every upstream supports these natively. Headroom fills the gap as a local reverse proxy that transparently compresses, caches, and normalizes the protocol for traffic that passes through it.
 
-**Proxy coverage principle: only providers that need governance go through the proxy; everything else stays direct.** Zhipu, Kimi, MiniMax, and Codex target traffic now enters the same 8787 endpoint. Other providers enter this unified proxy only when they explicitly use the entry point or its routing headers. In particular, an unmarked Anthropic `/v1/messages` request uses the Kimi default target from the service configuration, so the old statement that "every other provider is direct" is no longer safe.
+**Proxy coverage principle: only providers that need governance go through the proxy; everything else stays direct.** Under the current wrap-only path, the built-in `anthropic` provider uses its configured Anthropic upstream and the current `openai-codex`/`opencode-go` roles remain direct. Zhipu, Kimi, MiniMax, and Codex enter a 127.0.0.1:8787 proxy only when an explicit custom provider configuration and routing headers/environment are present; those routes are migration evidence, not the default.
 
 #### The Value Picture: RTK Is the Workhorse
 
@@ -251,40 +268,44 @@ Headroom is best described as a "cache stabilizer + protocol normalizer"; the re
 
 ### 3.2 Overall Architecture: One Entry Point and Request-Level Upstreams
 
-OMP and Kimi CLI send governed traffic to `127.0.0.1:8787`. The proxy no longer guesses the provider from the port number. It reads request data such as `x-headroom-base-url` and `x-headroom-original-path`; only unmarked Anthropic requests use `ANTHROPIC_TARGET_API_URL` as the default target.
+The proxy reads request data such as `x-headroom-base-url` and `x-headroom-original-path` only when an explicitly configured custom route uses them. The built-in `anthropic` provider keeps its configured Anthropic upstream; `headroom wrap omp` does not set `ANTHROPIC_TARGET_API_URL`, and an unmarked Anthropic request is not implicitly sent to Kimi.
 
 ```mermaid
 flowchart LR
-  A["OMP / Kimi CLI"] --> H["127.0.0.1:8787<br/>headroom-proxy.service"]
-  H --> Z["Zhipu<br/>x-headroom-base-url"]
-  H --> K["Kimi<br/>Anthropic default target"]
-  H --> M["MiniMax<br/>x-headroom-base-url"]
-  H --> C["Codex<br/>Responses WebSocket"]
+  A["OMP roles"] --> AN["Built-in anthropic<br/>wrap automatic<br/>Anthropic upstream"]
+  A --> D["Current openai-codex / opencode-go<br/>direct models.db entries"]
+  A --> H["Conditional custom entry<br/>127.0.0.1:8787<br/>historical migration"]
+  H --> Z["Zhipu<br/>explicit custom config"]
+  H --> K["Kimi<br/>explicit header/env/config"]
+  H --> M["MiniMax<br/>historical models.yml override"]
+  H --> C["Codex<br/>explicit Responses WebSocket"]
   Z --> ZU["open.bigmodel.cn"]
   K --> KU["api.kimi.com/coding"]
   M --> MU["api.minimaxi.com/v1"]
   C --> CU["chatgpt.com/backend-api/codex"]
 ```
 
-The current provider routes can be described as four cases:
+The provider routes are three categories, not four automatic cases:
 
 | Provider | Client-side routing | Headroom upstream |
 | --- | --- | --- |
-| Zhipu | `models.db` `baseUrl` + `x-headroom-*` headers | `https://open.bigmodel.cn/api/coding/paas/v4/chat/completions` |
-| Kimi | `models.db` / Kimi CLI config; unmarked Anthropic requests use the default target | `https://api.kimi.com/coding/v1/messages` |
-| MiniMax | `~/.omp/agent/models.yml` overrides the built-in provider and adds `x-headroom-*` headers | `https://api.minimaxi.com/v1/chat/completions` |
-| Codex | `models.db` points to 8787 and Headroom detects the ChatGPT subscription | `wss://chatgpt.com/backend-api/codex/responses` |
+| Built-in `anthropic` | Automatic wrapper-managed route; no implicit Kimi target | The configured Anthropic upstream |
+| `openai-codex` / `opencode-go` | Current direct `models.db` entries; no automatic loopback rewrite | Their configured direct upstream |
+| Zhipu | Historical/conditional custom route; explicit `x-headroom-*` configuration required | `https://open.bigmodel.cn/api/coding/paas/v4/chat/completions` |
+| Kimi | Historical/conditional custom route; explicit header, environment variable, or provider config required | `https://api.kimi.com/coding/v1/messages` |
+| MiniMax | Historical `models.yml` override/custom route; not required by wrap | `https://api.minimaxi.com/v1/chat/completions` |
+| Codex | Historical/conditional custom route; explicit Responses WebSocket configuration required | `wss://chatgpt.com/backend-api/codex/responses` |
 
-If a non-OMP Anthropic client must preserve real Anthropic routing, use a separate Headroom instance/port or attach `x-headroom-base-url=https://api.anthropic.com` explicitly; the Kimi default is a silent redirect, not a safety net.
+If a non-OMP Anthropic client must preserve real Anthropic routing, use its configured direct endpoint or attach `x-headroom-base-url=https://api.anthropic.com` explicitly in a custom route. Do not replace the wrapper with a persistent manually started service. A Kimi target is an explicit custom-routing choice, not a safety net.
 
 The key to understanding this architecture is knowing what each artifact owns — and what it does not:
 
 | Layer | Artifact (file/object) | Owns | Does NOT own |
 | --- | --- | --- | --- |
 | **1. Role → model binding** | `config.yml` (`modelRoles`, `task.agentModelOverrides`, `retry.fallbackChains`) | Which provider/model each OMP role uses; the fallback graph | Network routing |
-| **2. Model → entry binding** | `models.db` table `model_cache` (`provider_id`, `models[].api`, `models[].baseUrl`) | Whether the provider points to `http://127.0.0.1:8787/v1`, plus protocol and model metadata | Dynamic upstream selection |
-| **3. Request-level routing** | `x-headroom-base-url`, `x-headroom-original-path`, `models.yml` override | Maps one entry point to the real upstream and preserves the original path | Role assignment and credential generation |
-| **4. Unified proxy process** | `headroom-proxy.service` | Listens on 8787; compression, caching, protocol normalization, forwarding, and restart policy | Which OMP role selected the request |
+| **2. Model → entry binding** | Current `models.db`/`model_cache` state | The configured direct entry or an explicitly configured custom entry | Automatic retargeting of non-Anthropic rows or retaining a loopback route after the session stops |
+| **3. Request-level routing** | `x-headroom-base-url`, `x-headroom-original-path`, and historical `models.yml` overrides | Maps an explicitly configured custom entry to the real upstream and preserves the original path | Role assignment and credential generation |
+| **4. Wrap-managed proxy lifecycle** | `headroom wrap omp` | Starts and manages the local proxy for the current session | Which OMP role selected the request |
 
 Two further orthogonal concerns:
 - **Credential store** (`agent.db` table `auth_credentials`): Headroom only forwards auth headers from OMP; it never injects credentials itself.
@@ -292,59 +313,47 @@ Two further orthogonal concerns:
 
 ### 3.3 Single-Port Onboarding Flow
 
-The single-port migration is not about creating another unit for every provider. It is about closing the loop between model routing, request headers, and the unified service:
+The single-port setup is not about creating another unit for every provider. It is about closing the loop between model routing, request headers, and the proxy started by `headroom wrap omp`:
 
 ```mermaid
 flowchart TD
-  Q1{"Does the provider resolve to<br/>127.0.0.1:8787/v1?"}
-  Q1 -- No --> T1["Inspect models.db<br/>or the models.yml override"]
+  Q1{"Is this the built-in anthropic provider or an explicit custom route?"}
+  Q1 -- No --> T1["Keep the configured direct upstream<br/>no automatic loopback rewrite"]
   Q1 -- Yes --> Q2{"Does the request carry<br/>dynamic upstream headers?"}
-  Q2 -- No --> D1["Inspect the Anthropic default target<br/>to prevent accidental Kimi routing"]
+  Q2 -- No --> D1["Use the configured Anthropic upstream<br/>no implicit Kimi default"]
   Q2 -- Yes --> P1["Check x-headroom-base-url<br/>and x-headroom-original-path"]
-  D1 --> P2["Keep the unified systemd unit<br/>do not split provider ports again"]
+  D1 --> P2["Keep wrap as the lifecycle owner<br/>do not split provider ports"]
   P1 --> P2
-  P2 --> P3["daemon-reload + restart<br/>confirm that 8787 is the only listener"]
-  P3 --> P4["Run real Zhipu / Kimi / MiniMax / Codex<br/>selector smoke tests"]
-  P4 --> P5["Read the real upstream URL in proxy.log<br/>then record topology and rollback evidence"]
+  P2 --> P3["Run the wrap-managed session<br/>and confirm the local listener"]
+  P3 --> P4["Run selectors only for explicit<br/>custom-provider routes"]
+  P4 --> P5["Read the real upstream URL in proxy.log<br/>then record routing evidence"]
 ```
 
-#### The Unified systemd Unit
+#### Official wrap startup
 
-The important settings of the current service are below. It does not set `OPENAI_TARGET_API_URL`, so Codex's Responses WebSocket route is not overridden:
+Use this block for a normal OMP session:
 
-```ini
-[Unit]
-Description=Headroom Unified Context Optimization Proxy
-After=network-online.target
-Wants=network-online.target
-
-[Service]
-Type=simple
-Environment=HOME=%h
-Environment=HEADROOM_HOST=127.0.0.1
-Environment=ANTHROPIC_TARGET_API_URL=https://api.kimi.com/coding
-Environment=ALL_PROXY=
-Environment=LITELLM_PROXY=
-Environment=all_proxy=
-Environment=SOCKS_PROXY=
-Environment=socks_proxy=
-ExecStart=/home/davidhlp/.local/bin/headroom proxy --port 8787
-RestartSec=8
-StandardOutput=append:%h/.headroom/logs/headroom-proxy.log
-StandardError=append:%h/.headroom/logs/headroom-proxy.log
-
-[Install]
-WantedBy=default.target
+```bash
+uv tool install --python 3.13 "headroom-ai[all]"
+headroom wrap omp
 ```
 
-`RestartSec=8` gives TCP `TIME_WAIT` sockets time to clear and prevents an overly fast restart from creating a false port conflict or crash loop.
+Verify it from another terminal while the wrapped session is active:
 
-#### MiniMax Built-In Provider Override
+```bash
+headroom doctor
+headroom perf
+headroom dashboard
+```
 
-MiniMax is an OMP built-in provider. An absent or unstable dynamic `model_cache` row must not be treated as its only configuration source. The current setup overrides it through `models.yml`:
+The wrapper manages the session-local proxy. Do not replace it with a persistent service or a manually started direct proxy.
+
+#### MiniMax Built-In Provider Override (Historical Migration Evidence)
+
+An earlier migration used `models.yml` to override the built-in provider. The following block is historical evidence only: current `headroom wrap omp` does not require it. Process exit does not restore `models.yml`; after the wrapped session, explicitly run `headroom unwrap omp` (default: stop the local proxy) or use `--no-stop-proxy` only when intentionally keeping the proxy alive. Do not add this override as a daily startup step:
 
 ```yaml
-# Managed local override: route the built-in MiniMax provider through Headroom.
+# Historical migration evidence only; not required by the current wrap lifecycle.
 providers:
   minimax-code-cn:
     baseUrl: http://127.0.0.1:8787/v1
@@ -353,68 +362,58 @@ providers:
       x-headroom-original-path: /chat/completions
 ```
 
-`x-headroom-base-url` selects the real upstream, while `x-headroom-original-path` preserves `/chat/completions` and prevents `/v1` from being duplicated.
+This historical override uses `x-headroom-base-url` for the real upstream and `x-headroom-original-path` to preserve `/chat/completions`. It is not a current startup requirement.
 
 #### Kimi Default-Target Boundary
 
-Kimi CLI Anthropic requests can select Kimi explicitly with `x-headroom-base-url=https://api.kimi.com/coding`. Some OMP requests, however, reach 8787 without a dynamic header, so the service uses:
+Kimi CLI Anthropic requests can select Kimi explicitly with `x-headroom-base-url=https://api.kimi.com/coding`. The following environment variable belongs to the legacy custom-routing setup only:
 
-```ini
-Environment=ANTHROPIC_TARGET_API_URL=https://api.kimi.com/coding
+```text
+# Legacy explicit override; headroom wrap omp does not set this.
+ANTHROPIC_TARGET_API_URL=https://api.kimi.com/coding
 ```
 
-Every Anthropic `/v1/messages` request without a dynamic routing header is sent to Kimi instead of the official Anthropic endpoint. If ordinary Claude traffic should also use 8787, it needs a separate entry point, an explicit header, or conditional routing based on client identity.
+Plain `headroom wrap omp` keeps the configured Anthropic upstream. An unmarked request is sent to Kimi only when this variable or an equivalent custom header/provider route is explicitly configured. If ordinary Claude traffic should use 8787, it needs a separate entry point, an explicit header, or conditional routing based on client identity.
 
 #### Codex's Special Route
 
-Codex subscription uses the Responses WebSocket:
+Codex subscription uses the Responses WebSocket in the historical/custom route:
 
 ```text
 /v1/responses
 → wss://chatgpt.com/backend-api/codex/responses
 ```
 
-Do not set `OPENAI_TARGET_API_URL`. The logs must show `wss://chatgpt.com/backend-api/codex/responses` and `response.completed`, not merely a successful ordinary `/v1/chat/completions` request.
+The current `openai-codex` role remains direct unless explicitly configured otherwise. For a custom route, do not set `OPENAI_TARGET_API_URL`; logs must show the Responses WebSocket and `response.completed`, not merely a successful ordinary `/v1/chat/completions` request.
 
-#### Removing the Old Services
+#### Legacy services and manual cache edits: migration-only, not recommended
 
-After the single-port migration, remove the old provider units, drop-ins, and enable state:
+The old provider units, drop-ins, persistent `headroom-proxy.service`, and direct `headroom proxy --port 8787` command are obsolete. They are retained only as migration history; do not create, enable, restart, or maintain them for a normal OMP session. `headroom wrap omp` is the only recommended lifecycle entry point.
 
-```bash
-systemctl --user disable --now \
-  headroom-proxy-zhipu.service \
-  headroom-proxy-kimi.service \
-  headroom-proxy-minimax.service \
-  headroom-proxy-codex.service \
-  headroom-proxy-webui.service || true
-
-rm -rf ~/.config/systemd/user/headroom-proxy-zhipu.service.d
-rm -rf ~/.config/systemd/user/headroom-proxy-kimi.service.d
-rm -rf ~/.config/systemd/user/headroom-proxy-minimax.service.d
-rm -rf ~/.config/systemd/user/headroom-proxy-codex.service.d
-rm -rf ~/.config/systemd/user/headroom-proxy-webui.service.d
-
-systemctl --user daemon-reload
-systemctl --user enable --now headroom-proxy.service
-```
+`models.db` and `models.yml` are runtime/override artifacts, not a daily startup contract. Do not hand-edit `models.db`, run a reconciler, or leave OMP pointed at a loopback URL after stopping the wrapped session. Start a fresh session with `headroom wrap omp` instead.
 
 #### `models.db` and the Process Cache
 
-When changing a `model_cache` row in `models.db`, keep `authoritative=1` and restart OMP. Otherwise the static registry or the in-process cache can keep an old `baseUrl` active. Prefer `models.yml` for the stable MiniMax override instead of manually inserting duplicate cache rows.
+The process cache is derived state. If a historical migration requires checking `authoritative=1` or a provider override, record it as migration evidence; do not turn database edits or a persistent service into normal operations. The wrapper establishes the session-local proxy and client wiring.
+
 
 ### 3.4 Three-Level Routing Verification
 
-Verifying that traffic actually traverses the proxy must not stop at a health endpoint or HTTP 200. Build three levels of evidence:
+Verifying that traffic actually traverses the proxy must not stop at a health endpoint or HTTP 200. Build three levels of evidence while a wrapped session is active:
 
 | Level | Verification means | What it proves | What it does not prove |
 | --- | --- | --- | --- |
-| **L1 Config** | Read `models.db` / `models.yml` `baseUrl` pointing to 8787 | The orchestrator can send traffic through the unified entry point | Whether runtime selection and headers actually use it |
-| **L2 Protocol** | Send the smallest request for each protocol directly to 8787 | Proxy reachability, protocol handling, and credential passthrough | Whether the orchestrator routes traffic here |
-| **L3 Orchestrator-native** | Run real selectors and inspect upstream URLs, `ss`, and `PERF` in `proxy.log` | The orchestrator sent native traffic to the correct upstream | — |
+| **L1 Config** | Inspect the built-in `anthropic` automatic route, current direct `models.db` entries, and any explicit custom entries | Which routes are automatic, direct, or conditional | That a historical loopback route is active |
+| **L2 Protocol** | Send the smallest request through the active wrapped session only for the configured route | Proxy reachability, protocol handling, and credential passthrough | That every provider is routed through loopback |
+| **L3 Orchestrator-native** | Run selectors only for explicit custom routes and inspect final upstream URLs/`PERF` in `proxy.log`; verify direct roles against their direct upstream | The selected route reached the intended upstream | — |
 
-**L3 verification command:**
+
+**L3 verification command (conditional custom-provider evidence only; run from another terminal while an already-running wrapped session is active):**
+
+This native `omp --no-session ...` smoke test is not a standalone `omp` startup entry. Start the session with `headroom wrap omp` first, and run the loop only when every selector has explicit custom provider configuration. The current `openai-codex` and `opencode-go` roles are direct by default.
 
 ```bash
+# Historical/conditional custom-provider smoke; not the default wrap topology.
 for selector in \
   zhipu-coding-plan/glm-4.7 \
   kimi-code/k3 \
@@ -463,42 +462,34 @@ flowchart LR
 
 ### 3.6 Daily Operations and Probes
 
-#### Service Control
+#### Wrap lifecycle
+
+The wrapper owns the local proxy lifecycle for the current OMP session. Do not use service-control commands or leave a stopped session configured to send traffic to loopback.
 
 ```bash
-# Status of the unified service
-systemctl --user status headroom-proxy.service
-
-# Restart / stop
-systemctl --user restart headroom-proxy.service
-systemctl --user stop headroom-proxy.service
-
-# Tail live logs
-journalctl --user -u headroom-proxy.service -f
+# Normal startup
+uv tool install --python 3.13 "headroom-ai[all]"
+headroom wrap omp
 ```
 
-#### CLI Probes
+While the wrapped session is active, run these checks from another terminal:
 
 ```bash
-# Health check
-headroom doctor --port 8787
-
-# Performance & cache metrics
+headroom doctor
 headroom perf
+headroom dashboard
+```
+When finished, explicitly run `headroom unwrap omp`; the default removes wrapper-managed route state and stops the local proxy. Use `headroom unwrap omp --no-stop-proxy` only when intentionally keeping the proxy alive; otherwise loopback state may remain.
 
-# Token savings statistics
-headroom savings
-
-# Confirm that only one entry point is listening
-ss -tlnp | grep -E '127\.0\.0\.1:(8787|8788|8790|8791|8800)'
+```bash
+headroom unwrap omp
 ```
 
 #### Probe Notes
 
-- `/livez` reflects real-time proxy process status;
-- `/readyz` may probe the default Anthropic URL and report unhealthy — **this does not mean unified forwarding failed**;
-- Claude, Codex, shell-env, or budget warnings from `headroom doctor` do not replace real selector and upstream URL evidence;
-- The final authority is `proxy.log`, which should show `open.bigmodel.cn`, `api.kimi.com`, `api.minimaxi.com`, or `chatgpt.com`.
+- `/livez` and the dashboard reflect the active proxy session;
+- generic Claude, Codex, shell-env, or budget warnings from `headroom doctor` do not replace real selector and upstream URL evidence;
+- the final authority is `~/.headroom/logs/proxy.log` or the final upstream URL/WebSocket, not a loopback HTTP 200 alone.
 ---
 
 ## 4. Rules System: Multi-Source Discovery, Three Injection Modes, and the paths/globs Pitfall
@@ -753,10 +744,12 @@ Consolidating verification content from all three articles into a unified verifi
 
 ### Headroom Proxy Verification
 
-- [ ] Each proxy port's `/livez` returns healthy status
-- [ ] `models.db` `baseUrl` points to loopback address
-- [ ] L3 verification: `proxy.log` shows `PERF model=` lines, and `ss` shows connection destination as `127.0.0.1:<PORT>`
-- [ ] `headroom doctor` and `headroom perf` output is normal
+- [ ] Read the [official Headroom README](https://github.com/headroomlabs-ai/headroom/blob/main/README.md) and install the CLI with `uv tool install --python 3.13 "headroom-ai[all]"`
+- [ ] Start OMP only with `headroom wrap omp`; the wrapper manages the local proxy for the active session
+- [ ] While the wrapped session is active, `headroom doctor`, `headroom perf`, and `headroom dashboard` complete
+- [ ] L1/L2/L3 evidence distinguishes the automatic built-in `anthropic` route, current direct roles, and any explicitly configured custom route
+- [ ] Do not treat a loopback HTTP 200, a stopped session, a hand-edited `models.db`, or a reconciler result as proof of current routing
+
 
 ### Rules System Verification
 
@@ -785,15 +778,15 @@ Consolidating pitfall records from all three articles into a unified experience 
 
 | Trap | Symptom | Mitigation |
 | --- | --- | --- |
-| **WSL2 mirrored-net port haunting** | The port appears free but raw bind throws `EADDRINUSE` | Run a Python raw-bind test on `127.0.0.1:8787` and use `ss` to confirm retired units are not holding the entry point |
-| **Headroom request-level path routing error** | `/paas/v4`, `/coding/v1`, or `/chat/completions` is duplicated and returns 404 | Preserve `x-headroom-base-url` and `x-headroom-original-path`; do not set `OPENAI_TARGET_API_URL` for Codex |
-| **`RestartSec=3` crash-loops** | Unit enters a 50+ restart loop | Set `RestartSec=8`, giving TCP TIME_WAIT time to clear |
-| **`authoritative=0` silent rollback** | `baseUrl` reverts to default after a while | Force `authoritative=1` when patching `models.db` |
-| **OMP caches `model_cache` in memory** | Config does not take effect after a DB change | Restart OMP after modifying `models.db`; keep the stable MiniMax override in `models.yml` |
-| **Kimi default target on the unified entry point** | An unmarked non-OMP Anthropic request is silently sent to Kimi | Use a separate port for real Anthropic traffic or set `x-headroom-base-url=https://api.anthropic.com` explicitly |
-| **Retired provider units not cleaned up** | 8787 appears to be the only port, but old processes still route traffic or write old logs | `disable --now` old units, remove drop-ins, run `daemon-reload`, and enable only `headroom-proxy.service` |
-| **Subagent model override silently ignored** | Subagent uses the parent's model instead of the configured one | Verification must reach L3 (`proxy.log` + `ss`) |
-| **context-mode + Headroom double compression** | Model output is too terse and loses context | Disable one layer at a time to isolate: stop Headroom or disable the `context-mode` plugin |
+| **WSL2 mirrored-net port haunting** | A manually chosen port appears free but raw bind throws `EADDRINUSE` | Start the session with `headroom wrap omp`; inspect wrapper/proxy logs and `ss` only as supporting evidence |
+| **Headroom request-level path routing error** | `/paas/v4`, `/coding/v1`, or `/chat/completions` is duplicated and returns 404 | Preserve `x-headroom-base-url` and `x-headroom-original-path` only in an explicit custom route; do not set `OPENAI_TARGET_API_URL` for Codex |
+| **Legacy `RestartSec` crash-loop** | An obsolete systemd unit enters a restart loop | Do not tune or revive the legacy unit; use `headroom wrap omp` |
+| **Manual `authoritative=0` rollback** | A hand-edited `baseUrl` reverts or is ignored | Treat `models.db` as derived state; do not patch it for daily startup, and start a fresh wrapped session |
+| **OMP caches derived state in memory** | A manual DB change does not affect the current process | Do not rely on DB edits; launch a new `headroom wrap omp` session and verify the actual upstream |
+| **Legacy Kimi default target** | An unmarked Anthropic request is silently sent to Kimi only after an old env/header override is configured | Plain wrap keeps the Anthropic upstream; remove the legacy override or use an explicit Kimi header/provider route |
+| **Retired provider units remain** | Old processes still route traffic or write old logs | Treat units as legacy migration debris; do not enable `headroom-proxy.service`, and use `headroom wrap omp` for normal startup |
+| **Subagent model override silently ignored** | Subagent uses the parent's model instead of the configured one | Verification must reach L3 (`proxy.log` + final upstream URL) during a wrapped session |
+| **context-mode + Headroom double compression** | Model output is too terse and loses context | Disable one layer at a time to isolate: end the wrapped session or disable the `context-mode` plugin |
 
 ### Rules System Traps
 
