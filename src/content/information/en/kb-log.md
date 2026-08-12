@@ -29,3 +29,7 @@ The canonical and presentation indexes and the ingest inbox are synchronized. Th
 ## [2026-08-07] rewrite | Historical notes compiled into real knowledge pages
 
 The previous pass only moved historical articles into raw-backed notes. This pass reread all 14 raw sources and rewrote the note bodies around definition, core mechanism, applicability, boundary risks, minimum verification, evidence and uncertainty, and related pages. Blog chronology, interview Q&A, and large configuration dumps were removed. The Java interview, Headroom routing/persistence, and UISA pages remain multi-source `provisional` syntheses; the rest are reusable concepts.
+
+## [2026-08-12] ingest | Headroom 0.34.0 API contract
+
+Extracted the field-level `/v1/compress` and `/v1/retrieve` contract from the pinned `v0.34.0` source and a real loopback contract test, then created the tri-lingual knowledge page. The page records the missing-`model` 400, top-level `tokens_saved`, `original_content`, conditional CCR markers, and `frozen_message_count` cache-prefix semantics; credentials, paths, hosts, and session identifiers from local ledgers were excluded from raw and public pages.

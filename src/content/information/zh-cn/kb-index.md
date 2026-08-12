@@ -27,6 +27,7 @@
 
 - [OMP 配置分层：模型角色、Agent 覆盖与降级链](/note/omp-config-and-rules-guide) — 解释配置责任边界、优先级和从声明到运行时验证的顺序。
 - [OMP Hook 扩展概念：决策点提示、硬阻断与状态桥接](/note/omp-hook-extension-guide) — 区分软提示、硬护栏和状态栏事件桥接，不把 nudge 当安全边界。
+- [Headroom 0.34 压缩与检索契约：字段、模式与真实端点验证](/note/headroom-compress-retrieve-contract) — 固定 `/v1/compress`、`/v1/retrieve` 的真实字段、CCR 模式和 contract test 边界。
 
 ### 架构与工程实践
 
@@ -62,6 +63,7 @@
 | `legacy-omp-hook-extension-guide` | git-history | [历史文件](https://github.com/DavidHLP/DavidHLP.github.io/blob/6f3d114a6ef9eb08b730f5f4740afe5b7d22d426/src/content/note/zh-cn/omp-hook-extension-guide.md) | OMP Hook、图谱提示和状态栏扩展原文。 |
 | `legacy-plugin-lifecycle-management` | git-history | [历史文件](https://github.com/DavidHLP/DavidHLP.github.io/blob/6f3d114a6ef9eb08b730f5f4740afe5b7d22d426/src/content/note/zh-cn/plugin_lifecycle_management_blog.md) | 大规模终端插件生命周期管理原文。 |
 | `legacy-uisa-architecture-design` | git-history | [历史文件](https://github.com/DavidHLP/DavidHLP.github.io/blob/6f3d114a6ef9eb08b730f5f4740afe5b7d22d426/src/content/note/zh-cn/uisa-architecture-design.md) | UISA 混合云与异构节点架构原文。 |
+| `headroom-0-34-compress-retrieve-contract` | upstream-source-and-contract-test | [固定版本源码](https://github.com/headroomlabs-ai/headroom/tree/v0.34.0) | Headroom 0.34.0 压缩与检索 API 契约、模式和真实端点验证。 |
 
 raw 文件位于 `src/content/raw/zh-cn/`，只供 LLM 阅读，不生成公开路由。来源快照写入后不可修改。
 

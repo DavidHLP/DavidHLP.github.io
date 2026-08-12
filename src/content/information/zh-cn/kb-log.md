@@ -29,3 +29,7 @@
 ## [2026-08-07] rewrite | 将迁移内容编译为真实知识页
 
 上一轮只完成了历史文章的 raw → note 迁移。本次重新读取 14 个 raw 来源，将 note 正文重写为定义、核心机制、适用条件、边界风险、最小验证、证据与不确定性、相关页面七类结构；删除博客流水账、面试问答和大段配置倾倒。Java 面试、Headroom 路由/持久化、UISA 保留为多来源 `provisional` synthesis，其余页面按可复用概念维护。
+
+## [2026-08-12] ingest | Headroom 0.34.0 API contract
+
+从 Headroom `v0.34.0` 固定版本源码和真实 loopback contract test 提取 `/v1/compress` 与 `/v1/retrieve` 的字段级契约，建立三语知识页。记录缺少 `model` 的 400、顶层 `tokens_saved`、`original_content`、CCR marker 条件和 `frozen_message_count` 的 cache-prefix 语义；本地会话账本中的凭证、路径、主机和会话标识均未进入 raw 或公开页面。
