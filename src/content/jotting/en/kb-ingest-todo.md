@@ -25,6 +25,12 @@ See the [Knowledge Base Index](/kb) for the page map.
 - [ ] Collect README files, design decisions, and runtime evidence for `ResiCache` and `UltiCode`, then create entity pages.
 - [ ] Collect official documentation or reproducible experiments for newer OMP / Headroom configurations and replace version-sensitive provisional claims.
 
+## 2026-08-12 session-candidate routing
+
+- [x] The Headroom 0.34 `/v1/compress` and `/v1/retrieve` fields, modes, and live-endpoint checks now have upstream-source evidence and have been promoted to a stable knowledge page.
+- [ ] Hindsight memories and derived claims still require an accessible service snapshot, upstream source, or reproducible experiment; for now they remain only in the ignored, redacted ledger.
+- [ ] Unmatched OMP, OpenCode, and Codex candidates remain topic clusters. Workflow prompts, internal agent messages, and tool traces are not public knowledge and must not be copied into articles in bulk.
+
 ## Open questions
 
 - [ ] Which troubleshooting steps are personal experience, and which are supported by official documentation or reproducible experiments?

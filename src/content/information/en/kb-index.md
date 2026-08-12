@@ -29,6 +29,7 @@ The maintenance contract lives in [KB.md](https://github.com/DavidHLP/DavidHLP.g
 
 - [OMP configuration and rules](/note/omp-config-and-rules-guide)
 - [OMP Hook extensions](/note/omp-hook-extension-guide)
+- [Headroom 0.34 compression and retrieval contract](/en/note/headroom-compress-retrieve-contract) — fixed request fields, top-level metrics, CCR modes, and real-endpoint contract-test boundaries.
 
 ### Architecture and engineering practice
 
@@ -64,6 +65,7 @@ Canonical raw evidence is maintained under `src/content/raw/zh-cn/` and is never
 - `legacy-omp-hook-extension-guide`
 - `legacy-plugin-lifecycle-management`
 - `legacy-uisa-architecture-design`
+- `headroom-0-34-compress-retrieve-contract`
 
 ## Ingest inbox
 

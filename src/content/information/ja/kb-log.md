@@ -29,3 +29,7 @@ Git commit `6f3d114a6ef9eb08b730f5f4740afe5b7d22d426` から 14 件の旧記事�
 ## [2026-08-07] rewrite | 移行内容を実際の知識ページへ再構成
 
 前回は旧記事を raw-backed note に移しただけでした。今回は 14 件の raw ソースを読み直し、note 本文を定義、核心メカニズム、適用条件、境界とリスク、最小検証、証拠と不確実性、関連ページの構造に再構成しました。ブログの時系列、面接 Q&A、大量の設定ダンプを削除し、Java 面接、Headroom のルーティング/永続化、UISA は複数ソースの `provisional` synthesis、その他は再利用可能な concept として整理しました。
+
+## [2026-08-12] ingest | Headroom 0.34.0 API contract
+
+固定した `v0.34.0` の source と実 loopback contract test から `/v1/compress` と `/v1/retrieve` のフィールド単位の契約を抽出し、三言語の知識ページを作成しました。`model` 欠落時の 400、トップレベルの `tokens_saved`、`original_content`、条件付き CCR marker、`frozen_message_count` の cache-prefix semantics を記録し、ローカル ledger の credential、path、host、session identifier は raw と公開ページから除外しました。

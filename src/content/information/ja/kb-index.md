@@ -29,6 +29,7 @@
 
 - [OMP 設定とルール体系](/note/omp-config-and-rules-guide)
 - [OMP Hook 拡張](/note/omp-hook-extension-guide)
+- [Headroom 0.34 圧縮・取得契約](/ja/note/headroom-compress-retrieve-contract) — `/v1/compress`、`/v1/retrieve` のフィールド、CCR mode、実 endpoint 検証の境界を固定する。
 
 ### アーキテクチャとエンジニアリング実践
 
@@ -64,6 +65,7 @@
 - `legacy-omp-hook-extension-guide`
 - `legacy-plugin-lifecycle-management`
 - `legacy-uisa-architecture-design`
+- `headroom-0-34-compress-retrieve-contract`
 
 ## 取り込みインボックス
 
