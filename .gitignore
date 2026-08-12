@@ -36,3 +36,7 @@ wrangler.toml
 # jetbrains setting folder
 .idea/
 .playwright-mcp
+
+# local agent state
+.agent/
+.auto-flow/

@@ -34,7 +34,7 @@ export default defineConfig({
 		}
 	},
 	test: {
-		include: ["src/**/*.test.ts"],
+		include: ["src/**/*.test.ts", "scripts/**/*.test.ts"],
 		exclude: ["node_modules", "dist", ".astro"],
 		environment: "node",
 		coverage: {

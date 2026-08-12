@@ -12,6 +12,7 @@
 | `pnpm preview` | Preview the built site locally |
 | `pnpm format` | Format code using Biome |
 | `pnpm lint` | Lint code using Biome |
+| `pnpm kb:ingest -- --help` | Inspect or incrementally ingest local coding-session stores |
 | `pnpm count` | Count git lines added/removed |
 | `pnpm prepare` | Set up Husky git hooks |
 
@@ -79,6 +80,14 @@ Lints code using Biome for:
 - Code style violations
 - Potential bugs
 - Best practices
+
+### `pnpm kb:ingest`
+```bash
+pnpm kb:ingest -- --help
+pnpm kb:ingest -- --skip-hindsight
+pnpm kb:ingest -- --write --skip-hindsight
+```
+Discovers configured OMP, OpenCode, Codex, and optional Hindsight sources, then writes only redacted hashes and candidate ledgers under the ignored `.agent/` directory. The default is a dry run; use `--write` only to persist a checkpoint. Source files are opened read-only.
 
 ### `pnpm count`
 ```bash

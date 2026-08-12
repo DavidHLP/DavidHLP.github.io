@@ -36,6 +36,7 @@
     "test": "vitest",
     "test:run": "vitest run",
     "kb:lint": "tsx scripts/kb-lint.ts",
+    "kb:ingest": "tsx scripts/kb-ingest-sessions.ts",
     "count": "git log --pretty=tformat: --numstat | grep -v package | awk '{ A += $1; S += $2; T += $1 - $2 } END { printf \"+ %s\\tLines\\n- %s\\tLines\\n= %s\\tLines\\n\", A, S, T }'",
     "prepare": "husky"
   },
