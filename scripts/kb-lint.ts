@@ -49,7 +49,10 @@ function sha256(path: string): string {
 
 function reportGitRawChanges(): void {
 	try {
-		const output = execFileSync("git", ["diff", "--name-status", "HEAD", "--", "src/content/raw"], { cwd: root, encoding: "utf8" });
+		const output = execFileSync("git", ["diff", "--name-status", "HEAD", "--", "src/content/raw", ":(exclude)src/content/raw/.manifest.sha256"], {
+			cwd: root,
+			encoding: "utf8"
+		});
 		for (const line of output.trim().split("\n").filter(Boolean)) {
 			const status = line.split(/\s+/)[0];
 			if (/^[MDRC]/.test(status)) errors.push(`raw snapshot changed or deleted: ${line}`);
