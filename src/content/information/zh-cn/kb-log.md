@@ -41,3 +41,13 @@
 同日发现两份新 raw 在复审期间被扩展证据覆盖。按不可变规则恢复最初快照，并将后续更精确证据分别保存为 `omp-17-2-15-runtime-contract-correction` 与 `multi-service-readiness-contract-correction`；wiki 同时引用原快照和 correction，未改写或删除已捕获证据。
 
 安全复审随后发现 readiness 验证命令未限定 Compose project。新增 `multi-service-readiness-safety-correction`，固定 v5.4.0 的 `-f`/`-p` 与 `down` 边界；正典页改为专用 fixture、唯一 project name，并明确 restart、abort 与 down 的影响。
+
+## [2026-08-13] ingest | 五主题公开证据增量沉淀
+
+从候选账本中选择五个可独立复用主题，并重新绑定到公开、固定版本或固定提交证据：JJWT 0.13.0 签名/验签 API、Testcontainers 1.20.6 Docker API 版本回退、Dubbo 3.3.6 + Nacos 运行时注册、ResiCache observer 嵌套执行，以及微服务领域与数据所有权。新增 5 个脱敏 `raw` 快照和 5 个中文正典 concept 页面，更新本目录与本日志；未创建 en/ja 副本，因为本批没有独立翻译任务。
+
+本批保留版本边界和未验证项：Dubbo/Nacos 真实集成 smoke test、Testcontainers 运行矩阵、JJWT 编译运行断言和 observer 任意深度完整嵌套均未冒充已执行结果。`nacos.check`、`retry.period` 的 registry URL 参数写法已按固定源码校正；未将私有会话、内部地址、凭证或项目未发布实现写入公开内容。
+
+## [2026-08-13] correction | 五主题证据复审与不可变 raw 校正
+
+复审发现 JJWT `PrivateKey`/`verifyWith` 类型边界、Testcontainers `TestEnvironment` 路径与 `999.999` 版本矩阵、Dubbo `register-consumer-url` 配置键以及微服务来源固定 URL 需要收窄。按 raw 不可变规则保留初始五份快照，新增四份 correction raw，并将相关 note 的 `sources` 同时指向初始与 correction；初始 raw 哈希恢复并登记在 `src/content/raw/.manifest.sha256`。复审未发现凭证、私有路径或会话标识进入公开内容。

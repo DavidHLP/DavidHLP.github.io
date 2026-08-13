@@ -19,6 +19,17 @@
 - [Java 线上性能排障：从症状到证据的最小决策树](/note/java-online-performance-debug) — 将 CPU/线程/GC 排障压缩为可验证的止损、定位和恢复路径。
 - [Redisson/Jackson 对 LocalDateTime 的默认序列化行为与写读不对称边界](/note/redis-jackson-java-time) — 区分默认写入失败与跨 mapper/serializer 配置不一致造成的读取失败。
 
+### Java 安全、并发与测试
+
+- [JJWT 0.13.0：显式固定签名算法，按 key 类型验签](/note/jjwt-013-security-api) — 区分 `signWith(Key)` 的推荐算法、显式算法、`verifyWith` key 类型和 audience builder。
+- [ResiCache：observer 嵌套执行必须区分生命周期、fragment 与 scope token](/note/resicache-observer-nested-execution) — 说明 around hook、锁内 fragment、ThreadLocal 快照和 single-flight 的边界。
+- [Testcontainers 1.20.6：先排查 Docker API 版本，再判断 daemon 不可用](/note/testcontainers-docker-api) — 固定 `1.32` fallback、`api.version` 和 Docker API 400 的诊断顺序。
+
+### 微服务与 RPC
+
+- [Dubbo + Nacos：先核对注册名、group/version，再做真实 smoke test](/note/dubbo-nacos-runtime) — 解释接口级/应用级注册、metadata、启动检查和版本匹配。
+
+
 ### 系统运维与基础设施
 
 - [containerd TLS：证书信任链与临时跳过验证的决策](/note/containerd-tls-troubleshooting) — 区分 CA 信任、运行时配置、Kubernetes 凭证和缓存造成的失败。
@@ -34,6 +45,7 @@
 - [MCP 协议时代边界与 codebase-memory-mcp v0.10.2 图工作流](/note/mcp-codebase-memory-workflow) — 固定 modern MCP 契约与图搜索、源码和 coverage 证据纪律。
 
 ### 架构与工程实践
+- [微服务数据所有权：先定领域 owner，再谈拆库与迁移](/note/microservice-data-ownership) — 用 bounded context、private schema、saga、outbox 和 `expand → migrate → contract` 建立迁移门禁。
 
 - [百万级终端插件生命周期管理：状态、心跳与受控发布](/note/plugin-lifecycle-management) — 以状态、合并心跳、幂等调度、灰度和熔断组织终端控制面。
 - [数据库 Schema 漂移：用 history、schema 与 query 三视图定位](/note/database-schema-drift) — 区分 Flyway history 校验、实际 schema 漂移和应用查询错误，明确 repair 不是 DDL 回滚。
@@ -78,6 +90,15 @@
 | `redis-jackson-java-time-contract` | upstream-source-and-minimal-experiment | [固定 tag](https://github.com/redisson/redisson/tree/redisson-3.50.0) | Redisson/Spring Data Redis 默认 Jackson 配置与 LocalDateTime 编解码实验。 |
 | `multi-service-readiness-safety-correction` | upstream-source-fixed-tag | [固定 tag](https://github.com/docker/compose/tree/v5.4.0) | 更正 readiness 验证命令的 `-f`/`-p` 项目隔离与 `down` 删除边界。 |
 | `database-schema-drift-contract` | upstream-docs-and-minimal-experiment | [Flyway 文档](https://documentation.red-gate.com/fd/validate-277578898.html) | Flyway 13.2.0 与 MySQL 8.4 history/schema/query 漂移诊断契约。 |
+| `jjwt-013-security-api-contract` | upstream-source-fixed-tag | [JJWT 0.13.0 源码](https://github.com/jwtk/jjwt/tree/0.13.0) | `signWith`、`verifyWith`、audience builder 和 key 类型边界。 |
+| `testcontainers-docker-api-negotiation` | upstream-source-fixed-commits | [Testcontainers 1.20.6](https://github.com/testcontainers/testcontainers-java/tree/1.20.6) | Docker API `1.32` fallback、`api.version` 和 daemon 版本门禁。 |
+| `dubbo-nacos-runtime-registration` | upstream-source-fixed-tag-and-docs | [Dubbo 3.3.6](https://github.com/apache/dubbo/tree/dubbo-3.3.6) | Nacos 接口级/应用级注册、metadata 和 smoke test 边界。 |
+| `resicache-observer-nested-execution-contract` | upstream-source-fixed-commit | [ResiCache 公开提交](https://github.com/DavidHLP/ResiCache/tree/75ed279a71b17f227c3170d738eb93e50d876c8a) | observer token、锁内 fragment、ThreadLocal 快照和重入边界。 |
+| `microservice-domain-data-ownership` | upstream-patterns-and-fixed-doc-snapshots | [microservices.io database-per-service](https://microservices.io/patterns/data/database-per-service.html) | 服务私有数据、saga、outbox 和渐进迁移所有权判定。 |
+| `jjwt-013-security-api-contract-correction` | upstream-source-fixed-tag-correction | [JJWT 0.13.0 源码](https://github.com/jwtk/jjwt/tree/0.13.0) | 更正推荐算法位长、verifyWith 重载和 PrivateKey 异常边界，不覆盖初始 raw。 |
+| `testcontainers-docker-api-negotiation-correction` | upstream-source-fixed-commits-correction | [Testcontainers 1.20.6](https://github.com/testcontainers/testcontainers-java/tree/1.20.6) | 更正 TestEnvironment 路径与 `999.999` daemon too new 矩阵，不覆盖初始 raw。 |
+| `dubbo-nacos-runtime-registration-correction` | upstream-source-fixed-tag-correction | [Dubbo 3.3.6](https://github.com/apache/dubbo/tree/dubbo-3.3.6) | 更正 Nacos registry URL 参数读取边界，不覆盖初始 raw。 |
+| `microservice-domain-data-ownership-correction` | upstream-patterns-fixed-docs-correction | [Microsoft pinned data considerations](https://github.com/MicrosoftDocs/architecture-center/blob/02b64c27c3a9eb6f49054297ceb6cec0fa0c68ef/docs/microservices/design/data-considerations.md) | 补齐 revision-pinned URL，并标明 live 模式页只按抓取快照使用。 |
 
 raw 文件位于 `src/content/raw/zh-cn/`，只供 LLM 阅读，不生成公开路由。来源快照写入后不可修改。
 
