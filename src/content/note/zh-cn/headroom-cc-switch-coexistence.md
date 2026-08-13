@@ -5,7 +5,7 @@ series: "OMP 与 Agent 工程"
 kind: synthesis
 status: provisional
 sources: ["headroom-cc-switch-coexistence-runtime"]
-related: ["headroom-single-port-evolution", "omp-headroom-persistence", "headroom-compress-retrieve-contract"]
+related: ["headroom-single-port-evolution", "omp-headroom-persistence", "omp-headroom-provider-proxy", "headroom-compress-retrieve-contract"]
 tags: [Headroom, cc-switch, ClaudeCode, OMP, Anthropic, OpenAI, Proxy, Routing, Security, Compression]
 description: "综合固定项目提交与运行时证据：Headroom 8787 如何在 cc-switch 15721 前承接 Claude Code Messages，保持 OMP 路径隔离、单一整理责任和可回滚的 systemd 安全边界。"
 toc: true

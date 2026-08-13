@@ -52,7 +52,7 @@
 
 ## 实体页（entity）
 
-暂无。待摄入个人项目、工具、框架和运行环境，并确认来源归属后建立。
+- [OMP Headroom Bridge：外部路由控制器与原生 Codex/OMP 代理边界](/note/omp-headroom-provider-proxy) — 记录 loopback Headroom、OMP provider route、原生 Codex CLI/Desktop Responses provider、Claude Code/cc-switch 共存、事务安全、验证与回滚边界。
 
 ## 综合页（synthesis）
 
@@ -101,6 +101,7 @@
 | `dubbo-nacos-runtime-registration-correction` | upstream-source-fixed-tag-correction | [Dubbo 3.3.6](https://github.com/apache/dubbo/tree/dubbo-3.3.6) | 更正 Nacos registry URL 参数读取边界，不覆盖初始 raw。 |
 | `microservice-domain-data-ownership-correction` | upstream-patterns-fixed-docs-correction | [Microsoft pinned data considerations](https://github.com/MicrosoftDocs/architecture-center/blob/02b64c27c3a9eb6f49054297ceb6cec0fa0c68ef/docs/microservices/design/data-considerations.md) | 补齐 revision-pinned URL，并标明 live 模式页只按抓取快照使用。 |
 | `headroom-cc-switch-coexistence-runtime` | repository-and-runtime-observation | [固定项目提交](https://github.com/DavidHLP/omp-headroom-provider-proxy/tree/a9349b762657a28ad8b45a672b9996e831e1eedc) | Claude Code 经 Headroom 到 cc-switch 的链路、单一整理边界与 `BindPaths` 安全取舍的脱敏运行时证据。 |
+| `omp-headroom-provider-proxy-codex-routing-runtime` | repository-and-runtime-observation | [固定项目提交](https://github.com/DavidHLP/omp-headroom-provider-proxy/tree/a9349b762657a28ad8b45a672b9996e831e1eedc) | OMP Headroom Bridge 的 loopback proxy、OMP/Codex 路由控制器、Claude Code 共存边界和脱敏 CLI/Desktop 验证证据。 |
 
 raw 文件位于 `src/content/raw/zh-cn/`，只供 LLM 阅读，不生成公开路由。来源快照写入后不可修改。
 

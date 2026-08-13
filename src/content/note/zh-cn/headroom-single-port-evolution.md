@@ -5,7 +5,7 @@ series: "OMP 与 Agent 工程"
 kind: synthesis
 status: provisional
 sources: ["legacy-headroom-single-port-evolution", "legacy-omp-config-and-rules-guide", "legacy-omp-headroom-persistence"]
-related: ["omp-config-and-rules-guide", "omp-headroom-persistence", "headroom-cc-switch-coexistence", "omp-hook-extension-guide", "llm-wiki-pattern", "headroom-compress-retrieve-contract"]
+related: ["omp-config-and-rules-guide", "omp-headroom-persistence", "headroom-cc-switch-coexistence", "omp-headroom-provider-proxy", "omp-hook-extension-guide", "llm-wiki-pattern", "headroom-compress-retrieve-contract"]
 tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,Routing,Proxy,Codex,Kimi,MiniMax,Zhipu]
 description: "综合 Headroom 单端口路由的演进模型：一个 loopback 入口如何承接显式 custom provider、动态上游和不同协议，并把 OMP 角色选择、model_cache、请求级路由与 wrapper 生命周期分开验证。历史路由均标为 provisional。"
 toc: true

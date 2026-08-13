@@ -5,7 +5,7 @@ series: "OMP 与 Agent 工程"
 kind: concept
 status: active
 sources: ["headroom-0-34-compress-retrieve-contract"]
-related: ["headroom-single-port-evolution", "omp-headroom-persistence", "headroom-cc-switch-coexistence", "omp-hook-extension-guide", "llm-wiki-pattern"]
+related: ["headroom-single-port-evolution", "omp-headroom-persistence", "headroom-cc-switch-coexistence", "omp-headroom-provider-proxy", "omp-hook-extension-guide", "llm-wiki-pattern"]
 tags: [Headroom,API,Compression,CCR,Contract Testing,Agent]
 description: "固定 Headroom 0.34.0 的 /v1/compress 与 /v1/retrieve 请求、响应和模式边界，并说明为何真实 loopback contract test 必须与 mock 使用同一 schema。"
 toc: true
