@@ -4,6 +4,7 @@ timestamp: 2026-02-25 00:00:00+08:00
 series: "Java 基礎とバックエンドチューニング"
 kind: concept
 status: active
+draft: true
 sources: ["legacy-java-online-performance-debug"]
 related: ["java-null-value", "java-atomic-boolean", "java-internship-interview-blog-polished"]
 tags: ["Linux", "Operations", "SRE", "Performance Troubleshooting", "CPU", "Java", "Production Incident", "Arthas", "JVM", "Hot-Swapping"]

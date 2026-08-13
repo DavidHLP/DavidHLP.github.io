@@ -4,6 +4,7 @@ timestamp: 2026-07-25 00:00:00+08:00
 series: "OMP & Agent Engineering"
 kind: concept
 status: active
+draft: true
 sources: ["legacy-omp-hook-extension-guide"]
 related: ["headroom-single-port-evolution", "omp-config-and-rules-guide", "omp-headroom-persistence", "llm-wiki-pattern"]
 tags: [Agent,OMP,Codebase,Hooks,DevOps,TUI,Plugin,Extension]

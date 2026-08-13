@@ -4,6 +4,7 @@ timestamp: 2026-03-25 00:00:00+00:00
 series: "アーキテクチャとエンジニアリング実践"
 kind: synthesis
 status: provisional
+draft: true
 sources: ["legacy-uisa-architecture-design", "legacy-plugin-lifecycle-management"]
 related: ["plugin-lifecycle-management"]
 tags: [Architecture, Distribution, Security, Infrastructure, Sync, HybridCloud]

@@ -5,7 +5,7 @@ series: "Java 基础与后端调优"
 kind: concept
 status: active
 sources: ["database-schema-drift-contract"]
-related: ["mysql-performance-troubleshooting", "multi-service-readiness"]
+related: ["mysql-performance-troubleshooting", "multi-service-readiness", "microservice-data-ownership"]
 tags: ["Flyway", "MySQL", "Schema Drift", "Migration", "Database", "Troubleshooting"]
 description: "说明 Flyway validate 为什么不能替代实际 Schema 检查，并用 migration history、实际 schema 与应用 query 三个视图区分 checksum 漂移、外部 DDL、Unknown column 和失败迁移残留。"
 toc: true

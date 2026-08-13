@@ -5,7 +5,7 @@ series: "系统运维与基础设施"
 kind: concept
 status: active
 sources: ["multi-service-readiness-contract", "multi-service-readiness-contract-correction", "multi-service-readiness-safety-correction"]
-related: ["mysql-performance-troubleshooting", "database-schema-drift"]
+related: ["mysql-performance-troubleshooting", "database-schema-drift", "testcontainers-docker-api", "dubbo-nacos-runtime", "microservice-data-ownership"]
 tags: [Docker Compose, systemd, depends_on, healthcheck, Readiness, Orchestration]
 description: "用一张决策表区分多服务编排中的进程启动、业务就绪、排序、依赖建立、失败与重启传播六个概念，给出 Compose healthcheck/depends_on 与 systemd After/Wants/Requires 的最小组合和验证路径。"
 toc: true

@@ -4,6 +4,7 @@ timestamp: 2026-02-25 00:00:00+08:00
 series: "システム運用とインフラストラクチャ"
 kind: concept
 status: active
+draft: true
 sources: ["legacy-containerd-tls-troubleshooting"]
 related: ["intranet-penetration-ssh-guide", "mysql-performance-troubleshooting"]
 tags: [Kubernetes, containerd, TLS, Harbor, Operations, Troubleshooting]

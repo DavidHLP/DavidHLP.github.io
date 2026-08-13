@@ -4,6 +4,7 @@ timestamp: 2026-08-06 00:00:00+08:00
 series: "OMP と Agent エンジニアリング"
 kind: synthesis
 status: provisional
+draft: true
 sources: ["legacy-omp-headroom-persistence", "legacy-headroom-single-port-evolution", "legacy-omp-config-and-rules-guide"]
 related: ["headroom-single-port-evolution", "omp-config-and-rules-guide", "omp-hook-extension-guide", "llm-wiki-pattern"]
 tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,Routing,Proxy,Codex,OpenCode]

@@ -5,7 +5,7 @@ series: "Java 基础与后端调优"
 kind: concept
 status: active
 sources: ["redis-jackson-java-time-contract"]
-related: ["java-null-value", "java-online-performance-debug"]
+related: ["java-null-value", "java-online-performance-debug", "resicache-observer-nested-execution"]
 tags: ["Redis", "Redisson", "Jackson", "JavaTime", "LocalDateTime", "Spring Data Redis", "Serialization"]
 description: "说明默认 JsonJacksonCodec 与 GenericJackson2JsonRedisSerializer 为什么对 LocalDateTime 写入即失败、Redisson 默认 codec 实为 Kryo5Codec，以及按三层配置排查写读不对称的决策路径。"
 toc: true

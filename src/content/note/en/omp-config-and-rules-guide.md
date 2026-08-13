@@ -4,6 +4,7 @@ timestamp: 2026-08-01 00:00:00+08:00
 series: "OMP & Agent Engineering"
 kind: concept
 status: active
+draft: true
 sources: ["legacy-omp-config-and-rules-guide"]
 related: ["headroom-single-port-evolution", "omp-headroom-persistence", "omp-hook-extension-guide", "llm-wiki-pattern"]
 tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,RTK,Rules,Configuration,Architecture]

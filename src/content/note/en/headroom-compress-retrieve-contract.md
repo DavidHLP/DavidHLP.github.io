@@ -5,7 +5,7 @@ series: "OMP & Agent Engineering"
 kind: concept
 status: active
 sources: ["headroom-0-34-compress-retrieve-contract"]
-related: ["headroom-single-port-evolution", "omp-headroom-persistence", "omp-hook-extension-guide", "llm-wiki-pattern"]
+related: ["llm-wiki-pattern"]
 tags: [Headroom,API,Compression,CCR,Contract Testing,Agent]
 description: "Pins the Headroom 0.34.0 /v1/compress and /v1/retrieve request, response, and mode boundaries, and explains why mocks and real loopback contract tests must share one schema."
 toc: true
@@ -118,7 +118,4 @@ Rollback does not require deleting data: restore new requests to the default mar
 
 ## Related pages
 
-- [Headroom single-port routing](/en/note/headroom-single-port-evolution)
-- [Headroom route persistence](/en/note/omp-headroom-persistence)
-- [OMP Hook extensions](/en/note/omp-hook-extension-guide)
 - [LLM-Wiki pattern](/en/note/llm-wiki-pattern)

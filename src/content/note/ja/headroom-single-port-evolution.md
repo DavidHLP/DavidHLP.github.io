@@ -4,6 +4,7 @@ timestamp: 2026-08-01 00:00:00+08:00
 series: "OMP と Agent エンジニアリング"
 kind: synthesis
 status: provisional
+draft: true
 sources: ["legacy-headroom-single-port-evolution", "legacy-omp-config-and-rules-guide", "legacy-omp-headroom-persistence"]
 related: ["omp-config-and-rules-guide", "omp-headroom-persistence", "omp-hook-extension-guide", "llm-wiki-pattern"]
 tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,Routing,Proxy,Codex,Kimi,MiniMax,Zhipu]

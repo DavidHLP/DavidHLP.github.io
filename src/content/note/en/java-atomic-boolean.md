@@ -4,6 +4,7 @@ timestamp: 2025-10-07 20:25:00+08:00
 series: "Java Fundamentals & Backend Tuning"
 kind: concept
 status: active
+draft: true
 sources: ["legacy-java-atomic-boolean"]
 related: ["java-auto-closeable", "java-online-performance-debug", "java-internship-interview-blog-polished"]
 tags: ["Java", "Concurrency", "AtomicBoolean", "CAS", "JUC"]

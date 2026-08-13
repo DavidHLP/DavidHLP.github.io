@@ -4,6 +4,7 @@ timestamp: 2026-07-01 00:00:00+08:00
 series: "システム運用とインフラストラクチャ"
 kind: concept
 status: active
+draft: true
 sources: ["legacy-mysql-performance-troubleshooting"]
 related: ["containerd-tls-troubleshooting", "intranet-penetration-ssh-guide"]
 tags: [MySQL, Database, Troubleshooting, Performance, InnoDB, Operations]

@@ -5,7 +5,7 @@ series: "系统运维与基础设施"
 kind: concept
 status: active
 sources: ["legacy-containerd-tls-troubleshooting"]
-related: ["intranet-penetration-ssh-guide", "mysql-performance-troubleshooting"]
+related: ["intranet-penetration-ssh-guide", "mysql-performance-troubleshooting", "testcontainers-docker-api"]
 tags: [Kubernetes, containerd, TLS, Harbor, Operations, Troubleshooting]
 description: "用一条可验证的链路判断私有镜像拉取失败属于证书信任、Kubernetes 凭证还是节点缓存，并比较生产 CA 信任与临时 skip_verify 的边界。"
 toc: true

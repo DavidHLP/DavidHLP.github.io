@@ -4,6 +4,7 @@ timestamp: 2026-08-01 00:00:00+08:00
 series: "システム運用とインフラストラクチャ"
 kind: concept
 status: active
+draft: true
 sources: ["legacy-intranet-penetration-ssh-guide"]
 related: ["containerd-tls-troubleshooting", "mysql-performance-troubleshooting"]
 tags: [Intranet Penetration, Cloudflare, Tailscale, FRP, SSH, Termius, systemd, DevOps]
