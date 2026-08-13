@@ -9,6 +9,7 @@
 ### 知识库自身
 
 - [LLM-Wiki 模式：用 LLM 增量维护一个持久的个人知识库](/note/llm-wiki-pattern) — 解释 raw、wiki、schema 三层，以及 ingest、query、lint 三个操作。来源：`karpathy-llm-wiki`。
+- [KB 会话摄入管道契约：增量复用、redaction v19 与不可变 raw](/note/kb-session-ingest-contract) — 固定来源身份/内容哈希、失败重处理、控制面过滤、断点账本与脱敏审计边界。
 
 ### Java 基础与后端调优
 
@@ -16,22 +17,26 @@
 - [AutoCloseable：资源所有权与关闭异常语义](/note/java-auto-closeable) — 归纳 try-with-resources 的所有权、关闭顺序和异常传播边界。
 - [NullValue：缓存 null 的占位对象与序列化边界](/note/java-null-value) — 说明空对象、单例和序列化恢复如何共同避免缓存穿透。
 - [Java 线上性能排障：从症状到证据的最小决策树](/note/java-online-performance-debug) — 将 CPU/线程/GC 排障压缩为可验证的止损、定位和恢复路径。
+- [Redisson/Jackson 对 LocalDateTime 的默认序列化行为与写读不对称边界](/note/redis-jackson-java-time) — 区分默认写入失败与跨 mapper/serializer 配置不一致造成的读取失败。
 
 ### 系统运维与基础设施
 
 - [containerd TLS：证书信任链与临时跳过验证的决策](/note/containerd-tls-troubleshooting) — 区分 CA 信任、运行时配置、Kubernetes 凭证和缓存造成的失败。
 - [SSH 内网访问方案：连接方向、暴露面与故障恢复](/note/intranet-penetration-ssh-guide) — 按数据流、控制面和故障恢复比较 Tunnel、Tailscale、FRP。
 - [MySQL 性能排查：现象→指标→定位层→安全缓解](/note/mysql-performance-troubleshooting) — 用连接、锁、索引、事务、IO 和 Buffer Pool 建立问题模型。
+- [多服务启动就绪：running、ready 与依赖/失败/重启传播](/note/multi-service-readiness) — 区分 Compose/systemd 的排序、依赖、健康门禁和失败/重启传播。
 
 ### OMP 与 Agent 工程
 
 - [OMP 配置分层：模型角色、Agent 覆盖与降级链](/note/omp-config-and-rules-guide) — 解释配置责任边界、优先级和从声明到运行时验证的顺序。
 - [OMP Hook 扩展概念：决策点提示、硬阻断与状态桥接](/note/omp-hook-extension-guide) — 区分软提示、硬护栏和状态栏事件桥接，不把 nudge 当安全边界。
 - [Headroom 0.34 压缩与检索契约：字段、模式与真实端点验证](/note/headroom-compress-retrieve-contract) — 固定 `/v1/compress`、`/v1/retrieve` 的真实字段、CCR 模式和 contract test 边界。
+- [MCP 协议时代边界与 codebase-memory-mcp v0.10.2 图工作流](/note/mcp-codebase-memory-workflow) — 固定 modern MCP 契约与图搜索、源码和 coverage 证据纪律。
 
 ### 架构与工程实践
 
 - [百万级终端插件生命周期管理：状态、心跳与受控发布](/note/plugin-lifecycle-management) — 以状态、合并心跳、幂等调度、灰度和熔断组织终端控制面。
+- [数据库 Schema 漂移：用 history、schema 与 query 三视图定位](/note/database-schema-drift) — 区分 Flyway history 校验、实际 schema 漂移和应用查询错误，明确 repair 不是 DDL 回滚。
 
 ## 实体页（entity）
 
@@ -64,6 +69,15 @@
 | `legacy-plugin-lifecycle-management` | git-history | [历史文件](https://github.com/DavidHLP/DavidHLP.github.io/blob/6f3d114a6ef9eb08b730f5f4740afe5b7d22d426/src/content/note/zh-cn/plugin_lifecycle_management_blog.md) | 大规模终端插件生命周期管理原文。 |
 | `legacy-uisa-architecture-design` | git-history | [历史文件](https://github.com/DavidHLP/DavidHLP.github.io/blob/6f3d114a6ef9eb08b730f5f4740afe5b7d22d426/src/content/note/zh-cn/uisa-architecture-design.md) | UISA 混合云与异构节点架构原文。 |
 | `headroom-0-34-compress-retrieve-contract` | upstream-source-and-contract-test | [固定版本源码](https://github.com/headroomlabs-ai/headroom/tree/v0.34.0) | Headroom 0.34.0 压缩与检索 API 契约、模式和真实端点验证。 |
+| `kb-ingest-pipeline-v19` | repository | [固定提交](https://github.com/DavidHLP/DavidHLP.github.io/tree/c0ae74e72982910e13c46de0b92cf8fb9a8d1751) | 会话身份/内容哈希、redaction v19、控制面过滤、partial checkpoint 与 raw manifest 契约。 |
+| `mcp-codebase-memory-workflow` | upstream-spec-and-source | [固定版本](https://github.com/DeusData/codebase-memory-mcp/tree/v0.10.2) | MCP 2026-07-28 规范与 codebase-memory-mcp v0.10.2 图工具契约。 |
+| `multi-service-readiness-contract` | upstream-spec-and-manpage | [固定规范](https://github.com/compose-spec/compose-spec/blob/11296e387ba76c77db1db768b9153a4304a3c9bd/05-services.md) | Compose 与 systemd 的启动、健康、依赖和传播边界初始快照。 |
+| `multi-service-readiness-contract-correction` | upstream-spec-source-and-minimal-experiment | [固定规范](https://github.com/compose-spec/compose-spec/blob/11296e387ba76c77db1db768b9153a4304a3c9bd/05-services.md) | 追加固定 Docker 来源及一次性 Redis/Alpine 启动门禁实验，不覆盖初始 raw。 |
+| `omp-17-2-15-runtime-contract` | upstream-source-fixed-tag | [固定 tag](https://github.com/can1357/oh-my-pi/tree/v17.2.15) | OMP 17.2.15 Hook、Compaction、statusline 与 Headroom 证据边界初始快照。 |
+| `omp-17-2-15-runtime-contract-correction` | upstream-source-fixed-commit | [固定 commit](https://github.com/can1357/oh-my-pi/tree/06aecdd51f07e689e970ceaa180abe2be0c14bbb) | 追加 ExtensionRunner、事件返回契约与收窄的负证据，不覆盖初始 raw。 |
+| `redis-jackson-java-time-contract` | upstream-source-and-minimal-experiment | [固定 tag](https://github.com/redisson/redisson/tree/redisson-3.50.0) | Redisson/Spring Data Redis 默认 Jackson 配置与 LocalDateTime 编解码实验。 |
+| `multi-service-readiness-safety-correction` | upstream-source-fixed-tag | [固定 tag](https://github.com/docker/compose/tree/v5.4.0) | 更正 readiness 验证命令的 `-f`/`-p` 项目隔离与 `down` 删除边界。 |
+| `database-schema-drift-contract` | upstream-docs-and-minimal-experiment | [Flyway 文档](https://documentation.red-gate.com/fd/validate-277578898.html) | Flyway 13.2.0 与 MySQL 8.4 history/schema/query 漂移诊断契约。 |
 
 raw 文件位于 `src/content/raw/zh-cn/`，只供 LLM 阅读，不生成公开路由。来源快照写入后不可修改。
 

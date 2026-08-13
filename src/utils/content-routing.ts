@@ -54,6 +54,13 @@ export function buildEntryParams<C extends ContentCollection>(entry: CollectionE
 	return { locale, id: rest.join("/") };
 }
 
+/** Return whether a slug has one published entry for every configured locale. */
+export function hasAllLocaleVariants<C extends ContentCollection>(entries: CollectionEntry<C>[], slug: string): boolean {
+	if (monolocale) return true;
+	const locales = new Set(entries.filter(entry => entry.id.split("/").slice(1).join("/") === slug).map(entry => entry.id.split("/", 1)[0]));
+	return config.i18n.locales.every(locale => locales.has(locale));
+}
+
 /**
  * Build `getStaticPaths` params for routes that take a `locale` segment.
  *
