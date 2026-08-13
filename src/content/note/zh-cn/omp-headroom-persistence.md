@@ -5,7 +5,7 @@ series: "OMP 与 Agent 工程"
 kind: synthesis
 status: provisional
 sources: ["legacy-omp-headroom-persistence", "legacy-headroom-single-port-evolution", "legacy-omp-config-and-rules-guide", "omp-17-2-15-runtime-contract", "omp-17-2-15-runtime-contract-correction"]
-related: ["headroom-single-port-evolution", "headroom-cc-switch-coexistence", "omp-config-and-rules-guide", "omp-hook-extension-guide", "llm-wiki-pattern", "headroom-compress-retrieve-contract"]
+related: ["headroom-single-port-evolution", "headroom-cc-switch-coexistence", "omp-headroom-provider-proxy", "omp-config-and-rules-guide", "omp-hook-extension-guide", "llm-wiki-pattern", "headroom-compress-retrieve-contract"]
 tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,Routing,Proxy,Codex,OpenCode]
 description: "综合 OMP 更新重写运行时模型缓存时的 Headroom 路由持久化模型：Named Profile 隔离意图与凭据，外部声明保存路由意图，model_cache 作为可重建派生状态，旧 reconciler 只在隔离迁移中恢复并验证。当前 wrapper 生命周期与版本依赖明确标为 provisional。"
 toc: true

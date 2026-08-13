@@ -59,3 +59,7 @@
 ## [2026-08-13] ingest | Headroom 与 cc-switch / Claude Code 共存
 
 从 `omp-headroom-provider-proxy` 固定提交及同日脱敏运行时观测中摄入 Headroom 与 cc-switch 共存结论：Claude Code `/v1/messages` 先经 Headroom 8787，再由 cc-switch 15721 做协议转换和凭据注入；OMP `/v1/responses` 保持独立的请求级上游路径。记录 `HEADROOM_CC_SWITCH_RECONCILE=1` 的回写方向、单一整理不变量、`ProtectHome=tmpfs` 下 `BindPaths=%h/.claude` 的安全取舍，以及 `/admin/upstream` 和 `/v1/messages → 127.0.0.1:15721` 的运行时证据。raw 与 wiki 均已脱敏，不包含凭证、会话标识、请求正文或本机绝对路径。
+
+## [2026-08-13] ingest | OMP Headroom Bridge 与原生 Codex 路由
+
+从 `omp-headroom-provider-proxy` 固定提交和当前工作树的脱敏交付证据中摄入一个 entity 页面与一份 raw 快照。记录 `systemd --user` 管理的 loopback Headroom 8787、OMP 的两个显式 provider route、Codex CLI/Desktop 共享用户级 Responses provider、Claude Code/cc-switch 共存边界、`bin/codex-routes` 的 marker/lock/hash/mode/atomic restore 约束，以及 static/lifecycle/fresh-client 验证和 rollback 顺序。未写入凭证、用户配置正文、`models.db`、请求正文、本机绝对路径或未提交代码的伪造固定 URL；明确注明当前工作树尚未形成新的公开 commit。
