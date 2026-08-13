@@ -55,3 +55,7 @@
 ## [2026-08-13] maintenance | 收窄翻译 wiki 发布范围
 
 按 `KB.md` 的正典边界，将未经过独立翻译任务确认的 14 个历史主题的 28 个 en/ja wiki 副本标记为 `draft: true`，并将 en/ja `kb-index.md` 收敛为导航入口与已明确翻译的页面；同时补齐 zh-cn 正典页面的交叉链接，并移除已发布翻译页对 draft 页面元数据的引用。未修改 raw、保护面或既有日志条目。
+
+## [2026-08-13] ingest | Headroom 与 cc-switch / Claude Code 共存
+
+从 `omp-headroom-provider-proxy` 固定提交及同日脱敏运行时观测中摄入 Headroom 与 cc-switch 共存结论：Claude Code `/v1/messages` 先经 Headroom 8787，再由 cc-switch 15721 做协议转换和凭据注入；OMP `/v1/responses` 保持独立的请求级上游路径。记录 `HEADROOM_CC_SWITCH_RECONCILE=1` 的回写方向、单一整理不变量、`ProtectHome=tmpfs` 下 `BindPaths=%h/.claude` 的安全取舍，以及 `/admin/upstream` 和 `/v1/messages → 127.0.0.1:15721` 的运行时证据。raw 与 wiki 均已脱敏，不包含凭证、会话标识、请求正文或本机绝对路径。
