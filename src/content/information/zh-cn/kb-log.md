@@ -33,3 +33,11 @@
 ## [2026-08-12] ingest | Headroom 0.34.0 API contract
 
 从 Headroom `v0.34.0` 固定版本源码和真实 loopback contract test 提取 `/v1/compress` 与 `/v1/retrieve` 的字段级契约，建立三语知识页。记录缺少 `model` 的 400、顶层 `tokens_saved`、`original_content`、CCR marker 条件和 `frozen_message_count` 的 cache-prefix 语义；本地会话账本中的凭证、路径、主机和会话标识均未进入 raw 或公开页面。
+
+## [2026-08-13] ingest | 会话工程知识第二批沉淀
+
+从上一轮脱敏会话候选中筛选六个可独立复用的主题，并以固定公开源码、规范、仓库提交或一次性最小实验重新取证：会话摄入与 redaction v19、MCP/codebase-memory 图工作流、Redis/Jackson `LocalDateTime`、Flyway/MySQL schema drift、多服务 readiness、OMP 17.2.15 Hook/Compaction。新增五个中文正典 concept 页，更新三份 OMP 页面；`zh-cn` 按 `KB.md` 保持正典，未在没有明确翻译任务时复制 en/ja wiki。
+
+同日发现两份新 raw 在复审期间被扩展证据覆盖。按不可变规则恢复最初快照，并将后续更精确证据分别保存为 `omp-17-2-15-runtime-contract-correction` 与 `multi-service-readiness-contract-correction`；wiki 同时引用原快照和 correction，未改写或删除已捕获证据。
+
+安全复审随后发现 readiness 验证命令未限定 Compose project。新增 `multi-service-readiness-safety-correction`，固定 v5.4.0 的 `-f`/`-p` 与 `down` 边界；正典页改为专用 fixture、唯一 project name，并明确 restart、abort 与 down 的影响。

@@ -4,7 +4,7 @@ timestamp: 2026-08-06 00:00:00+08:00
 series: "OMP 与 Agent 工程"
 kind: synthesis
 status: provisional
-sources: ["legacy-omp-headroom-persistence", "legacy-headroom-single-port-evolution", "legacy-omp-config-and-rules-guide"]
+sources: ["legacy-omp-headroom-persistence", "legacy-headroom-single-port-evolution", "legacy-omp-config-and-rules-guide", "omp-17-2-15-runtime-contract", "omp-17-2-15-runtime-contract-correction"]
 related: ["headroom-single-port-evolution", "omp-config-and-rules-guide", "omp-hook-extension-guide", "llm-wiki-pattern"]
 tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,Routing,Proxy,Codex,OpenCode]
 description: "综合 OMP 更新重写运行时模型缓存时的 Headroom 路由持久化模型：Named Profile 隔离意图与凭据，外部声明保存路由意图，model_cache 作为可重建派生状态，旧 reconciler 只在隔离迁移中恢复并验证。当前 wrapper 生命周期与版本依赖明确标为 provisional。"
@@ -92,6 +92,8 @@ flowchart TB
 - **来源事实**：`legacy-omp-headroom-persistence` 记录 Named Profile、`config.yml`/`models.yml`/`agent.db`/`models.db` 分层、外部声明、旧 reconciler 的备份/匹配/事务语义和恢复输出；`legacy-headroom-single-port-evolution` 记录单端口与协议验证；`legacy-omp-config-and-rules-guide` 区分角色选择、入口路由和 wrapper 生命周期。
 - **本页综合**：把 route intent 与 `model_cache` 解耦，再将恢复分为当前 wrapper 验证和迁移期 reconciler 验证，避免把历史脚本误当产品启动契约。
 - **未确认项**：Named Profile 的具体 CLI、数据库 schema、authoritative 覆盖规则、wrapper 写入/清理 `models.yml` 的时机、进程退出后的内存状态和各 provider 的协议行为都依赖 OMP/Headroom 版本；本文不声称跨版本兼容。
+
+- **OMP 版本边界**：`omp-17-2-15-runtime-contract` 保存最初固定 tag 快照，独立的 `omp-17-2-15-runtime-contract-correction` 把负证据收窄为固定 commit 的路径树与 settings schema 扫描；两者都不证明外部 Headroom wrapper 行为。本页的 wrapper 生命周期来自 legacy 证据，需按 Headroom 的固定版本另证。
 
 ## 相关页面
 

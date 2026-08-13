@@ -1,9 +1,11 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { getCollection } from "astro:content";
 import Icon from "$components/Icon.svelte";
-import { monolocale } from "$config";
+import config, { monolocale } from "$config";
 import i18nit from "$i18n";
 import { ts } from "$utils/labels";
+import { hasAllLocaleVariants } from "$utils/content-routing";
 import Navigator from "./Navigator.svelte";
 import ThemeSwitcher from "./ThemeSwitcher.astro";
 import LanguagePicker from "./LanguagePicker.svelte";
@@ -22,6 +24,16 @@ const routes: { path: string; extra?: string[]; icon: `${string}--${string}`; la
 ];
 
 const route = Astro.url.pathname;
+const segments = route.split("/").filter(Boolean);
+if (config.i18n.locales.some(locale => locale === segments[0])) segments.shift();
+const [section, ...slugParts] = segments;
+const detailSection = section === "note" || section === "jotting" ? section : undefined;
+// ponytail: this per-page scan is enough for the current small collection; precompute only if build time becomes measurable.
+const showLanguagePicker =
+	!monolocale &&
+	(!detailSection ||
+		slugParts.length === 0 ||
+		hasAllLocaleVariants(await getCollection(detailSection, entry => !entry.data.draft), slugParts.join("/")));
 ---
 
 <style>
@@ -66,7 +78,7 @@ const route = Astro.url.pathname;
 			<a href={getRelativeLocaleUrl(locale, "/feed.xml")} target="_blank" rel="noopener noreferrer" aria-label="Subscription" class="inline-flex"><Icon name="lucide--rss" /></a>
 
 			{
-				!monolocale && (
+				showLanguagePicker && (
 					<Menu label="Language switcher">
 						<Icon name="lucide--earth" slot="trigger" />
 						<LanguagePicker {locale} {route} client:load />

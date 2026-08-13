@@ -14,7 +14,7 @@ vi.mock("astro:content", () => ({
 	render: vi.fn()
 }));
 
-const { buildEntryParams, localeStaticPaths } = await import("./content-routing");
+const { buildEntryParams, hasAllLocaleVariants, localeStaticPaths } = await import("./content-routing");
 import { monolocale } from "$config";
 import type { CollectionEntry } from "astro:content";
 import type { ContentCollection } from "$utils/config";
@@ -63,6 +63,16 @@ describe("buildEntryParams (multi-locale)", () => {
 
 	it.skipIf(monolocale)("returns the id as-is for an en-locale entry (the locale segment is the configured default's complement)", () => {
 		expect(buildEntryParams(entry("en/some-post"))).toEqual({ locale: "en", id: "some-post" });
+	});
+});
+
+describe("hasAllLocaleVariants", () => {
+	it("requires the same slug in every configured locale", () => {
+		const complete = [entry("zh-cn/topic"), entry("en/topic"), entry("ja/topic")];
+		const incomplete = [entry("zh-cn/topic"), entry("en/topic"), entry("ja/other")];
+
+		expect(hasAllLocaleVariants(complete, "topic")).toBe(true);
+		expect(hasAllLocaleVariants(incomplete, "topic")).toBe(false);
 	});
 });
 

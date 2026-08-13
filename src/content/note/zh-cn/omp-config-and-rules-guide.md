@@ -4,7 +4,7 @@ timestamp: 2026-08-01 00:00:00+08:00
 series: "OMP 与 Agent 工程"
 kind: concept
 status: active
-sources: ["legacy-omp-config-and-rules-guide"]
+sources: ["legacy-omp-config-and-rules-guide", "omp-17-2-15-runtime-contract", "omp-17-2-15-runtime-contract-correction"]
 related: ["headroom-single-port-evolution", "omp-headroom-persistence", "omp-hook-extension-guide", "llm-wiki-pattern"]
 tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,RTK,Rules,Configuration,Architecture]
 description: "用可复用的分层模型解释 OMP 配置：modelRoles 负责角色默认路由，agentModelOverrides 负责局部覆盖，fallbackChains 负责故障后的恢复；同时划清 Headroom、规则发现与模型选择的边界，并给出按层验证的顺序。"
@@ -46,13 +46,28 @@ flowchart LR
 - `fallbackRevertPolicy`、额度感知和重试次数改变恢复时机；它们不会把直连 provider 变成 Headroom provider。
 - `globs`、条件和 `alwaysApply` 属于规则注入语义；配置文件里不存在一个可替代规则发现的 `rules` 总开关。
 
-### 3. 先配置、后路由、再行为的验证顺序
+### 3. OMP 17.2.15 的 compaction、snapcompact 与 TTSR 边界
+
+以下是官方 `17.2.15` schema 的键级事实；它们定义压缩与规则运行控制，不决定角色选模、provider 注册或网络入口，也不代表任何用户环境已启用这些键或采用某个取值。
+
+| 命名空间 | 官方键 | 边界 |
+| --- | --- | --- |
+| `compaction` | `enabled`、`midTurnEnabled`、`strategy`、`thresholdPercent`、`thresholdTokens`、`handoffSaveToDisk`、`remoteEnabled`、`remoteStreamingV2Enabled`、`reserveTokens`、`keepRecentTokens`、`autoContinue`、`remoteEndpoint`、`v2RetainedMessageBudget`、`idleEnabled`、`idleThresholdTokens`、`idleTimeoutSeconds`、`supersedeReads`、`dropUseless` | 控制何时、如何及保留多少上下文；不是 fallback、模型目录或路由配置。 |
+| `snapcompact` | `systemPrompt`、`toolResults`、`shape` | 只调节 snapcompact 策略的输入/形状；它不是通用 provider 或 Hook 配置。 |
+| `ttsr` | `enabled`、`contextMode`、`interruptMode`、`repeatMode`、`repeatGap`、`builtinRules`、`disabledRules` | 控制 TTSR 规则的启用、注入与重复/中断行为；不证明某条规则已被发现或路径已命中。 |
+
+自动压缩事件的 `reason` 只定义为 `threshold`、`overflow`、`idle`、`incomplete`；对应 `action` 只定义为 `context-full`、`handoff`、`shake`、`snapcompact`。诊断时应记录实际 reason/action，再回看同命名空间的键；不要从“发生了压缩”反推某个策略、阈值或规则配置。
+
+`CompactionEntry` 是带摘要与保留边界的一等会话条目，`BranchSummaryEntry` 用于 `/tree` 导航的废弃分支上下文；这解释压缩产物的会话语义，但不构成持久化、代理或 provider 行为的证据。
+
+### 4. 先配置、后路由、再行为的验证顺序
 
 1. **结构层**：解析配置，确认键类型、角色名、覆盖目标和降级引用均合法。
 2. **决策层**：启动新会话，分别触发一个普通 role 与一个有覆盖的子 Agent，记录最终 selector；不要只看配置文本。
 3. **恢复层**：用受控的限流/不可用候选验证 fallback 顺序、冷却后回切和额度预留；失败时保留原始错误。
-4. **入口层**：若启用 Headroom，再分别核对 `models.db`/显式 custom provider、请求级 headers 与 active wrapped session；200 或 `/health` 只能证明可达。
-5. **规则层**：用 `omp ttsr list`、`omp ttsr scan -v <candidate>` 检查规则是否被发现和按路径挂载。
+4. **压缩层**：在隔离会话中观察一次自动压缩，记录实际 `reason`/`action`；键存在或摘要出现都不能替代该事件证据。
+5. **入口层**：若启用 Headroom，再分别核对 `models.db`/显式 custom provider、请求级 headers 与 active wrapped session；200 或 `/health` 只能证明可达。
+6. **规则层**：用 `omp ttsr list`、`omp ttsr scan -v <candidate>` 检查规则是否被发现和按路径挂载。
 
 ## 适用条件
 
@@ -75,17 +90,17 @@ flowchart LR
 ## 最小验证
 
 ```text
-配置解析 → role 默认值 → override 命中 → fallback 顺序
+配置解析 → role 默认值 → override 命中 → fallback 顺序 → 自动压缩 reason/action
        →（若启用）实际入口/上游 → 规则发现与路径命中
 ```
 
-最小可观察结果应包含：一个默认 role 的最终 selector、一个覆盖子 Agent 的最终 selector、一次受控 fallback 的候选顺序，以及规则扫描显示的命中条目。任何一项只从静态 YAML 推断，都不能证明运行时行为。
+最小可观察结果应包含：一个默认 role 的最终 selector、一个覆盖子 Agent 的最终 selector、一次受控 fallback 的候选顺序、一次自动压缩的 reason/action，以及规则扫描显示的命中条目。任何一项只从静态 YAML 推断，都不能证明运行时行为。
 
 ## 证据与不确定性
 
-- **来源事实**：`legacy-omp-config-and-rules-guide` 记录 `modelRoles`、`task.agentModelOverrides`、`retry.fallbackChains`、规则归一化以及 `paths`/`globs` 的静默失效；也区分角色到模型、模型到入口和请求级路由。
-- **本页综合**：用“默认 → 局部覆盖 → 故障恢复 → 网络入口 → 规则注入”的顺序组织验证，是为了避免把不同层的症状混在一起。
-- **未确认项**：角色数量、CLI 查询输出、覆盖优先级细节、fallback 的额度阈值和 `models.db` 字段均可能随 OMP/Headroom 版本变化；本页不把旧机器快照当作当前默认值。
+- **来源事实**：`legacy-omp-config-and-rules-guide` 记录 `modelRoles`、`task.agentModelOverrides`、`retry.fallbackChains`、规则归一化以及 `paths`/`globs` 的静默失效；`omp-17-2-15-runtime-contract` 保存最初的官方 tag 快照，`omp-17-2-15-runtime-contract-correction` 以同一 commit 补充并收窄 `compaction`、`snapcompact`、`ttsr` 键集和自动压缩 reason/action 闭集。
+- **本页综合**：用“默认 → 局部覆盖 → 故障恢复 → 压缩/规则控制 → 网络入口 → 规则命中”的顺序组织验证，是为了避免把不同层的症状混在一起。
+- **版本与未确认项**：compaction、snapcompact、TTSR 的键集与事件枚举仅适用于 OMP `17.2.15`；角色数量、CLI 查询输出、覆盖优先级细节、fallback 的额度阈值和 `models.db` 字段均可能随 OMP/Headroom 版本变化。本页不把旧机器快照或用户配置值当作当前默认值。
 
 ## 相关页面
 

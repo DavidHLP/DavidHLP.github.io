@@ -5,7 +5,7 @@ series: "个人 AI 知识库"
 kind: concept
 status: active
 sources: ["karpathy-llm-wiki"]
-related: ["headroom-single-port-evolution", "omp-config-and-rules-guide", "omp-headroom-persistence", "omp-hook-extension-guide"]
+related: ["headroom-single-port-evolution", "omp-config-and-rules-guide", "omp-headroom-persistence", "omp-hook-extension-guide", "kb-session-ingest-contract", "mcp-codebase-memory-workflow"]
 tags: [LLM, Knowledge Base, Wiki, RAG, Agent]
 description: "本页是 DavidHLPL 个人 AI 知识库的自我说明书，解释 raw、wiki、schema 三层和 ingest、query、lint 三个操作。"
 toc: true
