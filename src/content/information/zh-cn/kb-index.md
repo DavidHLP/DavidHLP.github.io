@@ -60,6 +60,7 @@
 - [Headroom 单端口路由综合：入口、动态上游与验证边界](/note/headroom-single-port-evolution) — **provisional** 综合 8787 入口、动态上游和历史路由假设。
 - [Headroom 路由持久化综合：Named Profile、model_cache 与恢复](/note/omp-headroom-persistence) — **provisional** 归纳状态隔离、reconciler 和恢复验证，不代表所有版本都适用。
 - [Enhanced UISA：异构节点信息同步的 owner、边界与恢复模型](/note/uisa-architecture-design) — **provisional** 综合 owner、可靠性、幂等、异构能力和失败恢复的设计权衡。
+- [Headroom 与 cc-switch / Claude Code 共存：单一整理与安全边界](/note/headroom-cc-switch-coexistence) — **provisional** 综合 Headroom 8787、cc-switch 15721、Claude Code `/v1/messages` 与 systemd `BindPaths` 的运行时链路和安全取舍。
 
 ## 原始来源（raw）
 
@@ -99,6 +100,7 @@
 | `testcontainers-docker-api-negotiation-correction` | upstream-source-fixed-commits-correction | [Testcontainers 1.20.6](https://github.com/testcontainers/testcontainers-java/tree/1.20.6) | 更正 TestEnvironment 路径与 `999.999` daemon too new 矩阵，不覆盖初始 raw。 |
 | `dubbo-nacos-runtime-registration-correction` | upstream-source-fixed-tag-correction | [Dubbo 3.3.6](https://github.com/apache/dubbo/tree/dubbo-3.3.6) | 更正 Nacos registry URL 参数读取边界，不覆盖初始 raw。 |
 | `microservice-domain-data-ownership-correction` | upstream-patterns-fixed-docs-correction | [Microsoft pinned data considerations](https://github.com/MicrosoftDocs/architecture-center/blob/02b64c27c3a9eb6f49054297ceb6cec0fa0c68ef/docs/microservices/design/data-considerations.md) | 补齐 revision-pinned URL，并标明 live 模式页只按抓取快照使用。 |
+| `headroom-cc-switch-coexistence-runtime` | repository-and-runtime-observation | [固定项目提交](https://github.com/DavidHLP/omp-headroom-provider-proxy/tree/a9349b762657a28ad8b45a672b9996e831e1eedc) | Claude Code 经 Headroom 到 cc-switch 的链路、单一整理边界与 `BindPaths` 安全取舍的脱敏运行时证据。 |
 
 raw 文件位于 `src/content/raw/zh-cn/`，只供 LLM 阅读，不生成公开路由。来源快照写入后不可修改。
 
