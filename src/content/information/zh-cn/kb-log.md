@@ -51,3 +51,7 @@
 ## [2026-08-13] correction | 五主题证据复审与不可变 raw 校正
 
 复审发现 JJWT `PrivateKey`/`verifyWith` 类型边界、Testcontainers `TestEnvironment` 路径与 `999.999` 版本矩阵、Dubbo `register-consumer-url` 配置键以及微服务来源固定 URL 需要收窄。按 raw 不可变规则保留初始五份快照，新增四份 correction raw，并将相关 note 的 `sources` 同时指向初始与 correction；初始 raw 哈希恢复并登记在 `src/content/raw/.manifest.sha256`。复审未发现凭证、私有路径或会话标识进入公开内容。
+
+## [2026-08-13] maintenance | 收窄翻译 wiki 发布范围
+
+按 `KB.md` 的正典边界，将未经过独立翻译任务确认的 14 个历史主题的 28 个 en/ja wiki 副本标记为 `draft: true`，并将 en/ja `kb-index.md` 收敛为导航入口与已明确翻译的页面；同时补齐 zh-cn 正典页面的交叉链接，并移除已发布翻译页对 draft 页面元数据的引用。未修改 raw、保护面或既有日志条目。

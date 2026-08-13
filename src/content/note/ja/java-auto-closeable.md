@@ -4,6 +4,7 @@ timestamp: 2025-10-07 20:25:00+08:00
 series: "Java 基礎とバックエンドチューニング"
 kind: concept
 status: active
+draft: true
 sources: ["legacy-java-auto-closeable"]
 related: ["java-atomic-boolean", "java-null-value", "java-internship-interview-blog-polished"]
 tags: ["Java", "JDK", "Exception Handling", "Resource Management", "Try-With-Resources"]

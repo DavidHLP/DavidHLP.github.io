@@ -5,7 +5,7 @@ series: "個人 AI ナレッジベース"
 kind: concept
 status: active
 sources: ["karpathy-llm-wiki"]
-related: ["headroom-single-port-evolution", "omp-config-and-rules-guide", "omp-headroom-persistence", "omp-hook-extension-guide"]
+related: ["headroom-compress-retrieve-contract"]
 tags: [LLM, Knowledge Base, Wiki, RAG, Agent]
 description: "DavidHLPL 個人 AI ナレッジベースの運用説明。raw、wiki、schema の三層と ingest/query/lint の流れを定義する。"
 toc: true
@@ -59,8 +59,8 @@ RAG は必ずしも不正確なのではなく、知識が十分に蓄積され�
 
 ## ナビゲーションファイル
 
-- [`kb-index.md`](/kb)：concept、entity、synthesis、raw を分類する内容指向の目次です。
-- [`kb-log.md`](/kb#log)：追記専用の時系列ログです。各項目は `## [YYYY-MM-DD] 種別 | タイトル` で始まり、`grep '^## \['` で検索できます。
+- [`kb-index.md`](/ja/kb)：concept、entity、synthesis、raw を分類する内容指向の目次です。
+- [`kb-log.md`](/ja/kb#log)：追記専用の時系列ログです。各項目は `## [YYYY-MM-DD] 種別 | タイトル` で始まり、`grep '^## \['` で検索できます。
 
 - 次の作業は[取り込みインボックス](/ja/jotting/kb-ingest-todo)に記録しています。
 

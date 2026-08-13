@@ -4,6 +4,7 @@ timestamp: 2026-02-25 00:00:00+08:00
 series: "Java Fundamentals & Backend Tuning"
 kind: synthesis
 status: provisional
+draft: true
 sources: ["legacy-java-internship-interview-blog-polished", "legacy-java-null-value", "legacy-java-online-performance-debug"]
 related: ["java-null-value", "java-online-performance-debug", "java-atomic-boolean", "java-auto-closeable"]
 tags: ["Java", "Backend", "Internship Interview", "Redis", "Docker", "Kafka", "WebSocket", "JVM", "Production Troubleshooting"]

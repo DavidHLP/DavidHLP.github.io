@@ -4,6 +4,7 @@ timestamp: 2025-10-07 21:43:00+08:00
 series: "Java Fundamentals & Backend Tuning"
 kind: concept
 status: active
+draft: true
 sources: ["legacy-java-null-value"]
 related: ["java-online-performance-debug", "java-auto-closeable", "java-internship-interview-blog-polished"]
 tags: ["Java", "Spring Cache", "Caching", "Null Object", "Design Patterns"]

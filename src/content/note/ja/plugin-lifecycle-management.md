@@ -4,6 +4,7 @@ timestamp: 2026-06-02 00:00:00+08:00
 series: "アーキテクチャとエンジニアリング実践"
 kind: concept
 status: active
+draft: true
 sources: ["legacy-plugin-lifecycle-management"]
 related: ["uisa-architecture-design"]
 tags: [Distributed Systems, Architecture Design, Endpoint Management, Canary Release, High Availability]

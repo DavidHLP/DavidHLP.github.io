@@ -5,7 +5,7 @@ series: "架构与工程实践"
 kind: concept
 status: active
 sources: ["microservice-domain-data-ownership", "microservice-domain-data-ownership-correction"]
-related: ["database-schema-drift", "multi-service-readiness"]
+related: ["database-schema-drift", "multi-service-readiness", "dubbo-nacos-runtime"]
 tags: ["Microservices", "Bounded Context", "Data Ownership", "Database-per-Service", "Saga", "Transactional Outbox", "Strangler Fig"]
 description: "用服务私有数据、bounded context、saga、transactional outbox 和 expand-migrate-contract 建立数据所有权判定顺序，避免把共享物理数据库、共享 schema 和服务自治混为一谈。"
 toc: true

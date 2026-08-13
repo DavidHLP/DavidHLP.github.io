@@ -5,7 +5,7 @@ series: "Personal AI Knowledge Base"
 kind: concept
 status: active
 sources: ["karpathy-llm-wiki"]
-related: ["headroom-single-port-evolution", "omp-config-and-rules-guide", "omp-headroom-persistence", "omp-hook-extension-guide"]
+related: ["headroom-compress-retrieve-contract"]
 tags: [LLM, Knowledge Base, Wiki, RAG, Agent]
 description: "The operating manual for DavidHLPL's personal AI knowledge base: raw sources, wiki pages, schema, and the ingest/query/lint loop."
 toc: true
@@ -59,8 +59,8 @@ Look for contradictions, stale claims, orphan pages, broken links, unsupported c
 
 ## Navigation files
 
-- [`kb-index.md`](/kb) is the content-oriented catalogue of concepts, entities, syntheses, and raw sources.
-- [`kb-log.md`](/kb#log) is an append-only timeline. Each entry starts with `## [YYYY-MM-DD] type | title`, so it can be searched with `grep '^## \['`.
+- [`kb-index.md`](/en/kb) is the content-oriented catalogue of concepts, entities, syntheses, and raw sources.
+- [`kb-log.md`](/en/kb#log) is an append-only timeline. Each entry starts with `## [YYYY-MM-DD] type | title`, so it can be searched with `grep '^## \['`.
 
 - The next batch of work is tracked in the [ingest inbox](/en/jotting/kb-ingest-todo).
 
