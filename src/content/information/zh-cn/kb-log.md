@@ -63,3 +63,7 @@
 ## [2026-08-13] ingest | OMP Headroom Bridge 与原生 Codex 路由
 
 从 `omp-headroom-provider-proxy` 固定提交和当前工作树的脱敏交付证据中摄入一个 entity 页面与一份 raw 快照。记录 `systemd --user` 管理的 loopback Headroom 8787、OMP 的两个显式 provider route、Codex CLI/Desktop 共享用户级 Responses provider、Claude Code/cc-switch 共存边界、`bin/codex-routes` 的 marker/lock/hash/mode/atomic restore 约束，以及 static/lifecycle/fresh-client 验证和 rollback 顺序。未写入凭证、用户配置正文、`models.db`、请求正文、本机绝对路径或未提交代码的伪造固定 URL；明确注明当前工作树尚未形成新的公开 commit。
+
+## [2026-08-17] ingest | Hindsight 本地部署与 OMP / Codex 记忆集成
+
+从 Vectorize Hindsight v0.9.1 固定源码与本地 loopback 实测中摄入全本地化记忆系统部署与 OMP / Codex 统一接入规范。记录 AMD ROCm GPU 下加载 `gemma4:12b` (Q4_K_M GGUF)、CPU Local 运行 `BAAI/bge-m3`、FastMCP stdio 桥接状态机、Git 根目录自适应解析（避免子目录漂移）、Rootless 容器 UID 1000 权限最小化配置，以及 OMP `scoping: per-project` 与 Codex 镜像对齐。新增 1 份脱敏 raw 快照和 1 份中文正典 concept 页面，更新 `kb-index.md` 与本日志。raw 与 wiki 均已脱敏，不包含真实会话标识、请求正文、私有凭证或宿主机绝对路径。
