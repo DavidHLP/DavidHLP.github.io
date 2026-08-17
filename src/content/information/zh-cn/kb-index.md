@@ -43,6 +43,7 @@
 - [OMP Hook 扩展概念：决策点提示、硬阻断与状态桥接](/note/omp-hook-extension-guide) — 区分软提示、硬护栏和状态栏事件桥接，不把 nudge 当安全边界。
 - [Headroom 0.34 压缩与检索契约：字段、模式与真实端点验证](/note/headroom-compress-retrieve-contract) — 固定 `/v1/compress`、`/v1/retrieve` 的真实字段、CCR 模式和 contract test 边界。
 - [MCP 协议时代边界与 codebase-memory-mcp v0.10.2 图工作流](/note/mcp-codebase-memory-workflow) — 固定 modern MCP 契约与图搜索、源码和 coverage 证据纪律。
+- [Hindsight 完全本地化部署与 OMP / Codex 统一记忆集成实践](/note/hindsight-local-deployment-and-agent-integration) — 记录 Vectorize Hindsight 记忆引擎的全本地化部署（AMD ROCm GPU LLM + CPU Embedding），以及为 OMP 与 Codex 配置自适应多项目动态路由记忆的完整实施、深度踩坑与根因排查。
 
 ### 架构与工程实践
 - [微服务数据所有权：先定领域 owner，再谈拆库与迁移](/note/microservice-data-ownership) — 用 bounded context、private schema、saga、outbox 和 `expand → migrate → contract` 建立迁移门禁。
@@ -102,6 +103,7 @@
 | `microservice-domain-data-ownership-correction` | upstream-patterns-fixed-docs-correction | [Microsoft pinned data considerations](https://github.com/MicrosoftDocs/architecture-center/blob/02b64c27c3a9eb6f49054297ceb6cec0fa0c68ef/docs/microservices/design/data-considerations.md) | 补齐 revision-pinned URL，并标明 live 模式页只按抓取快照使用。 |
 | `headroom-cc-switch-coexistence-runtime` | repository-and-runtime-observation | [固定项目提交](https://github.com/DavidHLP/omp-headroom-provider-proxy/tree/a9349b762657a28ad8b45a672b9996e831e1eedc) | Claude Code 经 Headroom 到 cc-switch 的链路、单一整理边界与 `BindPaths` 安全取舍的脱敏运行时证据。 |
 | `omp-headroom-provider-proxy-codex-routing-runtime` | repository-and-runtime-observation | [固定项目提交](https://github.com/DavidHLP/omp-headroom-provider-proxy/tree/a9349b762657a28ad8b45a672b9996e831e1eedc) | OMP Headroom Bridge 的 loopback proxy、OMP/Codex 路由控制器、Claude Code 共存边界和脱敏 CLI/Desktop 验证证据。 |
+| `hindsight-local-deployment-and-agent-integration` | upstream-source-and-minimal-experiment | [固定版本源码](https://github.com/vectorize-io/hindsight/tree/v0.9.1) | Vectorize Hindsight v0.9.1 本地部署、Ollama ROCm LLM、CPU BGE-M3 嵌入、FastMCP 桥接及 OMP/Codex 配置脱敏证据。 |
 
 raw 文件位于 `src/content/raw/zh-cn/`，只供 LLM 阅读，不生成公开路由。来源快照写入后不可修改。
 
