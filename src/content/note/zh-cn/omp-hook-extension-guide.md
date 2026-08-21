@@ -6,7 +6,7 @@ kind: concept
 status: active
 sources: ["legacy-omp-hook-extension-guide", "omp-17-2-15-runtime-contract", "omp-17-2-15-runtime-contract-correction"]
 related: ["headroom-single-port-evolution", "omp-config-and-rules-guide", "omp-headroom-persistence", "llm-wiki-pattern", "headroom-compress-retrieve-contract"]
-tags: [Agent,OMP,Codebase,Hooks,DevOps,TUI,Plugin,Extension]
+tags: [Agent, OMP, Codebase, Hooks, DevOps, TUI, Plugin, Extension]
 description: "把 OMP Hook 抽象为位于工具决策点的事件扩展：soft hook 用 sendMessage 提醒但不阻断，hard result 才能拒绝调用；setStatus 通过事件桥接到 UI。页面给出 API 边界、mock 与真实会话验证，并明确软提示不是安全强制边界。"
 toc: true
 ---
@@ -28,6 +28,7 @@ flowchart LR
   H[生命周期/工具事件] --> I[ctx.ui.setStatus]
   I --> J[Hook 状态 map] --> K[状态行/可选 segment]
 ```
+
 在 OMP `17.2.15` 固定点，`HookAPI.on()` 的显式事件清单如下，可按用途阅读：
 
 - **会话与树**：`session_start`、`session_before_switch`、`session_switch`、`session_before_branch`、`session_branch`、`session_before_compact`、`session.compacting`、`session_compact`、`session_shutdown`、`session_before_tree`、`session_tree`。
@@ -37,12 +38,12 @@ flowchart LR
 
 这些是 v17.2.15 的类型层全集，不等于每个版本、每个加载方式或每个会话都会触发每个事件。
 
-| 通道 | 最小契约 | 可证明的效果 | 不能假定的效果 |
-| --- | --- | --- | --- |
-| LLM 软提示 | `pi.sendMessage({ customType, content, display, attribution })` 后返回 `void` | 创建参与 LLM 上下文的 `CustomMessageEntry`，当前工具照常执行 | Agent 一定采纳建议；任何安全动作都被拦截 |
-| Hook 状态/会话记录 | `pi.appendEntry(...)` | 按官方说明记录不应发送给 LLM 的 Hook state | 状态会自动显示在 UI；可替代阻断或权限检查 |
-| 硬阻断 | `return { block: true, reason }`（字段以当前类型为准） | 当前工具调用被拒绝，调用方需要处理结果 | 误判不会发生；它替代了服务端权限或写门禁 |
-| UI 状态 | `ctx.ui.setStatus(key, text)` | 状态进入 Hook 状态集合并可被 UI 渲染；传 `undefined` 可清除 | 状态行一定在顶部显示；长文本不会截断 |
+| 通道               | 最小契约                                                                      | 可证明的效果                                                 | 不能假定的效果                            |
+| ------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------- |
+| LLM 软提示         | `pi.sendMessage({ customType, content, display, attribution })` 后返回 `void` | 创建参与 LLM 上下文的 `CustomMessageEntry`，当前工具照常执行 | Agent 一定采纳建议；任何安全动作都被拦截  |
+| Hook 状态/会话记录 | `pi.appendEntry(...)`                                                         | 按官方说明记录不应发送给 LLM 的 Hook state                   | 状态会自动显示在 UI；可替代阻断或权限检查 |
+| 硬阻断             | `return { block: true, reason }`（字段以当前类型为准）                        | 当前工具调用被拒绝，调用方需要处理结果                       | 误判不会发生；它替代了服务端权限或写门禁  |
+| UI 状态            | `ctx.ui.setStatus(key, text)`                                                 | 状态进入 Hook 状态集合并可被 UI 渲染；传 `undefined` 可清除  | 状态行一定在顶部显示；长文本不会截断      |
 
 ### 2. 扩展生命周期和状态桥
 
@@ -68,14 +69,14 @@ flowchart LR
 
 ## 不适用与风险
 
-| 边界 | 失败表现 | 正确处理 |
-| --- | --- | --- |
-| 软提示不是安全控制 | Agent 忽略 `sendMessage`，危险调用仍发生 | 对不可恢复的动作使用受测试的硬门禁或服务端授权；不要把 nudge 当保证 |
-| Hook API 随版本变化 | 类型编译通过但事件字段或加载位置变化 | 对照当前类型声明；在新的会话中观察真实事件 |
-| mock 不等于运行时 | 合成 handler 通过，实际没有加载或渲染 | mock 后必须做真实 `tool_call` 和 TUI 验证 |
-| 状态行与顶部 segment 分离 | `setStatus` 有数据但用户看不到预期位置 | 分别检查状态开关、segment union/preset 和渲染通道 |
-| 状态长度和刷新频率受 UI 限制 | 文本省略、边框溢出或显示陈旧 | 只放短状态，保留独立行作为完整证据，并验证真实终端尺寸 |
-| 检测过重或抛错 | 工具调用延迟、正常调用被意外影响 | 采用路径/字段快速判定、限流和 fail-soft `try/catch` |
+| 边界                         | 失败表现                                 | 正确处理                                                            |
+| ---------------------------- | ---------------------------------------- | ------------------------------------------------------------------- |
+| 软提示不是安全控制           | Agent 忽略 `sendMessage`，危险调用仍发生 | 对不可恢复的动作使用受测试的硬门禁或服务端授权；不要把 nudge 当保证 |
+| Hook API 随版本变化          | 类型编译通过但事件字段或加载位置变化     | 对照当前类型声明；在新的会话中观察真实事件                          |
+| mock 不等于运行时            | 合成 handler 通过，实际没有加载或渲染    | mock 后必须做真实 `tool_call` 和 TUI 验证                           |
+| 状态行与顶部 segment 分离    | `setStatus` 有数据但用户看不到预期位置   | 分别检查状态开关、segment union/preset 和渲染通道                   |
+| 状态长度和刷新频率受 UI 限制 | 文本省略、边框溢出或显示陈旧             | 只放短状态，保留独立行作为完整证据，并验证真实终端尺寸              |
+| 检测过重或抛错               | 工具调用延迟、正常调用被意外影响         | 采用路径/字段快速判定、限流和 fail-soft `try/catch`                 |
 
 ## 最小验证
 

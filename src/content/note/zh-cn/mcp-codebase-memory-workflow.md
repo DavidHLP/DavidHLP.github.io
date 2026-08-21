@@ -17,13 +17,13 @@ toc: true
 
 MCP 2026-07-28 规范（commit `5f5440bb`）中 "modern" 版本取消连接级协商握手，改为每个请求自描述：
 
-| 维度 | legacy（2025-11-25 及更早） | modern（2026-07-28 起） |
-| --- | --- | --- |
-| 会话建立 | `initialize` 握手 + `notifications/initialized` | 无握手，无 `notifications/initialized` |
-| 版本/能力声明 | 握手时协商 | 每个请求的 `_meta` 携带 |
-| 服务器状态假设 | 允许会话状态 | **stateless**：禁止从同连接先前请求推断 capabilities/版本/身份；stdio 进程不是会话 |
-| 版本发现 | 协商 | 服务器必须实现 `server/discover`（客户端可选先调用） |
-| 兼容 | dual-era 实现可同时支持两种时代，按请求形态区分（带 modern `_meta` 按 modern；`initialize` 按 legacy） | 同一规则 |
+| 维度           | legacy（2025-11-25 及更早）                                                                            | modern（2026-07-28 起）                                                            |
+| -------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| 会话建立       | `initialize` 握手 + `notifications/initialized`                                                        | 无握手，无 `notifications/initialized`                                             |
+| 版本/能力声明  | 握手时协商                                                                                             | 每个请求的 `_meta` 携带                                                            |
+| 服务器状态假设 | 允许会话状态                                                                                           | **stateless**：禁止从同连接先前请求推断 capabilities/版本/身份；stdio 进程不是会话 |
+| 版本发现       | 协商                                                                                                   | 服务器必须实现 `server/discover`（客户端可选先调用）                               |
+| 兼容           | dual-era 实现可同时支持两种时代，按请求形态区分（带 modern `_meta` 按 modern；`initialize` 按 legacy） | 同一规则                                                                           |
 
 modern 逐请求 `_meta` 字段（来自 `basic/index.mdx`）：
 
@@ -33,11 +33,11 @@ modern 逐请求 `_meta` 字段（来自 `basic/index.mdx`）：
 
 **错误码必须按契约区分**：
 
-| 错误 | 错误码 | 触发条件 | 附带数据 |
-| --- | --- | --- | --- |
-| Invalid params | `-32602`（HTTP 400） | 缺必需 `_meta` 字段，请求畸形 | — |
-| `MissingRequiredClientCapabilityError` | `-32021`（HTTP 400） | 服务器需要客户端未声明的能力 | `data.requiredCapabilities` 列出缺失项 |
-| `UnsupportedProtocolVersionError` | `-32022` | 协议版本不匹配 | `data.supported` 列出支持的版本，客户端选共同版本重试 |
+| 错误                                   | 错误码               | 触发条件                      | 附带数据                                              |
+| -------------------------------------- | -------------------- | ----------------------------- | ----------------------------------------------------- |
+| Invalid params                         | `-32602`（HTTP 400） | 缺必需 `_meta` 字段，请求畸形 | —                                                     |
+| `MissingRequiredClientCapabilityError` | `-32021`（HTTP 400） | 服务器需要客户端未声明的能力  | `data.requiredCapabilities` 列出缺失项                |
+| `UnsupportedProtocolVersionError`      | `-32022`             | 协议版本不匹配                | `data.supported` 列出支持的版本，客户端选共同版本重试 |
 
 扩展协商走 `capabilities.extensions`（扩展标识 → settings 对象）；一方不支持某扩展时回退到核心协议行为或报错。响应 `resultType`：`"complete"` 表示成功，`"input_required"` 表示需要更多输入（MRTR 多轮请求），未知值视为无效，缺省按 `"complete"` 处理。
 
@@ -78,15 +78,15 @@ modern 逐请求 `_meta` 字段（来自 `basic/index.mdx`）：
 
 ## 工具参数契约速查（以固定源码 `TOOLS[]` 为准）
 
-| 工具 | 必填 | 关键可选/行为 |
-| --- | --- | --- |
-| `index_repository` | `repo_path` | `mode` 枚举 `full/moderate/fast/cross-repo-intelligence`；`persistence` 写 `.codebase-memory/graph.db.zst` 团队共享工件 |
-| `search_graph` | `project` | `query`（BM25）存在时忽略 `name_pattern`；`semantic_query` 必须是**字符串数组**（单个字符串是类型错误）；`format` 枚举 `tree`（默认）/`json`；响应含 `total` 与 `has_more` 用于分页 |
-| `trace_path` | `function_name`、`project` | `direction` 枚举 `inbound/outbound/both`（默认 `both`）；`depth` 默认 3（README 注 Depth 1–5）；`mode` 枚举 `calls/data_flow/cross_service`；`limit` 默认 100（1–5000）；`truncated:true` + `next` 游标续页，reindex 后 `cursor` 失效返回 `stale_cursor`；`include_tests` 默认 false；`include_evidence` 增加每跳解析策略（`lsp\|language_rule\|heuristic\|unresolved`）与置信度；别名 `trace_call_path` |
-| `get_code_snippet` | `qualified_name`、`project` | `include_neighbors` 默认 false；返回 `coverage_note` 时按覆盖纪律处理 |
-| `check_index_coverage` | `project`；`paths`/`scopes` 至少其一（都缺则运行时拒绝） | `paths` ≤128 精确路径，`scopes` ≤32 路径前缀；`scope_limit` 默认 200（1–1000）；状态独立于文件系统元数据新鲜度 |
-| `index_status` | `project` | `verbose` 可选；返回 node/edge 计数、root path、git context 与覆盖报告 |
-| `query_graph` | — | 只读 openCypher 子集（`MATCH`/`WHERE`/`RETURN` 等），上限 100k 行；`graph:"missed"` 查未完整索引文件的 miss graph |
+| 工具                   | 必填                                                     | 关键可选/行为                                                                                                                                                                                                                                                                                                                                                                                            |
+| ---------------------- | -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `index_repository`     | `repo_path`                                              | `mode` 枚举 `full/moderate/fast/cross-repo-intelligence`；`persistence` 写 `.codebase-memory/graph.db.zst` 团队共享工件                                                                                                                                                                                                                                                                                  |
+| `search_graph`         | `project`                                                | `query`（BM25）存在时忽略 `name_pattern`；`semantic_query` 必须是**字符串数组**（单个字符串是类型错误）；`format` 枚举 `tree`（默认）/`json`；响应含 `total` 与 `has_more` 用于分页                                                                                                                                                                                                                      |
+| `trace_path`           | `function_name`、`project`                               | `direction` 枚举 `inbound/outbound/both`（默认 `both`）；`depth` 默认 3（README 注 Depth 1–5）；`mode` 枚举 `calls/data_flow/cross_service`；`limit` 默认 100（1–5000）；`truncated:true` + `next` 游标续页，reindex 后 `cursor` 失效返回 `stale_cursor`；`include_tests` 默认 false；`include_evidence` 增加每跳解析策略（`lsp\|language_rule\|heuristic\|unresolved`）与置信度；别名 `trace_call_path` |
+| `get_code_snippet`     | `qualified_name`、`project`                              | `include_neighbors` 默认 false；返回 `coverage_note` 时按覆盖纪律处理                                                                                                                                                                                                                                                                                                                                    |
+| `check_index_coverage` | `project`；`paths`/`scopes` 至少其一（都缺则运行时拒绝） | `paths` ≤128 精确路径，`scopes` ≤32 路径前缀；`scope_limit` 默认 200（1–1000）；状态独立于文件系统元数据新鲜度                                                                                                                                                                                                                                                                                           |
+| `index_status`         | `project`                                                | `verbose` 可选；返回 node/edge 计数、root path、git context 与覆盖报告                                                                                                                                                                                                                                                                                                                                   |
+| `query_graph`          | —                                                        | 只读 openCypher 子集（`MATCH`/`WHERE`/`RETURN` 等），上限 100k 行；`graph:"missed"` 查未完整索引文件的 miss graph                                                                                                                                                                                                                                                                                        |
 
 其他工具：`list_projects`（列出已索引项目）、`delete_project`、`get_graph_schema`（节点标签/边类型/属性，README 建议先运行它）、`get_architecture`（languages/packages/routes/hotspots/clusters）、`search_code`（图增强 grep，仅索引文件内，模式 `compact/full/files`）、`detect_changes`（git diff → 影响符号 + blast radius，`inbound` 默认）、`manage_adr`、`ingest_traces`。共 15 个 MCP 工具。
 

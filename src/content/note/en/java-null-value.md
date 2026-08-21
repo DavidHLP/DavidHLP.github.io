@@ -20,11 +20,11 @@ toc: true
 
 Without negative caching, every request for an absent object follows “cache miss → database → null.” A hot nonexistent key can repeat that path indefinitely. The cache must represent three states:
 
-| Cache observation | Business meaning | Next action |
-| --- | --- | --- |
-| Key absent | Not queried, or expired | May load from the source and decide whether to store |
-| Key present with `NullValue` | Absence has already been confirmed | Return business `null` without a source call |
-| Key present with an object | Real value hit | Return the object |
+| Cache observation            | Business meaning                   | Next action                                          |
+| ---------------------------- | ---------------------------------- | ---------------------------------------------------- |
+| Key absent                   | Not queried, or expired            | May load from the source and decide whether to store |
+| Key present with `NullValue` | Absence has already been confirmed | Return business `null` without a source call         |
+| Key present with an object   | Real value hit                     | Return the object                                    |
 
 The Spring Cache abstraction can be reduced to:
 

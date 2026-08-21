@@ -127,13 +127,13 @@ The observer answers "which lifecycle events this chain execution went through".
 
 ## Minimal test matrix
 
-| Scenario | Should verify |
-| --- | --- |
-| Normal full chain | `onChainStart -> beforeNode -> afterNode -> onChainEnd`, with identical start/end tokens |
-| Lock-held fragment | only subsequent-node hooks; no second around hook; no second post-process |
-| Handler throws | the exception keeps propagating; finally triggers `onChainEnd`; the failed handler does not trigger `afterNode` |
-| Two-thread concurrency | tokens, MDC previous state, and snapshots do not pollute each other |
-| Same-key nesting | the reentrant path does not wait on its own future and does not re-acquire execution rights |
+| Scenario               | Should verify                                                                                                   |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Normal full chain      | `onChainStart -> beforeNode -> afterNode -> onChainEnd`, with identical start/end tokens                        |
+| Lock-held fragment     | only subsequent-node hooks; no second around hook; no second post-process                                       |
+| Handler throws         | the exception keeps propagating; finally triggers `onChainEnd`; the failed handler does not trigger `afterNode` |
+| Two-thread concurrency | tokens, MDC previous state, and snapshots do not pollute each other                                             |
+| Same-key nesting       | the reentrant path does not wait on its own future and does not re-acquire execution rights                     |
 
 These are the minimal regression contract; production systems should also add cancellation, timeout, lock-invalidation, and result-visibility tests.
 

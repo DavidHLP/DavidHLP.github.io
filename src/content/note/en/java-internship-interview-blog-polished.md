@@ -18,11 +18,11 @@ This is a synthesis of interview capabilities, not a personal story or a questio
 
 ### 1. A three-layer capability model
 
-| Layer | Must be clear | Evidence that can be checked | Common distortion |
-| --- | --- | --- | --- |
-| Project truth | Entry point, owned module, data flow, and one concrete change | Code path, endpoint/table/message, commit or test boundary | Listing a stack without explaining failure paths |
-| Engineering mechanism | Why cache, queue, isolation, or a long connection was chosen; what it costs | State transitions, limits, TTL, retry, idempotency, exception contract | Treating “used it” as “understood it” |
-| Production evidence | How to observe, locate, mitigate, roll back, and review | Metrics, logs, stacks, GC/error rates, timeline | Saying only “restart” or “check logs” |
+| Layer                 | Must be clear                                                               | Evidence that can be checked                                           | Common distortion                                |
+| --------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------ |
+| Project truth         | Entry point, owned module, data flow, and one concrete change               | Code path, endpoint/table/message, commit or test boundary             | Listing a stack without explaining failure paths |
+| Engineering mechanism | Why cache, queue, isolation, or a long connection was chosen; what it costs | State transitions, limits, TTL, retry, idempotency, exception contract | Treating “used it” as “understood it”            |
+| Production evidence   | How to observe, locate, mitigate, roll back, and review                     | Metrics, logs, stacks, GC/error rates, timeline                        | Saying only “restart” or “check logs”            |
 
 The layers form one causal chain: **facts and ownership → mechanism and cost → observable result → failure action**. Mark participation, inference, or open verification explicitly rather than expanding an unsupported ownership claim.
 
@@ -50,12 +50,12 @@ A strong explanation says that `RUNNABLE` leads to hot-code inspection, `BLOCKED
 
 ### 4. Translate infrastructure choices into observable mechanisms
 
-| Technology | Mechanism to explain | Production evidence |
-| --- | --- | --- |
-| Docker sandbox | CPU, memory, network, filesystem, and execution-time isolation | Exit code, stderr, timeout, health, and resource metrics |
-| Kafka judging | Persist a state, then asynchronously absorb peaks; consumers retry/scale | Backlog, duplicate handling, retry failures, final state |
-| WebSocket | Real-time push only; heartbeat, reconnect, and connection limits require governance | Connections, disconnect rate, push latency |
-| JWT | Signature/expiry checks plus refresh and active-revocation policy | jti blacklist, expiry rate, rejection reason, audit trail |
+| Technology     | Mechanism to explain                                                                | Production evidence                                       |
+| -------------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| Docker sandbox | CPU, memory, network, filesystem, and execution-time isolation                      | Exit code, stderr, timeout, health, and resource metrics  |
+| Kafka judging  | Persist a state, then asynchronously absorb peaks; consumers retry/scale            | Backlog, duplicate handling, retry failures, final state  |
+| WebSocket      | Real-time push only; heartbeat, reconnect, and connection limits require governance | Connections, disconnect rate, push latency                |
+| JWT            | Signature/expiry checks plus refresh and active-revocation policy                   | jti blacklist, expiry rate, rejection reason, audit trail |
 
 Selection remains a business constraint: if a job is not slow, queue latency and operations may not be worth it; without a push requirement, a long connection is not a universal HTTP replacement.
 

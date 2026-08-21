@@ -6,7 +6,7 @@ kind: concept
 status: active
 sources: ["headroom-0-34-compress-retrieve-contract"]
 related: ["llm-wiki-pattern"]
-tags: [Headroom,API,Compression,CCR,Contract Testing,Agent]
+tags: [Headroom, API, Compression, CCR, Contract Testing, Agent]
 description: "Pins the Headroom 0.34.0 /v1/compress and /v1/retrieve request, response, and mode boundaries, and explains why mocks and real loopback contract tests must share one schema."
 toc: true
 ---
@@ -19,11 +19,9 @@ Treat the Headroom 0.34.0 API as a versioned contract rather than inferring fiel
 
 ```json
 {
-  "model": "<MODEL_NAME>",
-  "messages": [
-    {"role": "user", "content": "..."}
-  ],
-  "config": {}
+	"model": "<MODEL_NAME>",
+	"messages": [{ "role": "user", "content": "..." }],
+	"config": {}
 }
 ```
 
@@ -50,7 +48,7 @@ Boundaries:
 ### `POST /v1/retrieve`
 
 ```json
-{"hash": "<CCR_HASH>"}
+{ "hash": "<CCR_HASH>" }
 ```
 
 A successful response contains:
@@ -69,12 +67,12 @@ A missing `hash` returns HTTP 400; an absent or expired hash returns HTTP 404. R
 
 ## Compression modes are not interchangeable
 
-| `config.mode` | Marker | Store write | Requirement |
-| --- | --- | --- | --- |
-| omitted | no | no | Default path; no CCR retrieval loop is required |
-| `ccr` | conditional | conditional | The caller injects a retrieval tool and can reach loopback `/v1/retrieve` |
-| `lossy_inline` | no | no | Lossless fold first, then Kompress on the remainder |
-| `lossless_then_lossy` | no | no | Compatibility alias for `lossy_inline` |
+| `config.mode`         | Marker      | Store write | Requirement                                                               |
+| --------------------- | ----------- | ----------- | ------------------------------------------------------------------------- |
+| omitted               | no          | no          | Default path; no CCR retrieval loop is required                           |
+| `ccr`                 | conditional | conditional | The caller injects a retrieval tool and can reach loopback `/v1/retrieve` |
+| `lossy_inline`        | no          | no          | Lossless fold first, then Kompress on the remainder                       |
+| `lossless_then_lossy` | no          | no          | Compatibility alias for `lossy_inline`                                    |
 
 `ccr_hashes` reports markers actually inserted. Even in `ccr` mode, ordinary text or a general function message does not guarantee a marker. SmartCrusher row-drop on structured tool output is a verified marker-producing path. Tests must not equate enabling `ccr` with a non-empty `ccr_hashes` array.
 

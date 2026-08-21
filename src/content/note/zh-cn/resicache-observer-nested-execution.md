@@ -126,13 +126,13 @@ observer 负责回答“这一次链执行经历了哪些生命周期事件”�
 
 ## 最小测试矩阵
 
-| 场景 | 应验证 |
-| --- | --- |
-| 正常完整链 | `onChainStart -> beforeNode -> afterNode -> onChainEnd`，start/end token 相同 |
-| 锁内 fragment | 只有后续节点 hook；无第二次 around hook；无第二次 post-process |
-| handler 抛异常 | 异常继续传播；finally 触发 `onChainEnd`；失败 handler 不触发 `afterNode` |
-| 两线程并发 | token、MDC previous state、snapshot 互不污染 |
-| 同 key 嵌套 | reentrant 路径不等待自身 future，不重复取得执行权 |
+| 场景           | 应验证                                                                        |
+| -------------- | ----------------------------------------------------------------------------- |
+| 正常完整链     | `onChainStart -> beforeNode -> afterNode -> onChainEnd`，start/end token 相同 |
+| 锁内 fragment  | 只有后续节点 hook；无第二次 around hook；无第二次 post-process                |
+| handler 抛异常 | 异常继续传播；finally 触发 `onChainEnd`；失败 handler 不触发 `afterNode`      |
+| 两线程并发     | token、MDC previous state、snapshot 互不污染                                  |
+| 同 key 嵌套    | reentrant 路径不等待自身 future，不重复取得执行权                             |
 
 这些是最小的可回归契约；生产系统还应补充取消、超时、锁失效和结果可见性测试。
 

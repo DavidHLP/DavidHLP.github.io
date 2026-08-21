@@ -6,7 +6,7 @@ kind: synthesis
 status: provisional
 sources: ["legacy-omp-headroom-persistence", "legacy-headroom-single-port-evolution", "legacy-omp-config-and-rules-guide", "omp-17-2-15-runtime-contract", "omp-17-2-15-runtime-contract-correction"]
 related: ["headroom-single-port-evolution", "headroom-cc-switch-coexistence", "omp-headroom-provider-proxy", "omp-config-and-rules-guide", "omp-hook-extension-guide", "llm-wiki-pattern", "headroom-compress-retrieve-contract"]
-tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,Routing,Proxy,Codex,OpenCode]
+tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, Routing, Proxy, Codex, OpenCode]
 description: "综合 OMP 更新重写运行时模型缓存时的 Headroom 路由持久化模型：Named Profile 隔离意图与凭据，外部声明保存路由意图，model_cache 作为可重建派生状态，旧 reconciler 只在隔离迁移中恢复并验证。当前 wrapper 生命周期与版本依赖明确标为 provisional。"
 toc: true
 ---
@@ -28,14 +28,14 @@ flowchart TB
   W[headroom wrap omp] --> H[active local proxy<br/>wrapper 管理生命周期]
 ```
 
-| 制品 | 角色 | 可安全推断的事实 | 不应推断 |
-| --- | --- | --- | --- |
-| Named Profile | 隔离一组 OMP 配置、认证、历史与 cache | 更新一个 profile 不必污染另一个 profile | profile 会自动修复路由或隐藏凭据 |
-| `config.yml` | 用户行为、`modelRoles`、retry、tools 等意图 | 决定角色与运行控制 | provider 当前一定采用某个 base URL |
-| `models.yml` | 静态 provider/model 覆盖层 | 可表达配置覆盖意图 | 已存在 authoritative cache 行必然被接管 |
-| `models.db` / `model_cache` | discovery/merge 后的运行时派生状态 | 可被重建、需从真实运行时验证 | 适合作为手工编辑的长期契约 |
-| 外部 route declaration | OMP 目录之外的路由意图（可选） | 可在更新后作为恢复输入 | 可保存凭据或代替 provider catalog |
-| reconciler | 旧迁移中的受控恢复工具 | 可备份、按 provider/api 匹配并事务更新 | 应在每次正常启动前运行 |
+| 制品                        | 角色                                        | 可安全推断的事实                        | 不应推断                                |
+| --------------------------- | ------------------------------------------- | --------------------------------------- | --------------------------------------- |
+| Named Profile               | 隔离一组 OMP 配置、认证、历史与 cache       | 更新一个 profile 不必污染另一个 profile | profile 会自动修复路由或隐藏凭据        |
+| `config.yml`                | 用户行为、`modelRoles`、retry、tools 等意图 | 决定角色与运行控制                      | provider 当前一定采用某个 base URL      |
+| `models.yml`                | 静态 provider/model 覆盖层                  | 可表达配置覆盖意图                      | 已存在 authoritative cache 行必然被接管 |
+| `models.db` / `model_cache` | discovery/merge 后的运行时派生状态          | 可被重建、需从真实运行时验证            | 适合作为手工编辑的长期契约              |
+| 外部 route declaration      | OMP 目录之外的路由意图（可选）              | 可在更新后作为恢复输入                  | 可保存凭据或代替 provider catalog       |
+| reconciler                  | 旧迁移中的受控恢复工具                      | 可备份、按 provider/api 匹配并事务更新  | 应在每次正常启动前运行                  |
 
 ### 2. 旧 reconciler 的安全恢复链
 
@@ -61,16 +61,16 @@ flowchart TB
 
 ## 不适用与风险
 
-| 风险 | 误判或症状 | 边界与处理 |
-| --- | --- | --- |
-| 把 `models.yml` 当强覆盖 | 写入 base URL 但 authoritative cache 仍走旧入口 | 当前版本先核对实际 `model_cache` 和最终上游；不要保证 override 接管 |
-| 手工编辑 `models.db` | 当前 OMP 进程继续使用旧内存，重启后改动消失 | 只在隔离迁移证据中操作，并保留备份与事务结果 |
-| 把 reconciler 放进正常启动 | 每次启动都写 cache，掩盖版本或 catalog 变化 | 日常只用 wrapper；reconciler 限定为旧迁移恢复 |
-| 把 `agent.db` 当配置 | 认证/会话状态被复制进 Git、日志或外部声明 | profile 私有保存，路由声明不含凭据，迁移前做权限审计 |
-| 缺少匹配 row 仍强行 INSERT | 生成 OMP 未发现的假 provider，后续更新不可预测 | fail-loud 停止，先确认当前 catalog 与版本 |
-| 只看到 loopback 或 200 | 误以为路由和恢复都成功 | 结合 proxy inbound/outbound、最终 URL/WebSocket 与新会话验证 |
-| 正常退出不清理 route state | 下一会话继承意外 loopback 或旧 headers | 结束时显式 `headroom unwrap omp`，除非有意保留代理 |
-| 双重压缩或旧覆盖残留 | savings/输出异常，原因无法归属 | 分层关闭 context-mode、旧 override 和代理后重新测量 |
+| 风险                       | 误判或症状                                      | 边界与处理                                                          |
+| -------------------------- | ----------------------------------------------- | ------------------------------------------------------------------- |
+| 把 `models.yml` 当强覆盖   | 写入 base URL 但 authoritative cache 仍走旧入口 | 当前版本先核对实际 `model_cache` 和最终上游；不要保证 override 接管 |
+| 手工编辑 `models.db`       | 当前 OMP 进程继续使用旧内存，重启后改动消失     | 只在隔离迁移证据中操作，并保留备份与事务结果                        |
+| 把 reconciler 放进正常启动 | 每次启动都写 cache，掩盖版本或 catalog 变化     | 日常只用 wrapper；reconciler 限定为旧迁移恢复                       |
+| 把 `agent.db` 当配置       | 认证/会话状态被复制进 Git、日志或外部声明       | profile 私有保存，路由声明不含凭据，迁移前做权限审计                |
+| 缺少匹配 row 仍强行 INSERT | 生成 OMP 未发现的假 provider，后续更新不可预测  | fail-loud 停止，先确认当前 catalog 与版本                           |
+| 只看到 loopback 或 200     | 误以为路由和恢复都成功                          | 结合 proxy inbound/outbound、最终 URL/WebSocket 与新会话验证        |
+| 正常退出不清理 route state | 下一会话继承意外 loopback 或旧 headers          | 结束时显式 `headroom unwrap omp`，除非有意保留代理                  |
+| 双重压缩或旧覆盖残留       | savings/输出异常，原因无法归属                  | 分层关闭 context-mode、旧 override 和代理后重新测量                 |
 
 ## 最小验证
 

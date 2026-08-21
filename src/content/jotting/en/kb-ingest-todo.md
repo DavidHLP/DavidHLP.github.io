@@ -1,45 +1,50 @@
 ---
-title: "Knowledge Base Ingest Inbox"
+title: "知识库摄入收件箱"
 timestamp: 2026-08-07 00:00:00+00:00
 tags: [Knowledge Base, Ingest, TODO]
-description: "Candidate sources and questions that have not completed evidence review and must not be treated as stable knowledge."
+description: "尚未经过证据审查的来源和问题，只能作为摄入候选，不能当作稳定知识。"
 ---
 
-# Knowledge Base Ingest Inbox
+# 知识库摄入收件箱
 
-This inbox records candidate sources and questions. It is not a knowledge page: after `ingest`, an item must become a raw source with a corresponding wiki page or be explicitly closed with a reason.
+这里记录待整理的候选来源和问题。收件箱不是知识页：条目完成 `ingest` 后，要么进入 `src/content/raw/zh-cn/` 并产生对应 wiki 页面，要么明确关闭并说明原因。
 
-## Completed ingestion
+## 已完成摄入
 
-These historical article groups have completed the raw → wiki → index → log loop:
+以下历史文章已经完成 raw → wiki → index → log 闭环：
 
-- Java foundations and backend tuning: AtomicBoolean, AutoCloseable, NullValue, Java production troubleshooting, and the Java backend internship retrospective.
-- Operations and infrastructure: containerd TLS, SSH through private networks, and MySQL performance troubleshooting.
-- OMP and agent engineering: configuration and rules, Hook extensions, Headroom single-port evolution, and Headroom persistence recovery.
-- Architecture and engineering practice: terminal plugin lifecycle management and UISA high-reliability synchronization.
+- Java 基础与后端调优：AtomicBoolean、AutoCloseable、NullValue、Java 线上性能排查、Java 后端实习面试复盘。
+- 系统运维与基础设施：containerd TLS、SSH 内网穿透、MySQL 性能排查。
+- OMP 与 Agent 工程：配置与规则、Hook 扩展、Headroom 单端口演进、Headroom 持久化恢复。
+- 架构与工程实践：终端插件生命周期、UISA 高可靠信息同步架构。
 
-See the [Knowledge Base Index](/kb) for the page map.
+### 2026-08-21 全量聚合摄入
 
-## Pending sources
+- [x] `Personal-markdown-notes`（bbb2126，46 篇）与 `Fuwari`（07cee2b，61 篇）全部原文已按 10 主题聚合为 `ingest-*` 不可变 raw 与 10 个 `note` wiki 页，覆盖 Docker、HBase、Redis（业务/持久化/黑马）、Java 并发、Spring Cloud、Spark/大数据、MySQL、前指随笔。3 份完全重复与 1 份空文件已在 raw 中标注去重；图片相对路径已转义为链接以通过构建。
+- [x] Hindsight 记忆及其衍生结论仍需用可访问快照复核；本批未将其作为稳定概念写入（见 [Hindsight 实践](/note/hindsight-local-deployment-and-agent-integration)）。
 
-- [ ] Collect README files, design decisions, and runtime evidence for `ResiCache` and `UltiCode`, then create entity pages.
-- [ ] Collect official documentation or reproducible experiments for newer OMP / Headroom configurations and replace version-sensitive provisional claims.
+详情见 [知识库目录](/kb)。
 
-## 2026-08-12 session-candidate routing
+## 待摄入来源
 
-- [x] The Headroom 0.34 `/v1/compress` and `/v1/retrieve` fields, modes, and live-endpoint checks now have upstream-source evidence and have been promoted to a stable knowledge page.
-- [ ] Hindsight memories and derived claims still require an accessible service snapshot, upstream source, or reproducible experiment; for now they remain only in the ignored, redacted ledger.
-- [ ] Unmatched OMP, OpenCode, and Codex candidates remain topic clusters. Workflow prompts, internal agent messages, and tool traces are not public knowledge and must not be copied into articles in bulk.
+- [ ] 为个人项目 `ResiCache` 和 `UltiCode` 收集 README、设计决策和运行证据，再建立 entity 页。
+- [ ] 为 OMP / Headroom 新版本配置收集官方文档或可复现实验，替换历史页面中的 provisional 结论。
 
-## Open questions
+## 2026-08-12 会话候选分流
 
-- [ ] Which troubleshooting steps are personal experience, and which are supported by official documentation or reproducible experiments?
-- [ ] Which pages should become shared concepts, and which should remain local implementations of separate entities?
-- [ ] When a new source conflicts with existing wiki content, should the old claim be deprecated or retained conditionally?
+- [x] Headroom 0.34 `/v1/compress` 与 `/v1/retrieve` 的字段、模式和真实端点验证已补充上游源码证据，并提升为正式知识页。
+- [ ] Hindsight 记忆及其衍生结论仍需用可访问的服务快照、上游源码或可重复实验逐条复核；当前只保留在受忽略的脱敏账本中。
+- [ ] 未匹配的 OMP、OpenCode、Codex 候选先按主题聚类；工作流提示、Agent 内部消息和工具轨迹不作为公开知识，不能批量复制进文章。
 
-## Completion criteria
+## 待回答问题
 
-- A raw source slug, source URL, or explicit internal evidence exists.
-- The wiki page declares `kind`, `status`, and `sources`.
-- `kb-index.md` and `kb-log.md` are synchronized.
-- The original source is not rewritten to fit a new conclusion.
+- [ ] 哪些排障步骤是个人经验，哪些可以被官方文档或可重复实验支持？
+- [ ] 哪些页面应该合并为共享概念，哪些应该保留为不同实体的局部实现？
+- [ ] 当新来源与旧 wiki 冲突时，应该废弃哪条声明，还是保留条件化结论？
+
+## 完成标准
+
+- 有 raw 来源 slug、来源 URL 或明确的内部证据。
+- wiki 页面声明 `kind`、`status`、`sources`。
+- `kb-index.md` 与 `kb-log.md` 已同步。
+- 原始来源没有被改写来迎合新结论。

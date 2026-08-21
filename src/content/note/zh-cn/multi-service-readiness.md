@@ -17,14 +17,14 @@ toc: true
 
 ### 1. 一张决策表区分六个概念
 
-| 概念 | 语义 | 判定/触发 | 关键边界 |
-| --- | --- | --- | --- |
-| running（进程启动） | 编排器只等容器“运行中” | 容器状态为 running；端口绑定属于此层 | 不等应用就绪；端口被监听不构成就绪证据 |
-| ready（业务就绪） | 必须由用户显式定义 | `healthcheck` 通过，或一次性任务完成（`service_completed_successfully`，v2.20.0+） | 探针是用户命令；编排器不验证应用内状态 |
-| ordering（排序） | 只决定先后，不建立依赖 | Compose 短语法 `depends_on: [db]`（等价 `service_started`）；systemd `After=`/`Before=` | 短语法只保证启动顺序；`After=` 与 `Requires=`/`Wants=` 正交 |
-| requirement（依赖建立） | 声明“依赖满足才启动” | 长语法 `condition: service_healthy`；systemd `Requires=`/`Wants=` | `Wants=` 是弱形式，失败不影响整体事务 |
-| failure propagation（失败传播） | 依赖不健康时依赖方不启动 | `up --wait` 失败退出；`--abort-on-container-failure` 全停；systemd `Requires=`+`After=` | `--abort-on-container-failure` 与 `-d` 不兼容、与 `--wait` 互斥 |
-| restart propagation（重启传播） | 只有显式操作触发的重启才传播 | `depends_on.restart: true`；systemd `Requires=` 的显式 stop/restart | 容器运行时自动重启不传播；systemd 意外失败需 `BindsTo=` |
+| 概念                            | 语义                         | 判定/触发                                                                               | 关键边界                                                        |
+| ------------------------------- | ---------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| running（进程启动）             | 编排器只等容器“运行中”       | 容器状态为 running；端口绑定属于此层                                                    | 不等应用就绪；端口被监听不构成就绪证据                          |
+| ready（业务就绪）               | 必须由用户显式定义           | `healthcheck` 通过，或一次性任务完成（`service_completed_successfully`，v2.20.0+）      | 探针是用户命令；编排器不验证应用内状态                          |
+| ordering（排序）                | 只决定先后，不建立依赖       | Compose 短语法 `depends_on: [db]`（等价 `service_started`）；systemd `After=`/`Before=` | 短语法只保证启动顺序；`After=` 与 `Requires=`/`Wants=` 正交     |
+| requirement（依赖建立）         | 声明“依赖满足才启动”         | 长语法 `condition: service_healthy`；systemd `Requires=`/`Wants=`                       | `Wants=` 是弱形式，失败不影响整体事务                           |
+| failure propagation（失败传播） | 依赖不健康时依赖方不启动     | `up --wait` 失败退出；`--abort-on-container-failure` 全停；systemd `Requires=`+`After=` | `--abort-on-container-failure` 与 `-d` 不兼容、与 `--wait` 互斥 |
+| restart propagation（重启传播） | 只有显式操作触发的重启才传播 | `depends_on.restart: true`；systemd `Requires=` 的显式 stop/restart                     | 容器运行时自动重启不传播；systemd 意外失败需 `BindsTo=`         |
 
 ### 2. 关键语义拆分
 
@@ -45,21 +45,21 @@ toc: true
 
 ```yaml
 services:
-  app:
-    image: alpine:3.19
-    command: ["sh", "-c", "echo APP_STARTED; sleep 60"]
-    depends_on:
-      db:
-        condition: service_healthy
-        restart: true
-  db:
-    image: redis:7.2-alpine
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      retries: 5
-      start_period: 10s
-      timeout: 5s
+    app:
+        image: alpine:3.19
+        command: ["sh", "-c", "echo APP_STARTED; sleep 60"]
+        depends_on:
+            db:
+                condition: service_healthy
+                restart: true
+    db:
+        image: redis:7.2-alpine
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 10s
+            retries: 5
+            start_period: 10s
+            timeout: 5s
 ```
 
 选型要点（来自更正 raw 的最小实验）：固定官方镜像、免构建、免凭证、无端口；`app` 不定义 healthcheck，对 `up --wait` 而言 running 即满足，`db` 的 `redis-cli ping` 通过后 `app` 才启动。`healthcheck` 的探针命令决定了 ready 的定义，换成别的命令就换成别的就绪标准。

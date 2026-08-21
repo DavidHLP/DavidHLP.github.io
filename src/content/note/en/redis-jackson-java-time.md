@@ -16,12 +16,12 @@ toc: true
 
 ## Applicable versions and scenarios
 
-| Item | Version boundary |
-| --- | --- |
-| Redisson | `3.50.0` (git tag `redisson-3.50.0`, commit `f192ec15`) |
-| Jackson | `jackson-databind` / `jackson-datatype-jsr310` `2.18.2` (BOM of redisson-parent 3.50.0) |
-| Spring Data Redis | `3.5.13` |
-| Experiment environment | OpenJDK 21, Maven, pure in-memory encoding/decoding, no Redis server needed |
+| Item                   | Version boundary                                                                        |
+| ---------------------- | --------------------------------------------------------------------------------------- |
+| Redisson               | `3.50.0` (git tag `redisson-3.50.0`, commit `f192ec15`)                                 |
+| Jackson                | `jackson-databind` / `jackson-datatype-jsr310` `2.18.2` (BOM of redisson-parent 3.50.0) |
+| Spring Data Redis      | `3.5.13`                                                                                |
+| Experiment environment | OpenJDK 21, Maven, pure in-memory encoding/decoding, no Redis server needed             |
 
 Applicable scenario: when using Jackson serialization in Spring Data Redis's `RedisTemplate` or in Redisson for POJOs containing `LocalDateTime`/`LocalDate`/`LocalTime` fields, and you hit "directly throws not supported by default" or write-read inconsistency in production. The conclusions below are based on the pinned-tag source and minimal experiments; **Redisson 2.x, Spring Data Redis 4.x, and other Jackson major versions are not verified** and cannot be extrapolated.
 

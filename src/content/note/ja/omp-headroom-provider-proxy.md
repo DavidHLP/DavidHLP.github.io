@@ -37,12 +37,12 @@ flowchart LR
   SW --> C
 ```
 
-| 呼び出し元 | 入口と責務 | このパスから推測してはいけないこと |
-| --- | --- | --- |
-| `opencode-go` | OpenAI-compatible provider route で Headroom prefix に入る | 他の provider が自動的に引き継がれる |
-| `openai-codex` | Responses/Live WebSocket で Headroom に入り、header で ChatGPT upstream を選ぶ | model discovery、ログイン、realtime voice が proxy を経由する |
-| Codex CLI/Desktop | ユーザー単位の `$CODEX_HOME/config.toml` を共有するネイティブ provider | `HTTP_PROXY`/CONNECT が必須の手段である |
-| Claude Code | `HEADROOM_CC_SWITCH_RECONCILE=1` のとき Headroom を経て cc-switch が変換 | cc-switch が圧縮を担当する、または二つのプロトコルパスが状態を共有する |
+| 呼び出し元        | 入口と責務                                                                     | このパスから推測してはいけないこと                                     |
+| ----------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| `opencode-go`     | OpenAI-compatible provider route で Headroom prefix に入る                     | 他の provider が自動的に引き継がれる                                   |
+| `openai-codex`    | Responses/Live WebSocket で Headroom に入り、header で ChatGPT upstream を選ぶ | model discovery、ログイン、realtime voice が proxy を経由する          |
+| Codex CLI/Desktop | ユーザー単位の `$CODEX_HOME/config.toml` を共有するネイティブ provider         | `HTTP_PROXY`/CONNECT が必須の手段である                                |
+| Claude Code       | `HEADROOM_CC_SWITCH_RECONCILE=1` のとき Headroom を経て cc-switch が変換       | cc-switch が圧縮を担当する、または二つのプロトコルパスが状態を共有する |
 
 ## Codex ネイティブ provider
 

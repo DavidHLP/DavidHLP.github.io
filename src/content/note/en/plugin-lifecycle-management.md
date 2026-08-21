@@ -13,6 +13,7 @@ toc: true
 ---
 
 ## Definition
+
 This page answers one question: how can plugin installation, upgrade, uninstallation, and rule delivery converge safely when endpoint capabilities differ, networks jitter, and actions can be destructive? It is a control-plane model, not a validated capacity plan; million-scale operation, capability variance, and recovery behavior are design assumptions in the source.
 
 ## Core mechanisms
@@ -21,12 +22,12 @@ This page answers one question: how can plugin installation, upgrade, uninstalla
 
 For each endpoint–plugin key, retain at least four dimensions instead of collapsing everything into `Online/Offline`.
 
-| Dimension | Meaning | Primary source |
-| --- | --- | --- |
-| `desired` | Policy-required version, rule, or installation state | Control-plane policy |
-| `current` | Latest version and runtime state reported by the Agent | Merged heartbeat |
-| `ack` | Whether a particular install/upgrade/uninstall operation was executed and acknowledged | Operation receipt |
-| `failure` | Latest error, consecutive failures, and blocking reason | Receipts and failure counters |
+| Dimension | Meaning                                                                                | Primary source                |
+| --------- | -------------------------------------------------------------------------------------- | ----------------------------- |
+| `desired` | Policy-required version, rule, or installation state                                   | Control-plane policy          |
+| `current` | Latest version and runtime state reported by the Agent                                 | Merged heartbeat              |
+| `ack`     | Whether a particular install/upgrade/uninstall operation was executed and acknowledged | Operation receipt             |
+| `failure` | Latest error, consecutive failures, and blocking reason                                | Receipts and failure counters |
 
 The minimum loop is: `desired != current` creates a candidate action; capability and safety checks run first; dispatch waits for an `ack`; only success advances `current`; failure updates `failure` and selects retry or blocking. A heartbeat timeout marks the observation logically offline; it does not prove an uninstall succeeded.
 
@@ -55,12 +56,12 @@ The sequence is: read state → reject a recent dispatch → check blacklist, ca
 
 ### 4. Canary and breaker: limit blast radius before observing results
 
-| Guard | Dimensions | Purpose |
-| --- | --- | --- |
-| Capability filter | OS, version, architecture, environment, privilege | Do not dispatch to unsupported endpoints |
-| Canary | UUID, region, organization, OS, stable-hash percentage | Test a fixed small population |
-| High-risk canary | Dedicated allowlist for kernel, driver, or system-hook plugins | Raise the gate for dangerous plugins |
-| Breaker | Failure receipts by plugin/version/operation/OS | Stop later dispatches and alert |
+| Guard             | Dimensions                                                     | Purpose                                  |
+| ----------------- | -------------------------------------------------------------- | ---------------------------------------- |
+| Capability filter | OS, version, architecture, environment, privilege              | Do not dispatch to unsupported endpoints |
+| Canary            | UUID, region, organization, OS, stable-hash percentage         | Test a fixed small population            |
+| High-risk canary  | Dedicated allowlist for kernel, driver, or system-hook plugins | Raise the gate for dangerous plugins     |
+| Breaker           | Failure receipts by plugin/version/operation/OS                | Stop later dispatches and alert          |
 
 The source's `5-minute sample >= 100`, failure rate `>= 20%`, and `>= 30` consecutive failures are example thresholds; a severe kernel error may block immediately. Percentage canaries need a stable hash so repeated decisions for one endpoint remain consistent.
 

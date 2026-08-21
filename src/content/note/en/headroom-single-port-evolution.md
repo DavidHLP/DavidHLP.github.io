@@ -7,7 +7,7 @@ status: provisional
 draft: true
 sources: ["legacy-headroom-single-port-evolution", "legacy-omp-config-and-rules-guide", "legacy-omp-headroom-persistence"]
 related: ["omp-config-and-rules-guide", "omp-headroom-persistence", "omp-hook-extension-guide", "llm-wiki-pattern"]
-tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,Routing,Proxy,Codex,Kimi,MiniMax,Zhipu]
+tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, Routing, Proxy, Codex, Kimi, MiniMax, Zhipu]
 description: "Synthesizes the Headroom single-port routing model: one loopback entry can serve explicitly configured custom providers and dynamic upstreams while preserving protocol differences. It separates OMP role selection, model_cache, request routing, and wrapper lifecycle and verifies each layer independently. Historical routes remain provisional."
 toc: true
 ---
@@ -30,12 +30,12 @@ flowchart LR
   H --> I[HTTP or Codex WebSocket]
 ```
 
-| Selector / route type | Default or historical state | Requirement for the single port | Key boundary |
-| --- | --- | --- | --- |
-| Built-in `anthropic` | `headroom wrap omp` may manage it automatically | An active wrapped session | Automatic scope is not every provider; the default target remains Anthropic upstream |
-| `openai-codex`, `opencode-go` | Usually direct entries in the current `models.db` | An explicit custom provider is required for loopback | Wrap does not rewrite ordinary entries to 8787 |
-| Zhipu / Kimi / MiniMax | Historical custom routes | Provider config, loopback base URL, and request headers must all exist | A legacy Kimi target override can silently send headerless Anthropic requests to the wrong upstream |
-| Codex Responses | Historical explicit custom route | WebSocket target and protocol must stay aligned | Do not assume a normal OpenAI Chat Completions route can cover Responses WebSocket |
+| Selector / route type         | Default or historical state                       | Requirement for the single port                                        | Key boundary                                                                                        |
+| ----------------------------- | ------------------------------------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Built-in `anthropic`          | `headroom wrap omp` may manage it automatically   | An active wrapped session                                              | Automatic scope is not every provider; the default target remains Anthropic upstream                |
+| `openai-codex`, `opencode-go` | Usually direct entries in the current `models.db` | An explicit custom provider is required for loopback                   | Wrap does not rewrite ordinary entries to 8787                                                      |
+| Zhipu / Kimi / MiniMax        | Historical custom routes                          | Provider config, loopback base URL, and request headers must all exist | A legacy Kimi target override can silently send headerless Anthropic requests to the wrong upstream |
+| Codex Responses               | Historical explicit custom route                  | WebSocket target and protocol must stay aligned                        | Do not assume a normal OpenAI Chat Completions route can cover Responses WebSocket                  |
 
 ### 2. Why converge from multiple ports
 
@@ -59,15 +59,15 @@ flowchart LR
 
 ## Not applicable and risks
 
-| Misuse | Result | Boundary and response |
-| --- | --- | --- |
-| Treating 8787 as the global default | Direct roles bypass the proxy and the diagnosis is wrong | Check the selector's model/cache entry and whether custom configuration exists |
-| Checking only `/health` or HTTP 200 | Only loopback reachability is proven | Perform L2 protocol and L3 final-upstream checks |
-| Enabling legacy provider units alongside wrap | Port contention, stale headers, or misleading logs | Use only `headroom wrap omp` daily; treat old services as migration residue to remove |
-| Applying an HTTP route to Codex WebSocket | Handshake or Responses events fail | Preserve the WebSocket URL, path, and completion-event evidence |
-| Relying on an old Kimi/Anthropic override | Headerless requests silently use the wrong upstream | Remove the legacy override or use an explicit custom-provider route |
-| Equating proxy traversal with compression savings | A short request reports zero savings and is judged unproxied | Observe loopback, proxy logs, and compression statistics separately |
-| Treating manual `models.db` edits as persistence | The process keeps an old cache and rebuilds it after restart | Treat the cache as derived state and validate a new wrapped session |
+| Misuse                                            | Result                                                       | Boundary and response                                                                 |
+| ------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| Treating 8787 as the global default               | Direct roles bypass the proxy and the diagnosis is wrong     | Check the selector's model/cache entry and whether custom configuration exists        |
+| Checking only `/health` or HTTP 200               | Only loopback reachability is proven                         | Perform L2 protocol and L3 final-upstream checks                                      |
+| Enabling legacy provider units alongside wrap     | Port contention, stale headers, or misleading logs           | Use only `headroom wrap omp` daily; treat old services as migration residue to remove |
+| Applying an HTTP route to Codex WebSocket         | Handshake or Responses events fail                           | Preserve the WebSocket URL, path, and completion-event evidence                       |
+| Relying on an old Kimi/Anthropic override         | Headerless requests silently use the wrong upstream          | Remove the legacy override or use an explicit custom-provider route                   |
+| Equating proxy traversal with compression savings | A short request reports zero savings and is judged unproxied | Observe loopback, proxy logs, and compression statistics separately                   |
+| Treating manual `models.db` edits as persistence  | The process keeps an old cache and rebuilds it after restart | Treat the cache as derived state and validate a new wrapped session                   |
 
 ## Minimal verification
 

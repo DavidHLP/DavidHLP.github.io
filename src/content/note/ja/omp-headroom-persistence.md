@@ -7,7 +7,7 @@ status: provisional
 draft: true
 sources: ["legacy-omp-headroom-persistence", "legacy-headroom-single-port-evolution", "legacy-omp-config-and-rules-guide"]
 related: ["headroom-single-port-evolution", "omp-config-and-rules-guide", "omp-hook-extension-guide", "llm-wiki-pattern"]
-tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,Routing,Proxy,Codex,OpenCode]
+tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, Routing, Proxy, Codex, OpenCode]
 description: "OMP が runtime model cache を書き換える場合の Headroom ルート永続化を総合する。Named Profile は意図と資格情報を分離し、外部宣言はルート意図を保持し、model_cache は再生成可能な派生状態とする。旧 reconciler は隔離した移行復旧だけに限定し、現在の wrapper ライフサイクルとバージョン依存も明記する。"
 toc: true
 ---
@@ -29,14 +29,14 @@ flowchart TB
   W[headroom wrap omp] --> H[active local proxy<br/>wrapper が所有する lifecycle]
 ```
 
-| 成果物 | 役割 | 安全に導けること | 導いてはいけないこと |
-| --- | --- | --- | --- |
-| Named Profile | OMP の設定、資格情報、履歴、cache の一組を分離する | 一つの profile の更新が別 profile を汚染するとは限らない | profile がルートを自動修復したり資格情報を隠したりすること |
-| `config.yml` | ユーザー挙動、`modelRoles`、retry、tools などの意図 | ロールと実行制御を選ぶ | 選ばれた provider が特定の base URL を必ず使うこと |
-| `models.yml` | 静的 provider/model override 層 | override の意図を表せる | 既存の authoritative cache row が必ず引き継がれること |
-| `models.db` / `model_cache` | discovery/merge 後の runtime 派生状態 | 再構築でき、実行中の状態で確認すべきこと | 長期的な手編集の契約として安全であること |
-| 外部 route declaration | OMP ディレクトリ外の任意のルート意図 | 更新後の復旧入力になり得る | 資格情報を保存したり provider catalog を置き換えたりすること |
-| reconciler | 旧移行時の制御された復旧ツール | backup、match、transaction update を実行できる | 通常の起動前に毎回実行すべきこと |
+| 成果物                      | 役割                                                | 安全に導けること                                         | 導いてはいけないこと                                         |
+| --------------------------- | --------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------ |
+| Named Profile               | OMP の設定、資格情報、履歴、cache の一組を分離する  | 一つの profile の更新が別 profile を汚染するとは限らない | profile がルートを自動修復したり資格情報を隠したりすること   |
+| `config.yml`                | ユーザー挙動、`modelRoles`、retry、tools などの意図 | ロールと実行制御を選ぶ                                   | 選ばれた provider が特定の base URL を必ず使うこと           |
+| `models.yml`                | 静的 provider/model override 層                     | override の意図を表せる                                  | 既存の authoritative cache row が必ず引き継がれること        |
+| `models.db` / `model_cache` | discovery/merge 後の runtime 派生状態               | 再構築でき、実行中の状態で確認すべきこと                 | 長期的な手編集の契約として安全であること                     |
+| 外部 route declaration      | OMP ディレクトリ外の任意のルート意図                | 更新後の復旧入力になり得る                               | 資格情報を保存したり provider catalog を置き換えたりすること |
+| reconciler                  | 旧移行時の制御された復旧ツール                      | backup、match、transaction update を実行できる           | 通常の起動前に毎回実行すべきこと                             |
 
 ### 2. 旧 reconciler の安全な復旧チェーン
 
@@ -62,16 +62,16 @@ flowchart TB
 
 ## 非適用とリスク
 
-| リスク | 誤診または症状 | 境界と対応 |
-| --- | --- | --- |
-| `models.yml` を強い override とみなす | base URL を書いても authoritative cache が古い入口を使う | リリースごとに live `model_cache` と最終上流を確認し、引き継ぎを保証しない |
-| `models.db` を手編集する | プロセスが古いメモリを使い、再起動で変更が再生成される | backup と transaction 結果を残す隔離した移行証拠だけに限定する |
-| reconciler を通常起動に入れる | 毎回 cache を書き換え、catalog や version の変化を隠す | 日常は wrapper、reconciler は旧移行復旧だけにする |
-| `agent.db` を設定とみなす | 資格情報や session 状態が Git、ログ、外部宣言へ漏れる | profile 状態を非公開にし、ルート宣言から資格情報を除き、権限を監査する |
-| match がないのに INSERT する | OMP が発見していない偽 provider が生成され、後の更新が予測不能になる | fail-loud で停止し、現行 catalog と release を先に確認する |
-| loopback または 200 だけを確認する | 上流の証拠なしにルートと復旧を成功と報告する | proxy inbound/outbound、最終 URL/WebSocket、新しいセッションを組み合わせる |
-| 通常終了で route state が消えると思う | 次のセッションが意図しない loopback や古い headers を継承する | プロキシを意図的に残さない限り `headroom unwrap omp` を明示する |
-| 二重圧縮や旧 override を残す | savings/出力異常の原因を特定できない | context-mode、旧 override、proxy 層を一つずつ無効にして再測定する |
+| リスク                                | 誤診または症状                                                       | 境界と対応                                                                 |
+| ------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `models.yml` を強い override とみなす | base URL を書いても authoritative cache が古い入口を使う             | リリースごとに live `model_cache` と最終上流を確認し、引き継ぎを保証しない |
+| `models.db` を手編集する              | プロセスが古いメモリを使い、再起動で変更が再生成される               | backup と transaction 結果を残す隔離した移行証拠だけに限定する             |
+| reconciler を通常起動に入れる         | 毎回 cache を書き換え、catalog や version の変化を隠す               | 日常は wrapper、reconciler は旧移行復旧だけにする                          |
+| `agent.db` を設定とみなす             | 資格情報や session 状態が Git、ログ、外部宣言へ漏れる                | profile 状態を非公開にし、ルート宣言から資格情報を除き、権限を監査する     |
+| match がないのに INSERT する          | OMP が発見していない偽 provider が生成され、後の更新が予測不能になる | fail-loud で停止し、現行 catalog と release を先に確認する                 |
+| loopback または 200 だけを確認する    | 上流の証拠なしにルートと復旧を成功と報告する                         | proxy inbound/outbound、最終 URL/WebSocket、新しいセッションを組み合わせる |
+| 通常終了で route state が消えると思う | 次のセッションが意図しない loopback や古い headers を継承する        | プロキシを意図的に残さない限り `headroom unwrap omp` を明示する            |
+| 二重圧縮や旧 override を残す          | savings/出力異常の原因を特定できない                                 | context-mode、旧 override、proxy 層を一つずつ無効にして再測定する          |
 
 ## 最小検証
 

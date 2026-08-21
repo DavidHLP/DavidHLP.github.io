@@ -50,17 +50,17 @@ prior 候補を再利用する硬条件（すべて満たしたときだけ未�
 
 フィールドレベル置換カテゴリ：
 
-| カテゴリ | 形態 |
-| --- | --- |
-| PEM 秘密鍵 | `PRIVATE KEY` ブロック → `<REDACTED_TOKEN>` |
-| DSN パスワード | `scheme://user:pass@` → `<REDACTED_PASSWORD>` |
-| 非公開リポジトリ | `git@host:path` → `<PRIVATE_REPOSITORY>` |
-| API key | `*api*key* = 値` → `api_key=<REDACTED_API_KEY>`；`sk-…`（≥16 桁）、`AKIA…`（16 桁）→ `<REDACTED_API_KEY>` |
-| トークン | `Bearer`/`Basic` 後にある ≥12 桁の資格情報 → `<REDACTED_TOKEN>`；`gh[pousr]_…` / `xox[baprs]-…`（≥16 桁）→ `<REDACTED_TOKEN>` |
+| カテゴリ             | 形態                                                                                                                                          |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ----- | --- | ------------------------- |
+| PEM 秘密鍵           | `PRIVATE KEY` ブロック → `<REDACTED_TOKEN>`                                                                                                   |
+| DSN パスワード       | `scheme://user:pass@` → `<REDACTED_PASSWORD>`                                                                                                 |
+| 非公開リポジトリ     | `git@host:path` → `<PRIVATE_REPOSITORY>`                                                                                                      |
+| API key              | `*api*key* = 値` → `api_key=<REDACTED_API_KEY>`；`sk-…`（≥16 桁）、`AKIA…`（16 桁）→ `<REDACTED_API_KEY>`                                     |
+| トークン             | `Bearer`/`Basic` 後にある ≥12 桁の資格情報 → `<REDACTED_TOKEN>`；`gh[pousr]_…` / `xox[baprs]-…`（≥16 桁）→ `<REDACTED_TOKEN>`                 |
 | 汎用の機微フィールド | `token`/`authorization`/`cookie`/`secret(?:key)? = 値` → `token=<REDACTED_TOKEN>`；`password`/`passwd… = 値` → `password=<REDACTED_PASSWORD>` |
-| アイデンティティ | メール（`user@host` のようなローカル形式を含む）→ `<PRIVATE_EMAIL>` |
-| ホスト | 私網/ループバックアドレス（10/127/192.168/172.16–31、`::1`、`fc`/`fd`、`fe8`–`feb`、`localhost`、`*.internal|local|lan|corp`）→ `<PRIVATE_HOST>` |
-| パス | UNC `\\…`、Windows ドライブ `C:\…`、`/home/…`、`/Users/…`、`~/…`、`file:…`、その他絶対パス → `<PRIVATE_PATH>` |
+| アイデンティティ     | メール（`user@host` のようなローカル形式を含む）→ `<PRIVATE_EMAIL>`                                                                           |
+| ホスト               | 私網/ループバックアドレス（10/127/192.168/172.16–31、`::1`、`fc`/`fd`、`fe8`–`feb`、`localhost`、`\*.internal                                 | local | lan | corp`）→ `<PRIVATE_HOST>` |
+| パス                 | UNC `\\…`、Windows ドライブ `C:\…`、`/home/…`、`/Users/…`、`~/…`、`file:…`、その他絶対パス → `<PRIVATE_PATH>`                                 |
 
 テストアンカー："redacts credentials, identity, hosts, paths, and private repositories"：7 種類のプレースホルダがすべて出現することをアサートし、同時に具体的な秘密値の一組（ユーザー名、非公開ホスト、ループバック/IPv6 アドレス、Windows/UNC/`~`/絶対パス、DSN と Redis パスワード、JSON 内の password/cookie/api_key、引用符エスケープ付きサフィックス）が結果に出現しないことをアサートする。非機微フィールド（`tokens_saved=42 token_count=10` など）は保持される。
 
@@ -106,9 +106,9 @@ pnpm kb:lint
 
 1. **まず集中 parser テストを実行する**：失敗時はテスト名で契約節（アイデンティティ/コンテンツハッシュ、失敗再利用、redaction、コントロールプレーンフィルタ、partial checkpoint、dry-run 意味論）を特定する。テストアサーションが挙動契約であり、テストはすべて合成 fixture を使い実セッションデータを含まない。
 2. **次に `pnpm kb:lint` を実行し**、エラーカテゴリ別に段階処理する：
-   - まず raw 検証系エラー（`missing raw manifest` / `raw checksum mismatch` / `raw file missing from manifest` / `manifest points to missing raw file` / `raw snapshot changed or deleted`）を直す。raw は不変証拠層なので、**raw の変更で警告を消してはならない**。スナップショットと manifest を照合するか、新規ソースを登録する。
-   - 次に note ページのメタデータ（`kind`/`status`/`sources` 欠落、`sources` が raw slug に解決しない）を直す。frontmatter を補うかリンクを修正する。
-   - 最後に index/log の同期（raw slug や active/provisional ページの未登録、log エントリ形式が解釈不能）を直す。
+    - まず raw 検証系エラー（`missing raw manifest` / `raw checksum mismatch` / `raw file missing from manifest` / `manifest points to missing raw file` / `raw snapshot changed or deleted`）を直す。raw は不変証拠層なので、**raw の変更で警告を消してはならない**。スナップショットと manifest を照合するか、新規ソースを登録する。
+    - 次に note ページのメタデータ（`kind`/`status`/`sources` 欠落、`sources` が raw slug に解決しない）を直す。frontmatter を補うかリンクを修正する。
+    - 最後に index/log の同期（raw slug や active/provisional ページの未登録、log エントリ形式が解釈不能）を直す。
 3. いずれのエラーも集約出力され `exit 1` になる。「証拠連鎖 → メタデータ → インデックス/ログ」の順で直し、警告を消すために事実ソースを削除しない。
 
 ## ロールバックとクリーンアップ

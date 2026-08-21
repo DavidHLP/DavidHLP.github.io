@@ -24,11 +24,11 @@ This page is pinned to Flyway `13.2.0` (tag `flyway-13.2.0`, commit `5c5d90da`) 
 
 ## The three views cannot replace one another
 
-| View | Question answered | Minimal check | What it cannot see |
-| --- | --- | --- | --- |
-| migration history | Which migrations are recorded as applied, failed, missing, or out of order? | `flyway info`, `flyway validate`, schema history table | External DDL not run through Flyway |
-| actual schema | What exactly are the current tables, columns, and indexes? | `SHOW CREATE TABLE`, `SHOW COLUMNS`, `information_schema` | What the application code actually references |
-| application query | Which object does the failing SQL reference, and in which clause? | Minimal repro SQL, error code and SQLSTATE | Why the object reached its current state |
+| View              | Question answered                                                           | Minimal check                                             | What it cannot see                            |
+| ----------------- | --------------------------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------- |
+| migration history | Which migrations are recorded as applied, failed, missing, or out of order? | `flyway info`, `flyway validate`, schema history table    | External DDL not run through Flyway           |
+| actual schema     | What exactly are the current tables, columns, and indexes?                  | `SHOW CREATE TABLE`, `SHOW COLUMNS`, `information_schema` | What the application code actually references |
+| application query | Which object does the failing SQL reference, and in which clause?           | Minimal repro SQL, error code and SQLSTATE                | Why the object reached its current state      |
 
 Therefore: `validate` passing does not prove there is no schema drift; a column existing in the schema does not prove that every application instance's queries and serializers have been upgraded; and a query error certainly cannot by itself prove that a migration was never executed.
 
@@ -65,12 +65,12 @@ So do not treat `repair` as a rollback. First confirm the actual schema and the 
 
 Minimal experiments on MySQL 8.4.11 give:
 
-| Phenomenon | Error | Meaning |
-| --- | --- | --- |
-| `ADD COLUMN email` again | `1060 (42S21) Duplicate column name` | The migration ran twice, or the column was already created by an external operation |
-| `SELECT no_such_col ...` | `1054 (42S22) Unknown column ... in 'field list'` | The query references a column that does not exist |
-| `DROP COLUMN no_such_col` | `1091 (42000) Can't DROP ...` | The DROP target does not exist; not 1054 |
-| A later clause of one `ALTER TABLE` repeats a column | `1060`, the whole statement rolls back | A single InnoDB DDL statement is atomic |
+| Phenomenon                                           | Error                                             | Meaning                                                                             |
+| ---------------------------------------------------- | ------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `ADD COLUMN email` again                             | `1060 (42S21) Duplicate column name`              | The migration ran twice, or the column was already created by an external operation |
+| `SELECT no_such_col ...`                             | `1054 (42S22) Unknown column ... in 'field list'` | The query references a column that does not exist                                   |
+| `DROP COLUMN no_such_col`                            | `1091 (42000) Can't DROP ...`                     | The DROP target does not exist; not 1054                                            |
+| A later clause of one `ALTER TABLE` repeats a column | `1060`, the whole statement rolls back            | A single InnoDB DDL statement is atomic                                             |
 
 "Single DDL is atomic" does not mean "migration file is transactional". MySQL DDL commits implicitly: when the first DDL in the same migration file succeeds and the second fails, the first may persist while Flyway history records a failure. In that case `repair` deleting the failed record will not clean up the object left by the first statement either.
 

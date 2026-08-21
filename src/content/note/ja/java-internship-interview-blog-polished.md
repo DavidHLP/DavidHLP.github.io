@@ -18,11 +18,11 @@ toc: true
 
 ### 1. 三層の能力モデル
 
-| 層 | 明確にすること | 検証できる証拠 | よくある歪み |
-| --- | --- | --- | --- |
-| プロジェクトの真正性 | entry point、担当 module、data flow、具体的な変更 | code path、endpoint/table/message、commit/test の境界 | 技術 stack だけを挙げ、失敗経路を説明できない |
-| 設計機構 | なぜ cache、queue、隔離、長接続を選び、何を負担したか | state transition、limit、TTL、retry、idempotency、exception contract | 「使った」を「理解した」と扱う |
-| 実運用の証拠 | 観測、特定、止血、rollback、review の方法 | metrics、log、stack、GC/error rate、timeline | 「restart」「log を見る」だけで終わる |
+| 層                   | 明確にすること                                        | 検証できる証拠                                                       | よくある歪み                                  |
+| -------------------- | ----------------------------------------------------- | -------------------------------------------------------------------- | --------------------------------------------- |
+| プロジェクトの真正性 | entry point、担当 module、data flow、具体的な変更     | code path、endpoint/table/message、commit/test の境界                | 技術 stack だけを挙げ、失敗経路を説明できない |
+| 設計機構             | なぜ cache、queue、隔離、長接続を選び、何を負担したか | state transition、limit、TTL、retry、idempotency、exception contract | 「使った」を「理解した」と扱う                |
+| 実運用の証拠         | 観測、特定、止血、rollback、review の方法             | metrics、log、stack、GC/error rate、timeline                         | 「restart」「log を見る」だけで終わる         |
 
 三層は **事実と ownership → 機構とコスト → 観測結果 → 障害 action** の因果鎖になります。担当した、推測した、未検証を明示し、根拠のない ownership を広げません。
 
@@ -50,12 +50,12 @@ CPU または latency 障害は次へ圧縮できます。
 
 ### 4. インフラ選択を観測可能な機構へ翻訳する
 
-| 技術 | 説明する機構 | 本番の証拠 |
-| --- | --- | --- |
-| Docker sandbox | CPU、memory、network、filesystem、実行時間を隔離 | exit code、stderr、timeout、health、resource metrics |
-| Kafka judging | state を保存して非同期に平準化し、consumer を retry/scale | backlog、重複処理、retry failure、最終 state |
-| WebSocket | realtime push に限定し、heartbeat/reconnect/接続上限を管理 | 接続数、切断率、push latency |
-| JWT | signature/expiry に加えて refresh と active revoke を設計 | jti blacklist、expiry rate、拒否理由、audit |
+| 技術           | 説明する機構                                               | 本番の証拠                                           |
+| -------------- | ---------------------------------------------------------- | ---------------------------------------------------- |
+| Docker sandbox | CPU、memory、network、filesystem、実行時間を隔離           | exit code、stderr、timeout、health、resource metrics |
+| Kafka judging  | state を保存して非同期に平準化し、consumer を retry/scale  | backlog、重複処理、retry failure、最終 state         |
+| WebSocket      | realtime push に限定し、heartbeat/reconnect/接続上限を管理 | 接続数、切断率、push latency                         |
+| JWT            | signature/expiry に加えて refresh と active revoke を設計  | jti blacklist、expiry rate、拒否理由、audit          |
 
 選択は業務制約から切り離せません。処理が遅くないなら queue latency と運用コストが割に合わず、push 要件がなければ長接続は HTTP の万能な代替ではありません。
 

@@ -15,12 +15,12 @@ toc: true
 
 ## 适用版本与场景
 
-| 项 | 版本边界 |
-| --- | --- |
-| Redisson | `3.50.0`（git tag `redisson-3.50.0`，commit `f192ec15`） |
-| Jackson | `jackson-databind` / `jackson-datatype-jsr310` `2.18.2`（redisson-parent 3.50.0 的 BOM） |
-| Spring Data Redis | `3.5.13` |
-| 实验环境 | OpenJDK 21、Maven，纯内存编解码，无需 Redis server |
+| 项                | 版本边界                                                                                 |
+| ----------------- | ---------------------------------------------------------------------------------------- |
+| Redisson          | `3.50.0`（git tag `redisson-3.50.0`，commit `f192ec15`）                                 |
+| Jackson           | `jackson-databind` / `jackson-datatype-jsr310` `2.18.2`（redisson-parent 3.50.0 的 BOM） |
+| Spring Data Redis | `3.5.13`                                                                                 |
+| 实验环境          | OpenJDK 21、Maven，纯内存编解码，无需 Redis server                                       |
 
 适用场景：在 Spring Data Redis 的 `RedisTemplate` 或 Redisson 中使用 Jackson 序列化含 `LocalDateTime`/`LocalDate`/`LocalTime` 字段的 POJO，遇到"直接抛 not supported by default"或线上写读不一致。以下结论以固定标签源码和最小实验为准；**Redisson 2.x、Spring Data Redis 4.x、其他 Jackson 大版本未验证**，不能外推。
 

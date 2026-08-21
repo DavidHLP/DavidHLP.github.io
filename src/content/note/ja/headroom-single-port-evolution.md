@@ -7,7 +7,7 @@ status: provisional
 draft: true
 sources: ["legacy-headroom-single-port-evolution", "legacy-omp-config-and-rules-guide", "legacy-omp-headroom-persistence"]
 related: ["omp-config-and-rules-guide", "omp-headroom-persistence", "omp-hook-extension-guide", "llm-wiki-pattern"]
-tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,Routing,Proxy,Codex,Kimi,MiniMax,Zhipu]
+tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, Routing, Proxy, Codex, Kimi, MiniMax, Zhipu]
 description: "Headroom 単一ポートルーティングのモデルを総合する。明示的に設定した custom provider と動的上流を一つの loopback 入口で扱いながらプロトコル差を保持し、OMP のロール選択、model_cache、リクエストルート、wrapper ライフサイクルを分離して検証する。過去のルートは provisional である。"
 toc: true
 ---
@@ -30,12 +30,12 @@ flowchart LR
   H --> I[HTTP または Codex WebSocket]
 ```
 
-| selector / ルート種別 | デフォルトまたは過去の状態 | 単一ポートの成立条件 | 重要な境界 |
-| --- | --- | --- | --- |
-| 組み込み `anthropic` | `headroom wrap omp` が自動管理する場合がある | active wrapped session | 自動範囲は全 provider ではない。デフォルト上流は Anthropic のまま |
-| `openai-codex`、`opencode-go` | 現在の `models.db` では通常直接接続 | loopback へ入れるには明示 custom provider が必要 | wrap は通常の項目を 8787 へ書き換えない |
-| Zhipu / Kimi / MiniMax | 過去の custom ルート | provider 設定、loopback base URL、リクエスト headers がすべて必要 | 旧 Kimi の target override は header なし Anthropic リクエストを誤った上流へ送る可能性がある |
-| Codex Responses | 過去の明示 custom ルート | WebSocket の target とプロトコルを一致させる | 通常の OpenAI Chat Completions ルートで Responses WebSocket を置き換えられるとは考えない |
+| selector / ルート種別         | デフォルトまたは過去の状態                   | 単一ポートの成立条件                                              | 重要な境界                                                                                   |
+| ----------------------------- | -------------------------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| 組み込み `anthropic`          | `headroom wrap omp` が自動管理する場合がある | active wrapped session                                            | 自動範囲は全 provider ではない。デフォルト上流は Anthropic のまま                            |
+| `openai-codex`、`opencode-go` | 現在の `models.db` では通常直接接続          | loopback へ入れるには明示 custom provider が必要                  | wrap は通常の項目を 8787 へ書き換えない                                                      |
+| Zhipu / Kimi / MiniMax        | 過去の custom ルート                         | provider 設定、loopback base URL、リクエスト headers がすべて必要 | 旧 Kimi の target override は header なし Anthropic リクエストを誤った上流へ送る可能性がある |
+| Codex Responses               | 過去の明示 custom ルート                     | WebSocket の target とプロトコルを一致させる                      | 通常の OpenAI Chat Completions ルートで Responses WebSocket を置き換えられるとは考えない     |
 
 ### 2. 複数ポートから収束する理由
 
@@ -59,15 +59,15 @@ flowchart LR
 
 ## 非適用とリスク
 
-| 誤用 | 結果 | 境界と対応 |
-| --- | --- | --- |
-| 8787 を全体のデフォルト入口とみなす | 直接接続の role がプロキシを迂回し、診断を誤る | selector の model/cache 項目と custom 設定の有無を確認する |
-| `/health` または HTTP 200 だけを見る | loopback 到達性しか証明できない | L2 プロトコルと L3 最終上流を検証する |
-| 旧 provider unit と wrap を同時に有効化する | ポート競合、古い headers、誤解を招くログ | 日常は `headroom wrap omp` だけを使い、旧サービスは移行残留として削除する |
-| Codex WebSocket に HTTP ルートを適用する | handshake または Responses event が失敗する | WebSocket URL、path、完了イベントの証拠を保持する |
-| 旧 Kimi/Anthropic override に依存する | header なしリクエストが静かに誤った上流へ行く | 旧 override を削除するか、明示 custom-provider ルートを使う |
-| プロキシ通過を圧縮 savings と同一視する | 短い要求の zero savings を未経由と誤認する | loopback、プロキシログ、圧縮統計を別々に見る |
-| 手動 `models.db` 編集を永続化契約とみなす | プロセスが古い cache を保持し、再起動後に再生成する | cache を派生状態とみなし、新しい wrapped session で検証する |
+| 誤用                                        | 結果                                                | 境界と対応                                                                |
+| ------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------- |
+| 8787 を全体のデフォルト入口とみなす         | 直接接続の role がプロキシを迂回し、診断を誤る      | selector の model/cache 項目と custom 設定の有無を確認する                |
+| `/health` または HTTP 200 だけを見る        | loopback 到達性しか証明できない                     | L2 プロトコルと L3 最終上流を検証する                                     |
+| 旧 provider unit と wrap を同時に有効化する | ポート競合、古い headers、誤解を招くログ            | 日常は `headroom wrap omp` だけを使い、旧サービスは移行残留として削除する |
+| Codex WebSocket に HTTP ルートを適用する    | handshake または Responses event が失敗する         | WebSocket URL、path、完了イベントの証拠を保持する                         |
+| 旧 Kimi/Anthropic override に依存する       | header なしリクエストが静かに誤った上流へ行く       | 旧 override を削除するか、明示 custom-provider ルートを使う               |
+| プロキシ通過を圧縮 savings と同一視する     | 短い要求の zero savings を未経由と誤認する          | loopback、プロキシログ、圧縮統計を別々に見る                              |
+| 手動 `models.db` 編集を永続化契約とみなす   | プロセスが古い cache を保持し、再起動後に再生成する | cache を派生状態とみなし、新しい wrapped session で検証する               |
 
 ## 最小検証
 

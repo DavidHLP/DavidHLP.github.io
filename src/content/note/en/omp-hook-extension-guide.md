@@ -7,7 +7,7 @@ status: active
 draft: true
 sources: ["legacy-omp-hook-extension-guide"]
 related: ["headroom-single-port-evolution", "omp-config-and-rules-guide", "omp-headroom-persistence", "llm-wiki-pattern"]
-tags: [Agent,OMP,Codebase,Hooks,DevOps,TUI,Plugin,Extension]
+tags: [Agent, OMP, Codebase, Hooks, DevOps, TUI, Plugin, Extension]
 description: "Treats an OMP Hook as an event extension at a tool decision point: sendMessage supplies a soft nudge without blocking, a hard result can reject a call, and setStatus bridges state into the UI. Includes API boundaries, mock and live-session checks, and the explicit warning that a suggestion is not a security boundary."
 toc: true
 ---
@@ -30,11 +30,11 @@ flowchart LR
   I --> J[Hook status map] --> K[Status row/optional segment]
 ```
 
-| Channel | Minimal contract | Observable effect it can prove | Effect it must not assume |
-| --- | --- | --- | --- |
-| Soft nudge | `pi.sendMessage({ customType, content, display, attribution })`, then return `void` | The message enters Agent context and the current tool continues | That the Agent will follow it or that any safety action is blocked |
-| Hard block | `return { block: true, reason }` (fields follow the current types) | The current tool call is rejected and the caller receives a reason | That misclassification is impossible or that it replaces server authorization |
-| UI status | `ctx.ui.setStatus(key, text)` | State enters the Hook status collection and may be rendered | That it appears in the top border or that long text is never truncated |
+| Channel    | Minimal contract                                                                    | Observable effect it can prove                                     | Effect it must not assume                                                     |
+| ---------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| Soft nudge | `pi.sendMessage({ customType, content, display, attribution })`, then return `void` | The message enters Agent context and the current tool continues    | That the Agent will follow it or that any safety action is blocked            |
+| Hard block | `return { block: true, reason }` (fields follow the current types)                  | The current tool call is rejected and the caller receives a reason | That misclassification is impossible or that it replaces server authorization |
+| UI status  | `ctx.ui.setStatus(key, text)`                                                       | State enters the Hook status collection and may be rendered        | That it appears in the top border or that long text is never truncated        |
 
 ### 2. Extension lifecycle and the status bridge
 
@@ -57,14 +57,14 @@ Check stable fields such as `toolName`, path scope in the input, and the project
 
 ## Not applicable and risks
 
-| Boundary | Failure symptom | Correct response |
-| --- | --- | --- |
-| A soft nudge is not security control | The Agent ignores `sendMessage` and a dangerous call still runs | Use a tested hard gate or server-side authorization for irreversible actions; never treat a nudge as a guarantee |
-| Hook APIs are version-sensitive | Types compile but event fields or load locations changed | Check the current type declarations and observe a real event in a fresh session |
-| A mock is not runtime proof | The synthetic handler passes but the extension is not loaded or rendered | Follow the mock with a real `tool_call` and TUI check |
-| Status row and top segment are separate | `setStatus` has data but not in the expected location | Check status gates, segment union/preset, and renderer path separately |
-| UI length and refresh budgets apply | Text is truncated, the border overflows, or state is stale | Keep the segment short, retain a full-text row as evidence, and test at a real terminal size |
-| Detection is expensive or throws | Tool calls slow down or are unexpectedly affected | Use fast path/field checks, throttling, and fail-soft `try/catch` |
+| Boundary                                | Failure symptom                                                          | Correct response                                                                                                 |
+| --------------------------------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| A soft nudge is not security control    | The Agent ignores `sendMessage` and a dangerous call still runs          | Use a tested hard gate or server-side authorization for irreversible actions; never treat a nudge as a guarantee |
+| Hook APIs are version-sensitive         | Types compile but event fields or load locations changed                 | Check the current type declarations and observe a real event in a fresh session                                  |
+| A mock is not runtime proof             | The synthetic handler passes but the extension is not loaded or rendered | Follow the mock with a real `tool_call` and TUI check                                                            |
+| Status row and top segment are separate | `setStatus` has data but not in the expected location                    | Check status gates, segment union/preset, and renderer path separately                                           |
+| UI length and refresh budgets apply     | Text is truncated, the border overflows, or state is stale               | Keep the segment short, retain a full-text row as evidence, and test at a real terminal size                     |
+| Detection is expensive or throws        | Tool calls slow down or are unexpectedly affected                        | Use fast path/field checks, throttling, and fail-soft `try/catch`                                                |
 
 ## Minimal verification
 

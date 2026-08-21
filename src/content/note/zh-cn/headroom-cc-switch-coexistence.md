@@ -24,10 +24,10 @@ flowchart LR
   H --> U[按 x-headroom-base-url 选择的 OpenAI 上游]
 ```
 
-| 路径 | 协议与入口 | Headroom 的职责 | 后续环节 | 不应推断 |
-| --- | --- | --- | --- | --- |
-| OMP | OpenAI `/v1/responses`，入口 `127.0.0.1:8787` | 按请求级信息整理并路由 | `x-headroom-base-url` 指定的 OpenAI 上游 | OMP discovery 一定由 Headroom 接管 |
-| Claude Code | Anthropic `/v1/messages`，入口 `127.0.0.1:8787` | 整理请求内容 | cc-switch `127.0.0.1:15721` 做协议转换和凭据注入 | cc-switch 负责压缩 |
+| 路径        | 协议与入口                                      | Headroom 的职责        | 后续环节                                         | 不应推断                           |
+| ----------- | ----------------------------------------------- | ---------------------- | ------------------------------------------------ | ---------------------------------- |
+| OMP         | OpenAI `/v1/responses`，入口 `127.0.0.1:8787`   | 按请求级信息整理并路由 | `x-headroom-base-url` 指定的 OpenAI 上游         | OMP discovery 一定由 Headroom 接管 |
+| Claude Code | Anthropic `/v1/messages`，入口 `127.0.0.1:8787` | 整理请求内容           | cc-switch `127.0.0.1:15721` 做协议转换和凭据注入 | cc-switch 负责压缩                 |
 
 因此，同一 provider 上不能再叠加另一个 application-level compression bridge。否则请求会被两个环节先后整理，savings、缓存前缀和失败原因都难以归属。
 

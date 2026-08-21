@@ -7,7 +7,7 @@ status: provisional
 draft: true
 sources: ["legacy-omp-headroom-persistence", "legacy-headroom-single-port-evolution", "legacy-omp-config-and-rules-guide"]
 related: ["headroom-single-port-evolution", "omp-config-and-rules-guide", "omp-hook-extension-guide", "llm-wiki-pattern"]
-tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,Routing,Proxy,Codex,OpenCode]
+tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, Routing, Proxy, Codex, OpenCode]
 description: "Synthesizes Headroom route persistence when OMP rewrites runtime model caches: Named Profiles isolate intent and credentials, an external declaration can preserve route intent, model_cache remains rebuildable derived state, and the legacy reconciler is limited to isolated migration recovery. Current wrapper lifecycle and version dependencies are explicit."
 toc: true
 ---
@@ -29,14 +29,14 @@ flowchart TB
   W[headroom wrap omp] --> H[active local proxy<br/>wrapper-owned lifecycle]
 ```
 
-| Artifact | Role | Safe conclusion | What must not be inferred |
-| --- | --- | --- | --- |
-| Named Profile | Isolates a set of OMP config, credentials, history, and cache | Updating one profile need not contaminate another | The profile automatically repairs routes or hides credentials |
-| `config.yml` | User behavior, `modelRoles`, retries, tools, and related intent | It selects roles and runtime controls | The selected provider must use a particular base URL |
-| `models.yml` | Static provider/model override layer | It can express an override intent | An existing authoritative cache row will certainly be taken over |
-| `models.db` / `model_cache` | Runtime derived state after discovery/merge | It can be rebuilt and must be checked in the live runtime | It is a safe long-term hand-editing contract |
-| External route declaration | Optional route intent outside the OMP directory | It can provide recovery input after an update | It can store credentials or replace the provider catalog |
-| Reconciler | Controlled recovery tool from the old migration | It can back up, match, and transactionally update existing rows | It should run before every normal startup |
+| Artifact                    | Role                                                            | Safe conclusion                                                 | What must not be inferred                                        |
+| --------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Named Profile               | Isolates a set of OMP config, credentials, history, and cache   | Updating one profile need not contaminate another               | The profile automatically repairs routes or hides credentials    |
+| `config.yml`                | User behavior, `modelRoles`, retries, tools, and related intent | It selects roles and runtime controls                           | The selected provider must use a particular base URL             |
+| `models.yml`                | Static provider/model override layer                            | It can express an override intent                               | An existing authoritative cache row will certainly be taken over |
+| `models.db` / `model_cache` | Runtime derived state after discovery/merge                     | It can be rebuilt and must be checked in the live runtime       | It is a safe long-term hand-editing contract                     |
+| External route declaration  | Optional route intent outside the OMP directory                 | It can provide recovery input after an update                   | It can store credentials or replace the provider catalog         |
+| Reconciler                  | Controlled recovery tool from the old migration                 | It can back up, match, and transactionally update existing rows | It should run before every normal startup                        |
 
 ### 2. Safe recovery chain for the legacy reconciler
 
@@ -62,16 +62,16 @@ For daily use, let the official `headroom wrap omp` manage the active proxy. Dur
 
 ## Not applicable and risks
 
-| Risk | Misdiagnosis or symptom | Boundary and response |
-| --- | --- | --- |
-| Treating `models.yml` as a strong override | A new base URL is written but an authoritative cache still uses the old entry | Check the live `model_cache` and final upstream for the release; do not promise takeover |
-| Hand-editing `models.db` | The process keeps old memory and the next restart rebuilds the change away | Only do this in isolated migration evidence with a backup and transaction result |
-| Putting the reconciler in normal startup | Every startup rewrites cache and hides catalog or version changes | Use the wrapper daily; limit the reconciler to legacy migration recovery |
-| Treating `agent.db` as configuration | Credentials or session state leak into Git, logs, or the external declaration | Keep profile state private; keep route declarations credential-free and audit permissions |
-| Inserting when no row matches | A provider OMP never discovered is fabricated and later updates become unpredictable | Fail loudly and inspect the current catalog and release first |
-| Checking only loopback or 200 | Route and recovery are reported as successful without upstream evidence | Combine proxy inbound/outbound, final URL/WebSocket, and a new-session check |
-| Assuming normal exit cleans route state | The next session inherits an unexpected loopback or stale headers | Explicitly run `headroom unwrap omp` unless intentionally keeping the proxy |
-| Leaving double compression or old overrides | Savings/output anomalies cannot be attributed | Disable context-mode, legacy overrides, and proxy layers one at a time and remeasure |
+| Risk                                        | Misdiagnosis or symptom                                                              | Boundary and response                                                                     |
+| ------------------------------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| Treating `models.yml` as a strong override  | A new base URL is written but an authoritative cache still uses the old entry        | Check the live `model_cache` and final upstream for the release; do not promise takeover  |
+| Hand-editing `models.db`                    | The process keeps old memory and the next restart rebuilds the change away           | Only do this in isolated migration evidence with a backup and transaction result          |
+| Putting the reconciler in normal startup    | Every startup rewrites cache and hides catalog or version changes                    | Use the wrapper daily; limit the reconciler to legacy migration recovery                  |
+| Treating `agent.db` as configuration        | Credentials or session state leak into Git, logs, or the external declaration        | Keep profile state private; keep route declarations credential-free and audit permissions |
+| Inserting when no row matches               | A provider OMP never discovered is fabricated and later updates become unpredictable | Fail loudly and inspect the current catalog and release first                             |
+| Checking only loopback or 200               | Route and recovery are reported as successful without upstream evidence              | Combine proxy inbound/outbound, final URL/WebSocket, and a new-session check              |
+| Assuming normal exit cleans route state     | The next session inherits an unexpected loopback or stale headers                    | Explicitly run `headroom unwrap omp` unless intentionally keeping the proxy               |
+| Leaving double compression or old overrides | Savings/output anomalies cannot be attributed                                        | Disable context-mode, legacy overrides, and proxy layers one at a time and remeasure      |
 
 ## Minimal verification
 

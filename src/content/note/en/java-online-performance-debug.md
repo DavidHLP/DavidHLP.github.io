@@ -18,13 +18,13 @@ This page is a decision tree for Java production performance incidents, not a 1,
 
 ### 1. Classify the symptom before calling it a Java loop
 
-| Symptom / evidence | First hypothesis | Next step |
-| --- | --- | --- |
-| High `user`, one Java process and thread stay RUNNABLE | Hot computation, loop, serialization, or retry storm | Thread stacks, Arthas `thread`/flame graph, code localization |
-| High `system` or `softirq` | Kernel, network interrupt, or packet storm | Inspect system and network actors before changing business code |
-| High `iowait` | Disk, logging, database, or downstream I/O wait | Check I/O latency, connections, and dependency metrics |
-| High CPU with frequent GC and a near-full heap | Allocation pressure, memory shortage, or collection storm | `jstat`, GC logs, heap/allocation evidence |
-| High load with modest CPU and `BLOCKED/WAITING` threads | Lock contention, exhausted pool, or blocked dependency | Stacks, pool queues, locks, and downstream timeouts |
+| Symptom / evidence                                      | First hypothesis                                          | Next step                                                       |
+| ------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------------- |
+| High `user`, one Java process and thread stay RUNNABLE  | Hot computation, loop, serialization, or retry storm      | Thread stacks, Arthas `thread`/flame graph, code localization   |
+| High `system` or `softirq`                              | Kernel, network interrupt, or packet storm                | Inspect system and network actors before changing business code |
+| High `iowait`                                           | Disk, logging, database, or downstream I/O wait           | Check I/O latency, connections, and dependency metrics          |
+| High CPU with frequent GC and a near-full heap          | Allocation pressure, memory shortage, or collection storm | `jstat`, GC logs, heap/allocation evidence                      |
+| High load with modest CPU and `BLOCKED/WAITING` threads | Lock contention, exhausted pool, or blocked dependency    | Stacks, pool queues, locks, and downstream timeouts             |
 
 ### 2. The evidence chain matters more than a single command
 

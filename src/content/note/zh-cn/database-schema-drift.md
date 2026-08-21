@@ -23,11 +23,11 @@ toc: true
 
 ## 三个视图不能互相替代
 
-| 视图 | 回答的问题 | 最小检查 | 看不到什么 |
-| --- | --- | --- | --- |
-| migration history | 哪些迁移被记录为已应用、失败、缺失或乱序？ | `flyway info`、`flyway validate`、schema history table | 未经 Flyway 的外部 DDL |
-| actual schema | 当前表、列、索引究竟是什么？ | `SHOW CREATE TABLE`、`SHOW COLUMNS`、`information_schema` | 应用代码实际引用了什么 |
-| application query | 失败 SQL 引用了哪个对象、在哪个子句？ | 最小复现 SQL、异常码与 SQLSTATE | 对象为何形成当前状态 |
+| 视图              | 回答的问题                                 | 最小检查                                                  | 看不到什么             |
+| ----------------- | ------------------------------------------ | --------------------------------------------------------- | ---------------------- |
+| migration history | 哪些迁移被记录为已应用、失败、缺失或乱序？ | `flyway info`、`flyway validate`、schema history table    | 未经 Flyway 的外部 DDL |
+| actual schema     | 当前表、列、索引究竟是什么？               | `SHOW CREATE TABLE`、`SHOW COLUMNS`、`information_schema` | 应用代码实际引用了什么 |
+| application query | 失败 SQL 引用了哪个对象、在哪个子句？      | 最小复现 SQL、异常码与 SQLSTATE                           | 对象为何形成当前状态   |
 
 因此：`validate` 通过不能证明没有 schema drift；schema 中有列也不能证明所有应用实例的查询和 serializer 已升级；查询报错更不能直接证明迁移未执行。
 
@@ -64,12 +64,12 @@ ALTER TABLE users ADD COLUMN ext_drift INT;
 
 MySQL 8.4.11 最小实验得到：
 
-| 现象 | 错误 | 含义 |
-| --- | --- | --- |
-| 再次 `ADD COLUMN email` | `1060 (42S21) Duplicate column name` | 迁移重复执行，或列已由外部操作创建 |
-| `SELECT no_such_col ...` | `1054 (42S22) Unknown column ... in 'field list'` | 查询引用不存在的列 |
-| `DROP COLUMN no_such_col` | `1091 (42000) Can't DROP ...` | DROP 的对象不存在；不是 1054 |
-| 一个 `ALTER TABLE` 的后续子句重复列 | `1060`，整条语句回滚 | 同一条 InnoDB DDL 语句原子 |
+| 现象                                | 错误                                              | 含义                               |
+| ----------------------------------- | ------------------------------------------------- | ---------------------------------- |
+| 再次 `ADD COLUMN email`             | `1060 (42S21) Duplicate column name`              | 迁移重复执行，或列已由外部操作创建 |
+| `SELECT no_such_col ...`            | `1054 (42S22) Unknown column ... in 'field list'` | 查询引用不存在的列                 |
+| `DROP COLUMN no_such_col`           | `1091 (42000) Can't DROP ...`                     | DROP 的对象不存在；不是 1054       |
+| 一个 `ALTER TABLE` 的后续子句重复列 | `1060`，整条语句回滚                              | 同一条 InnoDB DDL 语句原子         |
 
 “单条 DDL 原子”不等于“migration 文件事务化”。MySQL DDL 隐式提交：同一 migration 文件中的第一条 DDL 成功、第二条失败时，第一条可能保留，而 Flyway history 记录失败。此时 `repair` 删除失败记录也不会清理第一条留下的对象。
 

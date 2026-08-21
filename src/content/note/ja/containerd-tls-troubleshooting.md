@@ -24,19 +24,19 @@ Pod → kubelet → imagePullSecrets/ServiceAccount → CRI → containerd
     → Registry TLS → manifest/layer
 ```
 
-| 観測結果 | 最初に見る層 | 再利用できる判断 |
-| --- | --- | --- |
-| `x509: certificate signed by unknown authority` | Registry TLS / containerd | 証明書チェーン、SAN、`config_path`、ノード上の `ca.crt` を確認する。 |
-| `certificate is valid for xxx, not yyy` | Registry アドレス | イメージアドレスを証明書 SAN に合わせ、対象外の IP に置き換えない。 |
-| TLS は通るが `unauthorized` | Kubernetes 認証情報 | Pod の `imagePullSecrets` と、明示しない場合に継承する ServiceAccount を確認する。 |
-| `crictl pull` は成功するが Pod は失敗 | Kubernetes またはキャッシュ | CA を変更する前に Secret、ServiceAccount、namespace、イメージ名、古いレイヤーを見る。 |
+| 観測結果                                        | 最初に見る層                | 再利用できる判断                                                                      |
+| ----------------------------------------------- | --------------------------- | ------------------------------------------------------------------------------------- |
+| `x509: certificate signed by unknown authority` | Registry TLS / containerd   | 証明書チェーン、SAN、`config_path`、ノード上の `ca.crt` を確認する。                  |
+| `certificate is valid for xxx, not yyy`         | Registry アドレス           | イメージアドレスを証明書 SAN に合わせ、対象外の IP に置き換えない。                   |
+| TLS は通るが `unauthorized`                     | Kubernetes 認証情報         | Pod の `imagePullSecrets` と、明示しない場合に継承する ServiceAccount を確認する。    |
+| `crictl pull` は成功するが Pod は失敗           | Kubernetes またはキャッシュ | CA を変更する前に Secret、ServiceAccount、namespace、イメージ名、古いレイヤーを見る。 |
 
 ### 2. TLS の二つの選択肢
 
-| 選択 | 最小設定 | 判断 | 代償 |
-| --- | --- | --- | --- |
-| 信頼 CA（本番経路） | `hosts.toml` に `ca = "ca.crt"` | プライベートレジストリを長期運用し、ノードがサーバーを認証する必要がある | pull を行うすべての Worker に証明書と設定を配布する必要がある。 |
-| 一時的な検証スキップ | `skip_verify = true` | テスト、デモ、一時的な内網レジストリで、証明書検証が原因かを確認する | 証明書の出所を検証せず、中間者攻撃のリスクがある。本番の既定値にはしない。 |
+| 選択                 | 最小設定                        | 判断                                                                     | 代償                                                                       |
+| -------------------- | ------------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| 信頼 CA（本番経路）  | `hosts.toml` に `ca = "ca.crt"` | プライベートレジストリを長期運用し、ノードがサーバーを認証する必要がある | pull を行うすべての Worker に証明書と設定を配布する必要がある。            |
+| 一時的な検証スキップ | `skip_verify = true`            | テスト、デモ、一時的な内網レジストリで、証明書検証が原因かを確認する     | 証明書の出所を検証せず、中間者攻撃のリスクがある。本番の既定値にはしない。 |
 
 `skip_verify` が変えるのは TLS 検証だけである。誤ったホスト名、ポート、認証情報、DNS、プロキシ経路は直らない。本番設定の最小例は次のとおり。
 

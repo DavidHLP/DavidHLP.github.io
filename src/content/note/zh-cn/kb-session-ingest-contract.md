@@ -49,17 +49,17 @@ toc: true
 
 字段级替换类别：
 
-| 类别 | 形态 |
-| --- | --- |
-| PEM 私钥 | `PRIVATE KEY` 块 → `<REDACTED_TOKEN>` |
-| DSN 口令 | `scheme://user:pass@` → `<REDACTED_PASSWORD>` |
-| 私有仓库 | `git@host:path` → `<PRIVATE_REPOSITORY>` |
-| API key | `*api*key* = 值` → `api_key=<REDACTED_API_KEY>`；`sk-…`（≥16 位）、`AKIA…`（16 位）→ `<REDACTED_API_KEY>` |
-| 令牌 | `Bearer`/`Basic` 后 ≥12 位凭据 → `<REDACTED_TOKEN>`；`gh[pousr]_…` / `xox[baprs]-…`（≥16 位）→ `<REDACTED_TOKEN>` |
+| 类别         | 形态                                                                                                                                          |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------- | ----- | --- | ------------------------- |
+| PEM 私钥     | `PRIVATE KEY` 块 → `<REDACTED_TOKEN>`                                                                                                         |
+| DSN 口令     | `scheme://user:pass@` → `<REDACTED_PASSWORD>`                                                                                                 |
+| 私有仓库     | `git@host:path` → `<PRIVATE_REPOSITORY>`                                                                                                      |
+| API key      | `*api*key* = 值` → `api_key=<REDACTED_API_KEY>`；`sk-…`（≥16 位）、`AKIA…`（16 位）→ `<REDACTED_API_KEY>`                                     |
+| 令牌         | `Bearer`/`Basic` 后 ≥12 位凭据 → `<REDACTED_TOKEN>`；`gh[pousr]_…` / `xox[baprs]-…`（≥16 位）→ `<REDACTED_TOKEN>`                             |
 | 通用敏感字段 | `token`/`authorization`/`cookie`/`secret(?:key)? = 值` → `token=<REDACTED_TOKEN>`；`password`/`passwd… = 值` → `password=<REDACTED_PASSWORD>` |
-| 身份 | 邮箱（含本地形如 `user@host`）→ `<PRIVATE_EMAIL>` |
-| 主机 | 私网/回环地址（10/127/192.168/172.16–31、`::1`、`fc`/`fd`、`fe8`–`feb`、`localhost`、`*.internal|local|lan|corp`）→ `<PRIVATE_HOST>` |
-| 路径 | UNC `\\…`、Windows 盘符 `C:\…`、`/home/…`、`/Users/…`、`~/…`、`file:…`、其余绝对路径 → `<PRIVATE_PATH>` |
+| 身份         | 邮箱（含本地形如 `user@host`）→ `<PRIVATE_EMAIL>`                                                                                             |
+| 主机         | 私网/回环地址（10/127/192.168/172.16–31、`::1`、`fc`/`fd`、`fe8`–`feb`、`localhost`、`\*.internal                                             | local | lan | corp`）→ `<PRIVATE_HOST>` |
+| 路径         | UNC `\\…`、Windows 盘符 `C:\…`、`/home/…`、`/Users/…`、`~/…`、`file:…`、其余绝对路径 → `<PRIVATE_PATH>`                                       |
 
 测试锚点："redacts credentials, identity, hosts, paths, and private repositories"：断言 7 类占位符均出现，同时断言一批具体秘密值（用户名、私有主机、回环/IPv6 地址、Windows/UNC/`~`/绝对路径、DSN 与 Redis 口令、JSON 内 password/cookie/api_key、带引号转义后缀）在结果中不出现；非敏感字段（如 `tokens_saved=42 token_count=10`）保留。
 
@@ -105,9 +105,9 @@ pnpm kb:lint
 
 1. **先跑聚焦 parser 测试**：失败时按测试名定位契约节（身份/内容哈希、失败复用、redaction、控制面过滤、partial checkpoint、dry-run 语义），测试断言即行为契约；测试全部使用合成 fixture，不涉及真实会话数据。
 2. **再跑 `pnpm kb:lint`**，按错误类别分级处理：
-   - 先修 raw 校验类错误（`missing raw manifest` / `raw checksum mismatch` / `raw file missing from manifest` / `manifest points to missing raw file` / `raw snapshot changed or deleted`）：raw 是不可变证据层，**不能靠修改 raw 消除告警**，需核对快照与 manifest 或登记新来源。
-   - 再修 note 页元数据（缺 `kind`/`status`/`sources`、`sources` 解析不到 raw slug）：补 frontmatter 或修正链接。
-   - 最后修 index/log 同步（raw slug 或 active/provisional 页未登记、log 条目格式不可解析）。
+    - 先修 raw 校验类错误（`missing raw manifest` / `raw checksum mismatch` / `raw file missing from manifest` / `manifest points to missing raw file` / `raw snapshot changed or deleted`）：raw 是不可变证据层，**不能靠修改 raw 消除告警**，需核对快照与 manifest 或登记新来源。
+    - 再修 note 页元数据（缺 `kind`/`status`/`sources`、`sources` 解析不到 raw slug）：补 frontmatter 或修正链接。
+    - 最后修 index/log 同步（raw slug 或 active/provisional 页未登记、log 条目格式不可解析）。
 3. 任一错误都会汇总输出并 `exit 1`；按"证据链 → 元数据 → 索引/日志"顺序修复，不要为了消除告警删除事实来源。
 
 ## 回滚与清理

@@ -6,7 +6,7 @@ kind: concept
 status: active
 sources: ["headroom-0-34-compress-retrieve-contract"]
 related: ["llm-wiki-pattern"]
-tags: [Headroom,API,Compression,CCR,Contract Testing,Agent]
+tags: [Headroom, API, Compression, CCR, Contract Testing, Agent]
 description: "Headroom 0.34.0 の /v1/compress と /v1/retrieve の request、response、mode の境界を固定し、mock と実 loopback contract test が同じ schema を使う必要性を説明する。"
 toc: true
 ---
@@ -19,11 +19,9 @@ Headroom 0.34.0 の API は、dashboard、型名、mock から推測せず、バ
 
 ```json
 {
-  "model": "<MODEL_NAME>",
-  "messages": [
-    {"role": "user", "content": "..."}
-  ],
-  "config": {}
+	"model": "<MODEL_NAME>",
+	"messages": [{ "role": "user", "content": "..." }],
+	"config": {}
 }
 ```
 
@@ -50,7 +48,7 @@ ccr_hashes
 ### `POST /v1/retrieve`
 
 ```json
-{"hash": "<CCR_HASH>"}
+{ "hash": "<CCR_HASH>" }
 ```
 
 成功 response は次のフィールドを含む。
@@ -69,12 +67,12 @@ retrieval_count
 
 ## 圧縮 mode は同じスイッチではない
 
-| `config.mode` | Marker | Store write | 条件 |
-| --- | --- | --- | --- |
-| 省略 | なし | なし | デフォルト。CCR 取得ループは不要 |
-| `ccr` | 条件付き | 条件付き | caller が取得 tool を注入し、loopback `/v1/retrieve` に到達できる |
-| `lossy_inline` | なし | なし | lossless fold の後、残りを Kompress |
-| `lossless_then_lossy` | なし | なし | `lossy_inline` の互換 alias |
+| `config.mode`         | Marker   | Store write | 条件                                                              |
+| --------------------- | -------- | ----------- | ----------------------------------------------------------------- |
+| 省略                  | なし     | なし        | デフォルト。CCR 取得ループは不要                                  |
+| `ccr`                 | 条件付き | 条件付き    | caller が取得 tool を注入し、loopback `/v1/retrieve` に到達できる |
+| `lossy_inline`        | なし     | なし        | lossless fold の後、残りを Kompress                               |
+| `lossless_then_lossy` | なし     | なし        | `lossy_inline` の互換 alias                                       |
 
 `ccr_hashes` は実際に挿入した marker だけを表す。`ccr` mode でも通常の text や一般的な function message が marker を生成するとは限らない。structured tool output に対する SmartCrusher row-drop は、確認済みの marker 生成経路である。したがって「`ccr` を有効にした」ことと「`ccr_hashes` が必ず非空」を同一視しない。
 

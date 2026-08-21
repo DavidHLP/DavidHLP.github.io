@@ -18,21 +18,21 @@ This page answers a remote-access decision: when an internal Linux server has no
 
 ### 1. Five comparison axes
 
-| Axis | Cloudflare Tunnel | Tailscale / WireGuard | FRP |
-| --- | --- | --- | --- |
-| Connection direction | Internal `cloudflared` opens an outbound WebSocket/TLS connection to Cloudflare Edge; the outside client reaches Edge first | Devices join a virtual network; the data plane uses UDP/WireGuard and may rely on DERP | Public `frps` listens on a port; internal `frpc` keeps a long-lived connection and forwards to local `127.0.0.1:22` |
-| Exposure | A custom CNAME/Hostname is the entry point | Devices receive a `100.x.x.x` virtual address; clients must join the network | Public address/domain plus `remotePort` is the entry point; a standard SSH client connects to the mapped port |
-| Control plane | Cloudflare Zero Trust/Access and Edge service | `controlplane.tailscale.com`, login state, and DERP reachability | `frpc` authentication and its long-lived connection to `frps`; the source configuration includes `auth.token` |
-| Data plane | SSH is proxied through `cloudflared access ssh` | WireGuard/UDP virtual link | TCP mapping to the internal SSH port |
-| Recovery | Depends on a desktop client that can run `cloudflared` and on service-account conditions | Restore the control plane first; an HTTP proxy is not the same as a working UDP data plane | A systemd user service restarts the client; linger keeps the user-service instance after logout |
+| Axis                 | Cloudflare Tunnel                                                                                                           | Tailscale / WireGuard                                                                      | FRP                                                                                                                 |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| Connection direction | Internal `cloudflared` opens an outbound WebSocket/TLS connection to Cloudflare Edge; the outside client reaches Edge first | Devices join a virtual network; the data plane uses UDP/WireGuard and may rely on DERP     | Public `frps` listens on a port; internal `frpc` keeps a long-lived connection and forwards to local `127.0.0.1:22` |
+| Exposure             | A custom CNAME/Hostname is the entry point                                                                                  | Devices receive a `100.x.x.x` virtual address; clients must join the network               | Public address/domain plus `remotePort` is the entry point; a standard SSH client connects to the mapped port       |
+| Control plane        | Cloudflare Zero Trust/Access and Edge service                                                                               | `controlplane.tailscale.com`, login state, and DERP reachability                           | `frpc` authentication and its long-lived connection to `frps`; the source configuration includes `auth.token`       |
+| Data plane           | SSH is proxied through `cloudflared access ssh`                                                                             | WireGuard/UDP virtual link                                                                 | TCP mapping to the internal SSH port                                                                                |
+| Recovery             | Depends on a desktop client that can run `cloudflared` and on service-account conditions                                    | Restore the control plane first; an HTTP proxy is not the same as a working UDP data plane | A systemd user service restarts the client; linger keeps the user-service instance after logout                     |
 
 ### 2. Boundaries of the three options
 
-| Option | Fits | Explicit limitation |
-| --- | --- | --- |
+| Option            | Fits                                                                                                     | Explicit limitation                                                                                                                                                     |
+| ----------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Cloudflare Tunnel | Desktop macOS/Linux/Windows where standard SSH can run `ProxyCommand`, and a custom domain is acceptable | Mobile Termius cannot spawn `cloudflared` inside its sandbox; the raw record includes a Zero Trust/Access payment gate, which must be rechecked against current policy. |
-| Tailscale | Clients can install Tailscale and obtain system VPN permission, with control plane/DERP reachable | `sudo tailscale up` may hang when the control plane is blocked; a simple `HTTP_PROXY` cannot proxy the required UDP/WireGuard traffic. |
-| FRP | A mobile Termius client should need only a domain and port, and a public relay node is available | The public entry point is `serverAddr + remotePort`; standard open-source `frpc` and a customized client's startup flags must not be mixed. |
+| Tailscale         | Clients can install Tailscale and obtain system VPN permission, with control plane/DERP reachable        | `sudo tailscale up` may hang when the control plane is blocked; a simple `HTTP_PROXY` cannot proxy the required UDP/WireGuard traffic.                                  |
+| FRP               | A mobile Termius client should need only a domain and port, and a public relay node is available         | The public entry point is `serverAddr + remotePort`; standard open-source `frpc` and a customized client's startup flags must not be mixed.                             |
 
 ### 3. Minimal configuration and two common semantic errors
 

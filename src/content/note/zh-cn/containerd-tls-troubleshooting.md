@@ -23,19 +23,19 @@ Pod → kubelet → imagePullSecrets/ServiceAccount → CRI → containerd
     → Registry TLS → manifest/layer
 ```
 
-| 观察到的现象 | 首要层 | 可复用判断 |
-| --- | --- | --- |
-| `x509: certificate signed by unknown authority` | Registry TLS / containerd | 先核对证书链、SAN、`config_path` 和节点上的 `ca.crt`。 |
-| `certificate is valid for xxx, not yyy` | Registry 地址 | 镜像地址必须与证书 SAN 匹配；不要用未被证书覆盖的 IP 替代域名。 |
-| TLS 已通过但 `unauthorized` | Kubernetes 凭证 | 检查 Pod 的 `imagePullSecrets`，以及未显式指定时继承的 ServiceAccount。 |
-| `crictl pull` 成功而 Pod 失败 | Kubernetes 或缓存 | 先看 Secret、ServiceAccount、namespace、镜像名和旧镜像层；不要继续改 CA。 |
+| 观察到的现象                                    | 首要层                    | 可复用判断                                                                |
+| ----------------------------------------------- | ------------------------- | ------------------------------------------------------------------------- |
+| `x509: certificate signed by unknown authority` | Registry TLS / containerd | 先核对证书链、SAN、`config_path` 和节点上的 `ca.crt`。                    |
+| `certificate is valid for xxx, not yyy`         | Registry 地址             | 镜像地址必须与证书 SAN 匹配；不要用未被证书覆盖的 IP 替代域名。           |
+| TLS 已通过但 `unauthorized`                     | Kubernetes 凭证           | 检查 Pod 的 `imagePullSecrets`，以及未显式指定时继承的 ServiceAccount。   |
+| `crictl pull` 成功而 Pod 失败                   | Kubernetes 或缓存         | 先看 Secret、ServiceAccount、namespace、镜像名和旧镜像层；不要继续改 CA。 |
 
 ### 2. 两种 TLS 选择
 
-| 选择 | 最小配置 | 适用决策 | 代价 |
-| --- | --- | --- | --- |
-| 受信 CA（生产路径） | `hosts.toml` 使用 `ca = "ca.crt"` | 私有仓库要长期运行，节点应验证服务端身份 | 每个实际拉取镜像的 Worker 节点都要分发证书和配置。 |
-| 临时跳过验证 | `skip_verify = true` | 测试、演示或内网临时仓库，用来确认故障确实在证书校验 | 绕过证书来源校验，有中间人风险；不能作为生产默认值。 |
+| 选择                | 最小配置                          | 适用决策                                             | 代价                                                 |
+| ------------------- | --------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
+| 受信 CA（生产路径） | `hosts.toml` 使用 `ca = "ca.crt"` | 私有仓库要长期运行，节点应验证服务端身份             | 每个实际拉取镜像的 Worker 节点都要分发证书和配置。   |
+| 临时跳过验证        | `skip_verify = true`              | 测试、演示或内网临时仓库，用来确认故障确实在证书校验 | 绕过证书来源校验，有中间人风险；不能作为生产默认值。 |
 
 `skip_verify` 只改变 TLS 校验，不会修复错误的域名、端口、凭证、DNS 或代理路径。生产配置的最小片段是：
 

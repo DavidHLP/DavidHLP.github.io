@@ -18,14 +18,14 @@ toc: true
 
 ### 1. 六つの概念を区別する決定表
 
-| 概念 | 意味 | 判定/トリガー | 重要な境界 |
-| --- | --- | --- | --- |
-| running（プロセス起動） | オーケストレーターはコンテナが「running」であることだけを待つ | コンテナ状態が running；ポートバインディングはこの層に属する | アプリの ready を待たない。ポートがリスンされていても ready の証拠にならない |
-| ready（業務レディネス） | ユーザーが明示的に定義しなければならない | `healthcheck` が通るか、ワンショットタスクが完了する（`service_completed_successfully`、v2.20.0+） | プローブはユーザーコマンド。オーケストレーターはアプリ内状態を検証しない |
-| ordering（順序付け） | 前後関係だけを決め、依存は作らない | Compose の短い構文 `depends_on: [db]`（`service_started` と同等）；systemd の `After=`/`Before=` | 短い構文は起動順序しか保証しない。`After=` は `Requires=`/`Wants=` と直交 |
-| requirement（依存確立） | 「依存が満たされなければ起動しない」と宣言 | 長い構文 `condition: service_healthy`；systemd の `Requires=`/`Wants=` | `Wants=` は弱い形式で、失敗しても全体トランザクションに影響しない |
-| failure propagation（失敗の伝播） | 依存が不健康なら依存側は起動しない | `up --wait` が失敗終了；`--abort-on-container-failure` で全停止；systemd の `Requires=`+`After=` | `--abort-on-container-failure` は `-d` と非互換、`--wait` とは排他 |
-| restart propagation（再起動の伝播） | 明示操作で起きた再起動だけが伝播する | `depends_on.restart: true`；systemd の `Requires=` による明示 stop/restart | コンテナ実行時の自動再起動は伝播しない。systemd の予期しない失敗には `BindsTo=` が必要 |
+| 概念                                | 意味                                                          | 判定/トリガー                                                                                      | 重要な境界                                                                             |
+| ----------------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| running（プロセス起動）             | オーケストレーターはコンテナが「running」であることだけを待つ | コンテナ状態が running；ポートバインディングはこの層に属する                                       | アプリの ready を待たない。ポートがリスンされていても ready の証拠にならない           |
+| ready（業務レディネス）             | ユーザーが明示的に定義しなければならない                      | `healthcheck` が通るか、ワンショットタスクが完了する（`service_completed_successfully`、v2.20.0+） | プローブはユーザーコマンド。オーケストレーターはアプリ内状態を検証しない               |
+| ordering（順序付け）                | 前後関係だけを決め、依存は作らない                            | Compose の短い構文 `depends_on: [db]`（`service_started` と同等）；systemd の `After=`/`Before=`   | 短い構文は起動順序しか保証しない。`After=` は `Requires=`/`Wants=` と直交              |
+| requirement（依存確立）             | 「依存が満たされなければ起動しない」と宣言                    | 長い構文 `condition: service_healthy`；systemd の `Requires=`/`Wants=`                             | `Wants=` は弱い形式で、失敗しても全体トランザクションに影響しない                      |
+| failure propagation（失敗の伝播）   | 依存が不健康なら依存側は起動しない                            | `up --wait` が失敗終了；`--abort-on-container-failure` で全停止；systemd の `Requires=`+`After=`   | `--abort-on-container-failure` は `-d` と非互換、`--wait` とは排他                     |
+| restart propagation（再起動の伝播） | 明示操作で起きた再起動だけが伝播する                          | `depends_on.restart: true`；systemd の `Requires=` による明示 stop/restart                         | コンテナ実行時の自動再起動は伝播しない。systemd の予期しない失敗には `BindsTo=` が必要 |
 
 ### 2. 重要な意味論の切り分け
 
@@ -46,21 +46,21 @@ toc: true
 
 ```yaml
 services:
-  app:
-    image: alpine:3.19
-    command: ["sh", "-c", "echo APP_STARTED; sleep 60"]
-    depends_on:
-      db:
-        condition: service_healthy
-        restart: true
-  db:
-    image: redis:7.2-alpine
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      retries: 5
-      start_period: 10s
-      timeout: 5s
+    app:
+        image: alpine:3.19
+        command: ["sh", "-c", "echo APP_STARTED; sleep 60"]
+        depends_on:
+            db:
+                condition: service_healthy
+                restart: true
+    db:
+        image: redis:7.2-alpine
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 10s
+            retries: 5
+            start_period: 10s
+            timeout: 5s
 ```
 
 選定の要点（訂正 raw の最小実験より）：固定公式イメージ、ビルド不要、資格情報不要、ポートなし。`app` は healthcheck を定義しないので、`up --wait` に対しては running で満足し、`db` の `redis-cli ping` が通った後で `app` が起動する。`healthcheck` のプローブコマンドが ready の定義を決める。別のコマンドに変えれば別のレディネス基準になる。

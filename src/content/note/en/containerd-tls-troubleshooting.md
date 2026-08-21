@@ -24,19 +24,19 @@ Pod → kubelet → imagePullSecrets/ServiceAccount → CRI → containerd
     → Registry TLS → manifest/layer
 ```
 
-| Observation | First layer | Reusable interpretation |
-| --- | --- | --- |
-| `x509: certificate signed by unknown authority` | Registry TLS / containerd | Check the certificate chain, SAN, `config_path`, and the node's `ca.crt`. |
-| `certificate is valid for xxx, not yyy` | Registry address | The image address must match the certificate SAN; do not substitute an uncovered IP. |
-| TLS succeeds but `unauthorized` remains | Kubernetes credentials | Inspect Pod `imagePullSecrets` and the ServiceAccount inherited when none is explicit. |
-| `crictl pull` succeeds but the Pod fails | Kubernetes or cache | Check Secret, ServiceAccount, namespace, image name, and stale layers before changing CA settings. |
+| Observation                                     | First layer               | Reusable interpretation                                                                            |
+| ----------------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------- |
+| `x509: certificate signed by unknown authority` | Registry TLS / containerd | Check the certificate chain, SAN, `config_path`, and the node's `ca.crt`.                          |
+| `certificate is valid for xxx, not yyy`         | Registry address          | The image address must match the certificate SAN; do not substitute an uncovered IP.               |
+| TLS succeeds but `unauthorized` remains         | Kubernetes credentials    | Inspect Pod `imagePullSecrets` and the ServiceAccount inherited when none is explicit.             |
+| `crictl pull` succeeds but the Pod fails        | Kubernetes or cache       | Check Secret, ServiceAccount, namespace, image name, and stale layers before changing CA settings. |
 
 ### 2. The two TLS choices
 
-| Choice | Minimal setting | Decision | Cost |
-| --- | --- | --- | --- |
-| Trusted CA (production path) | `hosts.toml` uses `ca = "ca.crt"` | The private registry must run long term and the node must authenticate its server | Every Worker node that pulls images needs the certificate and configuration. |
-| Temporary bypass | `skip_verify = true` | Test, demo, or temporary internal registry; useful to prove the fault is certificate verification | It bypasses certificate-origin checks and carries man-in-the-middle risk; it is not a production default. |
+| Choice                       | Minimal setting                   | Decision                                                                                          | Cost                                                                                                      |
+| ---------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Trusted CA (production path) | `hosts.toml` uses `ca = "ca.crt"` | The private registry must run long term and the node must authenticate its server                 | Every Worker node that pulls images needs the certificate and configuration.                              |
+| Temporary bypass             | `skip_verify = true`              | Test, demo, or temporary internal registry; useful to prove the fault is certificate verification | It bypasses certificate-origin checks and carries man-in-the-middle risk; it is not a production default. |
 
 The `skip_verify` switch changes only TLS verification. It does not repair a wrong hostname, port, credential, DNS path, or proxy path. The minimal production fragment is:
 

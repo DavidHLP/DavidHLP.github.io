@@ -1,45 +1,50 @@
 ---
-title: "ナレッジベース取り込みインボックス"
+title: "知识库摄入收件箱"
 timestamp: 2026-08-07 00:00:00+00:00
 tags: [Knowledge Base, Ingest, TODO]
-description: "証拠確認を完了していない候補ソースと質問。安定した知識として扱ってはいけません。"
+description: "尚未经过证据审查的来源和问题，只能作为摄入候选，不能当作稳定知识。"
 ---
 
-# ナレッジベース取り込みインボックス
+# 知识库摄入收件箱
 
-ここには整理前の候補ソースと質問を記録します。インボックスは知識ページではありません。`ingest` が完了した項目は raw ソースと wiki ページになり、または理由を明示して終了します。
+这里记录待整理的候选来源和问题。收件箱不是知识页：条目完成 `ingest` 后，要么进入 `src/content/raw/zh-cn/` 并产生对应 wiki 页面，要么明确关闭并说明原因。
 
-## 取り込み完了
+## 已完成摄入
 
-以下の旧記事グループは raw → wiki → index → log の流れを完了しました。
+以下历史文章已经完成 raw → wiki → index → log 闭环：
 
-- Java 基礎とバックエンド調整：AtomicBoolean、AutoCloseable、NullValue、Java 本番性能調査、Java バックエンド実習面接の振り返り。
-- 運用とインフラ：containerd TLS、プライベートネットワーク越しの SSH、MySQL 性能調査。
-- OMP と Agent エンジニアリング：設定とルール、Hook 拡張、Headroom 単一ポート構成、Headroom 永続化復旧。
-- アーキテクチャとエンジニアリング実践：端末プラグインのライフサイクル管理、UISA 高信頼同期。
+- Java 基础与后端调优：AtomicBoolean、AutoCloseable、NullValue、Java 线上性能排查、Java 后端实习面试复盘。
+- 系统运维与基础设施：containerd TLS、SSH 内网穿透、MySQL 性能排查。
+- OMP 与 Agent 工程：配置与规则、Hook 扩展、Headroom 单端口演进、Headroom 持久化恢复。
+- 架构与工程实践：终端插件生命周期、UISA 高可靠信息同步架构。
 
-ページ一覧は [ナレッジベース目次](/kb) を参照してください。
+### 2026-08-21 全量聚合摄入
 
-## 未取り込みソース
+- [x] `Personal-markdown-notes`（bbb2126，46 篇）与 `Fuwari`（07cee2b，61 篇）全部原文已按 10 主题聚合为 `ingest-*` 不可变 raw 与 10 个 `note` wiki 页，覆盖 Docker、HBase、Redis（业务/持久化/黑马）、Java 并发、Spring Cloud、Spark/大数据、MySQL、前指随笔。3 份完全重复与 1 份空文件已在 raw 中标注去重；图片相对路径已转义为链接以通过构建。
+- [x] Hindsight 记忆及其衍生结论仍需用可访问快照复核；本批未将其作为稳定概念写入（见 [Hindsight 实践](/note/hindsight-local-deployment-and-agent-integration)）。
 
-- [ ] `ResiCache` と `UltiCode` の README、設計判断、実行時証拠を集めて entity ページを作成する。
-- [ ] 新しい OMP / Headroom 設定について公式ドキュメントまたは再現可能な実験を集め、バージョン依存の provisional 結論を置き換える。
+详情见 [知识库目录](/kb)。
 
-## 2026-08-12 セッション候補の振り分け
+## 待摄入来源
 
-- [x] Headroom 0.34 の `/v1/compress` と `/v1/retrieve` のフィールド、モード、実エンドポイント検証には上流ソースの証拠を追加し、安定した知識ページへ昇格した。
-- [ ] Hindsight のメモリと派生した主張は、アクセス可能なサービススナップショット、上流ソース、または再現可能な実験で個別に再検証する必要がある。当面は ignore 対象の脱敏済み ledger にのみ保持する。
-- [ ] 未一致の OMP、OpenCode、Codex 候補はトピック単位の cluster として保留する。ワークフローの prompt、Agent 内部メッセージ、tool trace は公開知識ではなく、記事へ一括転載しない。
+- [ ] 为个人项目 `ResiCache` 和 `UltiCode` 收集 README、设计决策和运行证据，再建立 entity 页。
+- [ ] 为 OMP / Headroom 新版本配置收集官方文档或可复现实验，替换历史页面中的 provisional 结论。
 
-## 未回答の質問
+## 2026-08-12 会话候选分流
 
-- [ ] どのトラブルシューティング手順が個人経験で、どれが公式資料または再現可能な実験で支えられるか？
-- [ ] どのページを共有概念に統合し、どれを個別 entity の局所実装として残すべきか？
-- [ ] 新しいソースが既存 wiki と矛盾したとき、古い主張を deprecated にするか条件付きで残すか？
+- [x] Headroom 0.34 `/v1/compress` 与 `/v1/retrieve` 的字段、模式和真实端点验证已补充上游源码证据，并提升为正式知识页。
+- [ ] Hindsight 记忆及其衍生结论仍需用可访问的服务快照、上游源码或可重复实验逐条复核；当前只保留在受忽略的脱敏账本中。
+- [ ] 未匹配的 OMP、OpenCode、Codex 候选先按主题聚类；工作流提示、Agent 内部消息和工具轨迹不作为公开知识，不能批量复制进文章。
 
-## 完了条件
+## 待回答问题
 
-- raw の slug、ソース URL、または明確な内部証拠がある。
-- wiki ページに `kind`、`status`、`sources` がある。
-- `kb-index.md` と `kb-log.md` が同期している。
-- 新しい結論に合わせて元のソースを書き換えていない。
+- [ ] 哪些排障步骤是个人经验，哪些可以被官方文档或可重复实验支持？
+- [ ] 哪些页面应该合并为共享概念，哪些应该保留为不同实体的局部实现？
+- [ ] 当新来源与旧 wiki 冲突时，应该废弃哪条声明，还是保留条件化结论？
+
+## 完成标准
+
+- 有 raw 来源 slug、来源 URL 或明确的内部证据。
+- wiki 页面声明 `kind`、`status`、`sources`。
+- `kb-index.md` 与 `kb-log.md` 已同步。
+- 原始来源没有被改写来迎合新结论。

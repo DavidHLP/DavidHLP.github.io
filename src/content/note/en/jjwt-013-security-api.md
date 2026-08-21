@@ -67,10 +67,10 @@ Do not use a plain password string directly as an HMAC key. `Keys.hmacShaKeyFor(
 
 ### Old API migration
 
-| Old form | Recommended form |
-| --- | --- |
-| `signWith(SignatureAlgorithm.HS256, ...)` | `signWith(key, Jwts.SIG.HS256)` |
-| `signWith(key, oldSignatureAlgorithm)` | `signWith(key, Jwts.SIG.RS256)`, etc. |
+| Old form                                  | Recommended form                      |
+| ----------------------------------------- | ------------------------------------- |
+| `signWith(SignatureAlgorithm.HS256, ...)` | `signWith(key, Jwts.SIG.HS256)`       |
+| `signWith(key, oldSignatureAlgorithm)`    | `signWith(key, Jwts.SIG.RS256)`, etc. |
 
 The old `signWith(Key, SignatureAlgorithm)` still exists in 0.13.0 but is deprecated, with removal targeted before 1.0.
 

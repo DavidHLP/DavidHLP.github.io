@@ -32,11 +32,11 @@ The core of `database-per-service` is that persisted data belongs to the service
 
 There is a distinction often overlooked:
 
-| Form | Does it automatically equal a shared data boundary |
-| --- | --- |
-| Multiple services share the same physical database server | No, schema/database isolation can be used as a transition |
-| Multiple services read and write the same business schema/table | Yes, it creates development-time and runtime coupling |
-| Module-private tables in a modular monolith | Splitting the database is not necessarily required; keeping the module boundary is enough for now |
+| Form                                                            | Does it automatically equal a shared data boundary                                                |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Multiple services share the same physical database server       | No, schema/database isolation can be used as a transition                                         |
+| Multiple services read and write the same business schema/table | Yes, it creates development-time and runtime coupling                                             |
+| Module-private tables in a modular monolith                     | Splitting the database is not necessarily required; keeping the module boundary is enough for now |
 
 Changes to a shared schema require coordination among all accessors; queries and locks also affect each other at runtime. Therefore, "already split into multiple processes" does not mean "data autonomy is complete".
 

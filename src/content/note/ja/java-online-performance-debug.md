@@ -18,13 +18,13 @@ toc: true
 
 ### 1. すべての高 CPU を Java の無限ループと呼ばない
 
-| 症状/証拠 | 最初の仮説 | 次の手順 |
-| --- | --- | --- |
+| 症状/証拠                                             | 最初の仮説                                     | 次の手順                                              |
+| ----------------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------- |
 | `user` が高く、Java プロセス/スレッドが RUNNABLE 継続 | 計算 hot spot、loop、シリアライズ、retry storm | thread stack、Arthas `thread`/flame graph、コード特定 |
-| `system` または `softirq` が高い | kernel、network interrupt、packet storm | 業務コードを変える前に system/network を調べる |
-| `iowait` が高い | disk、logging、DB、下流 I/O 待ち | I/O latency、connection、依存先メトリクスを確認 |
-| 高 CPU、GC 頻発、heap が上限に近い | allocation 圧力、メモリ不足、collection storm | `jstat`、GC log、heap/allocation 証拠 |
-| CPU は中程度なのに load が高く `BLOCKED/WAITING` | lock 競合、pool 枯渇、依存先ブロック | stack、pool queue、lock、下流 timeout |
+| `system` または `softirq` が高い                      | kernel、network interrupt、packet storm        | 業務コードを変える前に system/network を調べる        |
+| `iowait` が高い                                       | disk、logging、DB、下流 I/O 待ち               | I/O latency、connection、依存先メトリクスを確認       |
+| 高 CPU、GC 頻発、heap が上限に近い                    | allocation 圧力、メモリ不足、collection storm  | `jstat`、GC log、heap/allocation 証拠                 |
+| CPU は中程度なのに load が高く `BLOCKED/WAITING`      | lock 競合、pool 枯渇、依存先ブロック           | stack、pool queue、lock、下流 timeout                 |
 
 ### 2. 単一コマンドより証拠の鎖
 

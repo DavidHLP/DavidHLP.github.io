@@ -16,11 +16,11 @@ toc: true
 
 ## Version boundaries
 
-| Component | Pinned scope |
-| --- | --- |
+| Component           | Pinned scope                |
+| ------------------- | --------------------------- |
 | Testcontainers Java | `1.20.6`, commit `cc1c13af` |
-| docker-java | BOM `3.4.1` |
-| Reference daemon | Moby `v27.5.1` |
+| docker-java         | BOM `3.4.1`                 |
+| Reference daemon    | Moby `v27.5.1`              |
 
 This page is only responsible for this pinned set of sources. Testcontainers 2.x's API version implementation cannot be directly extrapolated back to 1.20.6.
 
@@ -89,12 +89,12 @@ The diagnostic order should be:
 
 Run the same minimal Testcontainers test in an isolated project, changing exactly one input at a time:
 
-| Input | Expected |
-| --- | --- |
-| Do not set `api.version` | Request version is `1.32` |
-| `-Dapi.version=banana` | unknown, silently falls back to `1.32` |
-| `-Dapi.version=1.1` | triggers too old on a newer daemon |
-| `-Dapi.version=999.999` | docker-java can parse it; triggers too new on Moby v27.5.1 |
+| Input                         | Expected                                                      |
+| ----------------------------- | ------------------------------------------------------------- |
+| Do not set `api.version`      | Request version is `1.32`                                     |
+| `-Dapi.version=banana`        | unknown, silently falls back to `1.32`                        |
+| `-Dapi.version=1.1`           | triggers too old on a newer daemon                            |
+| `-Dapi.version=999.999`       | docker-java can parse it; triggers too new on Moby v27.5.1    |
 | Set only `DOCKER_API_VERSION` | per the pinned source audit, should not replace `api.version` |
 
 The matrix referenced on this page is a reproduction plan, not results already executed in this batch; to write it as an environment conclusion, you must keep the actual daemon version and logs.
