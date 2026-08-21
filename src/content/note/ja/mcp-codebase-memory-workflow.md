@@ -18,13 +18,13 @@ toc: true
 
 MCP 2026-07-28 仕様（commit `5f5440bb`）の "modern" バージョンは、接続レベルのネゴシエーションハンドシェイクを廃止し、各リクエストを自己記述型にした：
 
-| 次元 | legacy（2025-11-25 以前） | modern（2026-07-28 以降） |
-| --- | --- | --- |
-| セッション確立 | `initialize` ハンドシェイク ＋ `notifications/initialized` | ハンドシェイクなし、`notifications/initialized` なし |
-| バージョン／能力の宣言 | ハンドシェイク時にネゴシエーション | 各リクエストの `_meta` が携帯 |
-| サーバー状態の前提 | セッション状態を許可 | **stateless**：同一接続の以前のリクエストから capabilities／バージョン／identity を推測することを禁止。stdio プロセスはセッションではない |
-| バージョン発見 | ネゴシエーション | サーバーは `server/discover` を実装しなければならない（クライアントが先に呼んでもよい） |
-| 互換 | dual-era 実装は二つの時代を同時にサポートでき、リクエスト形状で判別する（modern `_meta` なら modern、`initialize` なら legacy） | 同じ規則 |
+| 次元                   | legacy（2025-11-25 以前）                                                                                                       | modern（2026-07-28 以降）                                                                                                                 |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| セッション確立         | `initialize` ハンドシェイク ＋ `notifications/initialized`                                                                      | ハンドシェイクなし、`notifications/initialized` なし                                                                                      |
+| バージョン／能力の宣言 | ハンドシェイク時にネゴシエーション                                                                                              | 各リクエストの `_meta` が携帯                                                                                                             |
+| サーバー状態の前提     | セッション状態を許可                                                                                                            | **stateless**：同一接続の以前のリクエストから capabilities／バージョン／identity を推測することを禁止。stdio プロセスはセッションではない |
+| バージョン発見         | ネゴシエーション                                                                                                                | サーバーは `server/discover` を実装しなければならない（クライアントが先に呼んでもよい）                                                   |
+| 互換                   | dual-era 実装は二つの時代を同時にサポートでき、リクエスト形状で判別する（modern `_meta` なら modern、`initialize` なら legacy） | 同じ規則                                                                                                                                  |
 
 modern の request 単位 `_meta` フィールド（`basic/index.mdx` より）：
 
@@ -34,11 +34,11 @@ modern の request 単位 `_meta` フィールド（`basic/index.mdx` より）�
 
 **エラーコードは契約ごとに区別しなければならない**：
 
-| エラー | エラーコード | 発生条件 | 付随データ |
-| --- | --- | --- | --- |
-| Invalid params | `-32602`（HTTP 400） | 必須の `_meta` フィールドが欠落、またはリクエストが不正 | — |
-| `MissingRequiredClientCapabilityError` | `-32021`（HTTP 400） | サーバーがクライアント未宣言の能力を必要とする | `data.requiredCapabilities` が欠落項目を列挙 |
-| `UnsupportedProtocolVersionError` | `-32022` | プロトコルバージョンの不一致 | `data.supported` が対応バージョンを列挙し、クライアントは共通バージョンを選んで再試行 |
+| エラー                                 | エラーコード         | 発生条件                                                | 付随データ                                                                            |
+| -------------------------------------- | -------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Invalid params                         | `-32602`（HTTP 400） | 必須の `_meta` フィールドが欠落、またはリクエストが不正 | —                                                                                     |
+| `MissingRequiredClientCapabilityError` | `-32021`（HTTP 400） | サーバーがクライアント未宣言の能力を必要とする          | `data.requiredCapabilities` が欠落項目を列挙                                          |
+| `UnsupportedProtocolVersionError`      | `-32022`             | プロトコルバージョンの不一致                            | `data.supported` が対応バージョンを列挙し、クライアントは共通バージョンを選んで再試行 |
 
 拡張ネゴシエーションは `capabilities.extensions`（拡張識別子 → settings オブジェクト）で行う。一方が拡張に対応しない場合、コアプロトコルの挙動にフォールバックするかエラーを返す。レスポンスの `resultType`：`"complete"` は成功、`"input_required"` はさらなる入力が必要（MRTR 多ラウンド要求）、未知の値は無効扱い、デフォルトは `"complete"`。
 
@@ -79,15 +79,15 @@ modern の request 単位 `_meta` フィールド（`basic/index.mdx` より）�
 
 ## ツールパラメータ契約の早見（固定ソース `TOOLS[]` に従う）
 
-| ツール | 必須 | 主要な任意・挙動 |
-| --- | --- | --- |
-| `index_repository` | `repo_path` | `mode` 列挙 `full/moderate/fast/cross-repo-intelligence`；`persistence` はチーム共有成果物 `.codebase-memory/graph.db.zst` を書く |
-| `search_graph` | `project` | `query`（BM25）がある場合 `name_pattern` は無視される；`semantic_query` は**文字列配列**でなければならない（単一文字列は型エラー）；`format` 列挙 `tree`（デフォルト）／`json`；レスポンスに `total` と `has_more` を含みページングに使う |
-| `trace_path` | `function_name`、`project` | `direction` 列挙 `inbound/outbound/both`（デフォルト `both`）；`depth` デフォルト 3（README は Depth 1–5 と注記）；`mode` 列挙 `calls/data_flow/cross_service`；`limit` デフォルト 100（1–5000）；`truncated:true` ＋ `next` カーソルで継続ページ、reindex 後は `cursor` が無効になり `stale_cursor` を返す；`include_tests` デフォルト false；`include_evidence` はホップごとの解析戦略（`lsp\|language_rule\|heuristic\|unresolved`）と信頼度を追加；エイリアス `trace_call_path` |
-| `get_code_snippet` | `qualified_name`、`project` | `include_neighbors` デフォルト false；`coverage_note` が返る場合、coverage 規律に従って扱う |
-| `check_index_coverage` | `project`；`paths`／`scopes` の少なくとも一方（両方欠落なら実行時に拒否） | `paths` ≤128 の正確なパス、`scopes` ≤32 のパスプレフィックス；`scope_limit` デフォルト 200（1–1000）；状態はファイルシステムメタデータの新しさと独立 |
-| `index_status` | `project` | `verbose` 任意；node/edge 数、root path、git context、coverage レポートを返す |
-| `query_graph` | — | 読み取り専用の openCypher サブセット（`MATCH`/`WHERE`/`RETURN` など）、上限 100k 行；`graph:"missed"` で完全にインデックスされていないファイルの miss graph を調べる |
+| ツール                 | 必須                                                                      | 主要な任意・挙動                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ---------------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `index_repository`     | `repo_path`                                                               | `mode` 列挙 `full/moderate/fast/cross-repo-intelligence`；`persistence` はチーム共有成果物 `.codebase-memory/graph.db.zst` を書く                                                                                                                                                                                                                                                                                                                                                   |
+| `search_graph`         | `project`                                                                 | `query`（BM25）がある場合 `name_pattern` は無視される；`semantic_query` は**文字列配列**でなければならない（単一文字列は型エラー）；`format` 列挙 `tree`（デフォルト）／`json`；レスポンスに `total` と `has_more` を含みページングに使う                                                                                                                                                                                                                                           |
+| `trace_path`           | `function_name`、`project`                                                | `direction` 列挙 `inbound/outbound/both`（デフォルト `both`）；`depth` デフォルト 3（README は Depth 1–5 と注記）；`mode` 列挙 `calls/data_flow/cross_service`；`limit` デフォルト 100（1–5000）；`truncated:true` ＋ `next` カーソルで継続ページ、reindex 後は `cursor` が無効になり `stale_cursor` を返す；`include_tests` デフォルト false；`include_evidence` はホップごとの解析戦略（`lsp\|language_rule\|heuristic\|unresolved`）と信頼度を追加；エイリアス `trace_call_path` |
+| `get_code_snippet`     | `qualified_name`、`project`                                               | `include_neighbors` デフォルト false；`coverage_note` が返る場合、coverage 規律に従って扱う                                                                                                                                                                                                                                                                                                                                                                                         |
+| `check_index_coverage` | `project`；`paths`／`scopes` の少なくとも一方（両方欠落なら実行時に拒否） | `paths` ≤128 の正確なパス、`scopes` ≤32 のパスプレフィックス；`scope_limit` デフォルト 200（1–1000）；状態はファイルシステムメタデータの新しさと独立                                                                                                                                                                                                                                                                                                                                |
+| `index_status`         | `project`                                                                 | `verbose` 任意；node/edge 数、root path、git context、coverage レポートを返す                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `query_graph`          | —                                                                         | 読み取り専用の openCypher サブセット（`MATCH`/`WHERE`/`RETURN` など）、上限 100k 行；`graph:"missed"` で完全にインデックスされていないファイルの miss graph を調べる                                                                                                                                                                                                                                                                                                                |
 
 その他のツール：`list_projects`（インデックス済みプロジェクトの一覧）、`delete_project`、`get_graph_schema`（ノードラベル／エッジタイプ／プロパティ。README は最初に実行することを推奨）、`get_architecture`（languages/packages/routes/hotspots/clusters）、`search_code`（グラフ強化 grep、インデックス済みファイル内のみ、パターン `compact/full/files`）、`detect_changes`（git diff → 影響シンボル＋blast radius、デフォルト `inbound`）、`manage_adr`、`ingest_traces`。MCP ツールは計 15 個。
 

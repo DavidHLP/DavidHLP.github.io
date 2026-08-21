@@ -30,4 +30,3 @@ Canonical raw evidence is maintained under `src/content/raw/zh-cn/` and is never
 ## Ingest inbox
 
 - [Knowledge Base Ingest Inbox](/en/jotting/kb-ingest-todo) — remaining personal-project sources and open questions; the historical articles have now been ingested.
-

@@ -11,9 +11,9 @@ We highly value your privacy and only collect the minimal data necessary to prov
 
 The following table provides an overview of the types of data collected, collection purposes, and storage locations:
 
-| Data Type | Collection Method | Collection Purpose | Storage Location | Notes |
-| - | - | - | - | - |
-| Theme preferences | User settings | Save interface display mode | localStorage | |
+| Data Type         | Collection Method | Collection Purpose          | Storage Location | Notes |
+| ----------------- | ----------------- | --------------------------- | ---------------- | ----- |
+| Theme preferences | User settings     | Save interface display mode | localStorage     |       |
 
 ### Data Usage Purposes
 

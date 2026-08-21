@@ -36,12 +36,12 @@ flowchart LR
   SW --> C
 ```
 
-| 调用方 | 入口与责任 | 不能从该路径推断的事实 |
-| --- | --- | --- |
-| `opencode-go` | OpenAI-compatible provider route 进入 Headroom prefix | 其它 provider 自动被接管 |
-| `openai-codex` | Responses/Live WebSocket 进入 Headroom，header 选择 ChatGPT upstream | model discovery、登录或 realtime voice 经过 proxy |
-| Codex CLI/Desktop | 共享用户级 `$CODEX_HOME/config.toml` 的 native provider | `HTTP_PROXY`/CONNECT 是必要方案 |
-| Claude Code | `HEADROOM_CC_SWITCH_RECONCILE=1` 时先经 Headroom，再由 cc-switch 转换 | cc-switch 负责压缩或两条协议路径共享状态 |
+| 调用方            | 入口与责任                                                            | 不能从该路径推断的事实                            |
+| ----------------- | --------------------------------------------------------------------- | ------------------------------------------------- |
+| `opencode-go`     | OpenAI-compatible provider route 进入 Headroom prefix                 | 其它 provider 自动被接管                          |
+| `openai-codex`    | Responses/Live WebSocket 进入 Headroom，header 选择 ChatGPT upstream  | model discovery、登录或 realtime voice 经过 proxy |
+| Codex CLI/Desktop | 共享用户级 `$CODEX_HOME/config.toml` 的 native provider               | `HTTP_PROXY`/CONNECT 是必要方案                   |
+| Claude Code       | `HEADROOM_CC_SWITCH_RECONCILE=1` 时先经 Headroom，再由 cc-switch 转换 | cc-switch 负责压缩或两条协议路径共享状态          |
 
 ## Codex 原生 provider
 

@@ -25,10 +25,10 @@ flowchart LR
   H --> U[OpenAI upstream selected by x-headroom-base-url]
 ```
 
-| Path | Protocol and entry | Headroom's responsibility | Downstream stage | What must not be inferred |
-| --- | --- | --- | --- | --- |
-| OMP | OpenAI `/v1/responses`, entry `127.0.0.1:8787` | Synthesizes and routes by request-level information | The OpenAI upstream specified by `x-headroom-base-url` | OMP discovery is necessarily taken over by Headroom |
-| Claude Code | Anthropic `/v1/messages`, entry `127.0.0.1:8787` | Synthesizes request content | cc-switch `127.0.0.1:15721` performs protocol conversion and credential injection | cc-switch handles compression |
+| Path        | Protocol and entry                               | Headroom's responsibility                           | Downstream stage                                                                  | What must not be inferred                           |
+| ----------- | ------------------------------------------------ | --------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------- |
+| OMP         | OpenAI `/v1/responses`, entry `127.0.0.1:8787`   | Synthesizes and routes by request-level information | The OpenAI upstream specified by `x-headroom-base-url`                            | OMP discovery is necessarily taken over by Headroom |
+| Claude Code | Anthropic `/v1/messages`, entry `127.0.0.1:8787` | Synthesizes request content                         | cc-switch `127.0.0.1:15721` performs protocol conversion and credential injection | cc-switch handles compression                       |
 
 Therefore, no other application-level compression bridge may be layered on the same provider. Otherwise a request would be synthesized twice in sequence, and savings, cache prefixes, and failure reasons become hard to attribute.
 

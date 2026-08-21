@@ -6,7 +6,7 @@ kind: concept
 status: active
 sources: ["legacy-omp-config-and-rules-guide", "omp-17-2-15-runtime-contract", "omp-17-2-15-runtime-contract-correction"]
 related: ["headroom-single-port-evolution", "omp-headroom-persistence", "omp-hook-extension-guide", "llm-wiki-pattern"]
-tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,RTK,Rules,Configuration,Architecture]
+tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, RTK, Rules, Configuration, Architecture]
 description: "用可复用的分层模型解释 OMP 配置：modelRoles 负责角色默认路由，agentModelOverrides 负责局部覆盖，fallbackChains 负责故障后的恢复；同时划清 Headroom、规则发现与模型选择的边界，并给出按层验证的顺序。"
 toc: true
 ---
@@ -29,14 +29,14 @@ flowchart LR
   E --> H[Rules<br/>决定约束注入]
 ```
 
-| 层 | 解决的问题 | 明确不解决的问题 |
-| --- | --- | --- |
-| `modelRoles` | `plan`、`task`、`slow` 等角色的默认 provider/model 与能力档位 | 不证明请求一定经过代理，也不创建凭据 |
-| `task.agentModelOverrides` | 某个 Agent 或子任务的例外模型选择 | 不替代角色默认值，也不等于故障恢复 |
-| `retry.fallbackChains` | 主模型失败、限流或额度策略触发后的候选顺序 | 不修复错误的 provider 配置，不保证候选可用 |
-| 运行控制（retry、usage-aware 等） | 决定何时重试、冷却、预留额度或回到首选 | 不重新定义角色语义 |
-| Headroom / `models.db` | provider 到网络入口的实际路由与代理生命周期 | 不选择 OMP role，也不注入 Agent 规则 |
-| Rules 发现与注入 | 将约束按 `globs`、条件或 `alwaysApply` 注入上下文 | 不改变模型路由，不把 `paths` 自动翻译成 `globs` |
+| 层                                | 解决的问题                                                    | 明确不解决的问题                                |
+| --------------------------------- | ------------------------------------------------------------- | ----------------------------------------------- |
+| `modelRoles`                      | `plan`、`task`、`slow` 等角色的默认 provider/model 与能力档位 | 不证明请求一定经过代理，也不创建凭据            |
+| `task.agentModelOverrides`        | 某个 Agent 或子任务的例外模型选择                             | 不替代角色默认值，也不等于故障恢复              |
+| `retry.fallbackChains`            | 主模型失败、限流或额度策略触发后的候选顺序                    | 不修复错误的 provider 配置，不保证候选可用      |
+| 运行控制（retry、usage-aware 等） | 决定何时重试、冷却、预留额度或回到首选                        | 不重新定义角色语义                              |
+| Headroom / `models.db`            | provider 到网络入口的实际路由与代理生命周期                   | 不选择 OMP role，也不注入 Agent 规则            |
+| Rules 发现与注入                  | 将约束按 `globs`、条件或 `alwaysApply` 注入上下文             | 不改变模型路由，不把 `paths` 自动翻译成 `globs` |
 
 ### 2. 选择与恢复的边界
 
@@ -50,11 +50,11 @@ flowchart LR
 
 以下是官方 `17.2.15` schema 的键级事实；它们定义压缩与规则运行控制，不决定角色选模、provider 注册或网络入口，也不代表任何用户环境已启用这些键或采用某个取值。
 
-| 命名空间 | 官方键 | 边界 |
-| --- | --- | --- |
-| `compaction` | `enabled`、`midTurnEnabled`、`strategy`、`thresholdPercent`、`thresholdTokens`、`handoffSaveToDisk`、`remoteEnabled`、`remoteStreamingV2Enabled`、`reserveTokens`、`keepRecentTokens`、`autoContinue`、`remoteEndpoint`、`v2RetainedMessageBudget`、`idleEnabled`、`idleThresholdTokens`、`idleTimeoutSeconds`、`supersedeReads`、`dropUseless` | 控制何时、如何及保留多少上下文；不是 fallback、模型目录或路由配置。 |
-| `snapcompact` | `systemPrompt`、`toolResults`、`shape` | 只调节 snapcompact 策略的输入/形状；它不是通用 provider 或 Hook 配置。 |
-| `ttsr` | `enabled`、`contextMode`、`interruptMode`、`repeatMode`、`repeatGap`、`builtinRules`、`disabledRules` | 控制 TTSR 规则的启用、注入与重复/中断行为；不证明某条规则已被发现或路径已命中。 |
+| 命名空间      | 官方键                                                                                                                                                                                                                                                                                                                                          | 边界                                                                            |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `compaction`  | `enabled`、`midTurnEnabled`、`strategy`、`thresholdPercent`、`thresholdTokens`、`handoffSaveToDisk`、`remoteEnabled`、`remoteStreamingV2Enabled`、`reserveTokens`、`keepRecentTokens`、`autoContinue`、`remoteEndpoint`、`v2RetainedMessageBudget`、`idleEnabled`、`idleThresholdTokens`、`idleTimeoutSeconds`、`supersedeReads`、`dropUseless` | 控制何时、如何及保留多少上下文；不是 fallback、模型目录或路由配置。             |
+| `snapcompact` | `systemPrompt`、`toolResults`、`shape`                                                                                                                                                                                                                                                                                                          | 只调节 snapcompact 策略的输入/形状；它不是通用 provider 或 Hook 配置。          |
+| `ttsr`        | `enabled`、`contextMode`、`interruptMode`、`repeatMode`、`repeatGap`、`builtinRules`、`disabledRules`                                                                                                                                                                                                                                           | 控制 TTSR 规则的启用、注入与重复/中断行为；不证明某条规则已被发现或路径已命中。 |
 
 自动压缩事件的 `reason` 只定义为 `threshold`、`overflow`、`idle`、`incomplete`；对应 `action` 只定义为 `context-full`、`handoff`、`shake`、`snapcompact`。诊断时应记录实际 reason/action，再回看同命名空间的键；不要从“发生了压缩”反推某个策略、阈值或规则配置。
 
@@ -78,14 +78,14 @@ flowchart LR
 
 ## 不适用与风险
 
-| 症状 | 常见误判 | 边界与处理 |
-| --- | --- | --- |
-| 子 Agent 仍使用父模型 | 认为覆盖键必然生效 | 当前版本的字段名、作用域和继承关系未在所有版本确认；在新会话中以最终 selector 验证 |
-| 主模型成功但降级失败 | 认为 fallback 会发现新模型 | fallback 只遍历声明候选；清理禁用、过期或无凭据的条目 |
-| 配置改了但会话不变 | 认为文件热加载 | 按会话加载的行为必须在新会话验证；不要用旧进程的内存状态作证据 |
-| 规则加载但从不按路径触发 | 使用了 `paths:` 但没有 `globs:` | OMP 读取 `globs`；共享目录可同时保留两种键，但不能假定自动转换 |
-| 只看到 loopback 或 HTTP 200 | 把网络可达当成完整链路 | 再看 inbound/outbound 日志和最终上游；角色选择、代理入口和压缩收益是不同事实 |
-| 把全局规则写成 `alwaysApply` | 以为更可靠就每轮注入 | 常驻规则会膨胀上下文；路径规则或流条件更适合大多数约束 |
+| 症状                         | 常见误判                        | 边界与处理                                                                         |
+| ---------------------------- | ------------------------------- | ---------------------------------------------------------------------------------- |
+| 子 Agent 仍使用父模型        | 认为覆盖键必然生效              | 当前版本的字段名、作用域和继承关系未在所有版本确认；在新会话中以最终 selector 验证 |
+| 主模型成功但降级失败         | 认为 fallback 会发现新模型      | fallback 只遍历声明候选；清理禁用、过期或无凭据的条目                              |
+| 配置改了但会话不变           | 认为文件热加载                  | 按会话加载的行为必须在新会话验证；不要用旧进程的内存状态作证据                     |
+| 规则加载但从不按路径触发     | 使用了 `paths:` 但没有 `globs:` | OMP 读取 `globs`；共享目录可同时保留两种键，但不能假定自动转换                     |
+| 只看到 loopback 或 HTTP 200  | 把网络可达当成完整链路          | 再看 inbound/outbound 日志和最终上游；角色选择、代理入口和压缩收益是不同事实       |
+| 把全局规则写成 `alwaysApply` | 以为更可靠就每轮注入            | 常驻规则会膨胀上下文；路径规则或流条件更适合大多数约束                             |
 
 ## 最小验证
 

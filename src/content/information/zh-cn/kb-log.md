@@ -67,3 +67,7 @@
 ## [2026-08-17] ingest | Hindsight 本地部署与 OMP / Codex 记忆集成
 
 从 Vectorize Hindsight v0.9.1 固定源码与本地 loopback 实测中摄入全本地化记忆系统部署与 OMP / Codex 统一接入规范。记录 AMD ROCm GPU 下加载 `gemma4:12b` (Q4_K_M GGUF)、CPU Local 运行 `BAAI/bge-m3`、FastMCP stdio 桥接状态机、Git 根目录自适应解析（避免子目录漂移）、Rootless 容器 UID 1000 权限最小化配置，以及 OMP `scoping: per-project` 与 Codex 镜像对齐。新增 1 份脱敏 raw 快照和 1 份中文正典 concept 页面，更新 `kb-index.md` 与本日志。raw 与 wiki 均已脱敏，不包含真实会话标识、请求正文、私有凭证或宿主机绝对路径。
+
+## [2026-08-21] ingest | Personal-markdown-notes 与 Fuwari 全量聚合摄入
+
+从 `Personal-markdown-notes`（固定提交 `bbb2126`，107 篇中 46 篇）与 `Fuwari`（固定提交 `07cee2b`，61 篇）聚合全部 Markdown 证据。按主题聚为 10 个不可变 raw 快照（`ingest-*`）与 10 个 wiki 页面，覆盖 Docker、HBase、Redis 业务/持久化/黑马实战、Java 并发、Spring Cloud、Spark/大数据、MySQL、前指随笔。去重 3 份完全重复文件、1 份空文件（`事务的作用域.md`）并在 raw 中标注；Fuwari 路径含零宽字符的文件名已原样保留 provenance。新增 10 份 raw 已登记 `src/content/raw/.manifest.sha256`，wiki 每页声明 `kind`/`status`/`sources`/`related`，并同步更新 `kb-index.md`。`pnpm kb:lint` 与 `pnpm build` 在本提交验证通过；随笔页标记为 `provisional`，黑马实战与原理篇未冒充固定版本验证。

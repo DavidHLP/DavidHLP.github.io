@@ -16,12 +16,12 @@ toc: true
 
 ## 適用バージョンとシナリオ
 
-| 項目 | バージョン境界 |
-| --- | --- |
-| Redisson | `3.50.0`（git tag `redisson-3.50.0`、commit `f192ec15`） |
-| Jackson | `jackson-databind` / `jackson-datatype-jsr310` `2.18.2`（redisson-parent 3.50.0 の BOM） |
-| Spring Data Redis | `3.5.13` |
-| 実験環境 | OpenJDK 21、Maven、純メモリでのエンコード/デコード、Redis server 不要 |
+| 項目              | バージョン境界                                                                           |
+| ----------------- | ---------------------------------------------------------------------------------------- |
+| Redisson          | `3.50.0`（git tag `redisson-3.50.0`、commit `f192ec15`）                                 |
+| Jackson           | `jackson-databind` / `jackson-datatype-jsr310` `2.18.2`（redisson-parent 3.50.0 の BOM） |
+| Spring Data Redis | `3.5.13`                                                                                 |
+| 実験環境          | OpenJDK 21、Maven、純メモリでのエンコード/デコード、Redis server 不要                    |
 
 適用シナリオ：Spring Data Redis の `RedisTemplate` や Redisson で、`LocalDateTime`/`LocalDate`/`LocalTime` フィールドを含む POJO を Jackson 直列化するときに、「直接 not supported by default を投げる」または本番での書き込み・読み出し不一致に遭遇したケース。以下の結論は固定タグのソースと最小実験による。**Redisson 2.x、Spring Data Redis 4.x、他の Jackson メジャーバージョンは未検証**であり、外挿できない。
 

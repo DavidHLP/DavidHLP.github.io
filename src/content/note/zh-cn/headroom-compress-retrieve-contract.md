@@ -6,7 +6,7 @@ kind: concept
 status: active
 sources: ["headroom-0-34-compress-retrieve-contract"]
 related: ["headroom-single-port-evolution", "omp-headroom-persistence", "headroom-cc-switch-coexistence", "omp-headroom-provider-proxy", "omp-hook-extension-guide", "llm-wiki-pattern"]
-tags: [Headroom,API,Compression,CCR,Contract Testing,Agent]
+tags: [Headroom, API, Compression, CCR, Contract Testing, Agent]
 description: "固定 Headroom 0.34.0 的 /v1/compress 与 /v1/retrieve 请求、响应和模式边界，并说明为何真实 loopback contract test 必须与 mock 使用同一 schema。"
 toc: true
 ---
@@ -19,11 +19,9 @@ toc: true
 
 ```json
 {
-  "model": "<MODEL_NAME>",
-  "messages": [
-    {"role": "user", "content": "..."}
-  ],
-  "config": {}
+	"model": "<MODEL_NAME>",
+	"messages": [{ "role": "user", "content": "..." }],
+	"config": {}
 }
 ```
 
@@ -50,7 +48,7 @@ ccr_hashes
 ### `POST /v1/retrieve`
 
 ```json
-{"hash": "<CCR_HASH>"}
+{ "hash": "<CCR_HASH>" }
 ```
 
 成功响应包含：
@@ -69,12 +67,12 @@ retrieval_count
 
 ## 压缩模式不是同义开关
 
-| `config.mode` | Marker | Store write | 适用条件 |
-| --- | --- | --- | --- |
-| 省略 | 无 | 无 | 默认路径；调用方不需要 CCR 检索闭环 |
-| `ccr` | 条件产生 | 条件写入 | 调用方能注入检索工具并访问 loopback `/v1/retrieve` |
-| `lossy_inline` | 无 | 无 | 先 lossless fold，再对剩余内容执行 Kompress |
-| `lossless_then_lossy` | 无 | 无 | `lossy_inline` 的兼容别名 |
+| `config.mode`         | Marker   | Store write | 适用条件                                           |
+| --------------------- | -------- | ----------- | -------------------------------------------------- |
+| 省略                  | 无       | 无          | 默认路径；调用方不需要 CCR 检索闭环                |
+| `ccr`                 | 条件产生 | 条件写入    | 调用方能注入检索工具并访问 loopback `/v1/retrieve` |
+| `lossy_inline`        | 无       | 无          | 先 lossless fold，再对剩余内容执行 Kompress        |
+| `lossless_then_lossy` | 无       | 无          | `lossy_inline` 的兼容别名                          |
 
 `ccr_hashes` 只报告实际插入的 marker。即使启用 `ccr`，普通文本或一般 function 消息也不保证产生 marker；structured tool output 发生 SmartCrusher row-drop 时才是已验证的产生路径。因此，测试不能把“启用了 `ccr`”等同于“响应一定有非空 `ccr_hashes`”。
 

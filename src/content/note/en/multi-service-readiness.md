@@ -18,14 +18,14 @@ This page answers one question: after declaring dependencies in Compose or syste
 
 ### 1. A decision table to distinguish six concepts
 
-| Concept | Semantics | Determination / trigger | Key boundary |
-| --- | --- | --- | --- |
-| running (process startup) | The orchestrator only waits for the container to be "running" | Container state is running; port binding belongs to this layer | Does not wait for the app to be ready; a listening port is not readiness evidence |
-| ready (business readiness) | Must be explicitly defined by the user | `healthcheck` passes, or a one-shot task completes (`service_completed_successfully`, v2.20.0+) | The probe is a user command; the orchestrator does not verify in-app state |
-| ordering | Only decides sequence, does not establish a dependency | Compose short syntax `depends_on: [db]` (equivalent to `service_started`); systemd `After=`/`Before=` | Short syntax only guarantees startup order; `After=` is orthogonal to `Requires=`/`Wants=` |
-| requirement (dependency establishment) | Declares "start only when the dependency is satisfied" | Long syntax `condition: service_healthy`; systemd `Requires=`/`Wants=` | `Wants=` is a weak form; failure does not affect the overall transaction |
-| failure propagation | A dependent does not start when a dependency is unhealthy | `up --wait` exits with failure; `--abort-on-container-failure` stops everything; systemd `Requires=`+`After=` | `--abort-on-container-failure` is incompatible with `-d` and mutually exclusive with `--wait` |
-| restart propagation | Only restarts triggered by explicit operations propagate | `depends_on.restart: true`; explicit stop/restart with systemd `Requires=` | Runtime automatic restarts do not propagate; unexpected systemd failure needs `BindsTo=` |
+| Concept                                | Semantics                                                     | Determination / trigger                                                                                       | Key boundary                                                                                  |
+| -------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| running (process startup)              | The orchestrator only waits for the container to be "running" | Container state is running; port binding belongs to this layer                                                | Does not wait for the app to be ready; a listening port is not readiness evidence             |
+| ready (business readiness)             | Must be explicitly defined by the user                        | `healthcheck` passes, or a one-shot task completes (`service_completed_successfully`, v2.20.0+)               | The probe is a user command; the orchestrator does not verify in-app state                    |
+| ordering                               | Only decides sequence, does not establish a dependency        | Compose short syntax `depends_on: [db]` (equivalent to `service_started`); systemd `After=`/`Before=`         | Short syntax only guarantees startup order; `After=` is orthogonal to `Requires=`/`Wants=`    |
+| requirement (dependency establishment) | Declares "start only when the dependency is satisfied"        | Long syntax `condition: service_healthy`; systemd `Requires=`/`Wants=`                                        | `Wants=` is a weak form; failure does not affect the overall transaction                      |
+| failure propagation                    | A dependent does not start when a dependency is unhealthy     | `up --wait` exits with failure; `--abort-on-container-failure` stops everything; systemd `Requires=`+`After=` | `--abort-on-container-failure` is incompatible with `-d` and mutually exclusive with `--wait` |
+| restart propagation                    | Only restarts triggered by explicit operations propagate      | `depends_on.restart: true`; explicit stop/restart with systemd `Requires=`                                    | Runtime automatic restarts do not propagate; unexpected systemd failure needs `BindsTo=`      |
 
 ### 2. Key semantic distinctions
 
@@ -46,21 +46,21 @@ This page answers one question: after declaring dependencies in Compose or syste
 
 ```yaml
 services:
-  app:
-    image: alpine:3.19
-    command: ["sh", "-c", "echo APP_STARTED; sleep 60"]
-    depends_on:
-      db:
-        condition: service_healthy
-        restart: true
-  db:
-    image: redis:7.2-alpine
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      retries: 5
-      start_period: 10s
-      timeout: 5s
+    app:
+        image: alpine:3.19
+        command: ["sh", "-c", "echo APP_STARTED; sleep 60"]
+        depends_on:
+            db:
+                condition: service_healthy
+                restart: true
+    db:
+        image: redis:7.2-alpine
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 10s
+            retries: 5
+            start_period: 10s
+            timeout: 5s
 ```
 
 Selection points (from the correction raw's minimal experiment): pinned official images, no build, no credentials, no ports; `app` defines no healthcheck, so running satisfies `up --wait`, and `app` starts only after `db`'s `redis-cli ping` passes. The `healthcheck` probe command defines what ready means; a different command means a different readiness standard.

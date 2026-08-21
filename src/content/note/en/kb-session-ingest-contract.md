@@ -50,17 +50,17 @@ Therefore a source that failed parsing is re-parsed and re-extracted for candida
 
 Field-level replacement categories:
 
-| Category | Form |
-| --- | --- |
-| PEM private key | `PRIVATE KEY` block → `<REDACTED_TOKEN>` |
-| DSN password | `scheme://user:pass@` → `<REDACTED_PASSWORD>` |
-| Private repository | `git@host:path` → `<PRIVATE_REPOSITORY>` |
-| API key | `*api*key* = value` → `api_key=<REDACTED_API_KEY>`; `sk-…` (≥16 characters), `AKIA…` (16 characters) → `<REDACTED_API_KEY>` |
-| Token | credentials ≥12 characters after `Bearer`/`Basic` → `<REDACTED_TOKEN>`; `gh[pousr]_…` / `xox[baprs]-…` (≥16 characters) → `<REDACTED_TOKEN>` |
+| Category                | Form                                                                                                                                                |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | --- | ------------------------- |
+| PEM private key         | `PRIVATE KEY` block → `<REDACTED_TOKEN>`                                                                                                            |
+| DSN password            | `scheme://user:pass@` → `<REDACTED_PASSWORD>`                                                                                                       |
+| Private repository      | `git@host:path` → `<PRIVATE_REPOSITORY>`                                                                                                            |
+| API key                 | `*api*key* = value` → `api_key=<REDACTED_API_KEY>`; `sk-…` (≥16 characters), `AKIA…` (16 characters) → `<REDACTED_API_KEY>`                         |
+| Token                   | credentials ≥12 characters after `Bearer`/`Basic` → `<REDACTED_TOKEN>`; `gh[pousr]_…` / `xox[baprs]-…` (≥16 characters) → `<REDACTED_TOKEN>`        |
 | Common sensitive fields | `token`/`authorization`/`cookie`/`secret(?:key)? = value` → `token=<REDACTED_TOKEN>`; `password`/`passwd… = value` → `password=<REDACTED_PASSWORD>` |
-| Identity | email (including local forms like `user@host`) → `<PRIVATE_EMAIL>` |
-| Host | private/loopback addresses (10/127/192.168/172.16–31, `::1`, `fc`/`fd`, `fe8`–`feb`, `localhost`, `*.internal|local|lan|corp`) → `<PRIVATE_HOST>` |
-| Path | UNC `\\…`, Windows drive `C:\…`, `/home/…`, `/Users/…`, `~/…`, `file:…`, other absolute paths → `<PRIVATE_PATH>` |
+| Identity                | email (including local forms like `user@host`) → `<PRIVATE_EMAIL>`                                                                                  |
+| Host                    | private/loopback addresses (10/127/192.168/172.16–31, `::1`, `fc`/`fd`, `fe8`–`feb`, `localhost`, `\*.internal                                      | local | lan | corp`) → `<PRIVATE_HOST>` |
+| Path                    | UNC `\\…`, Windows drive `C:\…`, `/home/…`, `/Users/…`, `~/…`, `file:…`, other absolute paths → `<PRIVATE_PATH>`                                    |
 
 Test anchor: "redacts credentials, identity, hosts, paths, and private repositories": asserts that all 7 placeholder categories appear, and asserts that a batch of concrete secret values (usernames, private hosts, loopback/IPv6 addresses, Windows/UNC/`~`/absolute paths, DSN and Redis passwords, password/cookie/api_key inside JSON, quoted-escape suffixes) do not appear in the result; non-sensitive fields (such as `tokens_saved=42 token_count=10`) are preserved.
 
@@ -106,9 +106,9 @@ Failure diagnosis order:
 
 1. **Run the focused parser tests first**: on failure, locate the contract section by test name (identity/content hash, failed reuse, redaction, control-plane filtering, partial checkpoint, dry-run semantics); the test assertions are the behavioral contract; all tests use synthetic fixtures and involve no real session data.
 2. **Then run `pnpm kb:lint`** and handle failures by error category:
-   - First fix raw validation errors (`missing raw manifest` / `raw checksum mismatch` / `raw file missing from manifest` / `manifest points to missing raw file` / `raw snapshot changed or deleted`): raw is the immutable evidence layer, **warnings must not be eliminated by modifying raw**; check the snapshot and manifest or register a new source.
-   - Then fix note page metadata (missing `kind`/`status`/`sources`, `sources` not resolving to a raw slug): add frontmatter or correct the links.
-   - Finally fix index/log sync (raw slugs or active/provisional pages not registered, log entry format not parseable).
+    - First fix raw validation errors (`missing raw manifest` / `raw checksum mismatch` / `raw file missing from manifest` / `manifest points to missing raw file` / `raw snapshot changed or deleted`): raw is the immutable evidence layer, **warnings must not be eliminated by modifying raw**; check the snapshot and manifest or register a new source.
+    - Then fix note page metadata (missing `kind`/`status`/`sources`, `sources` not resolving to a raw slug): add frontmatter or correct the links.
+    - Finally fix index/log sync (raw slugs or active/provisional pages not registered, log entry format not parseable).
 3. Any error is aggregated and output with `exit 1`; fix in "evidence chain → metadata → index/log" order, and do not delete factual sources to silence warnings.
 
 ## Rollback and cleanup

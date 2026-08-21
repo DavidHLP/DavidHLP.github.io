@@ -6,7 +6,7 @@ kind: synthesis
 status: provisional
 sources: ["legacy-headroom-single-port-evolution", "legacy-omp-config-and-rules-guide", "legacy-omp-headroom-persistence"]
 related: ["omp-config-and-rules-guide", "omp-headroom-persistence", "headroom-cc-switch-coexistence", "omp-headroom-provider-proxy", "omp-hook-extension-guide", "llm-wiki-pattern", "headroom-compress-retrieve-contract"]
-tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,Routing,Proxy,Codex,Kimi,MiniMax,Zhipu]
+tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, Routing, Proxy, Codex, Kimi, MiniMax, Zhipu]
 description: "综合 Headroom 单端口路由的演进模型：一个 loopback 入口如何承接显式 custom provider、动态上游和不同协议，并把 OMP 角色选择、model_cache、请求级路由与 wrapper 生命周期分开验证。历史路由均标为 provisional。"
 toc: true
 ---
@@ -29,12 +29,12 @@ flowchart LR
   H --> I[HTTP 或 Codex WebSocket]
 ```
 
-| selector / 路由类型 | 默认或历史状态 | 单端口成立条件 | 关键边界 |
-| --- | --- | --- | --- |
-| 内置 `anthropic` | `headroom wrap omp` 可自动管理 | active wrapped session | 自动范围不等于所有 provider；默认目标仍是 Anthropic 上游 |
-| `openai-codex`、`opencode-go` | 当前 `models.db` 条目通常直连 | 需要显式 custom provider 才进入 loopback | wrap 不会自动把普通条目改成 8787 |
-| Zhipu / Kimi / MiniMax | 历史迁移中的 custom 路由 | provider 配置、loopback base URL、请求 header 均存在 | 旧 Kimi 目标覆盖可能把无 header 的 Anthropic 请求静默导向错误上游 |
-| Codex Responses | 历史显式 custom 路由 | WebSocket 目标与协议保持一致 | 不能用普通 OpenAI Chat Completions 假设覆盖 Responses WebSocket |
+| selector / 路由类型           | 默认或历史状态                 | 单端口成立条件                                       | 关键边界                                                          |
+| ----------------------------- | ------------------------------ | ---------------------------------------------------- | ----------------------------------------------------------------- |
+| 内置 `anthropic`              | `headroom wrap omp` 可自动管理 | active wrapped session                               | 自动范围不等于所有 provider；默认目标仍是 Anthropic 上游          |
+| `openai-codex`、`opencode-go` | 当前 `models.db` 条目通常直连  | 需要显式 custom provider 才进入 loopback             | wrap 不会自动把普通条目改成 8787                                  |
+| Zhipu / Kimi / MiniMax        | 历史迁移中的 custom 路由       | provider 配置、loopback base URL、请求 header 均存在 | 旧 Kimi 目标覆盖可能把无 header 的 Anthropic 请求静默导向错误上游 |
+| Codex Responses               | 历史显式 custom 路由           | WebSocket 目标与协议保持一致                         | 不能用普通 OpenAI Chat Completions 假设覆盖 Responses WebSocket   |
 
 ### 2. 为什么从多端口收敛到一个入口
 
@@ -58,15 +58,15 @@ flowchart LR
 
 ## 不适用与风险
 
-| 误用 | 结果 | 边界与处理 |
-| --- | --- | --- |
-| 把 8787 当成全局默认入口 | 直连 role 仍绕过代理，排障结论错误 | 先核对 selector 的 model/cache 条目和是否有 custom 配置 |
-| 只验证 `/health` 或 HTTP 200 | 只能证明 loopback 可达，不能证明上游正确 | 做 L2 协议和 L3 最终上游验证 |
-| 把旧 provider unit 与 wrapper 同时启用 | 端口争用、旧 header 或旧日志污染 | 日常只使用 `headroom wrap omp`；旧服务只作迁移残留清理对象 |
-| 用 HTTP 规则处理 Codex WebSocket | 握手或 Responses 事件失败 | 保留 WebSocket URL、path 和协议完成事件证据 |
-| 依赖旧 Kimi/Anthropic 覆盖 | 无 header 请求静默发到错误上游 | 删除遗留覆盖，或使用显式 custom provider 路由 |
-| 把代理经过等同于压缩收益 | 短请求显示零 savings 就误判未经过代理 | 分别观察 loopback、代理日志和压缩统计 |
-| 把 `models.db` 手工改动当持久化契约 | 当前进程仍持有旧 cache，重启后又被重建 | 将 cache 当派生状态，使用新 wrapped session 验证 |
+| 误用                                   | 结果                                     | 边界与处理                                                 |
+| -------------------------------------- | ---------------------------------------- | ---------------------------------------------------------- |
+| 把 8787 当成全局默认入口               | 直连 role 仍绕过代理，排障结论错误       | 先核对 selector 的 model/cache 条目和是否有 custom 配置    |
+| 只验证 `/health` 或 HTTP 200           | 只能证明 loopback 可达，不能证明上游正确 | 做 L2 协议和 L3 最终上游验证                               |
+| 把旧 provider unit 与 wrapper 同时启用 | 端口争用、旧 header 或旧日志污染         | 日常只使用 `headroom wrap omp`；旧服务只作迁移残留清理对象 |
+| 用 HTTP 规则处理 Codex WebSocket       | 握手或 Responses 事件失败                | 保留 WebSocket URL、path 和协议完成事件证据                |
+| 依赖旧 Kimi/Anthropic 覆盖             | 无 header 请求静默发到错误上游           | 删除遗留覆盖，或使用显式 custom provider 路由              |
+| 把代理经过等同于压缩收益               | 短请求显示零 savings 就误判未经过代理    | 分别观察 loopback、代理日志和压缩统计                      |
+| 把 `models.db` 手工改动当持久化契约    | 当前进程仍持有旧 cache，重启后又被重建   | 将 cache 当派生状态，使用新 wrapped session 验证           |
 
 ## 最小验证
 

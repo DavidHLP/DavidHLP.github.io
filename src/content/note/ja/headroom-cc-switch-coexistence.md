@@ -25,10 +25,10 @@ flowchart LR
   H --> U[x-headroom-base-url で選択される OpenAI 上流]
 ```
 
-| パス | プロトコルと入口 | Headroom の責務 | 後続段 | 推測してはいけないこと |
-| --- | --- | --- | --- | --- |
-| OMP | OpenAI `/v1/responses`、入口 `127.0.0.1:8787` | request 単位の情報で整理しルーティング | `x-headroom-base-url` が指定する OpenAI 上流 | OMP discovery が必ず Headroom に引き継がれる |
-| Claude Code | Anthropic `/v1/messages`、入口 `127.0.0.1:8787` | リクエスト内容を整理 | cc-switch `127.0.0.1:15721` がプロトコル変換と資格情報注入 | cc-switch が圧縮を担当する |
+| パス        | プロトコルと入口                                | Headroom の責務                        | 後続段                                                     | 推測してはいけないこと                       |
+| ----------- | ----------------------------------------------- | -------------------------------------- | ---------------------------------------------------------- | -------------------------------------------- |
+| OMP         | OpenAI `/v1/responses`、入口 `127.0.0.1:8787`   | request 単位の情報で整理しルーティング | `x-headroom-base-url` が指定する OpenAI 上流               | OMP discovery が必ず Headroom に引き継がれる |
+| Claude Code | Anthropic `/v1/messages`、入口 `127.0.0.1:8787` | リクエスト内容を整理                   | cc-switch `127.0.0.1:15721` がプロトコル変換と資格情報注入 | cc-switch が圧縮を担当する                   |
 
 したがって、同じ provider に別の application-level compression bridge を重ねてはならない。そうしないと、リクエストが二つの段で順に整理され、savings、キャッシュプレフィックス、失敗原因の帰属が難しくなる。
 

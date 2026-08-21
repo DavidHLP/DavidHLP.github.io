@@ -17,21 +17,21 @@ toc: true
 
 ### 1. 五个比较轴
 
-| 轴 | Cloudflare Tunnel | Tailscale / WireGuard | FRP |
-| --- | --- | --- | --- |
+| 轴       | Cloudflare Tunnel                                                           | Tailscale / WireGuard                                     | FRP                                                                         |
+| -------- | --------------------------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------- |
 | 连接方向 | 内网 `cloudflared` 向 Cloudflare Edge 建立出站 WebSocket/TLS；外部先到 Edge | 设备加入虚拟网，数据面使用 UDP/WireGuard，必要时依赖 DERP | 公网 `frps` 监听端口，内网 `frpc` 保持长连接，把流量转到本地 `127.0.0.1:22` |
-| 暴露面 | 自定义 CNAME/Hostname 作为接入点 | 设备获得 `100.x.x.x` 虚拟地址；客户端需加入网络 | 公网域名/地址与 `remotePort` 作为接入点，标准 SSH 直接连映射端口 |
-| 控制平面 | Cloudflare Zero Trust/Access 与 Edge 服务 | `controlplane.tailscale.com`、登录状态和 DERP 可达性 | `frpc` 到 `frps` 的认证与长连接；配置中使用 `auth.token` |
-| 数据平面 | SSH 通过 `cloudflared access ssh` 代理进隧道 | WireGuard/UDP 虚拟链路 | TCP 映射到内网 SSH 端口 |
-| 故障恢复 | 依赖桌面端能运行 `cloudflared` 和服务账户条件 | 先恢复控制面，HTTP 代理不等于 UDP 数据面可用 | 用 systemd 用户服务自动重启，用 linger 保持用户服务实例 |
+| 暴露面   | 自定义 CNAME/Hostname 作为接入点                                            | 设备获得 `100.x.x.x` 虚拟地址；客户端需加入网络           | 公网域名/地址与 `remotePort` 作为接入点，标准 SSH 直接连映射端口            |
+| 控制平面 | Cloudflare Zero Trust/Access 与 Edge 服务                                   | `controlplane.tailscale.com`、登录状态和 DERP 可达性      | `frpc` 到 `frps` 的认证与长连接；配置中使用 `auth.token`                    |
+| 数据平面 | SSH 通过 `cloudflared access ssh` 代理进隧道                                | WireGuard/UDP 虚拟链路                                    | TCP 映射到内网 SSH 端口                                                     |
+| 故障恢复 | 依赖桌面端能运行 `cloudflared` 和服务账户条件                               | 先恢复控制面，HTTP 代理不等于 UDP 数据面可用              | 用 systemd 用户服务自动重启，用 linger 保持用户服务实例                     |
 
 ### 2. 三种方案的边界
 
-| 方案 | 适合 | 明确限制 |
-| --- | --- | --- |
+| 方案              | 适合                                                                         | 明确限制                                                                                                     |
+| ----------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | Cloudflare Tunnel | 桌面 macOS/Linux/Windows，标准 SSH 可执行 `ProxyCommand`，愿意使用自定义域名 | 移动 Termius 不能在沙盒内派生 `cloudflared`；raw 记录 Zero Trust/Access 开通的绑卡门槛，具体政策需现场确认。 |
-| Tailscale | 客户端可以安装 Tailscale 并获得系统 VPN 权限，且控制面/DERP 可达 | `sudo tailscale up` 可能因控制面阻断挂起；简单 `HTTP_PROXY` 不能代理所需的 UDP/WireGuard 流量。 |
-| FRP | 手机 Termius 只需填写域名和端口，公网中转节点可用，接受显式端口映射 | 公网接入点就是 `serverAddr + remotePort`；标准开源 `frpc` 与定制客户端的启动参数不能混用。 |
+| Tailscale         | 客户端可以安装 Tailscale 并获得系统 VPN 权限，且控制面/DERP 可达             | `sudo tailscale up` 可能因控制面阻断挂起；简单 `HTTP_PROXY` 不能代理所需的 UDP/WireGuard 流量。              |
+| FRP               | 手机 Termius 只需填写域名和端口，公网中转节点可用，接受显式端口映射          | 公网接入点就是 `serverAddr + remotePort`；标准开源 `frpc` 与定制客户端的启动参数不能混用。                   |
 
 ### 3. 最小配置和两个高频语义错误
 

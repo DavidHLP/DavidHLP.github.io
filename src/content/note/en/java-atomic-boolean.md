@@ -18,12 +18,12 @@ toc: true
 
 ### 1. Separate visibility from state transition
 
-| Need | Suitable tool | Causal reason |
-| --- | --- | --- |
-| State local to one thread | `boolean` | No shared-concurrency semantics are required |
-| Broadcast that a state changed | `volatile boolean` | Reads and writes are visible, but check and write can still race |
-| Let only one thread complete `false → true` | `AtomicBoolean.compareAndSet` | Read, compare, and write happen as one atomic update |
-| Keep several fields under one invariant | `synchronized` / `Lock` | A lock protects the whole critical section, not one flag |
+| Need                                        | Suitable tool                 | Causal reason                                                    |
+| ------------------------------------------- | ----------------------------- | ---------------------------------------------------------------- |
+| State local to one thread                   | `boolean`                     | No shared-concurrency semantics are required                     |
+| Broadcast that a state changed              | `volatile boolean`            | Reads and writes are visible, but check and write can still race |
+| Let only one thread complete `false → true` | `AtomicBoolean.compareAndSet` | Read, compare, and write happen as one atomic update             |
+| Keep several fields under one invariant     | `synchronized` / `Lock`       | A lock protects the whole critical section, not one flag         |
 
 `if (!flag) { flag = true; }` is check-then-act. Two threads can both read `false`; declaring the field `volatile` fixes visibility, not the compound operation.
 

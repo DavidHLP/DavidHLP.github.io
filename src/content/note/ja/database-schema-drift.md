@@ -24,11 +24,11 @@ toc: true
 
 ## 三ビューは互いに代替できない
 
-| ビュー | 答える質問 | 最小チェック | 見えないもの |
-| --- | --- | --- | --- |
-| migration history | どの migration が適用済み・失敗・欠落・乱順として記録されているか | `flyway info`、`flyway validate`、schema history table | Flyway を経ない外部 DDL |
-| actual schema | 現在のテーブル・列・インデックスは実際に何か | `SHOW CREATE TABLE`、`SHOW COLUMNS`、`information_schema` | アプリコードが実際に参照しているもの |
-| application query | 失敗 SQL はどのオブジェクトをどの句で参照しているか | 最小再現 SQL、エラーコードと SQLSTATE | オブジェクトが現在の状態になった理由 |
+| ビュー            | 答える質問                                                        | 最小チェック                                              | 見えないもの                         |
+| ----------------- | ----------------------------------------------------------------- | --------------------------------------------------------- | ------------------------------------ |
+| migration history | どの migration が適用済み・失敗・欠落・乱順として記録されているか | `flyway info`、`flyway validate`、schema history table    | Flyway を経ない外部 DDL              |
+| actual schema     | 現在のテーブル・列・インデックスは実際に何か                      | `SHOW CREATE TABLE`、`SHOW COLUMNS`、`information_schema` | アプリコードが実際に参照しているもの |
+| application query | 失敗 SQL はどのオブジェクトをどの句で参照しているか               | 最小再現 SQL、エラーコードと SQLSTATE                     | オブジェクトが現在の状態になった理由 |
 
 したがって：`validate` が通っても schema ドリフトがないことは証明できない。schema に列が存在しても、すべてのアプリインスタンスの query と serializer がアップグレード済みとは証明できない。query のエラーも、それだけで migration が未実行であることを直接証明できない。
 
@@ -65,12 +65,12 @@ ALTER TABLE users ADD COLUMN ext_drift INT;
 
 MySQL 8.4.11 の最小実験の結果：
 
-| 現象 | エラー | 意味 |
-| --- | --- | --- |
-| 再度 `ADD COLUMN email` | `1060 (42S21) Duplicate column name` | migration が二重実行された、または列が外部操作で作成済み |
-| `SELECT no_such_col ...` | `1054 (42S22) Unknown column ... in 'field list'` | 存在しない列を query が参照 |
-| `DROP COLUMN no_such_col` | `1091 (42000) Can't DROP ...` | DROP 対象が存在しない。1054 ではない |
-| 1 つの `ALTER TABLE` の後続句が列を重複 | `1060`、文全体がロールバック | 同一 InnoDB DDL 文は原子 |
+| 現象                                    | エラー                                            | 意味                                                     |
+| --------------------------------------- | ------------------------------------------------- | -------------------------------------------------------- |
+| 再度 `ADD COLUMN email`                 | `1060 (42S21) Duplicate column name`              | migration が二重実行された、または列が外部操作で作成済み |
+| `SELECT no_such_col ...`                | `1054 (42S22) Unknown column ... in 'field list'` | 存在しない列を query が参照                              |
+| `DROP COLUMN no_such_col`               | `1091 (42000) Can't DROP ...`                     | DROP 対象が存在しない。1054 ではない                     |
+| 1 つの `ALTER TABLE` の後続句が列を重複 | `1060`、文全体がロールバック                      | 同一 InnoDB DDL 文は原子                                 |
 
 「単一 DDL が原子」は「migration ファイルがトランザクション化される」を意味しない。MySQL の DDL は暗黙コミットする：同じ migration ファイル内の最初の DDL が成功し二番目が失敗した場合、最初の DDL は残る可能性があり、Flyway history は失敗を記録する。このとき `repair` で失敗レコードを削除しても、最初の文が残したオブジェクトはクリーンアップされない。
 

@@ -18,6 +18,11 @@ description: "尚未经过证据审查的来源和问题，只能作为摄入候
 - OMP 与 Agent 工程：配置与规则、Hook 扩展、Headroom 单端口演进、Headroom 持久化恢复。
 - 架构与工程实践：终端插件生命周期、UISA 高可靠信息同步架构。
 
+### 2026-08-21 全量聚合摄入
+
+- [x] `Personal-markdown-notes`（bbb2126，46 篇）与 `Fuwari`（07cee2b，61 篇）全部原文已按 10 主题聚合为 `ingest-*` 不可变 raw 与 10 个 `note` wiki 页，覆盖 Docker、HBase、Redis（业务/持久化/黑马）、Java 并发、Spring Cloud、Spark/大数据、MySQL、前指随笔。3 份完全重复与 1 份空文件已在 raw 中标注去重；图片相对路径已转义为链接以通过构建。
+- [x] Hindsight 记忆及其衍生结论仍需用可访问快照复核；本批未将其作为稳定概念写入（见 [Hindsight 实践](/note/hindsight-local-deployment-and-agent-integration)）。
+
 详情见 [知识库目录](/kb)。
 
 ## 待摄入来源

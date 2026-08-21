@@ -7,7 +7,7 @@ status: active
 draft: true
 sources: ["legacy-omp-config-and-rules-guide"]
 related: ["headroom-single-port-evolution", "omp-headroom-persistence", "omp-hook-extension-guide", "llm-wiki-pattern"]
-tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,RTK,Rules,Configuration,Architecture]
+tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, RTK, Rules, Configuration, Architecture]
 description: "A reusable model for OMP configuration layers: modelRoles selects a role default, agentModelOverrides supplies a local exception, and fallbackChains recovers after failure; the page also separates Headroom, rule discovery, and model selection and gives an ordered validation method."
 toc: true
 ---
@@ -30,14 +30,14 @@ flowchart LR
   E --> H[Rules<br/>constraint injection]
 ```
 
-| Layer | Answers | Explicitly does not answer |
-| --- | --- | --- |
-| `modelRoles` | The default provider/model and capability tier for roles such as `plan`, `task`, or `slow` | Whether a request traverses a proxy or how credentials are created |
-| `task.agentModelOverrides` | A model exception for one Agent or subtask | A replacement for the role default or a failure-recovery mechanism |
-| `retry.fallbackChains` | Ordered candidates after failure, throttling, or a usage policy trigger | Repairing provider configuration or guaranteeing that a candidate is usable |
-| Runtime controls (retry, usage-aware policy, etc.) | When to retry, cool down, reserve usage, or return to the preferred model | Redefining what a role means |
-| Headroom / `models.db` | The provider-to-network route and proxy lifecycle | Selecting an OMP role or injecting Agent rules |
-| Rule discovery and injection | Applying constraints by `globs`, conditions, or `alwaysApply` | Changing model routing or translating `paths` into `globs` automatically |
+| Layer                                              | Answers                                                                                    | Explicitly does not answer                                                  |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------- |
+| `modelRoles`                                       | The default provider/model and capability tier for roles such as `plan`, `task`, or `slow` | Whether a request traverses a proxy or how credentials are created          |
+| `task.agentModelOverrides`                         | A model exception for one Agent or subtask                                                 | A replacement for the role default or a failure-recovery mechanism          |
+| `retry.fallbackChains`                             | Ordered candidates after failure, throttling, or a usage policy trigger                    | Repairing provider configuration or guaranteeing that a candidate is usable |
+| Runtime controls (retry, usage-aware policy, etc.) | When to retry, cool down, reserve usage, or return to the preferred model                  | Redefining what a role means                                                |
+| Headroom / `models.db`                             | The provider-to-network route and proxy lifecycle                                          | Selecting an OMP role or injecting Agent rules                              |
+| Rule discovery and injection                       | Applying constraints by `globs`, conditions, or `alwaysApply`                              | Changing model routing or translating `paths` into `globs` automatically    |
 
 ### 2. Boundaries between selection and recovery
 
@@ -64,14 +64,14 @@ flowchart LR
 
 ## Not applicable and risks
 
-| Symptom | Tempting misdiagnosis | Boundary and response |
-| --- | --- | --- |
-| A sub-agent still uses the parent model | Assuming the override key must work | Field names, scope, and inheritance vary by release; verify the final selector in a new session |
-| The primary works but fallback fails | Assuming fallback discovers new models | Fallback only walks declared candidates; remove disabled, stale, or unauthenticated entries |
-| A config edit changes nothing | Assuming hot reload | Session-loaded behavior must be checked in a new session; an old process is not evidence |
-| A rule loads but never matches a path | Using `paths` without `globs` | OMP reads `globs`; shared directories may carry both keys, but automatic translation is not implied |
-| Only loopback or HTTP 200 is visible | Treating reachability as the whole route | Inspect inbound/outbound logs and final upstream; role selection, entry routing, and compression savings are different facts |
-| Making every rule `alwaysApply` | Assuming repetition is safer | Sticky rules expand context every turn; path or stream conditions fit most constraints better |
+| Symptom                                 | Tempting misdiagnosis                    | Boundary and response                                                                                                        |
+| --------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| A sub-agent still uses the parent model | Assuming the override key must work      | Field names, scope, and inheritance vary by release; verify the final selector in a new session                              |
+| The primary works but fallback fails    | Assuming fallback discovers new models   | Fallback only walks declared candidates; remove disabled, stale, or unauthenticated entries                                  |
+| A config edit changes nothing           | Assuming hot reload                      | Session-loaded behavior must be checked in a new session; an old process is not evidence                                     |
+| A rule loads but never matches a path   | Using `paths` without `globs`            | OMP reads `globs`; shared directories may carry both keys, but automatic translation is not implied                          |
+| Only loopback or HTTP 200 is visible    | Treating reachability as the whole route | Inspect inbound/outbound logs and final upstream; role selection, entry routing, and compression savings are different facts |
+| Making every rule `alwaysApply`         | Assuming repetition is safer             | Sticky rules expand context every turn; path or stream conditions fit most constraints better                                |
 
 ## Minimal verification
 

@@ -127,13 +127,13 @@ observer は「今回のチェーン実行がどのライフサイクルイベ�
 
 ## 最小テストマトリクス
 
-| シナリオ | 検証すべきこと |
-| --- | --- |
-| 正常な完全チェーン | `onChainStart -> beforeNode -> afterNode -> onChainEnd`、start/end token が同一 |
-| ロック内 fragment | 後続ノードの hook だけ。二回目の around hook なし。二回目の post-process なし |
+| シナリオ               | 検証すべきこと                                                                                   |
+| ---------------------- | ------------------------------------------------------------------------------------------------ |
+| 正常な完全チェーン     | `onChainStart -> beforeNode -> afterNode -> onChainEnd`、start/end token が同一                  |
+| ロック内 fragment      | 後続ノードの hook だけ。二回目の around hook なし。二回目の post-process なし                    |
 | handler が例外を投げる | 例外は伝播し続ける。finally が `onChainEnd` を発火。失敗した handler は `afterNode` を発火しない |
-| 二スレッド並行 | token、MDC previous state、snapshot が互いに汚染しない |
-| 同 key ネスト | reentrant パスは自身の future を待たず、実行権を二重取得しない |
+| 二スレッド並行         | token、MDC previous state、snapshot が互いに汚染しない                                           |
+| 同 key ネスト          | reentrant パスは自身の future を待たず、実行権を二重取得しない                                   |
 
 これらが最小の回帰契約だ。本番システムではキャンセル、タイムアウト、ロック失効、結果可視性のテストも補うべきだ。
 

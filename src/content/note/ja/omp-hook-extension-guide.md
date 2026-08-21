@@ -7,7 +7,7 @@ status: active
 draft: true
 sources: ["legacy-omp-hook-extension-guide"]
 related: ["headroom-single-port-evolution", "omp-config-and-rules-guide", "omp-headroom-persistence", "llm-wiki-pattern"]
-tags: [Agent,OMP,Codebase,Hooks,DevOps,TUI,Plugin,Extension]
+tags: [Agent, OMP, Codebase, Hooks, DevOps, TUI, Plugin, Extension]
 description: "OMP Hook をツール意思決定ポイントのイベント拡張として整理する。sendMessage はブロックせずソフトヒントを渡し、ハード結果は呼び出しを拒否し、setStatus は状態を UI へ橋渡しする。API の境界、mock と実セッションの検証、提案機構をセキュリティ境界にしない原則を示す。"
 toc: true
 ---
@@ -30,11 +30,11 @@ flowchart LR
   I --> J[Hook 状態 map] --> K[ステータス行/任意 segment]
 ```
 
-| チャネル | 最小契約 | 証明できる観測結果 | 仮定してはいけない効果 |
-| --- | --- | --- | --- |
-| ソフトヒント | `pi.sendMessage({ customType, content, display, attribution })` の後に `void` を返す | メッセージが Agent コンテキストに入り、現在のツールは継続する | Agent が必ず従うこと、安全な操作が遮断されること |
-| ハードブロック | `return { block: true, reason }`（フィールドは現行型に従う） | 現在のツール呼び出しが拒否され、呼び出し元が理由を受け取る | 誤判定が起きないこと、サーバー認可の代替になること |
-| UI 状態 | `ctx.ui.setStatus(key, text)` | 状態が Hook の状態集合に入り、レンダリング対象になり得る | 必ずトップ border に表示されること、長文が切られないこと |
+| チャネル       | 最小契約                                                                             | 証明できる観測結果                                            | 仮定してはいけない効果                                   |
+| -------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------- | -------------------------------------------------------- |
+| ソフトヒント   | `pi.sendMessage({ customType, content, display, attribution })` の後に `void` を返す | メッセージが Agent コンテキストに入り、現在のツールは継続する | Agent が必ず従うこと、安全な操作が遮断されること         |
+| ハードブロック | `return { block: true, reason }`（フィールドは現行型に従う）                         | 現在のツール呼び出しが拒否され、呼び出し元が理由を受け取る    | 誤判定が起きないこと、サーバー認可の代替になること       |
+| UI 状態        | `ctx.ui.setStatus(key, text)`                                                        | 状態が Hook の状態集合に入り、レンダリング対象になり得る      | 必ずトップ border に表示されること、長文が切られないこと |
 
 ### 2. 拡張ライフサイクルと状態ブリッジ
 
@@ -57,14 +57,14 @@ flowchart LR
 
 ## 非適用とリスク
 
-| 境界 | 失敗の兆候 | 正しい対応 |
-| --- | --- | --- |
+| 境界                                   | 失敗の兆候                                            | 正しい対応                                                                                          |
+| -------------------------------------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | ソフトヒントはセキュリティ制御ではない | Agent が `sendMessage` を無視し、危険な呼び出しが続く | 取り返しのつかない操作にはテスト済みの hard gate またはサーバー認可を使い、ヒントを保証とみなさない |
-| Hook API はバージョン依存 | 型は通るがイベントフィールドやロード場所が変わる | 現行型宣言を確認し、新しいセッションで実イベントを観測する |
-| mock は実行時証拠ではない | 合成 handler は通るが拡張がロードまたは描画されない | mock の後に実 `tool_call` と TUI 検証を行う |
-| 状態行とトップ segment は別 | `setStatus` にデータがあるが期待位置に出ない | status gate、segment union/preset、renderer 経路を別々に確認する |
-| UI の長さと更新予算がある | 文が省略、border が overflow、状態が古い | segment は短くし、完全な状態は独立行に残し、実端末サイズで試す |
-| 検出が重い、または throw する | ツールが遅くなり、正常呼び出しにも影響する | 高速な path/field 判定、throttling、fail-soft `try/catch` を使う |
+| Hook API はバージョン依存              | 型は通るがイベントフィールドやロード場所が変わる      | 現行型宣言を確認し、新しいセッションで実イベントを観測する                                          |
+| mock は実行時証拠ではない              | 合成 handler は通るが拡張がロードまたは描画されない   | mock の後に実 `tool_call` と TUI 検証を行う                                                         |
+| 状態行とトップ segment は別            | `setStatus` にデータがあるが期待位置に出ない          | status gate、segment union/preset、renderer 経路を別々に確認する                                    |
+| UI の長さと更新予算がある              | 文が省略、border が overflow、状態が古い              | segment は短くし、完全な状態は独立行に残し、実端末サイズで試す                                      |
+| 検出が重い、または throw する          | ツールが遅くなり、正常呼び出しにも影響する            | 高速な path/field 判定、throttling、fail-soft `try/catch` を使う                                    |
 
 ## 最小検証
 

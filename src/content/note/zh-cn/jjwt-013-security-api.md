@@ -66,10 +66,10 @@ String token = Jwts.builder()
 
 ### 旧 API 迁移
 
-| 旧写法 | 推荐写法 |
-| --- | --- |
-| `signWith(SignatureAlgorithm.HS256, ...)` | `signWith(key, Jwts.SIG.HS256)` |
-| `signWith(key, oldSignatureAlgorithm)` | `signWith(key, Jwts.SIG.RS256)` 等 |
+| 旧写法                                    | 推荐写法                           |
+| ----------------------------------------- | ---------------------------------- |
+| `signWith(SignatureAlgorithm.HS256, ...)` | `signWith(key, Jwts.SIG.HS256)`    |
+| `signWith(key, oldSignatureAlgorithm)`    | `signWith(key, Jwts.SIG.RS256)` 等 |
 
 旧的 `signWith(Key, SignatureAlgorithm)` 在 0.13.0 仍存在，但已经弃用，目标是 1.0 前移除。
 

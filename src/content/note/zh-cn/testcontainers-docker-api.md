@@ -15,11 +15,11 @@ toc: true
 
 ## 版本边界
 
-| 组件 | 固定范围 |
-| --- | --- |
+| 组件                | 固定范围                    |
+| ------------------- | --------------------------- |
 | Testcontainers Java | `1.20.6`，commit `cc1c13af` |
-| docker-java | BOM `3.4.1` |
-| 对照 daemon | Moby `v27.5.1` |
+| docker-java         | BOM `3.4.1`                 |
+| 对照 daemon         | Moby `v27.5.1`              |
 
 本文只对这组固定源码负责。Testcontainers 2.x 的 API 版本实现不能直接回推到 1.20.6。
 
@@ -88,13 +88,13 @@ Could not find a valid Docker environment. Please see logs and check configurati
 
 在隔离项目中执行同一个最小 Testcontainers 测试，逐项只改变一个输入：
 
-| 输入 | 预期 |
-| --- | --- |
-| 不设置 `api.version` | 请求版本为 `1.32` |
-| `-Dapi.version=banana` | unknown，静默回退 `1.32` |
-| `-Dapi.version=1.1` | 对较新 daemon 触发 too old |
-| `-Dapi.version=999.999` | docker-java 可解析；对 Moby v27.5.1 触发 too new |
-| 只设置 `DOCKER_API_VERSION` | 按固定源码审计，不应替代 `api.version` |
+| 输入                        | 预期                                             |
+| --------------------------- | ------------------------------------------------ |
+| 不设置 `api.version`        | 请求版本为 `1.32`                                |
+| `-Dapi.version=banana`      | unknown，静默回退 `1.32`                         |
+| `-Dapi.version=1.1`         | 对较新 daemon 触发 too old                       |
+| `-Dapi.version=999.999`     | docker-java 可解析；对 Moby v27.5.1 触发 too new |
+| 只设置 `DOCKER_API_VERSION` | 按固定源码审计，不应替代 `api.version`           |
 
 本页引用的矩阵是复现方案，不是本批已经执行的运行结果；要把它写成环境结论，必须保留实际 daemon 版本和日志。
 

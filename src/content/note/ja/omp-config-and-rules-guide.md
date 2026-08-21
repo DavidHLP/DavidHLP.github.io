@@ -7,7 +7,7 @@ status: active
 draft: true
 sources: ["legacy-omp-config-and-rules-guide"]
 related: ["headroom-single-port-evolution", "omp-headroom-persistence", "omp-hook-extension-guide", "llm-wiki-pattern"]
-tags: [OMP,Agent,Headroom,DevOps,LLM,Operations,RTK,Rules,Configuration,Architecture]
+tags: [OMP, Agent, Headroom, DevOps, LLM, Operations, RTK, Rules, Configuration, Architecture]
 description: "OMP 設定を再利用可能な階層モデルとして整理する。modelRoles はロールのデフォルトを選び、agentModelOverrides は局所的な例外を指定し、fallbackChains は障害後に復旧する。Headroom、ルール検出、モデル選択の境界と、順序付き検証方法も示す。"
 toc: true
 ---
@@ -30,14 +30,14 @@ flowchart LR
   E --> H[Rules<br/>制約の注入]
 ```
 
-| 層 | 解決する問題 | 明確に解決しない問題 |
-| --- | --- | --- |
-| `modelRoles` | `plan`、`task`、`slow` などのロールに対するデフォルト provider/model と能力帯 | リクエストがプロキシを通るか、資格情報をどう作るか |
-| `task.agentModelOverrides` | ある Agent またはサブタスクだけのモデル例外 | ロールのデフォルトの代替、または障害復旧 |
-| `retry.fallbackChains` | 障害、レート制限、使用量ポリシー発動後の候補順序 | provider 設定の修復、候補が利用可能であることの保証 |
-| 実行制御（retry、usage-aware など） | retry、冷却、使用量予約、優先モデルへの復帰のタイミング | ロールの意味を再定義すること |
-| Headroom / `models.db` | provider からネットワーク入口までのルートとプロキシのライフサイクル | OMP ロールの選択、Agent ルールの注入 |
-| ルールの検出と注入 | `globs`、条件、`alwaysApply` による制約の適用 | モデルルーティングの変更、`paths` の `globs` への自動変換 |
+| 層                                  | 解決する問題                                                                  | 明確に解決しない問題                                      |
+| ----------------------------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------- |
+| `modelRoles`                        | `plan`、`task`、`slow` などのロールに対するデフォルト provider/model と能力帯 | リクエストがプロキシを通るか、資格情報をどう作るか        |
+| `task.agentModelOverrides`          | ある Agent またはサブタスクだけのモデル例外                                   | ロールのデフォルトの代替、または障害復旧                  |
+| `retry.fallbackChains`              | 障害、レート制限、使用量ポリシー発動後の候補順序                              | provider 設定の修復、候補が利用可能であることの保証       |
+| 実行制御（retry、usage-aware など） | retry、冷却、使用量予約、優先モデルへの復帰のタイミング                       | ロールの意味を再定義すること                              |
+| Headroom / `models.db`              | provider からネットワーク入口までのルートとプロキシのライフサイクル           | OMP ロールの選択、Agent ルールの注入                      |
+| ルールの検出と注入                  | `globs`、条件、`alwaysApply` による制約の適用                                 | モデルルーティングの変更、`paths` の `globs` への自動変換 |
 
 ### 2. 選択と復旧の境界
 
@@ -64,14 +64,14 @@ flowchart LR
 
 ## 非適用とリスク
 
-| 症状 | 誘発されやすい誤診 | 境界と対応 |
-| --- | --- | --- |
-| サブ Agent が親モデルを使う | override キーは必ず効くと思う | フィールド名、スコープ、継承はリリースで異なる。新しいセッションの最終 selector を確認する |
-| 主モデルは成功するが fallback が失敗する | fallback が新しいモデルを発見すると思う | fallback は宣言済み候補だけを歩く。無効、古い、未認証の候補を除く |
-| 設定を変えても挙動が変わらない | hot reload だと思う | セッション単位のロードは新しいセッションで確認する。古いプロセスは証拠にならない |
-| ルールはロードされるがパスに反応しない | `globs` なしで `paths` を使う | OMP が読むのは `globs`。共有ディレクトリで両方を持てても自動変換はない |
-| loopback または HTTP 200 しか見えない | 到達性を経路全体とみなす | inbound/outbound ログと最終上流を確認する。ロール選択、入口、圧縮 savings は別の事実である |
-| すべてを `alwaysApply` にする | 繰り返しが安全だと思う | sticky ルールは毎ターン文脈を膨らませる。多くの制約にはパスまたはストリーム条件が適する |
+| 症状                                     | 誘発されやすい誤診                      | 境界と対応                                                                                 |
+| ---------------------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------ |
+| サブ Agent が親モデルを使う              | override キーは必ず効くと思う           | フィールド名、スコープ、継承はリリースで異なる。新しいセッションの最終 selector を確認する |
+| 主モデルは成功するが fallback が失敗する | fallback が新しいモデルを発見すると思う | fallback は宣言済み候補だけを歩く。無効、古い、未認証の候補を除く                          |
+| 設定を変えても挙動が変わらない           | hot reload だと思う                     | セッション単位のロードは新しいセッションで確認する。古いプロセスは証拠にならない           |
+| ルールはロードされるがパスに反応しない   | `globs` なしで `paths` を使う           | OMP が読むのは `globs`。共有ディレクトリで両方を持てても自動変換はない                     |
+| loopback または HTTP 200 しか見えない    | 到達性を経路全体とみなす                | inbound/outbound ログと最終上流を確認する。ロール選択、入口、圧縮 savings は別の事実である |
+| すべてを `alwaysApply` にする            | 繰り返しが安全だと思う                  | sticky ルールは毎ターン文脈を膨らませる。多くの制約にはパスまたはストリーム条件が適する    |
 
 ## 最小検証
 

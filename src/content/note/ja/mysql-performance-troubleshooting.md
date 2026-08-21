@@ -18,13 +18,13 @@ toc: true
 
 ### 1. 現象から診断層へ
 
-| 現象 | 最初の証拠 | 層 | 優先する緩和 |
-| --- | --- | --- | --- |
-| `Too many connections`、Sleep セッションの滞留 | `Threads_connected`、`max_connections`、接続元、Sleep 時間、`INNODB_TRX` | アプリ / 接続 | 疑わしいエンドポイントをスロットリングし、プールを修正する。セッション操作前にトランザクションを確認する。 |
-| 少数の SQL が停止し、多数が `Waiting` | `SHOW FULL PROCESSLIST`、`sys.innodb_lock_waits` | InnoDB ロック / MDL | ブロッカーを見つけてトランザクションを短縮する。確認済みの非重要スレッドだけに `KILL` を使う。 |
-| 特定の SQL 形だけ遅い | スロークエリ/ digest、`rows_examined / rows_sent`、`EXPLAIN` | Server オプティマイザ / インデックス | 統計情報、アクセス型、選択性を確認してから SQL/インデックスを変更する。 |
-| 周期的な停止、全体の I/O 高騰 | `iostat -xm 1`、ダーティページ、Buffer Pool の read/wait | OS ディスク / InnoDB Buffer Pool | 大きなクエリの圧力を下げ、証拠に応じて容量、フラッシュ、読み書き経路を調整する。 |
-| 長いトランザクションと undo 増大 | トランザクションの年齢、`History list length` | InnoDB MVCC / undo | 不要な長期トランザクションを見つけて終了する。破壊的なクリーンアップを最初に行わない。 |
+| 現象                                           | 最初の証拠                                                               | 層                                   | 優先する緩和                                                                                               |
+| ---------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| `Too many connections`、Sleep セッションの滞留 | `Threads_connected`、`max_connections`、接続元、Sleep 時間、`INNODB_TRX` | アプリ / 接続                        | 疑わしいエンドポイントをスロットリングし、プールを修正する。セッション操作前にトランザクションを確認する。 |
+| 少数の SQL が停止し、多数が `Waiting`          | `SHOW FULL PROCESSLIST`、`sys.innodb_lock_waits`                         | InnoDB ロック / MDL                  | ブロッカーを見つけてトランザクションを短縮する。確認済みの非重要スレッドだけに `KILL` を使う。             |
+| 特定の SQL 形だけ遅い                          | スロークエリ/ digest、`rows_examined / rows_sent`、`EXPLAIN`             | Server オプティマイザ / インデックス | 統計情報、アクセス型、選択性を確認してから SQL/インデックスを変更する。                                    |
+| 周期的な停止、全体の I/O 高騰                  | `iostat -xm 1`、ダーティページ、Buffer Pool の read/wait                 | OS ディスク / InnoDB Buffer Pool     | 大きなクエリの圧力を下げ、証拠に応じて容量、フラッシュ、読み書き経路を調整する。                           |
+| 長いトランザクションと undo 増大               | トランザクションの年齢、`History list length`                            | InnoDB MVCC / undo                   | 不要な長期トランザクションを見つけて終了する。破壊的なクリーンアップを最初に行わない。                     |
 
 **順序が重要である**：まず `SHOW PROCESSLIST` でキューの形を見、次に `top`/`iostat` でリソースを確認し、その後に個別 SQL へ掘り下げる。範囲を把握せずに `EXPLAIN` から始めない。
 

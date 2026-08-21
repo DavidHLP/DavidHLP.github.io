@@ -17,13 +17,13 @@ toc: true
 
 ### 1. 现象到定位层
 
-| 现象 | 第一眼指标/证据 | 定位层 | 优先缓解 |
-| --- | --- | --- | --- |
-| `Too many connections`、Sleep 堆积 | `Threads_connected`、`max_connections`、连接来源；Sleep 时间；`INNODB_TRX` | 应用/连接 | 限制可疑接口并发，修连接池；确认事务后再处理会话。 |
-| 少量 SQL 卡住，大量 `Waiting` | `SHOW FULL PROCESSLIST`、`sys.innodb_lock_waits` | InnoDB 锁 / MDL | 找阻塞源，缩短事务；`KILL` 只对确认的非核心线程使用。 |
-| 特定 SQL 变慢 | 慢查询或 digest、`rows_examined / rows_sent`、`EXPLAIN` | Server 优化器 / 索引 | 先核对统计信息、访问类型、数据选择性，再改 SQL/索引。 |
-| 周期性卡顿或整体 IO 高 | `iostat -xm 1`、脏页、Buffer Pool 读/等待 | OS 磁盘 / InnoDB Buffer Pool | 限制大查询；按证据调整容量、刷盘或读写路径。 |
-| 长事务、undo 膨胀 | 事务年龄、`History list length` | InnoDB MVCC / undo | 找到并结束不必要的长事务，避免先做破坏性清理。 |
+| 现象                               | 第一眼指标/证据                                                            | 定位层                       | 优先缓解                                              |
+| ---------------------------------- | -------------------------------------------------------------------------- | ---------------------------- | ----------------------------------------------------- |
+| `Too many connections`、Sleep 堆积 | `Threads_connected`、`max_connections`、连接来源；Sleep 时间；`INNODB_TRX` | 应用/连接                    | 限制可疑接口并发，修连接池；确认事务后再处理会话。    |
+| 少量 SQL 卡住，大量 `Waiting`      | `SHOW FULL PROCESSLIST`、`sys.innodb_lock_waits`                           | InnoDB 锁 / MDL              | 找阻塞源，缩短事务；`KILL` 只对确认的非核心线程使用。 |
+| 特定 SQL 变慢                      | 慢查询或 digest、`rows_examined / rows_sent`、`EXPLAIN`                    | Server 优化器 / 索引         | 先核对统计信息、访问类型、数据选择性，再改 SQL/索引。 |
+| 周期性卡顿或整体 IO 高             | `iostat -xm 1`、脏页、Buffer Pool 读/等待                                  | OS 磁盘 / InnoDB Buffer Pool | 限制大查询；按证据调整容量、刷盘或读写路径。          |
+| 长事务、undo 膨胀                  | 事务年龄、`History list length`                                            | InnoDB MVCC / undo           | 找到并结束不必要的长事务，避免先做破坏性清理。        |
 
 **顺序原则**：先用 `SHOW PROCESSLIST` 看队列形态，再看 `top`/`iostat` 等资源，最后深入单条 SQL。不要看到慢查询就跳过现场范围直接 `EXPLAIN`。
 

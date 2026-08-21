@@ -16,11 +16,11 @@ toc: true
 
 ## バージョン境界
 
-| コンポーネント | 固定範囲 |
-| --- | --- |
+| コンポーネント      | 固定範囲                    |
+| ------------------- | --------------------------- |
 | Testcontainers Java | `1.20.6`、commit `cc1c13af` |
-| docker-java | BOM `3.4.1` |
-| 対照 daemon | Moby `v27.5.1` |
+| docker-java         | BOM `3.4.1`                 |
+| 対照 daemon         | Moby `v27.5.1`              |
 
 本ページはこの固定ソース群だけに責任を持つ。Testcontainers 2.x の API バージョン実装を 1.20.6 へ直接遡って適用することはできない。
 
@@ -89,12 +89,12 @@ Could not find a valid Docker environment. Please see logs and check configurati
 
 隔離プロジェクトで同じ最小 Testcontainers テストを実行し、入力は一度に一つだけ変える：
 
-| 入力 | 期待 |
-| --- | --- |
-| `api.version` を設定しない | リクエストバージョンは `1.32` |
-| `-Dapi.version=banana` | unknown、静かに `1.32` へフォールバック |
-| `-Dapi.version=1.1` | 新しい daemon で too old を発生 |
-| `-Dapi.version=999.999` | docker-java は解析可能；Moby v27.5.1 で too new を発生 |
+| 入力                          | 期待                                                        |
+| ----------------------------- | ----------------------------------------------------------- |
+| `api.version` を設定しない    | リクエストバージョンは `1.32`                               |
+| `-Dapi.version=banana`        | unknown、静かに `1.32` へフォールバック                     |
+| `-Dapi.version=1.1`           | 新しい daemon で too old を発生                             |
+| `-Dapi.version=999.999`       | docker-java は解析可能；Moby v27.5.1 で too new を発生      |
 | `DOCKER_API_VERSION` だけ設定 | 固定ソース監査によれば `api.version` を置き換えるべきでない |
 
 本ページが引用するマトリクスは再現案であり、このバッチで実行済みの結果ではない。それを環境の結論として書くには、実際の daemon バージョンとログを保持しなければならない。

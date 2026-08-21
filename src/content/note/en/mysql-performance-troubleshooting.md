@@ -18,13 +18,13 @@ This page answers a triage question: when MySQL becomes slow or stuck, which met
 
 ### 1. From symptom to diagnostic layer
 
-| Symptom | First evidence | Layer | Priority mitigation |
-| --- | --- | --- | --- |
-| `Too many connections`, piled-up Sleep sessions | `Threads_connected`, `max_connections`, connection sources, Sleep age, `INNODB_TRX` | Application / connection | Throttle the suspect endpoint and repair pooling; verify transactions before touching sessions. |
-| A few SQL statements stall and many show `Waiting` | `SHOW FULL PROCESSLIST`, `sys.innodb_lock_waits` | InnoDB lock / MDL | Find the blocker and shorten the transaction; use `KILL` only for a confirmed non-critical thread. |
-| One SQL shape becomes slow | Slow log or digest, `rows_examined / rows_sent`, `EXPLAIN` | Server optimizer / index | Check statistics, access type, and selectivity before changing SQL or indexes. |
-| Periodic stalls or high overall I/O | `iostat -xm 1`, dirty pages, Buffer Pool reads/waits | OS disk / InnoDB Buffer Pool | Reduce large-query pressure; adjust capacity, flushing, or read/write routing only when evidence supports it. |
-| Long transactions and undo growth | Transaction age, `History list length` | InnoDB MVCC / undo | Find and end unnecessary long transactions; avoid destructive cleanup as the first move. |
+| Symptom                                            | First evidence                                                                      | Layer                        | Priority mitigation                                                                                           |
+| -------------------------------------------------- | ----------------------------------------------------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `Too many connections`, piled-up Sleep sessions    | `Threads_connected`, `max_connections`, connection sources, Sleep age, `INNODB_TRX` | Application / connection     | Throttle the suspect endpoint and repair pooling; verify transactions before touching sessions.               |
+| A few SQL statements stall and many show `Waiting` | `SHOW FULL PROCESSLIST`, `sys.innodb_lock_waits`                                    | InnoDB lock / MDL            | Find the blocker and shorten the transaction; use `KILL` only for a confirmed non-critical thread.            |
+| One SQL shape becomes slow                         | Slow log or digest, `rows_examined / rows_sent`, `EXPLAIN`                          | Server optimizer / index     | Check statistics, access type, and selectivity before changing SQL or indexes.                                |
+| Periodic stalls or high overall I/O                | `iostat -xm 1`, dirty pages, Buffer Pool reads/waits                                | OS disk / InnoDB Buffer Pool | Reduce large-query pressure; adjust capacity, flushing, or read/write routing only when evidence supports it. |
+| Long transactions and undo growth                  | Transaction age, `History list length`                                              | InnoDB MVCC / undo           | Find and end unnecessary long transactions; avoid destructive cleanup as the first move.                      |
 
 **Order matters**: use `SHOW PROCESSLIST` to see the queue shape, then inspect resources with `top`/`iostat`, and only then drill into one SQL statement. Do not jump straight to `EXPLAIN` before scoping the incident.
 

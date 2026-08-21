@@ -37,12 +37,12 @@ flowchart LR
   SW --> C
 ```
 
-| Caller | Entry and responsibility | Facts that must not be inferred from this path |
-| --- | --- | --- |
-| `opencode-go` | OpenAI-compatible provider route enters the Headroom prefix | Other providers are automatically taken over |
-| `openai-codex` | Responses/Live WebSocket enters Headroom; headers select the ChatGPT upstream | model discovery, login, or realtime voice go through the proxy |
-| Codex CLI/Desktop | Native provider sharing the user-level `$CODEX_HOME/config.toml` | `HTTP_PROXY`/CONNECT is a necessary solution |
-| Claude Code | With `HEADROOM_CC_SWITCH_RECONCILE=1`, passes through Headroom first, then cc-switch conversion | cc-switch handles compression, or the two protocol paths share state |
+| Caller            | Entry and responsibility                                                                        | Facts that must not be inferred from this path                       |
+| ----------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `opencode-go`     | OpenAI-compatible provider route enters the Headroom prefix                                     | Other providers are automatically taken over                         |
+| `openai-codex`    | Responses/Live WebSocket enters Headroom; headers select the ChatGPT upstream                   | model discovery, login, or realtime voice go through the proxy       |
+| Codex CLI/Desktop | Native provider sharing the user-level `$CODEX_HOME/config.toml`                                | `HTTP_PROXY`/CONNECT is a necessary solution                         |
+| Claude Code       | With `HEADROOM_CC_SWITCH_RECONCILE=1`, passes through Headroom first, then cc-switch conversion | cc-switch handles compression, or the two protocol paths share state |
 
 ## Codex native provider
 

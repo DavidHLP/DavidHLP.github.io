@@ -24,22 +24,22 @@ Cross-references remain available, contradictions are made explicit, and synthes
 
 ## Why it matters: the accumulation gap in RAG
 
-| Dimension | Traditional RAG / file upload | LLM-Wiki |
-| --- | --- | --- |
-| Knowledge shape | Raw documents retrieved at query time | Persistent, pre-compiled wiki |
-| Synthesis cost | Reassembled for every query | Compiled during ingest and kept current |
-| Contradictions | Rediscovered repeatedly | Recorded explicitly in pages |
-| Compounding | Usually starts from zero | Each ingest expands the network |
+| Dimension       | Traditional RAG / file upload         | LLM-Wiki                                |
+| --------------- | ------------------------------------- | --------------------------------------- |
+| Knowledge shape | Raw documents retrieved at query time | Persistent, pre-compiled wiki           |
+| Synthesis cost  | Reassembled for every query           | Compiled during ingest and kept current |
+| Contradictions  | Rediscovered repeatedly               | Recorded explicitly in pages            |
+| Compounding     | Usually starts from zero              | Each ingest expands the network         |
 
 RAG is not necessarily inaccurate; it simply does not accumulate enough. LLM-Wiki moves the bookkeeping and synthesis work into the ingest step.
 
 ## Three layers
 
-| Layer | Location | Role | Mutability |
-| --- | --- | --- | --- |
-| Raw sources | `src/content/raw/{locale}/` | Clipped articles, papers, documents, and data | Read-only |
-| Wiki | `src/content/note/{locale}/` | `concept`, `entity`, and `synthesis` pages | Incrementally maintained by the LLM |
-| Schema | `KB.md`, `.claude/skills/knowledge-base.md` | The maintenance contract | Evolves slowly |
+| Layer       | Location                                    | Role                                          | Mutability                          |
+| ----------- | ------------------------------------------- | --------------------------------------------- | ----------------------------------- |
+| Raw sources | `src/content/raw/{locale}/`                 | Clipped articles, papers, documents, and data | Read-only                           |
+| Wiki        | `src/content/note/{locale}/`                | `concept`, `entity`, and `synthesis` pages    | Incrementally maintained by the LLM |
+| Schema      | `KB.md`, `.claude/skills/knowledge-base.md` | The maintenance contract                      | Evolves slowly                      |
 
 The separation lets the wiki be rewritten without overwriting evidence. Every non-trivial conclusion should trace back to raw through `sources`.
 
