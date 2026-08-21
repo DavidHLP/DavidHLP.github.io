@@ -6,7 +6,7 @@ kind: concept
 status: active
 draft: true
 sources: ["ingest-redis-business"]
-related: [redis-persistence-principle, redis-null-value, redis-jackson-java-time, resicache-observer-nested-execution]
+related: [redis-persistence-principle, java-null-value, redis-jackson-java-time, resicache-observer-nested-execution]
 tags: [Redis, Cache, DistributedLock, MessageQueue, Feed, Seckill]
 description: 一貫性・排他・メッセージ意味を軸に再利用可能なビジネスパターンを蒸留。
 toc: true
@@ -59,6 +59,6 @@ toc: true
 ## 関連ページ
 
 - [redis-persistence-principle](/note/redis-persistence-principle)
-- [redis-null-value](/note/redis-null-value)
+- [java-null-value](/note/java-null-value)
 - [redis-jackson-java-time](/note/redis-jackson-java-time)
 - [resicache-observer-nested-execution](/note/resicache-observer-nested-execution)

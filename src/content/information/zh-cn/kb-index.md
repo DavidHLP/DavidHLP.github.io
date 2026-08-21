@@ -63,6 +63,8 @@
 ## 实体页（entity）
 
 - [OMP Headroom Bridge：外部路由控制器与原生 Codex/OMP 代理边界](/note/omp-headroom-provider-proxy) — 记录 loopback Headroom、OMP provider route、原生 Codex CLI/Desktop Responses provider、Claude Code/cc-switch 共存、事务安全、验证与回滚边界。
+- [ResiCache：Spring Cache 的可编排缓存防护责任链](/note/resicache) — 归纳 `@RedisCacheable` 责任链 handler 顺序、防护默认关闭边界与序列化信封迁移成本。来源：`resicache-project-overview`。
+- [UltiCode：在线评测平台的模块化架构与领域边界](/note/ulticode) — **provisional** 归纳 owner 划分、port/projection 深模块模式与判题事务不变量。来源：`ulticode-project-context`。
 
 ## 综合页（synthesis）
 
@@ -124,12 +126,14 @@
 | `ingest-mysql-storage`                              | personal-notes-and-fuwari                   | [Personal bbb2126](https://github.com/DavidHLP/Personal-markdown-notes/tree/bbb21260029584d41d1c667f88c5c8e2b761aad9) + [Fuwari 07cee2b](https://github.com/DavidHLP/Fuwari/tree/07cee2baf9cee227807dcd68004c5f2493e5ac52) | MySQL 3 篇聚合：存储引擎与死锁检测。                                                                           |
 | `ingest-frontend-essays`                            | personal-notes-and-fuwari                   | [Personal bbb2126](https://github.com/DavidHLP/Personal-markdown-notes/tree/bbb21260029584d41d1c667f88c5c8e2b761aad9) + [Fuwari 07cee2b](https://github.com/DavidHLP/Fuwari/tree/07cee2baf9cee227807dcd68004c5f2493e5ac52) | 零散随笔 10 篇聚合：Vue、MyBatis、UniApp、缓存与环境排障（provisional）。                                      |
 | `hindsight-local-deployment-and-agent-integration`  | upstream-source-and-minimal-experiment      | [固定版本源码](https://github.com/vectorize-io/hindsight/tree/v0.9.1)                                                                                                                                                      | Vectorize Hindsight v0.9.1 本地部署、Ollama ROCm LLM、CPU BGE-M3 嵌入、FastMCP 桥接及 OMP/Codex 配置脱敏证据。 |
+| `resicache-project-overview`                        | repository-readme-fixed-commit              | [ResiCache 固定提交](https://github.com/DavidHLP/ResiCache/tree/75ed279a71b17f227c3170d738eb93e50d876c8a)                                                                                                                  | ResiCache v0.0.2 README 双语快照：定位、责任链顺序、配置边界与已知限制。                                       |
+| `ulticode-project-context`                          | repository-readme-and-context-fixed-commit  | [UltiCode 固定提交](https://github.com/DavidHLP/UltiCode/tree/3f14ac8947ef0124739bf02259deb9f567eb092e)                                                                                                                    | UltiCode README + CONTEXT 领域词汇表快照：owner 划分、port/projection 与设计不变量。                           |
 
 raw 文件位于 `src/content/raw/zh-cn/`，只供 LLM 阅读，不生成公开路由。来源快照写入后不可修改。
 
 ## 捕获收件箱
 
-- [知识库摄入收件箱](/jotting/kb-ingest-todo) — 记录下一批个人项目来源和待回答问题；本批历史文章与 Personal-markdown-notes / Fuwari 两仓库 107 篇原文已完成摄入（聚合为 10 个 raw + 10 个 wiki）。
+- [知识库摄入收件箱](/jotting/kb-ingest-todo) — 记录下一批个人项目来源和待回答问题；历史文章、Personal-markdown-notes / Fuwari 两仓库 107 篇原文与 ResiCache / UltiCode 项目 README/CONTEXT 已完成摄入。
 
 ## 维护规则
 

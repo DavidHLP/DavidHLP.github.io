@@ -27,7 +27,7 @@ description: "尚未经过证据审查的来源和问题，只能作为摄入候
 
 ## 待摄入来源
 
-- [ ] 为个人项目 `ResiCache` 和 `UltiCode` 收集 README、设计决策和运行证据，再建立 entity 页。
+- [x] 个人项目 `ResiCache`（固定提交 `75ed279a`）与 `UltiCode`（固定提交 `3f14ac89`）的 README/CONTEXT 已完成 raw → entity 页闭环（见 [ResiCache](/note/resicache) 与 [UltiCode](/note/ulticode)）；运行证据（压测、沙箱隔离强度、生产部署）仍待补充。
 - [ ] 为 OMP / Headroom 新版本配置收集官方文档或可复现实验，替换历史页面中的 provisional 结论。
 
 ## 2026-08-12 会话候选分流

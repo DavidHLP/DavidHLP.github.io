@@ -71,3 +71,7 @@
 ## [2026-08-21] ingest | Personal-markdown-notes 与 Fuwari 全量聚合摄入
 
 从 `Personal-markdown-notes`（固定提交 `bbb2126`，107 篇中 46 篇）与 `Fuwari`（固定提交 `07cee2b`，61 篇）聚合全部 Markdown 证据。按主题聚为 10 个不可变 raw 快照（`ingest-*`）与 10 个 wiki 页面，覆盖 Docker、HBase、Redis 业务/持久化/黑马实战、Java 并发、Spring Cloud、Spark/大数据、MySQL、前指随笔。去重 3 份完全重复文件、1 份空文件（`事务的作用域.md`）并在 raw 中标注；Fuwari 路径含零宽字符的文件名已原样保留 provenance。新增 10 份 raw 已登记 `src/content/raw/.manifest.sha256`，wiki 每页声明 `kind`/`status`/`sources`/`related`，并同步更新 `kb-index.md`。`pnpm kb:lint` 与 `pnpm build` 在本提交验证通过；随笔页标记为 `provisional`，黑马实战与原理篇未冒充固定版本验证。
+
+## [2026-08-21] ingest | ResiCache 与 UltiCode 项目 entity 页
+
+从个人项目公开仓库固定提交提取 README/CONTEXT 证据：ResiCache `75ed279a`（README.md canonical + README.zh-CN.md）与 UltiCode `3f14ac89`（README.md + CONTEXT.md 领域词汇表），建立两份不可变 raw 快照与两个 zh-cn 正典 entity 页。ResiCache 页归纳责任链 handler 顺序、防护默认关闭与序列化信封迁移边界，并与既有 observer 契约页互链；UltiCode 页标记 `provisional`，归纳 owner 划分、port/projection 深模块模式与判题事务不变量。两仓库本地工作区分别领先 origin/main 14/25 个提交的未发布修改均不作为证据。同批完成边界清理：修复 `redis-business-patterns` 三语页面指向不存在 slug `redis-null-value` 的断链（更正为 `java-null-value` 并补双向 `related`）。`pnpm kb:lint` 与 `pnpm build` 在本提交验证通过。

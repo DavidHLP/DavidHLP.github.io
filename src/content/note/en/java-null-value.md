@@ -6,7 +6,7 @@ kind: concept
 status: active
 draft: true
 sources: ["legacy-java-null-value"]
-related: ["java-online-performance-debug", "java-auto-closeable", "java-internship-interview-blog-polished"]
+related: ["java-online-performance-debug", "java-auto-closeable", "java-internship-interview-blog-polished", "redis-business-patterns"]
 tags: ["Java", "Spring Cache", "Caching", "Null Object", "Design Patterns"]
 description: "Explains why a cache must distinguish a missing key from a business null, how NullValue prevents repeated negative lookups, and where singleton and serialization semantics stop."
 toc: true
