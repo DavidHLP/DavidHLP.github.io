@@ -5,7 +5,7 @@ series: "Java 基础与后端调优"
 kind: concept
 status: active
 sources: ["legacy-java-null-value"]
-related: ["java-online-performance-debug", "java-auto-closeable", "java-internship-interview-blog-polished", "redis-jackson-java-time"]
+related: ["java-online-performance-debug", "java-auto-closeable", "java-internship-interview-blog-polished", "redis-jackson-java-time", "redis-business-patterns"]
 tags: ["Java", "Spring Cache", "Caching", "Null Object", "Design Patterns"]
 description: "说明缓存层为什么需要区分 key 不存在与业务 null，NullValue 如何作为占位对象防御缓存穿透，以及单例和序列化在边界上的限制。"
 toc: true

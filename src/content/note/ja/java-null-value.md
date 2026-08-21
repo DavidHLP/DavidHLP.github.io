@@ -6,7 +6,7 @@ kind: concept
 status: active
 draft: true
 sources: ["legacy-java-null-value"]
-related: ["java-online-performance-debug", "java-auto-closeable", "java-internship-interview-blog-polished"]
+related: ["java-online-performance-debug", "java-auto-closeable", "java-internship-interview-blog-polished", "redis-business-patterns"]
 tags: ["Java", "Spring Cache", "Caching", "Null Object", "Design Patterns"]
 description: "キャッシュで key 不在と業務上の null を区別する理由、NullValue が負の結果を保持してキャッシュ穿透を抑える仕組み、singleton とシリアライズの境界を整理します。"
 toc: true

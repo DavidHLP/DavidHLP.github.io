@@ -5,7 +5,7 @@ series: Java 基础与后端调优
 kind: concept
 status: active
 sources: ["ingest-redis-business"]
-related: [redis-persistence-principle, redis-null-value, redis-jackson-java-time, resicache-observer-nested-execution]
+related: [redis-persistence-principle, java-null-value, redis-jackson-java-time, resicache-observer-nested-execution]
 tags: [Redis, Cache, DistributedLock, MessageQueue, Feed, Seckill]
 description: 以缓存一致性、锁正确性、消息语义为锚，收敛 Redis 在业务场景中的模式与反模式。
 toc: true
@@ -58,6 +58,6 @@ toc: true
 ## 相关页面
 
 - [redis-persistence-principle](/note/redis-persistence-principle)
-- [redis-null-value](/note/redis-null-value)
+- [java-null-value](/note/java-null-value)
 - [redis-jackson-java-time](/note/redis-jackson-java-time)
 - [resicache-observer-nested-execution](/note/resicache-observer-nested-execution)
