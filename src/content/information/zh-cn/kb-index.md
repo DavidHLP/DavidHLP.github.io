@@ -39,7 +39,7 @@
 - [MCP 协议时代边界与 codebase-memory-mcp v0.10.2 图工作流](/note/mcp-codebase-memory-workflow) — 固定 modern MCP 契约与图搜索、源码和 coverage 证据纪律。来源：`mcp-codebase-memory-workflow`。
 - [Hindsight 本地算力分工与 Docker 容器化部署](/note/hindsight-local-deployment) — L1/L2 部署架构：AMD ROCm GPU 推理 + CPU BGE-M3 向量提取分工与 UID 1000 权限编排。来源：`hindsight-local-deployment-and-agent-integration`。
 - [Hindsight 统一记忆接入：FastMCP 桥接与多项目动态路由](/note/hindsight-omp-codex-integration) — L4 实体接入：FastMCP stdio 状态机、Git 根目录自适应 Bank 动态路由与 OMP/Codex 双端配置。来源：`hindsight-local-deployment-and-agent-integration`。
-- [Hindsight 记忆系统运行时排障矩阵与失效模式](/note/hindsight-troubleshooting) — L3 排障综合：假包、权限、超时、路由、Session丢失与子目录漂移等 7 大失效模式与防范。来源：`hindsight-local-deployment-and-agent-integration`。
+- [Hindsight 记忆系统运行时排障矩阵与失效模式](/note/hindsight-troubleshooting) — L3 排障方法与失效模式：假包、权限、超时、路由、Session丢失与子目录漂移等 7 大失效模式与防范矩阵。来源：`hindsight-local-deployment-and-agent-integration`。
 
 ## B. Java 与并发
 

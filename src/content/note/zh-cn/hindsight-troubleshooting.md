@@ -2,7 +2,7 @@
 title: "Hindsight 记忆系统运行时排障矩阵与失效模式"
 timestamp: 2026-08-23 00:00:00+08:00
 series: "OMP 与 Agent 工程"
-kind: synthesis
+kind: concept
 status: active
 sources: ["hindsight-local-deployment-and-agent-integration"]
 related: ["hindsight-local-deployment", "hindsight-omp-codex-integration", "omp-hook-extension-guide"]

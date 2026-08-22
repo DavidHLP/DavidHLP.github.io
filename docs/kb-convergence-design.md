@@ -65,7 +65,7 @@
 | 处置 | 页面 | 动作 |
 |---|---|---|
 | **保持** | 21 个 active concept（如 java-atomic-boolean, redis-persistence-principle, dubbo-nacos-runtime, headroom-compress-retrieve-contract, database-schema-drift 等） | 不动正文；补 `related` 双链（已在 08-21 完成一轮） |
-| **拆分** | hindsight-local-deployment-and-agent-integration (444 行) | 拆为 3 页：① `hindsight-local-deployment`（L1-L2 部署与模型选型） ② `hindsight-omp-codex-integration`（实体：双接入与 bank 路由） ③ `hindsight-troubleshooting`（综合：7 踩坑矩阵）。本次设计阶段不执行拆分，下次 ingest 任务执行，需新增 2 个小 raw |
+| **拆分** | hindsight-local-deployment-and-agent-integration (444 行) | 拆为 3 页：① `hindsight-local-deployment`（L1-L2 部署与模型选型，concept） ② `hindsight-omp-codex-integration`（L4 实体：双接入与 bank 路由，entity） ③ `hindsight-troubleshooting`（L3 排障方法与 7 踩坑矩阵，concept，单 raw 证据归纳）。原巨石页标记为 deprecated 导引 |
 | **溶解** | frontend-mybatis-essays（provisional 收纳袋） | 溶解为：`vue-essays` 归 F 域笔记或直接标记 `deprecated`（无稳定主张）；`mybatis-cache-notes` 并入 `redis-business-patterns` 的延伸阅读；`env-troubleshooting` 并入 `containerd-tls-troubleshooting`。存量页在溶解前保留但从 index 主视图降级至“待溶解”区 |
 | **归并候选** | Headroom 三页（single-port-evolution / headroom-persistence / headroom-cc-switch-coexistence / provider-proxy） | 暂不归并。设主从：`headroom-compress-retrieve-contract`（active 契约）为主，`single-port-evolution/persistence` 为历史演进说明（provisional），`cc-switch-coexistence/provider-proxy` 为运行时观测（需 runtime 证据补齐方可毕业） |
 | **毕业候选** | uisa-architecture-design, ulticode, java-internship-interview-blog-polished | 明确毕业门：UISA 需补“规模/阈值”脱敏后的可重复约束描述；UltiCode 需补 1 次判题事务的最小实验；面试页需补 1 个生产止损案例的脱敏证据。未补齐前保留 provisional 且在 index 单列“毕业观察” |
