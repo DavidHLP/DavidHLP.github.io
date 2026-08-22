@@ -86,4 +86,4 @@
 
 ## [2026-08-23] maintenance | 知识库收敛 Phase 2：Hindsight 拆分与随笔溶解
 
-执行 LLM-Wiki Phase 2 正典内容收敛：（1）将 445 行巨石页面 `hindsight-local-deployment-and-agent-integration` 按关注点分离与“一概念一页”原则拆解为 3 个正典知识页：`hindsight-local-deployment`（L1/L2 算力分工与 Docker 容器化）、`hindsight-omp-codex-integration`（L4 实体：FastMCP 桥接与多项目动态路由）、`hindsight-troubleshooting`（L3 综合：7 大失效模式与排查矩阵），原巨石页标记为 `deprecated` 导引；（2）溶解 10 篇零散随笔收纳袋 `frontend-mybatis-essays`，标记为 `deprecated` 归档并移出主索引；（3）更新 `kb-index.md` 导航、毕业观察板（7 个 provisional）与已归档区；（4）全量验证通过（`pnpm kb:lint`、`pnpm test:run`、`pnpm build` 全部通过）。
+执行 LLM-Wiki Phase 2 正典内容收敛：（1）将 445 行巨石页面 `hindsight-local-deployment-and-agent-integration` 按关注点分离与“一概念一页”原则拆解为 3 个正典知识页：`hindsight-local-deployment`（L1/L2 算力分工与 Docker 容器化，concept）、`hindsight-omp-codex-integration`（L4 实体：FastMCP 桥接与多项目动态路由，entity）、`hindsight-troubleshooting`（L3 排障方法与 7 大失效模式矩阵，concept，严格遵循单来源为 concept 的 KB 语义不变量），原巨石页标记为 `deprecated` 导引；（2）溶解 10 篇零散随笔收纳袋 `frontend-mybatis-essays`，标记为 `deprecated` 归档并移出主索引；（3）更新 `kb-index.md` 导航、毕业观察板（7 个 provisional）与已归档区；（4）全量验证通过（`pnpm kb:lint`、`pnpm test:run`、`pnpm build` 全部通过）。
