@@ -7,7 +7,7 @@
 
 量化事实（`pnpm kb:lint` passed: 49 raw, 44 zh-cn pages (35 active, 7 provisional, 2 deprecated), 122 total）：
 
-1. **索引失焦**：`kb-index.md` 143 行，平铺 8 个 series + 49 行 raw 表。读者入口是“列表”不是“路径”，完成一次主题探索需滚动整页，无学习路径、无时效信号、无能力分层。示意图在渲染侧已坍缩为单段文本，导航价值几乎丧失。
+1. **索引失焦**：原 `kb-index.md` 143 行平铺 8 个 series + 49 行 raw 表（收敛后为 183 行结构化 6 域、路径与观察板呈现）。读者入口是“列表”不是“路径”，完成一次主题探索需滚动整页，无学习路径、无时效信号、无能力分层。示意图在渲染侧已坍缩为单段文本，导航价值几乎丧失。
 2. **分类正交混乱**：8 个 series 横跨“语言/领域/阶段”三维度：
    - `Java 基础与后端调优` (10) 与 `Java 安全、并发与测试` (4) 对同一领域二次切分，只为消除 2026-08-21 的 facet 噪音而归并，未解决正交性。
    - `大数据与存储` (3) vs `系统运维与基础设施` (5) 边界重叠：`mysql-storage` 在大数据，`mysql-performance` 在运维；`hbase` 与 `mysql` 本应同属存储。
@@ -41,7 +41,7 @@
 | **C. 存储与缓存** | redis-business/persistence/heima, mysql-storage/deadlock, hbase-foundation, spark-ecosystem, mysql-performance（存储侧） | “选型、持久化与一致性” |
 | **D. 分布式与微服务** | dubbo-nacos, spring-cloud-and-boot, microservice-data-ownership, database-schema-drift, resicache-observer-nested, multi-service-readiness | “拆分、注册与迁移” |
 | **E. 基础设施与运维** | docker-fundamentals, containerd-tls, intranet-penetration, testcontainers-docker-api, java-online-performance-debug | “容器、网络、排障与门禁” |
-| **F. 工程与架构（综合/实体）** | uisa, plugin-lifecycle, resicache, ulticode, 前端随笔（待溶解） | “架构权衡与项目实体” |
+| **F. 工程与架构（综合/实体）** | uisa, plugin-lifecycle, resicache, ulticode | “架构权衡与项目实体” |
 
 > 映射：现有 8 series → 6 域为**视图聚合**，实现放在 `kb-index.md` 的标题分组，不改 `series` 枚举，遵守“最小 diff”原则。
 
@@ -64,7 +64,7 @@
 
 | 处置 | 页面 | 动作 |
 |---|---|---|
-| **保持** | 34 个 active concept（如 java-atomic-boolean, redis-persistence-principle, dubbo-nacos-runtime, headroom-compress-retrieve-contract, database-schema-drift 等） | 不动正文；补 `related` 双链（已在 08-21 完成一轮） |
+| **保持** | 33 个 active concept（如 java-atomic-boolean, redis-persistence-principle, dubbo-nacos-runtime, headroom-compress-retrieve-contract, database-schema-drift 等） | 不动正文；补 `related` 双链（已在 08-21 完成一轮） |
 | **拆分（已完成）** | hindsight-local-deployment-and-agent-integration (449 行) | 拆为 3 页：① `hindsight-local-deployment`（L1-L2 部署与模型选型，concept） ② `hindsight-omp-codex-integration`（L4 实体：双接入与 bank 路由，entity） ③ `hindsight-troubleshooting`（L3 排障方法与 7 踩坑矩阵，concept，单 raw 证据归纳）。原巨石页标记为 deprecated 导引 |
 | **溶解（已完成）** | frontend-mybatis-essays（provisional 收纳袋） | 溶解为：`vue-essays` 归 F 域笔记或直接标记 `deprecated`（无稳定主张）；`mybatis-cache-notes` 并入 `redis-business-patterns` 的延伸阅读；`env-troubleshooting` 并入 `containerd-tls-troubleshooting`。存量页已标记 deprecated 归档并移出主索引 |
 | **归并候选** | Headroom 四页（single-port-evolution / headroom-persistence / headroom-cc-switch-coexistence / provider-proxy） | 暂不归并。设主从：`headroom-compress-retrieve-contract`（active 契约）为主，`single-port-evolution/persistence` 为历史演进说明（provisional），`cc-switch-coexistence/provider-proxy` 为运行时观测（provisional，已补齐文件头 3 项毕业条件） |
