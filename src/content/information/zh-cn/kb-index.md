@@ -4,7 +4,7 @@
 
 正典维护语言：`zh-cn`。知识库遵循 [LLM-Wiki 模式](/note/llm-wiki-pattern)，维护契约见仓库根目录的 [KB.md](https://github.com/DavidHLP/DavidHLP.github.io/blob/main/KB.md) 与 [knowledge-base skill](https://github.com/DavidHLP/DavidHLP.github.io/blob/main/.claude/skills/knowledge-base.md)。
 
-> **收敛设计**：本目录已按 [KB 收敛设计 v1](/docs/kb-convergence-design) 收敛为 6 域呈现层（视图聚合，不改 `series` 枚举），新增学习路径与 provisional 毕业板。详见 `docs/kb-convergence-design.md`。
+> **收敛设计**：本目录已按 [KB 收敛设计 v1](https://github.com/DavidHLP/DavidHLP.github.io/blob/main/docs/kb-convergence-design.md) 收敛为 6 域呈现层（视图聚合，不改 `series` 枚举），新增学习路径与 provisional 毕业板。详见 `docs/kb-convergence-design.md`。
 
 ## 导航与路径
 

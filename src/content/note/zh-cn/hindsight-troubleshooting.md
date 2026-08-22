@@ -19,13 +19,13 @@ toc: true
 
 ```mermaid
 graph TD
-  319: P1[坑 1: 误装第三方 npm hindsight-mcp] --> S1[卸载并使用 Hindsight 原生 FastMCP]
-  320: P2[坑 2: Ollama 官方缺失 12B Tag] --> S2[下载 HuggingFace GGUF + Modelfile 本地导入]
-  321: P3[坑 3: Docker UID 1000 权限崩溃] --> S3[对 ~/.hindsight/data 赋权 UID 1000]
-  322: P4[坑 4: 6.63GB 模型同步下载超时] --> S4[带 Range 断点续传 Python 分块下载 + nohup]
-  323: P5[坑 5: Ollama API 缺少 /v1 报 404] --> S5[显式配置 BASE_URL 为 http://ollama-gpu:11434/v1]
-  324: P6[坑 6: FastMCP 会话丢失 Session ID] --> S6[桥接器自动捕获并透传 mcp-session-id]
-  325: P7[坑 7: 侵入式 Bank 与子目录漂移] --> S7[COMP per-project + Git Root 根目录自适应探测]
+  P1[坑 1: 误装第三方 npm hindsight-mcp] --> S1[卸载并使用 Hindsight 原生 FastMCP]
+  P2[坑 2: Ollama 官方缺失 12B Tag] --> S2[下载 HuggingFace GGUF + Modelfile 本地导入]
+  P3[坑 3: Docker UID 1000 权限崩溃] --> S3[对 ~/.hindsight/data 赋权 UID 1000]
+  P4[坑 4: 6.63GB 模型同步下载超时] --> S4[带 Range 断点续传 Python 分块下载 + nohup]
+  P5[坑 5: Ollama API 缺少 /v1 报 404] --> S5[显式配置 BASE_URL 为 http://ollama-gpu:11434/v1]
+  P6[坑 6: FastMCP 会话丢失 Session ID] --> S6[桥接器自动捕获并透传 mcp-session-id]
+  P7[坑 7: 侵入式 Bank 与子目录漂移] --> S7[OMP per-project + Git Root 根目录自适应探测]
 ```
 
 ### 1. 误装同名第三方 npm 包 (`hindsight-mcp`)
