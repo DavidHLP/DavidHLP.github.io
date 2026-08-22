@@ -1,7 +1,7 @@
 ---
 title: MySQL 存储引擎与死锁检测
 timestamp: 2026-08-21 00:00:00+08:00
-series: 大数据与存储
+series: "大数据与存储"
 kind: concept
 status: active
 sources: ["ingest-mysql-storage"]

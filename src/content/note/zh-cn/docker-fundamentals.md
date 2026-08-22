@@ -1,7 +1,7 @@
 ---
 title: Docker 基础：镜像分层、容器操作与 Compose 网络
 timestamp: 2026-08-21 00:00:00+08:00
-series: 系统运维与基础设施
+series: "系统运维与基础设施"
 kind: concept
 status: active
 sources: ["ingest-docker-fundamentals"]

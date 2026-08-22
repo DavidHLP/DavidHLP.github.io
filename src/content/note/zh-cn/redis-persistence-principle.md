@@ -1,7 +1,7 @@
 ---
 title: Redis 持久化与原理：RDB/AOF、数据结构与高级机制
 timestamp: 2026-08-21 00:00:00+08:00
-series: Java 基础与后端调优
+series: "Java 基础与后端调优"
 kind: concept
 status: active
 sources: ["ingest-redis-persistence"]

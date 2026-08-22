@@ -1,19 +1,23 @@
 ---
-title: "Hindsight 完全本地化部署与 OMP / Codex 统一记忆集成实践"
+title: "Hindsight 完全本地化部署与 OMP / Codex 统一记忆集成实践（已拆分归档）"
 timestamp: 2026-08-17 20:00:00+08:00
 series: "OMP 与 Agent 工程"
 kind: concept
-status: active
+status: deprecated
 sources: ["hindsight-local-deployment-and-agent-integration"]
-related: ["omp-config-and-rules-guide", "mcp-codebase-memory-workflow", "llm-wiki-pattern"]
-tags: [Hindsight, Memory, OMP, Codex, MCP, Ollama, ROCm, BGE-M3, Architecture, Troubleshooting]
-description: "记录 Vectorize Hindsight 记忆引擎的全本地化部署（AMD ROCm GPU LLM + CPU Embedding），以及为 OMP 与 Codex 配置自适应多项目动态路由记忆的完整实施、深度踩坑与根因排查指南。"
+related: ["hindsight-local-deployment", "hindsight-omp-codex-integration", "hindsight-troubleshooting"]
+tags: [Hindsight, Memory, OMP, Codex, Deprecated]
+description: "历史巨石页面已按 LLM-Wiki 原子化原则拆分为部署、接入与排障 3 个独立正典知识页。本页作为归档导引保留。"
 toc: true
 ---
 
-本篇系统归档 Vectorize Hindsight 记忆系统在 Linux 环境下的**运行时本地化部署**（日常推理与记忆存取全离线/本地模型支撑；首次部署与模型权重拉取需联网或提前缓存），以及为终端智能体 **OMP (Oh-My-Pi)** 与 **Codex CLI** 提供跨工具统一记忆支持的落地实践。重点记录环境配置、协议适配、调试过程及 7 大核心“踩坑”经验与预防措施。
-
----
+> **页面拆分与归档说明**：
+> 本文为历史单页集成记录（445 行巨石页面）。为遵循 LLM-Wiki“一概念一页”原子化原则，已于 2026-08-23 拆分收敛为以下 3 个正典知识页：
+> 1. [Hindsight 本地算力分工与 Docker 容器化部署](/note/hindsight-local-deployment)（L1/L2 部署与硬件选型）
+> 2. [Hindsight 统一记忆接入：FastMCP 桥接与多项目动态路由](/note/hindsight-omp-codex-integration)（L4 实体与双端桥接接入）
+> 3. [Hindsight 记忆系统运行时排障矩阵与失效模式](/note/hindsight-troubleshooting)（L3 排障与失效模式综合）
+>
+> 本页作为历史归档保留，不作为新综合页面的引用源。以下为历史快照正文：
 
 ## 一、系统架构与运行拓扑
 

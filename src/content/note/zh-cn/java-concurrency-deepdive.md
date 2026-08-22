@@ -1,7 +1,7 @@
 ---
 title: Java 并发深度：JUC、CAS、原子类、锁与线程机制
 timestamp: 2026-08-21 00:00:00+08:00
-series: Java 基础与后端调优
+series: "Java 基础与后端调优"
 kind: concept
 status: active
 sources: ["ingest-java-concurrency"]

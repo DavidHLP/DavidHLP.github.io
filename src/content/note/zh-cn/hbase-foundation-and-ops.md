@@ -1,7 +1,7 @@
 ---
 title: HBase 基础、架构与运维：数据模型、表设计、Shell 与 Java API
 timestamp: 2026-08-21 00:00:00+08:00
-series: 大数据与存储
+series: "大数据与存储"
 kind: concept
 status: active
 sources: ["ingest-hbase-foundation"]
