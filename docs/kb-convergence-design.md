@@ -93,9 +93,9 @@
 
 ## 七、执行路线（3 阶段）
 
-- **Phase 1（本次，2026-08-22）**：本文档 + `kb-index.md` 重构 + series 引号一致性修复（9 文件）。度量：`kb:lint` 通过；`build` 页数不变；raw 表默认折叠；3 条学习路径与毕业观察板存在。
-- **Phase 2（下次 ingest）**：执行 Hindsight 拆分 + frontend 溶解，各自新增小 raw，wiki 互链闭环，index 更新。
-- **Phase 3（季度）**：Provisional 毕业审视，未毕业则 deprecated；评估是否将 6 域落为真实 `series` 枚举（需 41 页批量迁移，届时再评估收益）。
+- **Phase 1（已完成，2026-08-22）**：本文档 + `kb-index.md` 呈现层重构 + series 引号一致性修复。度量：`kb:lint` 通过；raw 表默认折叠；3 条学习路径与毕业观察板上线。
+- **Phase 2（已完成，2026-08-23）**：执行 Hindsight 拆分（3 篇原子正典页：`hindsight-local-deployment`、`hindsight-omp-codex-integration`、`hindsight-troubleshooting`） + `frontend-mybatis-essays` 随笔溶解（标记 deprecated 归档），wiki 互链闭环，index / log 同步收敛。
+- **Phase 3（季度）**：7 个 Provisional 页面毕业审视，未达标则 deprecated；评估是否将 6 域落为真实 `series` 枚举（需 41+ 页批量迁移，届时再评估收益）。
 
 ## 八、不做事项（YAGNI）
 
@@ -104,7 +104,7 @@
 
 ## 九、验证与回滚
 
-- 验证：`pnpm kb:lint` + `pnpm build && grep -c "provisional" src/content/information/zh-cn/kb-index.md` 应为 8。
+- 验证：`pnpm kb:lint` + `pnpm build && grep -c "provisional" src/content/information/zh-cn/kb-index.md` 应为 7。
 - 回滚：`git checkout HEAD -- src/content/information/zh-cn/kb-index.md` 单文件回滚；本文档为说明性文件，不影响构建。
 
 ---
