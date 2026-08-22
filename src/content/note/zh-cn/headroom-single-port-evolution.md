@@ -11,8 +11,12 @@ description: "综合 Headroom 单端口路由的演进模型：一个 loopback �
 toc: true
 ---
 
-这页综合一个迁移结论：单端口不是“所有 provider 自动改到 8787”，而是让已显式配置的 custom provider 共用一个 loopback 入口，再由请求级信息选择真实上游。当前 `headroom wrap omp` 的自动范围、OMP 的模型选择、`models.db` 的派生状态和 Headroom 的生命周期必须分开看；旧路由不能直接当作当前默认值。
+> **毕业条件（3 个可验证检查）**：
+> 1. 固定 Headroom 版本下 `/v1/messages` 与 `/v1/responses` 显式路由的最小契约测试；
+> 2. 补齐 `model_cache` 损坏后的删除重建与冷启动恢复验证；
+> 3. 补齐 `BindPaths` 隔离环境下的回滚与配置生效验证。
 
+这页综合一个迁移结论：单端口不是“所有 provider 自动改到 8787”，而是让已显式配置的 custom provider 共用一个 loopback 入口，再由请求级信息选择真实上游。当前 `headroom wrap omp` 的自动范围、OMP 的模型选择、`models.db` 的派生状态和 Headroom 的生命周期必须分开看；旧路由不能直接当作当前默认值。
 ## 核心机制
 
 ### 1. 单端口路由因果链

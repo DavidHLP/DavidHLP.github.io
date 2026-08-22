@@ -11,8 +11,12 @@ description: "综合 OMP 更新重写运行时模型缓存时的 Headroom 路由
 toc: true
 ---
 
-这页回答“OMP 更新后，路由意图、用户状态和运行时模型缓存如何不互相污染，以及旧配置损坏时怎样安全恢复”。结论是：Named Profile 隔离配置与认证，外部声明（若确有需要）保存路由意图，`models.db` 的 `model_cache` 视为可重建派生状态；reconciler 是旧迁移证据，不是日常 `headroom wrap omp` 启动步骤。
+> **毕业条件（3 个可验证检查）**：
+> 1. Named Profile 意图与凭据隔离的可重复复现步骤；
+> 2. `model_cache` 作为派生状态的删除重建与事务更新实验；
+> 3. 明确界定旧 reconciler 仅限一次性迁移场景的触发与退出条件。
 
+这页回答“OMP 更新后，路由意图、用户状态和运行时模型缓存如何不互相污染，以及旧配置损坏时怎样安全恢复”。结论是：Named Profile 隔离配置与认证，外部声明（若确有需要）保存路由意图，`models.db` 的 `model_cache` 视为可重建派生状态；reconciler 是旧迁移证据，不是日常 `headroom wrap omp` 启动步骤。
 ## 核心机制
 
 ### 1. 意图、用户状态、派生状态分层

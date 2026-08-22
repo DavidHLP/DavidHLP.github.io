@@ -11,8 +11,12 @@ description: "记录 OMP Headroom Bridge 如何用外部控制器维护 loopback
 toc: true
 ---
 
-`omp-headroom-provider-proxy` 是一个外部路由控制器与 Headroom 部署项目：它保留 OMP、Codex 和客户端认证的 owner 边界，不修改 OMP/Headroom 源码，不复制 credential 或 `models.db`，通过显式配置、systemd user service、状态校验和可回滚操作把多个客户端接到同一个 loopback Headroom 入口。本文是当前 Headroom 0.34/OMP/Codex 环境的 `provisional` entity 页面；实现来源和运行时证据见 `sources`。
+> **毕业条件（3 个可验证检查）**：
+> 1. loopback proxy、OMP provider route 与 Codex 共享 provider 的三者共存 smoke test；
+> 2. `bin/omp-routes` 与 `bin/codex-routes` atomic restore 状态机与 mode 判定；
+> 3. 回滚（rollback）顺序与异常恢复的可重复操作步骤。
 
+`omp-headroom-provider-proxy` 是一个外部路由控制器与 Headroom 部署项目：它保留 OMP、Codex 和客户端认证的 owner 边界，不修改 OMP/Headroom 源码，不复制 credential 或 `models.db`，通过显式配置、systemd user service、状态校验和可回滚操作把多个客户端接到同一个 loopback Headroom 入口。本文是当前 Headroom 0.34/OMP/Codex 环境的 `provisional` entity 页面；实现来源和运行时证据见 `sources`。
 ## 它解决什么问题
 
 项目把三个容易混淆的问题分开：

@@ -11,8 +11,12 @@ description: "综合固定项目提交与运行时证据：Headroom 8787 如何�
 toc: true
 ---
 
-这页记录一个特定 Headroom provider proxy 部署的共存契约：Claude Code 不直接把请求交给 cc-switch，而是先经过 Headroom；OMP 的 Responses 路径仍由同一个 Headroom 入口按请求级上游路由。结论是 **一个请求只能有一个整理责任人**：Headroom 负责压缩与整理，cc-switch 只负责 Anthropic↔OpenAI 协议转换和凭据注入。本文是版本相关的 `provisional` 综合，不是所有 Headroom 或 cc-switch 版本的默认行为。
+> **毕业条件（3 个可验证检查）**：
+> 1. `8787 → 15721` 链路的脱敏抓包与端到端日志审计证据；
+> 2. 单一整理责任的负例测试（证明双重压缩/格式冲突必现）；
+> 3. `BindPaths` systemd 权限与安全边界说明的定版。
 
+这页记录一个特定 Headroom provider proxy 部署的共存契约：Claude Code 不直接把请求交给 cc-switch，而是先经过 Headroom；OMP 的 Responses 路径仍由同一个 Headroom 入口按请求级上游路由。结论是 **一个请求只能有一个整理责任人**：Headroom 负责压缩与整理，cc-switch 只负责 Anthropic↔OpenAI 协议转换和凭据注入。本文是版本相关的 `provisional` 综合，不是所有 Headroom 或 cc-switch 版本的默认行为。
 ## 链路与责任边界
 
 ```mermaid
