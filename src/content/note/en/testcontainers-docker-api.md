@@ -1,7 +1,7 @@
 ---
 title: "Testcontainers 1.20.6: Rule Out the Docker API Version First, Then Judge the daemon Unavailable"
 timestamp: 2026-08-13 00:00:00+08:00
-series: "Java Testing & Infrastructure"
+series: "Java Security, Concurrency & Testing"
 kind: concept
 status: active
 draft: true

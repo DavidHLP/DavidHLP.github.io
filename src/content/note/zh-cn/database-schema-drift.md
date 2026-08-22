@@ -1,7 +1,7 @@
 ---
 title: "数据库 Schema 漂移：用 history、schema 与 query 三视图定位"
 timestamp: 2026-08-13 00:00:00+08:00
-series: "Java 基础与后端调优"
+series: "架构与工程实践"
 kind: concept
 status: active
 sources: ["database-schema-drift-contract"]

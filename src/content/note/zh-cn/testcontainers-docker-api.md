@@ -1,7 +1,7 @@
 ---
 title: "Testcontainers 1.20.6：先排查 Docker API 版本，再判断 daemon 不可用"
 timestamp: 2026-08-13 00:00:00+08:00
-series: "Java 测试与基础设施"
+series: "Java 安全、并发与测试"
 kind: concept
 status: active
 sources: ["testcontainers-docker-api-negotiation", "testcontainers-docker-api-negotiation-correction"]

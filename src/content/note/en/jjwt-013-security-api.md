@@ -1,7 +1,7 @@
 ---
 title: "JJWT 0.13.0: Explicitly Fixing the Signature Algorithm, Verifying by Key Type"
 timestamp: 2026-08-13 00:00:00+08:00
-series: "Java Backend Security"
+series: "Java Security, Concurrency & Testing"
 kind: concept
 status: active
 draft: true

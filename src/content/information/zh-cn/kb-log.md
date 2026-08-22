@@ -75,3 +75,7 @@
 ## [2026-08-21] ingest | ResiCache 与 UltiCode 项目 entity 页
 
 从个人项目公开仓库固定提交提取 README/CONTEXT 证据：ResiCache `75ed279a`（README.md canonical + README.zh-CN.md）与 UltiCode `3f14ac89`（README.md + CONTEXT.md 领域词汇表），建立两份不可变 raw 快照与两个 zh-cn 正典 entity 页。ResiCache 页归纳责任链 handler 顺序、防护默认关闭与序列化信封迁移边界，并与既有 observer 契约页互链；UltiCode 页标记 `provisional`，归纳 owner 划分、port/projection 深模块模式与判题事务不变量。两仓库本地工作区分别领先 origin/main 14/25 个提交的未发布修改均不作为证据。同批完成边界清理：修复 `redis-business-patterns` 三语页面指向不存在 slug `redis-null-value` 的断链（更正为 `java-null-value` 并补双向 `related`）。`pnpm kb:lint` 与 `pnpm build` 在本提交验证通过。
+
+## [2026-08-21] maintenance | series 分类归并清洗
+
+审计发现 6 个单页 series（`Java 后端安全`、`Java 后端并发`、`Java 测试与基础设施`、`LLM 与 Agent 工程`）与两处 series/目录分区错位（`spring-cloud-and-boot`、`database-schema-drift`）。将 6 个页面（三语共 18 处 frontmatter）的 `series` 归并到与 `kb-index.md` 分区一致的正典分类：jjwt、resicache-observer、testcontainers 并入 `Java 安全、并发与测试`；hindsight 并入 `OMP 与 Agent 工程`；spring-cloud 并入 `微服务与 RPC`；database-schema-drift 并入 `架构与工程实践`。归并后 zh-cn 正典收敛为 8 个多页 series，消除筛选 facet 噪音；en/ja 草稿元数据同步保持 slug 级一致。未改动页面正文、sources 与 raw。三语 `/note/` 正文链接与 `related` 引用全量复查无断链。

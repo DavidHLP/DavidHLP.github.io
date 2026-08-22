@@ -1,7 +1,7 @@
 ---
 title: "Hindsight 完全本地化部署与 OMP / Codex 统一记忆集成实践"
 timestamp: 2026-08-17 20:00:00+08:00
-series: "LLM 与 Agent 工程"
+series: "OMP 与 Agent 工程"
 kind: concept
 status: active
 sources: ["hindsight-local-deployment-and-agent-integration"]

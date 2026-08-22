@@ -1,7 +1,7 @@
 ---
 title: "ResiCache: Observer Nested Execution Must Distinguish Lifecycle, Fragments, and Scope Tokens"
 timestamp: 2026-08-13 00:00:00+08:00
-series: "Java Backend Concurrency"
+series: "Java Security, Concurrency & Testing"
 kind: concept
 status: active
 draft: true

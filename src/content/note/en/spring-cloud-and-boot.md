@@ -1,7 +1,7 @@
 ---
 title: "Spring Boot and Spring Cloud: Auto-Configuration, Transactions, Service Discovery, Gateway, and Observability"
 timestamp: 2026-08-21 00:00:00+08:00
-series: "Architecture & Engineering Practice"
+series: "Microservices & RPC"
 kind: concept
 status: active
 draft: true

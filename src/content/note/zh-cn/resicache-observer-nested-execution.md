@@ -1,7 +1,7 @@
 ---
 title: "ResiCache：observer 嵌套执行必须区分生命周期、fragment 与 scope token"
 timestamp: 2026-08-13 00:00:00+08:00
-series: "Java 后端并发"
+series: "Java 安全、并发与测试"
 kind: concept
 status: active
 sources: ["resicache-observer-nested-execution-contract"]

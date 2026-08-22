@@ -1,7 +1,7 @@
 ---
 title: "JJWT 0.13.0：署名アルゴリズムを明示固定し、key 型で検証する"
 timestamp: 2026-08-13 00:00:00+08:00
-series: "Java バックエンドセキュリティ"
+series: "Java セキュリティ・並行処理とテスト"
 kind: concept
 status: active
 draft: true
