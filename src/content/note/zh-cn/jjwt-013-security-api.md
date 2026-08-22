@@ -1,7 +1,7 @@
 ---
 title: "JJWT 0.13.0：显式固定签名算法，按 key 类型验签"
 timestamp: 2026-08-13 00:00:00+08:00
-series: "Java 后端安全"
+series: "Java 安全、并发与测试"
 kind: concept
 status: active
 sources: ["jjwt-013-security-api-contract", "jjwt-013-security-api-contract-correction"]

@@ -1,7 +1,7 @@
 ---
 title: Spring Boot 与 Spring Cloud：自动装配、事务、注册发现、网关与可观测性
 timestamp: 2026-08-21 00:00:00+08:00
-series: 架构与工程实践
+series: "微服务与 RPC"
 kind: concept
 status: active
 sources: ["ingest-spring-cloud"]

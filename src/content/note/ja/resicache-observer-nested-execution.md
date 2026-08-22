@@ -1,7 +1,7 @@
 ---
 title: "ResiCache：observer のネスト実行はライフサイクル、fragment、scope token を区別しなければならない"
 timestamp: 2026-08-13 00:00:00+08:00
-series: "Java バックエンド並行処理"
+series: "Java セキュリティ・並行処理とテスト"
 kind: concept
 status: active
 draft: true

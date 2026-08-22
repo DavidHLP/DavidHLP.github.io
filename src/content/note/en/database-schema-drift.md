@@ -1,7 +1,7 @@
 ---
 title: "Database Schema Drift: Locating with the history, schema, and query Views"
 timestamp: 2026-08-13 00:00:00+08:00
-series: "Java Fundamentals & Backend Tuning"
+series: "Architecture & Engineering Practice"
 kind: concept
 status: active
 draft: true

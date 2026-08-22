@@ -1,7 +1,7 @@
 ---
 title: "Hindsight Fully Local Deployment and Unified Memory Integration for OMP / Codex"
 timestamp: 2026-08-17 20:00:00+08:00
-series: "LLM & Agent Engineering"
+series: "OMP & Agent Engineering"
 kind: concept
 status: active
 draft: true

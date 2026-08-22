@@ -1,7 +1,7 @@
 ---
 title: "データベース Schema ドリフト：history、schema、query の三ビューで特定する"
 timestamp: 2026-08-13 00:00:00+08:00
-series: "Java 基礎とバックエンドチューニング"
+series: "アーキテクチャとエンジニアリング実践"
 kind: concept
 status: active
 draft: true

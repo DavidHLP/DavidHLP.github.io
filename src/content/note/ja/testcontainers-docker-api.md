@@ -1,7 +1,7 @@
 ---
 title: "Testcontainers 1.20.6：Docker API バージョンを先に切り分けてから、daemon の利用不可を判断する"
 timestamp: 2026-08-13 00:00:00+08:00
-series: "Java テストとインフラストラクチャ"
+series: "Java セキュリティ・並行処理とテスト"
 kind: concept
 status: active
 draft: true

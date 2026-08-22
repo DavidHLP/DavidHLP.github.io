@@ -1,7 +1,7 @@
 ---
 title: Spring Boot と Spring Cloud：自動構成、トランザクション、サービス検出、ゲートウェイと可観測性
 timestamp: 2026-08-21 00:00:00+08:00
-series: アーキテクチャとエンジニアリング実践
+series: "マイクロサービスと RPC"
 kind: concept
 status: active
 draft: true

@@ -1,7 +1,7 @@
 ---
 title: "Hindsight 完全ローカルデプロイと OMP / Codex 統一メモリ連携の実践"
 timestamp: 2026-08-17 20:00:00+08:00
-series: "LLM と Agent エンジニアリング"
+series: "OMP と Agent エンジニアリング"
 kind: concept
 status: active
 draft: true
