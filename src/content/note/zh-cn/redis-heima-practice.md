@@ -1,7 +1,7 @@
 ---
 title: Redis 黑马实战与进阶：分布式缓存、多级缓存与最佳实践
 timestamp: 2026-08-21 00:00:00+08:00
-series: Java 基础与后端调优
+series: "Java 基础与后端调优"
 kind: concept
 status: active
 sources: ["ingest-redis-heima"]

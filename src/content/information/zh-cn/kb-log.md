@@ -79,3 +79,11 @@
 ## [2026-08-21] maintenance | series 分类归并清洗
 
 审计发现 6 个单页 series（`Java 后端安全`、`Java 后端并发`、`Java 测试与基础设施`、`LLM 与 Agent 工程`）与两处 series/目录分区错位（`spring-cloud-and-boot`、`database-schema-drift`）。将 6 个页面（三语共 18 处 frontmatter）的 `series` 归并到与 `kb-index.md` 分区一致的正典分类：jjwt、resicache-observer、testcontainers 并入 `Java 安全、并发与测试`；hindsight 并入 `OMP 与 Agent 工程`；spring-cloud 并入 `微服务与 RPC`；database-schema-drift 并入 `架构与工程实践`。归并后 zh-cn 正典收敛为 8 个多页 series，消除筛选 facet 噪音；en/ja 草稿元数据同步保持 slug 级一致。未改动页面正文、sources 与 raw。三语 `/note/` 正文链接与 `related` 引用全量复查无断链。
+
+## [2026-08-23] maintenance | 知识库收敛 Phase 1 与索引重构
+
+按 `docs/kb-convergence-design.md` 执行呈现层收敛：`kb-index.md` 重构为 6 域视图（A 知识库与 AI 工程 / B Java 与并发 / C 存储与缓存 / D 分布式与微服务 / E 基础设施与运维 / F 工程与架构），新增 3 条学习路径与 8 个 provisional 页面的毕业观察板；49 行 raw 表整体置于 `<details>` 折叠并新增聚合类型列，10 个 `ingest-*` 聚合包标记 `legacy-aggregate` 只读。归一 9 个页面的 `series` 引号（此前未加引号导致 facet 分裂）。设计初稿"每域 ≤6 行折叠"与"index 行数 -30%"两条指标经复审撤销并已在设计文档中记录原因。不改 raw、正文与保护面；`pnpm kb:lint` 与 `pnpm build` 验证通过。
+
+## [2026-08-23] maintenance | 知识库收敛 Phase 2：Hindsight 拆分与随笔溶解
+
+执行 LLM-Wiki Phase 2 正典内容收敛：（1）将 445 行巨石页面 `hindsight-local-deployment-and-agent-integration` 按关注点分离与“一概念一页”原则拆解为 3 个正典知识页：`hindsight-local-deployment`（L1/L2 算力分工与 Docker 容器化）、`hindsight-omp-codex-integration`（L4 实体：FastMCP 桥接与多项目动态路由）、`hindsight-troubleshooting`（L3 综合：7 大失效模式与排查矩阵），原巨石页标记为 `deprecated` 导引；（2）溶解 10 篇零散随笔收纳袋 `frontend-mybatis-essays`，标记为 `deprecated` 归档并移出主索引；（3）更新 `kb-index.md` 导航、毕业观察板（7 个 provisional）与已归档区；（4）全量验证通过（`pnpm kb:lint`、`pnpm test:run`、`pnpm build` 全部通过）。

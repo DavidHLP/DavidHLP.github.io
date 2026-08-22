@@ -1,7 +1,7 @@
 ---
 title: Redis 业务模式：缓存、分布式锁、消息队列、Feed 流与秒杀
 timestamp: 2026-08-21 00:00:00+08:00
-series: Java 基础与后端调优
+series: "Java 基础与后端调优"
 kind: concept
 status: active
 sources: ["ingest-redis-business"]

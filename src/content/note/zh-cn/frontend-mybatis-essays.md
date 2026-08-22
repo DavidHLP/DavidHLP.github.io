@@ -1,18 +1,20 @@
 ---
-title: 前端与综合随笔：Vue、MyBatis、UniApp、缓存注解与环境排障
+title: 前端与综合随笔：Vue、MyBatis、UniApp、缓存注解与环境排障（已溶解归档）
 timestamp: 2026-08-21 00:00:00+08:00
-series: 架构与工程实践
+series: "架构与工程实践"
 kind: synthesis
-status: provisional
+status: deprecated
 sources: ["ingest-frontend-essays"]
 related: [java-concurrency-deepdive, spring-cloud-and-boot, intranet-penetration-ssh-guide]
-tags: [Vue, MyBatis, UniApp, Cache, Essay]
-description: 归档零散的前端、持久层与环境排障随笔，作为综合收件箱，不作为稳定概念页的证据源。
+tags: [Vue, MyBatis, UniApp, Cache, Essay, Deprecated]
+description: 历史随笔收纳袋已溶解。零散前端、MyBatis 与环境排障内容保留在不可变 raw 快照中，主知识库不再维护此综合页。
 toc: true
 ---
 
-本页为 **provisional synthesis**，归档 10 篇零散随笔：Vue、MyBatis、UniApp、缓存注解与环境排障。内容多为学习笔记与问题记录，未形成稳定概念，故不作为其他知识页的 `sources`。
+> **页面溶解与归档说明**：
+> 本页原为 10 篇零散随笔（Vue、UniApp、MyBatis、Ubuntu 排障等）的收纳袋。按 LLM-Wiki 收敛原则，收纳袋不具备统一命题与交叉证据综合价值，已于 2026-08-23 溶解归档。原文事实保留在不可变 raw 快照 `ingest-frontend-essays` 中，本页移出主索引并标记为 `deprecated`。
 
+本页为历史归档内容：
 ## 核心机制（摘录）
 
 - **Vue**：`vue.md` 为 Vue 基础笔记；`Uniapp融合VantWeapp开发.md` 记录 UniApp 集成 Vant。

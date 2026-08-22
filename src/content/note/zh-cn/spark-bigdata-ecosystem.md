@@ -1,7 +1,7 @@
 ---
 title: Spark 与大数据生态：Hadoop、HBase、Spark 运行模式与集群
 timestamp: 2026-08-21 00:00:00+08:00
-series: 大数据与存储
+series: "大数据与存储"
 kind: concept
 status: active
 sources: ["ingest-spark-ecosystem"]
