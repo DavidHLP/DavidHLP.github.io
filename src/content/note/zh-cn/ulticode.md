@@ -11,8 +11,12 @@ description: "以固定提交 README/CONTEXT 为证据归纳 UltiCode 的 owner 
 toc: true
 ---
 
-`UltiCode` 是一个全栈在线评测（Online Judge）平台，覆盖题库、竞赛、社区、成就与管理后台。后端为 Java 17 + Spring Boot 3.2.5 的 Maven reactor 多模块（auth/admin/app/notification/judge/submission），前端为 Vue 3 + TypeScript 严格模式的 Console 与 Management 双应用。本页描述公开仓库 main 固定提交 `3f14ac89` 的声明状态；该仓库处于架构收敛期，页面整体标记 `provisional`。
+> **毕业条件（3 个可验证检查）**：
+> 1. 判题事务的最小 E2E 验证实验（port/projection 事务回滚）；
+> 2. 补齐模块 owner 边界被破坏时的反例与重构证据；
+> 3. 补齐 Redis Streams 消费与并发边界的明确声明及测试。
 
+`UltiCode` 是一个全栈在线评测（Online Judge）平台，覆盖题库、竞赛、社区、成就与管理后台。后端为 Java 17 + Spring Boot 3.2.5 的 Maven reactor 多模块（auth/admin/app/notification/judge/submission），前端为 Vue 3 + TypeScript 严格模式的 Console 与 Management 双应用。本页描述公开仓库 main 固定提交 `3f14ac89` 的声明状态；该仓库处于架构收敛期，页面整体标记 `provisional`。
 ## 核心机制
 
 ### Owner 划分与网关
