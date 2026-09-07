@@ -245,17 +245,27 @@ describe("privacy-safe session ingestion", () => {
 		mkdirSync(omp);
 		writeJsonl(join(omp, "one.jsonl"), [
 			session("retry-session", privateHome),
-			ompMessage("user", [{ type: "text", text: "Diagnose a TypeScript build failure and verify the minimal fix." }])
+			ompMessage("user", [{ type: "text", text: "Diagnose a TypeScript build failure and verify the minimal fix." }]),
+			ompMessage("assistant", [
+				{
+					type: "text",
+					text: "Inspect the compiler error, correct the configuration, and run the focused regression test to verify the reusable solution."
+				}
+			])
 		]);
 		const common = {
 			repoRoot: root,
 			ompSessions: omp,
 			opencodeDb: join(root, "missing.db"),
 			codexDir: join(root, "missing-codex"),
+			promptHistory: join(root, "missing-history.jsonl"),
 			outputDir: output,
 			skipHindsight: true
 		};
-		await runIngest({ ...common, write: true });
+		// Prove the fixture passes candidate eligibility before exercising retry.
+		const initial = await runIngest({ ...common, write: true });
+		expect(initial.processed).toBe(1);
+		expect(initial.candidates).toBe(1);
 		const prior = JSON.parse(readFileSync(join(output, "manifest.jsonl"), "utf8").split("\n")[0]);
 		writeJsonl(join(output, "manifest.jsonl"), [{ ...prior, parse_status: "failed", candidate_count: 0 }]);
 		writeFileSync(join(output, "candidates.jsonl"), "");
@@ -265,6 +275,12 @@ describe("privacy-safe session ingestion", () => {
 		const retried = await runIngest({ ...common, write: true });
 		expect(retried.processed).toBe(1);
 		expect(retried.candidates).toBe(1);
+		const recovered = JSON.parse(readFileSync(join(output, "manifest.jsonl"), "utf8").split("\n")[0]);
+		expect(recovered.content_hash).toBe(prior.content_hash);
+		expect(recovered.parse_status).toBe("processed");
+		const unchanged = await runIngest({ ...common, write: true });
+		expect(unchanged.unchanged).toBe(1);
+		expect(unchanged.candidates).toBe(1);
 	});
 
 	it("records OMP advisor files as skipped internal control-plane sources", async () => {

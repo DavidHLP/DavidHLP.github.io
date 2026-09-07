@@ -26,7 +26,7 @@ const chronicles = Object.entries<string[]>(chronicle ?? {})
 ---
 
 <Base title={ts(t, "navigation.about")} {locale}>
-	<main class="flex flex-col md:flex-row justify-between gap-12 py-6 relative">
+	<main data-resume-page class="flex flex-col lg:flex-row justify-between gap-12 py-6 relative">
 		<!-- Print button -->
 		<div class="absolute top-0 end-0 no-print">
 			<button onclick="window.print()" class="border border-weak/20 hover:border-primary text-xs font-mono px-3 py-1.5 bg-background select-none transition-all duration-150 flex items-center gap-1.5 cursor-pointer shadow-sm rounded-sm">
@@ -66,7 +66,7 @@ const chronicles = Object.entries<string[]>(chronicle ?? {})
 					<div class="flex items-center gap-2 mb-6 border-b border-weak/10 pb-2">
 						<span class="text-xs font-mono text-weak uppercase tracking-widest">[ {ts(t, "about.chronicle")} ]</span>
 					</div>
-					
+
 					<ul class="list-none relative before:absolute before:content-[''] before:h-full before:top-2 before:border-s before:border-weak/10 after:absolute after:content-[''] after:w-2 after:h-2 after:-bottom-1 after:-start-[0.275rem] after:border after:border-primary after:rounded-full after:bg-primary">
 						{chronicles.map(chronicle => (
 							<li class="relative mb-6 pb-2 ps-4 before:absolute before:content-[''] before:w-2 before:h-2 before:top-2 before:-start-[0.275rem] before:border before:border-primary before:rounded-full before:bg-background">
@@ -89,3 +89,103 @@ const chronicles = Object.entries<string[]>(chronicle ?? {})
 		}
 	</main>
 </Base>
+
+<style is:global>
+	/* Limit paper styling to the resume, including Markdown-rendered descendants. */
+	@media print {
+		@page {
+			size: A4;
+			margin: 10mm 12mm;
+		}
+
+		[data-resume-page] {
+			display: block !important;
+		}
+
+		[data-resume-page],
+		[data-resume-page] * {
+			color: #111 !important;
+			background: transparent !important;
+			border-color: #aaa !important;
+			box-shadow: none !important;
+			text-shadow: none !important;
+		}
+
+		[data-resume-page] article {
+			max-width: none !important;
+			padding: 0 !important;
+		}
+
+		[data-resume-page] article > div {
+			margin-bottom: 0 !important;
+		}
+
+		[data-resume-page] .markdown {
+			font-size: 10.5pt;
+			line-height: 1.45;
+		}
+
+		/* Block flow honors page-break hints instead of fragmenting flex groups. */
+		[data-resume-page] .markdown,
+		[data-resume-page] .markdown section {
+			display: block;
+		}
+
+		[data-resume-page] .markdown > .not-prose {
+			margin-bottom: 8pt;
+			padding-bottom: 8pt;
+		}
+
+		[data-resume-page] .markdown section > div {
+			margin-block: 6pt;
+		}
+
+		[data-resume-page] .markdown h2 {
+			font-size: 15pt;
+			margin-block: 8pt 4pt;
+			break-after: avoid-page;
+		}
+
+		[data-resume-page] .markdown h3 {
+			margin-block: 4pt 3pt;
+			break-after: avoid-page;
+		}
+
+		[data-resume-page] .markdown p,
+		[data-resume-page] .markdown ul {
+			margin-block: 5pt;
+		}
+
+		[data-resume-page] .markdown p,
+		[data-resume-page] .markdown li {
+			line-height: 1.4;
+		}
+
+		[data-resume-page] .markdown li,
+		[data-resume-page] .markdown .grid {
+			break-inside: avoid-page;
+		}
+
+		[data-resume-page] .markdown li + li {
+			margin-top: 3pt;
+		}
+
+		[data-resume-page] .markdown .gap-6,
+		[data-resume-page] .markdown .gap-8 {
+			gap: 10pt;
+		}
+
+		[data-resume-page] .markdown .p-5 {
+			padding: 8pt;
+		}
+
+		/* Private-use icon glyphs are decorative and may be absent in PDF fonts. */
+		[data-resume-page] .markdown a::after {
+			content: none !important;
+		}
+
+		[data-resume-page] .markdown span.absolute {
+			display: none;
+		}
+	}
+</style>
