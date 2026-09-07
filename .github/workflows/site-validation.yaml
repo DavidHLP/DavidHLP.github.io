@@ -97,7 +97,7 @@ jobs:
             for (let i = 0; i < 60; i++) {
               try {
                 const response = await fetch(`${base}/about`);
-                lastResponse = `${response.status()} ${response.url}`;
+                lastResponse = `${response.status} ${response.url}`;
                 if (response.ok) { ready = true; break; }
               } catch (error) { lastResponse = String(error); }
               await new Promise(resolve => setTimeout(resolve, 1000));
