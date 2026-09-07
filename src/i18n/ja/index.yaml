@@ -1,3 +1,59 @@
+engineering:
+  folio: ENGINEERING NOTES / SELECTED WORK
+  statement: 複雑な問題を、確かな仕組みに。
+  intro: Java バックエンド、並行処理、障害時の境界。オープンソースで実装し、技術ノートで説明します。
+  resume: 履歴書を読む
+  projectsLabel: 01 / SELECTED SYSTEMS
+  projectsTitle: 問題から、実装へ。
+  projectsIntro: 2 つの個人開発プロジェクトから、設計上の課題を紹介します。
+  source: ソースコード
+  explore: 設計上の判断を読む
+  projectNotes: 設計について
+  contents: 履歴書の目次
+  resumeLabel: CURRICULUM VITAE / ENGINEERING
+  resumeNote: 経験、実装、そして根拠。
+  readingLabel: 02 / FIELD NOTES
+  readingTitle: 調査の知識を、再利用できる形に。
+  readingIntro: 結論だけでなく、現象・根拠・判断を記録します。
+  imageAlt: 炭黒と赤の網点で描かれた帆船が水面を進む、余白を生かした文字のない図版
+  evidence:
+    - label: EXPERIENCE
+      title: ホストセキュリティ · クラウド
+      text: 博彦科技インターン / Alibaba Cloud 専有クラウド案件
+    - label: PRACTICE
+      title: 並行処理 · 整合性 · 隔離
+      text: ResiCache / UltiCode 個人開発
+    - label: METHOD
+      title: 観測 → 特定 → 検証
+      text: Arthas / SQL 実行計画 / コンテナ調査
+  projects:
+    - name: ResiCache
+      category: CACHE COORDINATION
+      title: 同じキーへのリクエストを、一つの処理に。
+      description: リクエストの集約、バージョン付き期限管理、障害時の動作を扱う Spring Cache 拡張。
+      stack: Java 21 / Spring Cache / Redis
+      flow: [Concurrent requests, Shared future, One loader]
+      question: 古い非同期タスクが新しい値の TTL を変更しないためには？
+      answer: Redis Lua で値のバージョンを原子的に確認してから TTL を短縮します。期限切れ後のリクエストがロードを開始し、新しい値を古いタスクから保護します。
+      url: https://github.com/DavidHLP/ResiCache
+    - name: UltiCode
+      category: RELIABLE EXECUTION
+      title: すべての実行に、明確な境界を。
+      description: Outbox、タスク回収、実行世代の管理で配送失敗・重複実行・再判定の競合を扱う個人開発のオンラインジャッジ。
+      stack: Java 17 / Redis Streams / Docker
+      flow: [Submission, Outbox → Stream, Judge worker]
+      question: 再判定の開始後、古い実行結果をどう拒否する？
+      answer: generation と attemptId で有効な実行を識別し、リースとハートビートを併用します。二条件の SQL CAS により古い実行結果の書き込みを拒否します。
+      url: https://github.com/DavidHLP/UltiCode
+  readings:
+    - title: Java 本番環境の性能調査
+      description: 現象から根拠へ進む最小の判断ツリー · 中国語
+      path: /note/java-online-performance-debug
+      tag: JVM / OBSERVABILITY
+    - title: containerd TLS 調査
+      description: 証明書の信頼チェーンと段階的な診断 · 中国語
+      path: /note/containerd-tls-troubleshooting
+      tag: CONTAINERS / SECURITY
 about:
   introduction: ○○紹介
   linkroll: ○○連結
@@ -39,15 +95,17 @@ home:
     name: 賀恋棚 (が れんほう)
     title: Java バックエンドエンジニア
     meta:
-      - 中国 重慶 / 22歳
+      - 中国 重慶 / 23歳
       - 洛陽師範学院・学士
+      - データサイエンス・ビッグデータ技術専攻
       - "GPA: 3.6 / 4.0"
-    highlightsTitle: 核心ハイライト (HIGHLIGHTS)
+    highlightsTitle: 経歴・プロジェクト
     highlights:
-      - "<strong>アリババクラウド実務</strong>：セキュリティ製品のサーバー開発に従事。GPU情報収集基盤やAI実行リスク検出を実装、containerd証明書検証のトラブルシューティングを主導。"
-      - "<strong>独自開発実績</strong>：責任連鎖・SPIを採用した <code>ResiCache</code> および Docker seccomp サンドボックス・Redis Stream 非同期判定を採用した <code>UltiCode</code> システムを構築。"
-      - "<strong>技術・受賞歴</strong>：Java/JVM、MySQLチューニング、Redis分散ロック、Arthasオンライン診断。2025年「藍橋杯」Java全国三等賞。"
-    linkText: VIEW FULL RESUME
+      - "<strong>博彦科技・バックエンド実習（2026.01–2026.06）</strong>：Alibaba Cloud のプライベートクラウド向け安騎士プロジェクトに参加。GPU リソース連携、AI 資産識別、SQL 最適化、Arthas・containerd・Harbor による障害調査を担当。"
+      - "<strong>ResiCache</strong>：同一 Key のリクエスト集約、分散ロード調整、Lua によるバージョン検証付き早期失効、デシリアライズの安全性検証を実装。並行処理テストと Redis 統合テストで障害・競合を検証。"
+      - "<strong>UltiCode</strong>：トランザクショナル Outbox と Redis Streams で判定タスクを配信。generation + attemptId で結果書き込みを検証し、Docker で信頼できないコードの権限とリソースを制限。"
+      - "<strong>OSS 貢献・受賞</strong>：OMP クライアント連携を追加した codebase-memory-mcp PR #1229 がマージ済み。2025 年「藍橋杯」Java ソフトウェア設計 B 組で全国三等賞。"
+    linkText: 履歴書を見る
 jotting:
   empty: 随筆がありません
   tag: 付札

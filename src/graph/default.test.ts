@@ -88,7 +88,7 @@ describe("default OG template", () => {
 
 	it("uses the configured background colour", () => {
 		const vnode = template(baseProps) as VNode;
-		expect(vnode.props?.style?.background).toBe("#fffffd");
+		expect(vnode.props?.style?.background).toBe("#fafaf7");
 	});
 
 	it("substitutes different props without mutating the input", () => {

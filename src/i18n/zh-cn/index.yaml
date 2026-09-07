@@ -1,3 +1,59 @@
+engineering:
+  folio: ENGINEERING NOTES / SELECTED WORK
+  statement: 把复杂问题，拆成可靠的系统。
+  intro: 关注 Java 后端、并发协调与故障边界。在开源项目中实现，在技术笔记里解释。
+  resume: 阅读简历
+  projectsLabel: 01 / SELECTED SYSTEMS
+  projectsTitle: 从问题，到实现。
+  projectsIntro: 两个个人开源项目，两类值得展开的工程问题。
+  source: 查看源码
+  explore: 展开设计取舍
+  projectNotes: 工程讨论
+  contents: 简历目录
+  resumeLabel: CURRICULUM VITAE / ENGINEERING
+  resumeNote: 经历、实现与证据。
+  readingLabel: 02 / FIELD NOTES
+  readingTitle: 让排障过程可复用。
+  readingIntro: 记录现象、证据与判断，而不只留下结论。
+  imageAlt: 扬帆启航 — 炭黑与红色网点印刷的帆船驶过水面，大面积留白，无文字
+  evidence:
+    - label: EXPERIENCE
+      title: 主机安全 · 云资源
+      text: 博彦科技实习 / 阿里云专有云安骑士项目
+    - label: PRACTICE
+      title: 并发 · 一致性 · 隔离
+      text: ResiCache / UltiCode 个人开源实践
+    - label: METHOD
+      title: 观测 → 定位 → 验证
+      text: Arthas / SQL 执行计划 / 容器排障
+  projects:
+    - name: ResiCache
+      category: CACHE COORDINATION
+      title: 同一个 Key，不必重复回源。
+      description: Spring Cache 防护扩展。围绕请求合并、版本化过期与故障语义，处理缓存与并发加载的边界。
+      stack: Java 21 / Spring Cache / Redis
+      flow: [Concurrent requests, Shared future, One loader]
+      question: 旧的异步任务，能否误改新缓存的 TTL？
+      answer: 用 Redis Lua 原子校验缓存值版本，再缩短 TTL。过期后由后续请求触发加载，避免旧任务改变新值的有效期。
+      url: https://github.com/DavidHLP/ResiCache
+    - name: UltiCode
+      category: RELIABLE EXECUTION
+      title: 提交之后，每一次执行都有边界。
+      description: 个人开源在线评测系统。通过事务 Outbox、任务回收与执行代际控制，处理投递失败、重复执行和重判竞争。
+      stack: Java 17 / Redis Streams / Docker
+      flow: [Submission, Outbox → Stream, Judge worker]
+      question: 重判开始后，如何拒绝上一轮的迟到结果？
+      answer: 使用 generation 与 attemptId 标识有效执行，配合租约与心跳。写回时以双条件 SQL CAS 拒绝过期执行结果。
+      url: https://github.com/DavidHLP/UltiCode
+  readings:
+    - title: Java 线上性能排障
+      description: 从症状到证据的最小决策树
+      path: /note/java-online-performance-debug
+      tag: JVM / OBSERVABILITY
+    - title: containerd TLS 排障
+      description: 证书信任链与分层诊断路径
+      path: /note/containerd-tls-troubleshooting
+      tag: CONTAINERS / SECURITY
 about:
   introduction: ○○自述
   linkroll: ○○连结
@@ -39,15 +95,17 @@ home:
     name: 贺恋棚
     title: Java 后端开发工程师
     meta:
-      - 重庆 / 22岁
+      - 重庆 / 23岁
       - 洛阳师范学院 · 本科
+      - 数据科学与大数据技术
       - "GPA: 3.6 / 4.0"
-    highlightsTitle: 核心实力点 (HIGHLIGHTS)
+    highlightsTitle: 经历与项目亮点
     highlights:
-      - "<strong>阿里云实习经历</strong>：参与专有云安全产品安骑士研发，独立完成多源 GPU 资源链条接入，开发 AI 资产识别模块，深入 containerd/Harbor 集群排障，编写自动化脚本并处理 20+ 个缺陷。"
-      - "<strong>独立高内聚项目</strong>：自研 <code>ResiCache</code> 缓存防护组件（基于责任链设计与 SPI），以及 <code>UltiCode</code> 在线评测系统（Docker 沙箱隔离判题与 Redis Stream 评测流转），具备完整工程设计与闭环排障能力。"
-      - "<strong>专业功底与奖项</strong>：熟悉 Java/JVM、MySQL 索引调优、Redis 多级缓存与分布式锁、Arthas 线上诊断；获 2025 蓝桥杯 Java 软件设计全国三等奖。"
-    linkText: VIEW FULL RESUME
+      - "<strong>博彦科技 · 后端实习（2026.01–2026.06）</strong>：参与阿里云专有云安骑士项目，完成 GPU 资源接入，参与 AI 资产识别、SQL 查询优化及 Arthas、containerd / Harbor 排障。"
+      - "<strong>ResiCache 缓存防护</strong>：实现同 Key 请求合并、分布式加载协调、Lua 版本校验与提前过期、安全反序列化，通过并发测试与 Redis 集成测试验证故障和竞态。"
+      - "<strong>UltiCode 在线评测</strong>：以事务 Outbox 与 Redis Streams 投递判题任务，通过 generation + attemptId 校验结果写回，并以 Docker 限制不可信代码的权限与资源占用。"
+      - "<strong>开源贡献与荣誉</strong>：codebase-memory-mcp 的 OMP 客户端接入 PR #1229 已合并；获 2025 蓝桥杯 Java 软件设计 B 组国家级三等奖。"
+    linkText: 查看完整简历
 jotting:
   empty: 暂无随笔
   tag: 标签

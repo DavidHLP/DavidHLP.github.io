@@ -36,6 +36,18 @@ import reading from "./src/utils/reading";
 
 import siteConfig from "./site.config";
 
+// Syntax uses the same two inks as the publication; weight and italics retain token hierarchy.
+const editorialSyntax = (name: string, foreground: string, background: string, accent: string, comment: string) => ({
+	name,
+	colors: { "editor.foreground": foreground, "editor.background": background },
+	tokenColors: [
+		{ scope: ["comment", "punctuation.definition.comment"], settings: { foreground: comment, fontStyle: "italic" } },
+		{ scope: ["keyword", "storage", "entity.name.tag"], settings: { foreground: accent, fontStyle: "bold" } },
+		{ scope: ["entity.name.function", "entity.name.type", "support.function"], settings: { foreground, fontStyle: "bold" } },
+		{ scope: ["string", "constant"], settings: { foreground: accent } }
+	]
+});
+
 // https://astro.build/config
 export default defineConfig({
 	site: "https://davidhlp.github.io",
@@ -88,8 +100,8 @@ export default defineConfig({
 		smartypants: false,
 		shikiConfig: {
 			themes: {
-				light: "github-light",
-				dark: "dark-plus"
+				light: editorialSyntax("editorial-light", "#30343a", "#eeefeb", "#c83232", "#63666b"),
+				dark: editorialSyntax("editorial-dark", "#f0f0e9", "#2d3136", "#ed817a", "#afb1ac")
 			},
 			transformers: [copy({ duration: 1500 })]
 		}

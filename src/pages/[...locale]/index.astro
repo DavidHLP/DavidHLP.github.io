@@ -1,15 +1,12 @@
 ---
-import { render } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import config from "$config";
-import { latestByTimestamp, latestPreface, listBySections, localeStaticPaths } from "$utils/content";
+import { latestByTimestamp, listBySections, localeStaticPaths } from "$utils/content";
 import { sectionLabel, ts } from "$utils/labels";
-import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
 import Heatmap from "$components/Heatmap.astro";
 import TechBorder from "$components/TechBorder.astro";
 import LatestCard from "$components/LatestCard.astro";
-import Logo from "$icons/site-logo.svg";
 import i18nit, { i18nData } from "$i18n";
 
 export const getStaticPaths = localeStaticPaths;
@@ -29,13 +26,6 @@ const profile = i18nData(locale).home?.profile;
 const prologue = t("home.prologue") ?? config.prologue;
 const prologueAuthor = t("home.prologue_author") ?? config.prologueAuthor;
 
-// Fetch the most recent preface for the current locale via the preface
-// seam. The sort + take-0 decision lives in `src/utils/preface.ts`,
-// shared with the preface archive page. The page reads the latest
-// preface; if none exists, the panel is suppressed.
-const preface = await latestPreface(locale);
-const { Content } = preface ? await render(preface) : ({} as any);
-
 // Fetch + shape every listable card once. The seam in `src/utils/sections.ts`
 // owns the listable-section iteration, the locale filter, and the `toCard`
 // projection. The page reads the pool; both the "latest" pick and the
@@ -54,6 +44,7 @@ const unitLabel = ts(t, `home.unit.${heatmapUnit}`);
 
 <Base title={ts(t, "navigation.home")} {locale}>
 	<main class="flex flex-col gap-12 sm:gap-24 grow py-6 relative">
+		<h1 class="sr-only">{profile.name}</h1>
 		<!-- Background subtle grid line -->
 		<div class="absolute inset-y-0 start-1/4 border-s border-weak/5 hidden md:block pointer-events-none"></div>
 
@@ -81,7 +72,7 @@ const unitLabel = ts(t, `home.unit.${heatmapUnit}`);
 			<div class="md:col-span-1 flex md:justify-end items-center">
 				<div class="relative tech-border p-5 bg-background shadow-sm group">
 					<TechBorder class="absolute inset-0 pointer-events-none" />
-					<Logo width={70} class="text-primary opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300" />
+					<img src="/images/sailing-print-no-text.png" width="1086" height="1448" alt={i18nData(locale).engineering.imageAlt} fetchpriority="high" class="block w-36 sm:w-44 max-w-full h-auto" data-sailing-cover />
 					<span class="absolute -bottom-2.5 right-3 px-1.5 py-0.5 bg-background border border-weak/10 text-[8px] font-mono text-weak tracking-wider uppercase">
 						[SYS.ACTIVE]
 					</span>
@@ -127,36 +118,6 @@ const unitLabel = ts(t, `home.unit.${heatmapUnit}`);
 				</div>
 			</div>
 		</section>
-
-		{
-			preface && (
-				<section class="grid grid-cols-1 md:grid-cols-4 gap-8 relative border-y border-weak/10 py-8 dot-grid">
-					<TechBorder marker="dot" size="tight" class="absolute inset-0 pointer-events-none" />
-
-					<div class="md:col-span-1 flex flex-col gap-1">
-						<span class="text-[10px] font-mono text-weak uppercase tracking-widest">{sectionLabel(t, 1, "home.section.preface")}</span>
-						<span class="text-[9px] font-mono text-remark">{Time.toLocaleDateString(preface.data.timestamp, locale)}</span>
-					</div>
-
-					<div class="md:col-span-3 flex flex-col gap-4">
-						<article class="markdown font-serif text-lg leading-relaxed select-text font-light max-w-3xl">
-							<Content />
-						</article>
-						{preface.data.author && (
-							<span class="text-xs font-mono text-weak max-w-3xl text-right pr-4">
-								— {preface.data.author}
-							</span>
-						)}
-						<div class="mt-2 flex justify-end">
-							<a href={getRelativeLocaleUrl(locale, "/preface")} class="text-[10px] font-mono text-remark hover:text-primary tracking-wider transition-colors duration-150 uppercase flex items-center gap-1.5">
-								<span>{ts(t, "home.viewPrefaceArchive")}</span>
-								<span>→</span>
-							</a>
-						</div>
-					</div>
-				</section>
-			)
-		}
 
 		{
 			latest && (

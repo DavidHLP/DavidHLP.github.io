@@ -9,7 +9,7 @@ const { label } = Astro.props;
 
 <div class="flex flex-col justify-center border-e pe-2 border-primary sm:border-0 sm:p-0 group">
 	<button class="items-center sm:border-none" aria-label={label}><slot name="trigger" /></button>
-	<section class="pt-1 z-200 bg-background sm:h-max sm:opacity-0 sm:invisible sm:transition-[opacity,visibility] sm:group-hover:opacity-100 sm:group-hover:visible">
+	<section class="pt-1 z-200 bg-background sm:h-max sm:opacity-0 sm:invisible sm:transition-[opacity,visibility] sm:group-hover:opacity-100 sm:group-hover:visible sm:group-focus-within:opacity-100 sm:group-focus-within:visible">
 		<nav class="flex flex-col sm:border-2 sm:border-primary sm:shadow-md">
 			<slot />
 		</nav>
@@ -70,7 +70,7 @@ const { label } = Astro.props;
 
 		nav :global(a:hover) {
 			color: var(--background-color);
-			background-color: var(--primary-color);
+			background-color: var(--accent-color);
 		}
 	}
 </style>

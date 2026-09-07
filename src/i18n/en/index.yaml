@@ -1,3 +1,59 @@
+engineering:
+  folio: ENGINEERING NOTES / SELECTED WORK
+  statement: Complex problems. Reliable systems.
+  intro: Java backends, concurrency and failure boundaries. Implemented in open source; explained in engineering notes.
+  resume: Read résumé
+  projectsLabel: 01 / SELECTED SYSTEMS
+  projectsTitle: From problem to implementation.
+  projectsIntro: Two personal open-source projects. Two engineering problems worth exploring.
+  source: View source
+  explore: Explore the trade-off
+  projectNotes: Engineering discussions
+  contents: Résumé contents
+  resumeLabel: CURRICULUM VITAE / ENGINEERING
+  resumeNote: Experience, implementation, evidence.
+  readingLabel: 02 / FIELD NOTES
+  readingTitle: Make debugging knowledge reusable.
+  readingIntro: Symptoms, evidence and decisions — beyond the final answer.
+  imageAlt: A charcoal and red halftone sailboat crossing open water, with generous white space and no text
+  evidence:
+    - label: EXPERIENCE
+      title: Host security · Cloud resources
+      text: Beyondsoft internship / Alibaba Cloud private-cloud security project
+    - label: PRACTICE
+      title: Concurrency · Consistency · Isolation
+      text: ResiCache / UltiCode personal open-source work
+    - label: METHOD
+      title: Observe → Diagnose → Verify
+      text: Arthas / SQL execution plans / Container debugging
+  projects:
+    - name: ResiCache
+      category: CACHE COORDINATION
+      title: The same key needs only one load.
+      description: A Spring Cache resilience extension exploring request coalescing, versioned expiration and failure semantics.
+      stack: Java 21 / Spring Cache / Redis
+      flow: [Concurrent requests, Shared future, One loader]
+      question: Can an old async task change a new value’s TTL?
+      answer: Redis Lua atomically checks the cached value’s version before shortening its TTL. Later requests trigger loading after expiry, protecting newer values from stale tasks.
+      url: https://github.com/DavidHLP/ResiCache
+    - name: UltiCode
+      category: RELIABLE EXECUTION
+      title: Every execution has a boundary.
+      description: A personal online judge using transactional Outbox, task recovery and execution generations to handle delivery failures, duplicates and rejudge races.
+      stack: Java 17 / Redis Streams / Docker
+      flow: [Submission, Outbox → Stream, Judge worker]
+      question: How do you reject a late result after a rejudge starts?
+      answer: A generation and attemptId identify the valid execution, with leases and heartbeats. A dual-condition SQL CAS rejects results from outdated executions.
+      url: https://github.com/DavidHLP/UltiCode
+  readings:
+    - title: Java production debugging
+      description: A minimal decision tree from symptoms to evidence · Chinese
+      path: /note/java-online-performance-debug
+      tag: JVM / OBSERVABILITY
+    - title: containerd TLS debugging
+      description: Certificate trust chains and layered diagnosis · Chinese
+      path: /note/containerd-tls-troubleshooting
+      tag: CONTAINERS / SECURITY
 about:
   introduction: Introduction
   linkroll: Linkroll
@@ -43,15 +99,17 @@ home:
     name: "Helian Peng (David)"
     title: Java Backend Engineer
     meta:
-      - "Chongqing, China / Age: 22"
-      - Luoyang Normal University
+      - "Chongqing, China / Age: 23"
+      - Luoyang Normal University · Bachelor's degree
+      - Data Science and Big Data Technology
       - "GPA: 3.6 / 4.0"
-    highlightsTitle: CORE HIGHLIGHTS
+    highlightsTitle: EXPERIENCE & PROJECTS
     highlights:
-      - "<strong>Alibaba Cloud Internship</strong>: Developed Aegis host security products, integrated GPU resources, designed AI asset risk identifiers, resolved 20+ defects, and debugged containerd/Harbor TLS environments."
-      - "<strong>Engineering Projects</strong>: Built <code>ResiCache</code> (SPI-based cache defense middleware) and <code>UltiCode</code> (online judge with Docker seccomp sandbox and Redis Stream async task pipeline)."
-      - "<strong>Core Skills & Awards</strong>: Java/JVM, MySQL tuning, Redis locks, Arthas diagnostics. National 3rd Prize in the 2025 Blue Bridge Cup."
-    linkText: VIEW FULL RESUME
+      - "<strong>Beyondsoft · Backend Intern (Jan–Jun 2026)</strong>: Worked on Alibaba Cloud's private-cloud Aegis project: GPU resource integration, AI asset identification, SQL optimization, and diagnostics with Arthas, containerd and Harbor."
+      - "<strong>ResiCache</strong>: Implemented single-flight request coalescing, distributed loading coordination, version-checked early expiration with Lua, and guarded deserialization; verified failures and races with concurrency and Redis integration tests."
+      - "<strong>UltiCode</strong>: Delivered judging tasks through a transactional Outbox and Redis Streams, fenced result writes with generation + attemptId, and constrained untrusted code permissions and resources with Docker."
+      - "<strong>Open Source & Awards</strong>: Merged codebase-memory-mcp PR #1229 for OMP client integration; national third prize in the 2025 Blue Bridge Cup, Java Software Design Group B."
+    linkText: Read full resume
 jotting:
   empty: No jottings available
   tag: Tag
