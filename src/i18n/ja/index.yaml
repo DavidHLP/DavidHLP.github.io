@@ -106,6 +106,15 @@ home:
       - "<strong>UltiCode</strong>：トランザクショナル Outbox と Redis Streams で判定タスクを配信。generation + attemptId で結果書き込みを検証し、Docker で信頼できないコードの権限とリソースを制限。"
       - "<strong>OSS 貢献・受賞</strong>：OMP クライアント連携を追加した codebase-memory-mcp PR #1229 がマージ済み。2025 年「藍橋杯」Java ソフトウェア設計 B 組で全国三等賞。"
     linkText: 履歴書を見る
+filters:
+  tags: タグで絞り込む
+  searchTags: タグを検索…
+  selected: '{count} 件選択中'
+  clear: クリア
+  remove: 'タグ {tag} を解除'
+  noTags: 一致するタグがありません
+  showAll: '全 {count} タグを表示'
+  collapse: タグを折りたたむ
 jotting:
   empty: 随筆がありません
   tag: 付札

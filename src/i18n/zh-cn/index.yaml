@@ -106,6 +106,15 @@ home:
       - "<strong>UltiCode 在线评测</strong>：以事务 Outbox 与 Redis Streams 投递判题任务，通过 generation + attemptId 校验结果写回，并以 Docker 限制不可信代码的权限与资源占用。"
       - "<strong>开源贡献与荣誉</strong>：codebase-memory-mcp 的 OMP 客户端接入 PR #1229 已合并；获 2025 蓝桥杯 Java 软件设计 B 组国家级三等奖。"
     linkText: 查看完整简历
+filters:
+  tags: 标签筛选
+  searchTags: 搜索标签…
+  selected: '已选 {count} 项'
+  clear: 清空
+  remove: '取消标签 {tag}'
+  noTags: 没有匹配的标签
+  showAll: '展开全部 {count} 个标签'
+  collapse: 收起标签
 jotting:
   empty: 暂无随笔
   tag: 标签

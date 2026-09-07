@@ -110,6 +110,15 @@ home:
       - "<strong>UltiCode</strong>: Delivered judging tasks through a transactional Outbox and Redis Streams, fenced result writes with generation + attemptId, and constrained untrusted code permissions and resources with Docker."
       - "<strong>Open Source & Awards</strong>: Merged codebase-memory-mcp PR #1229 for OMP client integration; national third prize in the 2025 Blue Bridge Cup, Java Software Design Group B."
     linkText: Read full resume
+filters:
+  tags: Filter by tag
+  searchTags: Search tags…
+  selected: '{count} selected'
+  clear: Clear
+  remove: 'Remove tag {tag}'
+  noTags: No matching tags
+  showAll: 'Show all {count} tags'
+  collapse: Show fewer tags
 jotting:
   empty: No jottings available
   tag: Tag

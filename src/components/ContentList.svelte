@@ -9,6 +9,7 @@ import Icon from "$components/Icon.svelte";
 import Pagination from "$components/Pagination.svelte";
 import i18nit from "$i18n";
 import { ts } from "$utils/labels";
+import { tagOptions } from "$utils/tag-options";
 
 /**
  * The two content publications the site renders as paginated lists.
@@ -39,6 +40,11 @@ let page: number = $state(1);
 let pageParam: boolean = $state(false);
 let series: string | null = $state(null);
 let tags: string[] = $state([]);
+let tagQuery = $state("");
+let tagsExpanded = $state(false);
+const tagListId = $props.id();
+const matchingTags = $derived(tagOptions(tagList, items, tagQuery));
+const visibleTags = $derived(tagsExpanded || tagQuery.trim() ? matchingTags : matchingTags.slice(0, 12));
 
 /**
  * Toggle tag inclusion/exclusion in the filter list
@@ -184,18 +190,72 @@ $effect(() => {
 				</p>
 			</section>
 		{/if}
-		<section>
-			<h4>[ {t(`${section}.tag`)} ]</h4>
-			<p>
-				{#each tagList as tag (tag)}
-					<button aria-pressed={tags.includes(tag)} class:selected={tags.includes(tag)} onclick={() => switchTag(tag)}>{tag}</button>
+		<section class="tag-filter" aria-label={ts(t, "filters.tags")}>
+			<div class="tag-heading">
+				<h4>[ {t(`${section}.tag`)} ]</h4>
+				<span class="tag-total">{tagList.length}</span>
+			</div>
+			<label class="tag-search">
+				<Icon name="lucide--search" />
+				<input type="search" bind:value={tagQuery} placeholder={ts(t, "filters.searchTags")} aria-label={ts(t, "filters.searchTags")} aria-controls={tagListId} />
+			</label>
+			{#if tags.length > 0}
+				<div class="tag-selection">
+					<div class="tag-heading">
+						<span>{t("filters.selected", { count: tags.length })}</span>
+						<button class="tag-action" onclick={() => { tags = []; page = 1; pageParam = false; }}>{t("filters.clear")}</button>
+					</div>
+					<div class="selected-tags">
+						{#each tags as tag (tag)}
+							<button aria-label={ts(t, "filters.remove", { tag })} onclick={() => switchTag(tag, false)}>{tag}<span aria-hidden="true">×</span></button>
+						{/each}
+					</div>
+				</div>
+			{/if}
+			<div class="tag-options" id={tagListId}>
+				{#each visibleTags as { tag, count } (tag)}
+					<button class="tag-option" aria-pressed={tags.includes(tag)} onclick={() => switchTag(tag)}>
+						<span class="tag-name">{tag}</span><span class="tag-count">{count}</span>
+					</button>
+				{:else}
+					<span class="tag-empty" role="status">{t("filters.noTags")}</span>
 				{/each}
-			</p>
+			</div>
+			{#if !tagQuery.trim() && matchingTags.length > 12}
+				<button class="tag-expand" aria-expanded={tagsExpanded} aria-controls={tagListId} onclick={() => tagsExpanded = !tagsExpanded}>
+					{tagsExpanded ? t("filters.collapse") : t("filters.showAll", { count: tagList.length })}
+					<span aria-hidden="true">{tagsExpanded ? "−" : "+"}</span>
+				</button>
+			{/if}
 		</section>
 	</aside>
 </div>
 
 <style>
+	.tag-filter { min-width: 0; }
+	.tag-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+	.tag-heading h4 { margin: 0; }
+	.tag-total, .tag-count { font-variant-numeric: tabular-nums; color: var(--remark-color); }
+	.tag-total { font: 0.7rem var(--font-mono); }
+	.tag-search { display: flex; align-items: center; gap: 8px; padding: 9px 10px; border: 1px solid var(--rule-color); background: var(--block-color); color: var(--remark-color); }
+	.tag-search:focus-within { outline: 2px solid var(--accent-color); outline-offset: 2px; }
+	.tag-search input { width: 100%; min-width: 0; padding: 0; border: 0; outline: none; background: transparent; color: var(--primary-color); font-size: 0.8rem; }
+	.tag-search input::placeholder { color: var(--remark-color); opacity: 1; }
+	.tag-options { display: flex; flex-wrap: wrap; align-content: start; gap: 6px; max-height: 320px; overflow-y: auto; padding: 3px; margin: 0 -3px; scrollbar-width: thin; scrollbar-color: var(--weak-color) transparent; }
+	.tag-option { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; min-height: 32px; padding: 5px 8px; border: 1px solid var(--rule-color); border-radius: 3px; color: var(--secondary-color); font: 0.7rem/1.4 var(--font-mono); text-align: start; }
+	.tag-name { overflow-wrap: anywhere; }
+	.tag-count { flex-shrink: 0; font-size: 0.65rem; }
+	.tag-option:hover { background: var(--block-color); border-color: var(--weak-color); }
+	.tag-option[aria-pressed="true"] { color: var(--accent-color); border-color: var(--accent-color); background: color-mix(in srgb, var(--accent-color) 8%, transparent); }
+	.tag-option[aria-pressed="true"] .tag-count { color: inherit; }
+	.tag-selection { display: flex; flex-direction: column; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--rule-color); color: var(--remark-color); font-size: 0.75rem; }
+	.selected-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+	.selected-tags button { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; padding: 5px 8px; border-radius: 3px; background: color-mix(in srgb, var(--accent-color) 12%, transparent); color: var(--accent-color); overflow-wrap: anywhere; }
+	.tag-action { color: var(--accent-color); text-decoration: underline; text-underline-offset: 3px; }
+	.tag-expand { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--rule-color); color: var(--secondary-color); font: 0.75rem var(--font-mono); }
+	.tag-expand:hover { color: var(--accent-color); }
+	.tag-empty { padding: 12px 0; color: var(--remark-color); font-size: 0.8rem; }
+	@media (max-width: 639px) { .tag-options { max-height: 240px; } .tag-option, .selected-tags button { min-height: 40px; } }
 	aside {
 		section {
 			display: flex;
