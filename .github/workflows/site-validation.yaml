@@ -23,10 +23,8 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Prepare diagnostic source snapshot
-        run: |
-          mkdir -p "$RUNNER_TEMP/site-validation"
-          git archive --format=tar HEAD | gzip > "$RUNNER_TEMP/site-validation/source.tar.gz"
+      - name: Prepare validation output
+        run: mkdir -p "$RUNNER_TEMP/site-validation"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -49,12 +47,30 @@ jobs:
 
       - name: Unit tests
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
-        run: pnpm test:run
+        run: pnpm test:run --reporter=default --reporter=json --outputFile="$RUNNER_TEMP/site-validation/unit-tests.json"
 
       - name: Build Astro site
         id: build
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: pnpm build
+
+      - name: Prepare SVG review candidates
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: |
+          npm install --prefix "$RUNNER_TEMP/svg-tools" --no-save --ignore-scripts @biomejs/biome@2.5.12
+          mkdir -p "$RUNNER_TEMP/site-validation/svg-review"
+          cp public/favicon.svg src/icons/site-logo.svg "$RUNNER_TEMP/site-validation/svg-review/"
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP']) / 'site-validation' / 'svg-review'
+          for path in root.glob('*.svg'):
+              text = path.read_text()
+              text = text.replace('>\n', '>\n  <title>DavidHLP sailing boat logo</title>\n', 1)
+              path.write_text(text)
+          PY
+          "$RUNNER_TEMP/svg-tools/node_modules/.bin/biome" format --write --config-path "$GITHUB_WORKSPACE" "$RUNNER_TEMP/site-validation/svg-review/"
+          "$RUNNER_TEMP/svg-tools/node_modules/.bin/biome" check --config-path "$GITHUB_WORKSPACE" "$RUNNER_TEMP/site-validation/svg-review/"
 
       - name: Install isolated browser validation tools
         id: browser
@@ -66,7 +82,7 @@ jobs:
       - name: About page browser and print smoke test
         if: ${{ !cancelled() && steps.browser.outcome == 'success' }}
         run: |
-          pnpm preview --host 127.0.0.1 > "$RUNNER_TEMP/site-validation/preview.log" 2>&1 &
+          pnpm preview --host 127.0.0.1 --port 4321 > "$RUNNER_TEMP/site-validation/preview.log" 2>&1 &
           PREVIEW_PID=$!
           trap 'kill "$PREVIEW_PID" 2>/dev/null || true' EXIT
           node <<'NODE'
@@ -77,14 +93,16 @@ jobs:
           const output = `${process.env.RUNNER_TEMP}/site-validation`;
           (async () => {
             let ready = false;
+            let lastResponse = 'not started';
             for (let i = 0; i < 60; i++) {
               try {
-                const response = await fetch(`${base}/about/`);
+                const response = await fetch(`${base}/about`);
+                lastResponse = `${response.status()} ${response.url}`;
                 if (response.ok) { ready = true; break; }
-              } catch {}
+              } catch (error) { lastResponse = String(error); }
               await new Promise(resolve => setTimeout(resolve, 1000));
             }
-            assert.ok(ready, 'Astro preview did not become ready');
+            assert.ok(ready, `Astro preview did not become ready: ${lastResponse}`);
             const browser = await chromium.launch();
             const errors = [];
             const reports = [];
@@ -93,7 +111,7 @@ jobs:
               page.on('pageerror', error => errors.push(String(error)));
               for (const width of [375, 768, 1440]) {
                 await page.setViewportSize({ width, height: 1000 });
-                const response = await page.goto(`${base}/about/`, { waitUntil: 'networkidle' });
+                const response = await page.goto(`${base}/about`, { waitUntil: 'networkidle' });
                 assert.equal(response.status(), 200);
                 await page.evaluate(() => document.fonts.ready);
                 const resume = page.locator('main article .markdown').first();
@@ -109,9 +127,10 @@ jobs:
                 await page.screenshot({ path: `${output}/about-${width}.png`, fullPage: true });
                 assert.ok(size.content <= size.viewport + 1, `Horizontal overflow at ${width}px: ${size.content}`);
               }
-              await page.emulateMedia({ colorScheme: 'dark' });
-              await page.screenshot({ path: `${output}/about-dark.png`, fullPage: true });
-              await page.emulateMedia({ media: 'print', colorScheme: 'light' });
+              await page.locator('#theme-toggle').click();
+              await page.waitForFunction(() => document.documentElement.dataset.theme === 'dark');
+              await page.screenshot({ path: `${output}/about-dark.png`, fullPage: true, animations: 'disabled' });
+              await page.emulateMedia({ media: 'print' });
               await page.pdf({ path: `${output}/about.pdf`, format: 'A4', printBackground: true, preferCSSPageSize: true });
               const print = await page.locator('.no-print').evaluateAll(elements => elements.map(element => getComputedStyle(element).display));
               assert.ok(print.every(display => display === 'none'), 'Print-only exclusions are visible');
