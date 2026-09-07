@@ -54,23 +54,13 @@ jobs:
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: pnpm build
 
-      - name: Prepare SVG review candidates
+      # The project's locked Biome 2.4.2 does not check standalone SVG files.
+      # Use an isolated, pinned SVG-capable CLI without changing project dependencies.
+      - name: Check committed SVG accessibility and formatting
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: |
           npm install --prefix "$RUNNER_TEMP/svg-tools" --no-save --ignore-scripts @biomejs/biome@2.5.12
-          mkdir -p "$RUNNER_TEMP/site-validation/svg-review"
-          cp public/favicon.svg src/icons/site-logo.svg "$RUNNER_TEMP/site-validation/svg-review/"
-          python3 - <<'PY'
-          import os
-          from pathlib import Path
-          root = Path(os.environ['RUNNER_TEMP']) / 'site-validation' / 'svg-review'
-          for path in root.glob('*.svg'):
-              text = path.read_text()
-              text = text.replace('>\n', '>\n  <title>DavidHLP sailing boat logo</title>\n', 1)
-              path.write_text(text)
-          PY
-          "$RUNNER_TEMP/svg-tools/node_modules/.bin/biome" format --write --config-path "$GITHUB_WORKSPACE" "$RUNNER_TEMP/site-validation/svg-review/"
-          "$RUNNER_TEMP/svg-tools/node_modules/.bin/biome" check --config-path "$GITHUB_WORKSPACE" "$RUNNER_TEMP/site-validation/svg-review/"
+          "$RUNNER_TEMP/svg-tools/node_modules/.bin/biome" check --config-path "$GITHUB_WORKSPACE" public/favicon.svg src/icons/site-logo.svg
 
       - name: Install isolated browser validation tools
         id: browser
@@ -123,9 +113,24 @@ jobs:
                 }
                 assert.ok(text.indexOf('UltiCode') < text.indexOf('ResiCache'));
                 const size = await page.evaluate(() => ({ viewport: innerWidth, content: document.documentElement.scrollWidth }));
-                reports.push({ width, ...size });
+                const clippedText = await resume.evaluate(root => {
+                  const clipped = [];
+                  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+                  let node;
+                  while ((node = walker.nextNode())) {
+                    if (!node.textContent.trim()) continue;
+                    const range = document.createRange();
+                    range.selectNodeContents(node);
+                    if ([...range.getClientRects()].some(rect => rect.width > 0 && (rect.left < -1 || rect.right > innerWidth + 1))) {
+                      clipped.push(node.textContent.slice(0, 80));
+                    }
+                  }
+                  return clipped;
+                });
+                reports.push({ width, ...size, clippedText });
                 await page.screenshot({ path: `${output}/about-${width}.png`, fullPage: true });
                 assert.ok(size.content <= size.viewport + 1, `Horizontal overflow at ${width}px: ${size.content}`);
+                assert.deepEqual(clippedText, [], `Clipped resume text at ${width}px`);
               }
               await page.locator('#theme-toggle').click();
               await page.waitForFunction(() => document.documentElement.dataset.theme === 'dark');
@@ -134,9 +139,12 @@ jobs:
               await page.pdf({ path: `${output}/about.pdf`, format: 'A4', printBackground: true, preferCSSPageSize: true });
               const print = await page.locator('.no-print').evaluateAll(elements => elements.map(element => getComputedStyle(element).display));
               assert.ok(print.every(display => display === 'none'), 'Print-only exclusions are visible');
+              const colors = await page.locator('[data-resume-page] article .markdown').first().locator('h1, h2, h3, p, li, a, strong, code').evaluateAll(elements => [...new Set(elements.map(element => getComputedStyle(element).color))]);
+              assert.deepEqual(colors, ['rgb(17, 17, 17)'], 'Dark theme produces low-contrast print text');
               assert.deepEqual(errors, [], 'Browser runtime errors');
-              console.log(JSON.stringify({ reports, browserErrors: errors, print: 'passed' }, null, 2));
-              await fs.writeFile(`${output}/browser-report.json`, JSON.stringify({ reports, browserErrors: errors, print: 'passed' }, null, 2));
+              const report = { reports, browserErrors: errors, print: 'passed', printTextColors: colors };
+              console.log(JSON.stringify(report, null, 2));
+              await fs.writeFile(`${output}/browser-report.json`, JSON.stringify(report, null, 2));
             } finally {
               await browser.close();
             }
