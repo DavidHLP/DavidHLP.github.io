@@ -26,7 +26,7 @@ const chronicles = Object.entries<string[]>(chronicle ?? {})
 ---
 
 <Base title={ts(t, "navigation.about")} {locale}>
-	<main class="flex flex-col md:flex-row justify-between gap-12 py-6 relative">
+	<main data-resume-page class="flex flex-col lg:flex-row justify-between gap-12 py-6 relative">
 		<!-- Print button -->
 		<div class="absolute top-0 end-0 no-print">
 			<button onclick="window.print()" class="border border-weak/20 hover:border-primary text-xs font-mono px-3 py-1.5 bg-background select-none transition-all duration-150 flex items-center gap-1.5 cursor-pointer shadow-sm rounded-sm">
@@ -66,7 +66,7 @@ const chronicles = Object.entries<string[]>(chronicle ?? {})
 					<div class="flex items-center gap-2 mb-6 border-b border-weak/10 pb-2">
 						<span class="text-xs font-mono text-weak uppercase tracking-widest">[ {ts(t, "about.chronicle")} ]</span>
 					</div>
-					
+
 					<ul class="list-none relative before:absolute before:content-[''] before:h-full before:top-2 before:border-s before:border-weak/10 after:absolute after:content-[''] after:w-2 after:h-2 after:-bottom-1 after:-start-[0.275rem] after:border after:border-primary after:rounded-full after:bg-primary">
 						{chronicles.map(chronicle => (
 							<li class="relative mb-6 pb-2 ps-4 before:absolute before:content-[''] before:w-2 before:h-2 before:top-2 before:-start-[0.275rem] before:border before:border-primary before:rounded-full before:bg-background">
@@ -89,3 +89,60 @@ const chronicles = Object.entries<string[]>(chronicle ?? {})
 		}
 	</main>
 </Base>
+
+<style is:global>
+	/* Limit paper styling to the resume, including Markdown-rendered descendants. */
+	@media print {
+		@page {
+			size: A4;
+			margin: 12mm 14mm;
+		}
+
+		[data-resume-page] {
+			display: block !important;
+		}
+
+		[data-resume-page],
+		[data-resume-page] * {
+			color: #111 !important;
+			background: transparent !important;
+			border-color: #aaa !important;
+			box-shadow: none !important;
+			text-shadow: none !important;
+		}
+
+		[data-resume-page] article {
+			max-width: none !important;
+			padding: 0 !important;
+		}
+
+		[data-resume-page] article > div {
+			margin-bottom: 0 !important;
+		}
+
+		[data-resume-page] .markdown {
+			font-size: 10.5pt;
+			line-height: 1.45;
+		}
+
+		[data-resume-page] .markdown h2 {
+			font-size: 15pt;
+			margin-block: 12pt 6pt;
+			break-after: avoid-page;
+		}
+
+		[data-resume-page] .markdown h3 {
+			margin-block: 6pt 4pt;
+			break-after: avoid-page;
+		}
+
+		[data-resume-page] .markdown p,
+		[data-resume-page] .markdown ul {
+			margin-block: 5pt;
+		}
+
+		[data-resume-page] .markdown li {
+			break-inside: avoid-page;
+		}
+	}
+</style>

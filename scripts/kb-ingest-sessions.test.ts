@@ -247,7 +247,10 @@ describe("privacy-safe session ingestion", () => {
 			session("retry-session", privateHome),
 			ompMessage("user", [{ type: "text", text: "Diagnose a TypeScript build failure and verify the minimal fix." }]),
 			ompMessage("assistant", [
-				{ type: "text", text: "Inspect the compiler error, correct the configuration, and run the focused regression test to verify the reusable solution." }
+				{
+					type: "text",
+					text: "Inspect the compiler error, correct the configuration, and run the focused regression test to verify the reusable solution."
+				}
 			])
 		]);
 		const common = {
