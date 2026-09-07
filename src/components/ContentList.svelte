@@ -135,7 +135,7 @@ $effect(() => {
 });
 </script>
 
-<main class="flex flex-col-reverse sm:flex-row gap-10 grow relative">
+<div class="flex flex-col-reverse sm:flex-row gap-10 grow relative">
 	<article class="flex flex-col grow min-w-0">
 		{#each list as item (item.id)}
 			<section animate:flip={{ duration: 150 }} class="flex flex-col gap-2 border-b border-weak/10 pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0 relative select-text">
@@ -179,7 +179,7 @@ $effect(() => {
 				<h4>[ {t(`${section}.series`)} ]</h4>
 				<p>
 					{#each seriesList as seriesItem (seriesItem)}
-						<button class:selected={seriesItem == series} onclick={() => chooseSeries(seriesItem)}>{seriesItem}</button>
+						<button aria-pressed={seriesItem == series} class:selected={seriesItem == series} onclick={() => chooseSeries(seriesItem)}>{seriesItem}</button>
 					{/each}
 				</p>
 			</section>
@@ -188,12 +188,12 @@ $effect(() => {
 			<h4>[ {t(`${section}.tag`)} ]</h4>
 			<p>
 				{#each tagList as tag (tag)}
-					<button class:selected={tags.includes(tag)} onclick={() => switchTag(tag)}>{tag}</button>
+					<button aria-pressed={tags.includes(tag)} class:selected={tags.includes(tag)} onclick={() => switchTag(tag)}>{tag}</button>
 				{/each}
 			</p>
 		</section>
 	</aside>
-</main>
+</div>
 
 <style>
 	aside {

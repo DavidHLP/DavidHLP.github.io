@@ -5,13 +5,91 @@ series: "Java 安全、并发与测试"
 kind: concept
 status: active
 sources: ["resicache-observer-nested-execution-contract"]
-related: ["redis-jackson-java-time"]
+related: ["resicache", "redis-jackson-java-time"]
 tags: ["Java", "Observer", "ThreadLocal", "Concurrency", "Redis", "Cache", "Reentrant"]
 description: "从公开 ResiCache 固定提交提炼 observer 生命周期、锁内 fragment、per-call scope token 与 ThreadLocal 快照隔离的边界，避免嵌套执行重复 hook 或污染并发状态。"
 toc: true
 ---
 
 **结论优先**：在带缓存链、同步锁和 single-flight 的 Java 系统中，完整 `execute`、锁内 `executeChainFragment` 和 observer 的 per-call scope token 是三种不同概念。around hook 的状态必须由本次调用返回的 token 配对恢复；fragment 只推进节点，不重新打开外层生命周期；`ThreadLocal` 只适合隔离当前执行快照，不应成为 observer 状态机。
+
+## 复盘导读：锁内续跑，为什么不能重新执行整条缓存链？
+
+在 [ResiCache 项目](/note/resicache) 中，同步锁 handler 拿到执行权后，还需要继续执行后面的缓存节点。这个入口看起来可以复用完整的 `execute`，但外层请求的生命周期尚未结束：再次进入完整链，会多开一组计时与上下文恢复逻辑，也可能重复执行后处理。
+
+这篇复盘讨论的是**固定提交中的设计选择与可复现反例**，不是一次声称已经发生的生产事故。阅读重点是三个判断：
+
+- **问题归属**：拿锁后的续跑属于原调用，不是一次新的外部请求。
+- **实现取舍**：复用节点执行能力，通过 fragment 跳过 around hook 和 post-process；调用级状态交给 token。
+- **验证方式**：核对固定源码，再用下方最小模型观察正确续跑与错误嵌套的事件差异。模型不替代真实 Java、Redis 或并发集成测试。
+
+### 可以直接核验的实现证据
+
+以下链接全部固定在 `75ed279a71b17f227c3170d738eb93e50d876c8a`，不随仓库主分支变化：
+
+| 要核验的问题 | 对应源码 |
+| --- | --- |
+| 锁内到底调用哪个入口？ | [SyncLockHandler.java](https://github.com/DavidHLP/ResiCache/blob/75ed279a71b17f227c3170d738eb93e50d876c8a/src/main/java/io/github/davidhlp/spring/cache/redis/protection/breakdown/SyncLockHandler.java) |
+| fragment 是否跳过完整生命周期与后处理？ | [ChainEngine.java](https://github.com/DavidHLP/ResiCache/blob/75ed279a71b17f227c3170d738eb93e50d876c8a/src/main/java/io/github/davidhlp/spring/cache/redis/chain/ChainEngine.java) |
+| start/end 如何传递本次调用状态？ | [ChainObserver.java](https://github.com/DavidHLP/ResiCache/blob/75ed279a71b17f227c3170d738eb93e50d876c8a/src/main/java/io/github/davidhlp/spring/cache/redis/chain/observer/ChainObserver.java) |
+| 可以从哪里继续检查真实项目的测试？ | [ChainEngineTest.java](https://github.com/DavidHLP/ResiCache/blob/75ed279a71b17f227c3170d738eb93e50d876c8a/src/test/java/io/github/davidhlp/spring/cache/redis/chain/ChainEngineTest.java) |
+
+### 最小可运行反例
+
+将下面代码保存为 `lifecycle-check.mjs`，执行 `node lifecycle-check.mjs`。只依赖 Node.js 标准库，用 JavaScript 表达与语言无关的生命周期模型，便于先观察事件顺序。
+
+```js
+import assert from "node:assert/strict";
+
+const events = [];
+const started = [];
+const ended = [];
+
+async function execute(body) {
+  const token = {};
+  started.push(token);
+  events.push("start");
+  try {
+    const result = await body();
+    events.push("post");
+    return result;
+  } finally {
+    ended.push(token);
+    events.push("end");
+  }
+}
+
+async function fragment() {
+  events.push("node");
+  return "value";
+}
+
+assert.equal(await execute(fragment), "value");
+assert.deepEqual(events, ["start", "node", "post", "end"]);
+assert.equal(ended[0], started[0]);
+
+// 反例：把锁内续跑替换成完整 execute，会重复生命周期和后处理。
+events.length = 0;
+await execute(() => execute(fragment));
+assert.deepEqual(events, ["start", "start", "node", "post", "end", "post", "end"]);
+
+// 异常必须继续传播，同时执行收尾；成功后处理不应发生。
+events.length = 0;
+const failure = new Error("handler failed");
+await assert.rejects(execute(() => { throw failure; }), (error) => error === failure);
+assert.deepEqual(events, ["start", "end"]);
+assert.equal(ended.at(-1), started.at(-1));
+
+// 两个异步调用重叠，每次 end 都必须拿到各自的 token。
+const offset = started.length;
+await Promise.all([execute(fragment), execute(fragment)]);
+assert.notEqual(started[offset], started[offset + 1]);
+assert.notEqual(ended[offset], ended[offset + 1]);
+assert.ok(ended.slice(offset).every((token) => started.slice(offset).includes(token)));
+console.log("PASS: fragment boundary, duplicate lifecycle counterexample, cleanup, token pairing");
+```
+
+**预期结果**：输出一行 `PASS`。反例明确显示两次 `start/post/end`，正确 fragment 路径各一次；异常路径保留 `end` 并传播原异常。这验证的是模型中的契约，异步交错也不等于 JVM 多线程验证。真实工程仍需下文测试矩阵中的线程隔离、锁失效和同 key 重入检查；本文没有新增吞吐或生产稳定性承诺。
 
 ## 适用范围
 

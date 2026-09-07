@@ -28,10 +28,12 @@ export const template: OgTemplate = props => {
 				height: "100%",
 				display: "flex",
 				flexDirection: "column",
-				alignItems: "center",
+				alignItems: "flex-start",
 				justifyContent: "center",
 				gap: "1.5rem",
-				background: "#fffffd"
+				padding: "3rem 4rem",
+				borderLeft: "8px solid #c83232",
+				background: "#fafaf7"
 			},
 			children: [
 				{
@@ -39,8 +41,8 @@ export const template: OgTemplate = props => {
 					props: {
 						src: ICON_DATA_URL,
 						alt: "LOGO",
-						width: 120,
-						height: 120
+						width: 72,
+						height: 72
 					}
 				},
 				{
@@ -48,9 +50,9 @@ export const template: OgTemplate = props => {
 					props: {
 						style: {
 							fontSize: "4rem",
-							fontWeight: 900,
-							color: "#1a1a1a",
-							textAlign: "center"
+							fontWeight: 700,
+							color: "#30343a",
+							textAlign: "left"
 						},
 						children: title
 					}
@@ -60,9 +62,9 @@ export const template: OgTemplate = props => {
 					props: {
 						style: {
 							fontSize: "1.75rem",
-							color: "#888888",
-							textAlign: "center",
-							maxWidth: "75%"
+							color: "#63666b",
+							textAlign: "left",
+							maxWidth: "90%"
 						},
 						children: description
 					}
@@ -75,7 +77,7 @@ export const template: OgTemplate = props => {
 							borderBottom: "2px solid",
 							padding: "0 0.5rem",
 							fontSize: "1.5rem",
-							color: "#666666"
+							color: "#c83232"
 						},
 						children: author
 					}

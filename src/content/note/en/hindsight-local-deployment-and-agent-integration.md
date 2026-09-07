@@ -40,7 +40,7 @@ flowchart TD
 
   OMP -->|auto Recall / Retain / Reflect| API
   OMP -.->|MCP tool calls| FastMCP_EP
-  Codex -->|MCP JSON-RPC (stdio)| FastMCP_EP
+  Codex -->|"MCP JSON-RPC (stdio)"| FastMCP_EP
   API --> FastMCP_EP
   API --> PG0
   API -->|LLM fact extraction & reflection| OLLAMA

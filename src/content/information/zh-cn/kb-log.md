@@ -87,3 +87,7 @@
 ## [2026-08-23] maintenance | 知识库收敛 Phase 2：Hindsight 拆分与随笔溶解
 
 执行 LLM-Wiki Phase 2 正典内容收敛：（1）将 445 行巨石页面 `hindsight-local-deployment-and-agent-integration` 按关注点分离与“一概念一页”原则拆解为 3 个正典知识页：`hindsight-local-deployment`（L1/L2 算力分工与 Docker 容器化，concept）、`hindsight-omp-codex-integration`（L4 实体：FastMCP 桥接与多项目动态路由，entity）、`hindsight-troubleshooting`（L3 排障方法与 7 大失效模式矩阵，concept，严格遵循单来源为 concept 的 KB 语义不变量），原巨石页标记为 `deprecated` 导引；（2）溶解 10 篇零散随笔收纳袋 `frontend-mybatis-essays`，标记为 `deprecated` 归档并移出主索引；（3）更新 `kb-index.md` 导航、毕业观察板（7 个 provisional）与已归档区；（4）全量验证通过（`pnpm kb:lint`、`pnpm test:run`、`pnpm build` 全部通过）。
+
+## [2026-09-07] maintenance | 招聘阅读入口与 ResiCache 设计复盘
+
+经用户接受首页定位、两个项目案例入口与技术复盘建议，首页增加岗位介绍、简历/项目/邮件入口，并复用 UltiCode、ResiCache 正典项目页。三语首页提供本地化介绍，英文与日文明确标注案例正文为中文。ResiCache observer 页补充固定源码链接、设计复盘导读和 Node.js 标准库可运行模型，覆盖 fragment 边界、重复生命周期反例、异常收尾与 token 引用配对；明确模型不代表真实 Java/Redis 并发或生产验证。同步更新索引和相关项目双向链接，沿用已有来源，不修改 raw 快照。

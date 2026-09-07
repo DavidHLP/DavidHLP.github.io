@@ -53,6 +53,7 @@ import Icon from "$components/Icon.svelte";
 		const current = document.documentElement.dataset.theme;
 		const target = current === "dark" ? "light" : "dark";
 		const transit = () => trigger(target);
+		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return transit();
 
 		let transition: ViewTransition;
 		if (!(transition = document.startViewTransition?.(transit))) return transit(); // Compatibility check

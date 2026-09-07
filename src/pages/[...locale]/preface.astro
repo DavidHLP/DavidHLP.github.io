@@ -24,12 +24,12 @@ const entries = await Promise.all(prefaces.map(async preface => ({ ...preface, c
 
 <Base title={ts(t, "navigation.preface")} {locale}>
 	<main class="flex flex-col">
-		<h2>{ts(t, "home.prefaces")}</h2>
+		<h1 class="text-2xl">{ts(t, "home.prefaces")}</h1>
 		<ul class="flex flex-col list-none">
 			{
-				entries.map(preface => [
-					<hr class="my-5 border-b border-primary" />,
+				entries.map(preface => (
 					<li>
+						<hr class="my-5 border-b border-primary" />
 						<time datetime={preface.data.timestamp.toISOString()} class="block mb-5 font-bold text-xl">
 							{Time.toLocaleString(preface.data.timestamp, locale)}
 						</time>
@@ -42,7 +42,7 @@ const entries = await Promise.all(prefaces.map(async preface => ({ ...preface, c
 							</div>
 						)}
 					</li>
-				])
+				))
 			}
 		</ul>
 	</main>

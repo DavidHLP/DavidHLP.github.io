@@ -26,7 +26,7 @@ async function openMermaidPreview(svg: SVGSVGElement, width: number, height: num
 	const rectY = viewBox && viewBox.length === 4 ? viewBox[1] : 0;
 	const rectW = viewBox && viewBox.length === 4 ? viewBox[2] : width;
 	const rectH = viewBox && viewBox.length === 4 ? viewBox[3] : height;
-	const background = document.documentElement.dataset.theme === "dark" ? "#0f2a3d" : "#fffffd";
+	const background = getComputedStyle(document.documentElement).getPropertyValue("--background-color").trim();
 
 	const backgroundRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 	backgroundRect.setAttribute("x", String(rectX));
@@ -101,9 +101,44 @@ export async function initMermaid(root: ParentNode = document): Promise<void> {
 		}
 	}
 
+	const style = getComputedStyle(document.documentElement);
+	const ink = style.getPropertyValue("--primary-color").trim();
+	const paper = style.getPropertyValue("--background-color").trim();
+	const tint = style.getPropertyValue("--block-color").trim();
+	const accent = style.getPropertyValue("--accent-color").trim();
 	mermaid.initialize({
 		startOnLoad: false,
-		theme: document.documentElement.dataset.theme === "dark" ? "dark" : "default",
+		theme: "base",
+		themeVariables: {
+			darkMode: document.documentElement.dataset.theme === "dark",
+			background: paper,
+			primaryColor: tint,
+			primaryTextColor: ink,
+			primaryBorderColor: ink,
+			secondaryColor: paper,
+			secondaryTextColor: ink,
+			secondaryBorderColor: accent,
+			tertiaryColor: tint,
+			tertiaryTextColor: ink,
+			tertiaryBorderColor: ink,
+			lineColor: ink,
+			textColor: ink,
+			mainBkg: tint,
+			clusterBkg: paper,
+			clusterBorder: ink,
+			edgeLabelBackground: paper,
+			actorBkg: paper,
+			actorBorder: ink,
+			actorTextColor: ink,
+			actorLineColor: ink,
+			signalColor: ink,
+			signalTextColor: ink,
+			noteBkgColor: tint,
+			noteBorderColor: accent,
+			noteTextColor: ink,
+			fontFamily: style.getPropertyValue("--font-mono").trim(),
+			fontSize: "14px"
+		},
 		securityLevel: "loose"
 	});
 	await mermaid.run();

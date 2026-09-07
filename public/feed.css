@@ -1,20 +1,22 @@
 :root {
-	--primary-color: #2a2a28;
-	--remark-color: #757575;
-	--background-color: #fffffd;
-	--block-color: #eeeeee;
-	--shadow-color: #cdcdcc;
-	--selection-color: #adadacc3;
+	--primary-color: #30343a;
+	--remark-color: #63666b;
+	--background-color: #fafaf7;
+	--block-color: #eeefeb;
+	--shadow-color: #d5d6d2;
+	--selection-color: #c8323226;
+	--accent-color: #c83232;
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--primary-color: #dddddb;
-		--remark-color: #a5a5a5;
-		--background-color: #020200;
-		--block-color: #1e1e1e;
-		--shadow-color: #323231;
-		--selection-color: #adadacc3;
+		--primary-color: #f0f0e9;
+		--remark-color: #afb1ac;
+		--background-color: #222529;
+		--block-color: #2d3136;
+		--shadow-color: #44494e;
+		--selection-color: #ed817a40;
+		--accent-color: #ed817a;
 	}
 }
 
@@ -167,4 +169,13 @@ footer a:hover {
 	.feed-item {
 		gap: 0.25rem;
 	}
+}
+
+a:hover {
+	color: var(--accent-color);
+}
+a:focus-visible,
+button:focus-visible {
+	outline: 2px solid var(--accent-color);
+	outline-offset: 4px;
 }

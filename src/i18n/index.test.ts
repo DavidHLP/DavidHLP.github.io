@@ -91,15 +91,14 @@ describe("i18nData — deep merge semantics", () => {
 	it("does not concatenate arrays — active array replaces fallback array", () => {
 		// The contract: the merged `home.profile.meta` is the active
 		// locale's array as-is, not the active ∪ fallback concatenation.
-		// We assert via the array length, which the YAML structure
-		// pins at 3 in both en and zh-cn — the merge must not produce
-		// a six-element array.
+		// Compare with each unmerged locale so profile edits do not
+		// change this merge-contract test.
 		const en = i18nData("en", "index", { fallbackLocale: "zh-cn" });
 		const zh = i18nData("zh-cn", "index", { fallbackLocale: "en" });
 		expect(Array.isArray(en.home.profile.meta)).toBe(true);
 		expect(Array.isArray(zh.home.profile.meta)).toBe(true);
-		expect(en.home.profile.meta).toHaveLength(3);
-		expect(zh.home.profile.meta).toHaveLength(3);
+		expect(en.home.profile.meta).toEqual(i18nData("en", "index", { fallbackLocale: "en" }).home.profile.meta);
+		expect(zh.home.profile.meta).toEqual(i18nData("zh-cn", "index", { fallbackLocale: "zh-cn" }).home.profile.meta);
 	});
 
 	it("merges nested objects (active wins on conflict, fallback fills gaps)", () => {

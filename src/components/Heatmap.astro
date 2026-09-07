@@ -97,10 +97,10 @@ const showTitles = strategy.showEntryTitles;
 			}
 
 			return (
-				<figure class="group/pop">
+				<figure class="heatmap-cell group/pop" tabindex={count ? 0 : undefined} aria-label={cell.target}>
 					<i class:list={["block bg-primary/10", strategy.cellSizeClass, { "bg-primary/40": count > 0, "bg-primary/70": count > 1, "bg-primary": count > 2 }]} />
 
-					<div class="w-max flex flex-col mb-1 rounded-sm px-2 py-2 text-xs text-background bg-primary pop">
+					<div class="w-max max-w-[min(320px,85vw)] flex flex-col mb-1 rounded-sm px-2 py-2 text-xs text-background bg-primary pop">
 						<time class="font-bold">{cell.target}</time>
 						{details}
 					</div>
@@ -111,6 +111,7 @@ const showTitles = strategy.showEntryTitles;
 </section>
 
 <style>
+	.heatmap-cell:focus-within .pop { opacity: 1; visibility: visible; }
 	@supports (anchor-name: --anchor-heatmap) {
 		figure {
 			anchor-scope: --anchor-heatmap;

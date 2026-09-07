@@ -57,7 +57,8 @@ export const template: OgTemplate = props => {
 				padding: "3rem",
 				width: "100%",
 				height: "100%",
-				background: "#fffffd"
+				background: "#fafaf7",
+				color: "#30343a"
 			},
 			children: [
 				{
@@ -75,7 +76,8 @@ export const template: OgTemplate = props => {
 								props: {
 									style: {
 										alignSelf: "flex-start",
-										borderLeft: "0.5rem solid black",
+										borderLeft: "0.25rem solid #c83232",
+										color: "#c83232",
 										padding: "0.25rem 1rem 0.75rem",
 										fontSize: "1.5rem"
 									},
@@ -116,7 +118,7 @@ export const template: OgTemplate = props => {
 										gap: "1rem",
 										alignItems: "center",
 										fontSize: "1.25rem",
-										color: "#555555"
+										color: "#63666b"
 									},
 									children: [
 										{
@@ -153,7 +155,7 @@ export const template: OgTemplate = props => {
 					props: {
 						style: {
 							margin: "2.5rem 0 2rem",
-							borderTop: "0.25rem solid black"
+							borderTop: "1px solid #30343a"
 						}
 					}
 				},

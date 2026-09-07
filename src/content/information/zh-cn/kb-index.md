@@ -67,7 +67,7 @@
 - [Spring Boot 与 Spring Cloud：自动装配、事务、注册发现、网关与可观测性](/note/spring-cloud-and-boot) — 以注册发现锚定调用链。来源：`ingest-spring-cloud`。
 - [微服务数据所有权：先定领域 owner，再谈拆库与迁移](/note/microservice-data-ownership) — bounded context、private schema、saga/outbox、`expand→migrate→contract`。来源：`microservice-domain-data-ownership`, `microservice-domain-data-ownership-correction`。
 - [数据库 Schema 漂移：用 history、schema 与 query 三视图定位](/note/database-schema-drift) — Flyway history vs 实际 schema vs 应用 query，repair 非 DDL 回滚。来源：`database-schema-drift-contract`。
-- [ResiCache：observer 嵌套执行必须区分生命周期、fragment 与 scope token](/note/resicache-observer-nested-execution) — around hook、锁内 fragment、ThreadLocal、single-flight。来源：`resicache-observer-nested-execution-contract`。
+- [ResiCache：observer 嵌套执行必须区分生命周期、fragment 与 scope token](/note/resicache-observer-nested-execution) — 锁内续跑设计复盘，附固定源码、可运行生命周期模型与反例；区分模型验证和真实并发测试。来源：`resicache-observer-nested-execution-contract`。
 - [多服务启动就绪：running、ready 与依赖/失败/重启传播](/note/multi-service-readiness) — Compose/systemd 排序、依赖、健康门禁。来源：`multi-service-readiness-contract`, `multi-service-readiness-contract-correction`, `multi-service-readiness-safety-correction`。
 
 ## E. 基础设施与运维
@@ -179,4 +179,3 @@ raw 文件位于 `src/content/raw/zh-cn/`，只供 LLM 阅读，不生成公开�
 - 新增来源或页面后，同步追加 [操作日志](/kb#log)。
 - lint 发现孤儿页、重复页、断链或冲突时，先修证据链，再修文案。
 - 呈现层 6 域为视图聚合，不改 `series` 枚举；毕业观察板季度审视，未达标则 `deprecated`。
-

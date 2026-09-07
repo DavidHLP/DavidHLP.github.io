@@ -70,7 +70,7 @@ describe("content OG template", () => {
 		const vnode = template(baseProps) as VNode;
 		const inner = getChild(vnode, 0);
 		const typeSpan = getChild(inner!, 0);
-		expect(typeSpan?.props?.style?.borderLeft).toBe("0.5rem solid black");
+		expect(typeSpan?.props?.style?.borderLeft).toBe("0.25rem solid #c83232");
 		// The type text is the first child of the type span's children.
 		const typeChildren = getChildren(typeSpan!);
 		expect(typeChildren[0]).toBe("Note");
@@ -142,6 +142,6 @@ describe("content OG template", () => {
 
 	it("uses the configured background colour", () => {
 		const vnode = template(baseProps) as VNode;
-		expect(vnode.props?.style?.background).toBe("#fffffd");
+		expect(vnode.props?.style?.background).toBe("#fafaf7");
 	});
 });
