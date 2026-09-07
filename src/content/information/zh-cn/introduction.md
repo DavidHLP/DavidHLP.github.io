@@ -1,7 +1,7 @@
 <div class="not-prose flex flex-col md:flex-row justify-between items-start border-b border-weak/20 pb-6 mb-8 gap-4 select-text">
   <div>
     <h1 class="text-3xl font-serif font-light mb-1">贺恋棚</h1>
-    <p class="text-xs font-mono text-weak uppercase tracking-wider">// 初级 Java 后端开发工程师</p>
+    <p class="text-xs font-mono text-weak uppercase tracking-wider">// Java 后端开发工程师</p>
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-xs font-mono text-secondary">
     <div>城市: 重庆 / 23岁</div>
@@ -9,7 +9,7 @@
     <div>邮箱: <a href="mailto:lysf15520112973@163.com" class="hover:underline">lysf15520112973@163.com</a></div>
     <div>电话: 15520112973</div>
     <div>GitHub: <a href="https://github.com/DavidHLP" target="_blank" class="hover:underline">github.com/DavidHLP</a></div>
-    <div>博客: <a href="https://davidhlp.github.io/" target="_blank" class="hover:underline">davidhlp.github.io</a></div>
+    <div>知识库: <a href="https://davidhlp.github.io/kb/" target="_blank" class="hover:underline">davidhlp.github.io/kb</a></div>
   </div>
 </div>
 
@@ -19,17 +19,17 @@
   <div class="relative select-text">
     <span class="absolute -left-[29px] top-2 w-2.5 h-2.5 rounded-full bg-background border-2 border-primary"></span>
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-      <div class="font-serif font-medium text-lg text-primary">阿里云 · 安骑士主机安全客户端（博彦交付）</div>
+      <div class="font-serif font-medium text-lg text-primary">博彦科技</div>
       <div class="text-xs font-mono text-weak">// 2026.01 - 2026.06</div>
     </div>
-    <div class="text-xs font-mono text-remark mb-3 uppercase tracking-wider">后端开发实习生</div>
+    <div class="text-xs font-mono text-remark mb-3 uppercase tracking-wider">后端开发实习生｜阿里云专有云 · 安骑士主机安全项目</div>
     <ul class="list-disc pl-4 text-sm text-secondary space-y-2">
-      <li><strong>业务背景</strong>：参与专有云安全产品安骑士服务端研发，负责集群侧资源管理、AI 资产识别、复杂查询调优与线上问题排查。</li>
-      <li><strong>集群侧数据接入</strong>：独立打通平台侧、集群侧、ECS、BMS 多数据源 GPU 资源链条，支撑上层资源的高效统计、组合筛选与复杂查询。</li>
-      <li><strong>AI 资产识别能力</strong>：设计实现 OpenClaw、Ollama 测试容器，基于运行状态、GPU 关联及漏洞数据，完成 AI 运行环境的风险识别与安全展示。</li>
-      <li><strong>慢 SQL 性能优化</strong>：分析复杂 SQL 的执行计划并重构索引，将部分资源统计及筛选接口耗时从秒级优化至毫秒级。</li>
-      <li><strong>containerd/Harbor 排障</strong>：排查 TLS 证书链及 CA 信任、ServiceAccount 凭证拉取等集群底座故障，编写沉淀排障诊断脚本与清单。</li>
-      <li><strong>线上缺陷修复</strong>：熟练通过 Arthas <code>watch</code> / <code>trace</code> / <code>stack</code> 诊断工具捕获堆栈及入参，独立排查并闭环修复 20+ 个线上故障与缺陷。</li>
+      <li><strong>业务背景</strong>：参与安骑士主机安全产品服务端研发，负责集群资源数据接入、AI 资产识别、资源查询优化与线上问题排查。</li>
+      <li><strong>GPU 资源接入</strong>：对接平台侧、ECS、BMS、BMCP 等团队，独立完成集群侧 GPU 信息接入与聚合，支撑资源统计、条件筛选与关联查询。</li>
+      <li><strong>AI 资产识别</strong>：参与功能建设，独立搭建 OpenClaw、Ollama 测试容器环境；结合容器状态、GPU 关系与漏洞数据，实现资产状态判断、GPU 关联及风险展示逻辑。</li>
+      <li><strong>复杂查询优化</strong>：针对资源查询接口延迟，分析 SQL 执行计划，调整索引、查询条件与覆盖字段，降低资源列表及统计接口的查询耗时。</li>
+      <li><strong>线上问题定位</strong>：使用 Arthas <code>watch</code> / <code>trace</code> / <code>stack</code> 分析调用链、耗时、异常堆栈与关键参数，独立完成缺陷定位、修复及回归验证。</li>
+      <li><strong>容器镜像排障</strong>：定位 containerd 拉取 Harbor 私有镜像时的 TLS 证书校验与信任链问题，排查 CA、<code>certs.d</code>、<code>hosts.toml</code>、<code>imagePullSecrets</code> 与节点缓存，沉淀诊断脚本和排查清单。</li>
     </ul>
   </div>
 </div>
@@ -41,35 +41,39 @@
     <span class="absolute -left-[29px] top-2 w-2.5 h-2.5 rounded-full bg-background border-2 border-primary"></span>
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
       <div class="font-serif font-medium text-lg text-primary flex items-center gap-2">
-        <span>ResiCache 缓存防护中间件</span>
-        <a href="https://github.com/DavidHLP/ResiCache" target="_blank" class="text-xs font-mono text-weak hover:text-primary">[GITHUB]</a>
+        <span>在线编程评测系统 UltiCode</span>
+        <a href="https://github.com/DavidHLP/UltiCode" target="_blank" class="text-xs font-mono text-weak hover:text-primary">[GITHUB]</a>
       </div>
-      <div class="text-xs font-mono text-weak">// 2025.01 - 至今</div>
+      <div class="text-xs font-mono text-weak">// 2025.10 - 至今</div>
     </div>
-    <div class="text-xs font-mono text-remark mb-3 uppercase">技术栈: Spring Boot 3 / Redis / Redisson / Caffeine / SPI / Micrometer</div>
+    <div class="text-xs font-mono text-remark mb-3 uppercase">技术栈: Java 17 / Spring Boot 3 / Spring Security / MyBatis-Plus / MySQL / Redis Streams / Dubbo / Flyway / Docker</div>
+    <p class="text-sm text-secondary leading-relaxed mb-3">个人开源在线编程评测平台，覆盖练习、竞赛、代码提交、沙箱评测与后台管理。Submission 服务持有提交数据，独立 Judge Worker 执行判题，重点处理任务投递故障、重复执行与重判结果竞争。</p>
     <ul class="list-disc pl-4 text-sm text-secondary space-y-2">
-      <li><strong>声明式缓存封装</strong>：基于 Spring AOP 拦截，自研 <code>@RedisCacheable</code> 等注解，解耦缓存读取、空值写入、预刷新及 TTL 扰动。</li>
-      <li><strong>责任链防线设计</strong>：利用 <code>CacheHandlerChain</code> 将布隆过滤器、多级同步锁、预刷新、防雪崩 TTL 随机抖动模块进行解耦和 SPI 化。</li>
-      <li><strong>穿透与雪崩防御</strong>：引入 JVM BitSet 结合 Redis Pipeline 分层布隆过滤防御穿透，引入 TTL 随机扰动结合异步预刷新抵御雪崩。</li>
-      <li><strong>击穿两级锁控制</strong>：应用本地并发锁与 Redisson 分布式锁，避免热点 Key 过期瞬间大量请求穿透数据库。</li>
-      <li><strong>可观测与集成测试</strong>：接入 Micrometer 暴露命中率、延时等度量指标，通过 Testcontainers 容器化技术保证 Redis 测试一致性。</li>
+      <li><strong>事务 Outbox 投递</strong>：在本地事务内写入提交记录与判题 Outbox，后台向 Redis Streams 投递并更新发送状态，失败后退避重试；通过 Lua 合并去重标记与入队操作，处理标记已写入但消息未入队的故障窗口。</li>
+      <li><strong>任务回收与死信</strong>：结合 <code>XPENDING</code> / <code>XCLAIM</code> 回收超时未确认任务，按处理容量和重试次数控制重新投递；耗尽预算后转入死信，避免无效任务反复占用判题资源。</li>
+      <li><strong>重判结果竞争控制</strong>：以 <code>generation</code> + <code>attemptId</code> 标识有效执行，配合租约与心跳续租；结果写回使用带双条件的 SQL CAS，拒绝过期执行结果覆盖新一轮判题。</li>
+      <li><strong>不可信代码执行约束</strong>：通过 Docker 配置禁网、非 root、只读根文件系统、Capabilities 裁剪及 Seccomp，结合 CPU、内存、PID 与文件句柄限额，限制用户代码权限和资源占用。</li>
+      <li><strong>刷新令牌防重放</strong>：Refresh Token 仅以 SHA-256 哈希入库；轮换时校验用途、归属与有效期，通过条件更新限制旧令牌仅成功消费一次，并在同一事务内签发新令牌，处理并发刷新竞争。</li>
     </ul>
   </div>
   <div class="relative select-text">
     <span class="absolute -left-[29px] top-2 w-2.5 h-2.5 rounded-full bg-background border-2 border-primary"></span>
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
       <div class="font-serif font-medium text-lg text-primary flex items-center gap-2">
-        <span>在线编程评测系统 UltiCode</span>
-        <a href="https://github.com/DavidHLP/UltiCode" target="_blank" class="text-xs font-mono text-weak hover:text-primary">[GITHUB]</a>
+        <span>ResiCache 缓存防护中间件</span>
+        <a href="https://github.com/DavidHLP/ResiCache" target="_blank" class="text-xs font-mono text-weak hover:text-primary">[GITHUB]</a>
       </div>
-      <div class="text-xs font-mono text-weak">// 2025.10 - 至今</div>
+      <div class="text-xs font-mono text-weak">// 2025.01 - 至今</div>
     </div>
-    <div class="text-xs font-mono text-remark mb-3 uppercase">技术栈: Spring Boot 3 / Security / Redis / JWT / MeiliSearch / Docker / Vue 3</div>
+    <div class="text-xs font-mono text-remark mb-3 uppercase">技术栈（当前开发线）: Java 21 / Spring Boot 4 / Spring Cache / Redis / Redisson / Micrometer / Testcontainers</div>
+    <p class="text-sm text-secondary leading-relaxed mb-3">个人开源 Spring Cache 防护扩展，通过增强注解与责任链组合缓存防护策略，重点实现同 Key 请求合并、分布式加载协调、版本化提前过期与安全反序列化。</p>
     <ul class="list-disc pl-4 text-sm text-secondary space-y-2">
-      <li><strong>多语言隔离沙箱</strong>：基于 Docker 隔离，应用 seccomp 权限裁剪、资源限额保障判题执行安全性，防止用户代码恶意逃逸。</li>
-      <li><strong>异步评测流转</strong>：以 Redis Stream 与 Consumer Group 传递任务流，保障判题接口削峰，配合心跳监控与重试确保评测高可用。</li>
-      <li><strong>排行榜聚合优化</strong>：将 ICPC/IOI 排行榜高频计算，由重复遍历重构为多维度聚合计算，降低高频刷新时的 CPU 占用。</li>
-      <li><strong>多级缓存与搜索</strong>：基于 Caffeine + Redis 构建本地与分布式两级缓存，接入 MeiliSearch 满足高吞吐文本检索。</li>
+      <li><strong>同 Key 请求合并</strong>：基于 <code>ConcurrentHashMap</code> + <code>CompletableFuture</code> 实现 JVM 内 Single-flight，由 Leader 获取分布式锁并加载数据，Follower 共享结果；锁内二次检查缓存，减少重复回源与锁竞争。</li>
+      <li><strong>分层布隆过滤</strong>：组合本地过滤器与 Redis 过滤器，本地命中时跳过远端检查，本地未命中时查询远端并按结果回填；避免仅因本地未命中就拒绝有效业务加载。</li>
+      <li><strong>版本化提前过期</strong>：通过 Redis Lua 原子校验缓存值版本并缩短 TTL，避免旧异步任务修改新值有效期；缓存到期后由后续请求触发加载，处理提前过期与更新、删除交错的竞态。</li>
+      <li><strong>反序列化边界防护</strong>：使用 Jackson 流式扫描校验类型白名单，再解析版本化缓存封装；通过回归测试覆盖恶意类型标记与缓存元数据往返，校验阶段不构建完整 JSON 树。</li>
+      <li><strong>异步任务去重</strong>：按 Key 维护 in-flight Future，避免重复调度；使用有界线程池队列与 <code>CallerRunsPolicy</code> 控制积压，处理任务完成与 Future 登记交错产生的清理竞态。</li>
+      <li><strong>故障语义与验证</strong>：区分业务加载异常与缓存写回失败，加载成功后写回失败仍返回业务值；通过并发测试及真实 Redis 集成测试覆盖结果共享、异常传播、新值 TTL 保护与删除后不复活。</li>
     </ul>
   </div>
 </div>
@@ -82,11 +86,11 @@
     <span class="absolute -top-1 -right-1 text-[8px] font-mono text-weak/50">+</span>
     <span class="absolute -bottom-1 -left-1 text-[8px] font-mono text-weak/50">+</span>
     <span class="absolute -bottom-1 -right-1 text-[8px] font-mono text-weak/50">+</span>
-    <h3 class="text-xs font-mono text-primary uppercase mb-2">// 后端开发与数据库</h3>
+    <h3 class="text-xs font-mono text-primary uppercase mb-2">// Java 后端与数据处理</h3>
     <ul class="list-disc pl-4 text-xs text-secondary space-y-1.5">
-      <li>掌握 Java / JVM 及企业级开发框架 (Spring Boot, Security, MyBatis-Plus)。</li>
-      <li>熟悉 MySQL 关系型数据库设计与优化，能进行慢 SQL 排障、执行计划分析与索引调整。</li>
-      <li>熟悉 Redis 缓存机制、Redisson 分布式锁及多级缓存设计。</li>
+      <li>熟悉 Java、Spring Boot、Spring MVC、Spring Security、MyBatis-Plus，具备接口设计、认证鉴权及异常处理实践。</li>
+      <li>熟悉 MySQL 索引设计、执行计划分析与慢 SQL 优化；具有 Redis 缓存防护、分布式锁及并发加载实践。</li>
+      <li>具有 Dubbo、Redis Streams、Outbox 项目实践，理解事务边界、重复消费、失败重试及最终一致性。</li>
     </ul>
   </div>
   <div class="border border-weak/10 p-5 bg-background/50 relative">
@@ -94,11 +98,11 @@
     <span class="absolute -top-1 -right-1 text-[8px] font-mono text-weak/50">+</span>
     <span class="absolute -bottom-1 -left-1 text-[8px] font-mono text-weak/50">+</span>
     <span class="absolute -bottom-1 -right-1 text-[8px] font-mono text-weak/50">+</span>
-    <h3 class="text-xs font-mono text-primary uppercase mb-2">// 容器架构与运维排障</h3>
+    <h3 class="text-xs font-mono text-primary uppercase mb-2">// 故障排查与工程验证</h3>
     <ul class="list-disc pl-4 text-xs text-secondary space-y-1.5">
-      <li>掌握 Docker 容器网络、安全隔离；熟悉 containerd, Harbor, K8s 镜像 TLS 证书排障。</li>
-      <li>熟练使用 Arthas 诊断命令（watch, trace, stack）在线分析方法耗时与异常堆栈。</li>
-      <li>熟悉 Git 版本控制、Maven、Flyway 数据迁移与 Micrometer 监控组件。</li>
+      <li>能够结合 Arthas、Linux 进程信息、容器日志与 SQL 执行计划定位问题，并完成修复及回归验证。</li>
+      <li>熟悉 Docker 镜像、网络、资源限制与基本隔离机制；具有 containerd、Harbor 及私有镜像 TLS 排障经验。</li>
+      <li>熟悉 Git、Maven、Docker Compose、Flyway、Micrometer；使用 Testcontainers 及并发测试验证故障与竞态场景。</li>
     </ul>
   </div>
 </div>
@@ -124,19 +128,20 @@
   </div>
 </div>
 
-## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 05 ]</span> 个人价值
+## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 05 ]</span> 开源贡献与技术沉淀
 
 <div class="border-t border-weak/10 pt-6 mt-8 flex flex-col gap-6 select-text">
   <div>
-    <h3 class="text-xs font-mono text-weak uppercase tracking-wider mb-2">// 个人优势</h3>
+    <h3 class="text-xs font-mono text-weak uppercase tracking-wider mb-2">// 开源贡献</h3>
     <p class="text-sm text-secondary leading-relaxed">
-      拥有真实专有云安全产品线上功能开发及排障实习经验，能够针对业务痛点进行缓存、查询等专项性能优化；具备高标准排障闭环能力，能够独立编写自动排障清单与检测工具；拥有良好的架构学习热忱，通过两个完整开源项目沉淀落地可观测及沙箱安全。
+      <strong>codebase-memory-mcp</strong>：<a href="https://github.com/DeusData/codebase-memory-mcp/pull/1229" target="_blank" rel="noopener noreferrer" class="hover:underline">PR #1229</a> <strong>已合并</strong>。新增 Oh My Pi（OMP）客户端接入，支持配置目录识别、MCP 注册、Skill 安装及安装/卸载流程，补充配置隔离与用户内容保留测试。
     </p>
   </div>
   <div>
-    <h3 class="text-xs font-mono text-weak uppercase tracking-wider mb-2">// 自我评价</h3>
-    <p class="text-sm text-secondary leading-relaxed font-light">
-      专注于 Java 开发与系统稳定性调优，崇尚编写干净、可读性强、职责解耦的高内聚代码。在真实的业务和个人项目中沉淀了较好的监控排障手段。希望能够在复杂的业务和大规模后台场景中，进一步打磨高性能和高可用服务底座。
-    </p>
+    <h3 class="text-xs font-mono text-weak uppercase tracking-wider mb-2">// 代表性技术知识页</h3>
+    <ul class="list-disc pl-4 text-sm text-secondary space-y-2">
+      <li><a href="https://davidhlp.github.io/note/java-online-performance-debug/" class="hover:underline">Java 线上性能排障：从症状到证据的最小决策树</a>：串联进程、线程栈、GC 与 Arthas 观测，整理止损、存证、定位及恢复流程。</li>
+      <li><a href="https://davidhlp.github.io/note/containerd-tls-troubleshooting/" class="hover:underline">containerd TLS：证书信任链与临时跳过验证的决策</a>：区分运行时 CA、节点信任、Registry 认证与镜像缓存，整理分层诊断路径。</li>
+    </ul>
   </div>
 </div>
