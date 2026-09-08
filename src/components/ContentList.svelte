@@ -10,6 +10,7 @@ import Pagination from "$components/Pagination.svelte";
 import i18nit from "$i18n";
 import { ts } from "$utils/labels";
 import { tagOptions } from "$utils/tag-options";
+import { searchCards, type SearchableCard } from "$utils/content-search";
 
 /**
  * The two content publications the site renders as paginated lists.
@@ -26,7 +27,7 @@ let {
 	items,
 	series: seriesList = [],
 	tags: tagList
-}: { locale: string; section: Section; items: ContentCard[]; series?: string[]; tags: string[] } = $props();
+}: { locale: string; section: Section; items: SearchableCard[]; series?: string[]; tags: string[] } = $props();
 
 const t = i18nit(locale);
 const supportsSeries = section === "note";
@@ -40,9 +41,12 @@ let page: number = $state(1);
 let pageParam: boolean = $state(false);
 let series: string | null = $state(null);
 let tags: string[] = $state([]);
+let query = $state("");
+let resultCount = $state(items.length);
 let tagQuery = $state("");
 let tagsExpanded = $state(false);
 const tagListId = $props.id();
+const resultsId = `${tagListId}-results`;
 const matchingTags = $derived(tagOptions(tagList, items, tagQuery));
 const visibleTags = $derived(tagsExpanded || tagQuery.trim() ? matchingTags : matchingTags.slice(0, 12));
 
@@ -80,7 +84,7 @@ function chooseSeries(seriesChoice: string, turn?: boolean) {
 
 /** Filtered and paginated list of cards */
 let list: ContentCard[] = $derived.by(() => {
-	let filtered: ContentCard[] = items
+	let filtered = items
 		.filter(item => {
 			// Check if item matches the specified series (only for sections that support series)
 			const matchSeries = !supportsSeries || !series || item.data.series === series;
@@ -96,8 +100,10 @@ let list: ContentCard[] = $derived.by(() => {
 			// Newer first
 			return b.data.timestamp.getTime() - a.data.timestamp.getTime();
 		});
+	if (supportsSeries) filtered = searchCards(filtered, query);
 
 	untrack(() => {
+		resultCount = filtered.length;
 		// Ensure page is within valid range
 		pages = Math.max(1, Math.ceil(filtered.length / size));
 		page = Math.max(1, Math.min(Math.floor(page), pages));
@@ -118,7 +124,10 @@ $effect(() => {
 			page = Number.isNaN(value) ? 1 : value;
 		}
 
-		if (supportsSeries) series = params.get("series");
+		if (supportsSeries) {
+			series = params.get("series");
+			query = params.get("q") ?? "";
+		}
 		tags = params.getAll("tag");
 
 		initial = false;
@@ -128,6 +137,10 @@ $effect(() => {
 		url.searchParams.delete("series");
 		url.searchParams.delete("tag");
 		url.searchParams.delete("page");
+		if (supportsSeries) {
+			url.searchParams.delete("q");
+			if (query.trim()) url.searchParams.set("q", query.trim());
+		}
 
 		if (supportsSeries && series) url.searchParams.set("series", series);
 		for (const tag of tags) url.searchParams.append("tag", tag);
@@ -141,8 +154,24 @@ $effect(() => {
 });
 </script>
 
+{#if supportsSeries}
+	<div class="content-search no-print" role="search" aria-label={ts(t, "filters.searchContent")}>
+		<label class="tag-search">
+			<Icon name="lucide--search" />
+			<input type="search" bind:value={query} oninput={() => { page = 1; pageParam = false; }} placeholder={ts(t, "filters.searchContent")} aria-label={ts(t, "filters.searchContent")} aria-controls={resultsId} aria-describedby={`${resultsId}-hint`} />
+		</label>
+		<div class="search-summary">
+			<span id={`${resultsId}-hint`}>{t("filters.searchHint")}</span>
+			<span role="status" aria-live="polite">{t("filters.results", { count: resultCount })}</span>
+			{#if query || series || tags.length}
+				<button class="tag-action" onclick={() => { query = ""; series = null; tags = []; page = 1; pageParam = false; }}>{t("filters.reset")}</button>
+			{/if}
+		</div>
+	</div>
+{/if}
+
 <div class="flex flex-col-reverse sm:flex-row gap-10 grow relative">
-	<article class="flex flex-col grow min-w-0">
+	<article id={resultsId} class="flex flex-col grow min-w-0">
 		{#each list as item (item.id)}
 			<section animate:flip={{ duration: 150 }} class="flex flex-col gap-2 border-b border-weak/10 pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0 relative select-text">
 				<div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
@@ -171,7 +200,7 @@ $effect(() => {
 				</div>
 			</section>
 		{:else}
-			<div class="pt-[10vh] text-center text-secondary font-bold text-xl">{t(`${section}.empty`)}</div>
+			<div class="pt-[10vh] text-center text-secondary font-bold text-xl">{supportsSeries && (query.trim() || series || tags.length) ? t("filters.noResults") : t(`${section}.empty`)}</div>
 		{/each}
 
 		<div class="mt-8">
@@ -232,6 +261,10 @@ $effect(() => {
 </div>
 
 <style>
+	.content-search { margin-bottom: 24px; }
+	.content-search .tag-search { padding: 14px; }
+	.content-search input { font-size: 1rem; }
+	.search-summary { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: space-between; margin-top: 10px; font-size: 0.75rem; color: var(--remark-color); }
 	.tag-filter { min-width: 0; }
 	.tag-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 	.tag-heading h4 { margin: 0; }

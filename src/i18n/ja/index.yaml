@@ -107,6 +107,11 @@ home:
       - "<strong>OSS 貢献・受賞</strong>：OMP クライアント連携を追加した codebase-memory-mcp PR #1229 がマージ済み。2025 年「藍橋杯」Java ソフトウェア設計 B 組で全国三等賞。"
     linkText: 履歴書を見る
 filters:
+  searchContent: 知識ページのタイトル・タグ・本文を検索…
+  searchHint: キーワードは空白で区切り、シリーズやタグでも絞り込めます
+  results: '{count} 件'
+  reset: 検索と絞り込みをクリア
+  noResults: 一致するページがありません。キーワードを減らすか、絞り込みを解除してください。
   tags: タグで絞り込む
   searchTags: タグを検索…
   selected: '{count} 件選択中'
