@@ -37,9 +37,9 @@
 - [LLM-Wiki 模式：用 LLM 增量维护一个持久的个人知识库](/note/llm-wiki-pattern) — 解释 raw、wiki、schema 三层，以及 ingest、query、lint 三个操作。来源：`karpathy-llm-wiki`。
 - [KB 会话摄入管道契约：增量复用、redaction v19 与不可变 raw](/note/kb-session-ingest-contract) — 固定来源身份/内容哈希、失败重处理、控制面过滤、断点账本与脱敏审计。来源：`kb-ingest-pipeline-v19`。
 - [MCP 协议时代边界与 codebase-memory-mcp v0.10.2 图工作流](/note/mcp-codebase-memory-workflow) — 固定 modern MCP 契约与图搜索、源码和 coverage 证据纪律。来源：`mcp-codebase-memory-workflow`。
-- [Hindsight 本地算力分工与 Docker 容器化部署](/note/hindsight-local-deployment) — L1/L2 部署架构：AMD ROCm GPU 推理 + CPU BGE-M3 向量提取分工与 UID 1000 权限编排。来源：`hindsight-local-deployment-and-agent-integration`。
-- [Hindsight 统一记忆接入：FastMCP 桥接与多项目动态路由](/note/hindsight-omp-codex-integration) — L4 实体接入：FastMCP stdio 状态机、Git 根目录自适应 Bank 动态路由与 OMP/Codex 双端配置。来源：`hindsight-local-deployment-and-agent-integration`。
-- [Hindsight 记忆系统运行时排障矩阵与失效模式](/note/hindsight-troubleshooting) — L3 排障方法与失效模式：假包、权限、超时、路由、Session丢失与子目录漂移等 7 大失效模式与防范矩阵。来源：`hindsight-local-deployment-and-agent-integration`。
+- [Hindsight 本地算力分工与 Docker 容器化部署](/note/hindsight-local-deployment) — v0.9.1 历史部署：GPU/CPU 分工、容器网络与 UID 映射边界；模型 provenance 与当前复现待核验。来源：`hindsight-local-deployment-and-agent-integration`。
+- [Hindsight 统一记忆接入：FastMCP 桥接与多项目动态路由](/note/hindsight-omp-codex-integration) — 历史桥接示例、Bank 逻辑分区与命名碰撞、MCP 协议缺口；保留单次检索记录。来源：`hindsight-local-deployment-and-agent-integration`。
+- [Hindsight 记忆系统运行时排障矩阵与失效模式](/note/hindsight-troubleshooting) — 7 项历史故障与排查条件，区分本地模型清单、运行状态、语法检查和端到端验证。来源：`hindsight-local-deployment-and-agent-integration`。
 
 ## B. Java 与并发
 

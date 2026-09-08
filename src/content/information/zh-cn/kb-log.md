@@ -91,3 +91,33 @@
 ## [2026-09-07] maintenance | 招聘阅读入口与 ResiCache 设计复盘
 
 经用户接受首页定位、两个项目案例入口与技术复盘建议，首页增加岗位介绍、简历/项目/邮件入口，并复用 UltiCode、ResiCache 正典项目页。三语首页提供本地化介绍，英文与日文明确标注案例正文为中文。ResiCache observer 页补充固定源码链接、设计复盘导读和 Node.js 标准库可运行模型，覆盖 fragment 边界、重复生命周期反例、异常收尾与 token 引用配对；明确模型不代表真实 Java/Redis 并发或生产验证。同步更新索引和相关项目双向链接，沿用已有来源，不修改 raw 快照。
+
+## [2026-09-08] maintenance | Hindsight 三篇历史实践的证据与适用边界
+
+本轮完成 3 篇既有中文主体内容的全文维护：保留 0 + 更新 3 + 合并 0 + 归档 0 + 删除 0 + 暂缓 0 = 3。全库仅盘点路径、元数据和直接引用：49 个 raw、132 个 wiki（每种语言 44 个）、3 个收件箱条目。正文处理限下表三篇，raw 只读；首页、简历、其他主题及英文/日文正文未处理。本轮停止，不自动执行下一批。
+
+| 原文标题／路径（均位于 `src/content/note/zh-cn/`） | 类型／读者／核心问题 | 主处置与目标 | 理由与保留信息 | 验证状态 |
+|---|---|---|---|---|
+| Hindsight 本地算力分工与 Docker 容器化部署 · `hindsight-local-deployment.md` | concept 中的部署实践；本地部署者；算力、网络与挂载如何分工 | 更新，原路径 | 区分容器网络与宿主回环、非 root 进程与 Rootless，移除通用硬件承诺；保留 Compose、Modelfile、权限命令并补使用前提 | 全文及来源人工审阅；官方文档核对；部署未重跑 |
+| Hindsight 统一记忆接入：FastMCP 桥接与多项目动态路由 · `hindsight-omp-codex-integration.md` | entity 接入实践；Agent 集成者；客户端如何路由至 Bank | 更新，原路径 | 更正物理隔离、非 Git default 回退；标出 basename 碰撞与完整 MCP 协议缺口；保留历史桥接代码、双端配置、一次检索指标 | 全文与代码静态审阅；协议核对；握手/写入/召回未重跑 |
+| Hindsight 记忆系统运行时排障矩阵与失效模式 · `hindsight-troubleshooting.md` | concept 中的实践复盘；排障者；如何从故障选择检查 | 更新，原路径 | 修正模型未找到的推论、Rootless、下载阈值、`ollama list` 与 stdio 启动的验证含义；保留七项故障及六阶段叙事，明确为来源报告 | 全文及上下文人工审阅；文档核对；命令仅作为待执行示例 |
+
+三篇的首次 `timestamp` 均保持 2026-08-23，已有独立修订日期字段未见，故将本次修订/核验日期 2026-09-08 写入正文和日志，不新增 schema 字段。分类均为 `OMP 与 Agent 工程`，标签保持原样：部署页 Hindsight/Docker/Ollama/ROCm/BGE-M3/Architecture；接入页 Hindsight/OMP/Codex/FastMCP/MCP/DynamicRouting；排障页 Hindsight/Troubleshooting/Docker/Permissions/FastMCP/Ollama。所属入口为索引 A 域及 Agent 学习路径。三者分别承担部署、接入、排障职责，不按关键词相近合并，不新增分类或摘要页。
+
+共同来源为 `raw/zh-cn/hindsight-local-deployment-and-agent-integration.md`，`capturedAt` 为 2026-08-17，具体事件时刻未独立记录。Hindsight v0.9.1 是来源指定版本；Ollama 的 `rocm` 是可变标签，OMP/Codex/Node.js/驱动版本与模型 revision、校验和未完整固定。原始事件和指标属于历史报告，不是本轮实测。公开路径保持 `https://davidhlp.github.io/note/<上述文件名去掉 .md>`，无来源到新目标的迁移，无新重定向；既有拆分导引 `/note/hindsight-local-deployment-and-agent-integration` 继续保留。
+
+依赖单独登记：仅更新 `information/zh-cn/kb-index.md` 三条摘要，并在本日志追加本条。三篇互链、原导引页及 en/ja 同名页构成直接内容引用；正文原有附件未删除，代码块、图和实践数据保留。新增接入页“示例的协议缺口”锚点供排障页引用。原有 slug、标题和其他标题锚点保持稳定（桥接示例标题改名的旧锚点另行兼容）。本轮无删除、无新增归档、无新知识页或 raw；恢复依据为开始时干净工作区的 Git 提交 `6ee762b0db89357fc670edd16b4ad910fd6ebcb3`，可逐文件取回原文，不需要重置工作区。
+
+本次访问并采用的外部核验来源（2026-09-08）：[MCP 2025-06-18 transports](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports)（固定协议版本）、[Docker Rootless](https://docs.docker.com/engine/security/rootless/)、[Compose 启动顺序](https://docs.docker.com/compose/how-tos/startup-order/)、[Ollama CLI](https://docs.ollama.com/cli)。后三页未见独立发布日期，不补造日期。另访问 [Hindsight v0.9.1 仓库标签](https://github.com/vectorize-io/hindsight/tree/v0.9.1)，仅确认页面可访问，不将其等同于已核验镜像、配置键或模型身份。外部更正直接链接于对应结论，未改动不可变 raw。
+
+待处理：六篇 en/ja 同名翻译已参与本地构建但尚未同步本次更正，读者仍可能遇到旧表述，列为下一次明确翻译任务候选；模型真实身份/许可证/权重哈希、当前 Ollama 标签、Hindsight 配置键及 OMP/Codex Bank 命名兼容需进一步核验。历史桥接器的完整协议测试未执行，不能视为生产可用代理。Hindsight knowledge pages/心智模型不在本次明确写入授权内，未执行同步，也不声称跨平台已完成。
+
+验证结果：
+
+- **通过**：`node --import tsx scripts/kb-lint.ts` 执行现有知识库检查，49 raw / 132 wiki 通过；`node node_modules/astro/astro.js build` 最终成功生成 84 页；`git diff --check` 通过。使用 Node 入口是因为 `pnpm kb:lint` 在启动阶段报 `unable to open database file`，直接调用 tsx CLI 又因沙箱 IPC `listen EPERM` 中断；这两次均未完成内容检查，随后使用相同脚本的加载器入口成功执行，没有修改规则。
+- **通过**：构建 HTML 核验三篇页面的 78 个本地 note/锚点链接与 3 个旧标题兼容锚点；原拆分导引产物仍存在。frontmatter 与原文逐字相同，桥接器 JavaScript 原文未变；代码围栏数量保持，raw 无 diff，日志历史前缀保持不变。无新增文件或内部备份进入发布目录。
+- **人工审阅**：修改后三篇全文与原文/raw 对照，保留配置、代码、七项故障、六阶段历程和单次召回数据；删除的是无依据的泛化表达而非独有实践证据。三篇现有入口不合并，索引摘要改为对应的历史适用范围。
+- **构建提示**：两轮均出现本轮修改页面的 duplicate-id 警告，第二轮涉及三篇正文和 index/log；构建成功且目标 HTML/链接检查通过，但警告来源尚未定位，不能宣称已消除。本轮未引入同名文件或修改 ID。另有 Node `module.register()` 弃用、PhotoSwipe 静态/动态导入和大 chunk 提示；未运行未修改版本的基线构建，故不把这些提示武断归类为既有或本轮新增故障，未扩展到程序代码修复。
+- **未运行**：Astro 独立类型检查、完整单元测试、浏览器视觉检查、线上访问检查，以及本文部署/模型/Agent 运行测试；本轮为内容修订，已完成知识库和实际静态构建检查，但不将其等同于线上发布或服务复现。未提交、推送或发布。
+
+实际改善：纠正隔离与回退的确定性错误，收窄权限、模型和性能结论，明确历史报告与当前验证的区别；保留个人实践和旧访问入口。剩余主要读者风险是英日译文与未补齐的模型/运行时证据。
