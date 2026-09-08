@@ -107,6 +107,11 @@ home:
       - "<strong>开源贡献与荣誉</strong>：codebase-memory-mcp 的 OMP 客户端接入 PR #1229 已合并；获 2025 蓝桥杯 Java 软件设计 B 组国家级三等奖。"
     linkText: 查看完整简历
 filters:
+  searchContent: 搜索知识页标题、标签或正文…
+  searchHint: 空格分隔多个关键词，可叠加系列与标签筛选
+  results: '找到 {count} 篇'
+  reset: 清空搜索与筛选
+  noResults: 没有匹配的知识页，试试减少关键词或清空筛选。
   tags: 标签筛选
   searchTags: 搜索标签…
   selected: '已选 {count} 项'

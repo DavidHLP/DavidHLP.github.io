@@ -16,7 +16,11 @@ const t = i18nit(locale);
 const notes = await getPublishedByLocale("note", locale);
 
 // Route through the listing-card seam: one adapter, one shape, three callers.
-const list = notes.map(note => toCard(note, "note", locale));
+const list = notes.map(note => ({
+	...toCard(note, "note", locale),
+	// Only published, locale-matched notes reach this list; do not expose sensitive bodies.
+	searchText: note.data.sensitive ? "" : `${note.data.description ?? ""}\n${note.body ?? ""}`
+}));
 
 // Extract facets (series is only present in Note).
 const { series, tags } = collectFacets(notes, true);

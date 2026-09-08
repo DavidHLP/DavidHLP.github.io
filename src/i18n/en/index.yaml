@@ -111,6 +111,11 @@ home:
       - "<strong>Open Source & Awards</strong>: Merged codebase-memory-mcp PR #1229 for OMP client integration; national third prize in the 2025 Blue Bridge Cup, Java Software Design Group B."
     linkText: Read full resume
 filters:
+  searchContent: Search knowledge titles, tags or content…
+  searchHint: Separate keywords with spaces; combine with series and tags
+  results: '{count} results'
+  reset: Clear search and filters
+  noResults: No matching pages. Try fewer keywords or clear the filters.
   tags: Filter by tag
   searchTags: Search tags…
   selected: '{count} selected'
