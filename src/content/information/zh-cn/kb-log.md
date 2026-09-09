@@ -121,3 +121,27 @@
 - **未运行**：Astro 独立类型检查、完整单元测试、浏览器视觉检查、线上访问检查，以及本文部署/模型/Agent 运行测试；本轮为内容修订，已完成知识库和实际静态构建检查，但不将其等同于线上发布或服务复现。未提交、推送或发布。
 
 实际改善：纠正隔离与回退的确定性错误，收窄权限、模型和性能结论，明确历史报告与当前验证的区别；保留个人实践和旧访问入口。剩余主要读者风险是英日译文与未补齐的模型/运行时证据。
+
+## [2026-09-09] ingest | UltiCode 当前主线亮点与 LLM 工程迁移
+
+将既有 UltiCode entity 页从固定的 README/CONTEXT 架构概览升级为中文正典长文《UltiCode：把在线评测做成可验证的工程系统》，保留原 slug 与 `provisional` 状态。正文以当前 `main` 固定提交 `f801a1076b2fa9aa06ce3d63821f0778b477042c` 为主要证据，提炼 owner 边界、`SubmissionFactsSnapshot`、DB outbox + Redis Streams、`generation`/`attemptId` 结果围栏、Docker D-form 沙箱、同步/异步执行 contract 以及 static/发布供应链门禁，并单列 LLM/Agent 可迁移结论。
+
+新增不可变 raw 快照 `ulticode-engineering-highlights-f801a1076`，记录当前提交的架构文档、判题/沙箱源码、边界测试名称与 CI 配置选段；保留既有 `ulticode-project-context` 作为历史来源。明确区分 `Repository Implemented`、源码/测试证据、博客仓库本地验证和 `BLOCKED_EXTERNAL`/`OUT_OF_SCOPE`，不将源码存在写成生产流量、高吞吐、HA、零丢失或完整沙箱逃逸证明。同步更新 `kb-index.md` 的学习路径、entity 摘要、raw 计数和来源表；未修改首页、简历保护面、英文/日文正文或 UltiCode 源码。验证结果：`pnpm kb:lint`、`pnpm check`、`pnpm build` 均在启动阶段报 `unable to open database file`，随后用等价的 Node/tsx 入口完成 lint、Astro check 和 build，另有 `git diff --check` 通过；Astro check/build 保留 duplicate-id、Node 弃用、PhotoSwipe 动态/静态导入和大 chunk 提示，未扩展到程序代码修复；未提交、推送或发布。
+
+## [2026-09-09] ingest | ResiCache 当前主线亮点与 LLM 工程迁移
+
+将既有 ResiCache entity 页重写为《ResiCache：把缓存防护写成可验证的并发与一致性边界》，保留原 slug，状态调整为 `provisional`。正文以 `main@2954fff217257e9cf7c906450a75070d5e092637` 的源码和边界测试为主要证据，提炼责任链顺序与开关边界、single-flight 的 leader/follower/reentrant 角色、sealed load outcome、`CachedValue.version` 的 Lua CAS、白名单序列化和 observer scope token，并将 ASYNC 提前过期准确表述为“安全缩短 TTL”，不写成异步直接调用 loader。
+
+新增不可变 raw 快照 `resicache-engineering-highlights-2954fff`，记录当前构建线、核心源码入口、并发/竞态/序列化/生命周期测试名称和证据边界；保留 `resicache-project-overview` 与 observer 契约 raw 作为历史/专项来源。文章增加 LLM/Agent 可迁移结论，但明确这些是基于源码的综合，不是 ResiCache 项目声明；区分 `Repository Implemented`、`Repository Test Evidence`、`Locally Validated`、`BLOCKED_EXTERNAL` 和 `OUT_OF_SCOPE`，不声称生产吞吐、P99、HA、零丢失、SLA 或完整安全审计。同步更新 `kb-index.md` 的 entity 摘要、raw 计数和来源表，更新 `.manifest.sha256`；未修改首页、简历保护面、英文/日文 wiki 或 ResiCache 源码。本轮只验证博客仓库 lint/build/diff，不执行 ResiCache Maven、Redis 或 Testcontainers 运行测试；未提交、推送或发布。
+
+## [2026-09-09] ingest | UltiCode 设计亮点拆解为 LLM-Wiki concept 系列
+
+将 UltiCode entity 总览页保留为系列入口，并新增六篇可独立阅读的中文正典 `concept` 页面：数据 Owner 与 `SubmissionFactsSnapshot`、Outbox 与 Redis Streams、`generation`/`attemptId` 结果围栏、Docker 沙箱与基础设施错误分类、异步执行契约，以及 static contract 到供应链发布门禁。六页共用不可变来源 `ulticode-engineering-highlights-f801a1076`，均保留 `provisional` 状态并与 `/note/ulticode` 双向关联；没有新增重复 raw 或修改 UltiCode 源码。
+
+本轮把项目宣传式的“亮点列表”拆成问题导向文章：每页包含实现机制、源码链接、LLM/Agent 迁移结论、适用边界和最小验证路径；保留“不是 exactly-once、不是生产 HA、不是完整沙箱逃逸证明”的限定。同步更新 `kb-index.md` 的 entity 摘要和 UltiCode concept 分组；未修改首页、简历保护面、英文/日文正文或既有 ResiCache 改动。验证结果以本轮实际执行的 KB lint、Astro check/build 和 `git diff --check` 为准；未提交、推送或发布。
+
+## [2026-09-09] maintenance | ResiCache 设计亮点改写为 LLM-Wiki 文章
+
+根据用户要求，将 ResiCache 页面从亮点清单改写为问题导向的中文正典文章《ResiCache：把缓存防护写成可验证的并发与一致性边界》。文章以一次缓存 miss 的真实执行路径开篇，依次展开责任链、single-flight 与 sealed outcome、值版本 CAS 提前过期、安全版本化序列化、observer 生命周期，再补充 LLM/Agent 可迁移结论和 `Repository Implemented` / `Repository Test Evidence` / `BLOCKED_EXTERNAL` / `OUT_OF_SCOPE` 证据分层。
+
+保留并继续引用不可变 raw `resicache-engineering-highlights-2954fff`、`resicache-project-overview` 和 observer 契约来源；未修改 raw、ResiCache 源码、首页、简历保护面或英文/日文 wiki。特别保留 ASYNC 提前过期“只缩短 TTL、不直接调用 loader”、`VersionEnvelope.version` 与 `CachedValue.version` 分离、写回失败仍返回已加载值等边界。`pnpm kb:lint`/`pnpm build` 的本机数据库沙箱错误仍存在，本轮以等价 Node 入口完成 KB lint、Astro build 和 `git diff --check`；未执行 ResiCache Maven/Redis/Testcontainers 运行测试，未提交、推送或发布。
