@@ -145,3 +145,15 @@
 根据用户要求，将 ResiCache 页面从亮点清单改写为问题导向的中文正典文章《ResiCache：把缓存防护写成可验证的并发与一致性边界》。文章以一次缓存 miss 的真实执行路径开篇，依次展开责任链、single-flight 与 sealed outcome、值版本 CAS 提前过期、安全版本化序列化、observer 生命周期，再补充 LLM/Agent 可迁移结论和 `Repository Implemented` / `Repository Test Evidence` / `BLOCKED_EXTERNAL` / `OUT_OF_SCOPE` 证据分层。
 
 保留并继续引用不可变 raw `resicache-engineering-highlights-2954fff`、`resicache-project-overview` 和 observer 契约来源；未修改 raw、ResiCache 源码、首页、简历保护面或英文/日文 wiki。特别保留 ASYNC 提前过期“只缩短 TTL、不直接调用 loader”、`VersionEnvelope.version` 与 `CachedValue.version` 分离、写回失败仍返回已加载值等边界。`pnpm kb:lint`/`pnpm build` 的本机数据库沙箱错误仍存在，本轮以等价 Node 入口完成 KB lint、Astro build 和 `git diff --check`；未执行 ResiCache Maven/Redis/Testcontainers 运行测试，未提交、推送或发布。
+
+## [2026-09-09] ingest | UltiCode 其余候选沉淀为三篇 concept 文章
+
+根据用户要求，将此前 UltiCode 分析中保留的三个候选继续沉淀为独立中文 `concept` 页面：Owner-local 审计 Outbox 与 Consumer Inbox、数据库 fenced singleton lease、以及 Core opt-in bounded testbed。第一个 `generation`/`attemptId` 候选已有 `/note/ulticode-generation-attempt-fence`，本轮保留并纳入九篇系列入口，不重复创建同主题 URL。
+
+新增不可变 raw 快照 `ulticode-reliability-core-f801a1076`，补充固定提交中的审计 adapter/dispatcher、Admin inbox bridge、consumer inbox、fenced lease、reconciliation、Core lifecycle 源码、迁移、ADR 和测试入口。文章分别保留本地事务、ACK 顺序、`(consumer,event_id)` 去重、fence token 条件更新、allowlist、timeout handoff 和 close-once 的适用边界；不把它们扩大为跨服务 exactly-once、生产 HA、完整隔离或全量 Core 启动证明。同步更新 `kb-index.md`、`ulticode.md` 和 raw manifest；未修改 UltiCode 源码、首页、简历保护面或英文/日文正文。`git diff --check`、等价 Node/tsx 入口的 KB lint、`astro check` 和 `astro build` 已完成：KB lint 通过，check 为 0 errors/0 warnings/2 hints，build 成功生成 93 个页面；原生 `pnpm kb:lint` 仍受本机 `unable to open database file` 阻断，check/build 保留既有 duplicate-id、Node 弃用、PhotoSwipe 动态/静态导入和大 chunk 提示。未提交、推送或发布。
+
+## [2026-09-09] ingest | ResiCache 全部候选沉淀为 concept 文章
+
+根据用户要求，将 ResiCache 当前源码分析中的四个候选主题沉淀为四篇独立中文 `concept` 页面：责任链控制流与嵌套 observer、single-flight 与分布式锁、版本 CAS 提前过期、安全序列化与分阶段迁移。保留既有 `/note/resicache` 总览和 `/note/resicache-observer-nested-execution` 专题，不删除或改写既有页面；新增页面均以 `resicache-engineering-highlights-2954fff`、`resicache-project-overview` 或 observer 契约 raw 作为来源，不新增或修改 raw。
+
+新页面均为 `provisional`，分别登记到 `kb-index.md` 的 ResiCache concept 分组和 provisional 毕业观察板。内容以当前 ResiCache `main@2954fff217257e9cf7c906450a75070d5e092637` 的源码、边界测试和本轮本地验证为依据，明确不把源码结构扩展为生产性能、HA、exactly-once 或完整安全审计结论。未修改首页、简历保护面、ResiCache 源码或英文/日文页面；未提交、推送或发布。

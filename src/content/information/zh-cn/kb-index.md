@@ -8,7 +8,7 @@
 
 ## 导航与路径
 
-**6 域速览**：[A 知识库与 AI 工程](#a-知识库与-ai-工程) · [B Java 与并发](#b-java-与并发) · [C 存储与缓存](#c-存储与缓存) · [D 分布式与微服务](#d-分布式与微服务) · [E 基础设施与运维](#e-基础设施与运维) · [F 工程与架构](#f-工程与架构) · [毕业观察](#毕业观察7-个-provisional) · [已归档](#g-已归档与已废弃deprecated) · [原始来源](#原始来源raw)
+**6 域速览**：[A 知识库与 AI 工程](#a-知识库与-ai-工程) · [B Java 与并发](#b-java-与并发) · [C 存储与缓存](#c-存储与缓存) · [D 分布式与微服务](#d-分布式与微服务) · [E 基础设施与运维](#e-基础设施与运维) · [F 工程与架构](#f-工程与架构) · [毕业观察](#毕业观察11-个-provisional) · [已归档](#g-已归档与已废弃deprecated) · [原始来源](#原始来源raw)
 
 ### 学习路径（按意图进入）
 
@@ -16,7 +16,7 @@
 2. **路径 2 — 分布式进阶**：`microservice-data-ownership` → `database-schema-drift` → `dubbo-nacos-runtime` → `spring-cloud-and-boot` → `resicache-observer-nested-execution` → `plugin-lifecycle-management`。产出：能判定拆库/注册/迁移边界。
 3. **路径 3 — Agent 全链**：`omp-config-and-rules-guide` → `omp-hook-extension-guide` → `headroom-compress-retrieve-contract` → `mcp-codebase-memory-workflow` → `hindsight-local-deployment` / `hindsight-omp-codex-integration` → `omp-headroom-provider-proxy`。产出：能本地复现 OMP/Headroom/Codex 记忆与路由链路。
 
-### 毕业观察（7 个 provisional）
+### 毕业观察（11 个 provisional）
 
 | 页面 | 毕业需补的 3 个可验证检查 |
 |---|---|
@@ -27,6 +27,10 @@
 | [UltiCode 架构](/note/ulticode) | owner 边界、outbox/Streams 投递、generation/attempt 围栏、Docker 沙箱与可追溯交付门禁 |
 | [Enhanced UISA 架构](/note/uisa-architecture-design) | 去除“规模/阈值”隐含承诺，改为可复现的重试/幂等约束描述；owner→边界→恢复的最小决策树；失败模式矩阵 |
 | [Java 面试复盘](/note/java-internship-interview-blog-polished) | 1 个脱敏生产止损案例（现象→定位→恢复）；缓存/异步机制的版本固定证据；能力模型与证据的分离 |
+| [ResiCache 责任链与 observer](/note/resicache-handler-chain-and-observer) | 当前主线的 `HandlerResult` 控制流、snapshot/fragment 边界、observer token 配对和异常收尾测试 |
+| [ResiCache single-flight](/note/resicache-single-flight) | 10 路并发、leader/follower/reentrant、锁内 double-check、写回失败与跨实例边界 |
+| [ResiCache 提前过期 CAS](/note/resicache-early-expiration-cas) | 真实 Redis 版本竞态、Lua TTL CAS、旧任务失效和“只缩短 TTL、不直接回源”边界 |
+| [ResiCache 序列化迁移](/note/resicache-serialization-migration) | 类型白名单、streaming preflight、shadow/dual/cutover/rollback 与并发写保护 |
 
 > 未毕业前保留 provisional，但不再进入“核心概念”主视图；季度审视未达标则 `deprecated`。
 
@@ -85,15 +89,25 @@
 
 - [OMP Headroom Bridge：外部路由控制器与原生 Codex/OMP 代理边界](/note/omp-headroom-provider-proxy) — **provisional** loopback Headroom、provider route、Codex 共享 provider、事务与回滚。来源：`omp-headroom-provider-proxy-codex-routing-runtime`。
 - [ResiCache：把缓存防护写成可验证的并发与一致性边界](/note/resicache) — **provisional** 责任链、single-flight、值版本 CAS、安全序列化与 observer 生命周期。来源：`resicache-engineering-highlights-2954fff`、`resicache-project-overview`、`resicache-observer-nested-execution-contract`。
-- [UltiCode：把在线评测做成可验证的工程系统](/note/ulticode) — **provisional** 总览入口，串起 owner、投递、结果围栏、沙箱、异步执行与交付门禁六篇拆解。来源：`ulticode-engineering-highlights-f801a1076`、`ulticode-project-context`。
+- [UltiCode：把在线评测做成可验证的工程系统](/note/ulticode) — **provisional** 总览入口，串起 owner、审计、投递、结果围栏、租约、沙箱、异步执行、Core 生命周期与交付门禁九篇拆解。来源：`ulticode-engineering-highlights-f801a1076`、`ulticode-project-context`、`ulticode-reliability-core-f801a1076`。
+
+### ResiCache 设计拆解（concept）
+
+- [ResiCache 的缓存责任链：控制流、嵌套 fragment 与 observer 生命周期](/note/resicache-handler-chain-and-observer) — **provisional** `HandlerResult` 决策、ThreadLocal snapshot、锁内 fragment、observer token 配对和异常收尾。
+- [缓存击穿时，为什么要同时有 Future、分布式锁和 double-check？](/note/resicache-single-flight) — **provisional** 进程内 single-flight、跨实例锁、锁内二次检查、角色切换和写回失败边界。
+- [异步提前过期为什么只缩短 TTL：用版本 CAS 让旧任务自动失效](/note/resicache-early-expiration-cas) — **provisional** `CachedValue.version`、Lua TTL CAS、按键任务取消和旧任务失效。
+- [换 Redis 序列化器不是改一行配置：从对象信任到可回滚迁移](/note/resicache-serialization-migration) — **provisional** 类型白名单、streaming preflight、shadow/dual/cutover/rollback 和并发写保护。
 
 ### UltiCode 设计拆解（concept）
 
 - [UltiCode 数据 Owner 与事实快照：跨服务提交如何保持边界](/note/ulticode-owner-and-facts) — **provisional** owner 划分、`SubmissionFactsSnapshot`、事实来源与 schema 版本。来源：`ulticode-engineering-highlights-f801a1076`。
+- [UltiCode 跨 Owner 审计别靠跨库写入：Local Outbox 与 Consumer Inbox](/note/ulticode-owner-local-audit-inbox) — **provisional** owner-local 审计 outbox、Redis Stream、Admin inbox、重复投递与租约恢复。来源：`ulticode-reliability-core-f801a1076`。
 - [UltiCode Outbox 与 Redis Streams：把判题投递做成可恢复状态](/note/ulticode-outbox-redis-streams) — **provisional** outbox 状态机、原子去重、重试/死信与 PEL 回收。来源：`ulticode-engineering-highlights-f801a1076`。
 - [UltiCode generation 与 attemptId：用条件更新拦截过期判题结果](/note/ulticode-generation-attempt-fence) — **provisional** 重判、租约、generation epoch 与 stale result 围栏。来源：`ulticode-engineering-highlights-f801a1076`。
+- [UltiCode 数据库租约不够：用 Fence Token 拦住过期单例任务](/note/ulticode-fenced-singleton-lease) — **provisional** 数据库时间、单调递增 fence token、reconciliation 完成写入与 stale completion 拒绝。来源：`ulticode-reliability-core-f801a1076`。
 - [UltiCode Docker 沙箱：资源隔离与基础设施错误分类](/note/ulticode-docker-sandbox) — **provisional** Docker/seccomp/resource limit 与用户错误、基础设施错误的分类边界。来源：`ulticode-engineering-highlights-f801a1076`。
 - [UltiCode 异步执行契约：idempotency、fingerprint 与有界 receipt](/note/ulticode-async-execution-contract) — **provisional** submit/poll/cancel、状态机、幂等键和进程内 metadata 上限。来源：`ulticode-engineering-highlights-f801a1076`。
+- [UltiCode 模块化单体实验场：Core 的 Allowlist、超时与 Close-once 生命周期](/note/ulticode-core-bounded-testbed) — **provisional** opt-in、owner allowlist、有界启动、资源关闭交接与 fail-closed readiness。来源：`ulticode-reliability-core-f801a1076`。
 - [UltiCode 验证与供应链门禁：从 static contract 到可验证发布](/note/ulticode-ci-supply-chain) — **provisional** zero-infra/static、集成验证、Trivy、SBOM、provenance 与 Cosign。来源：`ulticode-engineering-highlights-f801a1076`。
 
 ### 综合与架构模式
@@ -174,6 +188,7 @@
 | `resicache-engineering-highlights-2954fff` | repository-source-and-test-selected-excerpts-fixed-commit | [ResiCache 当前 main 固定提交](https://github.com/DavidHLP/ResiCache/tree/2954fff217257e9cf7c906450a75070d5e092637) | 当前源码、值版本 CAS、single-flight、序列化、observer 与边界测试选段。 | — |
 | `ulticode-project-context` | repository-readme-and-context-fixed-commit | [UltiCode 固定提交](https://github.com/DavidHLP/UltiCode/tree/3f14ac8947ef0124739bf02259deb9f567eb092e) | UltiCode README + CONTEXT 领域词汇表快照：owner 划分、port/projection 与设计不变量。 | — |
 | `ulticode-engineering-highlights-f801a1076` | repository-source-and-document-selected-excerpts-fixed-commit | [UltiCode 当前主线固定提交](https://github.com/DavidHLP/UltiCode/tree/f801a1076b2fa9aa06ce3d63821f0778b477042c) | 当前 main 的架构文档、判题/沙箱源码、边界测试与 CI 选段：owner、outbox、结果围栏、隔离执行与交付门禁。 | — |
+| `ulticode-reliability-core-f801a1076` | repository-source-and-document-selected-excerpts-fixed-commit | [UltiCode 当前主线固定提交](https://github.com/DavidHLP/UltiCode/tree/f801a1076b2fa9aa06ce3d63821f0778b477042c) | 审计 outbox/consumer inbox、fenced singleton lease、reconciliation 与 Core opt-in 生命周期源码、迁移、ADR 和测试入口选段。 | — |
 
 </details>
 
@@ -181,7 +196,7 @@ raw 文件位于 `src/content/raw/zh-cn/`，只供 LLM 阅读，不生成公开�
 
 ## 捕获收件箱
 
-- [知识库摄入收件箱](/jotting/kb-ingest-todo) — 记录下一批个人项目来源和待回答问题；历史文章、Personal-markdown-notes / Fuwari 两仓库 107 篇原文与 ResiCache / UltiCode 项目 README/CONTEXT 均已完成摄入。Hindsight 拆分与前端随笔溶解已在 Phase 2 完成收敛。下一步：Phase 3 季度审视 7 个 provisional 页面毕业进展与新主题增量摄入。
+- [知识库摄入收件箱](/jotting/kb-ingest-todo) — 记录下一批个人项目来源和待回答问题；历史文章、Personal-markdown-notes / Fuwari 两仓库 107 篇原文与 ResiCache / UltiCode 项目 README/CONTEXT 均已完成摄入。Hindsight 拆分与前端随笔溶解已在 Phase 2 完成收敛。下一步：Phase 3 季度审视 11 个 provisional 页面毕业进展与新主题增量摄入。
 
 ## 维护规则
 
