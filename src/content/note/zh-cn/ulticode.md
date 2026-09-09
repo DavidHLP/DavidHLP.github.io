@@ -4,8 +4,8 @@ timestamp: 2026-09-09 00:00:00+08:00
 series: "架构与工程实践"
 kind: entity
 status: provisional
-sources: ["ulticode-engineering-highlights-f801a1076", "ulticode-project-context"]
-related: ["microservice-data-ownership", "dubbo-nacos-runtime", "jjwt-013-security-api", "multi-service-readiness", "database-schema-drift", "ulticode-owner-and-facts", "ulticode-outbox-redis-streams", "ulticode-generation-attempt-fence", "ulticode-docker-sandbox", "ulticode-async-execution-contract", "ulticode-ci-supply-chain"]
+sources: ["ulticode-engineering-highlights-f801a1076", "ulticode-project-context", "ulticode-reliability-core-f801a1076"]
+related: ["microservice-data-ownership", "dubbo-nacos-runtime", "jjwt-013-security-api", "multi-service-readiness", "database-schema-drift", "ulticode-owner-and-facts", "ulticode-owner-local-audit-inbox", "ulticode-outbox-redis-streams", "ulticode-generation-attempt-fence", "ulticode-fenced-singleton-lease", "ulticode-docker-sandbox", "ulticode-async-execution-contract", "ulticode-core-bounded-testbed", "ulticode-ci-supply-chain"]
 tags: [UltiCode, OnlineJudge, DDD, Port, Projection, Outbox, RedisStreams, Docker, Seccomp, CI, LLM]
 description: "以 UltiCode 当前 main 的固定提交为证据，解释 owner 边界、outbox 与 Streams、generation/attempt 围栏、Docker 沙箱和交付门禁如何组合成可验证的在线评测系统，并明确生产验证与性能结论的缺口。"
 toc: true
@@ -21,25 +21,31 @@ UltiCode 是一个在线评测平台。它有 Console 和 Management 入口，�
 
 本文也把 UltiCode 当作一个可迁移到 LLM/Agent 工程的案例：UltiCode 本身不是 LLM 产品，但它对“不可信输入、异步执行、幂等、隔离和证据链”的处理方式，同样适用于模型生成代码、工具调用和长任务编排。
 
-## 系列文章：把在线评测拆成六个可验证问题
+## 系列文章：把在线评测拆成九个可验证问题
 
-这篇 entity 页负责给出全局地图；下面六篇 `concept` 页分别处理一个设计问题，读者可以单独阅读，也可以沿着“事实 → 投递 → 执行 → 交付”的顺序阅读：
+这篇 entity 页负责给出全局地图；下面九篇 `concept` 页分别处理一个设计问题，读者可以单独阅读，也可以沿着“事实 → 投递 → 执行 → 交付”的顺序阅读：
 
 - [数据 Owner 与事实快照：跨服务提交如何保持边界](/note/ulticode-owner-and-facts)：谁拥有事实，为什么提交写入接收不可变快照。
+- [跨 Owner 审计别靠跨库写入：Local Outbox 与 Consumer Inbox](/note/ulticode-owner-local-audit-inbox)：审计意图、消息接管和消费端幂等如何分层。
 - [Outbox 与 Redis Streams：把判题投递做成可恢复状态](/note/ulticode-outbox-redis-streams)：数据库意图、重试、去重、PEL 与回收。
 - [generation 与 attemptId：用条件更新拦截过期判题结果](/note/ulticode-generation-attempt-fence)：重判、租约和旧 Worker 结果的竞争模型。
+- [数据库租约不够：用 Fence Token 拦住过期单例任务](/note/ulticode-fenced-singleton-lease)：单例任务的过期接管和 stale completion 围栏。
 - [Docker 沙箱：资源隔离与基础设施错误分类](/note/ulticode-docker-sandbox)：安全参数、seccomp 和用户错误/基础设施错误分离。
 - [异步执行契约：idempotency、fingerprint 与有界 receipt](/note/ulticode-async-execution-contract)：同步预览与异步任务共享的状态和容量边界。
+- [模块化单体实验场：Core 的 Allowlist、超时与 Close-once 生命周期](/note/ulticode-core-bounded-testbed)：如何在不改变默认拓扑的前提下验证部分 owner context。
 - [验证与供应链门禁：从 static contract 到可验证发布](/note/ulticode-ci-supply-chain)：静态检查、集成验证、镜像扫描和签名证明。
 
-## 先看五个亮点
+## 先看八个亮点
 
 | 亮点 | 解决的问题 | 关键机制 |
 |---|---|---|
 | owner 边界 | 谁能读取、谁能写入容易变成口头约定 | 数据 owner、implementation-free contract、port/projection |
+| 审计可恢复性 | 业务提交成功但跨 owner 审计未落地 | owner-local outbox、Redis Stream、consumer inbox、幂等键 |
 | 可恢复投递 | 提交写入成功但队列不可用 | DB outbox、`FOR UPDATE SKIP LOCKED`、Redis Streams、重试/死信 |
 | 结果围栏 | 重判或旧 worker 的结果覆盖新结果 | `generation` + `attemptId` + 条件更新 |
+| 单例任务 fencing | 过期 worker 在新 owner 接管后仍写入完成状态 | DB lease、单调递增 `fence_token`、条件更新 |
 | 执行隔离 | 用户代码把基础设施错误伪装成普通运行错误 | Docker 资源/安全参数、seccomp、基础设施错误分类 |
+| 模块生命周期 | 多 context 启动超时、迟到返回和重复 close | opt-in、allowlist、bounded timeout、close-once handoff |
 | 交付自证 | “能构建”不等于依赖和镜像安全 | zero-infra static contract、Trivy、SBOM、Cosign、provenance |
 
 ## 1. Owner 边界：把“谁写数据”变成显式契约
