@@ -1,12 +1,11 @@
 // @ts-check
-import { defineConfig, fontProviders } from "astro/config";
+import { defineConfig } from "astro/config";
 import { fileURLToPath } from "node:url";
 import yaml from "@rollup/plugin-yaml";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
 import tailwindcss from "@tailwindcss/vite";
-import swup from "@swup/astro";
 
 import GFM from "remark-gfm";
 import ins from "remark-ins";
@@ -51,7 +50,8 @@ const editorialSyntax = (name: string, foreground: string, background: string, a
 // https://astro.build/config
 export default defineConfig({
 	site: "https://davidhlp.github.io",
-	trailingSlash: "never",
+	// Accept legacy slash URLs while localeUrl emits the canonical no-slash form.
+	trailingSlash: "ignore",
 	i18n: {
 		...siteConfig.i18n,
 		routing: {
@@ -107,6 +107,7 @@ export default defineConfig({
 		}
 	},
 	vite: {
+		define: { __RHINE_NOVECENTO__: "false" },
 		// @ts-expect-error
 		plugins: [yaml(), tailwindcss()],
 		resolve: {
@@ -125,79 +126,5 @@ export default defineConfig({
 			}
 		}
 	},
-	integrations: [
-		svelte(),
-		mdx(),
-		sitemap(),
-		swup({
-			globalInstance: true,
-			preload: false,
-			smoothScrolling: false,
-			progress: true
-		})
-	],
-	experimental: {
-		fonts: [
-			{
-				name: "Noto Serif",
-				provider: fontProviders.google(),
-				weights: [400, 700],
-				optimizedFallbacks: false,
-				fallbacks: ["Noto Serif", "Georgia", "Times New Roman", "serif"],
-				cssVariable: "--font-noto-serif"
-			},
-			{
-				name: "Noto Serif SC",
-				provider: fontProviders.google(),
-				weights: [400, 700],
-				optimizedFallbacks: false,
-				fallbacks: ["Noto Serif SC", "Source Han Serif SC", "STSong", "Songti SC", "SimSun", "serif"],
-				cssVariable: "--font-noto-serif-sc"
-			},
-			{
-				name: "Noto Serif JP",
-				provider: fontProviders.google(),
-				weights: [400, 700],
-				optimizedFallbacks: false,
-				fallbacks: ["Noto Serif JP", "Source Han Serif JP", "Hiragino Mincho ProN", "MS Mincho", "serif"],
-				cssVariable: "--font-noto-serif-jp"
-			},
-			{
-				name: "Playwrite MX",
-				provider: fontProviders.google(),
-				weights: [100],
-				display: "block",
-				subsets: ["fallback"],
-				fallbacks: ["Apple Chancery", "Segoe Script", "cursive"],
-				cssVariable: "--font-playwrite-mx"
-			},
-			{
-				name: "JetBrains Mono",
-				provider: fontProviders.google(),
-				weights: [400, 700],
-				optimizedFallbacks: false,
-				fallbacks: [
-					"JetBrains Mono",
-					"Maple Mono NF CN",
-					"Maple Mono NF",
-					"Maple Mono CN",
-					"Maple Mono",
-					"Consolas",
-					"Monaco",
-					"Cascadia Code",
-					"Courier New",
-					"monospace"
-				],
-				cssVariable: "--font-maple-mono-nf-cn"
-			},
-			{
-				name: "Noto Serif",
-				provider: fontProviders.google(),
-				weights: [400, 700],
-				optimizedFallbacks: false,
-				fallbacks: ["Noto Serif", "The Peak Font Plus", "Georgia", "STSong", "serif"],
-				cssVariable: "--font-the-peak-font-plus"
-			}
-		]
-	}
+	integrations: [svelte(), mdx(), sitemap()]
 });

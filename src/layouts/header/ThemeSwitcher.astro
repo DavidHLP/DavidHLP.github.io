@@ -1,5 +1,11 @@
 ---
 import Icon from "$components/Icon.svelte";
+import config from "$config";
+import i18nit from "$i18n";
+import { ts } from "$utils/labels";
+
+const { locale = config.i18n.defaultLocale } = Astro.props;
+const t = i18nit(locale);
 ---
 
 <style>
@@ -24,7 +30,7 @@ import Icon from "$components/Icon.svelte";
 	}
 </style>
 
-<button id="theme-toggle" aria-label="Toggle theme">
+<button id="theme-toggle" aria-label={ts(t, "themeToggle")}>
 	<span id="sun-icon"><Icon name="lucide--sun" /></span>
 	<span id="moon-icon"><Icon name="lucide--moon" /></span>
 </button>

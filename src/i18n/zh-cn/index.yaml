@@ -126,10 +126,13 @@ jotting:
 language: 简体中文
 navigation:
   about: 絮述
+  closeMenu: 关闭侧栏
   home: 序章
   jotting: 随笔
   kb: 知识库
+  language: 语言切换
   note: 知识页
+  openMenu: 打开侧栏
   policy: 政策
   preface: 序文
   subscription: 订阅
@@ -161,3 +164,296 @@ sensitive:
 statistics:
   other: 写下 {count} 字
 theme: '主题: ThoughtLite | DavidHLPL'
+themeToggle: 切换主题
+pagination:
+  label: 分页
+  previous: 上一页
+  next: 下一页
+rhine:
+  page:
+    archiveOs: 档案终端
+    personalArchive: 个人档案
+    analysisOs: 分析系统
+    publicDatabase: 公共数据库
+    blog: 博客
+    close: 关闭
+    poweredBy: 技术支持
+    noArticles: 暂无文章。
+    interfaceAdapted: 界面改编自
+    mitLicense: MIT 许可证
+    records:
+      one: '{count} 条记录'
+      other: '{count} 条记录'
+  collection:
+    note: 文记
+    jotting: 随笔
+    about: 关于
+    directory: 文章目录
+    noteCode: 文记
+    jottingCode: 随笔
+  navigation:
+    label: 系统导航
+    archiveIndex: 档案索引
+    saved: 收藏
+    savedAria: 查看收藏档案
+    savedTitle: 收藏档案
+    settings: 设置
+    settingsAria: 系统设置
+    subscription: 订阅
+  boot:
+    access: 访问
+    skip: 进入终端
+    section: 系统启动
+    permission: 权限验证通过
+    welcome: 欢迎访问
+    database: 内部数据库
+    connecting: 正在连接内部数据库
+    mobileEntry: 进入档案
+  archive:
+    aria: 档案选择
+    all: 全部档案
+    categoryFallback: 档案
+    categoryNav: 分类索引
+    categoryHint: 按主题浏览
+    categories:
+      resicache: ResiCache
+      ulticode: UltiCode
+      aiSystems: AI / 记忆
+      dataCache: 数据 / 缓存
+      javaBackend: Java / 后端
+      infrastructure: 基础设施
+      architecture: 架构 / 系统
+      general: 综合档案
+      jotting: 随笔 / 收件箱
+    database: 内部数据库
+    fileLabel: 档案
+    columnLabel: 栏目
+    selectingFiles: 正在选取档案……
+    confidentiality: 保密级别
+    businessUse: 一般业务使用
+    fileNumber: '档案编号：'
+    businessArea: 商业区
+    accessFile: 读取档案
+    counter: 档案 / 选择
+    previousFile: 上一个档案
+    nextFile: 下一个档案
+    previousColumn: 上一列
+    nextColumn: 下一列
+    switchColumn: 切换栏目
+    switchFiles: 浏览档案
+    read: 读取档案
+    detailAria: 档案内容
+    overview: 档案概览
+    dragInspect: 拖动查看
+    viewer: 360° 查看档案模型
+    session: 会话已验证
+    replay: 重新载入
+    replayTitle: 重播启动流程
+    pwaReady: 新版本已就绪
+    pwaUpdate: 更新并重启
+    loading: 正在连接内部数据库
+  status:
+    public: 公开文章
+    restricted: 受限内容
+    restrictedDetail: 目录访问
+    publicDetail: 已归档 · 可读取
+    authorized: 已授权
+    readAuthorized: 已授权读取
+    found:
+      one: '找到 {count} 条记录'
+      other: '找到 {count} 条记录'
+  content:
+    sensitiveAbstract: 敏感内容 · 请在文章页确认后阅读。
+  detail:
+    section: 栏目
+    collection: 编目范围
+    author: 作者
+    status: 状态
+    overviewTab: 概述
+    notesTab: 文章标签
+    historyTab: 访问日志
+    abstract: 摘要
+    researchNotes: 文章标签
+    accessLog: 本次访问
+    sessionNote: 本次会话已通过身份验证。档案内容以当前终端可访问范围展示。
+    save: '＋ 收藏档案'
+    remove: '− 取消收藏'
+    saved: 已收藏
+    unsaved: 收藏档案
+    readArticle: 阅读文章
+  modal:
+    settingsAria: 系统设置
+    savedAria: 收藏档案
+    searchAria: 档案检索
+    settingsTitle: 系统偏好设置
+    directoryTitle: 档案目录
+    savedTitle: 收藏档案
+    indexTitle: 档案索引
+    close: 关闭窗口
+    searchPlaceholder: 输入档案编号、名称或栏目
+    searchAriaLabel: 检索档案
+    file: 档案 / 文件
+    department: 栏目 / 分类
+    access: 访问
+    connected: 内部数据库 · 已连接
+    savedEmpty: 尚无收藏档案
+    savedEmptyDescription: 读取档案时选择“收藏档案”，它就会保存在这里。
+    noMatch: 没有匹配的档案
+    noMatchDescription: 尝试其他名称或编号，或切换栏目分类。
+    viewAll: 查看全部档案 →
+    reset: 重置检索 →
+  quality:
+    custom: 自定义
+    presets:
+      performance: 性能
+      original: 原始
+      high: 高
+      ultra: 极高
+    aria: 渲染画质
+    title: 渲染画质
+    subtitle: 渲染画质
+    preset: 画质预设
+    advanced: 精细设置
+    advancedSubtitle: 清晰度 / 材质 / 阴影
+    scale: 渲染比例
+    scaleHint: 相对屏幕像素，比例越高越能保留细线
+    pixelRatio: 像素密度上限
+    pixelRatioHint: 控制高密度屏幕的原生像素倍率
+    antialias: 抗锯齿
+    antialiasHint: SMAA 平滑模型边缘与后处理结果
+    original: 原始
+    texture: 纹理过滤
+    textureHint: 改善倾斜视角下的标签细节
+    transmission: 透明材质分辨率
+    transmissionHint: 控制盖板折射画面的清晰度
+    shadows: 阴影分辨率 · 阵列
+    shadowsHint: 更高分辨率保留更细的投影边缘
+    off: 关闭
+    aoSamples: 环境遮蔽 · 阵列
+    aoSamplesHint: 采样越多，接缝暗部越细腻
+    samples: 采样
+    aoResolution: 遮蔽分辨率 · 阵列
+    aoResolutionHint: 降低可减轻环境遮蔽的渲染负担
+    depthOfField: 景深强度 · 阵列
+    depthOfFieldHint: 0% 关闭；100% 保留原始镜头虚化
+    noteWallpaper: 即时生效，仅限当前运行；长期设置请在 Wallpaper Engine 中调整。
+    noteBrowser: 即时生效并自动保存。
+    noteShared: 清晰度与材质设置同步至 360° 查看器。高渲染比例更适合静态观察；缓冲上限为 829 万像素，硬件限制时自动收敛。
+    summary3dOff: 3D 已关闭 · 三维模型与渲染资源已释放
+    superPerformance: 超级性能模式已启用 · 画质设置暂被覆盖，关闭后恢复
+    actual: '实际渲染 {width} × {height}'
+    antiAliasOriginal: 原始抗锯齿
+    antiAliasSmaa: SMAA 抗锯齿
+    textureSummary: '纹理 {anisotropy}×'
+    bufferLimited: 已达到缓冲上限
+  audio:
+    interfaceTitle: 操作与启动音效
+    interfaceDescription: 界面操作与启动音效
+    soundVolume: 音效音量
+    backgroundTitle: 观测室 · 背景音乐
+    backgroundDescription: 观测室 · 背景音乐
+    musicVolume: 音乐音量
+    volume: 音量
+  theme:
+    label: 界面配色
+    description: 玻璃阵列随配色逐张过渡
+    aria: 界面配色
+    light: 亮色
+    dark: 暗色
+  startup:
+    aria: 进入莱茵生命档案终端
+    preparing: 正在准备终端…
+    silent: 关闭声音并进入
+    ready: 资源就绪后即可进入
+    enter: 点击进入 →
+    touch: 轻触屏幕或按 Enter 开始
+    preparingSound: 正在准备声音…
+    readyStart: 准备完成后开始播放
+    retry: 重试声音并进入 →
+    audioNotReady: 声音暂未就绪，请重试或无声进入
+    databaseReady: 内部数据库 / 就绪
+  pwa:
+    aria: 主屏幕与离线使用
+    title: APP / 主屏幕与离线
+    devPreview: 开发预览不保存离线副本。
+    https: 使用 HTTPS 地址后可保存离线副本。
+    browser: 当前浏览器支持在线使用。
+    failed: 离线副本未能保存，可联网后重试。
+    ready: 离线资源已就绪，可离线浏览档案与模型。
+    preparing: 正在准备离线资源，首次需要保持联网。
+    installed: 已从主屏幕打开。
+    ios: 在 Safari 中轻点“分享”→“添加到主屏幕”，然后从主屏幕图标打开。
+    installReady: 安装后可在独立窗口中打开档案。
+    installHint: 可通过浏览器菜单安装或添加到主屏幕。
+    install: 安装到设备 ↗
+    newVersion: 新版本已准备好
+    update: 更新并重启 ↻
+    retry: 重试保存离线资源 ↻
+    installError: 请通过浏览器菜单添加到主屏幕
+  viewer:
+    back: 返回档案
+    title: 档案模型
+    surfaceAria: 玻璃模式
+    clear: 清晰
+    frosted: 磨砂
+    partsAria: 模型装配结构
+    assembly: 装配结构 / 模型部件
+    objectStudy: 对象研究
+    fasteners: 紧固件
+    cover: 透明盖板
+    opticalLenses: 折射环组
+    opticalCore: 光学核心
+    substrate: 信息基板
+    carrier: 背板与框架
+    loading: 正在载入模型…
+    retry: 重新载入 ↗
+    helpRotate: 拖动旋转
+    helpPan: '↑ ↓ ← → 平移'
+    helpZoom: 滚轮缩放
+    helpTouchRotate: 单指旋转
+    helpTouchZoom: 双指缩放 / 平移
+    explode: 拆解档案
+    assemble: 一键重组
+    reset: 复位视角
+    assembled: 已组装
+    disassembling: 正在拆解
+    reassembling: 正在重组
+    failed: 模型载入失败，请重试
+    disassembled: 已拆解
+    ariaLabel: 档案三维模型：拖动旋转，方向键平移，滚轮或加减键缩放，Home 复位
+  motion:
+    reduced: 当前已减少动态效果。
+    system: 系统也请求减少动画，可仅为本站启用完整动效。
+    restore: 关闭上方开关可恢复完整动效。
+    full: 当前使用完整动效。
+    enable: 启用完整动效并重播
+  settings:
+    title: 系统设置
+    subtitle: 终端偏好设置
+    wallpaperNote: Wallpaper Engine 属性会在每次启动时读取。此处修改仅在本次运行中生效；如需长期保留，请修改壁纸属性。
+    superTitle: 超级性能模式
+    superDescription: 降低三维画质和渲染分辨率，保留完整动效；关闭后恢复原画质。
+    reducedTitle: 减少动态效果
+    reducedDescription: 跳过开机动画，简化选档、镜头和文字动效。
+    desktopControls: 桌面控制
+    desktopHint: 拖动档案阵列或使用控制键浏览。桌面模式下，方向键和滚轮可能无法传递到壁纸。
+    keyboardControls: 键盘控制
+    fullscreen: 全屏
+    restart: 重新载入系统
+    fontLicense: 字体许可
+  three:
+    loading: 3D 载入中…
+    closing: 3D 关闭中…
+    off: 3D 关闭
+    on: 3D 开启
+    reloadTitle: 重新载入三维模型
+    cancelTitle: 取消关闭，恢复三维画面
+    unloadTitle: 卸载三维模型，保留 2D 界面
+  scene:
+    ariaLabel: 三维研究档案阵列，点击选择，左右拖动切列，上下拖动或滚轮切换列内档案
+  errors:
+    connection: 三维档案资源未能载入。请确认浏览器已启用硬件加速，然后重新连接。
+    reconnect: 重新连接 →
+    model: 三维模型载入失败，请点击 3D 关闭重试。
+    fullscreen: 请使用浏览器的全屏快捷键 F11
+  fontSample: 身份信息确认请求已接收；权限已验证；档案选择与状态。

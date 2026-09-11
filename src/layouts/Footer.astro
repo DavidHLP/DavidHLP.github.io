@@ -1,9 +1,10 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localeUrl } from "$utils/locale-url";
 import { getInfoEntry, listBySections, totalWordCount } from "$utils/content";
 import type { CollectionEntry } from "astro:content";
 import Icon from "$components/Icon.svelte";
 import i18nit from "$i18n";
+import { ts } from "$utils/labels";
 
 let { locale, author, copyright } = Astro.props;
 
@@ -90,7 +91,7 @@ const policy = await getInfoEntry(locale, "policy");
 		{
 			policy && [
 				<span>·</span>,
-				<a href={getRelativeLocaleUrl(locale, "/policy")} aria-label="Policy" class="inline-flex">
+				<a href={localeUrl(locale, "/policy")} aria-label={ts(t, "navigation.policy")} class="inline-flex">
 					<Icon name="lucide--scale" title={t("navigation.policy")} />
 				</a>
 			]
@@ -101,6 +102,6 @@ const policy = await getInfoEntry(locale, "policy");
 		<a href="https://astro.build/" aria-label="Astro" target="_blank" class="inline-flex"><Icon name="simple-icons--astro" /></a>
 		<a href="https://svelte.dev/" aria-label="Svelte" target="_blank" class="inline-flex"><Icon name="simple-icons--svelte" /></a>
 		<span>·</span>
-		<a href="https://github.com/tuyuritio/astro-theme-thought-lite" aria-label="Theme" target="_blank" class="inline-flex"><Icon name="simple-icons--github" title={t("theme")} /></a>
+		<a href="https://github.com/tuyuritio/astro-theme-thought-lite" aria-label={t("theme")} target="_blank" class="inline-flex"><Icon name="simple-icons--github" title={t("theme")} /></a>
 	</code>
 </footer>

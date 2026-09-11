@@ -1,0 +1,135 @@
+---
+import config from "$config";
+import { localeUrl, withoutTrailingSlash } from "$utils/locale-url";
+import { listBySections } from "$utils/sections";
+import { contentUrl } from "$utils/content-fetch";
+import type { Section } from "$utils/config";
+import { archiveCategoryFor, type ArchiveCategory, type BlogArchive } from "$utils/rhine-records";
+import i18nit from "$i18n";
+import { ts } from "$utils/labels";
+const { locale, section } = Astro.props as { locale: string; section?: Section };
+const t = i18nit(locale);
+const pageUrl = new URL(withoutTrailingSlash(Astro.url.pathname), Astro.site);
+const names = [
+	ts(t, "rhine.collection.note"),
+	ts(t, "rhine.collection.jotting"),
+	ts(t, "rhine.collection.about"),
+	ts(t, "rhine.collection.directory")
+];
+const categoryLabelKeys: Record<ArchiveCategory, string> = {
+	resicache: "resicache",
+	ulticode: "ulticode",
+	"ai-systems": "aiSystems",
+	"data-cache": "dataCache",
+	"java-backend": "javaBackend",
+	"infra-ops": "infrastructure",
+	architecture: "architecture",
+	general: "general",
+	jotting: "jotting"
+};
+const records = await listBySections<BlogArchive>(section ? [section] : "*", locale, (entry, collection) => {
+	const findings = entry.data.tags ?? [];
+	const categoryKey = archiveCategoryFor({ title: entry.data.title, findings }, collection);
+	return {
+		id: "",
+		title: entry.data.title,
+		en: ts(t, `rhine.collection.${collection}Code`),
+		department: collection === "note" ? names[0] : names[1],
+		categoryKey,
+		category: ts(t, `rhine.archive.categories.${categoryLabelKeys[categoryKey]}`),
+		date: entry.data.timestamp.toISOString().slice(0, 10),
+		lead: config.author.name,
+		clearance: entry.data.sensitive ? "RESTRICTED" : "PUBLIC ARTICLE",
+		abstract: entry.data.sensitive ? ts(t, "rhine.content.sensitiveAbstract") : (entry.data.description ?? entry.data.title),
+		findings,
+		source: contentUrl(locale, collection, entry.id)
+	};
+});
+records.forEach((record, index) => {
+	record.id = `X-${String(index + 1).padStart(3, "0")}`;
+});
+---
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		<meta name="description" content={ts(t, "engineering.intro")} />
+		<title>{config.title} · {ts(t, "rhine.page.archiveOs")}</title>
+		<link rel="canonical" href={pageUrl} />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="alternate" type="application/atom+xml" href={localeUrl(locale, "/feed.xml")} title={config.title} />
+	</head>
+	<body>
+		<main id="viewport"><div id="stage"></div></main>
+		<nav class="blog-navigation" aria-label={ts(t, "rhine.page.blog")}>
+			<a href={localeUrl(locale, "/")}>DAVIDHLPL</a>
+			<a href={localeUrl(locale, "/note")}>{names[0]}</a>
+			<a href={localeUrl(locale, "/jotting")}>{names[1]}</a>
+			<a href={localeUrl(locale, "/kb")}>{ts(t, "navigation.kb")}</a>
+			<a href={localeUrl(locale, "/about")}>{names[2]}</a>
+			<a href="#article-directory">{names[3]} ↓</a>
+			{config.i18n.locales.map(language => <a href={localeUrl(language, section ? `/${section}` : "/")} lang={language} aria-current={language === locale ? "page" : undefined}>{i18nit(language)("language")}</a>)}
+		</nav>
+		<section id="article-directory" class="blog-directory" role="dialog" aria-modal="true" aria-label={names[3]}>
+			<header><span>DAVIDHLPL / {ts(t, "rhine.page.publicDatabase")}</span><a href="#">{ts(t, "rhine.page.close")} ×</a></header>
+			<h1>{names[3]}</h1>
+			<p>{ts(t, "rhine.page.records", { count: records.length })}</p>
+			{records.length === 0 && <p>{ts(t, "rhine.page.noArticles")}</p>}
+			{records.map(record => <a class="directory-record" href={record.source}><span>{record.id}</span><strong>{record.title}</strong><span class="directory-category">{record.category}</span><time>{record.date}</time><span>↗</span></a>)}
+			<footer>{ts(t, "rhine.page.interfaceAdapted")} <a href="https://github.com/LBEILC/RhineLabUI">RhineLabUI</a> · <a href="/licenses/RhineLabUI-MIT.txt">{ts(t, "rhine.page.mitLicense")}</a></footer>
+		</section>
+		<script is:inline id="blog-archives" type="application/json" set:html={JSON.stringify(records).replace(/</g, "\\u003c")} />
+		<script>
+			const viewport = document.getElementById("viewport");
+			const navigation = document.querySelector<HTMLElement>(".blog-navigation");
+			const directory = document.getElementById("article-directory");
+			let directoryOpen = false;
+			let directoryOpener: HTMLElement | null = null;
+			const syncDirectory = () => {
+				const open = location.hash === "#article-directory";
+				if (!viewport || !directory || open === directoryOpen) return;
+				directoryOpen = open;
+				viewport.inert = open;
+				if (navigation) navigation.inert = open;
+				if (open) {
+					directoryOpener = document.activeElement instanceof HTMLElement && document.activeElement !== document.body ? document.activeElement : null;
+					requestAnimationFrame(() => directory.querySelector<HTMLElement>("a, button, [tabindex]:not([tabindex='-1'])")?.focus({ preventScroll: true }));
+				} else {
+					directoryOpener?.focus({ preventScroll: true });
+					directoryOpener = null;
+				}
+			};
+			window.addEventListener("hashchange", syncDirectory);
+			syncDirectory();
+			const records = JSON.parse(document.getElementById("blog-archives")?.textContent ?? "[]");
+			if (records.length) {
+				import("../rhine/main").catch(error => {
+					console.error("Archive interface could not load", error);
+					document.documentElement.classList.add("archive-fallback");
+				});
+			} else document.documentElement.classList.add("archive-fallback");
+		</script>
+		<noscript><style>#viewport { display: none; } .blog-directory { display: block; position: static; } body { overflow: auto; }</style></noscript>
+	</body>
+</html>
+<style is:global>
+html, body { margin: 0; background: #e8e5e1; color: #242620; font-family: MiSans, system-ui, sans-serif; }
+.blog-navigation { position: fixed; z-index: 100000; left: 24px; top: 16px; display: flex; flex-wrap: wrap; gap: 14px; max-width: calc(100% - 48px); padding: 8px 14px; background: #e8e5e1ed; border: 1px solid #858578; font-size: 12px; }
+.blog-navigation a { color: #242620; text-decoration: none; padding: 4px 0; }
+.rhine-modal .blog-navigation { visibility: hidden; }
+.blog-navigation a:hover, .blog-navigation a[aria-current] { text-decoration: underline; text-underline-offset: 4px; }
+.blog-directory { display: none; position: fixed; inset: 0; z-index: 100001; overflow: auto; padding: clamp(24px, 6vw, 90px); background: #e8e5e1; box-sizing: border-box; }
+.blog-directory:target, .archive-fallback .blog-directory { display: block; }
+.blog-directory header, .directory-record { display: flex; gap: 24px; align-items: center; justify-content: space-between; border-bottom: 1px solid #aaa99c; padding: 22px 0; }
+.blog-directory h1 { font-size: clamp(30px, 6vw, 64px); font-weight: 400; margin: 40px 0 10px; }
+.directory-record { color: inherit; text-decoration: none; }
+.directory-record strong { flex: 1; font-weight: 500; }
+.directory-category { color: #7d7565; font-size: 11px; letter-spacing: 0.6px; white-space: nowrap; }
+.directory-record:hover { background: #d7d2bc; }
+.blog-directory footer { padding: 40px 0; font-size: 12px; }
+.blog-directory a:focus-visible, .blog-navigation a:focus-visible { outline: 2px solid #a56422; outline-offset: 4px; }
+#selected-title { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.detail-title-cn { overflow-wrap: anywhere; }
+@media (max-width: 600px) { .blog-navigation { left: 12px; top: 82px; gap: 9px; max-width: calc(100% - 24px); font-size: 11px; padding: 8px 10px; } .directory-record { gap: 12px; flex-wrap: wrap; } .directory-record strong { min-width: calc(100% - 54px); } .directory-category { font-size: 10px; } .directory-record time { font-size: 12px; } }
+</style>

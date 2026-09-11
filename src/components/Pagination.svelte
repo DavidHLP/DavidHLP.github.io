@@ -1,12 +1,15 @@
 <script lang="ts">
 import Icon from "./Icon.svelte";
+import i18nit from "$i18n";
+import { ts } from "$utils/labels";
 
-let { pages = $bindable(), page = $bindable() }: { pages: number; page: number } = $props();
+let { locale, pages = $bindable(), page = $bindable() }: { locale: string; pages: number; page: number } = $props();
+const t = i18nit(locale);
 </script>
 
 {#if pages > 1}
-	<nav class="pagination no-print sticky bottom-0 flex items-center justify-center gap-3 mt-auto pb-1 text-weak bg-background font-mono" aria-label="Pagination">
-		<button aria-label="Previous page" disabled={page === 1} onclick={() => (page = Math.max(1, page - 1))}><Icon name="lucide--arrow-left" class="rtl:-scale-x-100" /></button>
+	<nav class="pagination no-print sticky bottom-0 flex items-center justify-center gap-3 mt-auto pb-1 text-weak bg-background font-mono" aria-label={ts(t, "pagination.label")}>
+		<button aria-label={ts(t, "pagination.previous")} disabled={page === 1} onclick={() => (page = Math.max(1, page - 1))}><Icon name="lucide--arrow-left" class="rtl:-scale-x-100" /></button>
 		<button aria-current={page === 1 ? "page" : undefined} onclick={() => (page = 1)}>{1}</button>
 
 		{#if pages > 7 && page > 4}<Icon name="lucide--ellipsis" />{/if}
@@ -18,7 +21,7 @@ let { pages = $bindable(), page = $bindable() }: { pages: number; page: number }
 		{#if pages > 7 && page < pages - 3}<Icon name="lucide--ellipsis" />{/if}
 
 		<button aria-current={page === pages ? "page" : undefined} onclick={() => (page = pages)}>{pages}</button>
-		<button aria-label="Next page" disabled={page === pages} onclick={() => (page = Math.min(pages, page + 1))}><Icon name="lucide--arrow-right" class="rtl:-scale-x-100" /></button>
+		<button aria-label={ts(t, "pagination.next")} disabled={page === pages} onclick={() => (page = Math.min(pages, page + 1))}><Icon name="lucide--arrow-right" class="rtl:-scale-x-100" /></button>
 	</nav>
 {/if}
 

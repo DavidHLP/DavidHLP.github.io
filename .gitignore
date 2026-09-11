@@ -1,4 +1,5 @@
 # build output
+/backups/
 .wrangler
 .vercel/
 dist/

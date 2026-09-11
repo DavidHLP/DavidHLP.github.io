@@ -16,16 +16,16 @@
 
 :root,
 [data-theme="light"] {
-	--primary-color: #30343a;
+	--primary-color: #242620;
 	--secondary-color: #505359;
 	--remark-color: #63666b;
 	--weak-color: #696c70;
-	--background-color: #fafaf7;
-	--block-color: #eeefeb;
+	--background-color: #e8e5e1;
+	--block-color: #dedcd4;
 	--shadow-color: #d5d6d2;
-	--selection-color: #c8323226;
-	--accent-color: #c83232;
-	--rule-color: #30343a35;
+	--selection-color: #9c672c26;
+	--accent-color: #9c672c;
+	--rule-color: #24262035;
 
 	--swup-fade-theme-duration: 0.15s;
 
@@ -56,11 +56,11 @@
 
 /* Language-specific fonts */
 :lang(zh-cn) {
-	--font-serif: var(--font-noto-serif-sc);
+	--font-serif: MiSans, system-ui, sans-serif;
 }
 
 :lang(ja) {
-	--font-serif: var(--font-noto-serif-jp);
+	--font-serif: MiSans, system-ui, sans-serif;
 }
 
 @layer base {
@@ -99,7 +99,7 @@
 
 	body {
 		font-size: 1.0625rem;
-		font-family: var(--font-serif), var(--font-mono);
+		font-family: MiSans, system-ui, sans-serif;
 		color: var(--primary-color);
 		background-color: var(--background-color);
 		overflow-x: clip;
@@ -228,8 +228,8 @@
 	--color-shadow: var(--shadow-color);
 	--color-selection: var(--selection-color);
 
-	--font-serif: var(--font-noto-serif);
-	--font-mono: var(--font-maple-mono-nf-cn);
+	--font-serif: MiSans, system-ui, sans-serif;
+	--font-mono: ui-monospace, monospace;
 	--font-cursive: var(--font-playwrite-mx), var(--font-the-peak-font-plus);
 
 	@keyframes shaky {
@@ -340,18 +340,18 @@
 /* Print/Resume optimizations */
 @media print {
 	:root {
-		--primary-color: #30343a;
+		--primary-color: #242620;
 		--secondary-color: #505359;
 		--remark-color: #63666b;
 		--weak-color: #63666b;
 		--background-color: #ffffff;
 		--block-color: #f4f4f4;
 		--rule-color: #bbbbbb;
-		--accent-color: #30343a;
+		--accent-color: #242620;
 	}
 	:root .astro-code,
 	:root .astro-code span {
-		color: #30343a !important;
+		color: #242620 !important;
 		background-color: transparent !important;
 	}
 	body {

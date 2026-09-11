@@ -1,7 +1,7 @@
 ---
 import type { MarkdownHeading } from "astro";
 import type { CollectionEntry } from "astro:content";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localeUrl } from "$utils/locale-url";
 import type { ListableCollection } from "$utils/config";
 import Base from "$layouts/Base.astro";
 import ContentHeader from "$components/ContentHeader.astro";
@@ -97,29 +97,39 @@ const t = i18nit(locale);
 		tags
 	}}
 >
-	<main class="flex flex-col gap-6">
-		<ContentHeader {locale} title={entry.data.title} timestamp={entry.data.timestamp} {series} {tags} {words} />
+	<main class="reader-document">
+		<div class="document-heading">
+			<div class="document-index">
+				<a href={localeUrl(locale, `/${section}`)}>← {ts(t, `rhine.collection.${section}`)}</a>
+				<span>{section.toUpperCase()} / {entry.id.split("/").at(-1)}</span>
+			</div>
+			<ContentHeader {locale} title={entry.data.title} timestamp={entry.data.timestamp} {series} {tags} {words} />
+		</div>
 
 		<Sensitive
 			{locale}
-			back={getRelativeLocaleUrl(locale, `/${section}`)}
+			back={localeUrl(locale, `/${section}`)}
 			sensitive={entry.data.sensitive ?? false}
 			client:load
 		>
-			<div class="flex gap-5">
-				<section id="markdown-content" class="markdown"><Content /></section>
+			<div class:list={["document-body", { "document-body-toc": showToc }]}>
 				{
 					showToc && (
-						<aside class="no-print hidden sm:block sm:shrink-0 sm:w-50">
-							<div class="sticky top-3 flex flex-col gap-1">
-								<h4>{ts(t, "note.contents")}</h4>
-								<nav class="overflow-y-auto">
+						<aside class="document-toc no-print">
+							<details open>
+								<summary>{ts(t, "note.contents")} <span aria-hidden="true">/ INDEX</span></summary>
+								<nav aria-label={ts(t, "note.contents")}>
 									<TOC {headings} />
 								</nav>
-							</div>
+							</details>
 						</aside>
 					)
 				}
+				<article class="document-article">
+					{entry.data.description && <div class="document-abstract"><span>{ts(t, "rhine.detail.abstract")}</span><p>{entry.data.description}</p></div>}
+					<section id="markdown-content" class="markdown"><Content /></section>
+					<footer class="document-end"><span aria-hidden="true">END / ◇</span><a href={localeUrl(locale, `/${section}`)}>← {ts(t, `rhine.collection.${section}`)}</a></footer>
+				</article>
 			</div>
 		</Sensitive>
 
