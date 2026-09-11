@@ -1,156 +1,127 @@
-# ThoughtLite
+# DavidHLPL · ThoughtLite ナレッジベース
 
-<div align="center">
-    <p>
-        <img alt="ThoughtLite Light Mode Preview" src=".github/assets/preview-light.webp">
-        <img alt="ThoughtLite Dark Mode Preview" src=".github/assets/preview-dark.webp">
-    </p>
-    <p>
-        <a href="https://github.com/tuyuritio/astro-theme-thought-lite/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/tuyuritio/astro-theme-thought-lite"></a>
-        <a href="https://raw.githubusercontent.com/tuyuritio/astro-theme-thought-lite/refs/heads/main/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/tuyuritio/astro-theme-thought-lite"></a>
-        <a href="https://deepwiki.com/tuyuritio/astro-theme-thought-lite"><img alt="Ask DeepWiki" src="https://deepwiki.com/badge.svg"></a>
-    </p>
-    <p>コンテンツ作成に特化し、モダンな <a href="https://astro.build/">Astro</a> テーマ 🌟</p>
-    <p>
-        <small><a href="README.md">English</a></small>
-        <small><a href="README.zh-cn.md">简体中文</a></small>
-        <small><ins>日本語</ins></small>
-    </p>
-</div>
+[English](README.md) · [简体中文](README.zh-cn.md) · [日本語](README.ja.md)
 
-> [!NOTE]
-> - `main` ブランチ✅：静的ビルド、任意の静的ホスティングプラットフォームにデプロイ可能。
-> - `cloudflare` ブランチ：内蔵コメントシステムを有効にし、Cloudflare のみでデプロイ可能。
+DavidHLPL は、Astro で構築された多言語対応の個人ブログ兼、根拠を追跡できる AI ナレッジベースです。[ThoughtLite](https://github.com/tuyuritio/astro-theme-thought-lite) のコンテンツワークフローを保ちながら、このリポジトリで独自のコンテンツ、翻訳、ナレッジベースのルールを管理しています。
 
-🎬 **ライブデモ**：[Vercel](https://thought-lite.vercel.app/ja/)
+公開済みの文記と随筆は、ロケール対応のページと Feed として生成されます。本プロジェクトは静的サイトであり、データベース、API Key、バックエンドサービスは必要ありません。
 
-## ✨ 機能
+## 特徴
 
-- [x] **レスポンシブデザイン** - モバイル、タブレット、デスクトップに対応。
-- [x] **ライト / ダークモード** - システムに自動追従し、手動切り替えもサポート。
-- [x] **CSR 動的コンテンツフィルタリング** - History API によるリストフィルタリングとページネーション。
-- [x] **i18n サポート** - 拡張可能な多言語対応、単一言語モードでも完璧に動作。
-- [x] **サイトマップ & フィード購読** - サイトマップと Atom フィードの自動生成。
-- [x] **OpenGraph サポート** - 組み込みの Open Graph メタタグでソーシャルメディア共有を最適化。
+- **根拠を追跡できるナレッジベース** — 安定した `note` ページ、軽量な `jotting`、不変の `raw` ソースがプロジェクトの編集ワークフローに従います。
+- **Astro コンテンツパイプライン** — Markdown/MDX、シンタックスハイライト、数式、Mermaid、表、画像、脚注、読了時間、自動見出しに対応。
+- **多言語ルーティング** — 英語、簡体字中国語、日本語に対応し、ナレッジベースの正典言語は `zh-cn` です。
+- **テーマとレスポンシブ対応** — ライト/ダークテーマ、レスポンシブレイアウト、タッチ操作に配慮したナビゲーション、動きを減らす設定。
+- **静的公開** — Atom Feed、サイトマップ、Open Graph メタデータを自動生成し、`dist/` を GitHub Pages などの静的ホスティングへ配置できます。
+- **コンテンツ保護ルール** — ソースとナレッジベースのログを公開コレクションから分離し、リポジトリに記録された不変条件に従います。
 
-## ⚡️ クイックスタート
+## クイックスタート
 
-### Astro コマンドを使用
+### 必要な環境
 
-以下のコマンドを実行します：
+- Node.js 22.12 以上。
+- `package.json` が指定する pnpm 10.30.0。
+
+### インストールと起動
 
 ```sh
-pnpm create astro --template tuyuritio/astro-theme-thought-lite
-
-# 対話型プロンプトに従ってプロジェクトを作成
-
-cd <your-project-name>
+git clone https://github.com/DavidHLP/DavidHLP.github.io.git
+cd DavidHLP.github.io
+pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-### テンプレートを使用
-
-1. [このテンプレートを使用して](https://github.com/new?template_name=astro-theme-thought-lite&template_owner=tuyuritio)新しいリポジトリを作成するか、このリポジトリを [Fork](https://github.com/tuyuritio/astro-theme-thought-lite/fork) します。
-2. 以下のコマンドを実行します：
+Astro が表示するアドレス（通常は [`http://localhost:4321`](http://localhost:4321)）を開いてください。ローカル環境で `localhost` を正しく解決できない場合は、次を使用できます。
 
 ```sh
-git clone <your-repo-url>
-cd <your-repo-name>
-pnpm install
-pnpm dev
+pnpm dev --host 127.0.0.1
 ```
 
-## 🔧 設定
+### ビルドとプレビュー
 
-サイト設定および国際化（i18n）設定をカスタマイズするには、以下のファイルを変更してください：
+```sh
+pnpm build
+pnpm preview
+```
 
-- `.env`
-- `astro.config.ts`
-- `site.config.ts`
+本番サイトは `dist/` に出力されます。HTTP サーバー経由でアクセスし、`dist/index.html` を直接開かないでください。
 
-基本設定については[サイト設定ガイド](src/content/note/ja/configuration.md)を参照してください。
+## コマンド
 
-国際化設定については[国際化設定ガイド](src/content/note/ja/internationalization.md)を参照してください。
-
-## 💻 コマンド
-
-テーマは以下の一般的なコマンドを提供します：
-
-| コマンド | アクション |
+| コマンド | 用途 |
 | --- | --- |
-| `pnpm install` | プロジェクトの依存関係をインストール |
-| `pnpm update` | プロジェクトの依存関係を更新 |
-| `pnpm new` | 新しいコンテンツファイルを作成 |
-| `pnpm dev` | ローカル開発サーバーを起動（デフォルト：`http://localhost:4321`） |
-| `pnpm check` | Astro 型チェックを実行 |
-| `pnpm build` | 本番バージョンをビルド |
-| `pnpm preview` | ビルドしたサイトをプレビュー |
-| `pnpm format` | コードフォーマット |
-| `pnpm lint` | コードリント |
+| `pnpm install --frozen-lockfile` | ロックファイルに従って依存関係をインストール |
+| `pnpm new` | プロジェクトヘルパーで新しいコンテンツファイルを作成 |
+| `pnpm dev` | 通常ポート 4321 で Astro 開発サーバーを起動 |
+| `pnpm check` | Astro と TypeScript のチェックを実行 |
+| `pnpm test:run` | Vitest テストを一度実行 |
+| `pnpm build` | 静的な本番サイトをビルド |
+| `pnpm preview` | ビルド結果をローカルでプレビュー |
+| `pnpm format` | Biome で対応するソースファイルを整形 |
+| `pnpm lint` | Biome の lint チェックを実行 |
+| `pnpm kb:lint` | ナレッジベースの根拠とインデックス不変条件を検証 |
+| `node scripts/editorial-smoke.mjs` | ビルド後に生成ルート、landmark、レイアウト、必要なアセットを検証 |
 
-## 🚀 デプロイ
+## プロジェクト構成
 
-現在のブランチは完全に静的ビルドが可能で、任意の静的ホスティングプラットフォームにデプロイできます。
+| パス | 役割 |
+| --- | --- |
+| `src/content/note/{locale}/` | 根拠を持つ安定したナレッジページ |
+| `src/content/jotting/{locale}/` | 軽量なメモとナレッジベースの取り込み待ち受信箱 |
+| `src/content/information/{locale}/` | 自己紹介、ポリシー、リンク、年表、ナレッジベースのインデックスとログ |
+| `src/content/preface/{locale}/` | サイトの序文コンテンツ |
+| `src/content/raw/{locale}/` | ナレッジベースの不変ソース。公開コレクションには含めない |
+| `src/i18n/` | `en`、`zh-cn`、`ja` の翻訳リソース |
+| `src/components/` | 再利用可能な Astro と Svelte の UI コンポーネント |
+| `src/pages/[...locale]/` | ホーム、コンテンツ、Feed、情報ページの多言語ルート |
+| `src/layouts/` | 共通ページ・ドキュメントレイアウト |
+| `site.config.ts` | サイト情報、ロケール、コンテンツ、ページネーション、Feed の設定 |
+| `astro.config.ts` | Astro 統合、Markdown/MDX 処理、ルーティング、サイトマップ、ビルド動作 |
 
-各プラットフォームのデプロイ方法については、[Astro 公式デプロイガイド](https://docs.astro.build/ja/guides/deploy/)を参照してください。
+## コンテンツとナレッジベース
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tuyuritio/astro-theme-thought-lite&project-name=astro-blog-thought-lite&repository-name=astro-blog-thought-lite&teamSlug=tuyuritios-projects)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/integration/start/deploy?repository=https://github.com/tuyuritio/astro-theme-thought-lite)
+公開コンテンツはロケールとコレクションごとに整理しています。
 
-## 🔄 更新
+- `note`：構造化された技術・エンジニアリング知識。
+- `jotting`：軽量な観察と、安定した知識ページへコンパイルする前の素材。
+- `information`：自己紹介、ポリシー、リンク、年表、ナレッジベースのインデックス/ログ。
+- `preface`：サイトの序文。
+- `raw`：不変の証拠レイヤー。公開コンテンツとして列挙しません。
 
-アップストリームの更新を同期するには、以下のコマンドを実行します：
+ナレッジベースの正典言語は `zh-cn` です。英語と日本語のページは、多言語出力が必要な場合に翻訳として管理します。公開コンテンツを追加すると、ページと Feed は次回のビルドで更新されます。
+
+## 設定
+
+主な設定入口は次のとおりです。
+
+- [`site.config.ts`](site.config.ts) — サイト情報、作者、説明、ロケール、ページネーション、Feed、最新コンテンツ。
+- [`astro.config.ts`](astro.config.ts) — Astro 統合、Markdown/MDX 処理、多言語ルーティング、エイリアス、サイトマップ、ビルド動作。
+- [`src/i18n/`](src/i18n/) — UI 翻訳とラベル。
+
+## デプロイと検証
+
+このリポジトリは GitHub Pages 用に設定されています。`main` への push でデプロイワークフローが起動し、まず検証ワークフローを再利用します。検証に成功した後で、固定された pnpm 依存関係をインストールし、`dist/` をビルドし、`.nojekyll` を追加して GitHub Pages に公開します。
+
+検証ワークフローでは、Biome チェック、型チェック、ユニットテスト、静的ビルド、編集内容の smoke チェック、コミット済み SVG のチェック、デスクトップとモバイル幅での about ページのブラウザ/印刷 smoke チェックを実行します。
+
+ローカル検証：
 
 ```sh
-git remote add theme https://github.com/tuyuritio/astro-theme-thought-lite.git
-git fetch theme
-git merge theme/main    # 初回更新時は `--allow-unrelated-histories` フラグを追加
-pnpm install
+pnpm check
+pnpm test:run
+pnpm build
+node scripts/editorial-smoke.mjs
 ```
 
-## ✍️ コンテンツ作成
+## 上流とライセンス
 
-コンテンツ作成は `src/content` ディレクトリに集中しており、主に以下の部分を含みます：
+このリポジトリは [ThoughtLite](https://github.com/tuyuritio/astro-theme-thought-lite) の Astro コンテンツテーマ基盤をもとに構築されています。[上流 README](https://raw.githubusercontent.com/tuyuritio/astro-theme-thought-lite/refs/heads/main/README.md)も参照してください。本プロジェクトのライセンスは [GPLv3](LICENSE) です。
 
-- `note` - 文記、入念に構成された詳細な長文作品に特化
-- `jotting` - 随筆、軽量で即時的なコンテンツ記録
-- `preface` - 序文、第一印象としてサイトのホームページに表示
-- `information` - 情報、各種説明的なコンテンツを含む
+[RhineLabUI](https://github.com/LBEILC/RhineLabUI) は、将来のアーカイブ機能に向けた外部参考資料として残しています。[上流 README](https://raw.githubusercontent.com/LBEILC/RhineLabUI/refs/heads/main/README.md)を参照してください。このリポジトリには現在、RhineLabUI の UI、アセット、ライセンス本文は含まれていません。
 
-詳細は[コンテンツ作成ガイド](src/content/note/ja/content.md)を参照してください。
+## 参考
 
-## 🤝 貢献
-
-あらゆる形式の貢献を歓迎し、感謝しています！
-
-- プロジェクトの宣伝や他のユーザーの支援
-- [Issues](https://github.com/tuyuritio/astro-theme-thought-lite/issues) の報告や新機能の提案
-- ドキュメントの改善や国際化（i18n）の支援
-- コード貢献の提出
-- 詳細は[コード貢献ガイド](CONTRIBUTING.md)を参照してください
-
-## 🙏 謝辞
-
-### 技術スタック
-
-- **コアフレームワーク** - [Astro](https://astro.build/)
-- **コア言語** - [TypeScript](https://www.typescriptlang.org/)
-- **UI コンポーネント** - [Svelte](https://svelte.dev/)
-- **CSS エンジン** - [Tailwind CSS](https://tailwindcss.com/)
-- **アイコン** - [Iconify](https://iconify.design/)
-- **フォント** - [Google Fonts](https://fonts.google.com/) | [ZeoSeven Fonts](https://fonts.zeoseven.com/)
-- **画像ビューア** - [Medium Zoom](https://github.com/francoischalifour/medium-zoom)
-- **SPA トランジション** - [Swup](https://swup.js.org/)
-- **コード品質** - [Biome](https://biomejs.dev/)
-- **静的デプロイ** - [Vercel](https://vercel.com/)
-
-### インスピレーション
-
-- [Astro Sphere](https://github.com/markhorn-dev/astro-sphere)
-- [astro-vitesse](https://github.com/adrian-ub/astro-vitesse)
-- [Miniblog](https://github.com/nicholasdly/miniblog)
-- [AstroPaper with I18n](https://github.com/yousef8/astro-paper-i18n)
-
-## 📜 ライセンス
-
-このプロジェクトは [GPLv3](LICENSE) でライセンスされており、自由に変更および配布できますが、元の著作権表示を保持する必要があります。
+- [DavidHLPL](https://github.com/DavidHLP)
+- [DavidHLP.github.io](https://github.com/DavidHLP/DavidHLP.github.io)
+- [ThoughtLite](https://github.com/tuyuritio/astro-theme-thought-lite)
+- [RhineLabUI](https://github.com/LBEILC/RhineLabUI)
