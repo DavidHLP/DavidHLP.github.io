@@ -1,156 +1,149 @@
-# ThoughtLite
+# DavidHLPL · Archive OS
 
-<div align="center">
-    <p>
-        <img alt="ThoughtLite Light Mode Preview" src=".github/assets/preview-light.webp">
-        <img alt="ThoughtLite Dark Mode Preview" src=".github/assets/preview-dark.webp">
-    </p>
-    <p>
-        <a href="https://github.com/tuyuritio/astro-theme-thought-lite/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/tuyuritio/astro-theme-thought-lite"></a>
-        <a href="https://raw.githubusercontent.com/tuyuritio/astro-theme-thought-lite/refs/heads/main/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/tuyuritio/astro-theme-thought-lite"></a>
-        <a href="https://deepwiki.com/tuyuritio/astro-theme-thought-lite"><img alt="Ask DeepWiki" src="https://deepwiki.com/badge.svg"></a>
-    </p>
-    <p>一款专注内容创作的现代化 <a href="https://astro.build/">Astro</a> 主题 🌟</p>
-    <p>
-        <small><a href="README.md">English</a></small>
-        <small><ins>简体中文</ins></small>
-        <small><a href="README.ja.md">日本語</a></small>
-    </p>
-</div>
+[English](README.md) · [简体中文](README.zh-cn.md) · [日本語](README.ja.md)
 
-> [!NOTE]
-> - `main` 分支✅：静态化构建，可部署在任何静态托管平台。
-> - `cloudflare` 分支：启用内置评论系统，仅支持在 Cloudflare 部署。
+DavidHLPL 是一个多语言个人博客与有证据支撑的 AI 知识库。站点保留 [ThoughtLite](https://github.com/tuyuritio/astro-theme-thought-lite) 的内容工作流，并将 [RhineLabUI](https://github.com/LBEILC/RhineLabUI) 的可交互三维档案终端适配到 Astro 站点中。
 
-🎬 **在线演示**：[Vercel](https://thought-lite.vercel.app/zh-cn/)
+站点保留现有 Markdown/MDX 内容和文章地址，同时把已发布的文记与随笔呈现为可检索的档案体验。
 
-## ✨ 特性
+> 本项目是静态 Astro 站点，不需要数据库、API Key 或后端服务。完整档案界面需要支持 WebGL 2 的现代浏览器；当 JavaScript 或 WebGL 不可用时，仍提供 HTML 文章目录。
 
-- [x] **响应式设计** - 移动端、平板、桌面自适应。
-- [x] **亮色 / 深色模式** - 自动跟随系统，并支持手动切换。
-- [x] **CSR 动态内容筛选** - 通过 History API 实现的列表筛选和分页。
-- [x] **i18n 支持** - 可扩展的多语言支持，单语言模式同样适用。
-- [x] **Sitemap 及 Feed 订阅** - 自动化生成 Sitemap 和 Atom Feed。
-- [x] **OpenGraph 支持** - 内置 Open Graph 元标签，优化社交媒体分享效果。
+## 特性
 
-## ⚡️ 快速上手
+- **可交互的档案操作系统** — Three.js 开场、档案浏览、分类与关键词检索、文章详情、收藏、文本导出，以及带解密和拆解交互的 360° 模型查看器。
+- **内容驱动的档案** — 构建时从当前语言已发布的 `note` 和 `jotting` 内容生成档案记录；草稿、下划线文件和 raw 原始来源不会进入公开档案。
+- **Astro 内容管道** — 支持 Markdown/MDX、代码高亮、数学公式、Mermaid、表格、图片、脚注、阅读时间和自动标题。
+- **多语言路由** — 支持英文、简体中文和日文，知识库以 `zh-cn` 为正典语言。
+- **主题与响应式体验** — 亮色/暗色主题、自适应布局、触摸友好的导航，以及减少动态效果偏好。
+- **静态发布能力** — 自动生成 Atom Feed、站点地图和 Open Graph 元数据，输出的 `dist/` 可部署到 GitHub Pages 或其他静态托管平台。
+- **可降级访问** — 空档案、禁用 JavaScript 或 WebGL 加载失败时，仍可使用构建生成的 HTML 文章目录。
 
-### 使用 Astro 命令
+嵌入的 Rhine 界面已针对本博客适配。上游项目的独立 PWA 和 Wallpaper Engine 宿主功能未在本项目中启用。
 
-运行如下命令：
+## 快速开始
+
+### 环境要求
+
+- Node.js 22.12 或更高版本。
+- pnpm 10.30.0，版本由 `package.json` 声明。
+- 如需完整三维档案体验，需要支持 WebGL 2 的现代浏览器。
+
+### 安装并启动
 
 ```sh
-pnpm create astro --template tuyuritio/astro-theme-thought-lite
-
-# 根据交互提示创建项目
-
-cd <your-project-name>
+git clone https://github.com/DavidHLP/DavidHLP.github.io.git
+cd DavidHLP.github.io
+pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-### 使用模板
-
-1. [使用此模板](https://github.com/new?template_name=astro-theme-thought-lite&template_owner=tuyuritio)创建新的仓库或 [Fork](https://github.com/tuyuritio/astro-theme-thought-lite/fork) 此仓库。
-2. 运行如下命令：
+打开 Astro 输出的地址，通常是 [`http://localhost:4321`](http://localhost:4321)。如果本地环境无法正确解析 `localhost`，可以使用：
 
 ```sh
-git clone <your-repo-url>
-cd <your-repo-name>
-pnpm install
-pnpm dev
+pnpm dev --host 127.0.0.1
 ```
 
-## 🔧 配置
+### 构建与预览
 
-自定义站点配置及国际化（i18n）配置，请修改以下文件：
+```sh
+pnpm build
+pnpm preview
+```
 
-- `.env`
-- `astro.config.ts`
-- `site.config.ts`
+生产站点输出到 `dist/`。请通过 HTTP 服务访问它，不要直接双击 `dist/index.html`。
 
-基础配置请参阅[站点配置指南](src/content/note/zh-cn/configuration.md)。
+正常开发和生产构建不需要后端服务、数据库或 API Key。
 
-国际化配置请参阅[国际化配置指南](src/content/note/zh-cn/internationalization.md)。
+## 常用命令
 
-## 💻 命令
-
-主题提供了以下常用命令：
-
-| 命令 | 行为 |
+| 命令 | 用途 |
 | --- | --- |
-| `pnpm install` | 安装项目依赖 |
-| `pnpm update` | 更新项目依赖 |
-| `pnpm new` | 创建新的内容文件 |
-| `pnpm dev` | 启动本地开发服务器（默认：`http://localhost:4321`） |
-| `pnpm check` | 运行 Astro 类型检查 |
-| `pnpm build` | 构建生产版本 |
-| `pnpm preview` | 预览构建后的站点 |
-| `pnpm format` | 代码格式化 |
-| `pnpm lint` | 代码检查 |
+| `pnpm install --frozen-lockfile` | 按锁文件安装依赖 |
+| `pnpm new` | 通过项目辅助脚本创建新的内容文件 |
+| `pnpm dev` | 启动 Astro 开发服务器，默认端口为 4321 |
+| `pnpm check` | 执行 Astro 和 TypeScript 检查 |
+| `pnpm test:run` | 一次性运行 Vitest 测试套件 |
+| `pnpm build` | 构建静态生产站点 |
+| `pnpm preview` | 本地预览构建结果 |
+| `pnpm format` | 使用 Biome 格式化支持的源文件 |
+| `pnpm lint` | 执行 Biome 代码检查 |
+| `pnpm kb:lint` | 检查知识库证据和索引不变量 |
+| `node scripts/editorial-smoke.mjs` | 构建后检查路由、档案记录、资源和许可证 |
 
-## 🚀 部署
+## 项目结构
 
-当前分支可完全静态化构建，部署在任何静态托管平台。
+| 路径 | 职责 |
+| --- | --- |
+| `src/components/RhineArchive.astro` | 将 Astro 内容集合接入档案界面，并提供 HTML 降级目录 |
+| `src/rhine/` | 适配后的 Three.js 档案 UI、开场、模型查看器、音频、动效和渲染设置 |
+| `src/content/note/{locale}/` | 有证据支撑的稳定知识页 |
+| `src/content/jotting/{locale}/` | 轻量随笔和知识库待摄入收件箱 |
+| `src/content/information/{locale}/` | 自述、政策、连结、编年、知识库索引和日志 |
+| `src/content/preface/{locale}/` | 站点序文内容 |
+| `src/content/raw/{locale}/` | 知识库的不可变原始来源，不属于公开档案集合 |
+| `src/i18n/` | `en`、`zh-cn` 和 `ja` 的界面翻译资源 |
+| `src/pages/[...locale]/` | 首页、档案、内容、Feed 和说明页的多语言路由 |
+| `public/assets/` | 运行时模型和其他档案资源 |
+| `public/audio/` | 档案音频、来源说明和生成元数据 |
+| `public/fonts/` | MiSans 网页字体及其声明/许可证 |
+| `public/licenses/` | 集成界面使用的第三方许可证文本 |
+| `docs/rhine-migration.md` | 迁移范围、内容映射、降级行为和验证记录 |
 
-各平台部署方法请参阅 [Astro 官方部署指南](https://docs.astro.build/zh-cn/guides/deploy/)。
+## 内容与知识库
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tuyuritio/astro-theme-thought-lite&project-name=astro-blog-thought-lite&repository-name=astro-blog-thought-lite&teamSlug=tuyuritios-projects)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/integration/start/deploy?repository=https://github.com/tuyuritio/astro-theme-thought-lite)
+已发布内容按语言和集合组织：
 
-## 🔄 更新
+- `note`：结构化的技术与工程知识。
+- `jotting`：轻量观察和等待编译为稳定知识页的材料。
+- `information`：自述、政策、连结、编年以及知识库索引/日志。
+- `preface`：站点序文。
+- `raw`：不可变证据层，不作为公开内容列出。
 
-运行以下命令以同步上游更新：
+知识库以 `zh-cn` 为正典语言；只有在需要多语言输出时才维护英文和日文译文。新增已发布内容后，档案列表和 Feed 会在下一次构建时自动更新。
+
+## 配置
+
+主要配置入口如下：
+
+- [`site.config.ts`](site.config.ts) — 站点身份、作者、描述、语言、分页、Feed 和最新内容设置。
+- [`astro.config.ts`](astro.config.ts) — Astro 集成、Markdown/MDX 处理、多语言路由、别名、站点地图和构建行为。
+- [`src/i18n/`](src/i18n/) — 界面翻译和标签。
+
+## 部署与验证
+
+仓库已配置 GitHub Pages 部署。推送到 `main` 后，部署工作流会先复用验证工作流；验证通过后才安装锁定的 pnpm 依赖、构建 `dist/`、添加 `.nojekyll`，再通过 GitHub Pages 发布。
+
+验证工作流会执行 Biome 检查、类型检查、单元测试、静态构建、档案/资源 smoke 检查、SVG 检查，以及桌面和移动宽度下的关于页浏览器检查。
+
+本地验证可以运行：
 
 ```sh
-git remote add theme https://github.com/tuyuritio/astro-theme-thought-lite.git
-git fetch theme
-git merge theme/main    # 首次更新需添加 `--allow-unrelated-histories` 参数
-pnpm install
+pnpm check
+pnpm test:run
+pnpm build
+node scripts/editorial-smoke.mjs
 ```
 
-## ✍️ 创作
+## 上游与许可证
 
-创作内容集中在 `src/content` 目录下，主要包含以下部分：
+本仓库由两个上游层和本站自己的内容/集成代码组成：
 
-- `note` - 文记，专注于精心构思、内容详实的长篇作品
-- `jotting` - 随笔，轻量级、即时性的内容记录
-- `preface` - 序文，作为第一印象在站点首页展示
-- `information` - 信息，包含各类说明性内容
+- [ThoughtLite](https://github.com/tuyuritio/astro-theme-thought-lite) 提供原始 Astro 内容主题基础，可参阅[上游 README](https://raw.githubusercontent.com/tuyuritio/astro-theme-thought-lite/refs/heads/main/README.md)。本项目继续使用 [GPLv3](LICENSE)。
+- [RhineLabUI](https://github.com/LBEILC/RhineLabUI) 提供适配后的 Three.js 档案界面。集成源码位于 `src/rhine/`，固定于经过审阅的提交 `8799b03179a9a0ebd2611843e644a5a0530b24bf`。可参阅[上游 README](https://raw.githubusercontent.com/LBEILC/RhineLabUI/refs/heads/main/README.md)和本地 [MIT 许可证声明](public/licenses/RhineLabUI-MIT.txt)。
 
-详情请参阅[内容创作指南](src/content/note/zh-cn/content.md)。
+RhineLabUI 的 MIT 声明只适用于其覆盖的适配界面代码，不会自动将本仓库的所有文件和资源重新授权为 MIT。MiSans、Rolling Number、音频文件、其他依赖，以及相关作品的名称、标志、模型和源素材仍适用各自的权利和声明。详见：
 
-## 🤝 贡献
+- [`public/fonts/NOTICE.txt`](public/fonts/NOTICE.txt) 与 [`public/fonts/MiSans-license.pdf`](public/fonts/MiSans-license.pdf)
+- [`public/audio/README.md`](public/audio/README.md)
+- [`public/licenses/rolling-number.txt`](public/licenses/rolling-number.txt)
+- [`public/licenses/RhineLabUI-MIT.txt`](public/licenses/RhineLabUI-MIT.txt)
+- [`docs/rhine-migration.md`](docs/rhine-migration.md)
 
-欢迎并感谢所有形式的贡献！
+原始 RhineLabUI 是非官方的界面复刻项目，与相关游戏、角色、标志或源视频的权利人不存在隶属关系。相关第三方作品的权利仍归各自权利人所有。
 
-- 宣传项目或帮助其他用户
-- 提交 [issues](https://github.com/tuyuritio/astro-theme-thought-lite/issues) 或新功能建议
-- 改进文档及国际化（i18n）支持
-- 贡献代码
-- 更多信息请参阅[代码贡献指南](CONTRIBUTING.md)
+## 参考
 
-## 🙏 鸣谢
-
-### 技术栈
-
-- **核心框架** - [Astro](https://astro.build/)
-- **核心语言** - [TypeScript](https://www.typescriptlang.org/)
-- **UI 组件** - [Svelte](https://svelte.dev/)
-- **CSS 引擎** - [Tailwind CSS](https://tailwindcss.com/)
-- **图标** - [Iconify](https://iconify.design/)
-- **字体** - [Google Fonts](https://fonts.google.com/) | [ZeoSeven Fonts](https://fonts.zeoseven.com/)
-- **图片查看器** - [Medium Zoom](https://github.com/francoischalifour/medium-zoom)
-- **SPA 过渡** - [Swup](https://swup.js.org/)
-- **代码质量** - [Biome](https://biomejs.dev/)
-- **静态部署** - [Vercel](https://vercel.com/)
-
-### 灵感来源
-
-- [Astro Sphere](https://github.com/markhorn-dev/astro-sphere)
-- [astro-vitesse](https://github.com/adrian-ub/astro-vitesse)
-- [Miniblog](https://github.com/nicholasdly/miniblog)
-- [AstroPaper with I18n](https://github.com/yousef8/astro-paper-i18n)
-
-## 📜 许可证
-
-本项目采用 [GPLv3](LICENSE) 进行授权，可自由修改与分发，但须保留原版权声明。
+- [DavidHLPL](https://github.com/DavidHLP)
+- [DavidHLP.github.io](https://github.com/DavidHLP/DavidHLP.github.io)
+- [ThoughtLite](https://github.com/tuyuritio/astro-theme-thought-lite)
+- [RhineLabUI](https://github.com/LBEILC/RhineLabUI)
