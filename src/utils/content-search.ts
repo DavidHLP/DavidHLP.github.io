@@ -13,7 +13,7 @@ export function searchCards<T extends SearchableCard>(items: T[], query: string)
 			const title = normalize(item.data.title);
 			const facets = normalize([item.data.series, ...(item.data.tags ?? [])].join(" "));
 			const body = normalize(item.searchText ?? "");
-			const scores = terms.map(term => title.includes(term) ? 4 : facets.includes(term) ? 2 : body.includes(term) ? 1 : 0);
+			const scores = terms.map(term => (title.includes(term) ? 4 : facets.includes(term) ? 2 : body.includes(term) ? 1 : 0));
 			return { item, score: scores.every(Boolean) ? scores.reduce<number>((a, b) => a + b, 0) : 0 };
 		})
 		.filter(result => result.score > 0)
