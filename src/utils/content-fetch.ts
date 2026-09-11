@@ -16,10 +16,10 @@
  * this seam is earning its keep.
  */
 import { getCollection, getEntry } from "astro:content";
-import { getRelativeLocaleUrl } from "astro:i18n";
 import { monolocale } from "$config";
 import type { Section } from "$utils/config";
 import type { ContentCollection } from "$utils/config";
+import { localeUrl } from "$utils/locale-url";
 
 /** Filter a content collection to entries for the given locale, excluding drafts. */
 export async function getPublishedByLocale<C extends ContentCollection>(collection: C, locale: string) {
@@ -39,7 +39,7 @@ export function stripLocale(id: string): string {
 
 /** Build the locale-prefixed public URL for a note/jotting entry. */
 export function contentUrl(locale: string, section: Section, id: string): string {
-	return getRelativeLocaleUrl(locale, `/${section}/${stripLocale(id)}`);
+	return localeUrl(locale, `/${section}/${stripLocale(id)}`);
 }
 
 /** Build the storage key for an information entry, e.g. `zh-cn/policy`. */

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localeUrl } from "$utils/locale-url";
 import { onMount } from "svelte";
 import config from "$config";
 import i18nit from "$i18n";
@@ -19,7 +19,7 @@ onMount(() => {
 
 <div class="language-links">
 	{#each config.i18n.locales as target}
-		<a data-no-swup href={getRelativeLocaleUrl(target, path)} lang={target} aria-current={locale === target ? "page" : undefined} class={locale === target ? "font-bold sm:bg-primary sm:text-background pointer-events-none" : ""}>{i18nit(target)("language")}</a>
+		<a data-no-swup href={localeUrl(target, path)} lang={target} aria-current={locale === target ? "page" : undefined} class={locale === target ? "font-bold sm:bg-primary sm:text-background pointer-events-none" : ""}>{i18nit(target)("language")}</a>
 	{/each}
 </div>
 

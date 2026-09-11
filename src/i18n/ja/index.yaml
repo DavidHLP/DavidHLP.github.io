@@ -126,10 +126,13 @@ jotting:
 language: 日本語
 navigation:
   about: 情報
+  closeMenu: サイドバーを閉じる
   home: 玄関
   jotting: 随筆
   kb: ナレッジベース
+  language: 言語切り替え
   note: 知識ページ
+  openMenu: サイドバーを開く
   policy: 規約
   preface: 序文
   subscription: 購読
@@ -161,3 +164,296 @@ sensitive:
 statistics:
   other: '{count} 文字を書いた'
 theme: 'テーマ: ThoughtLite | DavidHLPL'
+themeToggle: テーマを切り替え
+pagination:
+  label: ページネーション
+  previous: 前のページ
+  next: 次のページ
+rhine:
+  page:
+    archiveOs: アーカイブ端末
+    personalArchive: パーソナルアーカイブ
+    analysisOs: 分析 OS
+    publicDatabase: 公開データベース
+    blog: ブログ
+    close: 閉じる
+    poweredBy: 提供
+    noArticles: まだ記事がありません。
+    interfaceAdapted: インターフェース原作
+    mitLicense: MIT ライセンス
+    records:
+      one: '{count} 件の記録'
+      other: '{count} 件の記録'
+  collection:
+    note: ノート
+    jotting: 随筆
+    about: プロフィール
+    directory: 記事一覧
+    noteCode: ノート
+    jottingCode: 随筆
+  navigation:
+    label: システムナビゲーション
+    archiveIndex: アーカイブ索引
+    saved: 保存済み
+    savedAria: 保存したアーカイブを見る
+    savedTitle: 保存したアーカイブ
+    settings: 設定
+    settingsAria: システム設定
+    subscription: 購読
+  boot:
+    access: アクセス
+    skip: 端末へ入る
+    section: システム起動
+    permission: 権限を確認しました
+    welcome: ようこそ
+    database: 内部データベース
+    connecting: 内部データベースへ接続中
+    mobileEntry: アーカイブへ
+  archive:
+    aria: アーカイブ選択
+    all: すべてのアーカイブ
+    categoryFallback: アーカイブ
+    categoryNav: 分類索引
+    categoryHint: テーマから閲覧
+    categories:
+      resicache: ResiCache
+      ulticode: UltiCode
+      aiSystems: AI / メモリ
+      dataCache: データ / キャッシュ
+      javaBackend: Java / バックエンド
+      infrastructure: インフラストラクチャ
+      architecture: アーキテクチャ / システム
+      general: 一般アーカイブ
+      jotting: 随筆 / 受信箱
+    database: 内部データベース
+    fileLabel: ファイル
+    columnLabel: 列
+    selectingFiles: ファイルを選択中……
+    confidentiality: 機密区分
+    businessUse: 一般業務用
+    fileNumber: 'ファイル番号：'
+    businessArea: ビジネス領域
+    accessFile: ファイルを開く
+    counter: アーカイブ / 選択
+    previousFile: 前のアーカイブ
+    nextFile: 次のアーカイブ
+    previousColumn: 前の列
+    nextColumn: 次の列
+    switchColumn: 列を切り替える
+    switchFiles: アーカイブを閲覧
+    read: アーカイブを読む
+    detailAria: アーカイブ内容
+    overview: アーカイブ概要
+    dragInspect: ドラッグして確認
+    viewer: 360° ドキュメントモデル
+    session: セッション認証済み
+    replay: 再起動
+    replayTitle: 起動シーケンスを再生
+    pwaReady: 新しいバージョンを準備しました
+    pwaUpdate: 更新して再起動
+    loading: 内部データベースへ接続中
+  status:
+    public: 公開記事
+    restricted: 制限付き
+    restrictedDetail: カタログのみ
+    publicDetail: アーカイブ済み · 閲覧可能
+    authorized: 承認済み
+    readAuthorized: 閲覧を承認
+    found:
+      one: '{count} 件の記録が見つかりました'
+      other: '{count} 件の記録が見つかりました'
+  content:
+    sensitiveAbstract: センシティブな内容 · 記事ページで確認してからお読みください。
+  detail:
+    section: セクション
+    collection: 収録範囲
+    author: 著者
+    status: 状態
+    overviewTab: 概要
+    notesTab: 記事タグ
+    historyTab: 閲覧ログ
+    abstract: 概要
+    researchNotes: 記事タグ
+    accessLog: 閲覧ログ
+    sessionNote: このセッションは認証済みです。端末で許可された範囲のアーカイブを表示しています。
+    save: '＋ アーカイブを保存'
+    remove: '− 保存から削除'
+    saved: 保存済み
+    unsaved: アーカイブを保存
+    readArticle: 記事を読む
+  modal:
+    settingsAria: システム設定
+    savedAria: 保存したアーカイブ
+    searchAria: アーカイブ検索
+    settingsTitle: システム設定
+    directoryTitle: アーカイブディレクトリ
+    savedTitle: 保存したアーカイブ
+    indexTitle: アーカイブ索引
+    close: ウィンドウを閉じる
+    searchPlaceholder: 番号、タイトル、セクションを検索
+    searchAriaLabel: アーカイブを検索
+    file: ファイル / アーカイブ
+    department: 部門 / セクション
+    access: アクセス
+    connected: 内部データベース · 接続済み
+    savedEmpty: 保存したアーカイブはありません
+    savedEmptyDescription: アーカイブを読んでいるときに保存すると、ここに表示されます。
+    noMatch: 一致するアーカイブがありません
+    noMatchDescription: 別のタイトルや番号を試すか、セクションを切り替えてください。
+    viewAll: すべてのアーカイブを見る →
+    reset: 検索をリセット →
+  quality:
+    custom: カスタム
+    presets:
+      performance: パフォーマンス
+      original: オリジナル
+      high: 高
+      ultra: 最高
+    aria: レンダリング品質
+    title: レンダリング品質
+    subtitle: レンダリング品質
+    preset: 品質プリセット
+    advanced: 詳細設定
+    advancedSubtitle: 精細度 / 素材 / 影
+    scale: レンダリング倍率
+    scaleHint: 画面ピクセルに対する倍率。高いほど細線を保ちます
+    pixelRatio: ピクセル密度の上限
+    pixelRatioHint: 高密度画面のネイティブ倍率を制限します
+    antialias: アンチエイリアス
+    antialiasHint: SMAA でモデルの輪郭と後処理を滑らかにします
+    original: オリジナル
+    texture: テクスチャフィルター
+    textureHint: 斜めから見たラベルの細部を改善します
+    transmission: 透明素材の解像度
+    transmissionHint: カバーの屈折表示の鮮明さを制御します
+    shadows: 影の解像度 · 配列
+    shadowsHint: 高い解像度ほど投影の縁を細かく保ちます
+    off: オフ
+    aoSamples: 環境遮蔽 · 配列
+    aoSamplesHint: サンプル数が多いほど継ぎ目の暗部が滑らかです
+    samples: サンプル
+    aoResolution: 遮蔽解像度 · 配列
+    aoResolutionHint: 下げると環境遮蔽の負荷を軽減します
+    depthOfField: 被写界深度 · 配列
+    depthOfFieldHint: 0% は無効、100% は元のレンズぼけを保ちます
+    noteWallpaper: すぐに反映されます。長期設定は Wallpaper Engine で変更してください。
+    noteBrowser: すぐに反映され、自動保存されます。
+    noteShared: 精細度と素材の設定は 360° ビューアーにも反映されます。高い倍率は静止観察向きです。バッファ上限は 829 万画素で、ハードウェア制限時は自動調整します。
+    summary3dOff: 3D はオフ · モデルと描画リソースを解放しました
+    superPerformance: スーパー性能モード有効 · 無効にするまで品質設定を上書きします
+    actual: '実際の描画 {width} × {height}'
+    antiAliasOriginal: オリジナルのアンチエイリアス
+    antiAliasSmaa: SMAA アンチエイリアス
+    textureSummary: 'テクスチャ {anisotropy}×'
+    bufferLimited: バッファ上限に到達
+  audio:
+    interfaceTitle: 操作・起動サウンド
+    interfaceDescription: インターフェースと起動のサウンド
+    soundVolume: 操作音量
+    backgroundTitle: 観測室 · BGM
+    backgroundDescription: 観測室 · バックグラウンドミュージック
+    musicVolume: BGM 音量
+    volume: 音量
+  theme:
+    label: インターフェース配色
+    description: ガラス配列が選択した配色へ移り変わります
+    aria: インターフェース配色
+    light: ライト
+    dark: ダーク
+  startup:
+    aria: ライン生命アーカイブ端末に入る
+    preparing: 端末を準備中…
+    silent: サウンドをオフにして入る
+    ready: リソースの準備完了 · 準備ができたら入れます
+    enter: 入る →
+    touch: 画面をタップするか Enter で開始
+    preparingSound: サウンドを準備中…
+    readyStart: 再生の準備ができました
+    retry: サウンドを再試行して入る →
+    audioNotReady: サウンドを準備できません。再試行するか、音なしで入ってください。
+    databaseReady: 内部データベース / 準備完了
+  pwa:
+    aria: ホーム画面とオフライン利用
+    title: APP / ホーム画面とオフライン
+    devPreview: 開発プレビューではオフラインコピーを保存しません。
+    https: HTTPS のアドレスを使うとオフラインコピーを保存できます。
+    browser: このブラウザーではオンライン利用が可能です。
+    failed: オフラインコピーを保存できませんでした。接続して再試行してください。
+    ready: オフラインリソースの準備完了。アーカイブとモデルをオフラインで閲覧できます。
+    preparing: オフラインリソースを準備中です。初回は接続を維持してください。
+    installed: ホーム画面から開きました。
+    ios: Safari で「共有」→「ホーム画面に追加」をタップし、ホーム画面のアイコンから開いてください。
+    installReady: インストールすると独立ウィンドウでアーカイブを開けます。
+    installHint: ブラウザーのメニューからインストールするか、ホーム画面に追加できます。
+    install: デバイスにインストール ↗
+    newVersion: 新しいバージョンを準備しました
+    update: 更新して再起動 ↻
+    retry: オフラインリソースの保存を再試行 ↻
+    installError: ブラウザーのメニューからホーム画面に追加してください
+  viewer:
+    back: アーカイブに戻る
+    title: アーカイブモデル
+    surfaceAria: ガラスモード
+    clear: クリア
+    frosted: すりガラス
+    partsAria: モデルの構成
+    assembly: 組み立て構成 / モデル部品
+    objectStudy: オブジェクト研究
+    fasteners: 締結部品
+    cover: 光学カバー
+    opticalLenses: 屈折リング
+    opticalCore: 光学コア
+    substrate: 情報基板
+    carrier: 背板とフレーム
+    loading: モデルを読み込み中…
+    retry: 再読み込み ↗
+    helpRotate: ドラッグして回転
+    helpPan: '↑ ↓ ← → 移動'
+    helpZoom: スクロールして拡大縮小
+    helpTouchRotate: 1 本指で回転
+    helpTouchZoom: 2 本指で拡大縮小 / 移動
+    explode: アーカイブを分解
+    assemble: 一括で再構成
+    reset: 視点をリセット
+    assembled: 組み立て済み
+    disassembling: 分解中
+    reassembling: 再構成中
+    failed: モデルの読み込みに失敗しました。再試行してください。
+    disassembled: 分解済み
+    ariaLabel: アーカイブの 3D モデル：ドラッグで回転、矢印キーで移動、スクロールまたは +/- で拡大縮小、Home でリセット
+  motion:
+    reduced: モーションを減らしています。
+    system: システムもアニメーションの削減を求めています。このサイトだけ完全な動きを有効にできます。
+    restore: 上のスイッチをオフにすると完全な動きに戻ります。
+    full: 完全な動きを使用しています。
+    enable: 完全な動きを有効にして再生
+  settings:
+    title: システム設定
+    subtitle: 端末の設定
+    wallpaperNote: Wallpaper Engine のプロパティは起動ごとに読み込まれます。ここでの変更は今回の実行にのみ適用されます。保持するには壁紙のプロパティを変更してください。
+    superTitle: スーパー性能モード
+    superDescription: 完全なモーションを保ったまま 3D 品質と描画解像度を下げます。無効にすると元の品質に戻ります。
+    reducedTitle: モーションを減らす
+    reducedDescription: 起動アニメーションを省略し、アーカイブ・カメラ・文字の動きを簡略化します。
+    desktopControls: デスクトップ操作
+    desktopHint: 配列をドラッグするか操作キーでアーカイブを閲覧します。デスクトップモードでは、矢印キーやホイールが壁紙に届かない場合があります。
+    keyboardControls: キーボード操作
+    fullscreen: フルスクリーン
+    restart: システムを再初期化
+    fontLicense: フォントライセンス
+  three:
+    loading: 3D 読み込み中…
+    closing: 3D 終了中…
+    off: 3D オフ
+    on: 3D オン
+    reloadTitle: 3D モデルを再読み込み
+    cancelTitle: 終了をキャンセルして 3D シーンを復元
+    unloadTitle: 3D モデルを解放して 2D インターフェースを維持
+  scene:
+    ariaLabel: '3D 研究アーカイブ配列：クリックで選択、左右にドラッグで列を変更、上下のドラッグまたはスクロールで列内を閲覧'
+  errors:
+    connection: 三次元アーカイブのリソースを読み込めませんでした。ハードウェアアクセラレーションを有効にして再接続してください。
+    reconnect: 再接続 →
+    model: 三次元モデルを読み込めませんでした。3D をオフにして再試行してください。
+    fullscreen: ブラウザーの全画面ショートカット F11 を使ってください
+  fontSample: 本人情報の確認要求を受信；権限を検証；アーカイブの選択と状態。

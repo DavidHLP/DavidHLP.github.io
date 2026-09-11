@@ -1,6 +1,6 @@
 ---
 import { render } from "astro:content";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localeUrl } from "$utils/locale-url";
 import config from "$config";
 import Base from "$layouts/Base.astro";
 import { getInfoEntry, localeStaticPaths } from "$utils/content";
@@ -16,7 +16,7 @@ const indexEntry = await getInfoEntry(canonicalLocale, "kb-index");
 const logEntry = await getInfoEntry(canonicalLocale, "kb-log");
 const { Content: IndexContent } = indexEntry ? await render(indexEntry) : ({} as any);
 const { Content: LogContent } = logEntry ? await render(logEntry) : ({} as any);
-const canonicalUrl = getRelativeLocaleUrl(config.i18n.defaultLocale, "/kb");
+const canonicalUrl = localeUrl(config.i18n.defaultLocale, "/kb");
 ---
 
 <Base title={ts(t, "kb.title")} {locale}>

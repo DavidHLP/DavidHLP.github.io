@@ -204,7 +204,7 @@ $effect(() => {
 		{/each}
 
 		<div class="mt-8">
-			<Pagination bind:pages bind:page />
+			<Pagination {locale} bind:pages bind:page />
 		</div>
 	</article>
 
