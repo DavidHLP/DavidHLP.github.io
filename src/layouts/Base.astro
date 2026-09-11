@@ -1,10 +1,11 @@
 ---
 import config from "$config";
 import App from "$layouts/App.astro";
-import { localeUrl } from "$utils/locale-url";
+import { localeUrl, withoutTrailingSlash } from "$utils/locale-url";
 import i18nit from "$i18n";
 import { ts } from "$utils/labels";
 import ThemeSwitcher from "$layouts/header/ThemeSwitcher.astro";
+import LanguagePicker from "$layouts/header/LanguagePicker.svelte";
 import "../rhine/fonts.css";
 import "$styles/rhine-reader.css";
 import "$styles/global.css";
@@ -15,6 +16,17 @@ import "katex/dist/katex.min.css";
 const { locale = config.i18n.defaultLocale, title: subtitle, description = config.description, article } = Astro.props;
 const title = config.title;
 const t = i18nit(locale);
+const route = withoutTrailingSlash(Astro.url.pathname);
+const copyrightUrls: Record<string, string> = {
+	"CC0 1.0": "https://creativecommons.org/publicdomain/zero/1.0/",
+	"CC BY 4.0": "https://creativecommons.org/licenses/by/4.0/",
+	"CC BY-SA 4.0": "https://creativecommons.org/licenses/by-sa/4.0/",
+	"CC BY-NC 4.0": "https://creativecommons.org/licenses/by-nc/4.0/",
+	"CC BY-NC-SA 4.0": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+	"CC BY-ND 4.0": "https://creativecommons.org/licenses/by-nd/4.0/",
+	"CC BY-NC-ND 4.0": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
+};
+const copyrightUrl = copyrightUrls[config.copyright.type];
 ---
 
 <script>
@@ -29,13 +41,13 @@ const t = i18nit(locale);
 		<div id="body" class="flex flex-col min-h-screen">
 			<header class="reader-header">
 				<a class="reader-brand" href={localeUrl(locale, "/")}><strong>DAVIDHLPL</strong><span>{ts(t, "rhine.page.personalArchive")} / {ts(t, "rhine.page.analysisOs")}</span></a>
-				<nav aria-label={ts(t, "navigation.label")}><a href={localeUrl(locale, "/")}>← {ts(t, "rhine.archive.overview")}</a><a href={localeUrl(locale, "/about")}>{ts(t, "navigation.about")}</a><a href={localeUrl(locale, "/feed.xml")}>{ts(t, "navigation.subscription")} ↗</a><ThemeSwitcher locale={locale} /></nav>
+				<nav aria-label={ts(t, "navigation.label")}><a href={localeUrl(locale, "/")}>← {ts(t, "rhine.archive.overview")}</a><a href={localeUrl(locale, "/kb")}>{ts(t, "navigation.kb")}</a><a href={localeUrl(locale, "/about")}>{ts(t, "navigation.about")}</a><a href={localeUrl(locale, "/feed.xml")}>{ts(t, "navigation.subscription")} ↗</a><ThemeSwitcher locale={locale} /><span class="reader-languages" aria-label={ts(t, "navigation.language")}><LanguagePicker {locale} {route} client:load /></span></nav>
 			</header>
 			<div class="reader-label"><span>{ts(t, "rhine.page.publicDatabase")}</span><span>DOCUMENT / {locale.toUpperCase()}</span></div>
 
 			<slot />
 		</div>
 
-		<footer class="reader-footer"><span>© {new Date().getFullYear()} {config.author.name}</span><a href="https://github.com/LBEILC/RhineLabUI">RhineLabUI</a><a href="/licenses/RhineLabUI-MIT.txt">{ts(t, "rhine.page.mitLicense")}</a><a href={localeUrl(locale, "/policy")}>{ts(t, "navigation.policy")}</a></footer>
+		<footer class="reader-footer"><span>© {config.copyright.year} {config.author.name} · <a href={copyrightUrl} target="_blank" rel="noopener noreferrer">{config.copyright.type}</a></span><a href="https://github.com/LBEILC/RhineLabUI">RhineLabUI</a><a href="/licenses/RhineLabUI-MIT.txt">{ts(t, "rhine.page.mitLicense")}</a><a href={localeUrl(locale, "/policy")}>{ts(t, "navigation.policy")}</a></footer>
 	</div>
 </App>

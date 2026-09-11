@@ -26,8 +26,25 @@
 }
 .reader-header nav {
 	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
 	gap: 26px;
 	font-size: 12px;
+}
+.reader-languages,
+.reader-languages .language-links {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+.reader-languages a {
+	color: inherit;
+	text-decoration: none;
+}
+.reader-languages a[aria-current="page"] {
+	font-weight: 600;
+	text-decoration: underline;
+	text-underline-offset: 4px;
 }
 .reader-label {
 	display: flex;

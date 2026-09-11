@@ -25,6 +25,14 @@ const PARTS = [
   { id: "substrate", en: "SUBSTRATE", depth: -1.1 },
   { id: "carrier", en: "CARRIER", depth: -2.05 },
 ] as const;
+const PART_LABEL_KEYS: Record<(typeof PARTS)[number]["id"], string> = {
+  fasteners: "fasteners",
+  cover: "cover",
+  "optical-lenses": "opticalLenses",
+  "optical-core": "opticalCore",
+  substrate: "substrate",
+  carrier: "carrier",
+};
 
 type ModelSource = { model: THREE.Group; dispose: () => void; setClarity?: (value: number) => void };
 export class ModelViewer {
@@ -102,7 +110,7 @@ export class ModelViewer {
         <span class="viewer-index">360<span>°</span></span>
       </header>
       <div class="viewer-surface" role="group" aria-label="${rt("viewer.surfaceAria")}"><button data-viewer="clear" aria-pressed="true">${rt("viewer.clear")}</button><button data-viewer="frosted" aria-pressed="false">${rt("viewer.frosted")}</button></div>
-      <aside class="viewer-parts" aria-label="${rt("viewer.partsAria")}"><div>${rt("viewer.assembly")}</div>${PARTS.map((p, i) => `<p><span>${String(i + 1).padStart(2, "0")}</span><strong>${rt(`viewer.${p.id}`)}</strong><small>${p.en}</small></p>`).join("")}</aside>
+      <aside class="viewer-parts" aria-label="${rt("viewer.partsAria")}"><div>${rt("viewer.assembly")}</div>${PARTS.map((p, i) => `<p><span>${String(i + 1).padStart(2, "0")}</span><strong>${rt(`viewer.${PART_LABEL_KEYS[p.id]}`)}</strong><small>${p.en}</small></p>`).join("")}</aside>
       <div class="viewer-loading" role="status"><span>${rt("viewer.loading")}</span><button data-viewer="retry" hidden>${rt("viewer.retry")}</button></div>
       <footer class="viewer-footer">
         <div class="viewer-help"><span>${rt("viewer.helpRotate")}</span><span>${rt("viewer.helpPan")}</span><span>${rt("viewer.helpZoom")}</span></div>
