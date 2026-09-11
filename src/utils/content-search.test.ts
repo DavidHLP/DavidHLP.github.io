@@ -3,7 +3,10 @@ import { searchCards, type SearchableCard } from "./content-search";
 
 it("searches Chinese and normalized literal terms across fields, ranking titles first without changing the input", () => {
 	const card = (id: string, title: string, searchText = "", tags: string[] = []): SearchableCard => ({
-		id, url: `/note/${id}`, section: "note", searchText,
+		id,
+		url: `/note/${id}`,
+		section: "note",
+		searchText,
 		data: { title, tags, top: 0, timestamp: new Date(0), series: "并发" }
 	});
 	const items = [card("body", "缓存实践", "Redis CAS"), card("tag", "缓存", "CAS", ["Redis"]), card("title", "Redis 并发", "CAS")];
