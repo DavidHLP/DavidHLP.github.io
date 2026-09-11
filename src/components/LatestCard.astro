@@ -1,5 +1,5 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localeUrl } from "$utils/locale-url";
 import type { ContentCard } from "$utils/content";
 import { getContentHash } from "$utils/id-hash";
 import Time from "$utils/time";
@@ -50,7 +50,7 @@ const { entry, locale } = Astro.props;
 			{
 				entry.data.tags?.map(tag => (
 					<a
-						href={`${getRelativeLocaleUrl(locale, `/${entry.section}`)}?tag=${encodeURIComponent(tag)}`}
+						href={`${localeUrl(locale, `/${entry.section}`)}?tag=${encodeURIComponent(tag)}`}
 						class="text-[10px] font-mono text-remark hover:text-primary transition-colors bg-block px-2 py-0.5 rounded-sm"
 					>
 						#{tag}

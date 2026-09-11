@@ -1,34 +1,8 @@
 ---
 import config from "$config";
-import { collectFacets, getPublishedByLocale, localeStaticPaths, toCard } from "$utils/content";
-import Base from "$layouts/Base.astro";
-import ContentList from "$components/ContentList.svelte";
-import ContentListingHeader from "$components/ContentListingHeader.astro";
-import i18nit from "$i18n";
-import { ts } from "$utils/labels";
-
+import { localeStaticPaths } from "$utils/content-routing";
+import RhineArchive from "$components/RhineArchive.astro";
 export const getStaticPaths = localeStaticPaths;
-
 const { locale = config.i18n.defaultLocale } = Astro.params;
-
-const t = i18nit(locale);
-
-const notes = await getPublishedByLocale("note", locale);
-
-// Route through the listing-card seam: one adapter, one shape, three callers.
-const list = notes.map(note => ({
-	...toCard(note, "note", locale),
-	// Only published, locale-matched notes reach this list; do not expose sensitive bodies.
-	searchText: note.data.sensitive ? "" : `${note.data.description ?? ""}\n${note.body ?? ""}`
-}));
-
-// Extract facets (series is only present in Note).
-const { series, tags } = collectFacets(notes, true);
 ---
-
-<Base title={ts(t, "navigation.note")} {locale}>
-	<main class="flex flex-col grow py-4">
-		<ContentListingHeader index={2} label={ts(t, "navigation.note")} />
-		<ContentList client:load {locale} section="note" items={list} {series} {tags} />
-	</main>
-</Base>
+<RhineArchive {locale} section="note" />

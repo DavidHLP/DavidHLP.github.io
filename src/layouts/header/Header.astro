@@ -1,5 +1,5 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localeUrl, withoutTrailingSlash } from "$utils/locale-url";
 import { getCollection } from "astro:content";
 import Icon from "$components/Icon.svelte";
 import config, { monolocale } from "$config";
@@ -17,13 +17,13 @@ const t = i18nit(locale);
 
 /** Define navigation routes configuration */
 const routes: { path: string; extra?: string[]; icon: `${string}--${string}`; label: string }[] = [
-	{ label: ts(t, "navigation.home"), path: getRelativeLocaleUrl(locale), extra: [getRelativeLocaleUrl(locale, "/preface")], icon: "lucide--tent" },
-	{ label: ts(t, "navigation.kb"), path: getRelativeLocaleUrl(locale, "/kb"), icon: "lucide--library" },
-	{ label: ts(t, "navigation.note"), path: getRelativeLocaleUrl(locale, "/note"), icon: "lucide--list" },
-	{ label: ts(t, "navigation.about"), path: getRelativeLocaleUrl(locale, "/about"), icon: "lucide--at-sign" }
+	{ label: ts(t, "navigation.home"), path: localeUrl(locale), extra: [localeUrl(locale, "/preface")], icon: "lucide--tent" },
+	{ label: ts(t, "navigation.kb"), path: localeUrl(locale, "/kb"), icon: "lucide--library" },
+	{ label: ts(t, "navigation.note"), path: localeUrl(locale, "/note"), icon: "lucide--list" },
+	{ label: ts(t, "navigation.about"), path: localeUrl(locale, "/about"), icon: "lucide--at-sign" }
 ];
 
-const route = Astro.url.pathname;
+const route = withoutTrailingSlash(Astro.url.pathname);
 const segments = route.split("/").filter(Boolean);
 if (config.i18n.locales.some(locale => locale === segments[0])) segments.shift();
 const [section, ...slugParts] = segments;
@@ -61,25 +61,25 @@ const showLanguagePicker =
 </style>
 
 <header class="site-header sticky top-0 flex items-center justify-between pt-3 pb-1 mb-4 bg-background z-100 sm:static sm:mb-12">
-	<a href={getRelativeLocaleUrl(locale)} class="text-lg sm:text-2xl font-bold">{title}</a>
+	<a href={localeUrl(locale)} class="text-lg sm:text-2xl font-bold">{title}</a>
 
-	<button id="sidebar-open" aria-label="Open Sidebar" class="sm:hidden"><Icon name="lucide--align-justify" /></button>
+	<button id="sidebar-open" aria-label={ts(t, "navigation.openMenu")} class="sm:hidden"><Icon name="lucide--align-justify" /></button>
 	<div id="sidebar-overlay" aria-hidden="true" class="sm:hidden fixed top-0 start-0 w-screen h-screen transition-[background-color]"></div>
 
 	<nav id="sidebar" class="fixed top-0 end-0 flex flex-col justify-between items-start gap-5 p-5 bg-background h-full sm:contents overflow-hidden transition-transform">
 		<header class="grid gap-5 text-secondary grid-rows-[repeat(5,1fr)] sm:grid-rows-none sm:grid-cols-[repeat(4,1fr)]">
-			<button id="sidebar-close" aria-label="Close Sidebar" class="sm:hidden"><Icon name="lucide--x" /></button>
+			<button id="sidebar-close" aria-label={ts(t, "navigation.closeMenu")} class="sm:hidden"><Icon name="lucide--x" /></button>
 			<Navigator {route} {routes} client:load />
 		</header>
 
 		<footer class="flex flex-col items-start gap-2 sm:flex-row sm:gap-7">
-			<ThemeSwitcher />
+			<ThemeSwitcher locale={locale} />
 
-			<a href={getRelativeLocaleUrl(locale, "/feed.xml")} target="_blank" rel="noopener noreferrer" aria-label="Subscription" class="inline-flex"><Icon name="lucide--rss" /></a>
+			<a href={localeUrl(locale, "/feed.xml")} target="_blank" rel="noopener noreferrer" aria-label={ts(t, "navigation.subscription")} class="inline-flex"><Icon name="lucide--rss" /></a>
 
 			{
 				showLanguagePicker && (
-					<Menu label="Language switcher">
+					<Menu label={ts(t, "navigation.language")}>
 						<Icon name="lucide--earth" slot="trigger" />
 						<LanguagePicker {locale} {route} client:load />
 					</Menu>

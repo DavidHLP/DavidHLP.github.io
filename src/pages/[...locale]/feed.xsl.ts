@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localeUrl } from "$utils/locale-url";
 import config from "$config";
 import { localeStaticPaths } from "$utils/content";
 import i18nit from "$i18n";
@@ -42,7 +42,7 @@ export const GET: APIRoute = ({ params }) => {
         <p>${ts(t, "feed.usage")}</p>
         <p>
           ${ts(t, "feed.address")}:
-          <code id="feed-url"><xsl:value-of select="concat(atom:feed/atom:link[@rel='alternate']/@href, '${getRelativeLocaleUrl(locale, "feed.xml").slice(1)}')" /></code>
+          <code id="feed-url"><xsl:value-of select="concat(atom:feed/atom:link[@rel='alternate']/@href, '${localeUrl(locale, "feed.xml").slice(1)}')" /></code>
           <button type="button" onclick="copy()" class="copy-btn">${ts(t, "feed.copy.name")}</button>
         </p>
       </blockquote>

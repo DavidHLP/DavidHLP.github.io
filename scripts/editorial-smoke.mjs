@@ -13,17 +13,24 @@ for (const path of files) {
 		if (url.startsWith("/")) assert((await stat(join(output.pathname, url))).isFile(), `${path}: stylesheet ${url}`);
 	}
 }
+let count = 0;
 for (const prefix of ["", "en/", "ja/"]) {
-	const home = await readFile(new URL(`${prefix}index.html`, output), "utf8");
-	assert(home.includes("PROLOGUE.INIT"), `${prefix}: original homepage composition`);
-	assert(home.includes("data-sailing-cover") && home.includes("/images/sailing-print-no-text.png"), `${prefix}: latest sailing image retained`);
-	assert(!home.includes('id="selected-work"'), `${prefix}: redesigned portfolio layout removed`);
-	const resume = await readFile(new URL(`${prefix}about/index.html`, output), "utf8");
-	assert(resume.includes("lg:flex-row") && !resume.includes("resume-rail"), `${prefix}: original resume layout`);
+	for (const section of ["", "note/", "jotting/"]) {
+		const html = await readFile(new URL(`${prefix}${section}index.html`, output), "utf8");
+		const json = html.match(/<script[^>]*id="blog-archives"[^>]*>(.*?)<\/script>/s)?.[1];
+		assert(json, `${prefix}${section}: article data present`);
+		const records = JSON.parse(json);
+		assert.equal(new Set(records.map(record => record.source)).size, records.length, "No duplicate article URLs");
+		for (const record of records) {
+			assert(record.source.startsWith(`/${prefix}`), "Locale preserved");
+			assert((await stat(join(output.pathname, decodeURI(record.source), "index.html"))).isFile(), `Missing article: ${record.source}`);
+			assert(!record.body, "Full bodies stay in article pages");
+			count++;
+		}
+		assert(html.includes("article-directory"), "Accessible HTML directory present");
+	}
 }
-const base = await readFile(new URL("../src/layouts/Base.astro", import.meta.url), "utf8");
-assert(!base.includes('import "$styles/editorial.css"'), "Editorial layout overrides are no longer loaded");
-const css = await readFile(new URL("../src/styles/global.css", import.meta.url), "utf8");
-for (const color of ["#30343a", "#c83232", "#fafaf7", "#222529", "#ed817a"]) assert(css.includes(color), `Latest palette retains ${color}`);
-assert((await stat(new URL("images/sailing-print-no-text.png", output))).size > 0, "Latest sailing image exists");
-console.log(`Layout rollback smoke: ${files.length} pages, three original home/resume layouts, latest palette and sailing image passed.`);
+for (const file of ["assets/archive-cassette.glb", "assets/archive-assembly.glb", "licenses/RhineLabUI-MIT.txt", "fonts/MiSans-license.pdf"]) {
+	assert((await stat(new URL(file, output))).size > 0, `Required upstream resource: ${file}`);
+}
+console.log(`Rhine blog smoke: ${files.length} pages, ${count} article links, three locales and model/license resources passed.`);
