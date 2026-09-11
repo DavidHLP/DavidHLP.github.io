@@ -130,10 +130,13 @@ jotting:
 language: English
 navigation:
   about: About
+  closeMenu: Close sidebar
   home: Home
   jotting: Jotting
   kb: Knowledge Base
+  language: Language switcher
   note: Knowledge Pages
+  openMenu: Open sidebar
   policy: Policy
   preface: Preface
   subscription: Subscription
@@ -171,3 +174,296 @@ statistics:
   one: Wrote {count} word
   other: Wrote {count} words
 theme: 'Theme: ThoughtLite | DavidHLPL'
+themeToggle: Toggle theme
+pagination:
+  label: Pagination
+  previous: Previous page
+  next: Next page
+rhine:
+  page:
+    archiveOs: ARCHIVE OS
+    personalArchive: PERSONAL ARCHIVE
+    analysisOs: ANALYSIS OS
+    publicDatabase: PUBLIC DATABASE
+    blog: Blog
+    close: CLOSE
+    poweredBy: POWERED BY
+    noArticles: No articles yet.
+    interfaceAdapted: Interface adapted from
+    mitLicense: MIT License
+    records:
+      one: '{count} RECORD'
+      other: '{count} RECORDS'
+  collection:
+    note: Notes
+    jotting: Jottings
+    about: About
+    directory: Read articles
+    noteCode: NOTE
+    jottingCode: JOTTING
+  navigation:
+    label: System navigation
+    archiveIndex: ARCHIVE INDEX
+    saved: SAVED
+    savedAria: View saved archives
+    savedTitle: Saved archives
+    settings: SETTINGS
+    settingsAria: System settings
+    subscription: Subscription
+  boot:
+    access: ACCESS
+    skip: ENTER SYSTEM
+    section: System startup
+    permission: PERMISSION AUTHORIZED
+    welcome: WELCOME TO
+    database: INTERNAL DATABASE
+    connecting: CONNECTING TO INTERNAL DATABASE
+    mobileEntry: ENTER ARCHIVE
+  archive:
+    aria: Archive selection
+    all: ALL ARCHIVES
+    categoryFallback: Archive
+    categoryNav: CATEGORY INDEX
+    categoryHint: BROWSE BY TOPIC
+    categories:
+      resicache: ResiCache
+      ulticode: UltiCode
+      aiSystems: AI / MEMORY
+      dataCache: DATA / CACHE
+      javaBackend: JAVA / BACKEND
+      infrastructure: INFRASTRUCTURE
+      architecture: ARCHITECTURE / SYSTEMS
+      general: GENERAL ARCHIVES
+      jotting: JOTTING / INBOX
+    database: INTERNAL DATABASE
+    fileLabel: FILE
+    columnLabel: COLUMN
+    selectingFiles: SELECTING FILES...
+    confidentiality: CONFIDENTIALITY
+    businessUse: GENERAL BUSINESS USE
+    fileNumber: 'FILE NUMBER: '
+    businessArea: BUSINESS AREA
+    accessFile: ACCESS FILE
+    counter: ARCHIVE / SELECT
+    previousFile: Previous archive
+    nextFile: Next archive
+    previousColumn: Previous column
+    nextColumn: Next column
+    switchColumn: Switch column
+    switchFiles: Browse archives
+    read: Read archive
+    detailAria: Archive content
+    overview: ARCHIVE OVERVIEW
+    dragInspect: DRAG TO INSPECT
+    viewer: 360° VIEW DOCUMENT MODEL
+    session: SESSION AUTHORIZED
+    replay: REINITIALIZE
+    replayTitle: Replay startup sequence
+    pwaReady: New version is ready
+    pwaUpdate: Update and restart
+    loading: CONNECTING TO INTERNAL DATABASE
+  status:
+    public: PUBLIC ARTICLE
+    restricted: RESTRICTED
+    restrictedDetail: Directory access
+    publicDetail: Archived · read available
+    authorized: AUTHORIZED
+    readAuthorized: READ AUTHORIZED
+    found:
+      one: '{count} RECORD FOUND'
+      other: '{count} RECORDS FOUND'
+  content:
+    sensitiveAbstract: 'Sensitive content · Please confirm on the article page before reading.'
+  detail:
+    section: SECTION
+    collection: COLLECTION
+    author: AUTHOR
+    status: STATUS
+    overviewTab: Overview
+    notesTab: Research notes
+    historyTab: Access log
+    abstract: ABSTRACT
+    researchNotes: RESEARCH NOTES
+    accessLog: ACCESS LOG
+    sessionNote: This session has been authenticated. The archive is shown within the access available to this terminal.
+    save: '＋ SAVE ARCHIVE'
+    remove: '− REMOVE FROM SAVED'
+    saved: Saved
+    unsaved: Save archive
+    readArticle: Read article
+  modal:
+    settingsAria: System settings
+    savedAria: Saved archives
+    searchAria: Archive search
+    settingsTitle: SYSTEM PREFERENCES
+    directoryTitle: ARCHIVE DIRECTORY
+    savedTitle: SAVED ARCHIVES
+    indexTitle: ARCHIVE INDEX
+    close: Close window
+    searchPlaceholder: Search archive ID, title or section
+    searchAriaLabel: Search archives
+    file: FILE / ARCHIVE
+    department: DEPARTMENT / SECTION
+    access: ACCESS
+    connected: INTERNAL DATABASE · CONNECTED
+    savedEmpty: No saved archives yet
+    savedEmptyDescription: Select SAVE ARCHIVE while reading an archive to keep it here.
+    noMatch: No matching archives
+    noMatchDescription: Try another title or ID, or switch the section filter.
+    viewAll: 'View all archives →'
+    reset: 'Reset search →'
+  quality:
+    custom: Custom
+    presets:
+      performance: Performance
+      original: Original
+      high: High
+      ultra: Ultra
+    aria: Render quality
+    title: RENDER QUALITY
+    subtitle: Render quality
+    preset: Quality preset
+    advanced: Fine settings
+    advancedSubtitle: Clarity / material / shadows
+    scale: Render scale
+    scaleHint: Relative to screen pixels; higher values preserve fine lines
+    pixelRatio: Pixel density limit
+    pixelRatioHint: Limits the native pixel ratio on high-density screens
+    antialias: Anti-aliasing
+    antialiasHint: SMAA smooths model edges and post-processing results
+    original: Original
+    texture: Texture filtering
+    textureHint: Improves label details at oblique angles
+    transmission: Transparent material resolution
+    transmissionHint: Controls the clarity of the cover refraction
+    shadows: Shadow resolution · array
+    shadowsHint: Higher resolution preserves finer projected edges
+    off: Off
+    aoSamples: Ambient occlusion · array
+    aoSamplesHint: More samples refine the dark seams
+    samples: samples
+    aoResolution: Occlusion resolution · array
+    aoResolutionHint: Lower values reduce the ambient occlusion cost
+    depthOfField: Depth of field · array
+    depthOfFieldHint: 0% disables it; 100% keeps the original lens blur
+    noteWallpaper: Takes effect immediately for this run; change Wallpaper Engine properties for a persistent setting.
+    noteBrowser: Takes effect immediately and is saved automatically.
+    noteShared: Clarity and material settings are shared with the 360° viewer. Higher render scales suit still inspection; the buffer limit is 8.29 million pixels and hardware limits are handled automatically.
+    summary3dOff: 3D is off · model and render resources released
+    superPerformance: Super performance mode enabled · quality settings are overridden until it is disabled
+    actual: 'Rendered {width} × {height}'
+    antiAliasOriginal: Original anti-aliasing
+    antiAliasSmaa: SMAA anti-aliasing
+    textureSummary: 'Texture {anisotropy}×'
+    bufferLimited: buffer limit reached
+  audio:
+    interfaceTitle: INTERFACE SOUND
+    interfaceDescription: Interface and startup sounds
+    soundVolume: Interface sound volume
+    backgroundTitle: BACKGROUND MUSIC
+    backgroundDescription: Observation room · background music
+    musicVolume: Background music volume
+    volume: Volume
+  theme:
+    label: Interface palette
+    description: The glass array transitions with the selected palette
+    aria: Interface palette
+    light: Light
+    dark: Dark
+  startup:
+    aria: Enter the Rhine Lab archive terminal
+    preparing: Preparing terminal…
+    silent: Enter with sound off
+    ready: Resources ready · enter when you are ready
+    enter: Enter archive →
+    touch: Tap the screen or press Enter to begin
+    preparingSound: Preparing sound…
+    readyStart: Ready to start playback
+    retry: Retry sound and enter →
+    audioNotReady: Sound is not ready. Retry or enter silently.
+    databaseReady: INTERNAL DATABASE / READY
+  pwa:
+    aria: Home screen and offline use
+    title: APP / HOME SCREEN & OFFLINE
+    devPreview: Development preview does not save an offline copy.
+    https: Use an HTTPS address to save an offline copy.
+    browser: This browser supports online use.
+    failed: The offline copy could not be saved. Connect and try again.
+    ready: Offline resources are ready. Archives and models can be browsed offline.
+    preparing: Preparing offline resources; stay connected for the first run.
+    installed: Opened from the home screen.
+    ios: In Safari, tap Share → Add to Home Screen, then open it from the home-screen icon.
+    installReady: Install it to open the archive in a standalone window.
+    installHint: Use the browser menu to install it or add it to the home screen.
+    install: Install on device ↗
+    newVersion: New version is ready
+    update: Update and restart ↻
+    retry: Retry saving offline resources ↻
+    installError: Use the browser menu to add it to the home screen
+  viewer:
+    back: Return to archive
+    title: Archive model
+    surfaceAria: Glass mode
+    clear: Clear
+    frosted: Frosted
+    partsAria: Model assembly
+    assembly: ASSEMBLY / MODEL PARTS
+    objectStudy: OBJECT STUDY
+    fasteners: Fasteners
+    cover: Optical cover
+    opticalLenses: Refractive rings
+    opticalCore: Optical core
+    substrate: Information substrate
+    carrier: Backplate and frame
+    loading: Loading model…
+    retry: Reload ↗
+    helpRotate: Drag to rotate
+    helpPan: '↑ ↓ ← → Pan'
+    helpZoom: Scroll to zoom
+    helpTouchRotate: One-finger rotate
+    helpTouchZoom: Two-finger zoom / pan
+    explode: Disassemble archive
+    assemble: Assemble in one click
+    reset: Reset view
+    assembled: Assembled
+    disassembling: Disassembling
+    reassembling: Reassembling
+    failed: Model failed to load. Please retry.
+    disassembled: Disassembled
+    ariaLabel: 'Archive 3D model: drag to rotate, arrow keys to pan, scroll or plus/minus to zoom, Home to reset'
+  motion:
+    reduced: Reduced motion is enabled.
+    system: Your system also requests reduced motion; full motion can be enabled for this site only.
+    restore: Disable the switch above to restore full motion.
+    full: Full motion is enabled.
+    enable: Enable full motion and replay
+  settings:
+    title: SYSTEM SETTINGS
+    subtitle: Terminal preferences
+    wallpaperNote: Wallpaper Engine properties are read on every launch. Changes here apply only to the current run; change wallpaper properties to keep them.
+    superTitle: SUPER PERFORMANCE
+    superDescription: Lower 3D quality and render resolution while keeping the full motion design; disabling restores the original quality.
+    reducedTitle: REDUCED MOTION
+    reducedDescription: Skip the startup animation and simplify archive, camera and text motion.
+    desktopControls: DESKTOP CONTROLS
+    desktopHint: Drag the array or use the controls to browse archives. In desktop mode, arrow keys and the wheel may not reach the wallpaper.
+    keyboardControls: KEYBOARD CONTROLS
+    fullscreen: FULLSCREEN
+    restart: REINITIALIZE SYSTEM
+    fontLicense: Font license
+  three:
+    loading: 3D LOADING…
+    closing: 3D CLOSING…
+    off: 3D OFF
+    on: 3D ON
+    reloadTitle: Reload the 3D model
+    cancelTitle: Cancel closing and restore the 3D scene
+    unloadTitle: Release the 3D model and keep the 2D interface
+  scene:
+    ariaLabel: '3D research archive array: click to select, drag left or right to change columns, drag up or down or scroll to browse a column'
+  errors:
+    connection: '3D archive resources failed to load. Check that hardware acceleration is enabled, then reconnect.'
+    reconnect: 'RECONNECT →'
+    model: '3D model failed to load. Select 3D off and retry.'
+    fullscreen: 'Use the browser full-screen shortcut F11'
+  fontSample: Identity information confirmation request received; permission verified; archive selection and status.

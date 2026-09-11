@@ -3,7 +3,7 @@
   "type": "module",
   "private": true,
   "version": "1.0.0",
-  "description": "DavidHLPL 的个人 AI 知识库，基于 Astro ThoughtLite 主题构建",
+  "description": "DavidHLPL 的个人博客与知识库，基于 RhineLabUI 三维档案界面与 Astro 内容管道",
   "keywords": [
     "astro",
     "knowledge-base",
@@ -50,6 +50,7 @@
     "@iconify-json/lucide": "^1.2.91",
     "@iconify-json/simple-icons": "^1.2.71",
     "@iconify/tailwind4": "^1.2.2",
+    "@kitlangton/rolling-number": "0.4.1",
     "@swup/astro": "^1.8.0",
     "@tailwindcss/vite": "^4.1.18",
     "@tuyuritio/rehype-image-figure": "^1.0.0",
@@ -82,6 +83,7 @@
     "svelte": "^5.56.0",
     "tailwindcss": "^4.1.18",
     "temporal-polyfill": "^0.3.0",
+    "three": "0.183.0",
     "typescript": "^5.9.3",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0"
@@ -93,6 +95,7 @@
     "@rollup/plugin-yaml": "^4.1.2",
     "@types/css-tree": "^2.3.11",
     "@types/mdast": "^4.0.4",
+    "@types/three": "0.183.0",
     "@vitest/coverage-v8": "^3.2.4",
     "css-tree": "^3.1.0",
     "esm-loader-yaml": "^1.0.2",
