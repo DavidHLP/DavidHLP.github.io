@@ -110,17 +110,13 @@ Sets up Git hooks via Husky for:
 
 ### GitHub Actions Workflows
 
+#### Site validation (`site-validation.yaml`)
+- **Trigger**: Pull requests, manual dispatches, and reusable calls from deployment
+- **Actions**: Install the locked dependencies, run Biome, Astro checks, unit tests, the production build, editorial smoke checks, SVG checks, and browser checks
+- **Purpose**: Shared validation gate and uploaded validation evidence
+
 #### Deploy (`deploy.yml`)
-- **Trigger**: Push to `main` branch
-- **Actions**: Build → Deploy to GitHub Pages
+- **Trigger**: Push to `main` branch or manual dispatch
+- **Actions**: Reuse site validation → Build → Upload Pages artifact → Deploy to GitHub Pages
 - **Environment**: Node.js 22, pnpm 10.30.0
-
-#### Quality (`quality.yaml`)
-- **Trigger**: Pull requests
-- **Actions**: Run Biome CI checks
-- **Purpose**: Code quality enforcement
-
-#### Release (`release.yaml`)
-- **Trigger**: Release events
-- **Actions**: Automated versioning and changelog
 <!-- /AUTO-GENERATED -->
