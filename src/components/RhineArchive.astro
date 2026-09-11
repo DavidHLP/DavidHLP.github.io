@@ -66,11 +66,12 @@ records.forEach((record, index) => {
 			<a href={localeUrl(locale, "/")}>DAVIDHLPL</a>
 			<a href={localeUrl(locale, "/note")}>{names[0]}</a>
 			<a href={localeUrl(locale, "/jotting")}>{names[1]}</a>
+			<a href={localeUrl(locale, "/kb")}>{ts(t, "navigation.kb")}</a>
 			<a href={localeUrl(locale, "/about")}>{names[2]}</a>
 			<a href="#article-directory">{names[3]} ↓</a>
 			{config.i18n.locales.map(language => <a href={localeUrl(language, section ? `/${section}` : "/")} lang={language} aria-current={language === locale ? "page" : undefined}>{i18nit(language)("language")}</a>)}
 		</nav>
-		<section id="article-directory" class="blog-directory" aria-label={names[3]}>
+		<section id="article-directory" class="blog-directory" role="dialog" aria-modal="true" aria-label={names[3]}>
 			<header><span>DAVIDHLPL / {ts(t, "rhine.page.publicDatabase")}</span><a href="#">{ts(t, "rhine.page.close")} ×</a></header>
 			<h1>{names[3]}</h1>
 			<p>{ts(t, "rhine.page.records", { count: records.length })}</p>
@@ -80,9 +81,24 @@ records.forEach((record, index) => {
 		</section>
 		<script is:inline id="blog-archives" type="application/json" set:html={JSON.stringify(records).replace(/</g, "\\u003c")} />
 		<script>
+			const viewport = document.getElementById("viewport");
+			const navigation = document.querySelector<HTMLElement>(".blog-navigation");
+			const directory = document.getElementById("article-directory");
+			let directoryOpen = false;
+			let directoryOpener: HTMLElement | null = null;
 			const syncDirectory = () => {
-				const viewport = document.getElementById("viewport");
-				if (viewport) viewport.inert = location.hash === "#article-directory";
+				const open = location.hash === "#article-directory";
+				if (!viewport || !directory || open === directoryOpen) return;
+				directoryOpen = open;
+				viewport.inert = open;
+				if (navigation) navigation.inert = open;
+				if (open) {
+					directoryOpener = document.activeElement instanceof HTMLElement && document.activeElement !== document.body ? document.activeElement : null;
+					requestAnimationFrame(() => directory.querySelector<HTMLElement>("a, button, [tabindex]:not([tabindex='-1'])")?.focus({ preventScroll: true }));
+				} else {
+					directoryOpener?.focus({ preventScroll: true });
+					directoryOpener = null;
+				}
 			};
 			window.addEventListener("hashchange", syncDirectory);
 			syncDirectory();

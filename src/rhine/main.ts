@@ -72,7 +72,7 @@ $("#stage").innerHTML = `
   <svg id="inspection-marks" viewBox="0 0 1920 1080" aria-hidden="true"><path id="inspection-lines"/><g id="inspection-corners"></g><circle id="inspection-point" r="1.8"/></svg>
   <div id="inspection-text" aria-hidden="true">${rt("archive.confidentiality")}:<strong>${rt("archive.businessUse")}</strong></div>
   <section id="archive-ui" class="archive-ui" aria-label="${rt("archive.aria")}">
-    <div class="archive-callout"><div class="eyebrow">${rt("archive.database")} <span>／</span> <span id="archive-category">${archiveColumns[0] ?? rt("archive.categoryFallback")}</span></div><button class="file-title" data-action="open">${rt("archive.fileNumber")}<span id="selected-id">X-<span id="selected-code">001</span></span><span class="file-open">↗</span></button><div class="callout-rule"><i></i></div><div class="file-summary"><span id="selected-title">${records[0]?.title ?? rt("archive.categoryFallback")}</span><span id="selected-clearance">${rt(records[0]?.clearance === "RESTRICTED" ? "status.restricted" : "status.public")}</span></div><button class="read-file" data-action="open">${rt("archive.accessFile")} <span>→</span></button></div>
+  <div class="archive-callout"><div class="eyebrow">${rt("archive.database")} <span>／</span> <span id="archive-category">${archiveColumns[0] ?? rt("archive.categoryFallback")}</span></div><button class="file-title" data-action="open">${rt("archive.fileNumber")}<span id="selected-id">X-<span id="selected-code">001</span></span><span class="file-open">↗</span></button><div class="callout-rule"><i></i></div><div class="file-summary"><span id="selected-title">${escapeHtml(records[0]?.title ?? rt("archive.categoryFallback"))}</span><span id="selected-clearance">${rt(records[0]?.clearance === "RESTRICTED" ? "status.restricted" : "status.public")}</span></div><button class="read-file" data-action="open">${rt("archive.accessFile")} <span>→</span></button></div>
     <nav class="category-rail" aria-label="${rt("archive.categoryNav")}"><span>${rt("archive.categoryHint")}</span><div>${categoryRailMarkup}</div></nav>
     <div id="hover-label" class="hover-label" hidden>X-<span id="hover-code">001</span> / <span id="hover-title"></span></div>
     <div class="archive-counter"><span class="tiny-label">${rt("archive.counter")}</span><div><span id="selected-number">01</span><i>/</i><span class="count-total">${String(columnFiles(0).length).padStart(2, "0")}</span></div></div>
@@ -146,6 +146,9 @@ function readLocal<T>(key: string, fallback: T): T {
   }
 }
 const saved = new Set<string>(readLocal<string[]>("davidhlpl-archive-saved", []));
+function savedRecordCount() {
+  return records.filter(record => saved.has(record.source)).length;
+}
 const storedPrefs = readLocal<Partial<{ sound: boolean; music: boolean; soundVolume: number; musicVolume: number; reduced: boolean; quality: boolean; rendering: RenderQuality; superPerformance: boolean; colorTheme: "light" | "dark" }>>("rhine-settings", {});
 const prefs = {
   sound: false,
@@ -451,7 +454,7 @@ function updateSelection(navigation?: ArchiveNavigation) {
     const record = records[index];
     return `<button data-select="${index}" aria-label="${escapeHtml(record.title)}" aria-pressed="${index === selected}" class="${index === selected ? "selected" : ""}"></button>`;
   }).join("");
-  $("#saved-count").textContent = String(saved.size).padStart(2, "0");
+  $("#saved-count").textContent = String(savedRecordCount()).padStart(2, "0");
 }
 function clearanceLabel(record: (typeof records)[number]) {
   return rt(record.clearance === "RESTRICTED" ? "status.restricted" : "status.public");
@@ -485,7 +488,7 @@ function toggleSaved() {
   try {
     localStorage.setItem("davidhlpl-archive-saved", JSON.stringify([...saved]));
   } catch {}
-  $("#saved-count").textContent = String(saved.size).padStart(2, "0");
+  $("#saved-count").textContent = String(savedRecordCount()).padStart(2, "0");
   const button = $<HTMLButtonElement>('[data-action="bookmark"]');
   const added = saved.has(id);
   button.firstChild!.textContent = added ? rt("detail.remove") : rt("detail.save");
