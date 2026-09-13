@@ -5,6 +5,9 @@ declare global {
 		swup: Swup;
 		zoom: () => void;
 		initializeMermaid?: () => Promise<void> | void;
+		rhine?: {
+			setLocale?: (href: string, push?: boolean) => Promise<boolean>;
+		};
 	}
 
 	declare module "*.yaml" {

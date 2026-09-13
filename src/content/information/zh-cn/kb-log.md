@@ -157,3 +157,11 @@
 根据用户要求，将 ResiCache 当前源码分析中的四个候选主题沉淀为四篇独立中文 `concept` 页面：责任链控制流与嵌套 observer、single-flight 与分布式锁、版本 CAS 提前过期、安全序列化与分阶段迁移。保留既有 `/note/resicache` 总览和 `/note/resicache-observer-nested-execution` 专题，不删除或改写既有页面；新增页面均以 `resicache-engineering-highlights-2954fff`、`resicache-project-overview` 或 observer 契约 raw 作为来源，不新增或修改 raw。
 
 新页面均为 `provisional`，分别登记到 `kb-index.md` 的 ResiCache concept 分组和 provisional 毕业观察板。内容以当前 ResiCache `main@2954fff217257e9cf7c906450a75070d5e092637` 的源码、边界测试和本轮本地验证为依据，明确不把源码结构扩展为生产性能、HA、exactly-once 或完整安全审计结论。未修改首页、简历保护面、ResiCache 源码或英文/日文页面；未提交、推送或发布。
+
+## [2026-09-13] ingest | 数据库笔试复盘转为标准复盘博客
+
+将用户提供的 `database_written_test_review.md` 本地 Markdown 原稿整理为中文正典 `synthesis` 页面 `database-written-test-review`。公开稿按“复盘框架 → 语义与方言 → 边界 → 执行与恢复 → 结论边界 → 可复用清单”重组，保留 SQL 示例、四表练习、Kettle 与超大表处理内容，并明确 Oracle、MySQL、Spark SQL 与 PDI 的适用范围；状态标记为 `provisional`，未生成英文/日文翻译。
+
+新增不可变 raw 快照 `database-written-test-review`，公开稿通过 `sources` 回指该快照；同步更新 `kb-index.md` 的 C 域、provisional 毕业观察、raw 计数与来源表，以及 `src/content/raw/.manifest.sha256`。未修改原始 Downloads 文件、首页、简历保护面或现有 Rhine 改动；未提交、推送或发布。
+
+验证结果：`git diff --check` 通过；原生 `pnpm kb:lint` 因本机 tsx IPC 在 `/tmp` 上报 `listen EPERM` 未完成，随后用等价入口 `node --import tsx scripts/kb-lint.ts` 通过（53 raw、146 wiki）；`pnpm check` 通过（0 errors、0 warnings、4 hints）；`pnpm build` 通过并生成 98 页，目标路由 `/note/database-written-test-review` 与 OG 元数据均生成。保留项目现有 duplicate-id、Node 弃用、PhotoSwipe 动态/静态导入和大 chunk 提示，未扩展到程序代码修复；未运行 Oracle/MySQL/Spark/Kettle 实际环境、性能基准、浏览器视觉检查或线上发布验证。

@@ -1630,7 +1630,7 @@ button {
   opacity: 1;
 }
 [data-mode="detail"] .powered {
-  bottom: 108px;
+  display: none;
 }
 [data-mode="detail"] .archive-ui {
   opacity: 0;
