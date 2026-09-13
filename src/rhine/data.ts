@@ -1,9 +1,16 @@
 import { archiveColumnsFor, type BlogArchive } from "../utils/rhine-records";
 import { rt } from "./i18n";
 export type ArchiveRecord = BlogArchive;
-export const records: ArchiveRecord[] = JSON.parse(document.getElementById("blog-archives")?.textContent ?? "[]");
-export const archiveColumns = archiveColumnsFor(records);
-export const categories = [rt("archive.all"), ...archiveColumns];
+export let records: ArchiveRecord[] = JSON.parse(document.getElementById("blog-archives")?.textContent ?? "[]");
+export let archiveColumns = archiveColumnsFor(records);
+export let categories = [rt("archive.all"), ...archiveColumns];
+
+/** Replace the locale-specific archive data without rebuilding the 3D scene. */
+export function setArchiveData(nextRecords: ArchiveRecord[]) {
+	records = nextRecords;
+	archiveColumns = archiveColumnsFor(records);
+	categories = [rt("archive.all"), ...archiveColumns];
+}
 export function columnFiles(lane: number) {
   const category = archiveColumns[((lane % archiveColumns.length) + archiveColumns.length) % archiveColumns.length];
   return records.flatMap((record, index) => record.category === category ? [index] : []);

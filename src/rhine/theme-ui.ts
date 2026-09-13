@@ -13,6 +13,7 @@ export function paintTheme(amount: number) {
   previous = themeAmount = amount;
   const root = document.documentElement;
   root.dataset.darkSurface = String(amount > .0001);
+  root.dataset.theme = amount > .5 ? "dark" : "light";
   for (const [name, values] of Object.entries(palette)) {
     const from = rgb(values[0]), to = rgb(values[1]);
     const value = from.map((v, i) => Math.round(v + (to[i] - v) * amount)).join(", ");

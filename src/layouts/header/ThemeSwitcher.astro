@@ -9,47 +9,67 @@ const t = i18nit(locale);
 ---
 
 <style>
-	#theme-toggle {
-		#sun-icon {
+	[data-theme-toggle] {
+		[data-theme-icon="light"] {
 			display: contents;
 		}
 
-		#moon-icon {
+		[data-theme-icon="dark"] {
 			display: none;
 		}
 	}
 
-	:global([data-theme="dark"]) #theme-toggle {
-		#sun-icon {
+	:global([data-theme="dark"]) [data-theme-toggle] {
+		[data-theme-icon="light"] {
 			display: none;
 		}
 
-		#moon-icon {
+		[data-theme-icon="dark"] {
 			display: contents;
 		}
 	}
 </style>
 
-<button id="theme-toggle" aria-label={ts(t, "themeToggle")}>
-	<span id="sun-icon"><Icon name="lucide--sun" /></span>
-	<span id="moon-icon"><Icon name="lucide--moon" /></span>
+<button type="button" data-theme-toggle aria-label={ts(t, "themeToggle")} aria-pressed="false">
+	<span data-theme-icon="light"><Icon name="lucide--sun" /></span>
+	<span data-theme-icon="dark"><Icon name="lucide--moon" /></span>
 </button>
 
 <script>
 	type Scheme = "light" | "dark";
 
-	const button = document.getElementById("theme-toggle")!;
+	const button = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+	const isScheme = (value: string | null): value is Scheme => value === "light" || value === "dark";
+
+	function storedScheme(): Scheme | undefined {
+		const theme = localStorage.getItem("theme");
+		if (isScheme(theme)) return theme;
+		try {
+			const settings = JSON.parse(localStorage.getItem("rhine-settings") || "null");
+			return isScheme(settings?.colorTheme) ? settings.colorTheme : undefined;
+		} catch {
+			return undefined;
+		}
+	}
+
+	function persistScheme(scheme: Scheme) {
+		localStorage.setItem("theme", scheme);
+		try {
+			const settings = JSON.parse(localStorage.getItem("rhine-settings") || "null");
+			localStorage.setItem("rhine-settings", JSON.stringify({ ...(settings && typeof settings === "object" ? settings : {}), colorTheme: scheme }));
+		} catch {}
+	}
 
 	/**
 	 * Apply the selected theme scheme
 	 * @param scheme - The theme scheme to apply ("light" or "dark")
 	 */
-	function trigger(scheme: Scheme) {
+	function trigger(scheme: Scheme, persist = false) {
 		// Update CSS custom properties via data attribute
 		document.documentElement.dataset.theme = scheme;
+		button?.setAttribute("aria-pressed", String(scheme === "dark"));
 
-		// Persist user preference across sessions
-		localStorage.setItem("theme", scheme);
+		if (persist) persistScheme(scheme);
 	}
 
 	/**
@@ -58,8 +78,9 @@ const t = i18nit(locale);
 	function toggle() {
 		const current = document.documentElement.dataset.theme;
 		const target = current === "dark" ? "light" : "dark";
-		const transit = () => trigger(target);
+		const transit = () => trigger(target, true);
 		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return transit();
+		if (!button) return transit();
 
 		let transition: ViewTransition;
 		if (!(transition = document.startViewTransition?.(transit))) return transit(); // Compatibility check
@@ -91,12 +112,13 @@ const t = i18nit(locale);
 
 	// Initial theme setup
 	const mode = window.matchMedia("(prefers-color-scheme: dark)");
-	const theme = localStorage.getItem("theme");
-	trigger(theme ? (theme as Scheme) : mode.matches ? "dark" : "light");
+	trigger(storedScheme() ?? (mode.matches ? "dark" : "light"));
 
 	// Listen for user interactions (use property assignment to avoid duplicate handlers on script re-execution)
-	button.onclick = toggle;
+	if (button) button.onclick = toggle;
 
 	// Listen for system theme changes
-	mode.onchange = ({ matches }) => trigger(matches ? "dark" : "light");
+	mode.onchange = ({ matches }) => {
+		if (!storedScheme()) trigger(matches ? "dark" : "light");
+	};
 </script>

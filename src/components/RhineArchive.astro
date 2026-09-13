@@ -69,7 +69,11 @@ records.forEach((record, index) => {
 			<a href={localeUrl(locale, "/kb")}>{ts(t, "navigation.kb")}</a>
 			<a href={localeUrl(locale, "/about")}>{names[2]}</a>
 			<a href="#article-directory">{names[3]} ↓</a>
-			{config.i18n.locales.map(language => <a href={localeUrl(language, section ? `/${section}` : "/")} lang={language} aria-current={language === locale ? "page" : undefined}>{i18nit(language)("language")}</a>)}
+			<button class="theme-toggle" type="button" data-action="theme-toggle" aria-label={ts(t, "themeToggle")} aria-pressed="false">
+				<span class="theme-toggle-light" aria-hidden="true">☼</span>
+				<span class="theme-toggle-dark" aria-hidden="true">☾</span>
+			</button>
+			{config.i18n.locales.map(language => <a href={localeUrl(language, section ? `/${section}` : "/")} lang={language} data-locale-switch aria-current={language === locale ? "page" : undefined}>{i18nit(language)("language")}</a>)}
 		</nav>
 		<section id="article-directory" class="blog-directory" role="dialog" aria-modal="true" aria-label={names[3]}>
 			<header><span>DAVIDHLPL / {ts(t, "rhine.page.publicDatabase")}</span><a href="#">{ts(t, "rhine.page.close")} ×</a></header>
@@ -82,13 +86,17 @@ records.forEach((record, index) => {
 		<script is:inline id="blog-archives" type="application/json" set:html={JSON.stringify(records).replace(/</g, "\\u003c")} />
 		<script>
 			const viewport = document.getElementById("viewport");
-			const navigation = document.querySelector<HTMLElement>(".blog-navigation");
-			const directory = document.getElementById("article-directory");
 			let directoryOpen = false;
 			let directoryOpener: HTMLElement | null = null;
 			const syncDirectory = () => {
 				const open = location.hash === "#article-directory";
-				if (!viewport || !directory || open === directoryOpen) return;
+				const navigation = document.querySelector<HTMLElement>(".blog-navigation");
+				const directory = document.getElementById("article-directory");
+				if (!viewport || !directory) return;
+				if (open === directoryOpen) {
+					if (navigation) navigation.inert = open;
+					return;
+				}
 				directoryOpen = open;
 				viewport.inert = open;
 				if (navigation) navigation.inert = open;
@@ -101,6 +109,26 @@ records.forEach((record, index) => {
 				}
 			};
 			window.addEventListener("hashchange", syncDirectory);
+			window.addEventListener("popstate", () => {
+				const switchLocale = window.rhine?.setLocale;
+				if (switchLocale) void switchLocale(window.location.href, false);
+			});
+			document.addEventListener("rhine:locale-change", syncDirectory);
+			document.addEventListener("click", event => {
+				if (!(event.target instanceof Element)) return;
+				const link = event.target.closest<HTMLAnchorElement>("[data-locale-switch]");
+				if (!link || link.getAttribute("aria-current") === "page") return;
+				event.preventDefault();
+				void (async () => {
+					const switchLocale = window.rhine?.setLocale ?? await import("../rhine/main").then(() => window.rhine?.setLocale).catch(() => undefined);
+					if (!switchLocale) {
+						window.location.assign(link.href);
+						return;
+					}
+					const success = await switchLocale(link.href);
+					if (!success) window.location.assign(link.href);
+				})();
+			});
 			syncDirectory();
 			const records = JSON.parse(document.getElementById("blog-archives")?.textContent ?? "[]");
 			if (records.length) {
@@ -114,21 +142,25 @@ records.forEach((record, index) => {
 	</body>
 </html>
 <style is:global>
-html, body { margin: 0; background: #e8e5e1; color: #242620; font-family: MiSans, system-ui, sans-serif; }
-.blog-navigation { position: fixed; z-index: 100000; left: 24px; top: 16px; display: flex; flex-wrap: wrap; gap: 14px; max-width: calc(100% - 48px); padding: 8px 14px; background: #e8e5e1ed; border: 1px solid #858578; font-size: 12px; }
-.blog-navigation a { color: #242620; text-decoration: none; padding: 4px 0; }
+html, body { margin: 0; background: var(--theme-paper, #e8e5e1); color: var(--theme-ink, #242620); font-family: MiSans, system-ui, sans-serif; }
+.blog-navigation { position: fixed; z-index: 100000; left: 24px; top: 16px; display: flex; flex-wrap: wrap; gap: 14px; max-width: calc(100% - 48px); padding: 8px 14px; background: color-mix(in srgb, var(--theme-paper, #e8e5e1) 93%, transparent); border: 1px solid var(--theme-line, #858578); font-size: 12px; }
+.blog-navigation :is(a, button) { color: var(--theme-ink, #242620); text-decoration: none; padding: 4px 0; }
+.blog-navigation button { border: 0; background: transparent; cursor: pointer; font: inherit; }
+.theme-toggle-dark { display: none; }
+[data-dark-surface="true"] .theme-toggle-light { display: none; }
+[data-dark-surface="true"] .theme-toggle-dark { display: inline; }
 .rhine-modal .blog-navigation { visibility: hidden; }
 .blog-navigation a:hover, .blog-navigation a[aria-current] { text-decoration: underline; text-underline-offset: 4px; }
-.blog-directory { display: none; position: fixed; inset: 0; z-index: 100001; overflow: auto; padding: clamp(24px, 6vw, 90px); background: #e8e5e1; box-sizing: border-box; }
+.blog-directory { display: none; position: fixed; inset: 0; z-index: 100001; overflow: auto; padding: clamp(24px, 6vw, 90px); background: var(--theme-paper, #e8e5e1); box-sizing: border-box; }
 .blog-directory:target, .archive-fallback .blog-directory { display: block; }
-.blog-directory header, .directory-record { display: flex; gap: 24px; align-items: center; justify-content: space-between; border-bottom: 1px solid #aaa99c; padding: 22px 0; }
+.blog-directory header, .directory-record { display: flex; gap: 24px; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--theme-line, #aaa99c); padding: 22px 0; }
 .blog-directory h1 { font-size: clamp(30px, 6vw, 64px); font-weight: 400; margin: 40px 0 10px; }
 .directory-record { color: inherit; text-decoration: none; }
 .directory-record strong { flex: 1; font-weight: 500; }
-.directory-category { color: #7d7565; font-size: 11px; letter-spacing: 0.6px; white-space: nowrap; }
-.directory-record:hover { background: #d7d2bc; }
+.directory-category { color: var(--theme-muted, #7d7565); font-size: 11px; letter-spacing: 0.6px; white-space: nowrap; }
+.directory-record:hover { background: var(--theme-field, #d7d2bc); }
 .blog-directory footer { padding: 40px 0; font-size: 12px; }
-.blog-directory a:focus-visible, .blog-navigation a:focus-visible { outline: 2px solid #a56422; outline-offset: 4px; }
+.blog-directory a:focus-visible, .blog-navigation :is(a, button):focus-visible { outline: 2px solid var(--theme-accent, #a56422); outline-offset: 4px; }
 #selected-title { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 .detail-title-cn { overflow-wrap: anywhere; }
 @media (max-width: 600px) { .blog-navigation { left: 12px; top: 82px; gap: 9px; max-width: calc(100% - 24px); font-size: 11px; padding: 8px 10px; } .directory-record { gap: 12px; flex-wrap: wrap; } .directory-record strong { min-width: calc(100% - 54px); } .directory-category { font-size: 10px; } .directory-record time { font-size: 12px; } }

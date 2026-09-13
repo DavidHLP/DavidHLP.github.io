@@ -8,7 +8,7 @@
 
 ## 导航与路径
 
-**6 域速览**：[A 知识库与 AI 工程](#a-知识库与-ai-工程) · [B Java 与并发](#b-java-与并发) · [C 存储与缓存](#c-存储与缓存) · [D 分布式与微服务](#d-分布式与微服务) · [E 基础设施与运维](#e-基础设施与运维) · [F 工程与架构](#f-工程与架构) · [毕业观察](#毕业观察11-个-provisional) · [已归档](#g-已归档与已废弃deprecated) · [原始来源](#原始来源raw)
+**6 域速览**：[A 知识库与 AI 工程](#a-知识库与-ai-工程) · [B Java 与并发](#b-java-与并发) · [C 存储与缓存](#c-存储与缓存) · [D 分布式与微服务](#d-分布式与微服务) · [E 基础设施与运维](#e-基础设施与运维) · [F 工程与架构](#f-工程与架构) · [毕业观察](#毕业观察12-个-provisional) · [已归档](#g-已归档与已废弃deprecated) · [原始来源](#原始来源raw)
 
 ### 学习路径（按意图进入）
 
@@ -16,7 +16,7 @@
 2. **路径 2 — 分布式进阶**：`microservice-data-ownership` → `database-schema-drift` → `dubbo-nacos-runtime` → `spring-cloud-and-boot` → `resicache-observer-nested-execution` → `plugin-lifecycle-management`。产出：能判定拆库/注册/迁移边界。
 3. **路径 3 — Agent 全链**：`omp-config-and-rules-guide` → `omp-hook-extension-guide` → `headroom-compress-retrieve-contract` → `mcp-codebase-memory-workflow` → `hindsight-local-deployment` / `hindsight-omp-codex-integration` → `omp-headroom-provider-proxy`。产出：能本地复现 OMP/Headroom/Codex 记忆与路由链路。
 
-### 毕业观察（11 个 provisional）
+### 毕业观察（12 个 provisional）
 
 | 页面 | 毕业需补的 3 个可验证检查 |
 |---|---|
@@ -27,6 +27,7 @@
 | [UltiCode 架构](/note/ulticode) | owner 边界、outbox/Streams 投递、generation/attempt 围栏、Docker 沙箱与可追溯交付门禁 |
 | [Enhanced UISA 架构](/note/uisa-architecture-design) | 去除“规模/阈值”隐含承诺，改为可复现的重试/幂等约束描述；owner→边界→恢复的最小决策树；失败模式矩阵 |
 | [Java 面试复盘](/note/java-internship-interview-blog-polished) | 1 个脱敏生产止损案例（现象→定位→恢复）；缓存/异步机制的版本固定证据；能力模型与证据的分离 |
+| [数据库笔试复盘](/note/database-written-test-review) | 固定 Oracle/MySQL/Spark/PDI 版本的代表性复现；`NULL`、跨年与同表读写边界测试；Kettle/大表分片恢复与对账演练 |
 | [ResiCache 责任链与 observer](/note/resicache-handler-chain-and-observer) | 当前主线的 `HandlerResult` 控制流、snapshot/fragment 边界、observer token 配对和异常收尾测试 |
 | [ResiCache single-flight](/note/resicache-single-flight) | 10 路并发、leader/follower/reentrant、锁内 double-check、写回失败与跨实例边界 |
 | [ResiCache 提前过期 CAS](/note/resicache-early-expiration-cas) | 真实 Redis 版本竞态、Lua TTL CAS、旧任务失效和“只缩短 TTL、不直接回源”边界 |
@@ -61,6 +62,7 @@
 - [Redis 持久化与原理：RDB/AOF、数据结构与高级机制](/note/redis-persistence-principle) — 快照 vs 追加日志的恢复与性能。来源：`ingest-redis-persistence`。
 - [Redis 黑马实战与进阶：分布式缓存、多级缓存与最佳实践](/note/redis-heima-practice) — 200+ 页提炼清单，标注版本缺口。来源：`ingest-redis-heima`。
 - [MySQL 存储引擎与死锁检测](/note/mysql-storage-and-deadlock) — 引擎能力与死锁日志路径。来源：`ingest-mysql-storage`。
+- [数据库笔试复盘：从 SQL 语义到批量数据处理](/note/database-written-test-review) — 把连接、`NULL`、索引、日期方言、四表 SQL、Kettle 与超大表操作整理为语义→方言→执行边界。来源：`database-written-test-review`。
 - [HBase 基础、架构与运维：数据模型、表设计、Shell 与 Java API](/note/hbase-foundation-and-ops) — 逻辑/物理模型、组件与表设计，RDBMS 取舍。来源：`ingest-hbase-foundation`。
 - [Spark 与大数据生态：Hadoop、HBase、Spark 运行模式与集群](/note/spark-bigdata-ecosystem) — 批/流引擎与运行模式对比。来源：`ingest-spark-ecosystem`。
 - [MySQL 性能排查：现象→指标→定位层→安全缓解](/note/mysql-performance-troubleshooting) — 连接、锁、索引、事务、IO、Buffer Pool 模型。来源：`legacy-mysql-performance-troubleshooting`。
@@ -130,10 +132,10 @@
 
 ## 原始来源（raw）
 
-> 51 个 raw 中 10 个为 `legacy-aggregate`（Personal/Fuwari 聚合包，只读）。新增不再使用聚合类型。
+> 53 个 raw 中 10 个为 `legacy-aggregate`（Personal/Fuwari 聚合包，只读）。新增不再使用聚合类型。
 
 <details>
-<summary>展开全部 51 个 raw 来源（41 单来源 + 10 legacy-aggregate）</summary>
+<summary>展开全部 53 个 raw 来源（43 单来源 + 10 legacy-aggregate）</summary>
 
 | slug | 类型 | 来源 | 摘要 | 聚合 |
 |---|---|---|---|---|
@@ -162,6 +164,7 @@
 | `redis-jackson-java-time-contract` | upstream-source-and-minimal-experiment | [固定 tag](https://github.com/redisson/redisson/tree/redisson-3.50.0) | Redisson/Spring Data Redis 默认 Jackson 配置与 LocalDateTime 编解码实验。 | — |
 | `multi-service-readiness-safety-correction` | upstream-source-fixed-tag | [固定 tag](https://github.com/docker/compose/tree/v5.4.0) | 更正 readiness 验证命令的 `-f`/`-p` 项目隔离与 `down` 删除边界。 | — |
 | `database-schema-drift-contract` | upstream-docs-and-minimal-experiment | [Flyway 文档](https://documentation.red-gate.com/fd/validate-277578898.html) | Flyway 13.2.0 与 MySQL 8.4 history/schema/query 漂移诊断契约。 | — |
+| `database-written-test-review` | user-provided-local-markdown | [项目仓库](https://github.com/DavidHLP/DavidHLP.github.io) | 用户提供的数据库笔试复盘原稿：SQL 语义、方言、四表练习、Kettle 与超大表处理边界。 | — |
 | `jjwt-013-security-api-contract` | upstream-source-fixed-tag | [JJWT 0.13.0 源码](https://github.com/jwtk/jjwt/tree/0.13.0) | `signWith`、`verifyWith`、audience builder 和 key 类型边界。 | — |
 | `testcontainers-docker-api-negotiation` | upstream-source-fixed-commits | [Testcontainers 1.20.6](https://github.com/testcontainers/testcontainers-java/tree/1.20.6) | Docker API `1.32` fallback、`api.version` 和 daemon 版本门禁。 | — |
 | `dubbo-nacos-runtime-registration` | upstream-source-fixed-tag-and-docs | [Dubbo 3.3.6](https://github.com/apache/dubbo/tree/dubbo-3.3.6) | Nacos 接口级/应用级注册、metadata 和 smoke test 边界。 | — |

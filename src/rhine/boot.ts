@@ -26,6 +26,7 @@ export class BootSequence {
   private companyInk: HTMLElement[];
   private poweredHTML: string;
   private accessLettering: BootLettering;
+  private localizedLettering: BootLettering[] = [];
   private authLettering: BootLettering;
   constructor(private stage: HTMLElement) {
     [
@@ -117,7 +118,9 @@ export class BootSequence {
       [".welcome-database", "database", "INTERNAL DATABASE"],
     ] as const) {
       const localized = this.el(selector).textContent?.trim() || text;
-      new BootLettering(this.el(selector), [key]).setText(localized);
+      const lettering = new BootLettering(this.el(selector), [key]);
+      lettering.setText(localized);
+      this.localizedLettering.push(lettering);
     }
     this.companyInk.forEach((el) =>
       new BootLettering(el.querySelector("span")!, ["company"]).setText("RHINE LAB.LLC."),
@@ -125,6 +128,10 @@ export class BootSequence {
   }
   private el(selector: string) {
     return this.nodes.get(selector)!;
+  }
+  setLocale(copy: { access: string; permission: string; welcome: string; database: string }) {
+    this.accessLettering.setText(copy.access);
+    [copy.permission, copy.welcome, copy.database].forEach((text, index) => this.localizedLettering[index]?.setText(text));
   }
   private opacity(selector: string, value: number | boolean) {
     this.el(selector).style.opacity = String(Number(value));

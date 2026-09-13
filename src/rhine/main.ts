@@ -27,6 +27,8 @@ import {
   archiveColumns,
   columnFiles,
   fileLocation,
+  setArchiveData,
+  type ArchiveRecord,
 } from "./data";
 import { TerminalAudio } from "./audio";
 import { audioSettingsMarkup } from "./audio-settings";
@@ -42,14 +44,16 @@ import { paintTheme, themeSettingsMarkup } from "./theme-ui";
 let playground: ArchivePlayground | undefined;
 import { WallpaperEffects } from "./wallpaper-effects";
 import { WallpaperBackground } from "./wallpaper-background";
-import { rt } from "./i18n";
+import { rt, setLocale as setRhineLocale } from "./i18n";
 let wallpaperEffects: WallpaperEffects | undefined;
 
 const $ = <T extends HTMLElement = HTMLElement>(selector: string) =>
   document.querySelector<T>(selector)!;
 import { logo, brandHeading } from "./brand";
 
-const categoryRailMarkup = archiveColumns.map((category, index) => `<button type="button" data-category-select="${escapeHtml(category)}" aria-pressed="${index === 0}" class="${index === 0 ? "active" : ""}"><span>${escapeHtml(category)}</span><small>${String(columnFiles(index).length).padStart(2, "0")}</small></button>`).join("");
+function categoryRailMarkup() {
+  return archiveColumns.map((category, index) => `<button type="button" data-category-select="${escapeHtml(category)}" aria-pressed="${index === 0}" class="${index === 0 ? "active" : ""}"><span>${escapeHtml(category)}</span><small>${String(columnFiles(index).length).padStart(2, "0")}</small></button>`).join("");
+}
 
 $("#stage").innerHTML = `
   <div id="three-scene" class="three-scene"></div>
@@ -73,7 +77,7 @@ $("#stage").innerHTML = `
   <div id="inspection-text" aria-hidden="true">${rt("archive.confidentiality")}:<strong>${rt("archive.businessUse")}</strong></div>
   <section id="archive-ui" class="archive-ui" aria-label="${rt("archive.aria")}">
   <div class="archive-callout"><div class="eyebrow">${rt("archive.database")} <span>／</span> <span id="archive-category">${archiveColumns[0] ?? rt("archive.categoryFallback")}</span></div><button class="file-title" data-action="open">${rt("archive.fileNumber")}<span id="selected-id">X-<span id="selected-code">001</span></span><span class="file-open">↗</span></button><div class="callout-rule"><i></i></div><div class="file-summary"><span id="selected-title">${escapeHtml(records[0]?.title ?? rt("archive.categoryFallback"))}</span><span id="selected-clearance">${rt(records[0]?.clearance === "RESTRICTED" ? "status.restricted" : "status.public")}</span></div><button class="read-file" data-action="open">${rt("archive.accessFile")} <span>→</span></button></div>
-    <nav class="category-rail" aria-label="${rt("archive.categoryNav")}"><span>${rt("archive.categoryHint")}</span><div>${categoryRailMarkup}</div></nav>
+    <nav class="category-rail" aria-label="${rt("archive.categoryNav")}"><span>${rt("archive.categoryHint")}</span><div>${categoryRailMarkup()}</div></nav>
     <div id="hover-label" class="hover-label" hidden>X-<span id="hover-code">001</span> / <span id="hover-title"></span></div>
     <div class="archive-counter"><span class="tiny-label">${rt("archive.counter")}</span><div><span id="selected-number">01</span><i>/</i><span class="count-total">${String(columnFiles(0).length).padStart(2, "0")}</span></div></div>
     <div class="archive-navigation"><button data-action="prev" aria-label="${rt("archive.previousFile")}">↑</button><div id="file-ticks" class="file-ticks"></div><button data-action="next" aria-label="${rt("archive.nextFile")}">↓</button></div>
@@ -150,6 +154,10 @@ function savedRecordCount() {
   return records.filter(record => saved.has(record.source)).length;
 }
 const storedPrefs = readLocal<Partial<{ sound: boolean; music: boolean; soundVolume: number; musicVolume: number; reduced: boolean; quality: boolean; rendering: RenderQuality; superPerformance: boolean; colorTheme: "light" | "dark" }>>("rhine-settings", {});
+const storedTheme = localStorage.getItem("theme");
+const colorTheme = storedTheme === "dark" || storedTheme === "light"
+  ? storedTheme
+  : storedPrefs.colorTheme === "dark" ? "dark" : "light";
 const prefs = {
   sound: false,
   music: false,
@@ -160,9 +168,13 @@ const prefs = {
   superPerformance: false,
   ...storedPrefs,
   rendering: normalizeQuality(storedPrefs.rendering, storedPrefs.quality !== false),
-  colorTheme: storedPrefs.colorTheme === "dark" ? "dark" : "light",
+  colorTheme,
 };
+function syncThemeToggle() {
+  document.querySelector<HTMLElement>("[data-action=\"theme-toggle\"]")?.setAttribute("aria-pressed", String(prefs.colorTheme === "dark"));
+}
 paintTheme(prefs.colorTheme === "dark" ? 1 : 0);
+syncThemeToggle();
 const rollingMotion = {
   duration: 460,
   motionBlur: true,
@@ -218,6 +230,7 @@ function configureAudio() { audio.configure({ ...prefs, music: prefs.music && !m
 configureAudio();
 const reviewEntry = reviewParams.has("scene") || reviewParams.has("time") || reviewParams.get("review") === "1";
 let started = false;
+let localeRequest = 0;
 const loading = $("#loading");
 // The entry screen uses the actual viewport, including portrait phones; the
 // reference animation still uses its calibrated 1920 x 1080 stage.
@@ -241,7 +254,7 @@ let resumeCell: { lane: number; row: number } | undefined;
 let resumeSelection = -1;
 let viewer: ModelViewer | undefined;
 const accessLog: { id: string; time: string }[] = [];
-const columnMemory = archiveColumns.map((_, lane) => columnFiles(lane)[0]);
+let columnMemory = archiveColumns.map((_, lane) => columnFiles(lane)[0]);
 function recordAccess() {
   accessLog.unshift({
     id: records[selected].id,
@@ -251,6 +264,7 @@ function recordAccess() {
 function saveAudioPrefs() {
   try {
     localStorage.setItem("rhine-settings", JSON.stringify(prefs));
+    localStorage.setItem("theme", prefs.colorTheme);
   } catch {}
   configureAudio();
 }
@@ -268,6 +282,7 @@ function savePrefs() {
   scene?.setReduced(prefs.reduced);
   scene?.setTheme(prefs.colorTheme === "dark", prefs.reduced || !started);
   document.querySelectorAll<HTMLElement>("[data-color-theme]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.colorTheme === prefs.colorTheme)));
+  syncThemeToggle();
   scene?.setSuperPerformance(superPerformanceEnabled());
   viewer?.setSuperPerformance(superPerformanceEnabled());
   scene?.setQuality(effectiveRenderQuality());
@@ -456,6 +471,113 @@ function updateSelection(navigation?: ArchiveNavigation) {
   }).join("");
   $("#saved-count").textContent = String(savedRecordCount()).padStart(2, "0");
 }
+
+function replaceFirstText(element: Element | null, value: string) {
+  if (!element) return;
+  const text = [...element.childNodes].find(node => node.nodeType === Node.TEXT_NODE);
+  if (text) text.nodeValue = value;
+  else element.prepend(value);
+}
+
+function refreshLocalizedUi() {
+  const boot = $("#boot");
+  boot.setAttribute("aria-label", rt("boot.section"));
+  bootSequence.setLocale({
+    access: rt("boot.access"),
+    permission: rt("boot.permission"),
+    welcome: rt("boot.welcome"),
+    database: rt("boot.database"),
+  });
+
+  $("#inspection-text").firstChild!.textContent = `${rt("archive.confidentiality")}:`;
+  const archiveUi = $("#archive-ui");
+  archiveUi.setAttribute("aria-label", rt("archive.aria"));
+  const callout = $(".archive-callout");
+  replaceFirstText(callout.querySelector(".eyebrow"), rt("archive.database"));
+  replaceFirstText(callout.querySelector(".file-title"), rt("archive.fileNumber"));
+  replaceFirstText(callout.querySelector(".read-file"), rt("archive.accessFile"));
+
+  const categoryRail = $(".category-rail");
+  categoryRail.setAttribute("aria-label", rt("archive.categoryNav"));
+  categoryRail.querySelector(":scope > span")!.textContent = rt("archive.categoryHint");
+  categoryRail.querySelector(":scope > div")!.innerHTML = categoryRailMarkup();
+  $(".archive-counter .tiny-label").textContent = rt("archive.counter");
+  $("[data-action=prev]").setAttribute("aria-label", rt("archive.previousFile"));
+  $("[data-action=next]").setAttribute("aria-label", rt("archive.nextFile"));
+  $("[data-action=column-prev]").setAttribute("aria-label", rt("archive.previousColumn"));
+  $("[data-action=column-next]").setAttribute("aria-label", rt("archive.nextColumn"));
+  replaceFirstText($(".column-navigation span"), `${rt("archive.columnLabel")} `);
+  $(".archive-hint").innerHTML = `<kbd>←</kbd> <kbd>→</kbd> ${rt("archive.switchColumn")} <span>／</span> <kbd>↑</kbd> <kbd>↓</kbd> ${rt("archive.switchFiles")} <span>／</span> <kbd>ENTER</kbd> ${rt("archive.read")}`;
+
+  const detail = $("#detail-ui");
+  detail.setAttribute("aria-label", rt("archive.detailAria"));
+  replaceFirstText(detail.querySelector(".back-button"), `← ${rt("archive.overview")}`);
+  detail.querySelector(".object-caption > div")!.textContent = rt("archive.database");
+  replaceFirstText(detail.querySelector(".object-caption > small"), rt("archive.dragInspect"));
+  replaceFirstText(detail.querySelector(".viewer-open"), rt("archive.viewer"));
+  replaceFirstText($(".powered"), `${rt("page.poweredBy")} `);
+  replaceFirstText($(".system-footer > span"), ` ${rt("archive.session")}`);
+  $("[data-action=replay]").textContent = `${rt("archive.replay")} ↗`;
+  $("#pwa-update-notice span").textContent = rt("archive.pwaReady");
+  $("#pwa-update-notice button").textContent = `${rt("archive.pwaUpdate")} ↻`;
+  $("#loading > span").textContent = rt("archive.loading");
+
+  updateSelection();
+  syncThreeButton();
+  if (mode === "detail") renderDetail();
+  if (modal) renderModal();
+}
+
+async function switchLocale(href: string, push = true): Promise<boolean> {
+  const target = new URL(href, location.href);
+  if (target.origin !== location.origin) return false;
+  const request = ++localeRequest;
+  try {
+    const response = await fetch(target, { headers: { Accept: "text/html" } });
+    if (!response.ok) return false;
+    const html = await response.text();
+    if (request !== localeRequest) return false;
+    const nextDocument = new DOMParser().parseFromString(html, "text/html");
+    const archiveData = nextDocument.getElementById("blog-archives");
+    const nextRecords = JSON.parse(archiveData?.textContent ?? "null") as unknown;
+    const nextNavigation = nextDocument.querySelector(".blog-navigation");
+    const nextDirectory = nextDocument.getElementById("article-directory");
+    const nextLocale = nextDocument.documentElement.lang;
+    if (!nextLocale || !Array.isArray(nextRecords) || !nextRecords.length || !nextNavigation || !nextDirectory) return false;
+
+    setRhineLocale(nextLocale);
+    setArchiveData(nextRecords as ArchiveRecord[]);
+    document.documentElement.lang = nextLocale;
+    document.title = nextDocument.title;
+    const currentDescription = document.querySelector('meta[name="description"]');
+    const nextDescription = nextDocument.querySelector<HTMLMetaElement>('meta[name="description"]');
+    if (currentDescription && nextDescription) currentDescription.setAttribute("content", nextDescription.content);
+    const currentCanonical = document.querySelector('link[rel="canonical"]');
+    const nextCanonical = nextDocument.querySelector('link[rel="canonical"]');
+    if (currentCanonical && nextCanonical) currentCanonical.setAttribute("href", nextCanonical.getAttribute("href") ?? "");
+    const currentFeed = document.querySelector('link[rel="alternate"]');
+    const nextFeed = nextDocument.querySelector('link[rel="alternate"]');
+    if (currentFeed && nextFeed) currentFeed.setAttribute("href", nextFeed.getAttribute("href") ?? "");
+    document.querySelector(".blog-navigation")?.replaceWith(nextNavigation);
+    document.getElementById("article-directory")?.replaceWith(nextDirectory);
+    const currentArchiveData = document.getElementById("blog-archives");
+    if (currentArchiveData && archiveData) currentArchiveData.textContent = archiveData.textContent;
+    columnMemory = archiveColumns.map((_, lane) => columnFiles(lane)[0]);
+    filter = categories[0];
+    searchQuery = "";
+    selected = Math.min(selected, records.length - 1);
+    columnMemory[fileLocation(selected).lane] = selected;
+    refreshLocalizedUi();
+    scene?.select(selected);
+    if (push) history.pushState({}, "", `${target.pathname}${target.search}${target.hash}`);
+    document.dispatchEvent(new CustomEvent("rhine:locale-change", { detail: nextLocale }));
+    return true;
+  } catch (error) {
+    console.error("Rhine locale switch failed", error);
+    return false;
+  }
+}
+
 function clearanceLabel(record: (typeof records)[number]) {
   return rt(record.clearance === "RESTRICTED" ? "status.restricted" : "status.public");
 }
@@ -724,6 +846,8 @@ document.addEventListener("change", (e) => {
 document.addEventListener("click", (e) => {
   const themeButton = (e.target as Element).closest<HTMLElement>("[data-color-theme]");
   if (themeButton) { prefs.colorTheme = themeButton.dataset.colorTheme === "dark" ? "dark" : "light"; savePrefs(); return; }
+  const themeToggle = (e.target as Element).closest<HTMLElement>("[data-action=\"theme-toggle\"]");
+  if (themeToggle) { prefs.colorTheme = prefs.colorTheme === "dark" ? "light" : "dark"; savePrefs(); return; }
   if (!started) return;
   if (modalClosing) return;
   const el = (e.target as Element).closest<HTMLElement>("button");
@@ -1251,6 +1375,7 @@ void start();
 // Deterministic review controls: the running application, never a video surrogate.
 Object.assign(window, {
   rhine: {
+    setLocale: (href: string, push = true) => switchLocale(href, push),
     // The review button supplies a real user activation. Preferences stay local to this preview.
     playBootPreview: async (music = false) => {
       if (!ready || !navigator.userActivation.isActive) return false;
