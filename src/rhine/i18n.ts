@@ -13,7 +13,7 @@ export function setLocale(nextLocale: string) {
 
 /** Resolve copy for the locale rendered on the archive page. */
 export function rt(key: string, params?: Record<string, string | number>): string {
-	const documentLocale = typeof document === "undefined" ? locale : document.documentElement.lang || "zh-cn";
+	const documentLocale = typeof document === "undefined" ? locale : document.documentElement?.lang || locale;
 	if (documentLocale !== locale) setLocale(documentLocale);
 	return ts(translate, `rhine.${key}`, params);
 }
