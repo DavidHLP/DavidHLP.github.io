@@ -494,7 +494,8 @@ button {
   position: absolute;
   left: 59px;
   right: 59px;
-  bottom: 188px;
+  /* Leave room for the counter label, its margin and the full number line. */
+  bottom: 230px;
   display: grid;
   grid-template-columns: max-content minmax(0, 1fr);
   align-items: center;
@@ -679,7 +680,7 @@ button {
 .hover-label {
   position: absolute;
   left: 60px;
-  bottom: 264px;
+  bottom: 310px;
   font-size: 13px;
   color: #6f675b;
   letter-spacing: 1px;
