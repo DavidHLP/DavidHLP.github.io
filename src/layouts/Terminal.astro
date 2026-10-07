@@ -38,7 +38,7 @@ const canonical = new URL(post ? postPath(post.id) : "/", Astro.site);
     <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
-  <body data-post={post?.id} data-site-title={site.title} data-site-url={Astro.site}>
+  <body data-post={post?.id} data-site-title={site.title} data-site-description={site.description} data-site-url={Astro.site}>
     <main id="viewport"><div id="stage"></div></main>
     <div id="blog-static" class="blog-static">
       <header><a href="/">{site.title}</a> <a href="/rss.xml">RSS ↗</a></header>

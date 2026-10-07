@@ -1,5 +1,5 @@
 import fs from "node:fs/promises";
-import matter from "gray-matter";
+import { parse } from "yaml";
 
 const requiredFields = [
   "id",
@@ -89,7 +89,11 @@ export async function loadContent() {
   const paths = (await fs.readdir(root, { recursive: true })).filter(path => path.endsWith(".md"));
   const records = [];
   for (const path of paths) {
-    const { data, content: body } = matter(await fs.readFile(new URL(path, root), "utf8"));
+    const source = await fs.readFile(new URL(path, root), "utf8");
+    const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+    if (!match) throw new Error(`文章缺少 YAML frontmatter：${path}`);
+    const data = parse(match[1]);
+    const body = match[2];
     if (!data.draft) records.push({ ...data, id: data.archiveId, body: body.trim() });
   }
   records.sort((a, b) => Number(a.id?.slice(2)) - Number(b.id?.slice(2)));

@@ -1,4 +1,5 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 import site from "../content/site.json";
 
@@ -16,7 +17,7 @@ const blog = defineCollection({
     clearance: text,
     abstract: text,
     findings: z.array(text).min(1),
-    source: z.string().url().refine(value => /^https?:\/\//.test(value), "仅支持 HTTP(S)"),
+    source: z.url().refine(value => /^https?:\/\//.test(value), "仅支持 HTTP(S)"),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     tags: z.array(text).default([]),
