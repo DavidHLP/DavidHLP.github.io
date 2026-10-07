@@ -43,7 +43,7 @@ const immutable = files.filter(path => /^assets\/archive-(cassette|assembly)\.[a
 const headers = [
   '/fonts/misans-webfont-4.3.1/*\n  Cache-Control: public, max-age=31536000, immutable',
   ...immutable.map(path => `/${path}\n  Cache-Control: public, max-age=31536000, immutable`),
-  ...['/', '/index.html', '/update*', '/sw.js'].map(path => `${path}\n  Cache-Control: no-cache, no-store, must-revalidate`),
+  ...['/', '/index.html', '/blog/*', '/rss.xml', '/sitemap*.xml', '/update*', '/sw.js'].map(path => `${path}\n  Cache-Control: no-cache, no-store, must-revalidate`),
   ...['/manifest.webmanifest', '/pwa-build.json'].map(path => `${path}\n  Cache-Control: no-cache, must-revalidate`),
 ];
 await writeFile(resolve(output, '_headers'), headers.join('\n\n') + '\n');

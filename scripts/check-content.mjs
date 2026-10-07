@@ -9,7 +9,7 @@ import {
 import { escapeHtml } from "../src/html.ts";
 
 const content = await loadContent();
-test("all forty downloads match the shared content, including the UTF-8 BOM", async () => {
+test("all migrated downloads match the Markdown content, including the UTF-8 BOM", async () => {
   for (const record of content.records) {
     assert.equal(
       (
@@ -24,6 +24,13 @@ test("all forty downloads match the shared content, including the UTF-8 BOM", as
       archiveText(record),
     );
   }
+});
+test("blog allows new stable IDs and unequal column sizes while rejecting empty columns", () => {
+  const edited = structuredClone(content);
+  edited.records.push({ ...edited.records[0], id: "X-041" });
+  assert.equal(validateContent(edited, { blog: true }), edited);
+  edited.records = edited.records.filter(record => record.category !== edited.columns[0]);
+  assert.throws(() => validateContent(edited, { blog: true }), /至少需要一篇/);
 });
 
 const invalidCases = [

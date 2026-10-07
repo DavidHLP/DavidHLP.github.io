@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import matter from "gray-matter";
 
 const requiredFields = [
   "id",
@@ -14,7 +15,7 @@ const requiredFields = [
 ];
 const isText = (value) => typeof value === "string" && value.trim().length > 0;
 
-export function validateContent(content) {
+export function validateContent(content, { blog = false } = {}) {
   const errors = [];
   if (!content || typeof content !== "object" || Array.isArray(content)) {
     throw new Error("档案数据必须是 JSON 对象。");
@@ -38,7 +39,7 @@ export function validateContent(content) {
     errors.push("categories 与 columns 必须包含相同的五个分类（顺序可以不同）");
   }
   const records = Array.isArray(content.records) ? content.records : [];
-  if (records.length !== 40) errors.push("records：当前阵列要求四十份档案");
+  if (!blog && records.length !== 40) errors.push("records：当前阵列要求四十份档案");
   const ids = new Set();
   records.forEach((record, index) => {
     const label = `records[${index}]`;
@@ -50,8 +51,9 @@ export function validateContent(content) {
       if (!isText(record[key])) errors.push(`${label}.${key}：必须是非空文本`);
     }
     const expectedId = `X-${String(index + 1).padStart(3, "0")}`;
-    if (record.id !== expectedId)
+    if (!blog && record.id !== expectedId)
       errors.push(`${label}.id：应为 ${expectedId}，编号须按顺序保持稳定`);
+    if (blog && !/^X-\d{3,}$/.test(record.id)) errors.push(`${label}.id：必须是 X- 加至少三位数字`);
     if (ids.has(record.id)) errors.push(`${label}.id：重复编号 ${record.id}`);
     ids.add(record.id);
     if (!categories.includes(record.category))
@@ -71,8 +73,9 @@ export function validateContent(content) {
     }
   });
   for (const name of columns) {
-    if (records.filter((record) => record?.category === name).length !== 8) {
-      errors.push(`分类“${name}”：当前阵列要求八份档案`);
+    const count = records.filter((record) => record?.category === name).length;
+    if (blog ? count === 0 : count !== 8) {
+      errors.push(blog ? `分类“${name}”：至少需要一篇已发布文章` : `分类“${name}”：当前阵列要求八份档案`);
     }
   }
   if (errors.length)
@@ -81,16 +84,18 @@ export function validateContent(content) {
 }
 
 export async function loadContent() {
-  return validateContent(
-    JSON.parse(
-      await fs.readFile(
-        new URL("../content/archives.json", import.meta.url),
-        "utf8",
-      ),
-    ),
-  );
+  const site = JSON.parse(await fs.readFile(new URL("../content/site.json", import.meta.url), "utf8"));
+  const root = new URL("../content/blog/", import.meta.url);
+  const paths = (await fs.readdir(root, { recursive: true })).filter(path => path.endsWith(".md"));
+  const records = [];
+  for (const path of paths) {
+    const { data, content: body } = matter(await fs.readFile(new URL(path, root), "utf8"));
+    if (!data.draft) records.push({ ...data, id: data.archiveId, body: body.trim() });
+  }
+  records.sort((a, b) => Number(a.id?.slice(2)) - Number(b.id?.slice(2)));
+  return validateContent({ categories: site.categories, columns: site.columns, records }, { blog: true });
 }
 
 export function archiveText(r) {
-  return `\uFEFFRHINE LAB · INTERNAL DATABASE\nFILE ${r.id} / ${r.title}\n${r.en}\n\n科室：${r.department}\n编目范围：${r.date}\n相关人物：${r.lead}\n访问范围：${r.clearance}\n\n${r.abstract}\n\n研究记录\n${r.findings.map((f, i) => `${i + 1}. ${f}`).join("\n")}\n\n设定参考：${r.source}\n本文为基于公开设定的档案式改写，非游戏原文。\n`;
+  return `\uFEFFRHINE LAB · INTERNAL DATABASE\nFILE ${r.id} / ${r.title}\n${r.en}\n\n科室：${r.department}\n编目范围：${r.date}\n相关人物：${r.lead}\n访问范围：${r.clearance}\n\n${r.body?.trim() || r.abstract}\n\n研究记录\n${r.findings.map((f, i) => `${i + 1}. ${f}`).join("\n")}\n\n设定参考：${r.source}\n本文为基于公开设定的档案式改写，非游戏原文。\n`;
 }

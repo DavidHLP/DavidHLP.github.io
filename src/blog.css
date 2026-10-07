@@ -1,0 +1,15 @@
+.interactive #blog-static { display: none; }
+html:not(.interactive) #viewport { display: none; }
+html:not(.interactive) body { overflow: auto; }
+.blog-static { max-width: 960px; margin: 0 auto; padding: 48px 24px; color: #252820; font-family: MiSans, sans-serif; line-height: 1.8; }
+.blog-static header { display: flex; justify-content: space-between; border-bottom: 1px solid #aaa69e; padding-bottom: 20px; }
+.blog-static a { color: inherit; text-underline-offset: 4px; }
+.blog-static h1, .blog-static h2 { font-weight: 500; }
+.blog-static article { padding-top: 24px; }
+.blog-static pre, .blog-body pre { overflow: auto; padding: 16px; background: #d6d2ca; }
+.blog-static img, .blog-body img { max-width: 100%; height: auto; }
+.blog-body h1, .blog-body h2, .blog-body h3 { font-weight: 500; line-height: 1.4; margin: 1.2em 0 .6em; }
+.blog-body a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.blog-body blockquote { border-left: 2px solid currentColor; margin-left: 0; padding-left: 18px; }
+.blog-body table { border-collapse: collapse; width: 100%; }
+.blog-body th, .blog-body td { padding: 8px; border-bottom: 1px solid #aaa69e; }

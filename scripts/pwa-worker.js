@@ -19,10 +19,10 @@ self.addEventListener("install", event => {
         while (next < urls.length) {
           const url = urls[next++];
           const immutable = /\/fonts\/misans-webfont-4\.3\.1\//.test(url) || /\/assets\/archive-(cassette|assembly)\.[a-f0-9]{16}\.glb$/.test(url);
-          if (url === index) {
+          if (url.endsWith("/index.html")) {
             // Pages redirects index.html to the directory URL. Keep the release's
             // cache key, but fetch the canonical page without a followed redirect.
-            const response = await fetch(new Request(self.registration.scope, { cache: "no-cache" }));
+            const response = await fetch(new Request(url.slice(0, -"index.html".length), { cache: "no-cache" }));
             if (!response.ok) throw new Error(`Homepage download failed: ${response.status}`);
             await cache.put(url, response);
           } else {
@@ -55,9 +55,10 @@ self.addEventListener("fetch", event => {
   if (url.origin !== self.location.origin) return;
   url.search = "";
   url.hash = "";
-  const navigation = event.request.mode === "navigate" &&
-    (url.href === self.registration.scope || url.href === index);
-  const key = navigation ? index : url.href;
+  const navigation = event.request.mode === "navigate";
+  const key = navigation && !url.pathname.endsWith(".html")
+    ? url.href.replace(/\/?$/, "/") + "index.html"
+    : url.href;
   if (!allowed.has(key)) return;
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);

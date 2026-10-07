@@ -1,4 +1,5 @@
 {
+  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
@@ -11,5 +12,6 @@
     "allowImportingTsExtensions": true,
     "useDefineForClassFields": true
   },
-  "include": ["src"]
+  "include": [".astro/types.d.ts", "src", "astro.config.ts"],
+  "exclude": ["dist", "release"]
 }
