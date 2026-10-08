@@ -1,0 +1,71 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import site from "../../content/site.json";
+import { getPosts, postPath } from "../lib/blog";
+import "../blog.css";
+
+interface Props { post?: CollectionEntry<"blog"> }
+const { post } = Astro.props;
+const posts = await getPosts();
+// ponytail: every route carries all bodies for instant archive switching; fetch bodies on demand if the collection grows large.
+const rendered = await Promise.all(posts.map(async entry => ({ entry, ...await render(entry) })));
+const records = posts.map(entry => ({ ...entry.data, id: entry.data.archiveId, slug: entry.id, body: entry.body }));
+const payload = JSON.stringify({ records, categories: site.categories, columns: site.columns })
+  .replace(/</g, "\\u003c");
+const title = post ? `${post.data.title} · ${site.title}` : site.title;
+const description = post?.data.abstract ?? site.description;
+const canonical = new URL(post ? postPath(post.id) : "/", Astro.site);
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#e8e5e1" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Rhine Lab" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="description" content={description} />
+    <meta name="author" content={post?.data.lead ?? site.author} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={post ? "article" : "website"} />
+    <meta property="og:url" content={canonical} />
+    {post && <meta property="article:published_time" content={post.data.pubDate.toISOString()} />}
+    {post?.data.updatedDate && <meta property="article:modified_time" content={post.data.updatedDate.toISOString()} />}
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body data-post={post?.id} data-site-title={site.title} data-site-description={site.description} data-site-url={Astro.site}>
+    <main id="viewport"><div id="stage"></div></main>
+    <div id="blog-static" class="blog-static">
+      <header><a href="/">{site.title}</a> <a href="/rss.xml">RSS ↗</a></header>
+      {post ? <article>
+        <div class="detail-kicker">FILE {post.data.archiveId} / {post.data.category}</div>
+        <h1>{post.data.title}</h1>
+        <p>{post.data.en}</p>
+        <p><time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10)}</time> / {post.data.lead}</p>
+        {rendered.filter(item => item.entry.id === post.id).map(({ Content }) => <Content />)}
+        <h2>研究记录</h2><ol>{post.data.findings.map(finding => <li>{finding}</li>)}</ol>
+        <p><a href={post.data.source} rel="noopener">设定参考 ↗</a></p>
+      </article> : <section>
+        <h1>{site.title}</h1><p>{site.description}</p>
+        {site.columns.map(column => <section><h2>{column}</h2><ul>
+          {posts.filter(entry => entry.data.category === column).map(entry => <li>
+            <a href={postPath(entry.id)}>{entry.data.title}</a> — {entry.data.abstract}
+          </li>)}
+        </ul></section>)}
+      </section>}
+    </div>
+    {rendered.map(({ entry, Content }) => <template data-blog-body={entry.id}><Content /></template>)}
+    <script id="blog-data" type="application/json" is:inline set:html={payload}></script>
+    <script>
+      import "../main";
+    </script>
+  </body>
+</html>

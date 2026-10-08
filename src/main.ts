@@ -13,6 +13,7 @@ import "./quality-settings.css";
 import "./responsive.css";
 import { viewportLayout, openingLayout } from "./viewport-layout";
 import { assetUrl } from "./asset-url";
+import { postPath } from "./blog-path";
 import { initPwa, pwaSettingsMarkup } from "./pwa";
 import { createRollingNumber, createRollingText } from "@kitlangton/rolling-number";
 import { ArchiveScene } from "./scene";
@@ -58,6 +59,8 @@ let wallpaperEffects: WallpaperEffects | undefined;
 
 const $ = <T extends HTMLElement = HTMLElement>(selector: string) =>
   document.querySelector<T>(selector)!;
+document.documentElement.classList.add("interactive");
+document.querySelector("#blog-static")?.setAttribute("aria-hidden", "true");
 import { logo, brandHeading } from "./brand";
 
 $("#stage").innerHTML = `
@@ -143,6 +146,7 @@ const detailTransition = new SurfaceTransition($("#detail-ui"), undefined, 180, 
 const tabTransition = new ContentTransition();
 let modalTransition: SurfaceTransition | undefined;
 let modalClosing = false;
+let pendingModalAction: (() => void) | undefined;
 let modalSiblings: { node: HTMLElement; inert: boolean }[] = [];
 let pendingDetailFocus = false;
 let bookmarkFeedback: Animation | undefined;
@@ -355,7 +359,7 @@ $("#file-ticks").innerHTML = columnFiles(fileLocation(selected).lane)
     (index) => `<button data-select="${index}"></button>`,
   )
   .join("");
-const fileTicks = [...$("#file-ticks").querySelectorAll<HTMLButtonElement>("button")];
+let fileTicks = [...$("#file-ticks").querySelectorAll<HTMLButtonElement>("button")];
 
 function setMode(next: Mode) {
   if (workbench?.enabled && next === "detail") next = "archive";
@@ -368,6 +372,7 @@ function setMode(next: Mode) {
   }
   if (next === "detail" && mode !== "detail") recordAccess();
   mode = next;
+  if (started && (next === "detail" || next === "archive")) syncBlogRoute(next);
   syncWallpaperBackground();
   audio.setScene(next);
   if (next !== "boot" && audioPreview) {
@@ -470,6 +475,10 @@ function updateSelection(navigation?: ArchiveNavigation) {
   columnTitle.update({ text: archiveColumns[lane], animated: motionActive("rollingText") && mode === "archive" });
   $<HTMLButtonElement>('[data-action="column-prev"]').disabled = false;
   $<HTMLButtonElement>('[data-action="column-next"]').disabled = false;
+  if (fileTicks.length !== files.length) {
+    $("#file-ticks").innerHTML = files.map(() => "<button></button>").join("");
+    fileTicks = [...$("#file-ticks").querySelectorAll<HTMLButtonElement>("button")];
+  }
   fileTicks.forEach((button, slot) => {
     const index = files[slot], record = records[index];
     button.dataset.select = String(index);
@@ -495,6 +504,34 @@ function replayBootAfterModal(forcePreview: boolean) {
   updateSelection();
   if (!forcePreview) audio.play("ui-tick");
 }
+let restoringBlogRoute = false;
+function syncBlogRoute(next: "archive" | "detail") {
+  if (!document.getElementById("blog-data") || restoringBlogRoute) return;
+  const record = next === "detail" ? records[selected] : undefined;
+  const path = record?.slug ? postPath(record.slug) : "/";
+  if (location.pathname !== path) history.pushState(null, "", path + location.search);
+  document.title = record ? `${record.title} · ${document.body.dataset.siteTitle}` : document.body.dataset.siteTitle!;
+  const canonical = new URL(path, document.body.dataset.siteUrl).href;
+  document.querySelector<HTMLLinkElement>('link[rel="canonical"]')!.href = canonical;
+  const description = record?.abstract ?? document.body.dataset.siteDescription!;
+  document.querySelector<HTMLMetaElement>('meta[name="description"]')!.content = description;
+  document.querySelector<HTMLMetaElement>('meta[property="og:title"]')!.content = document.title;
+  document.querySelector<HTMLMetaElement>('meta[property="og:description"]')!.content = description;
+  document.querySelector<HTMLMetaElement>('meta[property="og:url"]')!.content = canonical;
+  document.querySelector<HTMLMetaElement>('meta[property="og:type"]')!.content = record ? "article" : "website";
+}
+window.addEventListener("popstate", () => {
+  if (!ready || !started || !document.getElementById("blog-data")) return;
+  const index = records.findIndex(record => record.slug && postPath(record.slug) === location.pathname);
+  restoringBlogRoute = true;
+  closeModal(() => {
+    viewer?.close();
+    if (index >= 0) { select(index); setMode("detail"); }
+    else setMode("archive");
+    restoringBlogRoute = false;
+    syncBlogRoute(index >= 0 ? "detail" : "archive");
+  });
+});
 function openFile() {
   if (!ready) return;
   closeModal(() => {
@@ -542,6 +579,10 @@ function renderDetail() {
   setTab(activeTab, false);
 }
 function overview() {
+  const slug = records[selected].slug;
+  const template = [...document.querySelectorAll<HTMLTemplateElement>("template[data-blog-body]")]
+    .find(element => element.dataset.blogBody === slug);
+  if (template) return `<div class="panel-label">ABSTRACT / 摘要</div><div class="blog-body">${template.innerHTML}</div>`;
   return `<div class="panel-label">ABSTRACT / 摘要</div><p>${escapeHtml(records[selected].abstract)}</p>`;
 }
 function setTab(tab: string, sound = true) {
@@ -609,6 +650,7 @@ function closeModal(afterClose?: () => void) {
     afterClose?.();
     return;
   }
+  pendingModalAction = afterClose;
   if (modalClosing) return;
   modalClosing = true;
   audio.play("page-close");
@@ -622,7 +664,9 @@ function closeModal(afterClose?: () => void) {
     $("#archive-ui").inert = mode !== "archive" || Boolean(workbench?.enabled);
     $("#detail-ui").inert = mode !== "detail";
     previousFocus?.focus({ preventScroll: true });
-    afterClose?.();
+    const action = pendingModalAction;
+    pendingModalAction = undefined;
+    action?.();
   });
 }
 function renderModal() {
@@ -657,7 +701,7 @@ function renderResults() {
       ({ r }) =>
         (modal !== "saved" || saved.has(r.id)) &&
         (filter === "全部档案" || r.category === filter) &&
-        `${r.id} ${r.title} ${r.en} ${r.department} ${r.lead}`
+        `${r.id} ${r.title} ${r.en} ${r.department} ${r.lead} ${r.body ?? r.abstract} ${r.tags?.join(" ") ?? ""}`
           .toLowerCase()
           .includes(searchQuery.toLowerCase()),
     );
@@ -1164,7 +1208,7 @@ async function start() {
     if (scene) bindScene(scene);
     savePrefs();
     ready = true;
-    select(0);
+    select(Math.max(0, records.findIndex(record => record.slug && postPath(record.slug) === location.pathname)));
     if (entry) entry.ready();
     else {
       if (isWallpaper) {
@@ -1193,8 +1237,12 @@ function completeStartup(silent: boolean) {
   bootStart = performance.now() / 1000 - (reviewParams.has("time") ? Number(reviewParams.get("time")) : 1.76);
   if (!reviewParams.has("time")) bootStart += fade / 1000;
   setMode("boot");
-  if (reviewParams.get("scene") === "archive" || (!motionActive("boot") && !reviewParams.has("time"))) setMode("archive");
-  if (reviewParams.get("scene") === "detail") setMode("detail");
+  const linkedPost = records.findIndex(record => record.slug && postPath(record.slug) === location.pathname);
+  if (linkedPost >= 0) { select(linkedPost); setMode("detail"); }
+  else {
+    if (reviewParams.get("scene") === "archive" || (!motionActive("boot") && !reviewParams.has("time"))) setMode("archive");
+    if (reviewParams.get("scene") === "detail") setMode("detail");
+  }
   if (isWallpaper && wallpaperHost()?.properties.boot?.value === false) setMode("archive");
   $("#stage").inert = false;
   $(".mobile-entry").inert = false;
@@ -1334,4 +1382,3 @@ Object.assign(window, {
   },
 });
 if (import.meta.hot) import.meta.hot.dispose(() => audio.dispose());
-

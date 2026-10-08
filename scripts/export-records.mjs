@@ -12,4 +12,9 @@ for (const record of records) {
     "utf8",
   );
 }
+const published = new Set(records.map(record => `RHINE-LAB-${record.id}.txt`));
+for (const name of await fs.readdir(output)) {
+  if (/^RHINE-LAB-X-\d+\.txt$/.test(name) && !published.has(name))
+    await fs.unlink(new URL(name, output));
+}
 console.log(`Prepared ${records.length} downloadable archive records.`);

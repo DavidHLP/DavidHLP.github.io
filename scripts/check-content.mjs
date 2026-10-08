@@ -1,16 +1,20 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
+import { runInNewContext } from "node:vm";
 import {
   loadContent,
   validateContent,
   archiveText,
 } from "./archive-content.mjs";
 import { escapeHtml } from "../src/html.ts";
+import { postPath } from "../src/blog-path.ts";
 
-const content = await loadContent();
-test("all forty downloads match the shared content, including the UTF-8 BOM", async () => {
-  for (const record of content.records) {
+const published = await loadContent();
+// Fixed video-fixture constraints must not constrain the editable blog.
+const content = JSON.parse(await readFile(new URL("../content/archives.json", import.meta.url), "utf8"));
+test("all migrated downloads match the Markdown content, including the UTF-8 BOM", async () => {
+  for (const record of published.records) {
     assert.equal(
       (
         await readFile(
@@ -23,6 +27,51 @@ test("all forty downloads match the shared content, including the UTF-8 BOM", as
       ).replace(/\r\n/g, "\n"),
       archiveText(record),
     );
+  }
+});
+test("blog allows new stable IDs and unequal column sizes while rejecting empty columns", () => {
+  const edited = structuredClone(content);
+  edited.records.push({ ...edited.records[0], id: "X-041" });
+  assert.equal(validateContent(edited, { blog: true }), edited);
+  edited.records = edited.records.filter(record => record.category !== edited.columns[0]);
+  assert.throws(() => validateContent(edited, { blog: true }), /至少需要一篇/);
+});
+test("article URLs encode Chinese and nested names like browser pathnames", () => {
+  assert.equal(postPath("研究/hello world"), "/blog/%E7%A0%94%E7%A9%B6/hello%20world/");
+  assert.equal(postPath("x-006"), "/blog/x-006/");
+});
+test("offline navigation resolves article directories and RSS from the same release", async () => {
+  const scope = "https://blog.example/";
+  const files = ["index.html", "blog/x-001/index.html", "rss.xml"];
+  const handlers = {};
+  let matched;
+  const worker = (await readFile(new URL("./pwa-worker.js", import.meta.url), "utf8"))
+    .replace("__CACHE_VERSION__", JSON.stringify("test-release"))
+    .replace("__PRECACHE_FILES__", JSON.stringify(files));
+  runInNewContext(worker, {
+    URL, Response,
+    self: {
+      registration: { scope }, location: { origin: new URL(scope).origin },
+      addEventListener: (name, handler) => { handlers[name] = handler; },
+    },
+    caches: { open: async () => ({ match: async key => {
+      matched = key;
+      return new Response("cached release");
+    } }) },
+    fetch: () => { throw new Error("Offline navigation unexpectedly used the network"); },
+  });
+  for (const [path, file] of [
+    ["/", "index.html"], ["/blog/x-001/", "blog/x-001/index.html"],
+    ["/blog/x-001", "blog/x-001/index.html"], ["/rss.xml", "rss.xml"],
+  ]) {
+    let response;
+    handlers.fetch({
+      request: { method: "GET", mode: "navigate", url: new URL(path, scope).href },
+      respondWith: promise => { response = promise; },
+    });
+    assert.ok(response, `Offline response missing for ${path}`);
+    assert.equal(await (await response).text(), "cached release");
+    assert.equal(matched, new URL(file, scope).href);
   }
 });
 
