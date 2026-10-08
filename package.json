@@ -13,11 +13,11 @@
     "check:content": "node --experimental-strip-types --test scripts/check-content.mjs",
     "check:viewport": "node --experimental-strip-types scripts/check-viewport.mjs",
     "review:mobile": "node scripts/serve-mobile-review.mjs",
+    "review:reference": "vite --host 127.0.0.1",
     "export:archives": "node scripts/export-records.mjs",
     "check": "astro check",
     "build": "astro check && astro build && node scripts/build-pwa.mjs",
     "build:cloudflare": "npm run build && node scripts/package-cloudflare.mjs",
-    "build:wallpaper": "node scripts/patch-rolling-number.mjs && node scripts/export-records.mjs && tsc && vite build --mode wallpaper --outDir release/wallpaper && node scripts/build-wallpaper.mjs",
     "format": "prettier --write src scripts content astro.config.ts package.json tsconfig.json",
     "preview": "astro preview --host 127.0.0.1"
   },
@@ -30,6 +30,7 @@
     "three": "^0.183.0"
   },
   "devDependencies": {
+    "prettier-plugin-astro": "1.1.0",
     "@astrojs/check": "0.9.10",
     "@types/three": "^0.183.0",
     "prettier": "^3.9.6",

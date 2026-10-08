@@ -14,6 +14,7 @@ export interface ArchiveRecord {
   source: string;
   slug?: string;
   body?: string;
+  tags?: string[];
 }
 
 // Reference tools and Node checks retain the original video fixture.

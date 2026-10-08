@@ -696,7 +696,7 @@ function renderResults() {
       ({ r }) =>
         (modal !== "saved" || saved.has(r.id)) &&
         (filter === "全部档案" || r.category === filter) &&
-        `${r.id} ${r.title} ${r.en} ${r.department} ${r.lead}`
+        `${r.id} ${r.title} ${r.en} ${r.department} ${r.lead} ${r.body ?? r.abstract} ${r.tags?.join(" ") ?? ""}`
           .toLowerCase()
           .includes(searchQuery.toLowerCase()),
     );

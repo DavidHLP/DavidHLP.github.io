@@ -8,9 +8,11 @@ import {
 } from "./archive-content.mjs";
 import { escapeHtml } from "../src/html.ts";
 
-const content = await loadContent();
+const published = await loadContent();
+// Fixed video-fixture constraints must not constrain the editable blog.
+const content = JSON.parse(await readFile(new URL("../content/archives.json", import.meta.url), "utf8"));
 test("all migrated downloads match the Markdown content, including the UTF-8 BOM", async () => {
-  for (const record of content.records) {
+  for (const record of published.records) {
     assert.equal(
       (
         await readFile(

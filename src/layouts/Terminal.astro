@@ -28,11 +28,13 @@ const canonical = new URL(post ? postPath(post.id) : "/", Astro.site);
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
     <meta name="description" content={description} />
+    <meta name="author" content={post?.data.lead ?? site.author} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={post ? "article" : "website"} />
     <meta property="og:url" content={canonical} />
     {post && <meta property="article:published_time" content={post.data.pubDate.toISOString()} />}
+    {post?.data.updatedDate && <meta property="article:modified_time" content={post.data.updatedDate.toISOString()} />}
     <link rel="canonical" href={canonical} />
     <link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
     <title>{title}</title>
