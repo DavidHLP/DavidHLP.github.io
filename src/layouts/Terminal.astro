@@ -7,6 +7,7 @@ import "../blog.css";
 interface Props { post?: CollectionEntry<"blog"> }
 const { post } = Astro.props;
 const posts = await getPosts();
+// ponytail: every route carries all bodies for instant archive switching; fetch bodies on demand if the collection grows large.
 const rendered = await Promise.all(posts.map(async entry => ({ entry, ...await render(entry) })));
 const records = posts.map(entry => ({ ...entry.data, id: entry.data.archiveId, slug: entry.id, body: entry.body }));
 const payload = JSON.stringify({ records, categories: site.categories, columns: site.columns })

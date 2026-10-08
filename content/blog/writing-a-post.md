@@ -4,7 +4,7 @@ title: 开始写作
 en: START WRITING
 category: 机构档案
 department: 写作工作室
-date: 2026
+date: "2026"
 lead: Rhine Lab
 clearance: PUBLIC
 abstract: 复制这篇草稿，开始发布自己的博客文章。

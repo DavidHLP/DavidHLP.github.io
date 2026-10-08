@@ -29,7 +29,7 @@ title: 我的第一篇文章
 en: FIRST RESEARCH NOTE
 category: 机构档案
 department: 写作工作室
-date: 2026
+date: "2026"
 lead: 作者名称
 clearance: PUBLIC
 abstract: 用于检索、SEO 和订阅的简短摘要。
