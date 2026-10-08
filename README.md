@@ -63,9 +63,6 @@ draft: false
 | `src/layouts/Terminal.astro` | 页面元数据、静态正文、原生客户端入口 |
 | `src/main.ts` | 原有终端交互与文章地址同步 |
 | `src/scene.ts`、`src/model-viewer.ts` | 保留的 Three.js 场景 |
-| `content/archives.json` | 原片复核与 Node 检查用历史夹具，不是博客内容源 |
-| `reference/`、`verification/` | 原视觉对照、验证与历史记录 |
-| `art/` | Blender 源工程与可复现脚本 |
 
 ## 验证与部署
 
@@ -78,10 +75,8 @@ npm run build
 
 PWA 离线包包含首页、全部已发布文章、RSS、模型、字体和 TXT。新版本仍由用户选择更新，保留收藏与偏好。静态主机应对页面、RSS、Service Worker 使用重新验证策略；模型和字体保留已有缓存规则。
 
-`npm run build:cloudflare` 生成 Pages 静态发行包。模板可直接部署 `dist/`，或使用 `release/cloudflare/` 中的发行目录；没有 Novecento 授权包时沿用原固定字形图形。原官方网站工程仍强制校验完整许可字体，已有授权包均保留校验，不要将授权包提交到 Git。原站托管记录见 [Cloudflare 部署说明](docs/CLOUDFLARE-DEPLOYMENT.md)。
+`npm run build:cloudflare` 生成 Pages 静态发行包。模板可直接部署 `dist/`，或使用 `release/cloudflare/` 中的发行目录；没有 Novecento 授权包时沿用原固定字形图形。已有授权包保留校验，不要将授权包提交到 Git。构建配置见 [部署说明](docs/CLOUDFLARE-DEPLOYMENT.md)。
 
 ## 视觉与来源
 
-继续采用原生实现，不引入前端组件框架或更换视觉主题。三维资产、MiSans、音频及来源署名沿用原项目，详见 [LICENSE](LICENSE)、[字体来源](public/fonts/)、[设计规范](DESIGN.md)。参考视频只用于分析与验证，不作为页面背景。
-
-原交互的历史验证见 `verification/`；本次迁移结果见 [Astro 迁移验证](verification/ASTRO-BLOG.md)。这些记录不代表所有浏览器或真实 iPhone 已经通过本次迁移验收。
+继续采用原生实现，不引入前端组件框架或更换视觉主题。三维资产、MiSans、音频及来源署名沿用原项目，详见 [LICENSE](LICENSE)、[字体来源](public/fonts/)、[音频来源](public/audio/README.md) 和 [网页优化贡献署名](PR15-ATTRIBUTION.md)。运行模型、字体和音频保持原样；旧实验、参考素材和美术源工程可从 Git 历史查看。
