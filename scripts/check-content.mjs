@@ -7,6 +7,7 @@ import {
   archiveText,
 } from "./archive-content.mjs";
 import { escapeHtml } from "../src/html.ts";
+import { postPath } from "../src/blog-path.ts";
 
 const published = await loadContent();
 // Fixed video-fixture constraints must not constrain the editable blog.
@@ -33,6 +34,10 @@ test("blog allows new stable IDs and unequal column sizes while rejecting empty 
   assert.equal(validateContent(edited, { blog: true }), edited);
   edited.records = edited.records.filter(record => record.category !== edited.columns[0]);
   assert.throws(() => validateContent(edited, { blog: true }), /至少需要一篇/);
+});
+test("article URLs encode Chinese and nested names like browser pathnames", () => {
+  assert.equal(postPath("研究/hello world"), "/blog/%E7%A0%94%E7%A9%B6/hello%20world/");
+  assert.equal(postPath("x-006"), "/blog/x-006/");
 });
 
 const invalidCases = [

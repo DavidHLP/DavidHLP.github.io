@@ -78,7 +78,7 @@ npm run build
 
 PWA 离线包包含首页、全部已发布文章、RSS、模型、字体和 TXT。新版本仍由用户选择更新，保留收藏与偏好。静态主机应对页面、RSS、Service Worker 使用重新验证策略；模型和字体保留已有缓存规则。
 
-`npm run build:cloudflare` 保留原官方网站的许可字体校验，适用于具备本机授权字体包的官方工程。普通模板用户部署 `dist/` 即可，无需官方字体；没有 Novecento 授权包时沿用原固定字形图形。不要将授权包提交到 Git。原站托管记录见 [Cloudflare 部署说明](docs/CLOUDFLARE-DEPLOYMENT.md)。
+`npm run build:cloudflare` 生成 Pages 静态发行包。模板可直接部署 `dist/`，或使用 `release/cloudflare/` 中的发行目录；没有 Novecento 授权包时沿用原固定字形图形。原官方网站工程仍强制校验完整许可字体，已有授权包均保留校验，不要将授权包提交到 Git。原站托管记录见 [Cloudflare 部署说明](docs/CLOUDFLARE-DEPLOYMENT.md)。
 
 ## 视觉与来源
 

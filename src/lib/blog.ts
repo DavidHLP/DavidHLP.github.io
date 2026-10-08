@@ -10,4 +10,4 @@ export async function getPosts() {
     if (!posts.some(post => post.data.category === column)) throw new Error(`分类“${column}”至少需要一篇已发布文章`);
   return posts;
 }
-export const postPath = (slug: string) => `/blog/${slug}/`;
+export { postPath } from "../blog-path";

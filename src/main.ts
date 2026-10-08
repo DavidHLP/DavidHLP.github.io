@@ -13,6 +13,7 @@ import "./quality-settings.css";
 import "./responsive.css";
 import { viewportLayout, openingLayout } from "./viewport-layout";
 import { assetUrl } from "./asset-url";
+import { postPath } from "./blog-path";
 import { initPwa, pwaSettingsMarkup } from "./pwa";
 import { createRollingNumber, createRollingText } from "@kitlangton/rolling-number";
 import { ArchiveScene } from "./scene";
@@ -145,6 +146,7 @@ const detailTransition = new SurfaceTransition($("#detail-ui"), undefined, 180, 
 const tabTransition = new ContentTransition();
 let modalTransition: SurfaceTransition | undefined;
 let modalClosing = false;
+let pendingModalAction: (() => void) | undefined;
 let modalSiblings: { node: HTMLElement; inert: boolean }[] = [];
 let pendingDetailFocus = false;
 let bookmarkFeedback: Animation | undefined;
@@ -506,7 +508,7 @@ let restoringBlogRoute = false;
 function syncBlogRoute(next: "archive" | "detail") {
   if (!document.getElementById("blog-data") || restoringBlogRoute) return;
   const record = next === "detail" ? records[selected] : undefined;
-  const path = record?.slug ? `/blog/${record.slug}/` : "/";
+  const path = record?.slug ? postPath(record.slug) : "/";
   if (location.pathname !== path) history.pushState(null, "", path + location.search);
   document.title = record ? `${record.title} · ${document.body.dataset.siteTitle}` : document.body.dataset.siteTitle!;
   const canonical = new URL(path, document.body.dataset.siteUrl).href;
@@ -520,7 +522,7 @@ function syncBlogRoute(next: "archive" | "detail") {
 }
 window.addEventListener("popstate", () => {
   if (!ready || !started || !document.getElementById("blog-data")) return;
-  const index = records.findIndex(record => `/blog/${record.slug}/` === location.pathname);
+  const index = records.findIndex(record => record.slug && postPath(record.slug) === location.pathname);
   restoringBlogRoute = true;
   closeModal(() => {
     viewer?.close();
@@ -648,6 +650,7 @@ function closeModal(afterClose?: () => void) {
     afterClose?.();
     return;
   }
+  pendingModalAction = afterClose;
   if (modalClosing) return;
   modalClosing = true;
   audio.play("page-close");
@@ -661,7 +664,9 @@ function closeModal(afterClose?: () => void) {
     $("#archive-ui").inert = mode !== "archive" || Boolean(workbench?.enabled);
     $("#detail-ui").inert = mode !== "detail";
     previousFocus?.focus({ preventScroll: true });
-    afterClose?.();
+    const action = pendingModalAction;
+    pendingModalAction = undefined;
+    action?.();
   });
 }
 function renderModal() {
@@ -1203,7 +1208,7 @@ async function start() {
     if (scene) bindScene(scene);
     savePrefs();
     ready = true;
-    select(Math.max(0, records.findIndex(record => record.slug === document.body.dataset.post)));
+    select(Math.max(0, records.findIndex(record => record.slug && postPath(record.slug) === location.pathname)));
     if (entry) entry.ready();
     else {
       if (isWallpaper) {
@@ -1232,7 +1237,8 @@ function completeStartup(silent: boolean) {
   bootStart = performance.now() / 1000 - (reviewParams.has("time") ? Number(reviewParams.get("time")) : 1.76);
   if (!reviewParams.has("time")) bootStart += fade / 1000;
   setMode("boot");
-  if (document.body.dataset.post) setMode("detail");
+  const linkedPost = records.findIndex(record => record.slug && postPath(record.slug) === location.pathname);
+  if (linkedPost >= 0) { select(linkedPost); setMode("detail"); }
   else {
     if (reviewParams.get("scene") === "archive" || (!motionActive("boot") && !reviewParams.has("time"))) setMode("archive");
     if (reviewParams.get("scene") === "detail") setMode("detail");
