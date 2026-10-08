@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
+import { runInNewContext } from "node:vm";
 import {
   loadContent,
   validateContent,
@@ -38,6 +39,40 @@ test("blog allows new stable IDs and unequal column sizes while rejecting empty 
 test("article URLs encode Chinese and nested names like browser pathnames", () => {
   assert.equal(postPath("研究/hello world"), "/blog/%E7%A0%94%E7%A9%B6/hello%20world/");
   assert.equal(postPath("x-006"), "/blog/x-006/");
+});
+test("offline navigation resolves article directories and RSS from the same release", async () => {
+  const scope = "https://blog.example/";
+  const files = ["index.html", "blog/x-001/index.html", "rss.xml"];
+  const handlers = {};
+  let matched;
+  const worker = (await readFile(new URL("./pwa-worker.js", import.meta.url), "utf8"))
+    .replace("__CACHE_VERSION__", JSON.stringify("test-release"))
+    .replace("__PRECACHE_FILES__", JSON.stringify(files));
+  runInNewContext(worker, {
+    URL, Response,
+    self: {
+      registration: { scope }, location: { origin: new URL(scope).origin },
+      addEventListener: (name, handler) => { handlers[name] = handler; },
+    },
+    caches: { open: async () => ({ match: async key => {
+      matched = key;
+      return new Response("cached release");
+    } }) },
+    fetch: () => { throw new Error("Offline navigation unexpectedly used the network"); },
+  });
+  for (const [path, file] of [
+    ["/", "index.html"], ["/blog/x-001/", "blog/x-001/index.html"],
+    ["/blog/x-001", "blog/x-001/index.html"], ["/rss.xml", "rss.xml"],
+  ]) {
+    let response;
+    handlers.fetch({
+      request: { method: "GET", mode: "navigate", url: new URL(path, scope).href },
+      respondWith: promise => { response = promise; },
+    });
+    assert.ok(response, `Offline response missing for ${path}`);
+    assert.equal(await (await response).text(), "cached release");
+    assert.equal(matched, new URL(file, scope).href);
+  }
 });
 
 const invalidCases = [
