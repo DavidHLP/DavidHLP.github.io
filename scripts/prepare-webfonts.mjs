@@ -10,7 +10,7 @@ if (process.env.CF_PAGES === '1' && process.env.CF_PAGES_URL) {
 }
 const officialBuild = officialPagesBuild ||
   process.env.VERCEL_PROJECT_ID === 'prj_KyOQlIfl3qhHkI4SUpiD5tbFTE5w';
-const sources = JSON.parse(await readFile(new URL('../verification/boot-lettering/webfont-sources.json', import.meta.url), 'utf8'));
+const sources = JSON.parse(await readFile(new URL('./webfont-sources.json', import.meta.url), 'utf8'));
 const files = [
   ...Object.entries(sources).map(([weight, source]) => ({
     path: `webFonts/NovecentoSansWide${weight}/font.woff2`, hash: source.sha256,

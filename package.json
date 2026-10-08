@@ -12,8 +12,6 @@
     "prebuild": "node scripts/patch-rolling-number.mjs && node scripts/export-records.mjs && node scripts/prepare-webfonts.mjs",
     "check:content": "node --experimental-strip-types --test scripts/check-content.mjs",
     "check:viewport": "node --experimental-strip-types scripts/check-viewport.mjs",
-    "review:mobile": "node scripts/serve-mobile-review.mjs",
-    "review:reference": "vite --host 127.0.0.1",
     "export:archives": "node scripts/export-records.mjs",
     "check": "astro check",
     "build": "astro check && astro build && node scripts/build-pwa.mjs",
@@ -34,7 +32,6 @@
     "@astrojs/check": "0.9.10",
     "@types/three": "^0.183.0",
     "prettier": "^3.9.6",
-    "typescript": "^5.9.3",
-    "vite": "^7.3.1"
+    "typescript": "^5.9.3"
   }
 }

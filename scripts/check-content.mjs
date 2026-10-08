@@ -11,8 +11,7 @@ import { escapeHtml } from "../src/html.ts";
 import { postPath } from "../src/blog-path.ts";
 
 const published = await loadContent();
-// Fixed video-fixture constraints must not constrain the editable blog.
-const content = JSON.parse(await readFile(new URL("../content/archives.json", import.meta.url), "utf8"));
+const content = published;
 test("all migrated downloads match the Markdown content, including the UTF-8 BOM", async () => {
   for (const record of published.records) {
     assert.equal(
@@ -31,10 +30,12 @@ test("all migrated downloads match the Markdown content, including the UTF-8 BOM
 });
 test("blog allows new stable IDs and unequal column sizes while rejecting empty columns", () => {
   const edited = structuredClone(content);
-  edited.records.push({ ...edited.records[0], id: "X-041" });
-  assert.equal(validateContent(edited, { blog: true }), edited);
+  const id = Math.max(...edited.records.map(record => Number(record.id.slice(2)))) + 1;
+  edited.records.push({ ...edited.records[0], id: `X-${String(id).padStart(3, "0")}` });
+  edited.records.reverse();
+  assert.equal(validateContent(edited), edited);
   edited.records = edited.records.filter(record => record.category !== edited.columns[0]);
-  assert.throws(() => validateContent(edited, { blog: true }), /至少需要一篇/);
+  assert.throws(() => validateContent(edited), /至少需要一篇/);
 });
 test("article URLs encode Chinese and nested names like browser pathnames", () => {
   assert.equal(postPath("研究/hello world"), "/blog/%E7%A0%94%E7%A9%B6/hello%20world/");
@@ -93,16 +94,16 @@ const invalidCases = [
   [
     "duplicate ID",
     (c) => {
-      c.records[1].id = "X-001";
+      c.records[1].id = c.records[0].id;
     },
     /重复编号/,
   ],
   [
-    "reordered ID",
+    "invalid ID",
     (c) => {
-      [c.records[0], c.records[1]] = [c.records[1], c.records[0]];
+      c.records[0].id = "invalid";
     },
-    /X-001/,
+    /至少三位数字/,
   ],
   [
     "unknown category",
@@ -112,18 +113,18 @@ const invalidCases = [
     /未知分类/,
   ],
   [
-    "unbalanced columns",
+    "empty column",
     (c) => {
-      c.records[0].category = c.columns[0];
+      c.records = c.records.filter(record => record.category !== c.columns[0]);
     },
-    /八份档案/,
+    /至少需要一篇/,
   ],
   [
-    "missing record",
+    "empty collection",
     (c) => {
-      c.records.pop();
+      c.records = [];
     },
-    /四十份档案/,
+    /至少需要一篇/,
   ],
   [
     "null record",

@@ -1,5 +1,3 @@
-import referenceContent from "../content/archives.json" with { type: "json" };
-
 export interface ArchiveRecord {
   id: string;
   title: string;
@@ -17,11 +15,8 @@ export interface ArchiveRecord {
   tags?: string[];
 }
 
-// Reference tools and Node checks retain the original video fixture.
-// Astro pages supply the published Markdown collection before this module runs.
-const content = typeof document === "undefined" || !document.getElementById("blog-data")
-  ? referenceContent
-  : JSON.parse(document.getElementById("blog-data")!.textContent!);
+// Astro supplies the published Markdown collection before the client starts.
+const content = JSON.parse(document.getElementById("blog-data")!.textContent!);
 export const records: ArchiveRecord[] = content.records;
 export const categories: string[] = ["全部档案", ...content.categories];
 export const archiveColumns: string[] = content.columns;

@@ -9,7 +9,7 @@ const metadata = JSON.parse(await readFile(resolve(source, 'pwa-build.json'), 'u
 if (!/^[a-f0-9]{16}$/.test(metadata.version)) throw Error('Invalid PWA release version.');
 // Pages Git builds need a stable output path; each hosted build starts clean.
 const output = resolve('release/cloudflare', process.env.CF_PAGES === '1' ? 'site' : metadata.version);
-const fonts = JSON.parse(await readFile('verification/boot-lettering/webfont-sources.json', 'utf8'));
+const fonts = JSON.parse(await readFile(new URL('./webfont-sources.json', import.meta.url), 'utf8'));
 const pagesHost = process.env.CF_PAGES_URL ? new URL(process.env.CF_PAGES_URL).hostname : '';
 const official = pagesHost === 'rhine-lab-ui.pages.dev' || pagesHost.endsWith('.rhine-lab-ui.pages.dev') ||
   process.env.VERCEL_PROJECT_ID === 'prj_KyOQlIfl3qhHkI4SUpiD5tbFTE5w';

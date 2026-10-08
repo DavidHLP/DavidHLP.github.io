@@ -34,7 +34,7 @@
 
 `npm run build` 生成静态站点和带内容版本号的 Service Worker，输出在 `dist`。现有 Vercel 项目沿用 GitHub 自动部署，配置见 `vercel.json`。Service Worker、manifest 与构建清单使用重新验证缓存头。离线功能只在正式构建的 HTTPS 或 localhost 环境注册，`npm run dev` 不注册。
 
-本地验证：运行 `npm run build`，再运行 `npm run preview`。浏览器测试见 `scripts/check-pwa.mjs`，需要本机可用的 Playwright 与 Chrome；可通过 `PLAYWRIGHT_MODULE` 指定已有 Playwright 模块路径。
+验证：在 remote-dev 运行 `npm run build`、`npm run check:content` 和 `npm run check:viewport`，再以 `npm run preview` 提供浏览器预览。内容检查包含实际 Service Worker 的离线首页、文章和 RSS 缓存路径。
 
 `scripts/check-startup-motion.mjs` 验证首次进入跟随浏览器动效偏好，以及本站的完整 / 减少 / 自定义选择、重播和正文解密；`scripts/check-pwa-recovery.mjs` 验证旧版迁移，需要以 `PWA_PREVIOUS_DIST` 指定保留的旧生产构建。两个脚本可设 `REVIEW_CHANNEL=msedge` 验证 Edge。更新恢复页保持网络获取，未加入离线资源清单。
 

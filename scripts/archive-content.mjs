@@ -15,7 +15,7 @@ const requiredFields = [
 ];
 const isText = (value) => typeof value === "string" && value.trim().length > 0;
 
-export function validateContent(content, { blog = false } = {}) {
+export function validateContent(content) {
   const errors = [];
   if (!content || typeof content !== "object" || Array.isArray(content)) {
     throw new Error("档案数据必须是 JSON 对象。");
@@ -39,7 +39,6 @@ export function validateContent(content, { blog = false } = {}) {
     errors.push("categories 与 columns 必须包含相同的五个分类（顺序可以不同）");
   }
   const records = Array.isArray(content.records) ? content.records : [];
-  if (!blog && records.length !== 40) errors.push("records：当前阵列要求四十份档案");
   const ids = new Set();
   records.forEach((record, index) => {
     const label = `records[${index}]`;
@@ -50,10 +49,7 @@ export function validateContent(content, { blog = false } = {}) {
     for (const key of requiredFields) {
       if (!isText(record[key])) errors.push(`${label}.${key}：必须是非空文本`);
     }
-    const expectedId = `X-${String(index + 1).padStart(3, "0")}`;
-    if (!blog && record.id !== expectedId)
-      errors.push(`${label}.id：应为 ${expectedId}，编号须按顺序保持稳定`);
-    if (blog && !/^X-\d{3,}$/.test(record.id)) errors.push(`${label}.id：必须是 X- 加至少三位数字`);
+    if (!/^X-\d{3,}$/.test(record.id)) errors.push(`${label}.id：必须是 X- 加至少三位数字`);
     if (ids.has(record.id)) errors.push(`${label}.id：重复编号 ${record.id}`);
     ids.add(record.id);
     if (!categories.includes(record.category))
@@ -74,9 +70,7 @@ export function validateContent(content, { blog = false } = {}) {
   });
   for (const name of columns) {
     const count = records.filter((record) => record?.category === name).length;
-    if (blog ? count === 0 : count !== 8) {
-      errors.push(blog ? `分类“${name}”：至少需要一篇已发布文章` : `分类“${name}”：当前阵列要求八份档案`);
-    }
+    if (count === 0) errors.push(`分类“${name}”：至少需要一篇已发布文章`);
   }
   if (errors.length)
     throw new Error(`档案数据校验失败：\n- ${errors.join("\n- ")}`);
@@ -97,7 +91,7 @@ export async function loadContent() {
     if (!data.draft) records.push({ ...data, id: data.archiveId, body: body.trim() });
   }
   records.sort((a, b) => Number(a.id?.slice(2)) - Number(b.id?.slice(2)));
-  return validateContent({ categories: site.categories, columns: site.columns, records }, { blog: true });
+  return validateContent({ categories: site.categories, columns: site.columns, records });
 }
 
 export function archiveText(r) {
