@@ -1,0 +1,21 @@
+import site from "../../content/site.json";
+
+export function GET() {
+  return new Response(JSON.stringify({
+    id: "./",
+    name: site.title,
+    short_name: site.title,
+    description: site.description,
+    lang: "zh-CN",
+    start_url: "./?source=pwa",
+    scope: "./",
+    display: "standalone",
+    background_color: "#e8e5e1",
+    theme_color: "#e8e5e1",
+    icons: [
+      { src: "icons/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "icons/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+      { src: "icons/icon-maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+    ],
+  }), { headers: { "Content-Type": "application/manifest+json" } });
+}

@@ -1,15 +1,21 @@
-import { readdir, readFile, writeFile } from "node:fs/promises";
+import { readdir, readFile, writeFile, lstat } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { resolve } from "node:path";
 const root=resolve('dist');
 const all=await readdir(root,{recursive:true});
-const files=all.map(path=>path.replaceAll('\\','/')).filter(path=>
-  path==='index.html'||path==='404.html'||path==='manifest.webmanifest'||path==='favicon.svg'||
-  /^blog\/.*\/index\.html$/.test(path)||/^((rss|sitemap.*)\.xml)$/.test(path)||
-  /^(assets|icons|archives|licenses)\/[^/]+\.[^/]+$/.test(path)||
-  /^fonts\/.*\.(woff2|pdf|txt|json|md)$/.test(path)||
-  /^audio\/(atmosphere|motif|pulse)\.ogg$/.test(path)
-).filter(path=>!/^assets\/archive-(cassette|assembly)\.glb$/.test(path)).sort();
+const files=[];
+for(const entry of all){
+  const path=entry.replaceAll('\\','/');
+  const info=await lstat(resolve(root,path));
+  if(info.isSymbolicLink())throw Error(`Symbolic links are not public release files: ${path}`);
+  if(!info.isFile())continue;
+  // Cache public author resources too; omit updater files and redundant font/model sources.
+  if(/^(sw\.js|pwa-build\.json|update\.html|update\.js|_headers|_redirects)$/.test(path)||
+    /^assets\/archive-(cassette|assembly)\.glb$/.test(path)||
+    (path.startsWith('fonts/')&&!/\.(woff2|pdf|txt|json|md|css)$/.test(path)))continue;
+  files.push(path);
+}
+files.sort();
 if(!files.some(path=>/^assets\/.*\.js$/.test(path)))throw Error('Build the application before generating the offline cache.');
 const worker=await readFile('scripts/pwa-worker.js','utf8');
 const hash=createHash('sha256').update(worker);let bytes=0;

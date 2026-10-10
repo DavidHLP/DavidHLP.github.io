@@ -18,6 +18,8 @@ npm run preview
 
 Astro 生成 `dist/`，可部署至任意静态主机。首页仍是原有三维档案入口；文章位于 `/blog/<文件名>/`，RSS 位于 `/rss.xml`，站点地图位于 `/sitemap-index.xml`。禁用 JavaScript 时可直接阅读静态文章与目录。
 
+交互资源加载失败时，可选择“直接阅读文章”。`?view=static` 使用同一份静态正文，目录与本地文章链接保留纯阅读模式，页首可返回交互界面；正常访问仍保留原开场与三维体验。
+
 ## 写文章
 
 在 `content/blog/` 添加 Markdown 文件。现有 40 篇档案已迁移为示例文章，原编号和分类顺序保持不变；示例统一使用 2026-09-10 作为模板发布日期，并不表示原文的实际发布日期。
@@ -51,6 +53,12 @@ draft: false
 
 正文进入原来的“概述”页签，`findings` 进入“研究记录”。进入详情会更新文章地址，浏览器后退／前进和直接打开文章地址保留选档语义。TXT 导出共用 Markdown 内容；开发中修改文章后执行 `npm run export:archives` 更新下载文件，正式构建自动完成。
 
+交互与静态文章显示发布及可选更新日期。检索可按档案编号或最近发布查看，全文检索数据首次打开检索时加载；加载失败会提示重试。每页仅携带当前文章正文，切档按需读取其他文章，不将全部正文重复打包进每个页面。
+
+文章章节链接使用 `/blog/<文件名>/#<标题ID>`；当前交互正文加载完成后恢复章节位置。图片和附件建议使用站点根路径，例如 `/images/example.png`、`/downloads/note.pdf`，对应文件放在 `public/`；相对链接按当前文章地址解析。Markdown 相对图片按 Astro 的内容源路径解析；相对 public 图片可使用原生 `<img src="../../images/example.png" alt="说明">`。`public/` 的文件始终公开，不受文章 `draft` 控制。
+
+收藏按当前已发布文章计数，撤稿文章的收藏编号仍保留；本地存储不可写时会提示仅本次会话有效。收藏属于当前浏览器，不提供账号或跨设备同步。
+
 ## 配置与结构
 
 | 路径 | 用途 |
@@ -62,6 +70,9 @@ draft: false
 | `src/pages/` | 首页、文章路由、RSS、404 |
 | `src/layouts/Terminal.astro` | 页面元数据、静态正文、原生客户端入口 |
 | `src/main.ts` | 原有终端交互与文章地址同步 |
+| `src/blog-client.ts` | 日期排序、收藏保存、元数据及章节恢复 |
+| `src/pages/blog-search.json.ts` | 全文检索共享数据，正文仅在此存储一份 |
+| `src/pages/manifest.webmanifest.ts` | 从站点配置生成安装名称与描述 |
 | `src/scene.ts`、`src/model-viewer.ts` | 保留的 Three.js 场景 |
 
 ## 验证与部署
@@ -74,6 +85,8 @@ npm run build
 ```
 
 PWA 离线包包含首页、全部已发布文章、RSS、模型、字体和 TXT。新版本仍由用户选择更新，保留收藏与偏好。静态主机应对页面、RSS、Service Worker 使用重新验证策略；模型和字体保留已有缓存规则。
+
+设置面板中提供 RSS 订阅链接。站点标题与描述同时用于页面、订阅源及安装名称；原主题标识、角色文案和资源署名保留。Cloudflare 发行包含完整 `dist/`，作者公开图片与附件也随包发布；离线缓存纳入公开正文资源和检索数据，外部 URL 资源不保证离线可用，具体范围见 [PWA 说明](docs/PWA.md)。
 
 `npm run build:cloudflare` 生成 Pages 静态发行包。模板可直接部署 `dist/`，或使用 `release/cloudflare/` 中的发行目录；没有 Novecento 授权包时沿用原固定字形图形。已有授权包保留校验，不要将授权包提交到 Git。构建配置见 [部署说明](docs/CLOUDFLARE-DEPLOYMENT.md)。
 

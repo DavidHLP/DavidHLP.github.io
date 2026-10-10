@@ -56,7 +56,7 @@ self.addEventListener("fetch", event => {
   url.search = "";
   url.hash = "";
   const navigation = event.request.mode === "navigate";
-  const key = navigation && !allowed.has(url.href) && !url.pathname.endsWith(".html")
+  const key = !allowed.has(url.href) && !url.pathname.endsWith(".html")
     ? url.href.replace(/\/?$/, "/") + "index.html"
     : url.href;
   if (!allowed.has(key)) return;

@@ -14,6 +14,7 @@ import "./responsive.css";
 import { viewportLayout, openingLayout } from "./viewport-layout";
 import { assetUrl } from "./asset-url";
 import { postPath } from "./blog-path";
+import { persistSaved, recentRecords, restoreArticleHash, syncArticleMetadata, visibleSavedCount } from "./blog-client";
 import { initPwa, pwaSettingsMarkup } from "./pwa";
 import { createRollingNumber, createRollingText } from "@kitlangton/rolling-number";
 import { ArchiveScene } from "./scene";
@@ -61,6 +62,7 @@ const $ = <T extends HTMLElement = HTMLElement>(selector: string) =>
   document.querySelector<T>(selector)!;
 document.documentElement.classList.add("interactive");
 document.querySelector("#blog-static")?.setAttribute("aria-hidden", "true");
+document.querySelectorAll("#blog-static [id]").forEach(node => node.removeAttribute("id"));
 import { logo, brandHeading } from "./brand";
 
 $("#stage").innerHTML = `
@@ -120,6 +122,13 @@ let modal: "search" | "saved" | "settings" | null = null,
   searchQuery = "",
   filter = "全部档案";
 let activeTab = "overview";
+let pendingArticleHash = false;
+let searchOrder: "archive" | "recent" = "archive";
+let searchState: "idle" | "loading" | "ready" | "failed" = "idle";
+const articleBodies = new Map<string, string>([...document.querySelectorAll<HTMLTemplateElement>("template[data-blog-body]")]
+  .map(template => [template.dataset.blogBody!, template.innerHTML]));
+const articleRequests = new Map<string, Promise<void>>();
+const articleFailures = new Set<string>();
 const reviewParams = new URLSearchParams(location.search);
 let frozenTime =
   reviewParams.get("freeze") === "1"
@@ -487,7 +496,7 @@ function updateSelection(navigation?: ArchiveNavigation) {
     button.classList.toggle("selected", index === selected);
     button.setAttribute("aria-pressed", String(index === selected));
   });
-  $("#saved-count").textContent = String(saved.size).padStart(2, "0");
+  $("#saved-count").textContent = String(visibleSavedCount(saved, records)).padStart(2, "0");
 }
 function replayBoot(forcePreview = false) {
   if (!ready) return;
@@ -519,6 +528,7 @@ function syncBlogRoute(next: "archive" | "detail") {
   document.querySelector<HTMLMetaElement>('meta[property="og:description"]')!.content = description;
   document.querySelector<HTMLMetaElement>('meta[property="og:url"]')!.content = canonical;
   document.querySelector<HTMLMetaElement>('meta[property="og:type"]')!.content = record ? "article" : "website";
+  syncArticleMetadata(document.head, record, document.body.dataset.siteAuthor!);
 }
 window.addEventListener("popstate", () => {
   if (!ready || !started || !document.getElementById("blog-data")) return;
@@ -532,6 +542,9 @@ window.addEventListener("popstate", () => {
     syncBlogRoute(index >= 0 ? "detail" : "archive");
   });
 });
+window.addEventListener("hashchange", () => {
+  if (started && mode === "detail") setTab("overview", false);
+});
 function openFile() {
   if (!ready) return;
   closeModal(() => {
@@ -543,10 +556,8 @@ function toggleSaved() {
   const id = records[selected].id;
   if (saved.has(id)) saved.delete(id);
   else saved.add(id);
-  try {
-    localStorage.setItem("rhine-saved", JSON.stringify([...saved]));
-  } catch {}
-  $("#saved-count").textContent = String(saved.size).padStart(2, "0");
+  const persisted = persistSaved(saved);
+  $("#saved-count").textContent = String(visibleSavedCount(saved, records)).padStart(2, "0");
   const button = $<HTMLButtonElement>('[data-action="bookmark"]');
   const added = saved.has(id);
   button.firstChild!.textContent = added ? "− REMOVE FROM SAVED" : "＋ SAVE ARCHIVE";
@@ -558,7 +569,7 @@ function toggleSaved() {
     { duration: 220, easing: "ease-out" },
   );
   audio.play("confirm");
-  notify(saved.has(id) ? "档案已加入收藏" : "已取消收藏");
+  notify(persisted ? saved.has(id) ? "档案已加入收藏" : "已取消收藏" : "收藏变更仅本次会话有效，浏览器未能保存");
 }
 function renderDetail() {
   tabTransition.cancel();
@@ -569,6 +580,7 @@ function renderDetail() {
   <h2>${escapeHtml(r.en)}</h2><div class="detail-title-cn">${escapeHtml(r.title)}<span>${escapeHtml(r.category)}</span></div>
   <div class="detail-rule"></div>
   <dl class="metadata"><div><dt>DEPARTMENT / 科室</dt><dd>${escapeHtml(r.department)}</dd></div><div><dt>COLLECTION / 编目范围</dt><dd>${escapeHtml(r.date)}</dd></div><div><dt>RELATED / 相关人物</dt><dd>${escapeHtml(r.lead)}</dd></div><div><dt>STATUS / 状态</dt><dd><i></i>${r.clearance === "RESTRICTED" ? "目录访问" : "已归档 · 可读取"}</dd></div></dl>
+  <p class="blog-dates">发布 <time datetime="${escapeHtml(r.pubDate)}">${escapeHtml(r.pubDate.slice(0, 10))}</time>${r.updatedDate ? ` / 更新 <time datetime="${escapeHtml(r.updatedDate)}">${escapeHtml(r.updatedDate.slice(0, 10))}</time>` : ""}</p>
   <div class="detail-tabs" role="tablist"><button id="tab-overview" class="active" role="tab" aria-controls="tab-panel" aria-selected="true" data-tab="overview">01 <span>概述</span></button><button id="tab-notes" role="tab" aria-controls="tab-panel" aria-selected="false" data-tab="notes">02 <span>研究记录</span></button><button id="tab-history" role="tab" aria-controls="tab-panel" aria-selected="false" data-tab="history">03 <span>访问日志</span></button><i class="tab-indicator" aria-hidden="true"></i></div>
   <div id="tab-panel" class="tab-panel" role="tabpanel">${overview()}</div>
   <div class="detail-actions"><button class="solid-button" data-action="bookmark">${saved.has(r.id) ? "− REMOVE FROM SAVED" : "＋ SAVE ARCHIVE"}<span>${saved.has(r.id) ? "已收藏" : "收藏档案"}</span></button><a class="export-button" href="${assetUrl(`archives/RHINE-LAB-${r.id}.txt`)}" download="RHINE-LAB-${r.id}.txt" aria-label="导出 ${r.id} 档案">EXPORT <span>↓</span></a></div>
@@ -577,13 +589,39 @@ function renderDetail() {
   $('[data-action="bookmark"]').setAttribute("aria-pressed", String(saved.has(r.id)));
   documentDecryption.reset($("#detail-content"), !motionActive("documentReveal") || !scene || scene.decryptionFrame.phase === "clear");
   setTab(activeTab, false);
+  void ensureArticleBody(r);
 }
 function overview() {
-  const slug = records[selected].slug;
-  const template = [...document.querySelectorAll<HTMLTemplateElement>("template[data-blog-body]")]
-    .find(element => element.dataset.blogBody === slug);
-  if (template) return `<div class="panel-label">ABSTRACT / 摘要</div><div class="blog-body">${template.innerHTML}</div>`;
-  return `<div class="panel-label">ABSTRACT / 摘要</div><p>${escapeHtml(records[selected].abstract)}</p>`;
+  const record = records[selected];
+  const body = articleBodies.get(record.slug!);
+  if (body !== undefined) return `<div class="panel-label">ARTICLE / 正文</div><div class="blog-body">${body}</div>`;
+  const failed = articleFailures.has(record.slug!);
+  return `<div class="panel-label">ARTICLE / 正文</div><p role="status">${failed ? "正文暂未加载，请重试或直接阅读静态文章。" : "正在加载正文…"}</p>${failed ? `<button data-action="retry-article">重试加载 ↻</button> <a href="${postPath(record.slug!)}?view=static${escapeHtml(location.hash)}">直接阅读文章 ↗</a>` : ""}`;
+}
+async function ensureArticleBody(record: typeof records[number]) {
+  const slug = record.slug!;
+  if (articleBodies.has(slug)) return;
+  if (articleRequests.has(slug)) return articleRequests.get(slug);
+  articleFailures.delete(slug);
+  const request = (async () => {
+    try {
+      const response = await fetch(postPath(slug));
+      if (!response.ok) throw new Error(`Article download failed: ${response.status}`);
+      const page = new DOMParser().parseFromString(await response.text(), "text/html");
+      const template = [...page.querySelectorAll<HTMLTemplateElement>("template[data-blog-body]")]
+        .find(node => node.dataset.blogBody === slug);
+      if (!template) throw new Error("Article body missing from response");
+      articleBodies.set(slug, template.innerHTML);
+    } catch (error) {
+      articleFailures.add(slug);
+      console.error(error);
+    } finally {
+      articleRequests.delete(slug);
+      if (mode === "detail" && records[selected].id === record.id && activeTab === "overview") setTab("overview", false);
+    }
+  })();
+  articleRequests.set(slug, request);
+  return request;
 }
 function setTab(tab: string, sound = true) {
   if (sound && tab === activeTab) return;
@@ -616,6 +654,7 @@ function setTab(tab: string, sound = true) {
               "",
             )}<p class="log-note">本次会话已通过身份验证。档案内容以当前终端可访问范围展示。</p>`;
   $("#tab-panel").scrollTop = 0;
+  pendingArticleHash = tab === "overview" && Boolean(location.hash);
   documentDecryption.refresh();
   if (sound) {
     tabTransition.reveal($("#tab-panel"), !motionActive("surfaceTransitions"));
@@ -644,6 +683,7 @@ function openModal(kind: NonNullable<typeof modal>) {
   filter = "全部档案";
   audio.play("page-open");
   renderModal();
+  if (kind !== "settings") void ensureSearchText();
 }
 function closeModal(afterClose?: () => void) {
   if (!modal) {
@@ -675,6 +715,9 @@ function renderModal() {
   $("#modal-root").innerHTML =
     `<div class="modal-backdrop"><section class="terminal-modal ${modal === "settings" ? "settings-modal" : ""}" role="dialog" aria-modal="true" aria-label="${modal === "settings" ? "系统设置" : modal === "saved" ? "收藏档案" : "档案检索"}"><div class="modal-top"><span>RHINE LAB / ${modal === "settings" ? "SYSTEM PREFERENCES" : "ARCHIVE DIRECTORY"}</span><button data-action="close-modal" aria-label="关闭窗口">CLOSE <span>×</span></button></div>${modal === "settings" ? settingsMarkup() : `<h2>${modal === "saved" ? "SAVED ARCHIVES" : "ARCHIVE INDEX"}<small>${modal === "saved" ? "收藏档案" : "内部档案检索"}</small></h2><div class="search-field"><span>⌕</span><input id="archive-search" type="search" autocomplete="off" placeholder="输入档案编号、名称或科室" aria-label="检索档案"/><span class="key">ESC</span></div><div class="category-filters">${categories.map((c, i) => `<button data-filter="${escapeHtml(c)}" class="${i === 0 ? "active" : ""}">${escapeHtml(c)}</button>`).join("")}</div><div class="result-header"><span>FILE / 档案</span><span>DEPARTMENT / 科室</span><span>ACCESS</span></div><div id="search-results" class="search-results"></div><div class="modal-bottom"><span id="result-count"></span><span>INTERNAL DATABASE <i>●</i> CONNECTED</span></div>`}</section></div>`;
   const backdrop = $(".modal-backdrop");
+  if (modal === "settings") $(".settings-bottom").insertAdjacentHTML("beforeend", '<a href="/rss.xml" aria-label="订阅博客 RSS">RSS 订阅 ↗</a>');
+  if (modal !== "settings") $(".search-field").insertAdjacentHTML("afterend",
+    `<div class="category-filters" role="group" aria-label="文章排序"><button data-search-order="archive" class="${searchOrder === "archive" ? "active" : ""}" aria-pressed="${searchOrder === "archive"}">档案编号</button><button data-search-order="recent" class="${searchOrder === "recent" ? "active" : ""}" aria-pressed="${searchOrder === "recent"}">最近发布</button></div>`);
   backdrop.hidden = true;
   modalTransition = new SurfaceTransition(backdrop, $(".terminal-modal"));
   modalTransition.show(!motionActive("surfaceTransitions"));
@@ -695,8 +738,15 @@ function renderModal() {
     });
 }
 function renderResults() {
-  const results = records
-    .map((r, i) => ({ r, i }))
+  if (searchQuery && searchState !== "ready") {
+    $("#search-results").innerHTML = searchState === "failed"
+      ? '<div class="empty-results"><strong>全文检索暂不可用</strong><p>检索数据未能加载，请联网重试。</p><button data-action="retry-search">重试加载 ↻</button></div>'
+      : '<p role="status">正在加载全文检索数据…</p>';
+    $("#result-count").textContent = searchState === "failed" ? "SEARCH UNAVAILABLE" : "LOADING SEARCH";
+    return;
+  }
+  let results = records
+    .map((r, i) => ({ r, i, pubDate: r.pubDate }))
     .filter(
       ({ r }) =>
         (modal !== "saved" || saved.has(r.id)) &&
@@ -705,6 +755,7 @@ function renderResults() {
           .toLowerCase()
           .includes(searchQuery.toLowerCase()),
     );
+  if (searchOrder === "recent") results = recentRecords(results);
   $("#search-results").innerHTML = results.length
     ? results
         .map(
@@ -715,6 +766,24 @@ function renderResults() {
     : `<div class="empty-results"><span>∅</span><strong>${modal === "saved" && !searchQuery ? "尚无收藏档案" : "没有匹配的档案"}</strong><p>${modal === "saved" && !searchQuery ? "读取档案时，选择 SAVE ARCHIVE 将其保存在此处。" : "尝试其他名称、档案编号，或切换科室分类。"}</p><button data-action="reset-search">${modal === "saved" ? "查看全部档案 →" : "重置检索 →"}</button></div>`;
   $("#result-count").textContent =
     `${String(results.length).padStart(2, "0")} RECORDS FOUND`;
+}
+async function ensureSearchText() {
+  if (searchState === "loading" || searchState === "ready") return;
+  searchState = "loading";
+  if (modal && modal !== "settings") renderResults();
+  try {
+    const response = await fetch("/blog-search.json");
+    if (!response.ok) throw new Error(`Search download failed: ${response.status}`);
+    const text = await response.json();
+    if (!text || typeof text !== "object" || records.some(record => typeof text[record.id] !== "string"))
+      throw new Error("Incomplete article search data");
+    records.forEach(record => { record.body = text[record.id]; });
+    searchState = "ready";
+  } catch (error) {
+    searchState = "failed";
+    console.error(error);
+  }
+  if (modal && modal !== "settings") renderResults();
 }
 function updateQualitySummary() {
   const summary = document.querySelector("#quality-summary");
@@ -808,6 +877,16 @@ document.addEventListener("click", (e) => {
     select(Number(el.dataset.select));
     return;
   }
+  if (el.dataset.searchOrder) {
+    searchOrder = el.dataset.searchOrder === "recent" ? "recent" : "archive";
+    document.querySelectorAll<HTMLButtonElement>("[data-search-order]").forEach(button => {
+      const active = button.dataset.searchOrder === searchOrder;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+    renderResults();
+    return;
+  }
   if (el.dataset.result) {
     const index = Number(el.dataset.result);
     closeModal(() => {
@@ -834,6 +913,13 @@ document.addEventListener("click", (e) => {
     return;
   }
   const action = el.dataset.action;
+  if (action === "retry-search") { void ensureSearchText(); return; }
+  if (action === "retry-article") {
+    const record = records[selected];
+    void ensureArticleBody(record);
+    setTab("overview", false);
+    return;
+  }
   if (action === "toggle-three") { void toggleThree(); return; }
   if (action === "sound-preview") audio.play("confirm");
   if (action === "skip") {
@@ -879,6 +965,7 @@ document.addEventListener("click", (e) => {
     searchQuery = "";
     filter = "全部档案";
     renderModal();
+    void ensureSearchText();
   }
   if (action === "replay" || action === "restart") {
     replayBoot();
@@ -1071,6 +1158,10 @@ function frame(ms: number) {
       pendingDetailFocus = false;
     }
   }
+  if (pendingArticleHash && mode === "detail" && (!scene || scene.detailVisibility >= 0.1) && articleBodies.has(records[selected].slug!)) {
+    restoreArticleHash($("#tab-panel"), location.hash);
+    pendingArticleHash = false;
+  }
   $("#stage").style.setProperty("--detail-shade", String(mode === "boot" ? 0 : scene?.detailVisibility ?? 0));
   const currentScene = scene;
   if (currentScene) inspectionOverlay.render(currentScene.decryptionFrame,
@@ -1185,18 +1276,22 @@ async function toggleThree() {
 }
 
 async function start() {
+  let loadingScene: ArchiveScene | undefined;
+  let modelLoad: Promise<void> | undefined;
   try {
     if (isWallpaper) await window.rhineWallpaperPropertiesReady;
     if (!isWallpaper || wallpaperHost()?.properties.load3donstartup?.value !== false) {
       scene = new ArchiveScene($("#three-scene"));
+      loadingScene = scene;
       scene.setTheme(prefs.colorTheme === "dark", true);
       scene.setArchiveCoverage(wallpaperHost()?.properties.archivecoverage?.value === "extra");
     } else {
       threeState = "off";
       syncThreeButton();
     }
+    modelLoad = scene?.load();
     await Promise.all([
-      scene?.load(),
+      modelLoad,
       loadBootWebfonts(),
       // With unicode-range faces, preload the opening's actual characters,
       // not every font shard. Other archive text loads on demand.
@@ -1219,8 +1314,22 @@ async function start() {
     }
   } catch (error) {
     console.error(error);
+    scene = undefined;
+    audio.cancelEntry();
     $("#loading").innerHTML =
-      '<div class="error-state"><strong>CONNECTION INTERRUPTED</strong><p>三维档案资源未能载入。请确认浏览器已启用硬件加速，然后重新连接。</p><button onclick="location.reload()">RECONNECT →</button></div>';
+      '<div class="error-state"><strong>CONNECTION INTERRUPTED</strong><p>交互资源未能载入，可重新连接或直接阅读文章。</p><button id="read-static">直接阅读文章 →</button><button onclick="location.reload()">RECONNECT →</button></div>';
+    $("#read-static").addEventListener("click", () => {
+      const url = new URL(location.href);
+      url.searchParams.set("view", "static");
+      location.assign(url.href);
+    });
+    $("#read-static").focus();
+    // Loading may still create scene resources; dispose only after it settles.
+    const dispose = () => loadingScene?.dispose();
+    if (modelLoad) void modelLoad.then(dispose, dispose).catch(error => console.error(error));
+    else {
+      try { dispose(); } catch (error) { console.error(error); }
+    }
   }
 }
 function completeStartup(silent: boolean) {

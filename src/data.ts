@@ -5,6 +5,8 @@ export interface ArchiveRecord {
   department: string;
   category: string;
   date: string;
+  pubDate: string;
+  updatedDate?: string;
   lead: string;
   clearance: string;
   abstract: string;

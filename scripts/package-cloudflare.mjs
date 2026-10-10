@@ -1,21 +1,31 @@
-import { mkdir, readFile, writeFile, readdir, stat } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, readdir, stat, lstat } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { dirname, resolve, sep } from 'node:path';
 
-// Package only the public application, using the same release list as the PWA.
+// Publish every dist file; the offline cache is a separate subset.
 // A fresh directory per release prevents stale files from previous builds.
 const source = resolve('dist');
 const metadata = JSON.parse(await readFile(resolve(source, 'pwa-build.json'), 'utf8'));
 if (!/^[a-f0-9]{16}$/.test(metadata.version)) throw Error('Invalid PWA release version.');
 // Pages Git builds need a stable output path; each hosted build starts clean.
 const output = resolve('release/cloudflare', process.env.CF_PAGES === '1' ? 'site' : metadata.version);
+const files = [];
+for (const entry of await readdir(source, { recursive: true })) {
+  const path = entry.replaceAll('\\', '/');
+  const from = resolve(source, path);
+  if (!from.startsWith(source + sep)) throw Error(`Invalid release path: ${path}`);
+  const info = await lstat(from);
+  if (info.isSymbolicLink()) throw Error(`Symbolic links are not public release files: ${path}`);
+  if (info.isFile()) files.push(path);
+}
+files.sort();
 const fonts = JSON.parse(await readFile(new URL('./webfont-sources.json', import.meta.url), 'utf8'));
 const pagesHost = process.env.CF_PAGES_URL ? new URL(process.env.CF_PAGES_URL).hostname : '';
 const official = pagesHost === 'rhine-lab-ui.pages.dev' || pagesHost.endsWith('.rhine-lab-ui.pages.dev') ||
   process.env.VERCEL_PROJECT_ID === 'prj_KyOQlIfl3qhHkI4SUpiD5tbFTE5w';
 for (const [weight, font] of Object.entries(fonts)) {
   const path = `fonts/novecento/webFonts/NovecentoSansWide${weight}/font.woff2`;
-  if (!metadata.files.includes(path)) {
+  if (!files.includes(path)) {
     if (official) throw Error(`Official release requires licensed font: ${weight}`);
     continue;
   }
@@ -23,8 +33,6 @@ for (const [weight, font] of Object.entries(fonts)) {
   if (createHash('sha256').update(bytes).digest('hex') !== font.sha256)
     throw Error(`Licensed font checksum mismatch: ${weight}`);
 }
-const files = [...new Set([...metadata.files, 'sw.js', 'pwa-build.json', 'update.html', 'update.js',
-  ...(metadata.files.some(path => path.startsWith('fonts/novecento/')) ? ['fonts/novecento/RhineLabNovecento.css'] : [])])].sort();
 const entries = [];
 for (const path of files) {
   const from = resolve(source, path);
@@ -49,7 +57,7 @@ const immutable = files.filter(path => /^assets\/archive-(cassette|assembly)\.[a
 const headers = [
   '/fonts/misans-webfont-4.3.1/*\n  Cache-Control: public, max-age=31536000, immutable',
   ...immutable.map(path => `/${path}\n  Cache-Control: public, max-age=31536000, immutable`),
-  ...['/', '/index.html', '/blog/*', '/rss.xml', '/sitemap*.xml', '/update*', '/sw.js'].map(path => `${path}\n  Cache-Control: no-cache, no-store, must-revalidate`),
+  ...['/', '/index.html', '/blog/*', '/blog-search.json', '/rss.xml', '/sitemap*.xml', '/update*', '/sw.js'].map(path => `${path}\n  Cache-Control: no-cache, no-store, must-revalidate`),
   ...['/manifest.webmanifest', '/pwa-build.json'].map(path => `${path}\n  Cache-Control: no-cache, must-revalidate`),
 ];
 await writeFile(resolve(output, '_headers'), headers.join('\n\n') + '\n');

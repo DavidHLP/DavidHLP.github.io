@@ -1480,7 +1480,7 @@ button {
   display: flex;
   justify-content: space-between;
 }
-.settings-bottom button {
+.settings-bottom button, .settings-bottom a {
   font-size: 11px;
   letter-spacing: 0.8px;
   display: flex;
@@ -1574,6 +1574,8 @@ button {
   border-bottom: 1px solid;
   padding-bottom: 8px;
 }
+.error-state button + button { margin-left: 24px; }
+.blog-dates { font-size: 11px; line-height: 1.6; color: #7c7568; }
 
 /* Reference sequence: each stage uses the same physical scene and DOM. */
 [data-mode="boot"] .system-nav,

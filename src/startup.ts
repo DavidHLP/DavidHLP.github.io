@@ -7,12 +7,14 @@ type EntryOptions = {
 
 /** Owns the entry gesture, including keyboard focus and failed audio startup. */
 export class StartupGate {
+  private options: EntryOptions;
   private state: "loading" | "waiting" | "starting" | "error" | "started" = "loading";
   private request = 0;
   private button: HTMLButtonElement;
   private silent: HTMLButtonElement;
   private status: HTMLElement;
-  constructor(private options: EntryOptions) {
+  constructor(options: EntryOptions) {
+    this.options = options;
     const { root } = options;
     root.setAttribute("role", "dialog");
     root.setAttribute("aria-modal", "true");
@@ -32,9 +34,10 @@ export class StartupGate {
     root.addEventListener("keydown", event => {
       event.stopPropagation();
       if (event.key === "Tab") {
-        const buttons = [this.button, this.silent].filter(button => !button.disabled && !button.hidden);
+        const buttons = [...root.querySelectorAll<HTMLButtonElement>("button")]
+          .filter(button => !button.disabled && !button.closest("[hidden]"));
         if (!buttons.length) { event.preventDefault(); return; }
-        const index = buttons.indexOf(document.activeElement as HTMLButtonElement);
+        const index = buttons.indexOf(root.ownerDocument.activeElement as HTMLButtonElement);
         event.preventDefault();
         buttons[(index + (event.shiftKey ? buttons.length - 1 : 1)) % buttons.length].focus();
       }
