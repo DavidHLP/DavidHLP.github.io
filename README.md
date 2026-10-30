@@ -2,6 +2,8 @@
 
 基于 [LBEILC/RhineLabUI](https://github.com/LBEILC/RhineLabUI) 的网页视觉与交互，迁移为 Astro 静态博客。保留原生 Three.js 档案阵列、开场、玻璃材质、解密、360° 查看器、检索、收藏、声音与响应式布局。本文档对应网页模板；壁纸独立工程不在维护范围。
 
+The complete legacy documentation from [DavidHLP.github.io](https://github.com/DavidHLP/DavidHLP.github.io) is preserved under `migration/source/`. The template includes 284 adapted documents (210 published and 74 drafts), alongside its 40 existing sample articles. See the [migration inventory and limitations](migration/README.md) for original files, metadata, media and old-URL compatibility. Edit imported articles in `content/blog/legacy/`; the original snapshots remain unchanged.
+
 ## 开始使用
 
 要求 Node.js 22.12 或更新的受支持版本。先修改 `content/site.json` 的 `site` 为自己的 HTTPS 站点地址，再安装运行：

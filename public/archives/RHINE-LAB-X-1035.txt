@@ -1,0 +1,28 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-1035 / linkroll.mdx
+SITE INFORMATION
+
+科室：站点信息
+编目范围：2026-10-05
+相关人物：DavidHLPL
+访问范围：PUBLIC
+
+The theme **does not provide** an online application interface for external links, and it is recommended that webmasters manually manage their own link lists.
+
+The author encourages every webmaster to view external links as genuine and valuable recommendations, including only sites they **truly appreciate, regularly read, or are willing to share**.
+
+- [Astro](https://astro.build/) — The web framework for content-driven websites.
+- [Svelte](https://svelte.dev/) — Web development for the rest of us.
+- [TypeScript](https://www.typescriptlang.org/) — JavaScript with syntax for types.
+- [MDN Web Docs](https://developer.mozilla.org/) — Authoritative documentation and learning resources for the web platform.
+- [GitHub](https://github.com) — The future of building happens together.
+
+Rather than randomly adding mutual links for exchange or pure SEO purposes, the author hopes that every link represents **content resonance** and **value recognition**, building a site network full of personality and warmth.
+
+If you decide to display external links, consider them as an extension of your site's style, integrating them with your content to become a trustworthy part of your site.
+
+研究记录
+1. Original document: src/content/information/en/linkroll.mdx
+2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+
+原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/en/linkroll.mdx

@@ -1,0 +1,2555 @@
+{
+  "repository": "https://github.com/DavidHLP/DavidHLP.github.io",
+  "revision": "f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+  "capturedAt": "2026-10-05T13:34:00+08:00",
+  "documents": [
+    ".claude/rules/skill-autoload.md",
+    ".claude/skills/astro-theme-dev.md",
+    ".claude/skills/component-patterns.md",
+    ".claude/skills/content-authoring.md",
+    ".claude/skills/i18n-integration.md",
+    ".claude/skills/knowledge-base.md",
+    ".claude/skills/markdown-writing-rules.md",
+    ".claude/skills/multi-lang-content.md",
+    ".claude/skills/site-config-mastery.md",
+    ".github/pull_request_template.md",
+    ".reports/codemap-diff.txt",
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "CLAUDE.md",
+    "CONTEXT.md",
+    "CONTRIBUTING.md",
+    "KB.md",
+    "LICENSE",
+    "README.ja.md",
+    "README.md",
+    "README.zh-cn.md",
+    "arthas.md",
+    "docs/CODEMAPS/architecture.md",
+    "docs/CODEMAPS/content.md",
+    "docs/CODEMAPS/dependencies.md",
+    "docs/CODEMAPS/frontend.md",
+    "docs/ENV.md",
+    "docs/README.md",
+    "docs/RUNBOOK.md",
+    "docs/SCRIPTS.md",
+    "docs/UPDATE_SUMMARY.md",
+    "docs/adr/0001-monolocale-shortcut.md",
+    "docs/adr/0002-og-pipeline.md",
+    "docs/adr/0003-locale-aware-url-synthesis.md",
+    "docs/adr/0004-i18n-key-fallback.md",
+    "docs/adr/0005-universal-listable-shape.md",
+    "docs/adr/0006-og-endpoint-factory.md",
+    "docs/computation-design.md",
+    "docs/kb-convergence-design.md",
+    "docs/layout-rollback.md",
+    "docs/mono-color-design.md",
+    "docs/rhine-migration.md",
+    "docs/sailing-print-no-text.md",
+    "docs/sailing-print.md",
+    "public/assets/boot-lettering-notice.txt",
+    "public/audio/README.md",
+    "public/fonts/MiSans-license.pdf",
+    "public/fonts/NOTICE.txt",
+    "public/fonts/misans-webfont-4.3.1/UPSTREAM-README.md",
+    "public/fonts/misans-webfont-4.3.1/bold/upstream.css.txt",
+    "public/fonts/misans-webfont-4.3.1/demibold/upstream.css.txt",
+    "public/fonts/misans-webfont-4.3.1/light/upstream.css.txt",
+    "public/fonts/misans-webfont-4.3.1/regular/upstream.css.txt",
+    "public/licenses/RhineLabUI-MIT.txt",
+    "public/licenses/rolling-number.txt",
+    "src/content/information/en/chronicle.yaml",
+    "src/content/information/en/introduction.md",
+    "src/content/information/en/kb-index.md",
+    "src/content/information/en/kb-log.md",
+    "src/content/information/en/linkroll.mdx",
+    "src/content/information/en/policy.md",
+    "src/content/information/ja/chronicle.yaml",
+    "src/content/information/ja/introduction.md",
+    "src/content/information/ja/kb-index.md",
+    "src/content/information/ja/kb-log.md",
+    "src/content/information/ja/linkroll.mdx",
+    "src/content/information/ja/policy.md",
+    "src/content/information/zh-cn/chronicle.yaml",
+    "src/content/information/zh-cn/introduction.md",
+    "src/content/information/zh-cn/kb-index.md",
+    "src/content/information/zh-cn/kb-log.md",
+    "src/content/information/zh-cn/linkroll.mdx",
+    "src/content/information/zh-cn/policy.md",
+    "src/content/jotting/en/kb-ingest-todo.md",
+    "src/content/jotting/ja/kb-ingest-todo.md",
+    "src/content/jotting/zh-cn/kb-ingest-todo.md",
+    "src/content/note/en/containerd-tls-troubleshooting.md",
+    "src/content/note/en/database-schema-drift.md",
+    "src/content/note/en/database-written-test-review.md",
+    "src/content/note/en/docker-fundamentals.md",
+    "src/content/note/en/dubbo-nacos-runtime.md",
+    "src/content/note/en/frontend-mybatis-essays.md",
+    "src/content/note/en/hbase-foundation-and-ops.md",
+    "src/content/note/en/headroom-cc-switch-coexistence.md",
+    "src/content/note/en/headroom-compress-retrieve-contract.md",
+    "src/content/note/en/headroom-single-port-evolution.md",
+    "src/content/note/en/hindsight-local-deployment-and-agent-integration.md",
+    "src/content/note/en/hindsight-local-deployment.md",
+    "src/content/note/en/hindsight-omp-codex-integration.md",
+    "src/content/note/en/hindsight-troubleshooting.md",
+    "src/content/note/en/intranet-penetration-ssh-guide.md",
+    "src/content/note/en/java-atomic-boolean.md",
+    "src/content/note/en/java-auto-closeable.md",
+    "src/content/note/en/java-concurrency-deepdive.md",
+    "src/content/note/en/java-internship-interview-blog-polished.md",
+    "src/content/note/en/java-null-value.md",
+    "src/content/note/en/java-online-performance-debug.md",
+    "src/content/note/en/jjwt-013-security-api.md",
+    "src/content/note/en/kb-session-ingest-contract.md",
+    "src/content/note/en/llm-wiki-pattern.md",
+    "src/content/note/en/mcp-codebase-memory-workflow.md",
+    "src/content/note/en/microservice-data-ownership.md",
+    "src/content/note/en/multi-service-readiness.md",
+    "src/content/note/en/mysql-performance-troubleshooting.md",
+    "src/content/note/en/mysql-storage-and-deadlock.md",
+    "src/content/note/en/omp-config-and-rules-guide.md",
+    "src/content/note/en/omp-headroom-persistence.md",
+    "src/content/note/en/omp-headroom-provider-proxy.md",
+    "src/content/note/en/omp-hook-extension-guide.md",
+    "src/content/note/en/plugin-lifecycle-management.md",
+    "src/content/note/en/redis-business-patterns.md",
+    "src/content/note/en/redis-heima-practice.md",
+    "src/content/note/en/redis-jackson-java-time.md",
+    "src/content/note/en/redis-persistence-principle.md",
+    "src/content/note/en/resicache-early-expiration-cas.md",
+    "src/content/note/en/resicache-handler-chain-and-observer.md",
+    "src/content/note/en/resicache-observer-nested-execution.md",
+    "src/content/note/en/resicache-serialization-migration.md",
+    "src/content/note/en/resicache-single-flight.md",
+    "src/content/note/en/resicache.md",
+    "src/content/note/en/spark-bigdata-ecosystem.md",
+    "src/content/note/en/spring-cloud-and-boot.md",
+    "src/content/note/en/testcontainers-docker-api.md",
+    "src/content/note/en/uisa-architecture-design.md",
+    "src/content/note/en/ulticode-async-execution-contract.md",
+    "src/content/note/en/ulticode-ci-supply-chain.md",
+    "src/content/note/en/ulticode-core-bounded-testbed.md",
+    "src/content/note/en/ulticode-docker-sandbox.md",
+    "src/content/note/en/ulticode-fenced-singleton-lease.md",
+    "src/content/note/en/ulticode-generation-attempt-fence.md",
+    "src/content/note/en/ulticode-outbox-redis-streams.md",
+    "src/content/note/en/ulticode-owner-and-facts.md",
+    "src/content/note/en/ulticode-owner-local-audit-inbox.md",
+    "src/content/note/en/ulticode.md",
+    "src/content/note/ja/containerd-tls-troubleshooting.md",
+    "src/content/note/ja/database-schema-drift.md",
+    "src/content/note/ja/database-written-test-review.md",
+    "src/content/note/ja/docker-fundamentals.md",
+    "src/content/note/ja/dubbo-nacos-runtime.md",
+    "src/content/note/ja/frontend-mybatis-essays.md",
+    "src/content/note/ja/hbase-foundation-and-ops.md",
+    "src/content/note/ja/headroom-cc-switch-coexistence.md",
+    "src/content/note/ja/headroom-compress-retrieve-contract.md",
+    "src/content/note/ja/headroom-single-port-evolution.md",
+    "src/content/note/ja/hindsight-local-deployment-and-agent-integration.md",
+    "src/content/note/ja/hindsight-local-deployment.md",
+    "src/content/note/ja/hindsight-omp-codex-integration.md",
+    "src/content/note/ja/hindsight-troubleshooting.md",
+    "src/content/note/ja/intranet-penetration-ssh-guide.md",
+    "src/content/note/ja/java-atomic-boolean.md",
+    "src/content/note/ja/java-auto-closeable.md",
+    "src/content/note/ja/java-concurrency-deepdive.md",
+    "src/content/note/ja/java-internship-interview-blog-polished.md",
+    "src/content/note/ja/java-null-value.md",
+    "src/content/note/ja/java-online-performance-debug.md",
+    "src/content/note/ja/jjwt-013-security-api.md",
+    "src/content/note/ja/kb-session-ingest-contract.md",
+    "src/content/note/ja/llm-wiki-pattern.md",
+    "src/content/note/ja/mcp-codebase-memory-workflow.md",
+    "src/content/note/ja/microservice-data-ownership.md",
+    "src/content/note/ja/multi-service-readiness.md",
+    "src/content/note/ja/mysql-performance-troubleshooting.md",
+    "src/content/note/ja/mysql-storage-and-deadlock.md",
+    "src/content/note/ja/omp-config-and-rules-guide.md",
+    "src/content/note/ja/omp-headroom-persistence.md",
+    "src/content/note/ja/omp-headroom-provider-proxy.md",
+    "src/content/note/ja/omp-hook-extension-guide.md",
+    "src/content/note/ja/plugin-lifecycle-management.md",
+    "src/content/note/ja/redis-business-patterns.md",
+    "src/content/note/ja/redis-heima-practice.md",
+    "src/content/note/ja/redis-jackson-java-time.md",
+    "src/content/note/ja/redis-persistence-principle.md",
+    "src/content/note/ja/resicache-early-expiration-cas.md",
+    "src/content/note/ja/resicache-handler-chain-and-observer.md",
+    "src/content/note/ja/resicache-observer-nested-execution.md",
+    "src/content/note/ja/resicache-serialization-migration.md",
+    "src/content/note/ja/resicache-single-flight.md",
+    "src/content/note/ja/resicache.md",
+    "src/content/note/ja/spark-bigdata-ecosystem.md",
+    "src/content/note/ja/spring-cloud-and-boot.md",
+    "src/content/note/ja/testcontainers-docker-api.md",
+    "src/content/note/ja/uisa-architecture-design.md",
+    "src/content/note/ja/ulticode-async-execution-contract.md",
+    "src/content/note/ja/ulticode-ci-supply-chain.md",
+    "src/content/note/ja/ulticode-core-bounded-testbed.md",
+    "src/content/note/ja/ulticode-docker-sandbox.md",
+    "src/content/note/ja/ulticode-fenced-singleton-lease.md",
+    "src/content/note/ja/ulticode-generation-attempt-fence.md",
+    "src/content/note/ja/ulticode-outbox-redis-streams.md",
+    "src/content/note/ja/ulticode-owner-and-facts.md",
+    "src/content/note/ja/ulticode-owner-local-audit-inbox.md",
+    "src/content/note/ja/ulticode.md",
+    "src/content/note/zh-cn/containerd-tls-troubleshooting.md",
+    "src/content/note/zh-cn/database-schema-drift.md",
+    "src/content/note/zh-cn/database-written-test-review.md",
+    "src/content/note/zh-cn/docker-fundamentals.md",
+    "src/content/note/zh-cn/dubbo-nacos-runtime.md",
+    "src/content/note/zh-cn/frontend-mybatis-essays.md",
+    "src/content/note/zh-cn/hbase-foundation-and-ops.md",
+    "src/content/note/zh-cn/headroom-cc-switch-coexistence.md",
+    "src/content/note/zh-cn/headroom-compress-retrieve-contract.md",
+    "src/content/note/zh-cn/headroom-single-port-evolution.md",
+    "src/content/note/zh-cn/hindsight-local-deployment-and-agent-integration.md",
+    "src/content/note/zh-cn/hindsight-local-deployment.md",
+    "src/content/note/zh-cn/hindsight-omp-codex-integration.md",
+    "src/content/note/zh-cn/hindsight-troubleshooting.md",
+    "src/content/note/zh-cn/intranet-penetration-ssh-guide.md",
+    "src/content/note/zh-cn/java-atomic-boolean.md",
+    "src/content/note/zh-cn/java-auto-closeable.md",
+    "src/content/note/zh-cn/java-concurrency-deepdive.md",
+    "src/content/note/zh-cn/java-internship-interview-blog-polished.md",
+    "src/content/note/zh-cn/java-null-value.md",
+    "src/content/note/zh-cn/java-online-performance-debug.md",
+    "src/content/note/zh-cn/jjwt-013-security-api.md",
+    "src/content/note/zh-cn/kb-session-ingest-contract.md",
+    "src/content/note/zh-cn/llm-wiki-pattern.md",
+    "src/content/note/zh-cn/mcp-codebase-memory-workflow.md",
+    "src/content/note/zh-cn/microservice-data-ownership.md",
+    "src/content/note/zh-cn/multi-service-readiness.md",
+    "src/content/note/zh-cn/mysql-performance-troubleshooting.md",
+    "src/content/note/zh-cn/mysql-storage-and-deadlock.md",
+    "src/content/note/zh-cn/omp-config-and-rules-guide.md",
+    "src/content/note/zh-cn/omp-headroom-persistence.md",
+    "src/content/note/zh-cn/omp-headroom-provider-proxy.md",
+    "src/content/note/zh-cn/omp-hook-extension-guide.md",
+    "src/content/note/zh-cn/plugin-lifecycle-management.md",
+    "src/content/note/zh-cn/redis-business-patterns.md",
+    "src/content/note/zh-cn/redis-heima-practice.md",
+    "src/content/note/zh-cn/redis-jackson-java-time.md",
+    "src/content/note/zh-cn/redis-persistence-principle.md",
+    "src/content/note/zh-cn/resicache-early-expiration-cas.md",
+    "src/content/note/zh-cn/resicache-handler-chain-and-observer.md",
+    "src/content/note/zh-cn/resicache-observer-nested-execution.md",
+    "src/content/note/zh-cn/resicache-serialization-migration.md",
+    "src/content/note/zh-cn/resicache-single-flight.md",
+    "src/content/note/zh-cn/resicache.md",
+    "src/content/note/zh-cn/spark-bigdata-ecosystem.md",
+    "src/content/note/zh-cn/spring-cloud-and-boot.md",
+    "src/content/note/zh-cn/testcontainers-docker-api.md",
+    "src/content/note/zh-cn/uisa-architecture-design.md",
+    "src/content/note/zh-cn/ulticode-async-execution-contract.md",
+    "src/content/note/zh-cn/ulticode-ci-supply-chain.md",
+    "src/content/note/zh-cn/ulticode-core-bounded-testbed.md",
+    "src/content/note/zh-cn/ulticode-docker-sandbox.md",
+    "src/content/note/zh-cn/ulticode-fenced-singleton-lease.md",
+    "src/content/note/zh-cn/ulticode-generation-attempt-fence.md",
+    "src/content/note/zh-cn/ulticode-outbox-redis-streams.md",
+    "src/content/note/zh-cn/ulticode-owner-and-facts.md",
+    "src/content/note/zh-cn/ulticode-owner-local-audit-inbox.md",
+    "src/content/note/zh-cn/ulticode.md",
+    "src/content/preface/en/2026-01-01-00-00-00.md",
+    "src/content/preface/en/2026-06-19-18-00-00.md",
+    "src/content/preface/ja/2026-01-01-00-00-00.md",
+    "src/content/preface/ja/2026-06-19-18-00-00.md",
+    "src/content/preface/zh-cn/2026-01-01-00-00-00.md",
+    "src/content/preface/zh-cn/2026-06-19-18-00-00.md",
+    "src/content/raw/.manifest.sha256",
+    "src/content/raw/zh-cn/database-schema-drift-contract.md",
+    "src/content/raw/zh-cn/database-written-test-review.md",
+    "src/content/raw/zh-cn/dubbo-nacos-runtime-registration-correction.md",
+    "src/content/raw/zh-cn/dubbo-nacos-runtime-registration.md",
+    "src/content/raw/zh-cn/headroom-0-34-compress-retrieve-contract.md",
+    "src/content/raw/zh-cn/headroom-cc-switch-coexistence-runtime.md",
+    "src/content/raw/zh-cn/hindsight-local-deployment-and-agent-integration.md",
+    "src/content/raw/zh-cn/ingest-docker-fundamentals.md",
+    "src/content/raw/zh-cn/ingest-frontend-essays.md",
+    "src/content/raw/zh-cn/ingest-hbase-foundation.md",
+    "src/content/raw/zh-cn/ingest-java-concurrency.md",
+    "src/content/raw/zh-cn/ingest-mysql-storage.md",
+    "src/content/raw/zh-cn/ingest-redis-business.md",
+    "src/content/raw/zh-cn/ingest-redis-heima.md",
+    "src/content/raw/zh-cn/ingest-redis-persistence.md",
+    "src/content/raw/zh-cn/ingest-spark-ecosystem.md",
+    "src/content/raw/zh-cn/ingest-spring-cloud.md",
+    "src/content/raw/zh-cn/jjwt-013-security-api-contract-correction.md",
+    "src/content/raw/zh-cn/jjwt-013-security-api-contract.md",
+    "src/content/raw/zh-cn/karpathy-llm-wiki.md",
+    "src/content/raw/zh-cn/kb-ingest-pipeline-v19.md",
+    "src/content/raw/zh-cn/legacy-containerd-tls-troubleshooting.md",
+    "src/content/raw/zh-cn/legacy-headroom-single-port-evolution.md",
+    "src/content/raw/zh-cn/legacy-intranet-penetration-ssh-guide.md",
+    "src/content/raw/zh-cn/legacy-java-atomic-boolean.md",
+    "src/content/raw/zh-cn/legacy-java-auto-closeable.md",
+    "src/content/raw/zh-cn/legacy-java-internship-interview-blog-polished.md",
+    "src/content/raw/zh-cn/legacy-java-null-value.md",
+    "src/content/raw/zh-cn/legacy-java-online-performance-debug.md",
+    "src/content/raw/zh-cn/legacy-mysql-performance-troubleshooting.md",
+    "src/content/raw/zh-cn/legacy-omp-config-and-rules-guide.md",
+    "src/content/raw/zh-cn/legacy-omp-headroom-persistence.md",
+    "src/content/raw/zh-cn/legacy-omp-hook-extension-guide.md",
+    "src/content/raw/zh-cn/legacy-plugin-lifecycle-management.md",
+    "src/content/raw/zh-cn/legacy-uisa-architecture-design.md",
+    "src/content/raw/zh-cn/mcp-codebase-memory-workflow.md",
+    "src/content/raw/zh-cn/microservice-domain-data-ownership-correction.md",
+    "src/content/raw/zh-cn/microservice-domain-data-ownership.md",
+    "src/content/raw/zh-cn/multi-service-readiness-contract-correction.md",
+    "src/content/raw/zh-cn/multi-service-readiness-contract.md",
+    "src/content/raw/zh-cn/multi-service-readiness-safety-correction.md",
+    "src/content/raw/zh-cn/omp-17-2-15-runtime-contract-correction.md",
+    "src/content/raw/zh-cn/omp-17-2-15-runtime-contract.md",
+    "src/content/raw/zh-cn/omp-headroom-provider-proxy-codex-routing-runtime.md",
+    "src/content/raw/zh-cn/redis-jackson-java-time-contract.md",
+    "src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md",
+    "src/content/raw/zh-cn/resicache-observer-nested-execution-contract.md",
+    "src/content/raw/zh-cn/resicache-project-overview.md",
+    "src/content/raw/zh-cn/testcontainers-docker-api-negotiation-correction.md",
+    "src/content/raw/zh-cn/testcontainers-docker-api-negotiation.md",
+    "src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md",
+    "src/content/raw/zh-cn/ulticode-project-context.md",
+    "src/content/raw/zh-cn/ulticode-reliability-core-f801a1076.md"
+  ],
+  "assets": [
+    ".github/assets/preview-dark.webp",
+    ".github/assets/preview-light.webp",
+    "public/dark-drive.png",
+    "public/favicon-96x96.png",
+    "public/favicon.ico",
+    "public/favicon.svg",
+    "public/images/computation-print.png",
+    "public/images/notes-in-progress.png",
+    "public/images/sailing-print-no-text.png",
+    "public/images/sailing-print.png",
+    "public/licenses/RhineLabUI-MIT.txt",
+    "public/licenses/rolling-number.txt",
+    "public/light-drive.png",
+    "public/linkback.webp"
+  ],
+  "entries": [
+    {
+      "path": "arthas.md",
+      "slug": "legacy/documentation/arthas",
+      "archiveId": "X-1001",
+      "draft": false
+    },
+    {
+      "path": "CHANGELOG.md",
+      "slug": "legacy/documentation/changelog",
+      "archiveId": "X-1002",
+      "draft": false
+    },
+    {
+      "path": "CONTEXT.md",
+      "slug": "legacy/documentation/context",
+      "archiveId": "X-1003",
+      "draft": false
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "slug": "legacy/documentation/contributing",
+      "archiveId": "X-1004",
+      "draft": false
+    },
+    {
+      "path": "docs/adr/0001-monolocale-shortcut.md",
+      "slug": "legacy/documentation/docs/adr/0001-monolocale-shortcut",
+      "archiveId": "X-1005",
+      "draft": false
+    },
+    {
+      "path": "docs/adr/0002-og-pipeline.md",
+      "slug": "legacy/documentation/docs/adr/0002-og-pipeline",
+      "archiveId": "X-1006",
+      "draft": false
+    },
+    {
+      "path": "docs/adr/0003-locale-aware-url-synthesis.md",
+      "slug": "legacy/documentation/docs/adr/0003-locale-aware-url-synthesis",
+      "archiveId": "X-1007",
+      "draft": false
+    },
+    {
+      "path": "docs/adr/0004-i18n-key-fallback.md",
+      "slug": "legacy/documentation/docs/adr/0004-i18n-key-fallback",
+      "archiveId": "X-1008",
+      "draft": false
+    },
+    {
+      "path": "docs/adr/0005-universal-listable-shape.md",
+      "slug": "legacy/documentation/docs/adr/0005-universal-listable-shape",
+      "archiveId": "X-1009",
+      "draft": false
+    },
+    {
+      "path": "docs/adr/0006-og-endpoint-factory.md",
+      "slug": "legacy/documentation/docs/adr/0006-og-endpoint-factory",
+      "archiveId": "X-1010",
+      "draft": false
+    },
+    {
+      "path": "docs/CODEMAPS/architecture.md",
+      "slug": "legacy/documentation/docs/codemaps/architecture",
+      "archiveId": "X-1011",
+      "draft": false
+    },
+    {
+      "path": "docs/CODEMAPS/content.md",
+      "slug": "legacy/documentation/docs/codemaps/content",
+      "archiveId": "X-1012",
+      "draft": false
+    },
+    {
+      "path": "docs/CODEMAPS/dependencies.md",
+      "slug": "legacy/documentation/docs/codemaps/dependencies",
+      "archiveId": "X-1013",
+      "draft": false
+    },
+    {
+      "path": "docs/CODEMAPS/frontend.md",
+      "slug": "legacy/documentation/docs/codemaps/frontend",
+      "archiveId": "X-1014",
+      "draft": false
+    },
+    {
+      "path": "docs/computation-design.md",
+      "slug": "legacy/documentation/docs/computation-design",
+      "archiveId": "X-1015",
+      "draft": false
+    },
+    {
+      "path": "docs/ENV.md",
+      "slug": "legacy/documentation/docs/env",
+      "archiveId": "X-1016",
+      "draft": false
+    },
+    {
+      "path": "docs/kb-convergence-design.md",
+      "slug": "legacy/documentation/docs/kb-convergence-design",
+      "archiveId": "X-1017",
+      "draft": false
+    },
+    {
+      "path": "docs/layout-rollback.md",
+      "slug": "legacy/documentation/docs/layout-rollback",
+      "archiveId": "X-1018",
+      "draft": false
+    },
+    {
+      "path": "docs/mono-color-design.md",
+      "slug": "legacy/documentation/docs/mono-color-design",
+      "archiveId": "X-1019",
+      "draft": false
+    },
+    {
+      "path": "docs/README.md",
+      "slug": "legacy/documentation/docs/readme",
+      "archiveId": "X-1020",
+      "draft": false
+    },
+    {
+      "path": "docs/rhine-migration.md",
+      "slug": "legacy/documentation/docs/rhine-migration",
+      "archiveId": "X-1021",
+      "draft": false
+    },
+    {
+      "path": "docs/RUNBOOK.md",
+      "slug": "legacy/documentation/docs/runbook",
+      "archiveId": "X-1022",
+      "draft": false
+    },
+    {
+      "path": "docs/sailing-print-no-text.md",
+      "slug": "legacy/documentation/docs/sailing-print-no-text",
+      "archiveId": "X-1023",
+      "draft": false
+    },
+    {
+      "path": "docs/sailing-print.md",
+      "slug": "legacy/documentation/docs/sailing-print",
+      "archiveId": "X-1024",
+      "draft": false
+    },
+    {
+      "path": "docs/SCRIPTS.md",
+      "slug": "legacy/documentation/docs/scripts",
+      "archiveId": "X-1025",
+      "draft": false
+    },
+    {
+      "path": "docs/UPDATE_SUMMARY.md",
+      "slug": "legacy/documentation/docs/update_summary",
+      "archiveId": "X-1026",
+      "draft": false
+    },
+    {
+      "path": "KB.md",
+      "slug": "legacy/documentation/kb",
+      "archiveId": "X-1027",
+      "draft": false
+    },
+    {
+      "path": "README.ja.md",
+      "slug": "legacy/documentation/readme.ja",
+      "archiveId": "X-1028",
+      "draft": false
+    },
+    {
+      "path": "README.md",
+      "slug": "legacy/documentation/readme",
+      "archiveId": "X-1029",
+      "draft": false
+    },
+    {
+      "path": "README.zh-cn.md",
+      "slug": "legacy/documentation/readme.zh-cn",
+      "archiveId": "X-1030",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/en/chronicle.yaml",
+      "slug": "legacy/information/en/chronicle",
+      "archiveId": "X-1031",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/en/introduction.md",
+      "slug": "legacy/information/en/introduction",
+      "archiveId": "X-1032",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/en/kb-index.md",
+      "slug": "legacy/information/en/kb-index",
+      "archiveId": "X-1033",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/en/kb-log.md",
+      "slug": "legacy/information/en/kb-log",
+      "archiveId": "X-1034",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/en/linkroll.mdx",
+      "slug": "legacy/information/en/linkroll",
+      "archiveId": "X-1035",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/en/policy.md",
+      "slug": "legacy/information/en/policy",
+      "archiveId": "X-1036",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/ja/chronicle.yaml",
+      "slug": "legacy/information/ja/chronicle",
+      "archiveId": "X-1037",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/ja/introduction.md",
+      "slug": "legacy/information/ja/introduction",
+      "archiveId": "X-1038",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/ja/kb-index.md",
+      "slug": "legacy/information/ja/kb-index",
+      "archiveId": "X-1039",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/ja/kb-log.md",
+      "slug": "legacy/information/ja/kb-log",
+      "archiveId": "X-1040",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/ja/linkroll.mdx",
+      "slug": "legacy/information/ja/linkroll",
+      "archiveId": "X-1041",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/ja/policy.md",
+      "slug": "legacy/information/ja/policy",
+      "archiveId": "X-1042",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/zh-cn/chronicle.yaml",
+      "slug": "legacy/information/zh-cn/chronicle",
+      "archiveId": "X-1043",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/zh-cn/introduction.md",
+      "slug": "legacy/information/zh-cn/introduction",
+      "archiveId": "X-1044",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/zh-cn/kb-index.md",
+      "slug": "legacy/information/zh-cn/kb-index",
+      "archiveId": "X-1045",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/zh-cn/kb-log.md",
+      "slug": "legacy/information/zh-cn/kb-log",
+      "archiveId": "X-1046",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/zh-cn/linkroll.mdx",
+      "slug": "legacy/information/zh-cn/linkroll",
+      "archiveId": "X-1047",
+      "draft": false
+    },
+    {
+      "path": "src/content/information/zh-cn/policy.md",
+      "slug": "legacy/information/zh-cn/policy",
+      "archiveId": "X-1048",
+      "draft": false
+    },
+    {
+      "path": "src/content/jotting/en/kb-ingest-todo.md",
+      "slug": "legacy/jotting/en/kb-ingest-todo",
+      "archiveId": "X-1049",
+      "draft": false
+    },
+    {
+      "path": "src/content/jotting/ja/kb-ingest-todo.md",
+      "slug": "legacy/jotting/ja/kb-ingest-todo",
+      "archiveId": "X-1050",
+      "draft": false
+    },
+    {
+      "path": "src/content/jotting/zh-cn/kb-ingest-todo.md",
+      "slug": "legacy/jotting/zh-cn/kb-ingest-todo",
+      "archiveId": "X-1051",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/containerd-tls-troubleshooting.md",
+      "slug": "legacy/note/en/containerd-tls-troubleshooting",
+      "archiveId": "X-1052",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/database-schema-drift.md",
+      "slug": "legacy/note/en/database-schema-drift",
+      "archiveId": "X-1053",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/database-written-test-review.md",
+      "slug": "legacy/note/en/database-written-test-review",
+      "archiveId": "X-1054",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/docker-fundamentals.md",
+      "slug": "legacy/note/en/docker-fundamentals",
+      "archiveId": "X-1055",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/dubbo-nacos-runtime.md",
+      "slug": "legacy/note/en/dubbo-nacos-runtime",
+      "archiveId": "X-1056",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/frontend-mybatis-essays.md",
+      "slug": "legacy/note/en/frontend-mybatis-essays",
+      "archiveId": "X-1057",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/hbase-foundation-and-ops.md",
+      "slug": "legacy/note/en/hbase-foundation-and-ops",
+      "archiveId": "X-1058",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/headroom-cc-switch-coexistence.md",
+      "slug": "legacy/note/en/headroom-cc-switch-coexistence",
+      "archiveId": "X-1059",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/headroom-compress-retrieve-contract.md",
+      "slug": "legacy/note/en/headroom-compress-retrieve-contract",
+      "archiveId": "X-1060",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/headroom-single-port-evolution.md",
+      "slug": "legacy/note/en/headroom-single-port-evolution",
+      "archiveId": "X-1061",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/hindsight-local-deployment-and-agent-integration.md",
+      "slug": "legacy/note/en/hindsight-local-deployment-and-agent-integration",
+      "archiveId": "X-1062",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/hindsight-local-deployment.md",
+      "slug": "legacy/note/en/hindsight-local-deployment",
+      "archiveId": "X-1063",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/hindsight-omp-codex-integration.md",
+      "slug": "legacy/note/en/hindsight-omp-codex-integration",
+      "archiveId": "X-1064",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/hindsight-troubleshooting.md",
+      "slug": "legacy/note/en/hindsight-troubleshooting",
+      "archiveId": "X-1065",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/intranet-penetration-ssh-guide.md",
+      "slug": "legacy/note/en/intranet-penetration-ssh-guide",
+      "archiveId": "X-1066",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/java-atomic-boolean.md",
+      "slug": "legacy/note/en/java-atomic-boolean",
+      "archiveId": "X-1067",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/java-auto-closeable.md",
+      "slug": "legacy/note/en/java-auto-closeable",
+      "archiveId": "X-1068",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/java-concurrency-deepdive.md",
+      "slug": "legacy/note/en/java-concurrency-deepdive",
+      "archiveId": "X-1069",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/java-internship-interview-blog-polished.md",
+      "slug": "legacy/note/en/java-internship-interview-blog-polished",
+      "archiveId": "X-1070",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/java-null-value.md",
+      "slug": "legacy/note/en/java-null-value",
+      "archiveId": "X-1071",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/java-online-performance-debug.md",
+      "slug": "legacy/note/en/java-online-performance-debug",
+      "archiveId": "X-1072",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/jjwt-013-security-api.md",
+      "slug": "legacy/note/en/jjwt-013-security-api",
+      "archiveId": "X-1073",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/kb-session-ingest-contract.md",
+      "slug": "legacy/note/en/kb-session-ingest-contract",
+      "archiveId": "X-1074",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/llm-wiki-pattern.md",
+      "slug": "legacy/note/en/llm-wiki-pattern",
+      "archiveId": "X-1075",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/mcp-codebase-memory-workflow.md",
+      "slug": "legacy/note/en/mcp-codebase-memory-workflow",
+      "archiveId": "X-1076",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/microservice-data-ownership.md",
+      "slug": "legacy/note/en/microservice-data-ownership",
+      "archiveId": "X-1077",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/multi-service-readiness.md",
+      "slug": "legacy/note/en/multi-service-readiness",
+      "archiveId": "X-1078",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/mysql-performance-troubleshooting.md",
+      "slug": "legacy/note/en/mysql-performance-troubleshooting",
+      "archiveId": "X-1079",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/mysql-storage-and-deadlock.md",
+      "slug": "legacy/note/en/mysql-storage-and-deadlock",
+      "archiveId": "X-1080",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/omp-config-and-rules-guide.md",
+      "slug": "legacy/note/en/omp-config-and-rules-guide",
+      "archiveId": "X-1081",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/omp-headroom-persistence.md",
+      "slug": "legacy/note/en/omp-headroom-persistence",
+      "archiveId": "X-1082",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/omp-headroom-provider-proxy.md",
+      "slug": "legacy/note/en/omp-headroom-provider-proxy",
+      "archiveId": "X-1083",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/omp-hook-extension-guide.md",
+      "slug": "legacy/note/en/omp-hook-extension-guide",
+      "archiveId": "X-1084",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/plugin-lifecycle-management.md",
+      "slug": "legacy/note/en/plugin-lifecycle-management",
+      "archiveId": "X-1085",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/redis-business-patterns.md",
+      "slug": "legacy/note/en/redis-business-patterns",
+      "archiveId": "X-1086",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/redis-heima-practice.md",
+      "slug": "legacy/note/en/redis-heima-practice",
+      "archiveId": "X-1087",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/redis-jackson-java-time.md",
+      "slug": "legacy/note/en/redis-jackson-java-time",
+      "archiveId": "X-1088",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/redis-persistence-principle.md",
+      "slug": "legacy/note/en/redis-persistence-principle",
+      "archiveId": "X-1089",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/resicache-early-expiration-cas.md",
+      "slug": "legacy/note/en/resicache-early-expiration-cas",
+      "archiveId": "X-1090",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/resicache-handler-chain-and-observer.md",
+      "slug": "legacy/note/en/resicache-handler-chain-and-observer",
+      "archiveId": "X-1091",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/resicache-observer-nested-execution.md",
+      "slug": "legacy/note/en/resicache-observer-nested-execution",
+      "archiveId": "X-1092",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/resicache-serialization-migration.md",
+      "slug": "legacy/note/en/resicache-serialization-migration",
+      "archiveId": "X-1093",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/resicache-single-flight.md",
+      "slug": "legacy/note/en/resicache-single-flight",
+      "archiveId": "X-1094",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/resicache.md",
+      "slug": "legacy/note/en/resicache",
+      "archiveId": "X-1095",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/spark-bigdata-ecosystem.md",
+      "slug": "legacy/note/en/spark-bigdata-ecosystem",
+      "archiveId": "X-1096",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/spring-cloud-and-boot.md",
+      "slug": "legacy/note/en/spring-cloud-and-boot",
+      "archiveId": "X-1097",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/testcontainers-docker-api.md",
+      "slug": "legacy/note/en/testcontainers-docker-api",
+      "archiveId": "X-1098",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/uisa-architecture-design.md",
+      "slug": "legacy/note/en/uisa-architecture-design",
+      "archiveId": "X-1099",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/en/ulticode-async-execution-contract.md",
+      "slug": "legacy/note/en/ulticode-async-execution-contract",
+      "archiveId": "X-1100",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/ulticode-ci-supply-chain.md",
+      "slug": "legacy/note/en/ulticode-ci-supply-chain",
+      "archiveId": "X-1101",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/ulticode-core-bounded-testbed.md",
+      "slug": "legacy/note/en/ulticode-core-bounded-testbed",
+      "archiveId": "X-1102",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/ulticode-docker-sandbox.md",
+      "slug": "legacy/note/en/ulticode-docker-sandbox",
+      "archiveId": "X-1103",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/ulticode-fenced-singleton-lease.md",
+      "slug": "legacy/note/en/ulticode-fenced-singleton-lease",
+      "archiveId": "X-1104",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/ulticode-generation-attempt-fence.md",
+      "slug": "legacy/note/en/ulticode-generation-attempt-fence",
+      "archiveId": "X-1105",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/ulticode-outbox-redis-streams.md",
+      "slug": "legacy/note/en/ulticode-outbox-redis-streams",
+      "archiveId": "X-1106",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/ulticode-owner-and-facts.md",
+      "slug": "legacy/note/en/ulticode-owner-and-facts",
+      "archiveId": "X-1107",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/ulticode-owner-local-audit-inbox.md",
+      "slug": "legacy/note/en/ulticode-owner-local-audit-inbox",
+      "archiveId": "X-1108",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/en/ulticode.md",
+      "slug": "legacy/note/en/ulticode",
+      "archiveId": "X-1109",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/containerd-tls-troubleshooting.md",
+      "slug": "legacy/note/ja/containerd-tls-troubleshooting",
+      "archiveId": "X-1110",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/database-schema-drift.md",
+      "slug": "legacy/note/ja/database-schema-drift",
+      "archiveId": "X-1111",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/database-written-test-review.md",
+      "slug": "legacy/note/ja/database-written-test-review",
+      "archiveId": "X-1112",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/docker-fundamentals.md",
+      "slug": "legacy/note/ja/docker-fundamentals",
+      "archiveId": "X-1113",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/dubbo-nacos-runtime.md",
+      "slug": "legacy/note/ja/dubbo-nacos-runtime",
+      "archiveId": "X-1114",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/frontend-mybatis-essays.md",
+      "slug": "legacy/note/ja/frontend-mybatis-essays",
+      "archiveId": "X-1115",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/hbase-foundation-and-ops.md",
+      "slug": "legacy/note/ja/hbase-foundation-and-ops",
+      "archiveId": "X-1116",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/headroom-cc-switch-coexistence.md",
+      "slug": "legacy/note/ja/headroom-cc-switch-coexistence",
+      "archiveId": "X-1117",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/headroom-compress-retrieve-contract.md",
+      "slug": "legacy/note/ja/headroom-compress-retrieve-contract",
+      "archiveId": "X-1118",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/headroom-single-port-evolution.md",
+      "slug": "legacy/note/ja/headroom-single-port-evolution",
+      "archiveId": "X-1119",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/hindsight-local-deployment-and-agent-integration.md",
+      "slug": "legacy/note/ja/hindsight-local-deployment-and-agent-integration",
+      "archiveId": "X-1120",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/hindsight-local-deployment.md",
+      "slug": "legacy/note/ja/hindsight-local-deployment",
+      "archiveId": "X-1121",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/hindsight-omp-codex-integration.md",
+      "slug": "legacy/note/ja/hindsight-omp-codex-integration",
+      "archiveId": "X-1122",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/hindsight-troubleshooting.md",
+      "slug": "legacy/note/ja/hindsight-troubleshooting",
+      "archiveId": "X-1123",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/intranet-penetration-ssh-guide.md",
+      "slug": "legacy/note/ja/intranet-penetration-ssh-guide",
+      "archiveId": "X-1124",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/java-atomic-boolean.md",
+      "slug": "legacy/note/ja/java-atomic-boolean",
+      "archiveId": "X-1125",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/java-auto-closeable.md",
+      "slug": "legacy/note/ja/java-auto-closeable",
+      "archiveId": "X-1126",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/java-concurrency-deepdive.md",
+      "slug": "legacy/note/ja/java-concurrency-deepdive",
+      "archiveId": "X-1127",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/java-internship-interview-blog-polished.md",
+      "slug": "legacy/note/ja/java-internship-interview-blog-polished",
+      "archiveId": "X-1128",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/java-null-value.md",
+      "slug": "legacy/note/ja/java-null-value",
+      "archiveId": "X-1129",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/java-online-performance-debug.md",
+      "slug": "legacy/note/ja/java-online-performance-debug",
+      "archiveId": "X-1130",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/jjwt-013-security-api.md",
+      "slug": "legacy/note/ja/jjwt-013-security-api",
+      "archiveId": "X-1131",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/kb-session-ingest-contract.md",
+      "slug": "legacy/note/ja/kb-session-ingest-contract",
+      "archiveId": "X-1132",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/llm-wiki-pattern.md",
+      "slug": "legacy/note/ja/llm-wiki-pattern",
+      "archiveId": "X-1133",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/mcp-codebase-memory-workflow.md",
+      "slug": "legacy/note/ja/mcp-codebase-memory-workflow",
+      "archiveId": "X-1134",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/microservice-data-ownership.md",
+      "slug": "legacy/note/ja/microservice-data-ownership",
+      "archiveId": "X-1135",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/multi-service-readiness.md",
+      "slug": "legacy/note/ja/multi-service-readiness",
+      "archiveId": "X-1136",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/mysql-performance-troubleshooting.md",
+      "slug": "legacy/note/ja/mysql-performance-troubleshooting",
+      "archiveId": "X-1137",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/mysql-storage-and-deadlock.md",
+      "slug": "legacy/note/ja/mysql-storage-and-deadlock",
+      "archiveId": "X-1138",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/omp-config-and-rules-guide.md",
+      "slug": "legacy/note/ja/omp-config-and-rules-guide",
+      "archiveId": "X-1139",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/omp-headroom-persistence.md",
+      "slug": "legacy/note/ja/omp-headroom-persistence",
+      "archiveId": "X-1140",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/omp-headroom-provider-proxy.md",
+      "slug": "legacy/note/ja/omp-headroom-provider-proxy",
+      "archiveId": "X-1141",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/omp-hook-extension-guide.md",
+      "slug": "legacy/note/ja/omp-hook-extension-guide",
+      "archiveId": "X-1142",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/plugin-lifecycle-management.md",
+      "slug": "legacy/note/ja/plugin-lifecycle-management",
+      "archiveId": "X-1143",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/redis-business-patterns.md",
+      "slug": "legacy/note/ja/redis-business-patterns",
+      "archiveId": "X-1144",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/redis-heima-practice.md",
+      "slug": "legacy/note/ja/redis-heima-practice",
+      "archiveId": "X-1145",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/redis-jackson-java-time.md",
+      "slug": "legacy/note/ja/redis-jackson-java-time",
+      "archiveId": "X-1146",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/redis-persistence-principle.md",
+      "slug": "legacy/note/ja/redis-persistence-principle",
+      "archiveId": "X-1147",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/resicache-early-expiration-cas.md",
+      "slug": "legacy/note/ja/resicache-early-expiration-cas",
+      "archiveId": "X-1148",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/resicache-handler-chain-and-observer.md",
+      "slug": "legacy/note/ja/resicache-handler-chain-and-observer",
+      "archiveId": "X-1149",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/resicache-observer-nested-execution.md",
+      "slug": "legacy/note/ja/resicache-observer-nested-execution",
+      "archiveId": "X-1150",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/resicache-serialization-migration.md",
+      "slug": "legacy/note/ja/resicache-serialization-migration",
+      "archiveId": "X-1151",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/resicache-single-flight.md",
+      "slug": "legacy/note/ja/resicache-single-flight",
+      "archiveId": "X-1152",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/resicache.md",
+      "slug": "legacy/note/ja/resicache",
+      "archiveId": "X-1153",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/spark-bigdata-ecosystem.md",
+      "slug": "legacy/note/ja/spark-bigdata-ecosystem",
+      "archiveId": "X-1154",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/spring-cloud-and-boot.md",
+      "slug": "legacy/note/ja/spring-cloud-and-boot",
+      "archiveId": "X-1155",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/testcontainers-docker-api.md",
+      "slug": "legacy/note/ja/testcontainers-docker-api",
+      "archiveId": "X-1156",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/uisa-architecture-design.md",
+      "slug": "legacy/note/ja/uisa-architecture-design",
+      "archiveId": "X-1157",
+      "draft": true
+    },
+    {
+      "path": "src/content/note/ja/ulticode-async-execution-contract.md",
+      "slug": "legacy/note/ja/ulticode-async-execution-contract",
+      "archiveId": "X-1158",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/ulticode-ci-supply-chain.md",
+      "slug": "legacy/note/ja/ulticode-ci-supply-chain",
+      "archiveId": "X-1159",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/ulticode-core-bounded-testbed.md",
+      "slug": "legacy/note/ja/ulticode-core-bounded-testbed",
+      "archiveId": "X-1160",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/ulticode-docker-sandbox.md",
+      "slug": "legacy/note/ja/ulticode-docker-sandbox",
+      "archiveId": "X-1161",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/ulticode-fenced-singleton-lease.md",
+      "slug": "legacy/note/ja/ulticode-fenced-singleton-lease",
+      "archiveId": "X-1162",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/ulticode-generation-attempt-fence.md",
+      "slug": "legacy/note/ja/ulticode-generation-attempt-fence",
+      "archiveId": "X-1163",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/ulticode-outbox-redis-streams.md",
+      "slug": "legacy/note/ja/ulticode-outbox-redis-streams",
+      "archiveId": "X-1164",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/ulticode-owner-and-facts.md",
+      "slug": "legacy/note/ja/ulticode-owner-and-facts",
+      "archiveId": "X-1165",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/ulticode-owner-local-audit-inbox.md",
+      "slug": "legacy/note/ja/ulticode-owner-local-audit-inbox",
+      "archiveId": "X-1166",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/ja/ulticode.md",
+      "slug": "legacy/note/ja/ulticode",
+      "archiveId": "X-1167",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/containerd-tls-troubleshooting.md",
+      "slug": "legacy/note/zh-cn/containerd-tls-troubleshooting",
+      "archiveId": "X-1168",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/database-schema-drift.md",
+      "slug": "legacy/note/zh-cn/database-schema-drift",
+      "archiveId": "X-1169",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/database-written-test-review.md",
+      "slug": "legacy/note/zh-cn/database-written-test-review",
+      "archiveId": "X-1170",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/docker-fundamentals.md",
+      "slug": "legacy/note/zh-cn/docker-fundamentals",
+      "archiveId": "X-1171",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/dubbo-nacos-runtime.md",
+      "slug": "legacy/note/zh-cn/dubbo-nacos-runtime",
+      "archiveId": "X-1172",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/frontend-mybatis-essays.md",
+      "slug": "legacy/note/zh-cn/frontend-mybatis-essays",
+      "archiveId": "X-1173",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/hbase-foundation-and-ops.md",
+      "slug": "legacy/note/zh-cn/hbase-foundation-and-ops",
+      "archiveId": "X-1174",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/headroom-cc-switch-coexistence.md",
+      "slug": "legacy/note/zh-cn/headroom-cc-switch-coexistence",
+      "archiveId": "X-1175",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/headroom-compress-retrieve-contract.md",
+      "slug": "legacy/note/zh-cn/headroom-compress-retrieve-contract",
+      "archiveId": "X-1176",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/headroom-single-port-evolution.md",
+      "slug": "legacy/note/zh-cn/headroom-single-port-evolution",
+      "archiveId": "X-1177",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/hindsight-local-deployment-and-agent-integration.md",
+      "slug": "legacy/note/zh-cn/hindsight-local-deployment-and-agent-integration",
+      "archiveId": "X-1178",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/hindsight-local-deployment.md",
+      "slug": "legacy/note/zh-cn/hindsight-local-deployment",
+      "archiveId": "X-1179",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/hindsight-omp-codex-integration.md",
+      "slug": "legacy/note/zh-cn/hindsight-omp-codex-integration",
+      "archiveId": "X-1180",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/hindsight-troubleshooting.md",
+      "slug": "legacy/note/zh-cn/hindsight-troubleshooting",
+      "archiveId": "X-1181",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/intranet-penetration-ssh-guide.md",
+      "slug": "legacy/note/zh-cn/intranet-penetration-ssh-guide",
+      "archiveId": "X-1182",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/java-atomic-boolean.md",
+      "slug": "legacy/note/zh-cn/java-atomic-boolean",
+      "archiveId": "X-1183",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/java-auto-closeable.md",
+      "slug": "legacy/note/zh-cn/java-auto-closeable",
+      "archiveId": "X-1184",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/java-concurrency-deepdive.md",
+      "slug": "legacy/note/zh-cn/java-concurrency-deepdive",
+      "archiveId": "X-1185",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/java-internship-interview-blog-polished.md",
+      "slug": "legacy/note/zh-cn/java-internship-interview-blog-polished",
+      "archiveId": "X-1186",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/java-null-value.md",
+      "slug": "legacy/note/zh-cn/java-null-value",
+      "archiveId": "X-1187",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/java-online-performance-debug.md",
+      "slug": "legacy/note/zh-cn/java-online-performance-debug",
+      "archiveId": "X-1188",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/jjwt-013-security-api.md",
+      "slug": "legacy/note/zh-cn/jjwt-013-security-api",
+      "archiveId": "X-1189",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/kb-session-ingest-contract.md",
+      "slug": "legacy/note/zh-cn/kb-session-ingest-contract",
+      "archiveId": "X-1190",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/llm-wiki-pattern.md",
+      "slug": "legacy/note/zh-cn/llm-wiki-pattern",
+      "archiveId": "X-1191",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/mcp-codebase-memory-workflow.md",
+      "slug": "legacy/note/zh-cn/mcp-codebase-memory-workflow",
+      "archiveId": "X-1192",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/microservice-data-ownership.md",
+      "slug": "legacy/note/zh-cn/microservice-data-ownership",
+      "archiveId": "X-1193",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/multi-service-readiness.md",
+      "slug": "legacy/note/zh-cn/multi-service-readiness",
+      "archiveId": "X-1194",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/mysql-performance-troubleshooting.md",
+      "slug": "legacy/note/zh-cn/mysql-performance-troubleshooting",
+      "archiveId": "X-1195",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/mysql-storage-and-deadlock.md",
+      "slug": "legacy/note/zh-cn/mysql-storage-and-deadlock",
+      "archiveId": "X-1196",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/omp-config-and-rules-guide.md",
+      "slug": "legacy/note/zh-cn/omp-config-and-rules-guide",
+      "archiveId": "X-1197",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/omp-headroom-persistence.md",
+      "slug": "legacy/note/zh-cn/omp-headroom-persistence",
+      "archiveId": "X-1198",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/omp-headroom-provider-proxy.md",
+      "slug": "legacy/note/zh-cn/omp-headroom-provider-proxy",
+      "archiveId": "X-1199",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/omp-hook-extension-guide.md",
+      "slug": "legacy/note/zh-cn/omp-hook-extension-guide",
+      "archiveId": "X-1200",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/plugin-lifecycle-management.md",
+      "slug": "legacy/note/zh-cn/plugin-lifecycle-management",
+      "archiveId": "X-1201",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/redis-business-patterns.md",
+      "slug": "legacy/note/zh-cn/redis-business-patterns",
+      "archiveId": "X-1202",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/redis-heima-practice.md",
+      "slug": "legacy/note/zh-cn/redis-heima-practice",
+      "archiveId": "X-1203",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/redis-jackson-java-time.md",
+      "slug": "legacy/note/zh-cn/redis-jackson-java-time",
+      "archiveId": "X-1204",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/redis-persistence-principle.md",
+      "slug": "legacy/note/zh-cn/redis-persistence-principle",
+      "archiveId": "X-1205",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/resicache-early-expiration-cas.md",
+      "slug": "legacy/note/zh-cn/resicache-early-expiration-cas",
+      "archiveId": "X-1206",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/resicache-handler-chain-and-observer.md",
+      "slug": "legacy/note/zh-cn/resicache-handler-chain-and-observer",
+      "archiveId": "X-1207",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/resicache-observer-nested-execution.md",
+      "slug": "legacy/note/zh-cn/resicache-observer-nested-execution",
+      "archiveId": "X-1208",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/resicache-serialization-migration.md",
+      "slug": "legacy/note/zh-cn/resicache-serialization-migration",
+      "archiveId": "X-1209",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/resicache-single-flight.md",
+      "slug": "legacy/note/zh-cn/resicache-single-flight",
+      "archiveId": "X-1210",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/resicache.md",
+      "slug": "legacy/note/zh-cn/resicache",
+      "archiveId": "X-1211",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/spark-bigdata-ecosystem.md",
+      "slug": "legacy/note/zh-cn/spark-bigdata-ecosystem",
+      "archiveId": "X-1212",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/spring-cloud-and-boot.md",
+      "slug": "legacy/note/zh-cn/spring-cloud-and-boot",
+      "archiveId": "X-1213",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/testcontainers-docker-api.md",
+      "slug": "legacy/note/zh-cn/testcontainers-docker-api",
+      "archiveId": "X-1214",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/uisa-architecture-design.md",
+      "slug": "legacy/note/zh-cn/uisa-architecture-design",
+      "archiveId": "X-1215",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/ulticode-async-execution-contract.md",
+      "slug": "legacy/note/zh-cn/ulticode-async-execution-contract",
+      "archiveId": "X-1216",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/ulticode-ci-supply-chain.md",
+      "slug": "legacy/note/zh-cn/ulticode-ci-supply-chain",
+      "archiveId": "X-1217",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/ulticode-core-bounded-testbed.md",
+      "slug": "legacy/note/zh-cn/ulticode-core-bounded-testbed",
+      "archiveId": "X-1218",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/ulticode-docker-sandbox.md",
+      "slug": "legacy/note/zh-cn/ulticode-docker-sandbox",
+      "archiveId": "X-1219",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/ulticode-fenced-singleton-lease.md",
+      "slug": "legacy/note/zh-cn/ulticode-fenced-singleton-lease",
+      "archiveId": "X-1220",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/ulticode-generation-attempt-fence.md",
+      "slug": "legacy/note/zh-cn/ulticode-generation-attempt-fence",
+      "archiveId": "X-1221",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/ulticode-outbox-redis-streams.md",
+      "slug": "legacy/note/zh-cn/ulticode-outbox-redis-streams",
+      "archiveId": "X-1222",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/ulticode-owner-and-facts.md",
+      "slug": "legacy/note/zh-cn/ulticode-owner-and-facts",
+      "archiveId": "X-1223",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/ulticode-owner-local-audit-inbox.md",
+      "slug": "legacy/note/zh-cn/ulticode-owner-local-audit-inbox",
+      "archiveId": "X-1224",
+      "draft": false
+    },
+    {
+      "path": "src/content/note/zh-cn/ulticode.md",
+      "slug": "legacy/note/zh-cn/ulticode",
+      "archiveId": "X-1225",
+      "draft": false
+    },
+    {
+      "path": "src/content/preface/en/2026-01-01-00-00-00.md",
+      "slug": "legacy/preface/en/2026-01-01-00-00-00",
+      "archiveId": "X-1226",
+      "draft": false
+    },
+    {
+      "path": "src/content/preface/en/2026-06-19-18-00-00.md",
+      "slug": "legacy/preface/en/2026-06-19-18-00-00",
+      "archiveId": "X-1227",
+      "draft": false
+    },
+    {
+      "path": "src/content/preface/ja/2026-01-01-00-00-00.md",
+      "slug": "legacy/preface/ja/2026-01-01-00-00-00",
+      "archiveId": "X-1228",
+      "draft": false
+    },
+    {
+      "path": "src/content/preface/ja/2026-06-19-18-00-00.md",
+      "slug": "legacy/preface/ja/2026-06-19-18-00-00",
+      "archiveId": "X-1229",
+      "draft": false
+    },
+    {
+      "path": "src/content/preface/zh-cn/2026-01-01-00-00-00.md",
+      "slug": "legacy/preface/zh-cn/2026-01-01-00-00-00",
+      "archiveId": "X-1230",
+      "draft": false
+    },
+    {
+      "path": "src/content/preface/zh-cn/2026-06-19-18-00-00.md",
+      "slug": "legacy/preface/zh-cn/2026-06-19-18-00-00",
+      "archiveId": "X-1231",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/database-schema-drift-contract.md",
+      "slug": "legacy/raw/zh-cn/database-schema-drift-contract",
+      "archiveId": "X-1232",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/database-written-test-review.md",
+      "slug": "legacy/raw/zh-cn/database-written-test-review",
+      "archiveId": "X-1233",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/dubbo-nacos-runtime-registration-correction.md",
+      "slug": "legacy/raw/zh-cn/dubbo-nacos-runtime-registration-correction",
+      "archiveId": "X-1234",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/dubbo-nacos-runtime-registration.md",
+      "slug": "legacy/raw/zh-cn/dubbo-nacos-runtime-registration",
+      "archiveId": "X-1235",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/headroom-0-34-compress-retrieve-contract.md",
+      "slug": "legacy/raw/zh-cn/headroom-0-34-compress-retrieve-contract",
+      "archiveId": "X-1236",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/headroom-cc-switch-coexistence-runtime.md",
+      "slug": "legacy/raw/zh-cn/headroom-cc-switch-coexistence-runtime",
+      "archiveId": "X-1237",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/hindsight-local-deployment-and-agent-integration.md",
+      "slug": "legacy/raw/zh-cn/hindsight-local-deployment-and-agent-integration",
+      "archiveId": "X-1238",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/ingest-docker-fundamentals.md",
+      "slug": "legacy/raw/zh-cn/ingest-docker-fundamentals",
+      "archiveId": "X-1239",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/ingest-frontend-essays.md",
+      "slug": "legacy/raw/zh-cn/ingest-frontend-essays",
+      "archiveId": "X-1240",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/ingest-hbase-foundation.md",
+      "slug": "legacy/raw/zh-cn/ingest-hbase-foundation",
+      "archiveId": "X-1241",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/ingest-java-concurrency.md",
+      "slug": "legacy/raw/zh-cn/ingest-java-concurrency",
+      "archiveId": "X-1242",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/ingest-mysql-storage.md",
+      "slug": "legacy/raw/zh-cn/ingest-mysql-storage",
+      "archiveId": "X-1243",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/ingest-redis-business.md",
+      "slug": "legacy/raw/zh-cn/ingest-redis-business",
+      "archiveId": "X-1244",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/ingest-redis-heima.md",
+      "slug": "legacy/raw/zh-cn/ingest-redis-heima",
+      "archiveId": "X-1245",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/ingest-redis-persistence.md",
+      "slug": "legacy/raw/zh-cn/ingest-redis-persistence",
+      "archiveId": "X-1246",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/ingest-spark-ecosystem.md",
+      "slug": "legacy/raw/zh-cn/ingest-spark-ecosystem",
+      "archiveId": "X-1247",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/ingest-spring-cloud.md",
+      "slug": "legacy/raw/zh-cn/ingest-spring-cloud",
+      "archiveId": "X-1248",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/jjwt-013-security-api-contract-correction.md",
+      "slug": "legacy/raw/zh-cn/jjwt-013-security-api-contract-correction",
+      "archiveId": "X-1249",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/jjwt-013-security-api-contract.md",
+      "slug": "legacy/raw/zh-cn/jjwt-013-security-api-contract",
+      "archiveId": "X-1250",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/karpathy-llm-wiki.md",
+      "slug": "legacy/raw/zh-cn/karpathy-llm-wiki",
+      "archiveId": "X-1251",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/kb-ingest-pipeline-v19.md",
+      "slug": "legacy/raw/zh-cn/kb-ingest-pipeline-v19",
+      "archiveId": "X-1252",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/legacy-containerd-tls-troubleshooting.md",
+      "slug": "legacy/raw/zh-cn/legacy-containerd-tls-troubleshooting",
+      "archiveId": "X-1253",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/legacy-headroom-single-port-evolution.md",
+      "slug": "legacy/raw/zh-cn/legacy-headroom-single-port-evolution",
+      "archiveId": "X-1254",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/legacy-intranet-penetration-ssh-guide.md",
+      "slug": "legacy/raw/zh-cn/legacy-intranet-penetration-ssh-guide",
+      "archiveId": "X-1255",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/legacy-java-atomic-boolean.md",
+      "slug": "legacy/raw/zh-cn/legacy-java-atomic-boolean",
+      "archiveId": "X-1256",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/legacy-java-auto-closeable.md",
+      "slug": "legacy/raw/zh-cn/legacy-java-auto-closeable",
+      "archiveId": "X-1257",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/legacy-java-internship-interview-blog-polished.md",
+      "slug": "legacy/raw/zh-cn/legacy-java-internship-interview-blog-polished",
+      "archiveId": "X-1258",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/legacy-java-null-value.md",
+      "slug": "legacy/raw/zh-cn/legacy-java-null-value",
+      "archiveId": "X-1259",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/legacy-java-online-performance-debug.md",
+      "slug": "legacy/raw/zh-cn/legacy-java-online-performance-debug",
+      "archiveId": "X-1260",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/legacy-mysql-performance-troubleshooting.md",
+      "slug": "legacy/raw/zh-cn/legacy-mysql-performance-troubleshooting",
+      "archiveId": "X-1261",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/legacy-omp-config-and-rules-guide.md",
+      "slug": "legacy/raw/zh-cn/legacy-omp-config-and-rules-guide",
+      "archiveId": "X-1262",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/legacy-omp-headroom-persistence.md",
+      "slug": "legacy/raw/zh-cn/legacy-omp-headroom-persistence",
+      "archiveId": "X-1263",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/legacy-omp-hook-extension-guide.md",
+      "slug": "legacy/raw/zh-cn/legacy-omp-hook-extension-guide",
+      "archiveId": "X-1264",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/legacy-plugin-lifecycle-management.md",
+      "slug": "legacy/raw/zh-cn/legacy-plugin-lifecycle-management",
+      "archiveId": "X-1265",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/legacy-uisa-architecture-design.md",
+      "slug": "legacy/raw/zh-cn/legacy-uisa-architecture-design",
+      "archiveId": "X-1266",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/mcp-codebase-memory-workflow.md",
+      "slug": "legacy/raw/zh-cn/mcp-codebase-memory-workflow",
+      "archiveId": "X-1267",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/microservice-domain-data-ownership-correction.md",
+      "slug": "legacy/raw/zh-cn/microservice-domain-data-ownership-correction",
+      "archiveId": "X-1268",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/microservice-domain-data-ownership.md",
+      "slug": "legacy/raw/zh-cn/microservice-domain-data-ownership",
+      "archiveId": "X-1269",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/multi-service-readiness-contract-correction.md",
+      "slug": "legacy/raw/zh-cn/multi-service-readiness-contract-correction",
+      "archiveId": "X-1270",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/multi-service-readiness-contract.md",
+      "slug": "legacy/raw/zh-cn/multi-service-readiness-contract",
+      "archiveId": "X-1271",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/multi-service-readiness-safety-correction.md",
+      "slug": "legacy/raw/zh-cn/multi-service-readiness-safety-correction",
+      "archiveId": "X-1272",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/omp-17-2-15-runtime-contract-correction.md",
+      "slug": "legacy/raw/zh-cn/omp-17-2-15-runtime-contract-correction",
+      "archiveId": "X-1273",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/omp-17-2-15-runtime-contract.md",
+      "slug": "legacy/raw/zh-cn/omp-17-2-15-runtime-contract",
+      "archiveId": "X-1274",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/omp-headroom-provider-proxy-codex-routing-runtime.md",
+      "slug": "legacy/raw/zh-cn/omp-headroom-provider-proxy-codex-routing-runtime",
+      "archiveId": "X-1275",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/redis-jackson-java-time-contract.md",
+      "slug": "legacy/raw/zh-cn/redis-jackson-java-time-contract",
+      "archiveId": "X-1276",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md",
+      "slug": "legacy/raw/zh-cn/resicache-engineering-highlights-2954fff",
+      "archiveId": "X-1277",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/resicache-observer-nested-execution-contract.md",
+      "slug": "legacy/raw/zh-cn/resicache-observer-nested-execution-contract",
+      "archiveId": "X-1278",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/resicache-project-overview.md",
+      "slug": "legacy/raw/zh-cn/resicache-project-overview",
+      "archiveId": "X-1279",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/testcontainers-docker-api-negotiation-correction.md",
+      "slug": "legacy/raw/zh-cn/testcontainers-docker-api-negotiation-correction",
+      "archiveId": "X-1280",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/testcontainers-docker-api-negotiation.md",
+      "slug": "legacy/raw/zh-cn/testcontainers-docker-api-negotiation",
+      "archiveId": "X-1281",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md",
+      "slug": "legacy/raw/zh-cn/ulticode-engineering-highlights-f801a1076",
+      "archiveId": "X-1282",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "slug": "legacy/raw/zh-cn/ulticode-project-context",
+      "archiveId": "X-1283",
+      "draft": false
+    },
+    {
+      "path": "src/content/raw/zh-cn/ulticode-reliability-core-f801a1076.md",
+      "slug": "legacy/raw/zh-cn/ulticode-reliability-core-f801a1076",
+      "archiveId": "X-1284",
+      "draft": false
+    }
+  ],
+  "routes": {
+    "/en/information/chronicle": "/blog/legacy/information/en/chronicle/",
+    "/en/chronicle": "/blog/legacy/information/en/chronicle/",
+    "/en/information/introduction": "/blog/legacy/information/en/introduction/",
+    "/en/about": "/blog/legacy/information/en/introduction/",
+    "/en/information/kb-index": "/blog/legacy/information/en/kb-index/",
+    "/en/kb": "/blog/legacy/information/en/kb-index/",
+    "/en/information/kb-log": "/blog/legacy/information/en/kb-log/",
+    "/en/kb-log": "/blog/legacy/information/en/kb-log/",
+    "/en/information/linkroll": "/blog/legacy/information/en/linkroll/",
+    "/en/linkroll": "/blog/legacy/information/en/linkroll/",
+    "/en/information/policy": "/blog/legacy/information/en/policy/",
+    "/en/policy": "/blog/legacy/information/en/policy/",
+    "/ja/information/chronicle": "/blog/legacy/information/ja/chronicle/",
+    "/ja/chronicle": "/blog/legacy/information/ja/chronicle/",
+    "/ja/information/introduction": "/blog/legacy/information/ja/introduction/",
+    "/ja/about": "/blog/legacy/information/ja/introduction/",
+    "/ja/information/kb-index": "/blog/legacy/information/ja/kb-index/",
+    "/ja/kb": "/blog/legacy/information/ja/kb-index/",
+    "/ja/information/kb-log": "/blog/legacy/information/ja/kb-log/",
+    "/ja/kb-log": "/blog/legacy/information/ja/kb-log/",
+    "/ja/information/linkroll": "/blog/legacy/information/ja/linkroll/",
+    "/ja/linkroll": "/blog/legacy/information/ja/linkroll/",
+    "/ja/information/policy": "/blog/legacy/information/ja/policy/",
+    "/ja/policy": "/blog/legacy/information/ja/policy/",
+    "/information/chronicle": "/blog/legacy/information/zh-cn/chronicle/",
+    "/chronicle": "/blog/legacy/information/zh-cn/chronicle/",
+    "/information/introduction": "/blog/legacy/information/zh-cn/introduction/",
+    "/about": "/blog/legacy/information/zh-cn/introduction/",
+    "/information/kb-index": "/blog/legacy/information/zh-cn/kb-index/",
+    "/kb": "/blog/legacy/information/zh-cn/kb-index/",
+    "/information/kb-log": "/blog/legacy/information/zh-cn/kb-log/",
+    "/kb-log": "/blog/legacy/information/zh-cn/kb-log/",
+    "/information/linkroll": "/blog/legacy/information/zh-cn/linkroll/",
+    "/linkroll": "/blog/legacy/information/zh-cn/linkroll/",
+    "/information/policy": "/blog/legacy/information/zh-cn/policy/",
+    "/policy": "/blog/legacy/information/zh-cn/policy/",
+    "/en/jotting/kb-ingest-todo": "/blog/legacy/jotting/en/kb-ingest-todo/",
+    "/ja/jotting/kb-ingest-todo": "/blog/legacy/jotting/ja/kb-ingest-todo/",
+    "/jotting/kb-ingest-todo": "/blog/legacy/jotting/zh-cn/kb-ingest-todo/",
+    "/en/note/containerd-tls-troubleshooting": "/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/",
+    "/en/note/database-schema-drift": "/blog/legacy/note/zh-cn/database-schema-drift/",
+    "/en/note/database-written-test-review": "/blog/legacy/note/en/database-written-test-review/",
+    "/en/note/docker-fundamentals": "/blog/legacy/note/zh-cn/docker-fundamentals/",
+    "/en/note/dubbo-nacos-runtime": "/blog/legacy/note/zh-cn/dubbo-nacos-runtime/",
+    "/en/note/frontend-mybatis-essays": "/blog/legacy/note/zh-cn/frontend-mybatis-essays/",
+    "/en/note/hbase-foundation-and-ops": "/blog/legacy/note/zh-cn/hbase-foundation-and-ops/",
+    "/en/note/headroom-cc-switch-coexistence": "/blog/legacy/note/zh-cn/headroom-cc-switch-coexistence/",
+    "/en/note/headroom-compress-retrieve-contract": "/blog/legacy/note/en/headroom-compress-retrieve-contract/",
+    "/en/note/headroom-single-port-evolution": "/blog/legacy/note/zh-cn/headroom-single-port-evolution/",
+    "/en/note/hindsight-local-deployment-and-agent-integration": "/blog/legacy/note/zh-cn/hindsight-local-deployment-and-agent-integration/",
+    "/en/note/hindsight-local-deployment": "/blog/legacy/note/en/hindsight-local-deployment/",
+    "/en/note/hindsight-omp-codex-integration": "/blog/legacy/note/en/hindsight-omp-codex-integration/",
+    "/en/note/hindsight-troubleshooting": "/blog/legacy/note/en/hindsight-troubleshooting/",
+    "/en/note/intranet-penetration-ssh-guide": "/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/",
+    "/en/note/java-atomic-boolean": "/blog/legacy/note/zh-cn/java-atomic-boolean/",
+    "/en/note/java-auto-closeable": "/blog/legacy/note/zh-cn/java-auto-closeable/",
+    "/en/note/java-concurrency-deepdive": "/blog/legacy/note/zh-cn/java-concurrency-deepdive/",
+    "/en/note/java-internship-interview-blog-polished": "/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/",
+    "/en/note/java-null-value": "/blog/legacy/note/zh-cn/java-null-value/",
+    "/en/note/java-online-performance-debug": "/blog/legacy/note/zh-cn/java-online-performance-debug/",
+    "/en/note/jjwt-013-security-api": "/blog/legacy/note/zh-cn/jjwt-013-security-api/",
+    "/en/note/kb-session-ingest-contract": "/blog/legacy/note/zh-cn/kb-session-ingest-contract/",
+    "/en/note/llm-wiki-pattern": "/blog/legacy/note/en/llm-wiki-pattern/",
+    "/en/note/mcp-codebase-memory-workflow": "/blog/legacy/note/zh-cn/mcp-codebase-memory-workflow/",
+    "/en/note/microservice-data-ownership": "/blog/legacy/note/zh-cn/microservice-data-ownership/",
+    "/en/note/multi-service-readiness": "/blog/legacy/note/zh-cn/multi-service-readiness/",
+    "/en/note/mysql-performance-troubleshooting": "/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/",
+    "/en/note/mysql-storage-and-deadlock": "/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/",
+    "/en/note/omp-config-and-rules-guide": "/blog/legacy/note/zh-cn/omp-config-and-rules-guide/",
+    "/en/note/omp-headroom-persistence": "/blog/legacy/note/zh-cn/omp-headroom-persistence/",
+    "/en/note/omp-headroom-provider-proxy": "/blog/legacy/note/zh-cn/omp-headroom-provider-proxy/",
+    "/en/note/omp-hook-extension-guide": "/blog/legacy/note/zh-cn/omp-hook-extension-guide/",
+    "/en/note/plugin-lifecycle-management": "/blog/legacy/note/zh-cn/plugin-lifecycle-management/",
+    "/en/note/redis-business-patterns": "/blog/legacy/note/zh-cn/redis-business-patterns/",
+    "/en/note/redis-heima-practice": "/blog/legacy/note/zh-cn/redis-heima-practice/",
+    "/en/note/redis-jackson-java-time": "/blog/legacy/note/zh-cn/redis-jackson-java-time/",
+    "/en/note/redis-persistence-principle": "/blog/legacy/note/zh-cn/redis-persistence-principle/",
+    "/en/note/resicache-early-expiration-cas": "/blog/legacy/note/en/resicache-early-expiration-cas/",
+    "/en/note/resicache-handler-chain-and-observer": "/blog/legacy/note/en/resicache-handler-chain-and-observer/",
+    "/en/note/resicache-observer-nested-execution": "/blog/legacy/note/zh-cn/resicache-observer-nested-execution/",
+    "/en/note/resicache-serialization-migration": "/blog/legacy/note/en/resicache-serialization-migration/",
+    "/en/note/resicache-single-flight": "/blog/legacy/note/en/resicache-single-flight/",
+    "/en/note/resicache": "/blog/legacy/note/en/resicache/",
+    "/en/note/spark-bigdata-ecosystem": "/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/",
+    "/en/note/spring-cloud-and-boot": "/blog/legacy/note/zh-cn/spring-cloud-and-boot/",
+    "/en/note/testcontainers-docker-api": "/blog/legacy/note/zh-cn/testcontainers-docker-api/",
+    "/en/note/uisa-architecture-design": "/blog/legacy/note/zh-cn/uisa-architecture-design/",
+    "/en/note/ulticode-async-execution-contract": "/blog/legacy/note/en/ulticode-async-execution-contract/",
+    "/en/note/ulticode-ci-supply-chain": "/blog/legacy/note/en/ulticode-ci-supply-chain/",
+    "/en/note/ulticode-core-bounded-testbed": "/blog/legacy/note/en/ulticode-core-bounded-testbed/",
+    "/en/note/ulticode-docker-sandbox": "/blog/legacy/note/en/ulticode-docker-sandbox/",
+    "/en/note/ulticode-fenced-singleton-lease": "/blog/legacy/note/en/ulticode-fenced-singleton-lease/",
+    "/en/note/ulticode-generation-attempt-fence": "/blog/legacy/note/en/ulticode-generation-attempt-fence/",
+    "/en/note/ulticode-outbox-redis-streams": "/blog/legacy/note/en/ulticode-outbox-redis-streams/",
+    "/en/note/ulticode-owner-and-facts": "/blog/legacy/note/en/ulticode-owner-and-facts/",
+    "/en/note/ulticode-owner-local-audit-inbox": "/blog/legacy/note/en/ulticode-owner-local-audit-inbox/",
+    "/en/note/ulticode": "/blog/legacy/note/en/ulticode/",
+    "/ja/note/containerd-tls-troubleshooting": "/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/",
+    "/ja/note/database-schema-drift": "/blog/legacy/note/zh-cn/database-schema-drift/",
+    "/ja/note/database-written-test-review": "/blog/legacy/note/ja/database-written-test-review/",
+    "/ja/note/docker-fundamentals": "/blog/legacy/note/zh-cn/docker-fundamentals/",
+    "/ja/note/dubbo-nacos-runtime": "/blog/legacy/note/zh-cn/dubbo-nacos-runtime/",
+    "/ja/note/frontend-mybatis-essays": "/blog/legacy/note/zh-cn/frontend-mybatis-essays/",
+    "/ja/note/hbase-foundation-and-ops": "/blog/legacy/note/zh-cn/hbase-foundation-and-ops/",
+    "/ja/note/headroom-cc-switch-coexistence": "/blog/legacy/note/zh-cn/headroom-cc-switch-coexistence/",
+    "/ja/note/headroom-compress-retrieve-contract": "/blog/legacy/note/ja/headroom-compress-retrieve-contract/",
+    "/ja/note/headroom-single-port-evolution": "/blog/legacy/note/zh-cn/headroom-single-port-evolution/",
+    "/ja/note/hindsight-local-deployment-and-agent-integration": "/blog/legacy/note/zh-cn/hindsight-local-deployment-and-agent-integration/",
+    "/ja/note/hindsight-local-deployment": "/blog/legacy/note/ja/hindsight-local-deployment/",
+    "/ja/note/hindsight-omp-codex-integration": "/blog/legacy/note/ja/hindsight-omp-codex-integration/",
+    "/ja/note/hindsight-troubleshooting": "/blog/legacy/note/ja/hindsight-troubleshooting/",
+    "/ja/note/intranet-penetration-ssh-guide": "/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/",
+    "/ja/note/java-atomic-boolean": "/blog/legacy/note/zh-cn/java-atomic-boolean/",
+    "/ja/note/java-auto-closeable": "/blog/legacy/note/zh-cn/java-auto-closeable/",
+    "/ja/note/java-concurrency-deepdive": "/blog/legacy/note/zh-cn/java-concurrency-deepdive/",
+    "/ja/note/java-internship-interview-blog-polished": "/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/",
+    "/ja/note/java-null-value": "/blog/legacy/note/zh-cn/java-null-value/",
+    "/ja/note/java-online-performance-debug": "/blog/legacy/note/zh-cn/java-online-performance-debug/",
+    "/ja/note/jjwt-013-security-api": "/blog/legacy/note/zh-cn/jjwt-013-security-api/",
+    "/ja/note/kb-session-ingest-contract": "/blog/legacy/note/zh-cn/kb-session-ingest-contract/",
+    "/ja/note/llm-wiki-pattern": "/blog/legacy/note/ja/llm-wiki-pattern/",
+    "/ja/note/mcp-codebase-memory-workflow": "/blog/legacy/note/zh-cn/mcp-codebase-memory-workflow/",
+    "/ja/note/microservice-data-ownership": "/blog/legacy/note/zh-cn/microservice-data-ownership/",
+    "/ja/note/multi-service-readiness": "/blog/legacy/note/zh-cn/multi-service-readiness/",
+    "/ja/note/mysql-performance-troubleshooting": "/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/",
+    "/ja/note/mysql-storage-and-deadlock": "/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/",
+    "/ja/note/omp-config-and-rules-guide": "/blog/legacy/note/zh-cn/omp-config-and-rules-guide/",
+    "/ja/note/omp-headroom-persistence": "/blog/legacy/note/zh-cn/omp-headroom-persistence/",
+    "/ja/note/omp-headroom-provider-proxy": "/blog/legacy/note/zh-cn/omp-headroom-provider-proxy/",
+    "/ja/note/omp-hook-extension-guide": "/blog/legacy/note/zh-cn/omp-hook-extension-guide/",
+    "/ja/note/plugin-lifecycle-management": "/blog/legacy/note/zh-cn/plugin-lifecycle-management/",
+    "/ja/note/redis-business-patterns": "/blog/legacy/note/zh-cn/redis-business-patterns/",
+    "/ja/note/redis-heima-practice": "/blog/legacy/note/zh-cn/redis-heima-practice/",
+    "/ja/note/redis-jackson-java-time": "/blog/legacy/note/zh-cn/redis-jackson-java-time/",
+    "/ja/note/redis-persistence-principle": "/blog/legacy/note/zh-cn/redis-persistence-principle/",
+    "/ja/note/resicache-early-expiration-cas": "/blog/legacy/note/ja/resicache-early-expiration-cas/",
+    "/ja/note/resicache-handler-chain-and-observer": "/blog/legacy/note/ja/resicache-handler-chain-and-observer/",
+    "/ja/note/resicache-observer-nested-execution": "/blog/legacy/note/zh-cn/resicache-observer-nested-execution/",
+    "/ja/note/resicache-serialization-migration": "/blog/legacy/note/ja/resicache-serialization-migration/",
+    "/ja/note/resicache-single-flight": "/blog/legacy/note/ja/resicache-single-flight/",
+    "/ja/note/resicache": "/blog/legacy/note/ja/resicache/",
+    "/ja/note/spark-bigdata-ecosystem": "/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/",
+    "/ja/note/spring-cloud-and-boot": "/blog/legacy/note/zh-cn/spring-cloud-and-boot/",
+    "/ja/note/testcontainers-docker-api": "/blog/legacy/note/zh-cn/testcontainers-docker-api/",
+    "/ja/note/uisa-architecture-design": "/blog/legacy/note/zh-cn/uisa-architecture-design/",
+    "/ja/note/ulticode-async-execution-contract": "/blog/legacy/note/ja/ulticode-async-execution-contract/",
+    "/ja/note/ulticode-ci-supply-chain": "/blog/legacy/note/ja/ulticode-ci-supply-chain/",
+    "/ja/note/ulticode-core-bounded-testbed": "/blog/legacy/note/ja/ulticode-core-bounded-testbed/",
+    "/ja/note/ulticode-docker-sandbox": "/blog/legacy/note/ja/ulticode-docker-sandbox/",
+    "/ja/note/ulticode-fenced-singleton-lease": "/blog/legacy/note/ja/ulticode-fenced-singleton-lease/",
+    "/ja/note/ulticode-generation-attempt-fence": "/blog/legacy/note/ja/ulticode-generation-attempt-fence/",
+    "/ja/note/ulticode-outbox-redis-streams": "/blog/legacy/note/ja/ulticode-outbox-redis-streams/",
+    "/ja/note/ulticode-owner-and-facts": "/blog/legacy/note/ja/ulticode-owner-and-facts/",
+    "/ja/note/ulticode-owner-local-audit-inbox": "/blog/legacy/note/ja/ulticode-owner-local-audit-inbox/",
+    "/ja/note/ulticode": "/blog/legacy/note/ja/ulticode/",
+    "/note/containerd-tls-troubleshooting": "/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/",
+    "/note/database-schema-drift": "/blog/legacy/note/zh-cn/database-schema-drift/",
+    "/note/database-written-test-review": "/blog/legacy/note/zh-cn/database-written-test-review/",
+    "/note/docker-fundamentals": "/blog/legacy/note/zh-cn/docker-fundamentals/",
+    "/note/dubbo-nacos-runtime": "/blog/legacy/note/zh-cn/dubbo-nacos-runtime/",
+    "/note/frontend-mybatis-essays": "/blog/legacy/note/zh-cn/frontend-mybatis-essays/",
+    "/note/hbase-foundation-and-ops": "/blog/legacy/note/zh-cn/hbase-foundation-and-ops/",
+    "/note/headroom-cc-switch-coexistence": "/blog/legacy/note/zh-cn/headroom-cc-switch-coexistence/",
+    "/note/headroom-compress-retrieve-contract": "/blog/legacy/note/zh-cn/headroom-compress-retrieve-contract/",
+    "/note/headroom-single-port-evolution": "/blog/legacy/note/zh-cn/headroom-single-port-evolution/",
+    "/note/hindsight-local-deployment-and-agent-integration": "/blog/legacy/note/zh-cn/hindsight-local-deployment-and-agent-integration/",
+    "/note/hindsight-local-deployment": "/blog/legacy/note/zh-cn/hindsight-local-deployment/",
+    "/note/hindsight-omp-codex-integration": "/blog/legacy/note/zh-cn/hindsight-omp-codex-integration/",
+    "/note/hindsight-troubleshooting": "/blog/legacy/note/zh-cn/hindsight-troubleshooting/",
+    "/note/intranet-penetration-ssh-guide": "/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/",
+    "/note/java-atomic-boolean": "/blog/legacy/note/zh-cn/java-atomic-boolean/",
+    "/note/java-auto-closeable": "/blog/legacy/note/zh-cn/java-auto-closeable/",
+    "/note/java-concurrency-deepdive": "/blog/legacy/note/zh-cn/java-concurrency-deepdive/",
+    "/note/java-internship-interview-blog-polished": "/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/",
+    "/note/java-null-value": "/blog/legacy/note/zh-cn/java-null-value/",
+    "/note/java-online-performance-debug": "/blog/legacy/note/zh-cn/java-online-performance-debug/",
+    "/note/jjwt-013-security-api": "/blog/legacy/note/zh-cn/jjwt-013-security-api/",
+    "/note/kb-session-ingest-contract": "/blog/legacy/note/zh-cn/kb-session-ingest-contract/",
+    "/note/llm-wiki-pattern": "/blog/legacy/note/zh-cn/llm-wiki-pattern/",
+    "/note/mcp-codebase-memory-workflow": "/blog/legacy/note/zh-cn/mcp-codebase-memory-workflow/",
+    "/note/microservice-data-ownership": "/blog/legacy/note/zh-cn/microservice-data-ownership/",
+    "/note/multi-service-readiness": "/blog/legacy/note/zh-cn/multi-service-readiness/",
+    "/note/mysql-performance-troubleshooting": "/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/",
+    "/note/mysql-storage-and-deadlock": "/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/",
+    "/note/omp-config-and-rules-guide": "/blog/legacy/note/zh-cn/omp-config-and-rules-guide/",
+    "/note/omp-headroom-persistence": "/blog/legacy/note/zh-cn/omp-headroom-persistence/",
+    "/note/omp-headroom-provider-proxy": "/blog/legacy/note/zh-cn/omp-headroom-provider-proxy/",
+    "/note/omp-hook-extension-guide": "/blog/legacy/note/zh-cn/omp-hook-extension-guide/",
+    "/note/plugin-lifecycle-management": "/blog/legacy/note/zh-cn/plugin-lifecycle-management/",
+    "/note/redis-business-patterns": "/blog/legacy/note/zh-cn/redis-business-patterns/",
+    "/note/redis-heima-practice": "/blog/legacy/note/zh-cn/redis-heima-practice/",
+    "/note/redis-jackson-java-time": "/blog/legacy/note/zh-cn/redis-jackson-java-time/",
+    "/note/redis-persistence-principle": "/blog/legacy/note/zh-cn/redis-persistence-principle/",
+    "/note/resicache-early-expiration-cas": "/blog/legacy/note/zh-cn/resicache-early-expiration-cas/",
+    "/note/resicache-handler-chain-and-observer": "/blog/legacy/note/zh-cn/resicache-handler-chain-and-observer/",
+    "/note/resicache-observer-nested-execution": "/blog/legacy/note/zh-cn/resicache-observer-nested-execution/",
+    "/note/resicache-serialization-migration": "/blog/legacy/note/zh-cn/resicache-serialization-migration/",
+    "/note/resicache-single-flight": "/blog/legacy/note/zh-cn/resicache-single-flight/",
+    "/note/resicache": "/blog/legacy/note/zh-cn/resicache/",
+    "/note/spark-bigdata-ecosystem": "/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/",
+    "/note/spring-cloud-and-boot": "/blog/legacy/note/zh-cn/spring-cloud-and-boot/",
+    "/note/testcontainers-docker-api": "/blog/legacy/note/zh-cn/testcontainers-docker-api/",
+    "/note/uisa-architecture-design": "/blog/legacy/note/zh-cn/uisa-architecture-design/",
+    "/note/ulticode-async-execution-contract": "/blog/legacy/note/zh-cn/ulticode-async-execution-contract/",
+    "/note/ulticode-ci-supply-chain": "/blog/legacy/note/zh-cn/ulticode-ci-supply-chain/",
+    "/note/ulticode-core-bounded-testbed": "/blog/legacy/note/zh-cn/ulticode-core-bounded-testbed/",
+    "/note/ulticode-docker-sandbox": "/blog/legacy/note/zh-cn/ulticode-docker-sandbox/",
+    "/note/ulticode-fenced-singleton-lease": "/blog/legacy/note/zh-cn/ulticode-fenced-singleton-lease/",
+    "/note/ulticode-generation-attempt-fence": "/blog/legacy/note/zh-cn/ulticode-generation-attempt-fence/",
+    "/note/ulticode-outbox-redis-streams": "/blog/legacy/note/zh-cn/ulticode-outbox-redis-streams/",
+    "/note/ulticode-owner-and-facts": "/blog/legacy/note/zh-cn/ulticode-owner-and-facts/",
+    "/note/ulticode-owner-local-audit-inbox": "/blog/legacy/note/zh-cn/ulticode-owner-local-audit-inbox/",
+    "/note/ulticode": "/blog/legacy/note/zh-cn/ulticode/",
+    "/en/preface/2026-01-01-00-00-00": "/blog/legacy/preface/en/2026-01-01-00-00-00/",
+    "/en/preface/2026-06-19-18-00-00": "/blog/legacy/preface/en/2026-06-19-18-00-00/",
+    "/ja/preface/2026-01-01-00-00-00": "/blog/legacy/preface/ja/2026-01-01-00-00-00/",
+    "/ja/preface/2026-06-19-18-00-00": "/blog/legacy/preface/ja/2026-06-19-18-00-00/",
+    "/preface/2026-01-01-00-00-00": "/blog/legacy/preface/zh-cn/2026-01-01-00-00-00/",
+    "/preface/2026-06-19-18-00-00": "/blog/legacy/preface/zh-cn/2026-06-19-18-00-00/",
+    "/raw/database-schema-drift-contract": "/blog/legacy/raw/zh-cn/database-schema-drift-contract/",
+    "/raw/database-written-test-review": "/blog/legacy/raw/zh-cn/database-written-test-review/",
+    "/raw/dubbo-nacos-runtime-registration-correction": "/blog/legacy/raw/zh-cn/dubbo-nacos-runtime-registration-correction/",
+    "/raw/dubbo-nacos-runtime-registration": "/blog/legacy/raw/zh-cn/dubbo-nacos-runtime-registration/",
+    "/raw/headroom-0-34-compress-retrieve-contract": "/blog/legacy/raw/zh-cn/headroom-0-34-compress-retrieve-contract/",
+    "/raw/headroom-cc-switch-coexistence-runtime": "/blog/legacy/raw/zh-cn/headroom-cc-switch-coexistence-runtime/",
+    "/raw/hindsight-local-deployment-and-agent-integration": "/blog/legacy/raw/zh-cn/hindsight-local-deployment-and-agent-integration/",
+    "/raw/ingest-docker-fundamentals": "/blog/legacy/raw/zh-cn/ingest-docker-fundamentals/",
+    "/raw/ingest-frontend-essays": "/blog/legacy/raw/zh-cn/ingest-frontend-essays/",
+    "/raw/ingest-hbase-foundation": "/blog/legacy/raw/zh-cn/ingest-hbase-foundation/",
+    "/raw/ingest-java-concurrency": "/blog/legacy/raw/zh-cn/ingest-java-concurrency/",
+    "/raw/ingest-mysql-storage": "/blog/legacy/raw/zh-cn/ingest-mysql-storage/",
+    "/raw/ingest-redis-business": "/blog/legacy/raw/zh-cn/ingest-redis-business/",
+    "/raw/ingest-redis-heima": "/blog/legacy/raw/zh-cn/ingest-redis-heima/",
+    "/raw/ingest-redis-persistence": "/blog/legacy/raw/zh-cn/ingest-redis-persistence/",
+    "/raw/ingest-spark-ecosystem": "/blog/legacy/raw/zh-cn/ingest-spark-ecosystem/",
+    "/raw/ingest-spring-cloud": "/blog/legacy/raw/zh-cn/ingest-spring-cloud/",
+    "/raw/jjwt-013-security-api-contract-correction": "/blog/legacy/raw/zh-cn/jjwt-013-security-api-contract-correction/",
+    "/raw/jjwt-013-security-api-contract": "/blog/legacy/raw/zh-cn/jjwt-013-security-api-contract/",
+    "/raw/karpathy-llm-wiki": "/blog/legacy/raw/zh-cn/karpathy-llm-wiki/",
+    "/raw/kb-ingest-pipeline-v19": "/blog/legacy/raw/zh-cn/kb-ingest-pipeline-v19/",
+    "/raw/legacy-containerd-tls-troubleshooting": "/blog/legacy/raw/zh-cn/legacy-containerd-tls-troubleshooting/",
+    "/raw/legacy-headroom-single-port-evolution": "/blog/legacy/raw/zh-cn/legacy-headroom-single-port-evolution/",
+    "/raw/legacy-intranet-penetration-ssh-guide": "/blog/legacy/raw/zh-cn/legacy-intranet-penetration-ssh-guide/",
+    "/raw/legacy-java-atomic-boolean": "/blog/legacy/raw/zh-cn/legacy-java-atomic-boolean/",
+    "/raw/legacy-java-auto-closeable": "/blog/legacy/raw/zh-cn/legacy-java-auto-closeable/",
+    "/raw/legacy-java-internship-interview-blog-polished": "/blog/legacy/raw/zh-cn/legacy-java-internship-interview-blog-polished/",
+    "/raw/legacy-java-null-value": "/blog/legacy/raw/zh-cn/legacy-java-null-value/",
+    "/raw/legacy-java-online-performance-debug": "/blog/legacy/raw/zh-cn/legacy-java-online-performance-debug/",
+    "/raw/legacy-mysql-performance-troubleshooting": "/blog/legacy/raw/zh-cn/legacy-mysql-performance-troubleshooting/",
+    "/raw/legacy-omp-config-and-rules-guide": "/blog/legacy/raw/zh-cn/legacy-omp-config-and-rules-guide/",
+    "/raw/legacy-omp-headroom-persistence": "/blog/legacy/raw/zh-cn/legacy-omp-headroom-persistence/",
+    "/raw/legacy-omp-hook-extension-guide": "/blog/legacy/raw/zh-cn/legacy-omp-hook-extension-guide/",
+    "/raw/legacy-plugin-lifecycle-management": "/blog/legacy/raw/zh-cn/legacy-plugin-lifecycle-management/",
+    "/raw/legacy-uisa-architecture-design": "/blog/legacy/raw/zh-cn/legacy-uisa-architecture-design/",
+    "/raw/mcp-codebase-memory-workflow": "/blog/legacy/raw/zh-cn/mcp-codebase-memory-workflow/",
+    "/raw/microservice-domain-data-ownership-correction": "/blog/legacy/raw/zh-cn/microservice-domain-data-ownership-correction/",
+    "/raw/microservice-domain-data-ownership": "/blog/legacy/raw/zh-cn/microservice-domain-data-ownership/",
+    "/raw/multi-service-readiness-contract-correction": "/blog/legacy/raw/zh-cn/multi-service-readiness-contract-correction/",
+    "/raw/multi-service-readiness-contract": "/blog/legacy/raw/zh-cn/multi-service-readiness-contract/",
+    "/raw/multi-service-readiness-safety-correction": "/blog/legacy/raw/zh-cn/multi-service-readiness-safety-correction/",
+    "/raw/omp-17-2-15-runtime-contract-correction": "/blog/legacy/raw/zh-cn/omp-17-2-15-runtime-contract-correction/",
+    "/raw/omp-17-2-15-runtime-contract": "/blog/legacy/raw/zh-cn/omp-17-2-15-runtime-contract/",
+    "/raw/omp-headroom-provider-proxy-codex-routing-runtime": "/blog/legacy/raw/zh-cn/omp-headroom-provider-proxy-codex-routing-runtime/",
+    "/raw/redis-jackson-java-time-contract": "/blog/legacy/raw/zh-cn/redis-jackson-java-time-contract/",
+    "/raw/resicache-engineering-highlights-2954fff": "/blog/legacy/raw/zh-cn/resicache-engineering-highlights-2954fff/",
+    "/raw/resicache-observer-nested-execution-contract": "/blog/legacy/raw/zh-cn/resicache-observer-nested-execution-contract/",
+    "/raw/resicache-project-overview": "/blog/legacy/raw/zh-cn/resicache-project-overview/",
+    "/raw/testcontainers-docker-api-negotiation-correction": "/blog/legacy/raw/zh-cn/testcontainers-docker-api-negotiation-correction/",
+    "/raw/testcontainers-docker-api-negotiation": "/blog/legacy/raw/zh-cn/testcontainers-docker-api-negotiation/",
+    "/raw/ulticode-engineering-highlights-f801a1076": "/blog/legacy/raw/zh-cn/ulticode-engineering-highlights-f801a1076/",
+    "/raw/ulticode-project-context": "/blog/legacy/raw/zh-cn/ulticode-project-context/",
+    "/raw/ulticode-reliability-core-f801a1076": "/blog/legacy/raw/zh-cn/ulticode-reliability-core-f801a1076/",
+    "/note": "/",
+    "/jotting": "/",
+    "/feed.xml": "/rss.xml",
+    "/preface": "/blog/legacy/preface/zh-cn/2026-06-19-18-00-00/",
+    "/en/note": "/",
+    "/en/jotting": "/",
+    "/en/feed.xml": "/rss.xml",
+    "/en/preface": "/blog/legacy/preface/en/2026-06-19-18-00-00/",
+    "/ja/note": "/",
+    "/ja/jotting": "/",
+    "/ja/feed.xml": "/rss.xml",
+    "/ja/preface": "/blog/legacy/preface/ja/2026-06-19-18-00-00/"
+  },
+  "missingResources": [
+    {
+      "document": "docs/RUNBOOK.md",
+      "reference": "./image.png",
+      "retainedUrl": "https://davidhlp.github.io/documentation/docs/image.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "docs/RUNBOOK.md",
+      "reference": "/images/image.png",
+      "retainedUrl": "https://davidhlp.github.io/images/image.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-docker-fundamentals.md",
+      "reference": "./image/docker-push-pull.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/image/docker-push-pull.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-docker-fundamentals.md",
+      "reference": "./image/docker-rmi.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/image/docker-rmi.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-docker-fundamentals.md",
+      "reference": "./image/docker-build.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/image/docker-build.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-docker-fundamentals.md",
+      "reference": "./image/docker-save.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/image/docker-save.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-docker-fundamentals.md",
+      "reference": "./image/docker-build.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/image/docker-build.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-docker-fundamentals.md",
+      "reference": "./image/docker-run-stop-start.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/image/docker-run-stop-start.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-docker-fundamentals.md",
+      "reference": "./image/docker-rm.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/image/docker-rm.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-hbase-foundation.md",
+      "reference": "../image/hbase.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/image/hbase.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-hbase-foundation.md",
+      "reference": "../image/Master-Web-UI.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/image/Master-Web-UI.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-hbase-foundation.md",
+      "reference": "../image/RegionServer.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/image/RegionServer.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-hbase-foundation.md",
+      "reference": "../image/RegionServer-structure.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/image/RegionServer-structure.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-hbase-foundation.md",
+      "reference": "../image/Region1.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/image/Region1.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-hbase-foundation.md",
+      "reference": "../image/Region2.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/image/Region2.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-hbase-foundation.md",
+      "reference": "../image/Region-is-split-vertically-by-column-family.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/image/Region-is-split-vertically-by-column-family.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-hbase-foundation.md",
+      "reference": "../image/namespace-default.png ",
+      "retainedUrl": "https://davidhlp.github.io/raw/image/namespace-default.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-hbase-foundation.md",
+      "reference": "../image/namespace-hbase.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/image/namespace-hbase.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-hbase-foundation.md",
+      "reference": "../image/StartKey-EndKey.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/image/StartKey-EndKey.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-hbase-foundation.md",
+      "reference": "../image/p1.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/image/p1.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ingest-hbase-foundation.md",
+      "reference": "../image/p2.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/image/p2.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/forum-list-light.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/forum-list-light.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/forum-thread-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/forum-thread-dark.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/forum-detail-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/forum-detail-dark.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/contests-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/contests-dark.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/contest-detail-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/contest-detail-dark.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/problem-set-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/problem-set-dark.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/problem-list-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/problem-list-dark.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/problem-detail-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/problem-detail-dark.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/personal-dashboard-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/personal-dashboard-dark.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/submissions-list-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/submissions-list-dark.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/achievements-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/achievements-dark.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/analytics-dashboard-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/analytics-dashboard-dark.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/admin-dashboard-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/admin-dashboard-dark.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/user-management-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/user-management-dark.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/contest-management-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/contest-management-dark.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/moderation-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/moderation-dark.png",
+      "inCodeBlock": true
+    },
+    {
+      "document": "src/content/raw/zh-cn/ulticode-project-context.md",
+      "reference": "assets/screenshots/submissions-audit-dark.png",
+      "retainedUrl": "https://davidhlp.github.io/raw/zh-cn/assets/screenshots/submissions-audit-dark.png",
+      "inCodeBlock": true
+    }
+  ]
+}

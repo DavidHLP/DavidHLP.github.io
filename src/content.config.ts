@@ -5,7 +5,7 @@ import site from "../content/site.json";
 
 const text = z.string().trim().min(1);
 const blog = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./content/blog" }),
+  loader: glob({ pattern: "**/*.md", base: "./content/blog", generateId: ({ entry }) => entry.replace(/\.md$/, "") }),
   schema: z.object({
     archiveId: text.regex(/^X-\d{3,}$/),
     title: text,
@@ -22,6 +22,8 @@ const blog = defineCollection({
     updatedDate: z.coerce.date().optional(),
     tags: z.array(text).default([]),
     draft: z.boolean().default(false),
+    lang: z.enum(["zh-CN", "en", "ja"]).default("zh-CN"),
+    legacy: z.object({ path: text, revision: text, metadata: z.record(z.string(), z.unknown()) }).optional(),
   }),
 });
 export const collections = { blog };

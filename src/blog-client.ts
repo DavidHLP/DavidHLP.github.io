@@ -4,6 +4,11 @@ export function recentRecords<T extends { pubDate: string }>(records: readonly T
   return [...records].sort((a, b) => Date.parse(b.pubDate) - Date.parse(a.pubDate));
 }
 
+export function archiveTickWindow(files: readonly number[], selected: number) {
+  const start = Math.max(0, Math.min(files.indexOf(selected) - 3, files.length - 8));
+  return files.slice(start, start + 8);
+}
+
 export function visibleSavedCount(saved: ReadonlySet<string>, records: readonly { id: string }[]) {
   return records.filter(record => saved.has(record.id)).length;
 }

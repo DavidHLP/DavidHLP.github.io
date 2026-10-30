@@ -16,7 +16,7 @@ const description = post?.data.abstract ?? site.description;
 const canonical = new URL(post ? postPath(post.id) : "/", Astro.site);
 ---
 <!doctype html>
-<html lang="zh-CN">
+<html lang={post?.data.lang ?? "zh-CN"}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -51,7 +51,7 @@ const canonical = new URL(post ? postPath(post.id) : "/", Astro.site);
         <p>发布 <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10)}</time>{post.data.updatedDate && <> / 更新 <time datetime={post.data.updatedDate.toISOString()}>{post.data.updatedDate.toISOString().slice(0, 10)}</time></>} / {post.data.lead}</p>
         {rendered.map(({ Content }) => <Content />)}
         <h2>研究记录</h2><ol>{post.data.findings.map(finding => <li>{finding}</li>)}</ol>
-        <p><a href={post.data.source} rel="noopener">设定参考 ↗</a></p>
+        <p><a href={post.data.source} rel="noopener">{post.data.legacy ? "原文来源" : "设定参考"} ↗</a></p>
       </article> : <section>
         <h1>{site.title}</h1><p>{site.description}</p>
         {site.columns.map(column => <section><h2>{column}</h2><ul>
