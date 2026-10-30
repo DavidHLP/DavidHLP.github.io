@@ -202,7 +202,7 @@ HINDSIGHT_API_BASE_URL = "http://127.0.0.1:8888"
 
 以下は 2026-08-17 raw の一回の書き込み・召回の転記で、再実行ではない。回数、負荷、全版、計時方法がなく、score と 0.059s は性能基準ではない。テスト文も現プロジェクトの設定事実ではない：
 
-```
+```text
 [書き込み段階（Codex MCP Bridge -> GPU Fact Extraction）]
 書き込み："Backend uses Java 17 and Spring Boot 3.2.5 with three owner services: auth 9101, admin 9102, app 9103."
 抽出結果：3 件の Fact エンティティの抽出に成功し、BAAI/bge-m3 でベクトル索引を作成した。

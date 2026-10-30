@@ -202,7 +202,7 @@ HINDSIGHT_API_BASE_URL = "http://127.0.0.1:8888"
 
 The following retells one write/recall record from the 2026-08-17 raw, not a fresh execution. Repetitions, load, full versions, and timing methods are not supplied; scores and 0.059s are not benchmarks, and the test text is not a current project configuration fact:
 
-```
+```text
 [Write stage (Codex MCP Bridge -> GPU Fact Extraction)]
 Written: "Backend uses Java 17 and Spring Boot 3.2.5 with three owner services: auth 9101, admin 9102, app 9103."
 Extraction result: 3 fact entities were extracted successfully and indexed with BAAI/bge-m3.
