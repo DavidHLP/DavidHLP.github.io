@@ -103,6 +103,10 @@
 /* Portrait keeps the specimen above an independently scrollable document. */
 [data-layout="portrait"] .brand { transform: scale(.42) !important; }
 [data-layout="portrait"] .system-nav { gap: 8px; }
+[data-layout="portrait"] .system-nav { top: calc(var(--top-edge) + 72px); left: var(--edge); justify-content: flex-end; }
+[data-layout="portrait"] .system-nav :is(.nav-saved-label, .nav-theme-label) { display: none; }
+[data-layout="portrait"] .system-nav [data-action="toggle-theme"] { min-width: 44px; }
+[data-layout="portrait"] .nav-language { width: 72px; font-size: 11px; }
 [data-layout="portrait"] .system-nav button[data-action="search"] { font-size: 0; gap: 0; }
 [data-layout="portrait"] .system-nav button[data-action="saved"] { font-size: 10px; }
 [data-layout="portrait"] .archive-callout { left: var(--edge); top: auto; bottom: 205px; width: calc(100% - 2 * var(--edge)); }
