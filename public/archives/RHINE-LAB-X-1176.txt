@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1176 / 异步提前过期为什么只缩短 TTL：用版本 CAS 让旧任务自动失效
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1176 / 异步提前过期为什么只缩短 TTL：用版本 CAS 让旧任务自动失效
+工程笔记
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-09-08
+相关人物: DavidHLPL
+访问范围: 公开
 
 > 本文描述的是当前源码中的提前过期协议，不把它称为后台数据刷新，也不把测试结果扩展成性能或新鲜度 SLA。
 
@@ -276,8 +276,8 @@ earlyExpirationExecutor.cancel(context.getRedisKey());
 - [Redis 业务模式：缓存、分布式锁、消息队列、Feed 流与秒杀](/blog/legacy/note/zh-cn/redis-business-patterns/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/resicache-early-expiration-cas.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+1. 原始文档: src/content/note/zh-cn/resicache-early-expiration-cas.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 暂定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/resicache-early-expiration-cas.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/resicache-early-expiration-cas.md

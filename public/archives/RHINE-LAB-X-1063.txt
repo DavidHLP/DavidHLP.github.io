@@ -2,10 +2,10 @@
 FILE X-1063 / Replacing a Redis Serializer Is Not a One-Line Configuration Change: Object Trust and Rollback-Safe Migration
 ENGINEERING NOTES
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Engineering notes
+Collection: 2026-09-08
+Related people: DavidHLPL
+Access: Public
 
 Changing a Redis serializer may appear to require editing one Bean. But Redis stores bytes, not Java objects.
 
@@ -306,9 +306,9 @@ If these questions have no answers, changing a serializer configuration is not t
 - [ResiCache: An Orchestratable Responsibility Chain for Spring Cache Protection](/blog/legacy/note/en/resicache/)
 - [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
 
-研究记录
+Research notes
 1. Original document: src/content/note/en/resicache-serialization-migration.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 3. Evidence status: provisional
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/resicache-serialization-migration.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/resicache-serialization-migration.md

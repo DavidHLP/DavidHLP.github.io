@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1158 / Java 线上性能排障：从症状到证据的最小决策树
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1158 / Java 线上性能排障：从症状到证据的最小决策树
+工程笔记
 
-科室：工程笔记
-编目范围：2026-02-24
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-02-24
+相关人物: DavidHLPL
+访问范围: 公开
 
 本页是 Java 线上性能故障的决策树，不是 1500 行命令教程。目标是在服务仍可观测时保留证据，再从系统症状收敛到进程、线程、GC 或代码热点，最后选择可回滚的止损和恢复动作。
 
@@ -85,8 +85,8 @@ Arthas 的价值是连接运行中的 JVM、观察线程和方法；`watch/trace
 - [JJWT 0.13.0：显式固定签名算法，按 key 类型验签](/blog/legacy/note/zh-cn/jjwt-013-security-api/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/java-online-performance-debug.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/java-online-performance-debug.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-online-performance-debug.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-online-performance-debug.md

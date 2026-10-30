@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1174 / Redisson/Jackson 对 LocalDateTime 的默认序列化行为与写读不对称边界
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1174 / Redisson/Jackson 对 LocalDateTime 的默认序列化行为与写读不对称边界
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-12
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-12
+相关人物: DavidHLPL
+访问范围: 公开
 
 **结论优先**：在 Redisson 3.50.0 / Spring Data Redis 3.5.13 的固定版本边界内，默认 Jackson 配置对 `LocalDateTime` 是**写入即失败**（编码侧抛 `InvalidDefinitionException`），而不是"写成功读失败"。真正的写读不对称只出现在写入器与读取器 Jackson 配置不一致时。
 
@@ -120,8 +120,8 @@ RedisSerializer<Object> serializer = new GenericJackson2JsonRedisSerializer(mapp
 - [ResiCache：observer 嵌套执行必须区分生命周期、fragment 与 scope token](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/redis-jackson-java-time.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/redis-jackson-java-time.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/redis-jackson-java-time.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/redis-jackson-java-time.md

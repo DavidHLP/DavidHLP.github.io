@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1179 / 换 Redis 序列化器不是改一行配置：从对象信任到可回滚迁移
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1179 / 换 Redis 序列化器不是改一行配置：从对象信任到可回滚迁移
+工程笔记
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-09-08
+相关人物: DavidHLPL
+访问范围: 公开
 
 把 Redis serializer 换掉，表面上可能只需要修改一个 Bean。但 Redis 中保存的是字节，不是 Java 对象。
 
@@ -308,8 +308,8 @@ end
 - [Redisson/Jackson 对 LocalDateTime 的默认序列化行为与写读不对称边界](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/resicache-serialization-migration.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+1. 原始文档: src/content/note/zh-cn/resicache-serialization-migration.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 暂定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/resicache-serialization-migration.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/resicache-serialization-migration.md

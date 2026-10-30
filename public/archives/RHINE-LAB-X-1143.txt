@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1143 / 前端与综合随笔：Vue、MyBatis、UniApp、缓存注解与环境排障（已溶解归档）
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1143 / 前端与综合随笔：Vue、MyBatis、UniApp、缓存注解与环境排障（已溶解归档）
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-20
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-20
+相关人物: DavidHLPL
+访问范围: 公开
 
 > **页面溶解与归档说明**：
 > 本页原为 10 篇零散随笔（Vue、UniApp、MyBatis、Ubuntu 排障等）的收纳袋。按 LLM-Wiki 收敛原则，收纳袋不具备统一命题与交叉证据综合价值，已于 2026-08-23 溶解归档。原文事实保留在不可变 raw 快照 `ingest-frontend-essays` 中，本页移出主索引并标记为 `deprecated`。
@@ -47,8 +47,8 @@ ENGINEERING NOTES
 - [SSH 内网访问方案：连接方向、暴露面与故障恢复](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/frontend-mybatis-essays.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: deprecated
+1. 原始文档: src/content/note/zh-cn/frontend-mybatis-essays.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 已归档
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/frontend-mybatis-essays.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/frontend-mybatis-essays.md

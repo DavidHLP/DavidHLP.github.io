@@ -2,10 +2,10 @@
 FILE X-1019 / 知识库摄入收件箱
 JOTTINGS
 
-科室：随笔
-编目范围：2026-08-07
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Jottings
+Collection: 2026-08-07
+Related people: DavidHLPL
+Access: Public
 
 # 知识库摄入收件箱
 
@@ -51,8 +51,8 @@ JOTTINGS
 - `kb-index.md` 与 `kb-log.md` 已同步。
 - 原始来源没有被改写来迎合新结论。
 
-研究记录
+Research notes
 1. Original document: src/content/jotting/en/kb-ingest-todo.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/jotting/en/kb-ingest-todo.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/jotting/en/kb-ingest-todo.md

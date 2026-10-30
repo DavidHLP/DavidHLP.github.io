@@ -2,10 +2,10 @@
 FILE X-1077 / UltiCode Data Owners and Fact Snapshots: Keeping Cross-Service Submissions Bounded
 ENGINEERING NOTES
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Engineering notes
+Collection: 2026-09-08
+Related people: DavidHLPL
+Access: Public
 
 > **Evidence status**: This article is based on UltiCode's architecture documents and source at fixed commit f801a1076. “Repository Implemented” means the repository contains the corresponding design and implementation; it does not mean production validation.
 
@@ -75,9 +75,9 @@ Read [SubmissionFactsSnapshot.java](https://github.com/DavidHLP/UltiCode/blob/f8
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
 - [UltiCode: Modular Architecture and Domain Boundaries of an Online Judge Platform](/blog/legacy/note/en/ulticode/)
 
-研究记录
+Research notes
 1. Original document: src/content/note/en/ulticode-owner-and-facts.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 3. Evidence status: provisional
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/ulticode-owner-and-facts.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/ulticode-owner-and-facts.md

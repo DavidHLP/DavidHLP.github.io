@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1188 / 把模块化单体当实验场：UltiCode Core 的 Allowlist、超时与 Close-once 生命周期
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1188 / 把模块化单体当实验场：UltiCode Core 的 Allowlist、超时与 Close-once 生命周期
+工程笔记
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-09-08
+相关人物: DavidHLPL
+访问范围: 公开
 
 > **证据状态**：本文依据 UltiCode 固定提交中的 Core registry、owner context manager、classloader、smoke/lifecycle 测试和架构文档整理。当前实现把 Core 限制为 opt-in、allowlist 驱动的实验 profile；本文不把它描述成已经覆盖全部业务路径的生产模块化单体。
 
@@ -157,8 +157,8 @@ Agent runtime 也可能同时运行多个 provider、工具插件或任务上下
 - [UltiCode generation 与 attemptId：用条件更新拦截过期判题结果](/blog/legacy/note/zh-cn/ulticode-generation-attempt-fence/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/ulticode-core-bounded-testbed.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+1. 原始文档: src/content/note/zh-cn/ulticode-core-bounded-testbed.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 暂定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode-core-bounded-testbed.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode-core-bounded-testbed.md
