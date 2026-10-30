@@ -444,6 +444,9 @@ export function initUiLanguage() {
     document.documentElement.lang = language;
     document.documentElement.dataset.uiLanguage = language;
     translate(document.body);
+    for (const meta of document.querySelectorAll<HTMLMetaElement>('meta[name="description"], meta[property="og:description"]')) meta.content = translateUiText(meta.content, language);
+    const manifest = document.querySelector<HTMLLinkElement>('link[rel="manifest"]');
+    if (manifest) manifest.href = language === "zh-CN" ? "/manifest.webmanifest" : `/${language}/manifest.webmanifest`;
     document.querySelectorAll<HTMLElement>("[data-content-locale]").forEach(node => { node.hidden = node.dataset.contentLocale !== language; });
   }
   apply();
@@ -458,7 +461,8 @@ export function initUiLanguage() {
     if (!(select instanceof HTMLSelectElement) || !select.matches("[data-ui-language]")) return;
     language = normalizeUiLanguage(select.value);
     try { localStorage.setItem("rhine-language", language); } catch {}
-    const target = languageUrl(articles, location.href, language);
-    location.assign(target);
+    const target = new URL(languageUrl(articles, location.href, language), location.href);
+    if (document.documentElement.classList.contains("interactive")) target.searchParams.set("scene", "archive");
+    location.assign(target.href);
   });
 }
