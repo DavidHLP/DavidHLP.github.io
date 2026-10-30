@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { markdownToMdast } from "satteri";
 import { readFile, readdir, mkdtemp, mkdir, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -51,6 +52,43 @@ test("interface language selection validates stored values and preserves source 
 
 const published = await loadContent();
 const content = published;
+test("translations retain canonical sections, examples, tables, references and evidence metadata", async () => {
+  const structure = async body => {
+    const result = { heading: 0, code: 0, tableRow: 0, references: new Set(), articles: new Set() };
+    const visit = node => {
+      if (node.type in result && typeof result[node.type] === "number") result[node.type]++;
+      if (node.type === "link" || node.type === "image") {
+        if (/^https?:/.test(node.url)) result.references.add(node.url);
+        const article = node.url.match(/^\/blog\/(.+?)\/(?:[?#].*)?$/);
+        if (article) result.articles.add(translationKey({ slug: article[1] }));
+      }
+      for (const child of node.children ?? []) visit(child);
+    };
+    visit(await markdownToMdast(body));
+    return result;
+  };
+  const sample = await structure("# Real heading\n\n~~~sql\nSELECT 1;\n~~~\n\n    # code, not a heading\n");
+  assert.equal(sample.heading, 1);
+  assert.equal(sample.code, 2);
+  const failures = [];
+  for (const canonical of localizedArticles(published.records, "zh-CN")) {
+    const source = await structure(canonical.body);
+    for (const lang of ["en", "ja"]) {
+      const target = published.records.find(record => record.lang === lang && translationKey(record) === translationKey(canonical));
+      const translated = await structure(target.body);
+      for (const key of ["heading", "code", "tableRow"]) {
+        if (translated[key] < source[key]) failures.push(`${target.slug}: ${key} ${translated[key]} < canonical ${source[key]}`);
+      }
+      for (const key of ["references", "articles"]) {
+        for (const item of source[key]) if (!translated[key].has(item)) failures.push(`${target.slug}: missing ${key} ${item}`);
+      }
+      for (const key of ["kind", "status", "sources", "related", "pubDate"]) {
+        if (JSON.stringify(target[key]) !== JSON.stringify(canonical[key])) failures.push(`${target.slug}: stale ${key}`);
+      }
+    }
+  }
+  assert.deepEqual(failures, [], "Structural/source parity requires review; it does not prove semantic translation quality.");
+});
 test("every article has all three languages and switching keeps the same logical article", () => {
   validateTranslations(published.records);
   const chinese = localizedArticles(published.records, "zh-CN");
