@@ -113,7 +113,7 @@ This demonstrates boundary understanding better than reciting “penetration, br
 A CPU or latency incident can be compressed to:
 
 ```text
-symptom → preserve timeline and snapshots → PID/TID → stack/GC/method evidence
+symptom → preserve timeline and snapshots → PID/TID → jstack/GC/method evidence
         → code, lock, GC, or dependency hypothesis → reversible mitigation → verify and review
 ```
 

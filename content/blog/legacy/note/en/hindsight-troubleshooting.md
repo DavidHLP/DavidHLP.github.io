@@ -150,8 +150,8 @@ Run these commands in order to inspect the infrastructure and Agent state:
 # 1. Check the GPU inference container
 docker logs hindsight-ollama-gpu | tail -n 20
 
-# 2. Check the GPU memory/model mapping
-docker exec hindsight-ollama-gpu ollama list
+# 2. List running models and loading details (load the model first)
+docker exec hindsight-ollama-gpu ollama ps
 
 # 3. Check Hindsight core logs and health
 docker logs hindsight-server | tail -n 20
@@ -160,8 +160,8 @@ curl -I http://127.0.0.1:8888/health
 # 4. Verify ownership of the persistent data directory
 ls -la ~/.hindsight/data/
 
-# 5. Verify the FastMCP stdio bridge
-node ~/.hindsight/hindsight-bridge.mjs
+# 5. Syntax only; does not start the bridge or prove a handshake
+node --check ~/.hindsight/hindsight-bridge.mjs
 ```
 
 ---

@@ -113,7 +113,7 @@
 CPU または latency 障害は次へ圧縮できます。
 
 ```text
-症状 → 時系列と snapshot を保存 → PID/TID → stack/GC/method の証拠
+症状 → 時系列と snapshot を保存 → PID/TID → jstack/GC/method の証拠
      → code、lock、GC、dependency の仮説 → 可逆止血 → 指標を再確認して review
 ```
 

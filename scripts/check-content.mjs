@@ -56,9 +56,16 @@ const published = await loadContent();
 const content = published;
 test("translations retain canonical sections, examples, tables, references and evidence metadata", async () => {
   const structure = async body => {
-    const result = { heading: 0, code: 0, tableRow: 0, prose: "", references: new Set(), articles: new Set() };
+    const result = { heading: 0, code: 0, tableRow: 0, prose: "", references: new Set(), articles: new Set(), contracts: new Set(), codeTokens: new Set() };
     const visit = node => {
       if (node.type === "text") result.prose += node.value;
+      if (node.type === "code") {
+        const tokens = node.value.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*(\/\/|#|--).*$/gm, "").toLowerCase().match(/[a-z_][a-z0-9_.:-]*|\d+(?:\.\d+)*/g) ?? [];
+        for (const token of tokens) {
+          result.codeTokens.add(token);
+          if (node.lang && !["text", "mermaid", "plaintext"].includes(node.lang)) result.contracts.add(token);
+        }
+      }
       if (node.type === "html") visit(htmlToHast(node.value));
       if (node.type === "element") {
         if (node.tagName === "pre") { result.code++; return; }
@@ -89,12 +96,18 @@ test("translations retain canonical sections, examples, tables, references and e
   assert.equal(richText.heading, 1);
   assert.ok(richText.prose.includes("中文"));
   assert.ok(richText.references.has("https://example.com/source"));
+  const syntaxCheck = await structure("~~~bash\nnode --check bridge.mjs\n~~~");
+  const startsProcess = await structure("~~~bash\nnode bridge.mjs\n~~~");
+  assert.ok(syntaxCheck.contracts.has("check") && !startsProcess.codeTokens.has("check"));
   const failures = [];
   for (const canonical of localizedArticles(published.records, "zh-CN")) {
     const source = await structure(canonical.body);
     for (const lang of ["en", "ja"]) {
       const target = published.records.find(record => record.lang === lang && translationKey(record) === translationKey(canonical));
       const translated = await structure(target.body);
+      for (const token of source.contracts) {
+        if (!translated.codeTokens.has(token)) failures.push(`${target.slug}: missing example token ${token}`);
+      }
       const visibleText = target.title + " " + target.abstract + " " + translated.prose;
       if (lang === "en" && /\p{Script=Han}/u.test(visibleText)) failures.push(`${target.slug}: untranslated Chinese prose`);
       if (lang === "ja" && !/[\u3040-\u30ff]/.test(visibleText)) failures.push(`${target.slug}: missing Japanese prose`);
