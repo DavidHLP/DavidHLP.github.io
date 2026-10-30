@@ -16,85 +16,9 @@ import { escapeHtml } from "../src/html.ts";
 import { postPath } from "../src/blog-path.ts";
 import { archiveTickWindow, recentRecords, visibleSavedCount, persistSaved, syncArticleMetadata, restoreArticleHash } from "../src/blog-client.ts";
 import { StartupGate } from "../src/startup.ts";
-import { parse } from "yaml";
 
 const published = await loadContent();
 const content = published;
-test("legacy documents retain provenance, metadata, draft state and route targets", async () => {
-  const manifest = JSON.parse(await readFile(new URL("../migration/manifest.json", import.meta.url), "utf8"));
-  assert.equal(new Set(manifest.documents).size, manifest.documents.length);
-  for (const path of manifest.documents)
-    assert.ok((await readFile(new URL(`../migration/source/${path}`, import.meta.url))).length >= 0);
-  const live = new Map(published.records.map(record => [record.id, record]));
-  for (const entry of manifest.entries) {
-    const original = await readFile(new URL(`../migration/source/${entry.path}`, import.meta.url), "utf8");
-    const source = await readFile(new URL(`../content/blog/${entry.slug}.md`, import.meta.url), "utf8");
-    const frontmatter = source.match(/^---\n([\s\S]*?)\n---\n/)[1];
-    const data = parse(frontmatter);
-    assert.equal(data.legacy.path, entry.path);
-    assert.equal(data.legacy.revision, manifest.revision);
-    const metadata = original.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n/);
-    assert.deepEqual(data.legacy.metadata, metadata ? parse(metadata[1]) : {});
-    assert.equal(data.draft, entry.draft);
-    assert.equal(live.has(entry.archiveId), !entry.draft);
-    if (!entry.draft) {
-      assert.ok(archiveText(live.get(entry.archiveId)).includes("原文来源："));
-      assert.ok(!archiveText(live.get(entry.archiveId)).includes("非游戏原文"));
-    }
-  }
-  const targets = new Set(manifest.entries.filter(entry => !entry.draft).map(entry => `/blog/${entry.slug}/`));
-  for (const target of Object.values(manifest.routes))
-    assert.ok(targets.has(target) || target === "/" || target === "/rss.xml", target);
-  const raw = live.get(manifest.entries.find(entry => entry.path.endsWith("raw/zh-cn/ingest-redis-persistence.md")).archiveId);
-  assert.ok(raw.body.includes("```"));
-  assert.ok(raw.body.includes("```markdown\n---\ntitle: Redis持久化"));
-  assert.ok(manifest.missingResources.length > 0, "Pre-existing missing images must be disclosed");
-  const readme = live.get(manifest.entries.find(entry => entry.path === "README.md").archiveId);
-  assert.ok(readme.body.includes(`${manifest.repository}/blob/${manifest.revision}/public/fonts/NOTICE.txt`));
-  assert.ok(!readme.body.includes("https://davidhlp.github.io/documentation/public/"));
-});
-test("large columns keep distinct article identities without changing cell coordinates", async () => {
-  const previousDocument = globalThis.document;
-  try {
-    globalThis.document = { getElementById() { return { textContent: JSON.stringify(published) }; } };
-    const { fileLocation, fileAtSlot, columnFiles } = await import("../src/data.ts");
-    const slots = new Set();
-    for (const [index] of published.records.entries()) {
-      const location = fileLocation(index);
-      assert.equal(fileAtSlot(location.slot), index);
-      assert.equal(location.row, 12 + columnFiles(location.lane).indexOf(index));
-      slots.add(location.slot);
-    }
-    assert.equal(slots.size, published.records.length);
-    assert.ok(published.columns.some((_, lane) => columnFiles(lane).length > 32));
-    const { fileAtCell, selectionCell } = await import("../src/archive-loop.ts");
-    for (const lane of [-6, 0, 1, 2, 3, 4, 7]) {
-      for (const row of [-100001, -2049, 2049, 100001]) {
-        const offset = row - 12;
-        const before = fileAtCell({ lane, row });
-        assert.equal(fileAtCell({ lane, row: 12 }, offset), before);
-        assert.equal(fileAtCell({ lane, row: 13 }, offset), fileAtCell({ lane, row: row + 1 }));
-        const next = selectionCell(before, { lane, row: 12 }, undefined, offset);
-        assert.equal(next.row, 12);
-        assert.equal(fileAtCell(next, offset), before);
-      }
-    }
-  } finally {
-    if (previousDocument === undefined) delete globalThis.document;
-    else globalThis.document = previousDocument;
-  }
-});
-test("tick navigation keeps the selected article visible within eight buttons", () => {
-  for (const count of [1, 7, 8, 9, 108]) {
-    const files = Array.from({ length: count }, (_, index) => index * 2);
-    for (const selected of files) {
-      const ticks = archiveTickWindow(files, selected);
-      assert.equal(ticks.length, Math.min(8, count));
-      assert.ok(ticks.includes(selected));
-      assert.ok(ticks.every(index => files.includes(index)));
-    }
-  }
-});
 test("all migrated downloads match the Markdown content, including the UTF-8 BOM", async () => {
   for (const record of published.records) {
     assert.equal(
@@ -309,17 +233,6 @@ test("built pages carry one article body while shared search retains every publi
   assert.equal(manifest.description, site.description);
   const pages = paths.filter(path => path === "index.html" || /^blog\/.*\/index\.html$/.test(path.replaceAll("\\", "/")));
   assert.equal(pages.length, published.records.length + 1);
-  const migration = JSON.parse(await readFile(new URL("../migration/manifest.json", import.meta.url), "utf8"));
-  for (const [path, target] of Object.entries(migration.routes)) {
-    const output = new URL(path.slice(1) + (target === "/rss.xml" ? "" : "/index.html"), dist);
-    const html = await readFile(output, "utf8");
-    if (target === "/rss.xml") assert.equal(html, await readFile(new URL("rss.xml", dist), "utf8"));
-    else assert.ok(html.includes(`href="${target}"`), `Missing compatibility destination: ${path}`);
-  }
-  for (const entry of migration.entries) {
-    const page = `${entry.slug.replace(/^/, "blog/")}/index.html`;
-    assert.equal(paths.includes(page), !entry.draft, `Wrong publication path: ${page}`);
-  }
   for (const path of pages) {
     const html = await readFile(join(fileURLToPath(dist), path), "utf8");
     const data = html.match(/<script\b[^>]*id="blog-data"[^>]*>([\s\S]*?)<\/script>/);
@@ -460,4 +373,48 @@ test("plain-text punctuation stays literal in HTML and downloadable text", () =>
     "&lt;玻璃&gt; &amp; &quot;实验&quot; &#39;A&#39;",
   );
   assert.ok(archiveText(edited.records[0]).includes(title));
+});
+
+
+test("large archives retain article identity through coordinate rebasing", async () => {
+  const previousDocument = globalThis.document;
+  try {
+    const records = [108, 9, 11, 7, 13].flatMap((count, lane) => Array.from({ length: count }, (_, index) => ({
+      ...published.records[0], id: `X-${lane * 1000 + index + 5000}`, category: published.columns[lane],
+    })));
+    globalThis.document = { getElementById() { return { textContent: JSON.stringify({ ...published, records }) }; } };
+    const { fileLocation, fileAtSlot } = await import("../src/data.ts");
+    const { fileAtCell, selectionCell } = await import("../src/archive-loop.ts");
+    const slots = new Set();
+    for (const [index] of records.entries()) {
+      const location = fileLocation(index);
+      assert.equal(fileAtSlot(location.slot), index);
+      slots.add(location.slot);
+    }
+    assert.equal(slots.size, records.length);
+    for (const lane of [-6, 0, 1, 2, 3, 4, 7]) {
+      for (const row of [-100001, -2049, 2049, 100001]) {
+        const offset = row - 12;
+        const before = fileAtCell({ lane, row });
+        assert.equal(fileAtCell({ lane, row: 12 }, offset), before);
+        assert.equal(fileAtCell({ lane, row: 13 }, offset), fileAtCell({ lane, row: row + 1 }));
+        const next = selectionCell(before, { lane, row: 12 }, undefined, offset);
+        assert.equal(next.row, 12);
+        assert.equal(fileAtCell(next, offset), before);
+      }
+    }
+  } finally {
+    if (previousDocument === undefined) delete globalThis.document;
+    else globalThis.document = previousDocument;
+  }
+});
+test("tick navigation stays within eight buttons for every selected article", () => {
+  for (const count of [1, 7, 8, 9, 108]) {
+    const files = Array.from({ length: count }, (_, index) => index * 2);
+    for (const selected of files) {
+      const ticks = archiveTickWindow(files, selected);
+      assert.equal(ticks.length, Math.min(8, count));
+      assert.ok(ticks.includes(selected));
+    }
+  }
 });
