@@ -24,20 +24,21 @@ export function nearestOccurrence(
   return value + Math.floor((center - value + period / 2) / period) * period;
 }
 
-export function fileAtCell({ lane, row }: ArchiveCell) {
+export function fileAtCell({ lane, row }: ArchiveCell, rowOffset = 0) {
   const files = columnFiles(wrap(lane, archiveColumns.length));
-  return files[wrap(row - 12, files.length)];
+  return files[wrap(row + rowOffset - 12, files.length)];
 }
 
 export function selectionCell(
   index: number,
   current: ArchiveCell,
   navigation?: ArchiveNavigation,
+  rowOffset = 0,
 ): ArchiveCell {
   if (navigation && "cell" in navigation) return { ...navigation.cell };
   const next = fileLocation(index);
   const row = nearestOccurrence(
-    next.row,
+    next.row - rowOffset,
     current.row,
     columnFiles(next.lane).length,
   );

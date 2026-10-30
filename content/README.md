@@ -9,3 +9,5 @@
 - 修改后运行 `npm run export:archives`、`npm run check:content`、`npm run build`。开发服务器自动更新文章正文，TXT 下载由导出命令刷新。
 
 内容是仓库维护者编写的 Markdown，支持 Astro 默认 Markdown 语法。导出保留 Markdown 文本和研究记录，不将用户输入当作 HTML。
+
+Imported documents live in `blog/legacy/`. Their original metadata is retained in `legacy.metadata`; preserve `archiveId`, file paths and draft flags when editing. The unmodified source documents and migration inventory are in [migration/](../migration/README.md).

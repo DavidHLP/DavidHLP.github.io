@@ -1,0 +1,65 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-1037 / chronicle.yaml
+SITE INFORMATION
+
+科室：站点信息
+编目范围：2026-10-05
+相关人物：DavidHLPL
+访问范围：PUBLIC
+
+## 2026-02-23
+
+- ブログ個性化
+- Java 随筆
+- 面接経験共有
+
+## 2025-11-29
+
+- OpenGraph 画像サポート
+
+## 2025-11-06
+
+- 単一言語モード対応
+
+## 2025-10-18
+
+- コンテンツ初期化スクリプト
+
+## 2025-09-02
+
+- フィード用スタイルシート
+
+## 2025-08-28
+
+- 敏感コンテンツの警告
+
+## 2025-01-08
+
+- 国際化対応
+
+## 2025-01-04
+
+- Atom 購読
+- ~RSS 購読
+- ~JSON Feed 購読
+
+## 2025-01-03
+
+- ヒートマップ
+- 動的フィルタリング
+
+## 2025-01-02
+
+- 文記
+- 随筆
+- 序文
+
+## 2025-01-01
+
+- Astroへようこそ
+
+研究记录
+1. Original document: src/content/information/ja/chronicle.yaml
+2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+
+原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/ja/chronicle.yaml
