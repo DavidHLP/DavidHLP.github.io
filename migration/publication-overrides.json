@@ -1,0 +1,237 @@
+{
+  "reason": "2026-10-30: 用户确认核对后启用现有英日译文；保留源快照与原始元数据，发布字段采用以下显式覆盖。",
+  "overrides": {
+    "legacy/note/en/containerd-tls-troubleshooting": {
+      "draft": false
+    },
+    "legacy/note/en/database-schema-drift": {
+      "draft": false
+    },
+    "legacy/note/en/docker-fundamentals": {
+      "draft": false
+    },
+    "legacy/note/en/dubbo-nacos-runtime": {
+      "draft": false
+    },
+    "legacy/note/en/frontend-mybatis-essays": {
+      "draft": false,
+      "status": "deprecated"
+    },
+    "legacy/note/en/hbase-foundation-and-ops": {
+      "draft": false
+    },
+    "legacy/note/en/headroom-cc-switch-coexistence": {
+      "draft": false
+    },
+    "legacy/note/en/headroom-single-port-evolution": {
+      "draft": false
+    },
+    "legacy/note/en/hindsight-local-deployment-and-agent-integration": {
+      "draft": false,
+      "status": "deprecated"
+    },
+    "legacy/note/en/intranet-penetration-ssh-guide": {
+      "draft": false
+    },
+    "legacy/note/en/java-atomic-boolean": {
+      "draft": false
+    },
+    "legacy/note/en/java-auto-closeable": {
+      "draft": false
+    },
+    "legacy/note/en/java-concurrency-deepdive": {
+      "draft": false
+    },
+    "legacy/note/en/java-internship-interview-blog-polished": {
+      "draft": false
+    },
+    "legacy/note/en/java-null-value": {
+      "draft": false
+    },
+    "legacy/note/en/java-online-performance-debug": {
+      "draft": false
+    },
+    "legacy/note/en/jjwt-013-security-api": {
+      "draft": false
+    },
+    "legacy/note/en/kb-session-ingest-contract": {
+      "draft": false
+    },
+    "legacy/note/en/mcp-codebase-memory-workflow": {
+      "draft": false
+    },
+    "legacy/note/en/microservice-data-ownership": {
+      "draft": false
+    },
+    "legacy/note/en/multi-service-readiness": {
+      "draft": false
+    },
+    "legacy/note/en/mysql-performance-troubleshooting": {
+      "draft": false
+    },
+    "legacy/note/en/mysql-storage-and-deadlock": {
+      "draft": false
+    },
+    "legacy/note/en/omp-config-and-rules-guide": {
+      "draft": false
+    },
+    "legacy/note/en/omp-headroom-persistence": {
+      "draft": false
+    },
+    "legacy/note/en/omp-headroom-provider-proxy": {
+      "draft": false
+    },
+    "legacy/note/en/omp-hook-extension-guide": {
+      "draft": false
+    },
+    "legacy/note/en/plugin-lifecycle-management": {
+      "draft": false
+    },
+    "legacy/note/en/redis-business-patterns": {
+      "draft": false
+    },
+    "legacy/note/en/redis-heima-practice": {
+      "draft": false
+    },
+    "legacy/note/en/redis-jackson-java-time": {
+      "draft": false
+    },
+    "legacy/note/en/redis-persistence-principle": {
+      "draft": false
+    },
+    "legacy/note/en/resicache-observer-nested-execution": {
+      "draft": false
+    },
+    "legacy/note/en/resicache": {
+      "status": "provisional"
+    },
+    "legacy/note/en/spark-bigdata-ecosystem": {
+      "draft": false
+    },
+    "legacy/note/en/spring-cloud-and-boot": {
+      "draft": false
+    },
+    "legacy/note/en/testcontainers-docker-api": {
+      "draft": false
+    },
+    "legacy/note/en/uisa-architecture-design": {
+      "draft": false
+    },
+    "legacy/note/ja/containerd-tls-troubleshooting": {
+      "draft": false
+    },
+    "legacy/note/ja/database-schema-drift": {
+      "draft": false
+    },
+    "legacy/note/ja/docker-fundamentals": {
+      "draft": false
+    },
+    "legacy/note/ja/dubbo-nacos-runtime": {
+      "draft": false
+    },
+    "legacy/note/ja/frontend-mybatis-essays": {
+      "draft": false,
+      "status": "deprecated"
+    },
+    "legacy/note/ja/hbase-foundation-and-ops": {
+      "draft": false
+    },
+    "legacy/note/ja/headroom-cc-switch-coexistence": {
+      "draft": false
+    },
+    "legacy/note/ja/headroom-single-port-evolution": {
+      "draft": false
+    },
+    "legacy/note/ja/hindsight-local-deployment-and-agent-integration": {
+      "draft": false,
+      "status": "deprecated"
+    },
+    "legacy/note/ja/intranet-penetration-ssh-guide": {
+      "draft": false
+    },
+    "legacy/note/ja/java-atomic-boolean": {
+      "draft": false
+    },
+    "legacy/note/ja/java-auto-closeable": {
+      "draft": false
+    },
+    "legacy/note/ja/java-concurrency-deepdive": {
+      "draft": false
+    },
+    "legacy/note/ja/java-internship-interview-blog-polished": {
+      "draft": false
+    },
+    "legacy/note/ja/java-null-value": {
+      "draft": false
+    },
+    "legacy/note/ja/java-online-performance-debug": {
+      "draft": false
+    },
+    "legacy/note/ja/jjwt-013-security-api": {
+      "draft": false
+    },
+    "legacy/note/ja/kb-session-ingest-contract": {
+      "draft": false
+    },
+    "legacy/note/ja/mcp-codebase-memory-workflow": {
+      "draft": false
+    },
+    "legacy/note/ja/microservice-data-ownership": {
+      "draft": false
+    },
+    "legacy/note/ja/multi-service-readiness": {
+      "draft": false
+    },
+    "legacy/note/ja/mysql-performance-troubleshooting": {
+      "draft": false
+    },
+    "legacy/note/ja/mysql-storage-and-deadlock": {
+      "draft": false
+    },
+    "legacy/note/ja/omp-config-and-rules-guide": {
+      "draft": false
+    },
+    "legacy/note/ja/omp-headroom-persistence": {
+      "draft": false
+    },
+    "legacy/note/ja/omp-headroom-provider-proxy": {
+      "draft": false
+    },
+    "legacy/note/ja/omp-hook-extension-guide": {
+      "draft": false
+    },
+    "legacy/note/ja/plugin-lifecycle-management": {
+      "draft": false
+    },
+    "legacy/note/ja/redis-business-patterns": {
+      "draft": false
+    },
+    "legacy/note/ja/redis-heima-practice": {
+      "draft": false
+    },
+    "legacy/note/ja/redis-jackson-java-time": {
+      "draft": false
+    },
+    "legacy/note/ja/redis-persistence-principle": {
+      "draft": false
+    },
+    "legacy/note/ja/resicache-observer-nested-execution": {
+      "draft": false
+    },
+    "legacy/note/ja/resicache": {
+      "status": "provisional"
+    },
+    "legacy/note/ja/spark-bigdata-ecosystem": {
+      "draft": false
+    },
+    "legacy/note/ja/spring-cloud-and-boot": {
+      "draft": false
+    },
+    "legacy/note/ja/testcontainers-docker-api": {
+      "draft": false
+    },
+    "legacy/note/ja/uisa-architecture-design": {
+      "draft": false
+    }
+  }
+}

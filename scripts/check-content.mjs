@@ -503,8 +503,11 @@ test("tick navigation stays within eight buttons for every selected article", ()
 });
 
 
-test("blog migration preserves original content, drafts and unpublished raw evidence", async () => {
+test("blog migration preserves source evidence and applies only recorded translation publication overrides", async () => {
   const manifest = JSON.parse(await readFile(new URL("../migration/manifest.json", import.meta.url), "utf8"));
+  const { overrides } = JSON.parse(await readFile(new URL("../migration/publication-overrides.json", import.meta.url), "utf8"));
+  assert.equal(Object.values(overrides).filter(value => value.draft === false).length, 74);
+  assert.ok(Object.keys(overrides).every(slug => /\/(en|ja)\//.test(slug) && manifest.entries.some(entry => entry.slug === slug)));
   const live = new Map(published.records.map(record => [record.id, record]));
   assert.ok(published.records.every(record => record.legacy && !record.legacy.path.startsWith("src/content/raw/")));
   assert.ok(manifest.entries.every(entry => entry.path.startsWith("src/content/") && !entry.path.startsWith("src/content/raw/")));
@@ -519,21 +522,23 @@ test("blog migration preserves original content, drafts and unpublished raw evid
     const data = parse(adapted.match(/^---\n([\s\S]*?)\n---\n/)[1]);
     const metadata = original.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n/);
     assert.deepEqual(data.legacy.metadata, metadata ? parse(metadata[1]) : {});
-    assert.equal(data.draft, entry.draft);
+    const override = overrides[entry.slug] ?? {};
+    const remainsDraft = override.draft ?? entry.draft;
+    assert.equal(data.draft, remainsDraft);
     if (entry.path.includes("/note/")) {
       for (const field of ["kind", "status", "sources", "related"])
-        assert.deepEqual(data[field], data.legacy.metadata[field] ?? [], `${entry.path}: ${field}`);
+        assert.deepEqual(data[field], override[field] ?? data.legacy.metadata[field] ?? [], `${entry.path}: ${field}`);
     }
     if (entry.path.endsWith("/introduction.md")) {
       assert.ok(!/[<>]/.test(data.title));
       assert.ok(!/[<>]/.test(data.abstract));
     }
-    assert.equal(live.has(entry.archiveId), !entry.draft);
+    assert.equal(live.has(entry.archiveId), !remainsDraft);
   }
   const dist = new URL("../dist/", import.meta.url);
   for (const entry of manifest.entries) {
     const path = new URL(`blog/${entry.slug}/index.html`, dist);
-    if (entry.draft) await assert.rejects(readFile(path), { code: "ENOENT" });
+    if (overrides[entry.slug]?.draft ?? entry.draft) await assert.rejects(readFile(path), { code: "ENOENT" });
     else assert.ok((await readFile(path, "utf8")).includes("原文来源"));
   }
   for (const [path, target] of Object.entries(manifest.routes)) {
