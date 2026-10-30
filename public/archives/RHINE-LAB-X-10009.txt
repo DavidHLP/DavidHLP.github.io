@@ -1,0 +1,18 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-10009 / MATERIAL MEMORY
+MATERIAL MEMORY
+
+Department: Engineering Section
+Collection: Collected records across periods
+Related people: Engineering Section
+Access: Reference material
+
+Powered armor compresses materials, power and control systems into limited space. Rhine Lab's R-series equipment offers a way to examine these constraints. This volume studies material changes under repeated loads, asking whether equipment that appears normal again still carries traces of its previous use.
+
+Research notes
+1. Record external appearance separately from internal condition rather than relying only on visual inspection.
+2. Compare maintenance needs of replaceable parts and overall load-bearing components.
+3. Include fatigue, wear and repeated assembly in the same equipment history.
+
+Reference: https://prts.wiki/w/R-31重型动力装甲
+This archive adaptation is based on publicly available setting material, not the game's original text.

@@ -1,0 +1,18 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-10031 / DISTANT TRANSMISSION
+DISTANT TRANSMISSION
+
+Department: Energy Section
+Collection: Collected records across periods
+Related people: Trimounts Project
+Access: Reference material
+
+The focus generators in Lone Trail are connected with ground-based energy transmission. As distance grows, transmitters, receivers and coordination together determine system performance. This volume follows the interdependence of the link's stages and treats interruption, deviation and recovery as equally important states to observe.
+
+Research notes
+1. Check transmission, reception and control signals within the same timeline.
+2. When a link is interrupted, distinguish equipment problems from changes in external conditions.
+3. Do not evaluate the whole transmission process only by the result that successfully arrived.
+
+Reference: https://prts.wiki/w/孤星2024
+This archive adaptation is based on publicly available setting material, not the game's original text.

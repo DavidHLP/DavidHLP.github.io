@@ -1,0 +1,18 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-10025 / CARE IN TRANSIT
+CARE IN TRANSIT
+
+Department: Medical Cooperation
+Collection: Collected records across periods
+Related people: Silence
+Access: Reference material
+
+Silence's medical drones are designed to deliver treatment. They extend care to places difficult for people to reach promptly, while remaining limited by environmental and equipment conditions. This volume asks how treatment is delivered and considers cooperation between medical tools and clinical judgment.
+
+Research notes
+1. Distinguish places equipment can reach from tasks it can actually complete.
+2. Record field conditions, response time and subsequent care as a continuous process.
+3. Tools extend doctors' abilities, but doctors must also judge when not to rely on them.
+
+Reference: https://prts.wiki/w/赫默
+This archive adaptation is based on publicly available setting material, not the game's original text.
