@@ -1,0 +1,436 @@
+content/blog/legacy/information/zh-cn/kb-log.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+scripts/check-content.mjs
+  s_1f9e8743677ef7::t_3ab0a77fbe68ee 21-22,83-104,466
+content/blog/legacy/note/ja/omp-headroom-persistence.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,33
+content/blog/legacy/note/en/microservice-data-ownership.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,30
+content/blog/legacy/note/ja/hindsight-local-deployment.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/multi-service-readiness.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/ja/dubbo-nacos-runtime.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/zh-cn/ulticode-owner-local-audit-inbox.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/testcontainers-docker-api.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/zh-cn/java-null-value.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/headroom-compress-retrieve-contract.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/spark-bigdata-ecosystem.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,28
+content/blog/legacy/note/zh-cn/omp-config-and-rules-guide.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+scripts/archive-content.mjs
+  s_1f9e8743677ef7::t_3ab0a77fbe68ee 3,92,99-105
+content/blog/legacy/note/en/redis-business-patterns.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/en/redis-jackson-java-time.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,30
+content/blog/legacy/note/ja/hindsight-omp-codex-integration.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/dubbo-nacos-runtime.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/docker-fundamentals.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/resicache.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/ulticode-owner-and-facts.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/ulticode.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/hindsight-local-deployment-and-agent-integration.md
+  s_1f9e8743677ef7::t_581da5e6f13e56 4,11,82
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,33
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15,70
+  s_1f9e8743677ef7::t_6f2690ea98e93b 83
+content/blog/legacy/note/en/omp-headroom-provider-proxy.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,32
+content/blog/legacy/note/ja/frontend-mybatis-essays.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,28
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15,60
+  s_1f9e8743677ef7::t_581da5e6f13e56 4,11,72
+  s_1f9e8743677ef7::t_3a051121539075 73
+content/blog/legacy/note/ja/java-atomic-boolean.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,28
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/llm-wiki-pattern.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/java-concurrency-deepdive.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/ja/redis-jackson-java-time.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,30
+content/blog/legacy/note/ja/java-auto-closeable.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,28
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/headroom-cc-switch-coexistence.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,33
+content/blog/legacy/information/zh-cn/chronicle.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14,81
+content/blog/legacy/note/en/omp-config-and-rules-guide.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,33
+content/blog/legacy/note/ja/ulticode-outbox-redis-streams.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/hindsight-local-deployment.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/resicache-serialization-migration.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/information/zh-cn/introduction.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+content/blog/legacy/note/ja/intranet-penetration-ssh-guide.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,31
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/jotting/zh-cn/kb-ingest-todo.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+content/blog/legacy/note/ja/docker-fundamentals.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/resicache-serialization-migration.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/information/ja/chronicle.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14,81
+content/blog/legacy/note/en/frontend-mybatis-essays.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,28
+  s_1f9e8743677ef7::t_6c358f3b43dea5 15,60
+  s_1f9e8743677ef7::t_581da5e6f13e56 4,11,72
+  s_1f9e8743677ef7::t_c837df3e39e511 73
+content/blog/legacy/note/zh-cn/java-concurrency-deepdive.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/resicache-early-expiration-cas.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/resicache-observer-nested-execution.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/redis-persistence-principle.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/resicache-observer-nested-execution.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,30
+content/blog/legacy/note/ja/ulticode-owner-local-audit-inbox.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/preface/zh-cn/2026-01-01-00-00-00.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+content/blog/legacy/note/en/omp-hook-extension-guide.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,31
+content/blog/legacy/note/en/docker-fundamentals.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/zh-cn/headroom-cc-switch-coexistence.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/redis-heima-practice.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,28
+content/blog/legacy/note/ja/mysql-storage-and-deadlock.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,27
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/plugin-lifecycle-management.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,28
+content/blog/legacy/note/zh-cn/resicache-handler-chain-and-observer.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/spring-cloud-and-boot.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/zh-cn/spring-cloud-and-boot.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/redis-heima-practice.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,28
+content/blog/legacy/note/zh-cn/testcontainers-docker-api.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/spring-cloud-and-boot.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/uisa-architecture-design.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/zh-cn/ulticode-ci-supply-chain.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/dubbo-nacos-runtime.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/ja/spark-bigdata-ecosystem.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,28
+content/blog/legacy/note/en/mcp-codebase-memory-workflow.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/zh-cn/frontend-mybatis-essays.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/information/ja/kb-log.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+content/blog/legacy/note/zh-cn/redis-business-patterns.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/intranet-penetration-ssh-guide.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,31
+content/blog/legacy/note/zh-cn/microservice-data-ownership.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/information/ja/linkroll.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+content/blog/legacy/note/ja/omp-config-and-rules-guide.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,33
+content/blog/legacy/note/ja/redis-business-patterns.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/information/ja/introduction.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+content/blog/legacy/note/ja/mysql-performance-troubleshooting.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/en/hindsight-local-deployment-and-agent-integration.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,33
+  s_1f9e8743677ef7::t_6c358f3b43dea5 15,70
+  s_1f9e8743677ef7::t_581da5e6f13e56 4,11,82
+  s_1f9e8743677ef7::t_1ed4eda0f6b951 83
+content/blog/legacy/note/ja/microservice-data-ownership.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,30
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/information/ja/policy.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+content/blog/legacy/note/zh-cn/java-auto-closeable.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/database-written-test-review.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/resicache-handler-chain-and-observer.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/hbase-foundation-and-ops.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/jjwt-013-security-api.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/omp-headroom-provider-proxy.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/resicache-single-flight.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/multi-service-readiness.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/ulticode-docker-sandbox.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/kb-session-ingest-contract.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/mysql-performance-troubleshooting.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/zh-cn/uisa-architecture-design.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/ulticode-fenced-singleton-lease.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/java-auto-closeable.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,28
+content/blog/legacy/note/ja/java-null-value.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,28
+content/blog/legacy/note/zh-cn/ulticode-core-bounded-testbed.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/mcp-codebase-memory-workflow.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/ja/testcontainers-docker-api.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/hindsight-local-deployment-and-agent-integration.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/resicache.md
+  s_1f9e8743677ef7::t_581da5e6f13e56 77-78
+  s_1f9e8743677ef7::t_6c358f3b43dea5 15,63
+content/blog/legacy/note/en/java-internship-interview-blog-polished.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,32
+content/blog/legacy/note/zh-cn/redis-heima-practice.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/containerd-tls-troubleshooting.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/zh-cn/kb-session-ingest-contract.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/database-schema-drift.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+src/content.config.ts
+  s_1f9e8743677ef7::t_3ab0a77fbe68ee 31
+content/blog/legacy/note/ja/headroom-single-port-evolution.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,35
+content/blog/legacy/note/en/headroom-single-port-evolution.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,35
+content/blog/legacy/note/zh-cn/containerd-tls-troubleshooting.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+src/layouts/Terminal.astro
+  s_1f9e8743677ef7::t_3ab0a77fbe68ee 6-7,19-20,23,47,50,52,54,59-60,62,72,95-96
+content/blog/legacy/note/zh-cn/redis-jackson-java-time.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/ulticode-async-execution-contract.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/locales.json
+  s_1f9e8743677ef7::t_bfbac4dd50047a 1-46
+content/blog/legacy/note/en/kb-session-ingest-contract.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/ja/omp-hook-extension-guide.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,31
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/jjwt-013-security-api.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,30
+content/blog/legacy/note/en/mysql-storage-and-deadlock.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,27
+content/blog/legacy/note/ja/ulticode.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/uisa-architecture-design.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/zh-cn/headroom-single-port-evolution.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/omp-hook-extension-guide.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/plugin-lifecycle-management.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/java-internship-interview-blog-polished.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/ulticode-outbox-redis-streams.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/containerd-tls-troubleshooting.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/jotting/ja/kb-ingest-todo.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+content/blog/legacy/information/zh-cn/policy.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+content/blog/legacy/note/zh-cn/hindsight-troubleshooting.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/ulticode-generation-attempt-fence.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/hbase-foundation-and-ops.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/information/ja/kb-index.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+content/blog/legacy/note/zh-cn/database-schema-drift.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/mcp-codebase-memory-workflow.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/java-atomic-boolean.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,28
+content/blog/legacy/note/en/headroom-cc-switch-coexistence.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,33
+content/blog/legacy/note/ja/hindsight-troubleshooting.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/ulticode-fenced-singleton-lease.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/multi-service-readiness.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/mysql-storage-and-deadlock.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/omp-headroom-persistence.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/resicache.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15,63
+  s_1f9e8743677ef7::t_581da5e6f13e56 77-78
+content/blog/legacy/note/zh-cn/java-online-performance-debug.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/spark-bigdata-ecosystem.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/ulticode-docker-sandbox.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/preface/zh-cn/2026-06-19-18-00-00.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+content/blog/legacy/note/ja/omp-headroom-provider-proxy.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,32
+content/blog/legacy/note/ja/hbase-foundation-and-ops.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/java-online-performance-debug.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,33
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/jjwt-013-security-api.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,30
+content/blog/legacy/note/zh-cn/database-written-test-review.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/llm-wiki-pattern.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/mysql-performance-troubleshooting.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/resicache-single-flight.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/ulticode-generation-attempt-fence.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/java-concurrency-deepdive.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/resicache-observer-nested-execution.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,30
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/java-atomic-boolean.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/information/zh-cn/linkroll.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+content/blog/legacy/note/ja/java-internship-interview-blog-polished.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,32
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/java-null-value.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,28
+content/blog/legacy/preface/ja/2026-01-01-00-00-00.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+content/blog/legacy/note/en/database-schema-drift.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/ja/ulticode-ci-supply-chain.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/hindsight-omp-codex-integration.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/java-online-performance-debug.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,33
+content/blog/legacy/note/ja/headroom-compress-retrieve-contract.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/ulticode-async-execution-contract.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/zh-cn/redis-persistence-principle.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/en/redis-persistence-principle.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,29
+content/blog/legacy/note/en/omp-headroom-persistence.md
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,33
+content/blog/legacy/note/ja/ulticode-owner-and-facts.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/note/ja/plugin-lifecycle-management.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+  s_1f9e8743677ef7::t_c4e9c6f9124ed6 10,28
+content/blog/legacy/information/zh-cn/kb-index.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+content/blog/legacy/note/ja/ulticode-core-bounded-testbed.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+content/blog/legacy/preface/ja/2026-06-19-18-00-00.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-14
+content/blog/legacy/note/ja/resicache-early-expiration-cas.md
+  s_1f9e8743677ef7::t_6c358f3b43dea5 13-15
+src/boot-lettering.ts
+  s_1f9e8743677ef7::t_df6bffd81bfc80 4,98-101
+src/content-language.ts
+  s_1f9e8743677ef7::t_f5aa784201993a 1-50
+src/data.ts
+  s_1f9e8743677ef7::t_514585d7f67a99 1-4,24,29-40
+src/lib/blog.ts
+  s_1f9e8743677ef7::t_862ccd2fb7e4d1 3,9
+src/main.ts
+  s_1f9e8743677ef7::t_eb7aebad4a9133 33-34,175,469,541,595
+src/pages/[lang]/rss.xml.ts
+  s_1f9e8743677ef7::t_b3e31e96dc0bba 1-22
+src/pages/rss.xml.ts
+  s_1f9e8743677ef7::t_dc77a9ac69adfe 11
+src/ui-language.ts
+  s_1f9e8743677ef7::t_d3cc3af465c26d 1-3,14-21,338-342,345,377-396,400-412,425-429,447,461-462
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c1c6fa7e36a0ffe62787739e381f7eb9b92df76c",
+  "prompts": {},
+  "sessions": {
+    "s_1f9e8743677ef7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c39-1e1b-7d73-9bf2-5a0fc3f2b65d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
