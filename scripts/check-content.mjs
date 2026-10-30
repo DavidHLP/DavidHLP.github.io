@@ -540,7 +540,7 @@ test("blog migration preserves source evidence and applies only recorded transla
   for (const entry of manifest.entries) {
     const path = new URL(`blog/${entry.slug}/index.html`, dist);
     if (overrides[entry.slug]?.draft ?? entry.draft) await assert.rejects(readFile(path), { code: "ENOENT" });
-    else assert.ok((await readFile(path, "utf8")).includes("原文来源"));
+    else assert.ok((await readFile(path, "utf8")).includes(translateUiText("原文来源", live.get(entry.archiveId).lang)));
   }
   for (const [path, target] of Object.entries(manifest.routes)) {
     const output = new URL(path.slice(1) + (target === "/rss.xml" ? "" : "/index.html"), dist);
