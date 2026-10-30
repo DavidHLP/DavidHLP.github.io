@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Based on Apache Dubbo 3.3.6 and official Nacos materials, describes the minimal boundaries of interface-level/application-level registration names, metadata, group/version matching, startup checks, and a real Nacos smoke test.",
   "findings": [
     "Original document: src/content/note/en/dubbo-nacos-runtime.md",
@@ -26,7 +26,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/dubbo-nacos-runtime.md",

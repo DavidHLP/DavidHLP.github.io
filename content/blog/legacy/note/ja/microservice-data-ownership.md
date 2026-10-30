@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "サービス私有データ、bounded context、saga、transactional outbox、expand-migrate-contract でデータ所有権の判定順序を確立し、共有物理データベース、共有 schema、サービス自律を混同しないようにする。",
   "findings": [
-    "Original document: src/content/note/ja/microservice-data-ownership.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/microservice-data-ownership.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/microservice-data-ownership.md",
   "pubDate": "2026-08-12T16:00:00.000Z",
@@ -27,7 +27,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/microservice-data-ownership.md",

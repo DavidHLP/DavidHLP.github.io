@@ -10,8 +10,8 @@
   "clearance": "PUBLIC",
   "abstract": "ナレッジベース目次 · src/content/information/ja/kb-index.md",
   "findings": [
-    "Original document: src/content/information/ja/kb-index.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64"
+    "元の文書: src/content/information/ja/kb-index.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/ja/kb-index.md",
   "pubDate": "2026-10-05T05:34:00.000Z",

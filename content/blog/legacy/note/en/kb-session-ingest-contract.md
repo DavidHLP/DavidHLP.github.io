@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Pins the minimal contract of the KB session ingestion pipeline at commit c0ae74e: identity/content-hash-driven incremental reuse, no reuse of failed records, redaction v19, internal control-plane filtering, partial checkpoint resume, and immutable raw manifest validation, and clarifies placeholder semantics and redaction boundaries.",
   "findings": [
     "Original document: src/content/note/en/kb-session-ingest-contract.md",
@@ -26,7 +26,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/kb-session-ingest-contract.md",

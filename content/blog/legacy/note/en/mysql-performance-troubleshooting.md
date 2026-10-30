@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-06-30",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Map MySQL slowness, stalls, connection piles, and replication alerts to symptoms, metrics, layers, and safe mitigations across connections, locks, indexes, transactions, Buffer Pool, and I/O—without copying a full SOP.",
   "findings": [
     "Original document: src/content/note/en/mysql-performance-troubleshooting.md",
@@ -26,7 +26,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/mysql-performance-troubleshooting.md",

@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "记录 OMP Headroom Bridge 如何用外部控制器维护 loopback Headroom、OMP provider route、原生 Codex CLI/Desktop Responses provider 和 Claude Code/cc-switch 共存边界。",
   "findings": [
-    "Original document: src/content/note/zh-cn/omp-headroom-provider-proxy.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/omp-headroom-provider-proxy.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/omp-headroom-provider-proxy.md",
   "pubDate": "2026-08-13T14:18:29.000Z",

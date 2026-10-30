@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-20",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Anchors on consistency, mutual exclusion, and messaging semantics to distill reusable business patterns.",
   "findings": [
     "Original document: src/content/note/en/redis-business-patterns.md",
@@ -26,7 +26,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/redis-business-patterns.md",

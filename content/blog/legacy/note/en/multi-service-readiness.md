@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Uses a decision table to distinguish six concepts in multi-service orchestration — process startup, business readiness, ordering, dependency establishment, and failure/restart propagation — and gives the minimal combinations and verification paths for Compose healthcheck/depends_on and systemd After/Wants/Requires.",
   "findings": [
     "Original document: src/content/note/en/multi-service-readiness.md",
@@ -26,7 +26,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/multi-service-readiness.md",

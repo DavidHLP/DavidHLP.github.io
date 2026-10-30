@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "从 ResiCache 的安全反序列化和迁移引擎分析，为什么 wire format、类型信任和存量数据迁移必须一起设计。",
   "findings": [
-    "Original document: src/content/note/zh-cn/resicache-serialization-migration.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/resicache-serialization-migration.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/resicache-serialization-migration.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

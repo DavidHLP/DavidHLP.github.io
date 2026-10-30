@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "DavidHLPL 個人 AI ナレッジベースの運用説明。raw、wiki、schema の三層と ingest/query/lint の流れを定義する。",
   "findings": [
-    "Original document: src/content/note/ja/llm-wiki-pattern.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/llm-wiki-pattern.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/llm-wiki-pattern.md",
   "pubDate": "2026-08-07T00:00:00.000Z",

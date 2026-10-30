@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "Hindsight のローカルデプロイと Agent 統合における典型的な 7 つの失敗モード（誤パッケージ、権限、タイムアウト、ルーティング、Session 消失、ワークスペースドリフト）と調査マトリクスをまとめる。",
   "findings": [
-    "Original document: src/content/note/ja/hindsight-troubleshooting.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/hindsight-troubleshooting.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/hindsight-troubleshooting.md",
   "pubDate": "2026-08-22T16:00:00.000Z",

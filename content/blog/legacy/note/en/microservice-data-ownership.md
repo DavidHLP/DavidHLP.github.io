@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Establishes an order for determining data ownership with service-private data, bounded context, saga, transactional outbox, and expand-migrate-contract, so a shared physical database, a shared schema, and service autonomy are not conflated.",
   "findings": [
     "Original document: src/content/note/en/microservice-data-ownership.md",
@@ -27,7 +27,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/microservice-data-ownership.md",

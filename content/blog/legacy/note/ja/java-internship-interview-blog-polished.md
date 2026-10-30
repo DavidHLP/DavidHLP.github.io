@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-02-24",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "プロジェクトの ownership の証明、cache/非同期の機構、本番での診断・止血・復旧の証拠を一つの能力モデルに統合します。",
   "findings": [
-    "Original document: src/content/note/ja/java-internship-interview-blog-polished.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "元の文書: src/content/note/ja/java-internship-interview-blog-polished.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/java-internship-interview-blog-polished.md",
   "pubDate": "2026-02-24T16:00:00.000Z",
@@ -29,7 +29,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/java-internship-interview-blog-polished.md",

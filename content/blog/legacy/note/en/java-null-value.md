@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2025-10-07",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Explains why a cache must distinguish a missing key from a business null, how NullValue prevents repeated negative lookups, and where singleton and serialization semantics stop.",
   "findings": [
     "Original document: src/content/note/en/java-null-value.md",
@@ -25,7 +25,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/java-null-value.md",

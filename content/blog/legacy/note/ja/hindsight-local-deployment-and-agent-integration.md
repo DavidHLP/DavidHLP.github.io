@@ -1,18 +1,18 @@
 ---
 {
   "archiveId": "X-1090",
-  "title": "Hindsight 完全ローカルデプロイと OMP / Codex 統一メモリ連携の実践",
+  "title": "Hindsight 完全ローカルデプロイと OMP / Codex 統一メモリ連携の実践（アーカイブ）",
   "en": "ENGINEERING NOTES",
   "category": "AI 工具",
   "department": "工程笔记",
   "date": "2026-08-17",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
-  "abstract": "Vectorize Hindsight 記憶エンジンの完全ローカルデプロイ（AMD ROCm GPU LLM + CPU Embedding）と、OMP と Codex 向けに適応型マルチプロジェクト動的ルーティング記憶を構成するための完全な実装・深度トラブルシューティング・根本原因調査ガイドを記録する。",
+  "clearance": "PUBLIC",
+  "abstract": "デプロイ、エージェント連携、障害調査に分割された歴史的な統合ページです。アーカイブ案内として保持されています。",
   "findings": [
-    "Original document: src/content/note/ja/hindsight-local-deployment-and-agent-integration.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/hindsight-local-deployment-and-agent-integration.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: アーカイブ済み"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/hindsight-local-deployment-and-agent-integration.md",
   "pubDate": "2026-08-17T12:00:00.000Z",
@@ -30,7 +30,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/hindsight-local-deployment-and-agent-integration.md",
@@ -67,7 +67,7 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "deprecated",
   "sources": [
     "hindsight-local-deployment-and-agent-integration"
   ],
@@ -78,6 +78,8 @@
   ]
 }
 ---
+
+> この歴史的な統合ページは2026-08-23に[デプロイ](/blog/legacy/note/ja/hindsight-local-deployment/)、[エージェント連携](/blog/legacy/note/ja/hindsight-omp-codex-integration/)、[障害調査](/blog/legacy/note/ja/hindsight-troubleshooting/)の3ページに分割されました。新しい統合記事の出典ではなく、アーカイブとして保持されます。以下は当時の記録です。
 
 
 このページは、Linux 環境における Vectorize Hindsight 記憶システムの**実行時ローカルデプロイ**（日常の推論と記憶アクセスはすべてオフライン／ローカルモデルで賄う。初回デプロイとモデルウェイトの取得だけはネットワーク接続または事前キャッシュが必要）と、端末エージェント **OMP (Oh-My-Pi)** と **Codex CLI** にクロスツール統一記憶を提供するための実践を体系的に記録する。環境設定、プロトコル適応、デバッグ過程、および 7 つの主要な「落とし穴」の経験と予防策に重点を置く。

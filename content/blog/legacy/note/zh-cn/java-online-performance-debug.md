@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "把 Java 线上性能事故压缩为症状、证据、线程/GC/代码定位、止损与恢复的最小决策树，避免用重启或命令清单替代根因分析。",
   "findings": [
-    "Original document: src/content/note/zh-cn/java-online-performance-debug.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/java-online-performance-debug.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-online-performance-debug.md",
   "pubDate": "2026-02-24T16:00:00.000Z",

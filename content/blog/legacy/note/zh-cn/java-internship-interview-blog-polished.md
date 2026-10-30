@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "把项目真实性、缓存与异步机制、线上性能排障串成一套能力模型：先说明自己负责的事实，再解释工程取舍，最后用生产证据证明系统如何被验证和恢复。",
   "findings": [
-    "Original document: src/content/note/zh-cn/java-internship-interview-blog-polished.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/java-internship-interview-blog-polished.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-internship-interview-blog-polished.md",
   "pubDate": "2026-02-24T16:00:00.000Z",

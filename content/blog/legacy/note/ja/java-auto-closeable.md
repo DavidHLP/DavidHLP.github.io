@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2025-10-07",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "リソース所有権を起点に、AutoCloseable と try-with-resources の逆順 close、主例外と suppressed 例外、冪等な後片付けの境界を説明します。",
   "findings": [
-    "Original document: src/content/note/ja/java-auto-closeable.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/java-auto-closeable.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/java-auto-closeable.md",
   "pubDate": "2025-10-07T12:25:00.000Z",
@@ -25,7 +25,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/java-auto-closeable.md",

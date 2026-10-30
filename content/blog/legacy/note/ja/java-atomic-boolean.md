@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2025-10-07",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "原子ブール状態が必要な条件、compareAndSet が検査と遷移をまとめる仕組み、複数フィールドの整合性や高競合での CAS の限界を整理します。",
   "findings": [
-    "Original document: src/content/note/ja/java-atomic-boolean.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/java-atomic-boolean.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/java-atomic-boolean.md",
   "pubDate": "2025-10-07T12:25:00.000Z",
@@ -25,7 +25,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/java-atomic-boolean.md",

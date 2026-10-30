@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "デフォルトの JsonJacksonCodec と GenericJackson2JsonRedisSerializer が LocalDateTime に対して書き込み時に失敗する理由、Redisson のデフォルト codec が実は Kryo5Codec であること、そして三層の設定で書き込み・読み出し非対称を調べる判断経路を説明する。",
   "findings": [
-    "Original document: src/content/note/ja/redis-jackson-java-time.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/redis-jackson-java-time.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/redis-jackson-java-time.md",
   "pubDate": "2026-08-12T16:00:00.000Z",
@@ -27,7 +27,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/redis-jackson-java-time.md",

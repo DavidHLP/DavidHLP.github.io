@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "以 CAS 为内核，串联原子类、锁、线程协作与引用类型，明确无锁与有锁的适用成本。",
   "findings": [
-    "Original document: src/content/note/zh-cn/java-concurrency-deepdive.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/java-concurrency-deepdive.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-concurrency-deepdive.md",
   "pubDate": "2026-08-20T16:00:00.000Z",

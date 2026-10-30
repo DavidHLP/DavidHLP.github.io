@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2025-10-07",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Explains AutoCloseable and try-with-resources through resource ownership, reverse close order, primary and suppressed exceptions, and the boundaries of idempotent cleanup.",
   "findings": [
     "Original document: src/content/note/en/java-auto-closeable.md",
@@ -25,7 +25,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/java-auto-closeable.md",

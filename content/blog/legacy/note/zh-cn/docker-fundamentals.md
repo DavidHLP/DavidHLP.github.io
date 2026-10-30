@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "归纳 Docker 镜像分层、常用命令、数据卷、网络与 Compose 的适用条件与边界。",
   "findings": [
-    "Original document: src/content/note/zh-cn/docker-fundamentals.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/docker-fundamentals.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/docker-fundamentals.md",
   "pubDate": "2026-08-20T16:00:00.000Z",

@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "历史巨石页面已按 LLM-Wiki 原子化原则拆分为部署、接入与排障 3 个独立正典知识页。本页作为归档导引保留。",
   "findings": [
-    "Original document: src/content/note/zh-cn/hindsight-local-deployment-and-agent-integration.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: deprecated"
+    "原始文档: src/content/note/zh-cn/hindsight-local-deployment-and-agent-integration.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 已归档"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/hindsight-local-deployment-and-agent-integration.md",
   "pubDate": "2026-08-17T12:00:00.000Z",

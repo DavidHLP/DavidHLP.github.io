@@ -1,18 +1,18 @@
 ---
 {
   "archiveId": "X-1085",
-  "title": "フロントエンドと随筆集：Vue、MyBatis、UniApp、キャッシュ注釈と環境トラブルシューティング",
+  "title": "フロントエンドと随筆集：Vue、MyBatis、UniApp、キャッシュ注釈と環境トラブルシューティング（アーカイブ）",
   "en": "ENGINEERING NOTES",
   "category": "后端工程",
   "department": "工程笔记",
   "date": "2026-08-20",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
-  "abstract": "散在するメモを暫定的な統合としてアーカイブ、安定した概念ではない。",
+  "clearance": "PUBLIC",
+  "abstract": "フロントエンド、MyBatis、環境調査のノートをまとめたアーカイブです。元の証拠は不変のrawスナップショットに保持されています。",
   "findings": [
-    "Original document: src/content/note/ja/frontend-mybatis-essays.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "元の文書: src/content/note/ja/frontend-mybatis-essays.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: アーカイブ済み"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/frontend-mybatis-essays.md",
   "pubDate": "2026-08-20T16:00:00.000Z",
@@ -25,7 +25,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/frontend-mybatis-essays.md",
@@ -57,7 +57,7 @@
     }
   },
   "kind": "synthesis",
-  "status": "provisional",
+  "status": "deprecated",
   "sources": [
     "ingest-frontend-essays"
   ],
@@ -68,6 +68,8 @@
   ]
 }
 ---
+
+> この雑多なノート集は2026-08-23にアーカイブされました。不変の出典は保持されていますが、この歴史的なページは正典の統合記事としては保守されません。
 
 
 本ページは **provisional synthesis** であり、Vue、MyBatis、UniApp、キャッシュ注釈、環境トラブルシューティングの 10 の散在する随筆をアーカイブします。主に学習ノートと課題ログであり、安定した概念ではないため、他の知識ページの `sources` としては使用されません。

@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-07-24",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Treats an OMP Hook as an event extension at a tool decision point: sendMessage supplies a soft nudge without blocking, a hard result can reject a call, and setStatus bridges state into the UI. Includes API boundaries, mock and live-session checks, and the explicit warning that a suggestion is not a security boundary.",
   "findings": [
     "Original document: src/content/note/en/omp-hook-extension-guide.md",
@@ -28,7 +28,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/omp-hook-extension-guide.md",

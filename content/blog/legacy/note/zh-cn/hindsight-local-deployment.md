@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "记录 Vectorize Hindsight 记忆中枢的本地算力分工（AMD GPU 推理 + CPU Embedding）、UID 1000 权限模型与 Docker Compose 容器化编排。",
   "findings": [
-    "Original document: src/content/note/zh-cn/hindsight-local-deployment.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/hindsight-local-deployment.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/hindsight-local-deployment.md",
   "pubDate": "2026-08-22T16:00:00.000Z",

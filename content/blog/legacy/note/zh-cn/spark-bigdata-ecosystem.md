@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "对比分布式计算引擎，收敛 Spark 概述、运行模式与 Hadoop/HBase 集群搭建的最小验证。",
   "findings": [
-    "Original document: src/content/note/zh-cn/spark-bigdata-ecosystem.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/spark-bigdata-ecosystem.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/spark-bigdata-ecosystem.md",
   "pubDate": "2026-08-20T16:00:00.000Z",

@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-13",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Documents how OMP Headroom Bridge uses an external controller to maintain the coexistence boundaries between a loopback Headroom, OMP provider routes, the native Codex CLI/Desktop Responses provider, and Claude Code/cc-switch.",
   "findings": [
     "Original document: src/content/note/en/omp-headroom-provider-proxy.md",
@@ -29,7 +29,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/omp-headroom-provider-proxy.md",

@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "说明何时需要原子布尔状态，compareAndSet 如何把检查与切换合并，以及 CAS 在多变量一致性、高竞争和复杂协作中的边界。",
   "findings": [
-    "Original document: src/content/note/zh-cn/java-atomic-boolean.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/java-atomic-boolean.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-atomic-boolean.md",
   "pubDate": "2025-10-07T12:25:00.000Z",

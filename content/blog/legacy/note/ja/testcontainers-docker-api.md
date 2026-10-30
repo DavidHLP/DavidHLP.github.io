@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Testcontainers 1.20.6 が未知の Docker API バージョンを 1.32 にフォールバックする仕組み、DOCKER_API_VERSION に Docker CLI の経験を当てはめるべきでない理由、そして最も早い 400 エラーからバージョン非互換と Docker 環境の欠落を区別する方法を説明する。",
   "findings": [
-    "Original document: src/content/note/ja/testcontainers-docker-api.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/testcontainers-docker-api.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/testcontainers-docker-api.md",
   "pubDate": "2026-08-12T16:00:00.000Z",
@@ -26,7 +26,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/testcontainers-docker-api.md",

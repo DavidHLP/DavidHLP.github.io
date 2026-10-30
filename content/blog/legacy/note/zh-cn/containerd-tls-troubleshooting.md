@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "用一条可验证的链路判断私有镜像拉取失败属于证书信任、Kubernetes 凭证还是节点缓存，并比较生产 CA 信任与临时 skip_verify 的边界。",
   "findings": [
-    "Original document: src/content/note/zh-cn/containerd-tls-troubleshooting.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/containerd-tls-troubleshooting.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/containerd-tls-troubleshooting.md",
   "pubDate": "2026-02-24T16:00:00.000Z",

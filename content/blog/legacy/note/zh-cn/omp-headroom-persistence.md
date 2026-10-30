@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "综合 OMP 更新重写运行时模型缓存时的 Headroom 路由持久化模型：Named Profile 隔离意图与凭据，外部声明保存路由意图，model_cache 作为可重建派生状态，旧 reconciler 只在隔离迁移中恢复并验证。当前 wrapper 生命周期与版本依赖明确标为 provisional。",
   "findings": [
-    "Original document: src/content/note/zh-cn/omp-headroom-persistence.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/omp-headroom-persistence.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/omp-headroom-persistence.md",
   "pubDate": "2026-08-05T16:00:00.000Z",
