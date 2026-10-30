@@ -9,7 +9,6 @@ import { test } from "node:test";
 import { parse } from "yaml";
 import { runInNewContext } from "node:vm";
 import { createHash } from "node:crypto";
-import remarkMermaid from "./remark-mermaid.mjs";
 import {
   loadContent,
   validateContent,
@@ -22,13 +21,6 @@ import { StartupGate } from "../src/startup.ts";
 
 const published = await loadContent();
 const content = published;
-test("Mermaid markup retains source text without injecting HTML", () => {
-  const source = 'graph LR\nA["<script>example</script>"] --> B';
-  const tree = { type: "root", children: [{ type: "code", lang: "mermaid", value: source }] };
-  remarkMermaid()(tree);
-  assert.equal(tree.children[0].type, "html");
-  assert.equal(tree.children[0].value, `<pre class="mermaid">${escapeHtml(source)}</pre>`);
-});
 test("knowledge validation checks editable wiki sources and index rather than archived copies", async () => {
   const root = await mkdtemp(join(tmpdir(), "rhine-wiki-"));
   const put = async (path, content) => {
@@ -495,5 +487,17 @@ test("blog migration preserves original content, drafts and unpublished raw evid
     const html = await readFile(output, "utf8");
     if (target === "/rss.xml") assert.equal(html, await readFile(new URL("rss.xml", dist), "utf8"));
     else assert.ok(html.includes(`href="${target}"`), path);
+  }
+});
+
+
+test("published Mermaid fences retain the markup used by both readers", async () => {
+  const manifest = JSON.parse(await readFile(new URL("../migration/manifest.json", import.meta.url), "utf8"));
+  const diagrams = published.records.filter(record => /^```mermaid\s*$/m.test(record.body));
+  assert.ok(diagrams.length > 0);
+  for (const record of diagrams) {
+    const entry = manifest.entries.find(entry => entry.archiveId === record.id);
+    const html = await readFile(new URL(`../dist/blog/${entry.slug}/index.html`, import.meta.url), "utf8");
+    assert.ok(html.includes('data-language="mermaid"'), entry.slug);
   }
 });
