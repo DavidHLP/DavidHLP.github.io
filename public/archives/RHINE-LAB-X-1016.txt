@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1016 / 知识库操作日志
-SITE INFORMATION
+﻿RHINE LAB · 内部数据库
+档案 X-1016 / 知识库操作日志
+站点信息
 
-科室：站点信息
-编目范围：2026-10-05
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 站点信息
+编目范围: 2026-10-05
+相关人物: DavidHLPL
+访问范围: 公开
 
 # 知识库操作日志
 
@@ -176,7 +176,7 @@ SITE INFORMATION
 验证结果：`git diff --check` 通过；原生 `pnpm kb:lint` 因本机 tsx IPC 在 `/tmp` 上报 `listen EPERM` 未完成，随后用等价入口 `node --import tsx scripts/kb-lint.ts` 通过（53 raw、146 wiki）；`pnpm check` 通过（0 errors、0 warnings、4 hints）；`pnpm build` 通过并生成 98 页，目标路由 `/note/database-written-test-review` 与 OG 元数据均生成。保留项目现有 duplicate-id、Node 弃用、PhotoSwipe 动态/静态导入和大 chunk 提示，未扩展到程序代码修复；未运行 Oracle/MySQL/Spark/Kettle 实际环境、性能基准、浏览器视觉检查或线上发布验证。
 
 研究记录
-1. Original document: src/content/information/zh-cn/kb-log.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+1. 原始文档: src/content/information/zh-cn/kb-log.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/zh-cn/kb-log.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/zh-cn/kb-log.md

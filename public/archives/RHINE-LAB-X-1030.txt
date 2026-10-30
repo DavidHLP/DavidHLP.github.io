@@ -2,10 +2,10 @@
 FILE X-1030 / Headroom 0.34 Compression and Retrieval Contract: Fields, Modes, and Real-Endpoint Tests
 ENGINEERING NOTES
 
-科室：工程笔记
-编目范围：2026-08-11
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Engineering notes
+Collection: 2026-08-11
+Related people: DavidHLPL
+Access: Public
 
 Treat the Headroom 0.34.0 API as a versioned contract rather than inferring fields from the dashboard, type names, or mocks. `/v1/compress` requires `model` and `messages`, compression metrics are top-level response fields, and `/v1/retrieve` returns `original_content`. An adapter can pass a self-consistent mock suite while getting all three wrong against the real proxy.
 
@@ -120,9 +120,9 @@ Rollback does not require deleting data: restore new requests to the default mar
 - [headroom-0-34-compress-retrieve-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/headroom-0-34-compress-retrieve-contract.md)
 - [The LLM-Wiki Pattern: Maintaining a Compounding Personal Knowledge Base](/blog/legacy/note/en/llm-wiki-pattern/)
 
-研究记录
+Research notes
 1. Original document: src/content/note/en/headroom-compress-retrieve-contract.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 3. Evidence status: active
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/headroom-compress-retrieve-contract.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/headroom-compress-retrieve-contract.md

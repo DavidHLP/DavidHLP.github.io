@@ -1,0 +1,55 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-1050 / MySQL Storage Engines and Deadlock Detection
+ENGINEERING NOTES
+
+Department: Engineering notes
+Collection: 2026-08-20
+Related people: DavidHLPL
+Access: Public
+
+Three MySQL notes focus on storage engines and deadlocks: `存储引擎.md` (Storage Engine), `基础面试题.md` (Basic Interview Questions), and `checkmysqldeadlock.md`. This page distinguishes engine capabilities from troubleshooting paths.
+
+## Core Mechanism
+
+- **Storage engines**: InnoDB (row locks, MVCC, crash recovery) vs MyISAM (table locks, no transactions); sources include comparison diagrams.
+- **Deadlock detection**: `checkmysqldeadlock.md` gives troubleshooting steps via `SHOW ENGINE INNODB STATUS`, `information_schema`, and `performance_schema`.
+
+## Applicability
+
+- Use InnoDB for transactions and concurrent writes; consider MyISAM/Archive for read-only archives.
+
+## Not Applicable and Risks
+
+- MySQL versions (5.7 vs 8.0) differ greatly; deadlock log formats and parameters drift.
+
+## Minimum Verification
+
+1. Create tables with specific engines and compare locking and transactional behavior.
+2. Create cross-locking deadlocks and review `INNODB STATUS`.
+
+## Evidence and Uncertainty
+
+- **Source facts**: `ingest-mysql-storage` contains 3 source notes.
+- **Synthesis**: This page converges engine selection and deadlocks into minimal checks.
+- **Unconfirmed**: MySQL versions, parameters, and production configs need rechecking.
+
+## Related Pages
+
+- [mysql-performance-troubleshooting](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
+- [database-schema-drift](/blog/legacy/note/zh-cn/database-schema-drift/)
+- [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
+
+
+## Sources and related documents
+
+- [ingest-mysql-storage](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-mysql-storage.md)
+- [MySQL Performance Triage: Symptom → Metric → Layer → Safe Mitigation](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
+- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/zh-cn/database-schema-drift/)
+- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/zh-cn/multi-service-readiness/)
+
+Research notes
+1. Original document: src/content/note/en/mysql-storage-and-deadlock.md
+2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. Evidence status: active
+
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/mysql-storage-and-deadlock.md

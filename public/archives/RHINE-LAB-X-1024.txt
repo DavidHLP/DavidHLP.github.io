@@ -2,10 +2,10 @@
 FILE X-1024 / Database Written-Test Review: From SQL Semantics to Batch Data Processing
 ENGINEERING NOTES
 
-科室：工程笔记
-编目范围：2026-09-12
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Engineering notes
+Collection: 2026-09-12
+Related people: DavidHLPL
+Access: Public
 
 When reviewing a database written test, the easiest thing to keep is a list of answers. The conditions that make those answers valid are easier to lose: which rows a join keeps, how NULL participates in expressions, which SQL dialect an expression belongs to, and how to control cost, verify results, and handle failure as the data grows.
 
@@ -387,9 +387,9 @@ After this review, I find it more useful to see database questions as three laye
 - [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/zh-cn/database-schema-drift/)
 - [Spark and Big Data Ecosystem: Hadoop, HBase, Spark Runtime Modes, and Clusters](/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/)
 
-研究记录
+Research notes
 1. Original document: src/content/note/en/database-written-test-review.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 3. Evidence status: provisional
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/database-written-test-review.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/database-written-test-review.md

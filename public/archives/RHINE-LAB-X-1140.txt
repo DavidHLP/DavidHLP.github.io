@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1140 / 数据库笔试复盘：从 SQL 语义到批量数据处理
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1140 / 数据库笔试复盘：从 SQL 语义到批量数据处理
+工程笔记
 
-科室：工程笔记
-编目范围：2026-09-12
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-09-12
+相关人物: DavidHLPL
+访问范围: 公开
 
 复盘一套数据库笔试题时，最容易留下的是一串答案，最容易丢掉的却是答案成立的条件：连接究竟保留哪些行，`NULL` 怎样参与计算，同一段表达式属于哪种 SQL 方言，以及数据量变大后如何控制成本、验证结果和处理失败。
 
@@ -447,8 +447,8 @@ DROP TEMPORARY TABLE tmp_review_course_avg;
 - [Spark 与大数据生态：Hadoop、HBase、Spark 运行模式与集群](/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/database-written-test-review.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+1. 原始文档: src/content/note/zh-cn/database-written-test-review.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 暂定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/database-written-test-review.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/database-written-test-review.md

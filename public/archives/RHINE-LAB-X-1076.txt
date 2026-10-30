@@ -2,10 +2,10 @@
 FILE X-1076 / UltiCode Outbox and Redis Streams: Making Judge Delivery Recoverable
 ENGINEERING NOTES
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Engineering notes
+Collection: 2026-09-08
+Related people: DavidHLPL
+Access: Public
 
 > **Evidence status**: This article is based on the current fixed-commit outbox, Redis Streams, and reaper source in UltiCode. “Recoverable” here means that durable intent and retry paths are implemented; it does not mean exactly-once processing, unlimited throughput, or production HA has been verified.
 
@@ -81,9 +81,9 @@ Read [JudgeOutboxDispatcher.java](https://github.com/DavidHLP/UltiCode/blob/f801
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
 - [UltiCode: Modular Architecture and Domain Boundaries of an Online Judge Platform](/blog/legacy/note/en/ulticode/)
 
-研究记录
+Research notes
 1. Original document: src/content/note/en/ulticode-outbox-redis-streams.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 3. Evidence status: provisional
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/ulticode-outbox-redis-streams.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/ulticode-outbox-redis-streams.md

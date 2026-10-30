@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1020 / 知识库摄入收件箱
-JOTTINGS
+﻿RHINE LAB · 内部データベース
+資料 X-1020 / 知识库摄入收件箱
+随筆
 
-科室：随笔
-编目范围：2026-08-07
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: 随筆
+収録範囲: 2026-08-07
+関連人物: DavidHLPL
+アクセス: 公開
 
 # 知识库摄入收件箱
 
@@ -51,8 +51,8 @@ JOTTINGS
 - `kb-index.md` 与 `kb-log.md` 已同步。
 - 原始来源没有被改写来迎合新结论。
 
-研究记录
-1. Original document: src/content/jotting/ja/kb-ingest-todo.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+研究記録
+1. 元の文書: src/content/jotting/ja/kb-ingest-todo.md
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/jotting/ja/kb-ingest-todo.md
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/jotting/ja/kb-ingest-todo.md

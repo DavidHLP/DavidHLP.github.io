@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1178 / ResiCache：observer 嵌套执行必须区分生命周期、fragment 与 scope token
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1178 / ResiCache：observer 嵌套执行必须区分生命周期、fragment 与 scope token
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-12
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-12
+相关人物: DavidHLPL
+访问范围: 公开
 
 **结论优先**：在带缓存链、同步锁和 single-flight 的 Java 系统中，完整 `execute`、锁内 `executeChainFragment` 和 observer 的 per-call scope token 是三种不同概念。around hook 的状态必须由本次调用返回的 token 配对恢复；fragment 只推进节点，不重新打开外层生命周期；`ThreadLocal` 只适合隔离当前执行快照，不应成为 observer 状态机。
 
@@ -230,8 +230,8 @@ observer 负责回答“这一次链执行经历了哪些生命周期事件”�
 - [Redisson/Jackson 对 LocalDateTime 的默认序列化行为与写读不对称边界](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/resicache-observer-nested-execution.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/resicache-observer-nested-execution.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/resicache-observer-nested-execution.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/resicache-observer-nested-execution.md

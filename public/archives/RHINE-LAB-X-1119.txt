@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1119 / ResiCache の cache responsibility chain：control flow、nested fragment、observer lifecycle
-ENGINEERING NOTES
+﻿RHINE LAB · 内部データベース
+資料 X-1119 / ResiCache の cache responsibility chain：control flow、nested fragment、observer lifecycle
+技術ノート
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: 技術ノート
+収録範囲: 2026-09-08
+関連人物: DavidHLPL
+アクセス: 公開
 
 > この記事は ResiCache の現在の main@2954fff217257e9cf7c906450a75070d5e092637 のソースに基づく。過去の障害の振り返りではなく、chain abstraction 自体を価値とみなすものでもない。焦点は、現在のコードが control flow、nested execution、観測 state をどう分離するかである。
 
@@ -227,9 +227,9 @@ composable な processing chain を設計するとき、まず決める。
 - [ResiCache：Spring Cache 保護のためのオーケストレーション可能な責任チェーン](/blog/legacy/note/ja/resicache/)
 - [ResiCache：observer のネスト実行はライフサイクル、fragment、scope token を区別しなければならない](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
 
-研究记录
-1. Original document: src/content/note/ja/resicache-handler-chain-and-observer.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+研究記録
+1. 元の文書: src/content/note/ja/resicache-handler-chain-and-observer.md
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 証拠の状態: 暫定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/resicache-handler-chain-and-observer.md
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/resicache-handler-chain-and-observer.md

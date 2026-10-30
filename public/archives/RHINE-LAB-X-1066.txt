@@ -1,0 +1,57 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-1066 / Spark and Big Data Ecosystem: Hadoop, HBase, Spark Runtime Modes, and Clusters
+ENGINEERING NOTES
+
+Department: Engineering notes
+Collection: 2026-08-20
+Related people: DavidHLPL
+Access: Public
+
+The 4 Personal and 3 Fuwari Spark/Big Data notes mirror each other, plus the local cluster scripts in `hadoop-hbase-spark/README`. This page centers on engine selection and runtime modes.
+
+## Core Mechanism
+
+- **Engine overview**: `分布式计算引擎框架概述.md` (Distributed Engine Overview) compares batch/stream models of MapReduce/Spark/Flink.
+- **Spark overview and runtime modes**: `Spark概述.md` (Spark Overview) and `Spark运行模式整理.md` (Spark Runtime Modes) distinguish Local/Standalone/YARN/K8s, Driver/Executor roles, and shuffle boundaries.
+- **Cluster scripts**: `hadoop-hbase-spark` contains `hadoop-compose.yml`, `start-*.sh` and other local validation scripts.
+
+## Applicability
+
+- Batch/micro-batch processing that needs in-memory computation and DAG scheduling.
+
+## Not Applicable and Risks
+
+- Source versions are not pinned; YARN/K8s resource scheduling and HDFS dependencies must be rechecked against current versions.
+- Local scripts are only validated on a single machine, not for multi-node and fault tolerance.
+
+## Minimum Verification
+
+1. Run `SparkPi` in Local mode and confirm Driver/Executor logs.
+2. Submit separately in Standalone/YARN and observe shuffle and data locality.
+
+## Evidence and Uncertainty
+
+- **Source facts**: `ingest-spark-ecosystem` contains 7 source notes.
+- **Synthesis**: This page converges engine comparisons into batch/stream—resources—shuffle.
+- **Unconfirmed**: Spark/Hadoop versions, YARN queues, and HDFS HA are not pinned.
+
+## Related Pages
+
+- [hbase-foundation-and-ops](/blog/legacy/note/zh-cn/hbase-foundation-and-ops/)
+- [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
+- [containerd-tls-troubleshooting](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
+
+
+## Sources and related documents
+
+- [ingest-spark-ecosystem](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spark-ecosystem.md)
+- [HBase Fundamentals, Architecture, and Operations: Data Model, Table Design, Shell, and Java API](/blog/legacy/note/zh-cn/hbase-foundation-and-ops/)
+- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/zh-cn/multi-service-readiness/)
+- [containerd TLS: Choosing a Trusted Chain or Temporary Verification Bypass](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
+
+Research notes
+1. Original document: src/content/note/en/spark-bigdata-ecosystem.md
+2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. Evidence status: active
+
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/spark-bigdata-ecosystem.md

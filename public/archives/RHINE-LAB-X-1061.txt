@@ -2,10 +2,10 @@
 FILE X-1061 / ResiCache's Cache Responsibility Chain: Control Flow, Nested Fragments, and Observer Lifecycles
 ENGINEERING NOTES
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Engineering notes
+Collection: 2026-09-08
+Related people: DavidHLPL
+Access: Public
 
 > This article is based on the current ResiCache source at main@2954fff217257e9cf7c906450a75070d5e092637. It is not a retrospective of a historical incident, and it does not treat the chain abstraction itself as a design virtue; the focus is how current code separates control flow, nested execution, and observation state.
 
@@ -227,9 +227,9 @@ Related deep dive: [ResiCache: nested observer execution must distinguish lifecy
 - [ResiCache: An Orchestratable Responsibility Chain for Spring Cache Protection](/blog/legacy/note/en/resicache/)
 - [ResiCache: Observer Nested Execution Must Distinguish Lifecycle, Fragments, and Scope Tokens](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
 
-研究记录
+Research notes
 1. Original document: src/content/note/en/resicache-handler-chain-and-observer.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 3. Evidence status: provisional
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/resicache-handler-chain-and-observer.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/resicache-handler-chain-and-observer.md

@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1144 / HBase 基础、架构与运维：数据模型、表设计、Shell 与 Java API
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1144 / HBase 基础、架构与运维：数据模型、表设计、Shell 与 Java API
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-20
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-20
+相关人物: DavidHLPL
+访问范围: 公开
 
 两仓库 18 篇 HBase 原文高度同源（Personal 与 Fuwari 的 9+9 内容基本一一对应，只是中英文与篇幅差异）。本页收敛为数据模型—架构—表设计—运维四段，删除重复章节，保留可复用概念。
 
@@ -69,8 +69,8 @@ ENGINEERING NOTES
 - [MySQL 存储引擎与死锁检测](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/hbase-foundation-and-ops.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/hbase-foundation-and-ops.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/hbase-foundation-and-ops.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/hbase-foundation-and-ops.md

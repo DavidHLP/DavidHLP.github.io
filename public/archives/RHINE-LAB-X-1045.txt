@@ -2,10 +2,10 @@
 FILE X-1045 / The LLM-Wiki Pattern: Maintaining a Compounding Personal Knowledge Base
 ENGINEERING NOTES
 
-科室：工程笔记
-编目范围：2026-08-07
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Engineering notes
+Collection: 2026-08-07
+Related people: DavidHLPL
+Access: Public
 
 > This page describes the operating model of the knowledge base itself. The primary source is [`karpathy-llm-wiki`](https://gist.githubusercontent.com/karpathy/442a6bf555914893e9891c11519de94f/raw/ac46de1ad27f92b28ac95459c782c07f6b8c964a/llm-wiki.md). The maintenance contract lives in [KB.md](https://github.com/DavidHLP/DavidHLP.github.io/blob/main/KB.md) and the [knowledge-base skill](https://github.com/DavidHLP/DavidHLP.github.io/blob/main/.claude/skills/knowledge-base.md).
 
@@ -77,9 +77,9 @@ Future pages should grow three connected networks:
 - [karpathy-llm-wiki](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/karpathy-llm-wiki.md)
 - [Headroom 0.34 Compression and Retrieval Contract: Fields, Modes, and Real-Endpoint Tests](/blog/legacy/note/en/headroom-compress-retrieve-contract/)
 
-研究记录
+Research notes
 1. Original document: src/content/note/en/llm-wiki-pattern.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 3. Evidence status: active
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/llm-wiki-pattern.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/llm-wiki-pattern.md

@@ -2,10 +2,13 @@
 FILE X-1065 / ResiCache: An Orchestratable Responsibility Chain for Spring Cache Protection
 ENGINEERING NOTES
 
-科室：工程笔记
-编目范围：2026-08-20
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Engineering notes
+Collection: 2026-08-20
+Related people: DavidHLPL
+Access: Public
+
+> Evidence status: provisional. This existing translation retains its original evidence basis. The Chinese canonical page now refers to source and repository tests at `main@2954fff217257e9cf7c906450a75070d5e092637`: Java 21, Spring Boot 4.0.0, Spring Data Redis 4.0, optional Redisson 3.50.0, pre-1.0. Repository test evidence does not establish a new execution here or production performance, P99, high availability, zero loss or a complete security audit.
+
 
 `ResiCache` is an enhancement ecosystem for Spring Cache protection. Beyond `@Cacheable`, the `@RedisCacheable` annotation adds cache-penetration, cache-breakdown, cache-avalanche, and hot-key early-refresh protection to Redis, using an orchestratable responsibility chain instead of rebuilding AOP. This page describes the declared state of the public repository's fixed main commit `75ed279a` (v0.0.2); the observer nested-execution contract is covered in [ResiCache observer nested execution](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/).
 
@@ -73,9 +76,9 @@ Any handler can short-circuit the chain with `output.skipRemaining=true`; third-
 - [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Seckill](/blog/legacy/note/zh-cn/redis-business-patterns/)
 - [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
 
-研究记录
+Research notes
 1. Original document: src/content/note/en/resicache.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+3. Evidence status: provisional
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/resicache.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/resicache.md
