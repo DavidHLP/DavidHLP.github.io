@@ -29,6 +29,8 @@ import {
   archiveColumns,
   columnFiles,
   fileLocation,
+  savedIdForLanguage,
+  localizedContentLabel,
 } from "./data";
 import { TerminalAudio } from "./audio";
 import { audioSettingsMarkup } from "./audio-settings";
@@ -54,6 +56,7 @@ import { ArchivePlayground } from "./archive-playground";
 import { ARRAY_OPENING_END, openingShowsDetail } from "./wallpaper-opening";
 import { paintTheme, themeSettingsMarkup } from "./theme-ui";
 import { initUiLanguage, normalizeUiLanguage, translateUiText } from "./ui-language";
+import { restoredArchiveNavigation, translationKey } from "./content-language";
 let playground: ArchivePlayground | undefined;
 import { WallpaperEffects } from "./wallpaper-effects";
 import { WallpaperBackground } from "./wallpaper-background";
@@ -169,7 +172,7 @@ function readLocal<T>(key: string, fallback: T): T {
     return fallback;
   }
 }
-const saved = new Set<string>(readLocal<string[]>("rhine-saved", []));
+const saved = new Set<string>(readLocal<string[]>("rhine-saved", []).map(savedIdForLanguage));
 const storedPrefs = readLocal<Partial<{ sound: boolean; music: boolean; soundVolume: number; musicVolume: number; reduced: boolean; quality: boolean; rendering: RenderQuality; superPerformance: boolean; colorTheme: "light" | "dark"; motion: StoredMotion; motionPreset: MotionPreset }>>("rhine-settings", {});
 const initialMotion = createMotionPreferences(
   storedPrefs.motion,
@@ -275,6 +278,24 @@ let resumeSelection = -1;
 let viewer: ModelViewer | undefined;
 const accessLog: { id: string; time: string }[] = [];
 const columnMemory = archiveColumns.map((_, lane) => columnFiles(lane)[0]);
+const languageNavigation = restoredArchiveNavigation(records, archiveColumns, reviewParams.get("navigation"));
+if (languageNavigation) {
+  selected = languageNavigation.selected;
+  columnMemory.splice(0, columnMemory.length, ...languageNavigation.columns);
+}
+if (reviewParams.has("navigation")) {
+  const url = new URL(location.href);
+  url.searchParams.delete("navigation");
+  history.replaceState(null, "", url.href);
+}
+document.addEventListener("rhine:languagechange", event => {
+  const { url } = (event as CustomEvent<{ url: URL }>).detail;
+  const lane = fileLocation(selected).lane;
+  url.searchParams.set("navigation", JSON.stringify({
+    selected: translationKey(records[selected]),
+    columns: columnMemory.map((index, column) => translationKey(records[column === lane ? selected : index])),
+  }));
+});
 function recordAccess() {
   accessLog.unshift({
     id: records[selected].id,
@@ -463,7 +484,7 @@ function updateSelection(navigation?: ArchiveNavigation) {
   const { lane } = fileLocation(selected);
   const files = columnFiles(lane);
   selectionTitle.update({ text: r.title, animated: motionActive("rollingText") && mode === "archive" });
-  clearanceTitle.update({ text: r.clearance, animated: motionActive("rollingText") && mode === "archive" });
+  clearanceTitle.update({ text: localizedContentLabel(r.clearance), animated: motionActive("rollingText") && mode === "archive" });
   categoryTitle.update({ text: r.category, animated: motionActive("rollingText") && mode === "archive" });
   const direction =
     navigation && "axis" in navigation
@@ -535,7 +556,7 @@ function syncBlogRoute(next: "archive" | "detail") {
   document.title = record ? `${record.title} · ${document.body.dataset.siteTitle}` : document.body.dataset.siteTitle!;
   const canonical = new URL(path, document.body.dataset.siteUrl).href;
   document.querySelector<HTMLLinkElement>('link[rel="canonical"]')!.href = canonical;
-  const description = record?.abstract ?? document.body.dataset.siteDescription!;
+  const description = record?.abstract ?? localizedContentLabel(document.body.dataset.siteDescription!);
   document.querySelector<HTMLMetaElement>('meta[name="description"]')!.content = description;
   document.querySelector<HTMLMetaElement>('meta[property="og:title"]')!.content = document.title;
   document.querySelector<HTMLMetaElement>('meta[property="og:description"]')!.content = description;
@@ -589,7 +610,7 @@ function renderDetail() {
   const r = records[selected];
   $("#object-id").textContent = "NO." + String(selected + 1).padStart(3, "0");
   $("#detail-content").innerHTML = `
-  <div class="detail-kicker"><span>FILE ${r.id}</span><span>${escapeHtml(r.clearance)}</span></div>
+  <div class="detail-kicker"><span>FILE ${r.id}</span><span>${escapeHtml(localizedContentLabel(r.clearance))}</span></div>
   <h2>${escapeHtml(r.en)}</h2><div class="detail-title-cn">${escapeHtml(r.title)}<span>${escapeHtml(r.category)}</span></div>
   <div class="detail-rule"></div>
   <dl class="metadata"><div><dt>DEPARTMENT / 科室</dt><dd>${escapeHtml(r.department)}</dd></div><div><dt>COLLECTION / 编目范围</dt><dd>${escapeHtml(r.date)}</dd></div><div><dt>RELATED / 相关人物</dt><dd>${escapeHtml(r.lead)}</dd></div><div><dt>STATUS / 状态</dt><dd><i></i>${r.clearance === "RESTRICTED" ? "目录访问" : "已归档 · 可读取"}</dd></div></dl>
@@ -1321,7 +1342,8 @@ async function start() {
     if (scene) bindScene(scene);
     savePrefs();
     ready = true;
-    select(Math.max(0, records.findIndex(record => record.slug && postPath(record.slug) === location.pathname)));
+    const linked = records.findIndex(record => record.slug && postPath(record.slug) === location.pathname);
+    select(linked >= 0 ? linked : selected);
     if (entry) entry.ready();
     else {
       if (isWallpaper) {

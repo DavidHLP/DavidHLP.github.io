@@ -16,7 +16,8 @@ import { escapeHtml } from "../src/html.ts";
 import { postPath } from "../src/blog-path.ts";
 import { archiveTickWindow, recentRecords, visibleSavedCount, persistSaved, syncArticleMetadata, restoreArticleHash } from "../src/blog-client.ts";
 import { StartupGate } from "../src/startup.ts";
-import { normalizeUiLanguage, translateUiText } from "../src/ui-language.ts";
+import { normalizeUiLanguage, translateUiText, translatedBootText } from "../src/ui-language.ts";
+import { contentLabel, localizedArticles, languageUrl, translationKey, validateTranslations, restoredArchiveNavigation } from "../src/content-language.ts";
 import { MOTION_LABELS } from "../src/motion-preferences.ts";
 
 test("interface language selection validates stored values and preserves source content", () => {
@@ -50,6 +51,36 @@ test("interface language selection validates stored values and preserves source 
 
 const published = await loadContent();
 const content = published;
+test("every article has all three languages and switching keeps the same logical article", () => {
+  validateTranslations(published.records);
+  const chinese = localizedArticles(published.records, "zh-CN");
+  const remembered = published.columns.map(column => chinese.filter(record => record.category === column).at(-1));
+  const navigation = JSON.stringify({ selected: translationKey(remembered[2]), columns: remembered.map(translationKey) });
+  for (const language of ["en", "ja"]) {
+    const localized = localizedArticles(published.records, language);
+    assert.equal(localized.length, chinese.length);
+    assert.deepEqual(localized.map(translationKey), chinese.map(translationKey));
+    assert.ok(localized.every(record => record.lang === language));
+    const restored = restoredArchiveNavigation(localized, published.columns, navigation);
+    assert.equal(translationKey(localized[restored.selected]), translationKey(remembered[2]));
+    assert.deepEqual(restored.columns.map(index => translationKey(localized[index])), remembered.map(translationKey));
+    assert.equal(restoredArchiveNavigation(localized, published.columns, "invalid JSON"), undefined);
+    assert.equal(restoredArchiveNavigation(localized, published.columns, JSON.stringify({ selected: "missing", columns: remembered.map(translationKey) })), undefined);
+    for (const record of chinese) {
+      const url = languageUrl(published.records, `https://example.com/blog/${record.slug}/?view=static&scene=archive#chapter`, language);
+      const target = localized.find(item => translationKey(item) === translationKey(record));
+      assert.ok(url.startsWith(postPath(target.slug)));
+      assert.ok(url.includes("view=static") && url.includes("scene=archive") && url.includes(`lang=${language}`));
+      assert.ok(!url.includes("#chapter"));
+    }
+  }
+  assert.throws(() => validateTranslations(published.records.filter(record => record.lang !== "en")), /Missing/);
+  assert.throws(() => validateTranslations([...published.records, published.records[0]]), /Duplicate/);
+  assert.throws(() => validateTranslations([{ ...published.records[0], lang: "fr" }]), /Unsupported/);
+  assert.equal(translatedBootText("REQUEST RECEIVED", "REQUEST RECEIVED", "ja"), "リクエスト受信済み");
+  const partial = translatedBootText("REQUEST", "REQUEST RECEIVED", "ja");
+  assert.ok("リクエスト受信済み".startsWith(partial) && partial.length > 0 && partial.length < 9);
+});
 test("all migrated downloads match the Markdown content, including the UTF-8 BOM", async () => {
   for (const record of published.records) {
     assert.equal(
@@ -262,6 +293,20 @@ test("built pages carry one article body while shared search retains every publi
   assert.equal(manifest.name, site.title);
   assert.equal(manifest.short_name, site.title);
   assert.equal(manifest.description, site.description);
+  const labels = JSON.parse(await readFile(new URL("../content/locales.json", import.meta.url), "utf8"));
+  for (const language of ["en", "ja"]) {
+    const localizedManifest = JSON.parse(await readFile(new URL(`${language}/manifest.webmanifest`, dist), "utf8"));
+    assert.equal(localizedManifest.lang, language);
+    assert.equal(localizedManifest.description, contentLabel(site.description, language, labels));
+    assert.equal(localizedManifest.id, "/");
+    assert.equal(localizedManifest.scope, "/");
+    assert.ok(localizedManifest.icons.every(icon => icon.src.startsWith("/icons/")));
+    assert.equal(new URL(localizedManifest.start_url, "https://blog.example/").searchParams.get("lang"), language);
+    const rss = await readFile(new URL(`${language}/rss.xml`, dist), "utf8");
+    const links = [...rss.matchAll(/<item>[\s\S]*?<link>([^<]+)<\/link>/g)].map(match => new URL(match[1].replaceAll("&amp;", "&")));
+    assert.equal(links.length, localizedArticles(published.records, language).length);
+    assert.ok(links.every(link => link.pathname.includes(`/${language}/`) && link.searchParams.get("lang") === language));
+  }
   const pages = paths.filter(path => path === "index.html" || /^blog\/.*\/index\.html$/.test(path.replaceAll("\\", "/")));
   assert.equal(pages.length, published.records.length + 1);
   for (const path of pages) {
@@ -411,7 +456,7 @@ test("large archives retain article identity through coordinate rebasing", async
   const previousDocument = globalThis.document;
   try {
     const records = [108, 9, 11, 7, 13].flatMap((count, lane) => Array.from({ length: count }, (_, index) => ({
-      ...published.records[0], id: `X-${lane * 1000 + index + 5000}`, category: published.columns[lane],
+      ...published.records[0], id: `X-${lane * 1000 + index + 5000}`, slug: `large/${lane}-${index}`, category: published.columns[lane],
     })));
     globalThis.document = { getElementById() { return { textContent: JSON.stringify({ ...published, records }) }; } };
     const { fileLocation, fileAtSlot } = await import("../src/data.ts");

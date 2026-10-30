@@ -1,3 +1,6 @@
+import { languageUrl } from "./content-language.ts";
+import contentLabels from "../content/locales.json" with { type: "json" };
+
 export const uiLanguages = ["zh-CN", "en", "ja"] as const;
 export type UiLanguage = typeof uiLanguages[number];
 
@@ -8,6 +11,14 @@ const labels: Record<string, readonly [string, string, string?]> = {
   "SAVED ARCHIVES": ["SAVED ARCHIVES", "保存した資料", "收藏档案"],
   "ACCESS": ["ACCESS", "アクセス", "访问权限"],
   "CONNECTED": ["CONNECTED", "接続済み", "已连接"],
+  "ACCESS PERMISSION REQUIRED": ["ACCESS PERMISSION REQUIRED", "アクセス許可が必要です", "需要访问权限"],
+  "ID CONFIRMED : JOYCE MOORE": ["ID CONFIRMED : JOYCE MOORE", "本人確認済み : JOYCE MOORE", "身份已确认 : JOYCE MOORE"],
+  "REQUEST RECEIVED": ["REQUEST RECEIVED", "リクエスト受信済み", "请求已接收"],
+  "START PROCESSING...": ["START PROCESSING...", "処理を開始…", "开始处理…"],
+  "SING...": ["SING...", "…", "…"],
+  "PERMISSION AUTHORIZED": ["PERMISSION AUTHORIZED", "アクセス許可済み", "权限验证通过"],
+  "WELCOME TO": ["WELCOME TO", "ようこそ", "欢迎访问"],
+  "POWERED BY": ["POWERED BY", "提供", "技术支持"],
   "INTERNAL DATABASE / READY": ["INTERNAL DATABASE / READY", "内部データベース / 準備完了", "内部数据库 / 就绪"],
   "CONNECTING TO INTERNAL DATABASE": ["CONNECTING TO INTERNAL DATABASE", "内部データベースに接続中", "正在连接内部数据库"],
   "SELECTING FILES...": ["SELECTING FILES...", "資料を選択中…", "正在选择档案…"],
@@ -324,9 +335,14 @@ export function normalizeUiLanguage(value: unknown): UiLanguage {
   return uiLanguages.find(language => language === value) ?? "zh-CN";
 }
 
+export function translatedBootText(value: string, phrase: string, language: UiLanguage) {
+  const translated = translateUiText(phrase, language);
+  return translated === phrase ? value : translated.slice(0, Math.ceil(value.length / phrase.length * translated.length));
+}
+
 export function translateUiText(value: string, language: UiLanguage): string {
   const text = value.trim();
-  const translated = language === "zh-CN" ? labels[text]?.[2] ?? chineseLabels[text] : labels[text]?.[language === "en" ? 0 : 1];
+  const translated = (language === "zh-CN" ? labels[text]?.[2] ?? chineseLabels[text] : labels[text]?.[language === "en" ? 0 : 1]) ?? (contentLabels[language] as Record<string, string>)[text];
   if (translated !== undefined) return value.replace(text, translated);
   const count = /^(\d+) RECORDS FOUND$/.exec(text);
   if (count) return value.replace(text, language === "zh-CN" ? `找到 ${count[1]} 份档案` : language === "en" ? `${count[1]} RECORDS FOUND` : `${count[1]} 件の資料`);
@@ -358,11 +374,42 @@ export function translateUiText(value: string, language: UiLanguage): string {
 }
 
 let initialized = false;
+export function currentUiLanguage(): UiLanguage {
+  if (typeof location === "undefined") return "zh-CN";
+  const requested = new URLSearchParams(location.search).get("lang");
+  if (uiLanguages.includes(requested as UiLanguage)) return requested as UiLanguage;
+  try {
+    const saved = localStorage.getItem("rhine-language");
+    if (uiLanguages.includes(saved as UiLanguage)) return saved as UiLanguage;
+  } catch {}
+  return normalizeUiLanguage(document.body.dataset.contentLanguage);
+}
+
+export function restoreContentLanguage() {
+  const payload = document.getElementById("blog-data");
+  if (!payload) return false;
+  const target = languageUrl(JSON.parse(payload.textContent!).records, location.href, currentUiLanguage());
+  if (new URL(target, location.href).pathname === location.pathname) return false;
+  location.replace(target);
+  return true;
+}
+
 export function initUiLanguage() {
   if (initialized) return;
   initialized = true;
-  let language: UiLanguage = "zh-CN";
-  try { language = normalizeUiLanguage(localStorage.getItem("rhine-language")); } catch {}
+  let language = currentUiLanguage();
+  const articles = JSON.parse(document.getElementById("blog-data")?.textContent ?? '{"records":[]}').records;
+  function translateLink(node: Node) {
+    if (!(node instanceof HTMLAnchorElement) || !node.hasAttribute("href") || node.hasAttribute("download")) return;
+    const url = new URL(node.href, location.href);
+    if (url.origin === location.origin && /^\/(en\/|ja\/)?rss\.xml$/.test(url.pathname)) {
+      node.href = language === "zh-CN" ? "/rss.xml" : `/${language}/rss.xml`;
+      return;
+    }
+    if (url.origin !== location.origin || !(url.pathname === "/" || url.pathname.startsWith("/blog/"))) return;
+    const target = languageUrl(articles, url.href, language);
+    if (target !== url.pathname + url.search + url.hash) node.href = target;
+  }
   const original = new WeakMap<Node, Map<string, { source: string; translated: string }>>();
   const excluded = 'script, style, template, pre, code, [translate="no"], .blog-body, .research-notes, #selected-title, #column-name, #archive-category, #hover-title, #selected-clearance, .detail-title-cn, .detail-content > h2, .metadata > div:not(:last-child) dd, .result-name, .result-row > span:nth-child(2), [data-filter]:not([data-filter="全部档案"]), #viewer-title';
   function value(node: Node, key: string, current: string, write: (text: string) => void) {
@@ -375,7 +422,11 @@ export function initUiLanguage() {
     if (current !== translated) write(translated);
   }
   function translate(node: Node) {
-    if (node.parentElement?.closest(excluded)) return;
+    translateLink(node);
+    if (node.parentElement?.closest(excluded) || node instanceof Element && node.matches(excluded)) {
+      if (node instanceof Element) node.querySelectorAll("a[href]").forEach(translateLink);
+      return;
+    }
     if (node.nodeType === Node.TEXT_NODE) {
       const text = node as Text;
       value(text, "text", text.data, translated => { text.data = translated; });
@@ -393,6 +444,10 @@ export function initUiLanguage() {
     document.documentElement.lang = language;
     document.documentElement.dataset.uiLanguage = language;
     translate(document.body);
+    for (const meta of document.querySelectorAll<HTMLMetaElement>('meta[name="description"], meta[property="og:description"]')) meta.content = translateUiText(meta.content, language);
+    const manifest = document.querySelector<HTMLLinkElement>('link[rel="manifest"]');
+    if (manifest) manifest.href = language === "zh-CN" ? "/manifest.webmanifest" : `/${language}/manifest.webmanifest`;
+    document.querySelectorAll<HTMLElement>("[data-content-locale]").forEach(node => { node.hidden = node.dataset.contentLocale !== language; });
   }
   apply();
   new MutationObserver(changes => {
@@ -406,6 +461,9 @@ export function initUiLanguage() {
     if (!(select instanceof HTMLSelectElement) || !select.matches("[data-ui-language]")) return;
     language = normalizeUiLanguage(select.value);
     try { localStorage.setItem("rhine-language", language); } catch {}
-    apply();
+    const target = new URL(languageUrl(articles, location.href, language), location.href);
+    if (document.documentElement.classList.contains("interactive")) target.searchParams.set("scene", "archive");
+    document.dispatchEvent(new CustomEvent("rhine:languagechange", { detail: { url: target } }));
+    location.assign(target.href);
   });
 }
