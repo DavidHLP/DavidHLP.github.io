@@ -8,6 +8,35 @@ const labels: Record<string, readonly [string, string]> = {
   "系统导航": ["System navigation", "システムナビゲーション"],
   "ARCHIVE INDEX": ["ARCHIVE INDEX", "資料検索"],
   "SAVED": ["SAVED", "保存済み"],
+  "ENTER SYSTEM": ["ENTER SYSTEM", "システムへ"],
+  "FILE NUMBER:": ["FILE NUMBER:", "資料番号:"],
+  "ACCESS FILE": ["ACCESS FILE", "資料を開く"],
+  "ARCHIVE / SELECT": ["ARCHIVE / SELECT", "資料 / 選択"],
+  "COLUMN": ["COLUMN", "列"],
+  "ARCHIVE OVERVIEW": ["ARCHIVE OVERVIEW", "資料一覧"],
+  "DRAG TO INSPECT": ["DRAG TO INSPECT", "ドラッグで確認"],
+  "REINITIALIZE ↗": ["REINITIALIZE ↗", "再起動 ↗"],
+  "CLOSE": ["CLOSE", "閉じる"],
+  "INTERNAL DATABASE": ["INTERNAL DATABASE", "内部データベース"],
+  "READ AUTHORIZED": ["READ AUTHORIZED", "閲覧許可"],
+  "− REMOVE FROM SAVED": ["− REMOVE FROM SAVED", "− 保存を解除"],
+  "＋ SAVE ARCHIVE": ["＋ SAVE ARCHIVE", "＋ 資料を保存"],
+  "EXPORT": ["EXPORT", "書き出す"],
+  "SESSION AUTHORIZED": ["SESSION AUTHORIZED", "認証済みセッション"],
+  "SYSTEM SETTINGS": ["SYSTEM SETTINGS", "システム設定"],
+  "SUPER PERFORMANCE": ["SUPER PERFORMANCE", "高速モード"],
+  "INTERFACE SOUND": ["INTERFACE SOUND", "操作音"],
+  "BACKGROUND MUSIC": ["BACKGROUND MUSIC", "背景音楽"],
+  "ANIMATION CONTROLS": ["ANIMATION CONTROLS", "アニメーション設定"],
+  "RENDER QUALITY": ["RENDER QUALITY", "描画品質"],
+  "KEYBOARD CONTROLS": ["KEYBOARD CONTROLS", "キーボード操作"],
+  "FULLSCREEN": ["FULLSCREEN", "全画面表示"],
+  "REINITIALIZE SYSTEM": ["REINITIALIZE SYSTEM", "システムを再起動"],
+  "SEARCH UNAVAILABLE": ["SEARCH UNAVAILABLE", "検索を利用できません"],
+  "LOADING SEARCH": ["LOADING SEARCH", "検索を読み込み中"],
+  "CATALOG ONLY": ["CATALOG ONLY", "目録のみ"],
+  "AUTHORIZED": ["AUTHORIZED", "許可済み"],
+  "ANALYSIS OS / 1.0 · 使用 MiSans 字体（小米）": ["ANALYSIS OS / 1.0 · MiSans font by Xiaomi", "ANALYSIS OS / 1.0 · MiSansフォント（Xiaomi）"],
   "查看收藏档案": ["View saved archives", "保存した資料を表示"],
   "收藏档案": ["Saved archives", "保存した資料"],
   "系统设置": ["System settings", "システム設定"],
@@ -223,6 +252,10 @@ export function translateUiText(value: string, language: UiLanguage): string {
   if (count) return value.replace(text, language === "en" ? `${count[1]} RECORDS FOUND` : `${count[1]} 件の資料`);
   const samples = /^(\d+) 采样$/.exec(text);
   if (samples) return value.replace(text, `${samples[1]} ${language === "en" ? "samples" : "サンプル"}`);
+  const quality = /^(超级性能模式已启用 · 画质设置暂被覆盖，关闭后恢复 · )?实际渲染 (\d+ × \d+) · (SMAA|原始抗锯齿) · 纹理 (\d+)×( · 已达到缓冲上限)?$/.exec(text);
+  if (quality) return value.replace(text, language === "en"
+    ? `${quality[1] ? "Performance mode overrides quality until disabled · " : ""}Rendered ${quality[2]} · ${quality[3] === "SMAA" ? "SMAA" : "Original antialiasing"} · Textures ${quality[4]}×${quality[5] ? " · Buffer limit reached" : ""}`
+    : `${quality[1] ? "高速モードで画質を一時変更中 · " : ""}描画 ${quality[2]} · ${quality[3] === "SMAA" ? "SMAA" : "標準アンチエイリアス"} · テクスチャ ${quality[4]}×${quality[5] ? " · バッファー上限に到達" : ""}`);
   if (text.startsWith("选择档案 ")) return value.replace("选择档案 ", language === "en" ? "Select archive " : "資料を選択 ");
   if (text.startsWith("导出 ")) return value.replace(/^\s*导出 (.+) 档案\s*$/, language === "en" ? "Export $1 archive" : "資料 $1 を書き出す");
   return value;
