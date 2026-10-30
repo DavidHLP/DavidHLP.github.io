@@ -71,7 +71,6 @@
 }
 ---
 
-
 永続化と内部構造は `Redis持久化.md`、`原理篇.md`（56KB）、`RedisPersistence.md` で RDB/AOF、データ構造、期限切れ戦略を中心に扱われています。本ページは回復可能性と性能のトレードオフを強調します。
 
 ## 核心メカニズム
@@ -103,14 +102,14 @@
 
 ## 関連ページ
 
-- [redis-business-patterns](/blog/legacy/note/zh-cn/redis-business-patterns/)
-- [redis-heima-practice](/blog/legacy/note/zh-cn/redis-heima-practice/)
-- [database-schema-drift](/blog/legacy/note/zh-cn/database-schema-drift/)
+- [redis-business-patterns](/blog/legacy/note/ja/redis-business-patterns/)
+- [redis-heima-practice](/blog/legacy/note/ja/redis-heima-practice/)
+- [database-schema-drift](/blog/legacy/note/ja/database-schema-drift/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ingest-redis-persistence](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-redis-persistence.md)
-- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/zh-cn/redis-business-patterns/)
-- [Redis 黒馬実践：分散キャッシュ、マルチレベルキャッシュとベストプラクティス](/blog/legacy/note/zh-cn/redis-heima-practice/)
-- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/zh-cn/database-schema-drift/)
+- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/ja/redis-business-patterns/)
+- [Redis 黒馬実践：分散キャッシュ、マルチレベルキャッシュとベストプラクティス](/blog/legacy/note/ja/redis-heima-practice/)
+- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/ja/database-schema-drift/)

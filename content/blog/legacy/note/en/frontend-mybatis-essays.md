@@ -69,11 +69,10 @@
 }
 ---
 
-> This collection of miscellaneous notes was archived on 2026-08-23. The immutable source remains available; this historical page is no longer maintained as a canonical synthesis.
+> **Dissolution and archive notice**:
+> This page collected 10 miscellaneous notes about Vue, UniApp, MyBatis, Ubuntu troubleshooting, and related topics. Under the LLM-Wiki convergence principle, the collection lacks a unified proposition and cross-evidence synthesis value, so it was dissolved and archived on 2026-08-23. Original facts remain in the immutable raw snapshot `ingest-frontend-essays`; this page was removed from the main index and marked `deprecated`.
 
-
-This page is **provisional synthesis**, archiving 10 scattered essays: Vue, MyBatis, UniApp, cache annotations, and environment troubleshooting. They are mostly study notes and issue logs, not stable concepts, so they are not used as `sources` for other knowledge pages.
-
+The following is historical archive content:
 ## Core Mechanism (Excerpts)
 
 - **Vue**: `vue.md` is a Vue basics note; `Uniapp融合VantWeapp开发.md` (UniApp + Vant Weapp) records UniApp integration with Vant.
@@ -97,14 +96,14 @@ This page is **provisional synthesis**, archiving 10 scattered essays: Vue, MyBa
 
 ## Related Pages
 
-- [java-concurrency-deepdive](/blog/legacy/note/zh-cn/java-concurrency-deepdive/)
-- [spring-cloud-and-boot](/blog/legacy/note/zh-cn/spring-cloud-and-boot/)
-- [intranet-penetration-ssh-guide](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+- [java-concurrency-deepdive](/blog/legacy/note/en/java-concurrency-deepdive/)
+- [spring-cloud-and-boot](/blog/legacy/note/en/spring-cloud-and-boot/)
+- [intranet-penetration-ssh-guide](/blog/legacy/note/en/intranet-penetration-ssh-guide/)
 
 
 ## Sources and related documents
 
 - [ingest-frontend-essays](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-frontend-essays.md)
-- [Java Concurrency Deep Dive: JUC, CAS, Atomics, Locks, and Threading](/blog/legacy/note/zh-cn/java-concurrency-deepdive/)
-- [Spring Boot and Spring Cloud: Auto-Configuration, Transactions, Service Discovery, Gateway, and Observability](/blog/legacy/note/zh-cn/spring-cloud-and-boot/)
-- [SSH Intranet Access: Connection Direction, Exposure, and Recovery](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+- [Java Concurrency Deep Dive: JUC, CAS, Atomics, Locks, and Threading](/blog/legacy/note/en/java-concurrency-deepdive/)
+- [Spring Boot and Spring Cloud: Auto-Configuration, Transactions, Service Discovery, Gateway, and Observability](/blog/legacy/note/en/spring-cloud-and-boot/)
+- [SSH Intranet Access: Connection Direction, Exposure, and Recovery](/blog/legacy/note/en/intranet-penetration-ssh-guide/)

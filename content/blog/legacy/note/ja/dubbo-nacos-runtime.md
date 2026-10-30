@@ -71,7 +71,6 @@
 }
 ---
 
-
 **結論を先に**：Dubbo + Nacos のトラブルシューティングは「レジストリにインスタンスがいる」だけでは足りない。まずインターフェースレベルの service name `providers:{interface}:{version}:{group}`、Nacos group、provider URL metadata、consumer の version/group サブスクリプション条件を確認してから、アプリケーションレベルのディスカバリが必要か判断する。デフォルトの `register-mode=all` はアプリ名サービスとインターフェースレベルのサービスを同時に生み出し得る。エンドツーエンドの RPC を証明できるのは、本物の Nacos provider/consumer smoke test だけだ。
 
 ## バージョンと範囲
@@ -188,9 +187,9 @@ dubbo registry-nacos 付属のテストは主に `NamingService` を mock する
 固定 commit、公式ドキュメント、設定キーの訂正、未検証項目は、リポジトリの `src/content/raw/zh-cn/dubbo-nacos-runtime-registration.md` と `dubbo-nacos-runtime-registration-correction.md` を参照。このページには非公開アドレス、資格情報、具体的な業務サービス名は含まれない。
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [dubbo-nacos-runtime-registration](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/dubbo-nacos-runtime-registration.md)
 - [dubbo-nacos-runtime-registration-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/dubbo-nacos-runtime-registration-correction.md)
-- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [マイクロサービスデータ所有権：領域 owner を先に決めてから、DB 分割と移行を考える](/blog/legacy/note/zh-cn/microservice-data-ownership/)
+- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)
+- [マイクロサービスデータ所有権：領域 owner を先に決めてから、DB 分割と移行を考える](/blog/legacy/note/ja/microservice-data-ownership/)

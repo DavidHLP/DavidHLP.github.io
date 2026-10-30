@@ -69,7 +69,6 @@
 }
 ---
 
-
 Personal の 4 つと Fuwari の 3 つの Spark/ビッグデータノートは互いに鏡像であり、さらに `hadoop-hbase-spark/README` のローカルクラスタスクリプトもあります。本ページはエンジン選択と実行モードを中心にします。
 
 ## 核心メカニズム
@@ -100,14 +99,14 @@ Personal の 4 つと Fuwari の 3 つの Spark/ビッグデータノートは�
 
 ## 関連ページ
 
-- [hbase-foundation-and-ops](/blog/legacy/note/zh-cn/hbase-foundation-and-ops/)
-- [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [containerd-tls-troubleshooting](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
+- [hbase-foundation-and-ops](/blog/legacy/note/ja/hbase-foundation-and-ops/)
+- [multi-service-readiness](/blog/legacy/note/ja/multi-service-readiness/)
+- [containerd-tls-troubleshooting](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ingest-spark-ecosystem](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spark-ecosystem.md)
-- [HBase 基礎・アーキテクチャと運用：データモデル、テーブル設計、Shell と Java API](/blog/legacy/note/zh-cn/hbase-foundation-and-ops/)
-- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
+- [HBase 基礎・アーキテクチャと運用：データモデル、テーブル設計、Shell と Java API](/blog/legacy/note/ja/hbase-foundation-and-ops/)
+- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)
+- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/ja/containerd-tls-troubleshooting/)

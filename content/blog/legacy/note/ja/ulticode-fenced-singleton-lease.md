@@ -72,7 +72,6 @@
 }
 ---
 
-
 > **証拠の状態**：この記事は固定コミット時点の UltiCode FencedJobLeaseMapper、FencedJobLeaseService、OwnerReconciler、ReconciliationRunMapper、ADR、MySQL migration に基づく。source と boundary test は stale completion が拒否されることを示すが、すべての external side effect に fencing があることや singleton task の exactly-once を意味しない。
 
 system が一つの reconciliation task だけを許すとする。instance A が lease を取得し scan を開始する。しばらくして A が停止し lease が expire する。instance B が新しい lease を取得し、新しい scan を完了する。その後 A が復帰して最後の step、「task が完了した」と自分の result を write する。
@@ -184,8 +183,8 @@ UltiCode 分析段階では、この fenced lease の MySQL 8 Testcontainers int
 
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ulticode-reliability-core-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-reliability-core-f801a1076.md)
-- [UltiCode：オンラインジャッジプラットフォームのモジュール型アーキテクチャとドメイン境界](/blog/legacy/note/ja/ulticode/)
+- [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/)
 - [UltiCode の generation と attemptId：条件付き更新で古い判定結果を遮断する](/blog/legacy/note/ja/ulticode-generation-attempt-fence/)

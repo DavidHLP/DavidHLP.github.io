@@ -69,7 +69,6 @@
 }
 ---
 
-
 The 4 Personal and 3 Fuwari Spark/Big Data notes mirror each other, plus the local cluster scripts in `hadoop-hbase-spark/README`. This page centers on engine selection and runtime modes.
 
 ## Core Mechanism
@@ -100,14 +99,14 @@ The 4 Personal and 3 Fuwari Spark/Big Data notes mirror each other, plus the loc
 
 ## Related Pages
 
-- [hbase-foundation-and-ops](/blog/legacy/note/zh-cn/hbase-foundation-and-ops/)
-- [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [containerd-tls-troubleshooting](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
+- [hbase-foundation-and-ops](/blog/legacy/note/en/hbase-foundation-and-ops/)
+- [multi-service-readiness](/blog/legacy/note/en/multi-service-readiness/)
+- [containerd-tls-troubleshooting](/blog/legacy/note/en/containerd-tls-troubleshooting/)
 
 
 ## Sources and related documents
 
 - [ingest-spark-ecosystem](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spark-ecosystem.md)
-- [HBase Fundamentals, Architecture, and Operations: Data Model, Table Design, Shell, and Java API](/blog/legacy/note/zh-cn/hbase-foundation-and-ops/)
-- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [containerd TLS: Choosing a Trusted Chain or Temporary Verification Bypass](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
+- [HBase Fundamentals, Architecture, and Operations: Data Model, Table Design, Shell, and Java API](/blog/legacy/note/en/hbase-foundation-and-ops/)
+- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/en/multi-service-readiness/)
+- [containerd TLS: Choosing a Trusted Chain or Temporary Verification Bypass](/blog/legacy/note/en/containerd-tls-troubleshooting/)

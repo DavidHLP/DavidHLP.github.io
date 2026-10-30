@@ -1,8 +1,13 @@
 {
-  "reason": "2026-10-30: 用户确认核对后启用现有英日译文；保留源快照与原始元数据，发布字段采用以下显式覆盖。",
+  "reason": "2026-10-30: 用户确认核对后启用现有英日译文；保留源快照与原始元数据，发布字段采用以下显式覆盖。 2026-10-30：用户要求英日译文与中文正典一致，显式同步来源、关联与证据状态；legacy.metadata 与原始快照保持不变。",
   "overrides": {
     "legacy/note/en/containerd-tls-troubleshooting": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "intranet-penetration-ssh-guide",
+        "mysql-performance-troubleshooting",
+        "testcontainers-docker-api"
+      ]
     },
     "legacy/note/en/database-schema-drift": {
       "draft": false
@@ -24,11 +29,25 @@
       "draft": false
     },
     "legacy/note/en/headroom-single-port-evolution": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "omp-config-and-rules-guide",
+        "omp-headroom-persistence",
+        "headroom-cc-switch-coexistence",
+        "omp-headroom-provider-proxy",
+        "omp-hook-extension-guide",
+        "llm-wiki-pattern",
+        "headroom-compress-retrieve-contract"
+      ]
     },
     "legacy/note/en/hindsight-local-deployment-and-agent-integration": {
       "draft": false,
-      "status": "deprecated"
+      "status": "deprecated",
+      "related": [
+        "hindsight-local-deployment",
+        "hindsight-omp-codex-integration",
+        "hindsight-troubleshooting"
+      ]
     },
     "legacy/note/en/intranet-penetration-ssh-guide": {
       "draft": false
@@ -46,10 +65,24 @@
       "draft": false
     },
     "legacy/note/en/java-null-value": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "java-online-performance-debug",
+        "java-auto-closeable",
+        "java-internship-interview-blog-polished",
+        "redis-jackson-java-time",
+        "redis-business-patterns"
+      ]
     },
     "legacy/note/en/java-online-performance-debug": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "java-null-value",
+        "java-atomic-boolean",
+        "java-internship-interview-blog-polished",
+        "redis-jackson-java-time",
+        "jjwt-013-security-api"
+      ]
     },
     "legacy/note/en/jjwt-013-security-api": {
       "draft": false
@@ -67,22 +100,61 @@
       "draft": false
     },
     "legacy/note/en/mysql-performance-troubleshooting": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "containerd-tls-troubleshooting",
+        "intranet-penetration-ssh-guide",
+        "database-schema-drift",
+        "multi-service-readiness"
+      ]
     },
     "legacy/note/en/mysql-storage-and-deadlock": {
       "draft": false
     },
     "legacy/note/en/omp-config-and-rules-guide": {
-      "draft": false
+      "draft": false,
+      "sources": [
+        "legacy-omp-config-and-rules-guide",
+        "omp-17-2-15-runtime-contract",
+        "omp-17-2-15-runtime-contract-correction"
+      ]
     },
     "legacy/note/en/omp-headroom-persistence": {
-      "draft": false
+      "draft": false,
+      "sources": [
+        "legacy-omp-headroom-persistence",
+        "legacy-headroom-single-port-evolution",
+        "legacy-omp-config-and-rules-guide",
+        "omp-17-2-15-runtime-contract",
+        "omp-17-2-15-runtime-contract-correction"
+      ],
+      "related": [
+        "headroom-single-port-evolution",
+        "headroom-cc-switch-coexistence",
+        "omp-headroom-provider-proxy",
+        "omp-config-and-rules-guide",
+        "omp-hook-extension-guide",
+        "llm-wiki-pattern",
+        "headroom-compress-retrieve-contract"
+      ]
     },
     "legacy/note/en/omp-headroom-provider-proxy": {
       "draft": false
     },
     "legacy/note/en/omp-hook-extension-guide": {
-      "draft": false
+      "draft": false,
+      "sources": [
+        "legacy-omp-hook-extension-guide",
+        "omp-17-2-15-runtime-contract",
+        "omp-17-2-15-runtime-contract-correction"
+      ],
+      "related": [
+        "headroom-single-port-evolution",
+        "omp-config-and-rules-guide",
+        "omp-headroom-persistence",
+        "llm-wiki-pattern",
+        "headroom-compress-retrieve-contract"
+      ]
     },
     "legacy/note/en/plugin-lifecycle-management": {
       "draft": false
@@ -100,10 +172,19 @@
       "draft": false
     },
     "legacy/note/en/resicache-observer-nested-execution": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "resicache",
+        "redis-jackson-java-time"
+      ]
     },
     "legacy/note/en/resicache": {
-      "status": "provisional"
+      "status": "provisional",
+      "sources": [
+        "resicache-engineering-highlights-2954fff",
+        "resicache-project-overview",
+        "resicache-observer-nested-execution-contract"
+      ]
     },
     "legacy/note/en/spark-bigdata-ecosystem": {
       "draft": false
@@ -118,7 +199,12 @@
       "draft": false
     },
     "legacy/note/ja/containerd-tls-troubleshooting": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "intranet-penetration-ssh-guide",
+        "mysql-performance-troubleshooting",
+        "testcontainers-docker-api"
+      ]
     },
     "legacy/note/ja/database-schema-drift": {
       "draft": false
@@ -140,11 +226,25 @@
       "draft": false
     },
     "legacy/note/ja/headroom-single-port-evolution": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "omp-config-and-rules-guide",
+        "omp-headroom-persistence",
+        "headroom-cc-switch-coexistence",
+        "omp-headroom-provider-proxy",
+        "omp-hook-extension-guide",
+        "llm-wiki-pattern",
+        "headroom-compress-retrieve-contract"
+      ]
     },
     "legacy/note/ja/hindsight-local-deployment-and-agent-integration": {
       "draft": false,
-      "status": "deprecated"
+      "status": "deprecated",
+      "related": [
+        "hindsight-local-deployment",
+        "hindsight-omp-codex-integration",
+        "hindsight-troubleshooting"
+      ]
     },
     "legacy/note/ja/intranet-penetration-ssh-guide": {
       "draft": false
@@ -162,10 +262,24 @@
       "draft": false
     },
     "legacy/note/ja/java-null-value": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "java-online-performance-debug",
+        "java-auto-closeable",
+        "java-internship-interview-blog-polished",
+        "redis-jackson-java-time",
+        "redis-business-patterns"
+      ]
     },
     "legacy/note/ja/java-online-performance-debug": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "java-null-value",
+        "java-atomic-boolean",
+        "java-internship-interview-blog-polished",
+        "redis-jackson-java-time",
+        "jjwt-013-security-api"
+      ]
     },
     "legacy/note/ja/jjwt-013-security-api": {
       "draft": false
@@ -183,22 +297,61 @@
       "draft": false
     },
     "legacy/note/ja/mysql-performance-troubleshooting": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "containerd-tls-troubleshooting",
+        "intranet-penetration-ssh-guide",
+        "database-schema-drift",
+        "multi-service-readiness"
+      ]
     },
     "legacy/note/ja/mysql-storage-and-deadlock": {
       "draft": false
     },
     "legacy/note/ja/omp-config-and-rules-guide": {
-      "draft": false
+      "draft": false,
+      "sources": [
+        "legacy-omp-config-and-rules-guide",
+        "omp-17-2-15-runtime-contract",
+        "omp-17-2-15-runtime-contract-correction"
+      ]
     },
     "legacy/note/ja/omp-headroom-persistence": {
-      "draft": false
+      "draft": false,
+      "sources": [
+        "legacy-omp-headroom-persistence",
+        "legacy-headroom-single-port-evolution",
+        "legacy-omp-config-and-rules-guide",
+        "omp-17-2-15-runtime-contract",
+        "omp-17-2-15-runtime-contract-correction"
+      ],
+      "related": [
+        "headroom-single-port-evolution",
+        "headroom-cc-switch-coexistence",
+        "omp-headroom-provider-proxy",
+        "omp-config-and-rules-guide",
+        "omp-hook-extension-guide",
+        "llm-wiki-pattern",
+        "headroom-compress-retrieve-contract"
+      ]
     },
     "legacy/note/ja/omp-headroom-provider-proxy": {
       "draft": false
     },
     "legacy/note/ja/omp-hook-extension-guide": {
-      "draft": false
+      "draft": false,
+      "sources": [
+        "legacy-omp-hook-extension-guide",
+        "omp-17-2-15-runtime-contract",
+        "omp-17-2-15-runtime-contract-correction"
+      ],
+      "related": [
+        "headroom-single-port-evolution",
+        "omp-config-and-rules-guide",
+        "omp-headroom-persistence",
+        "llm-wiki-pattern",
+        "headroom-compress-retrieve-contract"
+      ]
     },
     "legacy/note/ja/plugin-lifecycle-management": {
       "draft": false
@@ -216,10 +369,19 @@
       "draft": false
     },
     "legacy/note/ja/resicache-observer-nested-execution": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "resicache",
+        "redis-jackson-java-time"
+      ]
     },
     "legacy/note/ja/resicache": {
-      "status": "provisional"
+      "status": "provisional",
+      "sources": [
+        "resicache-engineering-highlights-2954fff",
+        "resicache-project-overview",
+        "resicache-observer-nested-execution-contract"
+      ]
     },
     "legacy/note/ja/spark-bigdata-ecosystem": {
       "draft": false
@@ -232,6 +394,94 @@
     },
     "legacy/note/ja/uisa-architecture-design": {
       "draft": false
+    },
+    "legacy/note/en/headroom-compress-retrieve-contract": {
+      "related": [
+        "headroom-single-port-evolution",
+        "omp-headroom-persistence",
+        "headroom-cc-switch-coexistence",
+        "omp-headroom-provider-proxy",
+        "omp-hook-extension-guide",
+        "llm-wiki-pattern"
+      ]
+    },
+    "legacy/note/en/llm-wiki-pattern": {
+      "related": [
+        "headroom-single-port-evolution",
+        "omp-config-and-rules-guide",
+        "omp-headroom-persistence",
+        "omp-hook-extension-guide",
+        "kb-session-ingest-contract",
+        "mcp-codebase-memory-workflow",
+        "headroom-compress-retrieve-contract"
+      ]
+    },
+    "legacy/note/en/ulticode": {
+      "sources": [
+        "ulticode-engineering-highlights-f801a1076",
+        "ulticode-project-context",
+        "ulticode-reliability-core-f801a1076"
+      ],
+      "related": [
+        "microservice-data-ownership",
+        "dubbo-nacos-runtime",
+        "jjwt-013-security-api",
+        "multi-service-readiness",
+        "database-schema-drift",
+        "ulticode-owner-and-facts",
+        "ulticode-owner-local-audit-inbox",
+        "ulticode-outbox-redis-streams",
+        "ulticode-generation-attempt-fence",
+        "ulticode-fenced-singleton-lease",
+        "ulticode-docker-sandbox",
+        "ulticode-async-execution-contract",
+        "ulticode-core-bounded-testbed",
+        "ulticode-ci-supply-chain"
+      ]
+    },
+    "legacy/note/ja/headroom-compress-retrieve-contract": {
+      "related": [
+        "headroom-single-port-evolution",
+        "omp-headroom-persistence",
+        "headroom-cc-switch-coexistence",
+        "omp-headroom-provider-proxy",
+        "omp-hook-extension-guide",
+        "llm-wiki-pattern"
+      ]
+    },
+    "legacy/note/ja/llm-wiki-pattern": {
+      "related": [
+        "headroom-single-port-evolution",
+        "omp-config-and-rules-guide",
+        "omp-headroom-persistence",
+        "omp-hook-extension-guide",
+        "kb-session-ingest-contract",
+        "mcp-codebase-memory-workflow",
+        "headroom-compress-retrieve-contract"
+      ]
+    },
+    "legacy/note/ja/ulticode": {
+      "sources": [
+        "ulticode-engineering-highlights-f801a1076",
+        "ulticode-project-context",
+        "ulticode-reliability-core-f801a1076"
+      ],
+      "related": [
+        "microservice-data-ownership",
+        "dubbo-nacos-runtime",
+        "jjwt-013-security-api",
+        "multi-service-readiness",
+        "database-schema-drift",
+        "ulticode-owner-and-facts",
+        "ulticode-owner-local-audit-inbox",
+        "ulticode-outbox-redis-streams",
+        "ulticode-generation-attempt-fence",
+        "ulticode-fenced-singleton-lease",
+        "ulticode-docker-sandbox",
+        "ulticode-async-execution-contract",
+        "ulticode-core-bounded-testbed",
+        "ulticode-ci-supply-chain"
+      ]
     }
   }
 }

@@ -70,7 +70,6 @@
 }
 ---
 
-
 > **Evidence status**: This article is based on UltiCode's Submission mapper, rejudge service, lease reaper, and Judge attempt executor. It describes a result fence implemented in the repository; it does not expand source evidence into an exactly-once or production-concurrency proof across systems.
 
 In asynchronous judging, a submission can be executed more than once: an administrator may rejudge it, the original Worker may time out, a lease may be reclaimed, or Redis may redeliver an old message. If result writes locate records only by `submissionId`, the oldest result to arrive last can overwrite the newest result.
@@ -125,4 +124,4 @@ Read [SubmissionMapper.java](https://github.com/DavidHLP/UltiCode/blob/f801a1076
 ## Sources and related documents
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
-- [UltiCode: Modular Architecture and Domain Boundaries of an Online Judge Platform](/blog/legacy/note/en/ulticode/)
+- [UltiCode: Verifiable Boundaries for Online Judging and Agent Engineering](/blog/legacy/note/en/ulticode/)

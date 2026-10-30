@@ -70,7 +70,6 @@
 }
 ---
 
-
 > **証拠の状態**：この記事は UltiCode の非同期実行インターフェースと Judge provider のソースに基づく。現在の実装には Docker のデフォルト adapter、任意の Judge0 adapter、上限付きのプロセス内 metadata が含まれる。一方、複数レプリカや再起動をまたぐ durable receipt の冪等性は明確な未完了点である。
 
 同期プレビューと非同期実行は、時間尺度の異なる同じ問題を解決する。前者はできるだけ早く結果を返し、後者はタスクのキュー待ち、実行、キャンセル、タイムアウトを許容する。両方の経路が入力、状態、エラーを別々に定義すると、呼び出し側には互換性のない二つの実行セマンティクスが残る。
@@ -120,7 +119,7 @@ Agent のタスクにも明確な `QUEUED/RUNNING/COMPLETED/FAILED/CANCELLED/TIM
 
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
-- [UltiCode：オンラインジャッジプラットフォームのモジュール型アーキテクチャとドメイン境界](/blog/legacy/note/ja/ulticode/)
+- [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/)

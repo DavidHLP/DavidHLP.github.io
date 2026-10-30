@@ -81,7 +81,6 @@
 }
 ---
 
-
 このページは、特定の Headroom provider proxy デプロイにおける共存契約を記録する。Claude Code は cc-switch に直接要求を渡さず、まず Headroom を経由する。OMP の Responses パスも同じ Headroom 入口に入り、request 単位の上流ルーティングを受ける。結論は、**1 リクエストに整理責任者は 1 つだけ**ということだ。Headroom が圧縮と整理を担当し、cc-switch は Anthropic↔OpenAI プロトコル変換と資格情報注入だけを担当する。本ページはバージョン依存の `provisional` 総合であり、すべての Headroom または cc-switch バージョンのデフォルト挙動ではない。
 
 ## チェーンと責任境界
@@ -157,15 +156,15 @@ path=/v1/messages status=200
 
 ## 関連ページ
 
-- [Headroom 単一ポート総合](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [Headroom ルート永続化の総合](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
+- [Headroom 単一ポート総合](/blog/legacy/note/ja/headroom-single-port-evolution/)
+- [Headroom ルート永続化の総合](/blog/legacy/note/ja/omp-headroom-persistence/)
 - [Headroom 0.34 圧縮・取得契約](/blog/legacy/note/ja/headroom-compress-retrieve-contract/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [headroom-cc-switch-coexistence-runtime](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/headroom-cc-switch-coexistence-runtime.md)
-- [Headroom 単一ポートの総合：入口、動的上流、検証の境界](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [Headroom ルート永続化の総合：Named Profile、model_cache、復旧](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
-- [OMP Headroom Bridge：外部ルーティングコントローラとネイティブ Codex/OMP プロキシ境界](/blog/legacy/note/zh-cn/omp-headroom-provider-proxy/)
+- [Headroom 単一ポートの総合：入口、動的上流、検証の境界](/blog/legacy/note/ja/headroom-single-port-evolution/)
+- [Headroom ルート永続化の総合：Named Profile、model_cache、復旧](/blog/legacy/note/ja/omp-headroom-persistence/)
+- [OMP Headroom Bridge：外部ルーティングコントローラとネイティブ Codex/OMP プロキシ境界](/blog/legacy/note/ja/omp-headroom-provider-proxy/)
 - [Headroom 0.34 圧縮・取得契約：フィールド、モード、実エンドポイント検証](/blog/legacy/note/ja/headroom-compress-retrieve-contract/)

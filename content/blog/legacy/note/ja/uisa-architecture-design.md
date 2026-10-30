@@ -69,7 +69,6 @@
 }
 ---
 
-
 ## 定義
 
 本ページは UISA を四層の構成図として再説するものではない。二つの raw を総合し、汎用情報同期基盤とプラグインライフサイクル制御プレーンが接続したとき、各状態を誰が所有し、メッセージをどう同期し、失敗をどう再試行・監査し、性能と安全性のトレードオフをどこで裁定するかを示す。結論は provisional であり、ソースの規模目標を満たすデプロイメントの証明ではない。
@@ -188,11 +187,11 @@ register -> heartbeat -> persist(task_id) -> dispatch|queue
 
 ## 関連ページ
 
-- [プラグインライフサイクル管理](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
+- [プラグインライフサイクル管理](/blog/legacy/note/ja/plugin-lifecycle-management/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-uisa-architecture-design](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-uisa-architecture-design.md)
 - [legacy-plugin-lifecycle-management](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-plugin-lifecycle-management.md)
-- [百万端末のプラグインライフサイクル管理：状態・ハートビート・制御されたリリース](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
+- [百万端末のプラグインライフサイクル管理：状態・ハートビート・制御されたリリース](/blog/legacy/note/ja/plugin-lifecycle-management/)

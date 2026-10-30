@@ -70,7 +70,6 @@
 }
 ---
 
-
 > **証拠の状態**：この記事は固定コミット時点の UltiCode Docker executor、エラー分類器、sandbox テストに基づく。明確な隔離と分類の境界が実装されていることを示すが、完全なコンテナ脱出監査や本番安全性の証明ではない。
 
 ユーザーコードを実行する難しさは、単にプロセスを起動することではない。コードがホストのリソースへ容易に影響できないようにし、さらに「ユーザーコードが失敗したのか、Docker/ホストが失敗したのか」をプラットフォームが判別できなければならない。両方を同じ Runtime Error にすると、正しいユーザー通知もインフラの再試行判断もできない。
@@ -139,7 +138,7 @@ D-form の [SandboxExecutorImpl](https://github.com/DavidHLP/UltiCode/blob/f801a
 
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
-- [UltiCode：オンラインジャッジプラットフォームのモジュール型アーキテクチャとドメイン境界](/blog/legacy/note/ja/ulticode/)
+- [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/)

@@ -75,7 +75,6 @@
 }
 ---
 
-
 **結論優先**：マイクロサービス分割の最初のステップは、データベースを複数台に分けることではなく、bounded context、最終書き込み owner、データアクセス契約を決めることだ。サービスデータは API/メッセージ経由でアクセスする。共有物理データベースサーバーは移行期のデプロイとして許容できるが、複数サービスが同じ業務 schema/テーブルを読み書きするのが主な結合だ。移行は `expand → migrate → contract` の順に進め、`contract` は旧オブジェクトの削除前に rollback window を閉じなければならない。
 
 ## 1. 四層の順序で owner を判定する
@@ -160,10 +159,10 @@ Outbox でも consumer の冪等性、重複配信処理、順序ポリシー、
 revision-pinned ドキュメントと live ページの階層はリポジトリ `src/content/raw/zh-cn/microservice-domain-data-ownership-correction.md` にある。初期スナップショットも訂正スナップショットも、現在のプロジェクトが実際にどのサービス、テーブル、owner を持つかを証明しない。実際の帰属には対象リポジトリのソースと schema の証拠が必要だ。
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [microservice-domain-data-ownership](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/microservice-domain-data-ownership.md)
 - [microservice-domain-data-ownership-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/microservice-domain-data-ownership-correction.md)
-- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [Dubbo + Nacos：登録名と group/version を先に確認してから、本物の smoke test を実行する](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
+- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/ja/database-schema-drift/)
+- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)
+- [Dubbo + Nacos：登録名と group/version を先に確認してから、本物の smoke test を実行する](/blog/legacy/note/ja/dubbo-nacos-runtime/)

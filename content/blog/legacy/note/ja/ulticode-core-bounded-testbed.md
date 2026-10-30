@@ -74,7 +74,6 @@
 }
 ---
 
-
 > **証拠の状態**：この記事は固定コミット時点の UltiCode Core registry、owner-context manager、classloader、smoke/lifecycle test、アーキテクチャ文書に基づく。現在の実装は Core を opt-in の allowlist 駆動 experimental profile に限定しており、全 business path を覆う production modular monolith とは説明しない。
 
 複数 module を一つの JVM に入れるとき、最初に解決すべきなのは deployment 数ではなく検証であることが多い。完全な distributed topology を起動せず、owner wiring、port contract、startup order、stop behavior を確認できるかという問題である。
@@ -218,9 +217,9 @@ Agent runtime も複数 provider、tool plugin、task context を同時に動か
 
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ulticode-reliability-core-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-reliability-core-f801a1076.md)
-- [UltiCode：オンラインジャッジプラットフォームのモジュール型アーキテクチャとドメイン境界](/blog/legacy/note/ja/ulticode/)
+- [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/)
 - [UltiCode の Data Owner と fact snapshot：サービス間 submit の境界を保つ](/blog/legacy/note/ja/ulticode-owner-and-facts/)
 - [UltiCode の generation と attemptId：条件付き更新で古い判定結果を遮断する](/blog/legacy/note/ja/ulticode-generation-attempt-fence/)

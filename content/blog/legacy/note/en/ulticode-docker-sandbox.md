@@ -70,7 +70,6 @@
 }
 ---
 
-
 > **Evidence status**: This article is based on UltiCode's current Docker executor, error classifier, and sandbox tests at a fixed commit. It shows explicit isolation and classification boundaries; it is not a complete container-escape audit or production security proof.
 
 The challenge in running user code is not merely starting a process. The code must not easily affect host resources, and the platform must know whether “the user code failed” or “Docker/the host failed.” If both failures become the same Runtime Error, the system cannot give the right user feedback or decide whether infrastructure should be retried.
@@ -142,4 +141,4 @@ Read [SandboxExecutorImpl.java](https://github.com/DavidHLP/UltiCode/blob/f801a1
 ## Sources and related documents
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
-- [UltiCode: Modular Architecture and Domain Boundaries of an Online Judge Platform](/blog/legacy/note/en/ulticode/)
+- [UltiCode: Verifiable Boundaries for Online Judging and Agent Engineering](/blog/legacy/note/en/ulticode/)

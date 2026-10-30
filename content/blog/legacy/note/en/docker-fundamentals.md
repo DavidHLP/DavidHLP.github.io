@@ -71,7 +71,6 @@
 }
 ---
 
-
 `Docker` appears in the 7 notes across the two repositories as operational checklists: Dockerfile, layers, volumes, networking, and Compose. This page compresses the checklist into a minimal usable model, clarifies when to use `volume` vs `bind`, `bridge` vs `host`, and the value of Compose, without dumping images verbatim.
 
 ## Core Mechanism
@@ -123,14 +122,14 @@ The source notes `Layer和BaseImage概念.md` (Layer and Base Image) shows layer
 
 ## Related Pages
 
-- [containerd-tls-troubleshooting](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [intranet-penetration-ssh-guide](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+- [containerd-tls-troubleshooting](/blog/legacy/note/en/containerd-tls-troubleshooting/)
+- [multi-service-readiness](/blog/legacy/note/en/multi-service-readiness/)
+- [intranet-penetration-ssh-guide](/blog/legacy/note/en/intranet-penetration-ssh-guide/)
 
 
 ## Sources and related documents
 
 - [ingest-docker-fundamentals](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-docker-fundamentals.md)
-- [containerd TLS: Choosing a Trusted Chain or Temporary Verification Bypass](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [SSH Intranet Access: Connection Direction, Exposure, and Recovery](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+- [containerd TLS: Choosing a Trusted Chain or Temporary Verification Bypass](/blog/legacy/note/en/containerd-tls-troubleshooting/)
+- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/en/multi-service-readiness/)
+- [SSH Intranet Access: Connection Direction, Exposure, and Recovery](/blog/legacy/note/en/intranet-penetration-ssh-guide/)

@@ -76,8 +76,7 @@
 }
 ---
 
-
-> **Evidence status**: This article is based on the audit adapters, dispatchers, Admin inbox bridge, consumer inbox, and database migrations in UltiCode's fixed main commit f801a1076. The repository contains these mechanisms; it does not prove cross-service exactly-once processing or zero-loss production auditing.
+> **Evidence status**: This article is based on the audit adapters, dispatchers, Admin inbox bridge, consumer inbox, and database migrations in UltiCode's fixed main commit [f801a1076](https://github.com/DavidHLP/UltiCode/tree/f801a1076b2fa9aa06ce3d63821f0778b477042c). The repository contains these mechanisms; it does not prove cross-service exactly-once processing or zero-loss production auditing.
 
 Audit logging has a constraint that is easy to underestimate: the action that produces an audit event and the module that stores the audit log are often different Data Owners.
 
@@ -117,7 +116,7 @@ Auth/App local transaction
                     └── owner-specific Redis Stream
 ```
 
-The key value of AuthAuditSinkAdapter and AppAuditSinkAdapter is not “one more table.” It puts the two actions that must happen together into one owner's local transaction:
+The key value of [AuthAuditSinkAdapter](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/auth/src/main/java/com/ulticode/auth/audit/AuthAuditSinkAdapter.java) and [AppAuditSinkAdapter](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/app/app-web/src/main/java/com/ulticode/app/audit/AppAuditSinkAdapter.java) is not “one more table.” It puts the two actions that must happen together into one owner's local transaction:
 
 ```text
 @Transactional
@@ -148,7 +147,7 @@ consumer_inbox.insertIfAbsent(consumer, eventId, payload)
           └── only then ACK Stream
 ```
 
-AdminAuditIntegrationInboxBridge validates the message first, then takes it into Admin's local consumer_inbox. If the process crashes before writing the Inbox, the Stream message remains unacknowledged and can be read again. If the Inbox was inserted but the ACK was interrupted, the next read hits the unique key; insertIfAbsent identifies the duplicate and the message can be safely ACKed.
+[AdminAuditIntegrationInboxBridge](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/admin/src/main/java/com/ulticode/modules/admin/audit/AdminAuditIntegrationInboxBridge.java) validates the message first, then takes it into Admin's local consumer_inbox. If the process crashes before writing the Inbox, the Stream message remains unacknowledged and can be read again. If the Inbox was inserted but the ACK was interrupted, the next read hits the unique key; insertIfAbsent identifies the duplicate and the message can be safely ACKed.
 
 The consumer inbox unique key is (consumer, event_id). This is more accurate than making eventId globally unique: one event may have multiple legitimate consumers, while each consumer needs deduplication only for its own side effects.
 
@@ -156,7 +155,7 @@ Admin also checks that the event id matches auditId in the payload. It looks con
 
 ## Third boundary: the Inbox is a recoverable state machine too
 
-Writing a message to the Inbox only solves durable takeover. It does not solve a consumer crash halfway through processing, so ConsumerInboxMapper and InboxConsumer create another local state:
+Writing a message to the Inbox only solves durable takeover. It does not solve a consumer crash halfway through processing, so [ConsumerInboxMapper](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/platform/integration-inbox/src/main/java/com/ulticode/modules/event/inbox/ConsumerInboxMapper.java) and [InboxConsumer](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/platform/integration-inbox/src/main/java/com/ulticode/modules/event/inbox/InboxConsumer.java) create another local state:
 
 ```text
 PENDING
@@ -225,7 +224,7 @@ During source review, this order exposes gaps more reliably than looking only at
 
 1. Read AuthAuditSinkAdapter and AppAuditSinkAdapter to confirm that the outbox insert really sits on the business transaction path.
 2. Read AdminAuditIntegrationInboxBridge to confirm that the Stream ACK occurs after Inbox persistence.
-3. Read ConsumerInboxMapper, InboxConsumer, and AdminAuditEventConsumer together to check lease recovery, uniqueness, and closure of the handler transaction.
+3. Read ConsumerInboxMapper, InboxConsumer, and [AdminAuditEventConsumer](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/admin/src/main/java/com/ulticode/modules/admin/audit/AdminAuditEventConsumer.java) together to check lease recovery, uniqueness, and closure of the handler transaction.
 
 The repository contains Auth/App audit-dispatcher tests and Admin audit/inbox tests. This article-writing round did not rerun UltiCode's Maven tests and does not present the existence of test files as a real Redis multi-instance or cross-database failure exercise.
 
@@ -234,6 +233,6 @@ The repository contains Auth/App audit-dispatcher tests and Admin audit/inbox te
 ## Sources and related documents
 
 - [ulticode-reliability-core-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-reliability-core-f801a1076.md)
-- [UltiCode: Modular Architecture and Domain Boundaries of an Online Judge Platform](/blog/legacy/note/en/ulticode/)
+- [UltiCode: Verifiable Boundaries for Online Judging and Agent Engineering](/blog/legacy/note/en/ulticode/)
 - [UltiCode Data Owners and Fact Snapshots: Keeping Cross-Service Submissions Bounded](/blog/legacy/note/en/ulticode-owner-and-facts/)
 - [UltiCode Outbox and Redis Streams: Making Judge Delivery Recoverable](/blog/legacy/note/en/ulticode-outbox-redis-streams/)

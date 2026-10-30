@@ -73,7 +73,6 @@
 }
 ---
 
-
 2 つのリポジトリの 20 の Redis ビジネスノートは互いに鏡像です（各トピックが Personal と Fuwari に中英で 1 回ずつ登場）。本ページはキャッシュ一貫性、ロックの正確性、メッセージ意味を軸に、再利用可能なパターンに収束させ、講義の書き起こしではありません。
 
 ## 核心メカニズム
@@ -120,16 +119,16 @@
 
 ## 関連ページ
 
-- [redis-persistence-principle](/blog/legacy/note/zh-cn/redis-persistence-principle/)
-- [java-null-value](/blog/legacy/note/zh-cn/java-null-value/)
-- [redis-jackson-java-time](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
-- [resicache-observer-nested-execution](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
+- [redis-persistence-principle](/blog/legacy/note/ja/redis-persistence-principle/)
+- [java-null-value](/blog/legacy/note/ja/java-null-value/)
+- [redis-jackson-java-time](/blog/legacy/note/ja/redis-jackson-java-time/)
+- [resicache-observer-nested-execution](/blog/legacy/note/ja/resicache-observer-nested-execution/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ingest-redis-business](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-redis-business.md)
-- [Redis 永続化と原理：RDB/AOF、データ構造と高度な仕組み](/blog/legacy/note/zh-cn/redis-persistence-principle/)
-- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/zh-cn/java-null-value/)
-- [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
-- [ResiCache：observer のネスト実行はライフサイクル、fragment、scope token を区別しなければならない](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
+- [Redis 永続化と原理：RDB/AOF、データ構造と高度な仕組み](/blog/legacy/note/ja/redis-persistence-principle/)
+- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/ja/java-null-value/)
+- [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/ja/redis-jackson-java-time/)
+- [ResiCache：observer のネスト実行はライフサイクル、fragment、scope token を区別しなければならない](/blog/legacy/note/ja/resicache-observer-nested-execution/)

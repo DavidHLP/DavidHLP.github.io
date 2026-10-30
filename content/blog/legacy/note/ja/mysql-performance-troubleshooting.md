@@ -64,11 +64,12 @@
   ],
   "related": [
     "containerd-tls-troubleshooting",
-    "intranet-penetration-ssh-guide"
+    "intranet-penetration-ssh-guide",
+    "database-schema-drift",
+    "multi-service-readiness"
   ]
 }
 ---
-
 
 本ページは、MySQL が遅くなったり停止したりしたとき、最初に見る指標、証拠をアプリ/接続、Server/SQL、InnoDB、OS/ハードウェアのどの層に置くか、事故を広げにくい緩和策は何かを切り分ける。完全なコマンドチェックリストや一つの事故の経過を、そのまま知識本体にはしない。
 
@@ -174,12 +175,14 @@ SHOW STATUS LIKE 'Created_tmp%';
 
 ## 関連ページ
 
-- [containerd TLS 信頼チェーン](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [SSH 内網アクセスの選択](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+- [containerd TLS 信頼チェーン](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
+- [SSH 内網アクセスの選択](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-mysql-performance-troubleshooting](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-mysql-performance-troubleshooting.md)
-- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [SSH 内網アクセス：接続方向・公開面・障害復旧](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
+- [SSH 内網アクセス：接続方向・公開面・障害復旧](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)
+- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/ja/database-schema-drift/)
+- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)

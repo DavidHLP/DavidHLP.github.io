@@ -70,8 +70,7 @@
 }
 ---
 
-
-> **Evidence status**: This article is based on UltiCode's architecture documents and source at fixed commit f801a1076. “Repository Implemented” means the repository contains the corresponding design and implementation; it does not mean production validation.
+> **Evidence status**: This article is based on UltiCode's architecture documents and source at fixed commit [f801a1076](https://github.com/DavidHLP/UltiCode/tree/f801a1076b2fa9aa06ce3d63821f0778b477042c). “Repository Implemented” means the repository contains the corresponding design and implementation; it does not mean production validation.
 
 An online judge submission API looks simple: a user submits code, the system finds the problem, and then hands it to the Judge. But “find the problem” and “confirm that the user is valid” are cross-module facts. If Submission temporarily queries App, Auth, or Contest inside its own database transaction, the write path also takes on remote calls, authorization decisions, and temporal consistency.
 
@@ -137,4 +136,4 @@ Read [SubmissionFactsSnapshot.java](https://github.com/DavidHLP/UltiCode/blob/f8
 ## Sources and related documents
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
-- [UltiCode: Modular Architecture and Domain Boundaries of an Online Judge Platform](/blog/legacy/note/en/ulticode/)
+- [UltiCode: Verifiable Boundaries for Online Judging and Agent Engineering](/blog/legacy/note/en/ulticode/)

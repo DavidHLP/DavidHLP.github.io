@@ -72,7 +72,6 @@
 }
 ---
 
-
 > **Evidence status**: This article describes the verification layers declared in UltiCode's current workflows, test documentation, and scripts. The presence of a configuration does not mean it succeeded in this run or in every CI run; production security, performance, and release credentials still require execution records.
 
 Many projects treat “testing” as one command and release security as a manual inspection after an image is built. One engineering strength of UltiCode is that it separates verification by cost and realism, while putting part of the supply-chain requirements directly into the release gates.
@@ -135,4 +134,4 @@ Read [testing.md](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce
 ## Sources and related documents
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
-- [UltiCode: Modular Architecture and Domain Boundaries of an Online Judge Platform](/blog/legacy/note/en/ulticode/)
+- [UltiCode: Verifiable Boundaries for Online Judging and Agent Engineering](/blog/legacy/note/en/ulticode/)

@@ -70,7 +70,6 @@
 }
 ---
 
-
 > **証拠の状態**：この記事は UltiCode の Submission mapper、再判定サービス、lease 回収器、Judge attempt executor に基づく。リポジトリが実装する結果フェンスを説明するものであり、システム間の exactly-once や本番並行性の証明へ拡張するものではない。
 
 非同期判定では、一つの submission が複数回実行されることがある。管理者が再判定を開始する、元の Worker がタイムアウトする、lease が回収される、Redis が古いメッセージを再配送する、といった場合である。結果の書き込みを `submissionId` だけで特定すると、最後に到着した古い結果が最新結果を上書きし得る。
@@ -122,7 +121,7 @@ Agent のタスクも retry、キャンセル後の再開、model の切り替�
 
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
-- [UltiCode：オンラインジャッジプラットフォームのモジュール型アーキテクチャとドメイン境界](/blog/legacy/note/ja/ulticode/)
+- [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/)
