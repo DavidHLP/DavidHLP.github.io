@@ -5,6 +5,7 @@ import { getPosts, postPath } from "../lib/blog";
 import "../blog.css";
 import labels from "../../content/locales.json";
 import { contentLabel } from "../content-language";
+import { translateUiText } from "../ui-language";
 
 interface Props { post?: CollectionEntry<"blog"> }
 const { post } = Astro.props;
@@ -18,6 +19,7 @@ const description = post?.data.abstract ?? site.description;
 const canonical = new URL(post ? postPath(post.id) : "/", Astro.site);
 const language = post?.data.lang ?? "zh-CN";
 const localize = (value: string) => contentLabel(value, language, labels);
+const t = (value: string) => translateUiText(value, language);
 ---
 <!doctype html>
 <html lang={language}>
@@ -47,15 +49,15 @@ const localize = (value: string) => contentLabel(value, language, labels);
   <body data-post={post?.id} data-content-language={language} data-site-title={site.title} data-site-description={site.description} data-site-author={site.author} data-site-url={Astro.site}>
     <main id="viewport"><div id="stage"></div></main>
     <div id="blog-static" class="blog-static">
-      <header><a href="/" translate="no">{site.title}</a> <a id="blog-interactive-link" hidden>返回交互界面 ↗</a> <a href="/rss.xml">RSS ↗</a><select data-ui-language aria-label="界面语言"><option value="zh-CN">中文</option><option value="en">English</option><option value="ja">日本語</option></select></header>
+      <header><a href="/" translate="no">{site.title}</a> <a id="blog-interactive-link" hidden>{t("返回交互界面 ↗")}</a> <a href={language === "zh-CN" ? "/rss.xml" : `/${language}/rss.xml`}>RSS ↗</a><select data-ui-language aria-label={t("界面语言")}><option value="zh-CN" selected={language === "zh-CN"}>中文</option><option value="en" selected={language === "en"}>English</option><option value="ja" selected={language === "ja"}>日本語</option></select></header>
       {post ? <article>
         <div class="detail-kicker" translate="no">FILE {post.data.archiveId} / {localize(post.data.category)}</div>
         <h1 translate="no">{post.data.title}</h1>
         <p translate="no">{localize(post.data.en)}</p>
-        <p>发布 <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10)}</time>{post.data.updatedDate && <> / 更新 <time datetime={post.data.updatedDate.toISOString()}>{post.data.updatedDate.toISOString().slice(0, 10)}</time></>} / <span translate="no">{post.data.lead}</span></p>
+        <p>{t("发布")} <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10)}</time>{post.data.updatedDate && <> / {t("更新")} <time datetime={post.data.updatedDate.toISOString()}>{post.data.updatedDate.toISOString().slice(0, 10)}</time></>} / <span translate="no">{post.data.lead}</span></p>
         <div class="blog-body" lang={post.data.lang} translate="no">{rendered.map(({ Content }) => <Content />)}</div>
-        <h2>研究记录</h2><ol translate="no">{post.data.findings.map(finding => <li>{finding}</li>)}</ol>
-        <p><a href={post.data.source} rel="noopener">设定参考 ↗</a></p>
+        <h2>{t("研究记录")}</h2><ol translate="no">{post.data.findings.map(finding => <li>{finding}</li>)}</ol>
+        <p><a href={post.data.source} rel="noopener">{t("设定参考 ↗")}</a></p>
       </article> : <section>
         <h1 translate="no">{site.title}</h1><p>{site.description}</p>
         {site.columns.map(column => <section><h2>{column}</h2><ul>
