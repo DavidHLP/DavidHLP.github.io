@@ -71,7 +71,6 @@
 }
 ---
 
-
 **Conclusion first**: JJWT 0.13.0's `signWith(Key)` selects a recommended algorithm from the key's algorithm name and strength; if the protocol requires a fixed `HS256`, `RS256`, or `PS*`, use `signWith(key, Jwts.SIG.*)`. Do not verify with a private key or the deprecated generic `setSigningKey(Key)`: use `verifyWith(SecretKey)` or `verifyWith(PublicKey)`, and audit the token header's `alg` separately from the server-side allowed algorithm policy.
 
 ## Applicable versions and scenarios
@@ -209,11 +208,11 @@ This batch only pinned the API, Javadoc, implementation source, and README evide
 
 - **Source facts:** the initial raw and `jjwt-013-security-api-contract-correction` together pin 0.13.0's API declarations, implementation branches, and README examples.
 - **This page's synthesis:** organizes algorithm selection, explicit signing, verification key types, and the claims builder into a migration and troubleshooting order.
-- [Java online performance troubleshooting: minimal decision tree from symptom to evidence](/blog/legacy/note/zh-cn/java-online-performance-debug/)
+- [Java online performance troubleshooting: minimal decision tree from symptom to evidence](/blog/legacy/note/en/java-online-performance-debug/)
 
 
 ## Sources and related documents
 
 - [jjwt-013-security-api-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/jjwt-013-security-api-contract.md)
 - [jjwt-013-security-api-contract-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/jjwt-013-security-api-contract-correction.md)
-- [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/zh-cn/java-online-performance-debug/)
+- [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/en/java-online-performance-debug/)

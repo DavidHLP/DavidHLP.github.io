@@ -79,7 +79,6 @@
 }
 ---
 
-
 `omp-headroom-provider-proxy` は外部ルーティングコントローラと Headroom デプロイプロジェクトだ。OMP、Codex、クライアント認証の owner 境界を保持し、OMP/Headroom のソースを変更せず、credential や `models.db` をコピーせず、明示的な設定、systemd user service、状態検証、ロールバック可能な操作で複数のクライアントを同じ loopback Headroom 入口に接続する。本ページは現在の Headroom 0.34/OMP/Codex 環境向けの `provisional` entity ページであり、実装ソースとランタイム証拠は `sources` にある。
 
 ## 何を解決するか
@@ -169,16 +168,16 @@ OMP ルートは対応する `bin/omp-routes restore` を使う。Claude Code/cc
 
 ## 関連ページ
 
-- [Headroom 単一ポート総合](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [Headroom ルート永続化の総合](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
-- [Headroom と cc-switch / Claude Code の共存](/blog/legacy/note/zh-cn/headroom-cc-switch-coexistence/)
+- [Headroom 単一ポート総合](/blog/legacy/note/ja/headroom-single-port-evolution/)
+- [Headroom ルート永続化の総合](/blog/legacy/note/ja/omp-headroom-persistence/)
+- [Headroom と cc-switch / Claude Code の共存](/blog/legacy/note/ja/headroom-cc-switch-coexistence/)
 - [Headroom 0.34 圧縮・取得契約](/blog/legacy/note/ja/headroom-compress-retrieve-contract/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [omp-headroom-provider-proxy-codex-routing-runtime](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/omp-headroom-provider-proxy-codex-routing-runtime.md)
-- [Headroom 単一ポートの総合：入口、動的上流、検証の境界](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [Headroom ルート永続化の総合：Named Profile、model_cache、復旧](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
-- [Headroom と cc-switch / Claude Code の共存：単一の整理責任とセキュリティ境界](/blog/legacy/note/zh-cn/headroom-cc-switch-coexistence/)
+- [Headroom 単一ポートの総合：入口、動的上流、検証の境界](/blog/legacy/note/ja/headroom-single-port-evolution/)
+- [Headroom ルート永続化の総合：Named Profile、model_cache、復旧](/blog/legacy/note/ja/omp-headroom-persistence/)
+- [Headroom と cc-switch / Claude Code の共存：単一の整理責任とセキュリティ境界](/blog/legacy/note/ja/headroom-cc-switch-coexistence/)
 - [Headroom 0.34 圧縮・取得契約：フィールド、モード、実エンドポイント検証](/blog/legacy/note/ja/headroom-compress-retrieve-contract/)

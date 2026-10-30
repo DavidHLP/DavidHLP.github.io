@@ -71,7 +71,6 @@
 }
 ---
 
-
 **Conclusion first**: Flyway Community's `validate` compares the "applied migration history" with "locally resolvable migrations", not the "actual database schema" with the "expected schema". When you hit `Unknown column`, a duplicate column addition, or a failed migration, you must check all three views — history, schema, and query — at the same time; running only `repair` may restore consistency to the history table but will not replay, undo, or clean up DDL.
 
 ## Applicable versions and evidence strength
@@ -177,13 +176,13 @@ In the second command the duplicate column is expected to report `1060`, and `c2
 
 ## Related pages
 
-- [MySQL performance troubleshooting: symptom → metric → layer → safe mitigation](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [Multi-service startup readiness: running, ready, and dependency propagation](/blog/legacy/note/zh-cn/multi-service-readiness/)
+- [MySQL performance troubleshooting: symptom → metric → layer → safe mitigation](/blog/legacy/note/en/mysql-performance-troubleshooting/)
+- [Multi-service startup readiness: running, ready, and dependency propagation](/blog/legacy/note/en/multi-service-readiness/)
 
 
 ## Sources and related documents
 
 - [database-schema-drift-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-schema-drift-contract.md)
-- [MySQL Performance Triage: Symptom → Metric → Layer → Safe Mitigation](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [Microservice Data Ownership: Establish the Domain Owner First, Then Talk About Database Splitting and Migration](/blog/legacy/note/zh-cn/microservice-data-ownership/)
+- [MySQL Performance Triage: Symptom → Metric → Layer → Safe Mitigation](/blog/legacy/note/en/mysql-performance-troubleshooting/)
+- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/en/multi-service-readiness/)
+- [Microservice Data Ownership: Establish the Domain Owner First, Then Talk About Database Splitting and Migration](/blog/legacy/note/en/microservice-data-ownership/)

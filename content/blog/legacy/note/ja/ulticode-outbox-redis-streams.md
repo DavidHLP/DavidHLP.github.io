@@ -70,7 +70,6 @@
 }
 ---
 
-
 > **証拠の状態**：この記事は UltiCode の固定コミット時点の outbox、Redis Streams、reaper ソースに基づく。ここでの「復旧可能」とは永続的な意図と retry 経路が実装されているという意味であり、exactly-once、無限のスループット、本番 HA が検証済みという意味ではない。
 
 キューで最も危険な障害は「送信時にエラーが返る」ことではない。業務トランザクションは成功したのに、「何を送る必要があるか」という信頼できる記録が残らないことである。オンライン判定でこの窓が生じると、ユーザーには submit 成功と見える一方、Judge にはタスクが届かない。
@@ -140,7 +139,7 @@ persistent business intent
 
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
-- [UltiCode：オンラインジャッジプラットフォームのモジュール型アーキテクチャとドメイン境界](/blog/legacy/note/ja/ulticode/)
+- [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/)

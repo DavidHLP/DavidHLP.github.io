@@ -74,11 +74,12 @@
   "related": [
     "java-null-value",
     "java-atomic-boolean",
-    "java-internship-interview-blog-polished"
+    "java-internship-interview-blog-polished",
+    "redis-jackson-java-time",
+    "jjwt-013-security-api"
   ]
 }
 ---
-
 
 This page is a decision tree for Java production performance incidents, not a 1,500-line command tutorial. The goal is to preserve evidence while the service is observable, narrow a system symptom to a process, thread, GC signal, or code hotspot, and then choose a reversible mitigation and recovery action.
 
@@ -143,14 +144,16 @@ Arthas connects to a running JVM and observes threads or methods. `watch`, `trac
 
 ## Related pages
 
-- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/zh-cn/java-null-value/)
-- [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
+- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/en/java-null-value/)
+- [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/en/java-atomic-boolean/)
+- [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/en/java-internship-interview-blog-polished/)
 
 
 ## Sources and related documents
 
 - [legacy-java-online-performance-debug](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-java-online-performance-debug.md)
-- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/zh-cn/java-null-value/)
-- [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
+- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/en/java-null-value/)
+- [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/en/java-atomic-boolean/)
+- [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/en/java-internship-interview-blog-polished/)
+- [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/en/redis-jackson-java-time/)
+- [JJWT 0.13.0: Explicitly Fixing the Signature Algorithm, Verifying by Key Type](/blog/legacy/note/en/jjwt-013-security-api/)

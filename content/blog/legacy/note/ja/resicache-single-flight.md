@@ -68,7 +68,6 @@
 }
 ---
 
-
 > この記事は過去の障害の振り返りではない。リポジトリには特定の本番障害記録がなく、以下の concurrent miss は現在のソースから復元した最小の engineering problem である。
 
 cache miss の直接的な経路は通常次のようになる。
@@ -147,7 +146,7 @@ try {
 
 第一に sync=true はすべての cache request の default ではなく、method-level operation metadata が選んだ経路である。
 
-第二に load result は単純な T や exception ではない。現在の実装は次を区別する。
+第二に load result は単純な `T` や exception ではなく `LoadOutcome` である。現在の実装は次を区別する。
 
 - BloomShortCircuited：source を load すべきでないと確定。
 - Loaded：load と write-back が両方成功。
@@ -348,9 +347,9 @@ concurrent miss に遭遇したら次を答える。
 
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [resicache-engineering-highlights-2954fff](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md)
 - [resicache-project-overview](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-project-overview.md)
-- [ResiCache：Spring Cache 保護のためのオーケストレーション可能な責任チェーン](/blog/legacy/note/ja/resicache/)
-- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/zh-cn/redis-business-patterns/)
+- [ResiCache：キャッシュ保護を検証可能な並行性・一貫性の境界にする](/blog/legacy/note/ja/resicache/)
+- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/ja/redis-business-patterns/)

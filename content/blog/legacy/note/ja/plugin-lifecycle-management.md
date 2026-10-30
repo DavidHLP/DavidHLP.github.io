@@ -65,7 +65,6 @@
 }
 ---
 
-
 ## 定義
 
 本ページは、端末能力が異なり、ネットワークが揺らぎ、操作が破壊的になり得る状況で、プラグインのインストール、アップグレード、アンインストール、ルール配信を安全に収束させる方法を定義する。これは制御プレーンのモデルであり、検証済みの容量計画ではない。百万級の規模、端末能力の差、復旧動作はソースにある設計仮定である。
@@ -161,10 +160,10 @@ lock:{uuid}:{plugin}:{op}:{targetVersion}
 
 ## 関連ページ
 
-- [Enhanced UISA 情報同期アーキテクチャ](/blog/legacy/note/zh-cn/uisa-architecture-design/)
+- [Enhanced UISA 情報同期アーキテクチャ](/blog/legacy/note/ja/uisa-architecture-design/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-plugin-lifecycle-management](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-plugin-lifecycle-management.md)
-- [Enhanced UISA：異種ノード同期の owner・boundary・復旧モデル](/blog/legacy/note/zh-cn/uisa-architecture-design/)
+- [Enhanced UISA：異種ノード同期の owner・boundary・復旧モデル](/blog/legacy/note/ja/uisa-architecture-design/)

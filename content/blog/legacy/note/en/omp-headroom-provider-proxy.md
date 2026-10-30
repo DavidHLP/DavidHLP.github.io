@@ -79,7 +79,6 @@
 }
 ---
 
-
 `omp-headroom-provider-proxy` is an external routing controller and Headroom deployment project: it preserves the ownership boundaries of OMP, Codex, and client authentication, does not modify OMP/Headroom source, does not copy credentials or `models.db`, and connects multiple clients to the same loopback Headroom entry through explicit configuration, a systemd user service, state validation, and rollback-safe operations. This page is a `provisional` entity page for the current Headroom 0.34/OMP/Codex environment; implementation sources and runtime evidence are in `sources`.
 
 ## What problem it solves
@@ -169,16 +168,16 @@ OMP routes use the corresponding `bin/omp-routes restore`; rolling back the Clau
 
 ## Related pages
 
-- [Headroom single-port synthesis](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [Headroom route persistence synthesis](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
-- [Headroom with cc-switch / Claude Code coexistence](/blog/legacy/note/zh-cn/headroom-cc-switch-coexistence/)
+- [Headroom single-port synthesis](/blog/legacy/note/en/headroom-single-port-evolution/)
+- [Headroom route persistence synthesis](/blog/legacy/note/en/omp-headroom-persistence/)
+- [Headroom with cc-switch / Claude Code coexistence](/blog/legacy/note/en/headroom-cc-switch-coexistence/)
 - [Headroom 0.34 compression and retrieval contract](/blog/legacy/note/en/headroom-compress-retrieve-contract/)
 
 
 ## Sources and related documents
 
 - [omp-headroom-provider-proxy-codex-routing-runtime](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/omp-headroom-provider-proxy-codex-routing-runtime.md)
-- [Headroom Single-Port Synthesis: Entry, Dynamic Upstreams, and Verification Boundaries](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [Headroom Route Persistence Synthesis: Named Profiles, model_cache, and Recovery](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
-- [Headroom with cc-switch / Claude Code Coexistence: Single Synthesis and Security Boundaries](/blog/legacy/note/zh-cn/headroom-cc-switch-coexistence/)
+- [Headroom Single-Port Synthesis: Entry, Dynamic Upstreams, and Verification Boundaries](/blog/legacy/note/en/headroom-single-port-evolution/)
+- [Headroom Route Persistence Synthesis: Named Profiles, model_cache, and Recovery](/blog/legacy/note/en/omp-headroom-persistence/)
+- [Headroom with cc-switch / Claude Code Coexistence: Single Synthesis and Security Boundaries](/blog/legacy/note/en/headroom-cc-switch-coexistence/)
 - [Headroom 0.34 Compression and Retrieval Contract: Fields, Modes, and Real-Endpoint Tests](/blog/legacy/note/en/headroom-compress-retrieve-contract/)

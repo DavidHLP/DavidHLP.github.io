@@ -69,7 +69,6 @@
 }
 ---
 
-
 `AutoCloseable` はリソース解放のプロトコルです。リソースを所有するコードがライフサイクルを `try-with-resources` に渡し、スコープを離れると `close()` が呼ばれます。本ページはストリームや JDBC の手順集ではなく、所有権、順序、例外伝播に焦点を当てます。
 
 ## 核心メカニズム
@@ -145,14 +144,14 @@ final class Handle implements AutoCloseable {
 
 ## 関連ページ
 
-- [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/zh-cn/java-null-value/)
-- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
+- [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/ja/java-atomic-boolean/)
+- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/ja/java-null-value/)
+- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/ja/java-internship-interview-blog-polished/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-java-auto-closeable](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-java-auto-closeable.md)
-- [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/zh-cn/java-null-value/)
-- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
+- [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/ja/java-atomic-boolean/)
+- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/ja/java-null-value/)
+- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/ja/java-internship-interview-blog-polished/)

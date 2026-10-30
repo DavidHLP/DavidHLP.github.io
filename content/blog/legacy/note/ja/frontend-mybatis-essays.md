@@ -69,11 +69,10 @@
 }
 ---
 
-> この雑多なノート集は2026-08-23にアーカイブされました。不変の出典は保持されていますが、この歴史的なページは正典の統合記事としては保守されません。
+> **分解・アーカイブの説明**：
+> このページは Vue、UniApp、MyBatis、Ubuntu の障害調査など、散在する 10 件のノートを集めたものだった。LLM-Wiki の収束原則では、共通の命題も証拠横断の統合価値もないため、2026-08-23 に分解・アーカイブした。元の事実は不変の raw スナップショット `ingest-frontend-essays` に保持し、本ページは主索引から外して `deprecated` とした。
 
-
-本ページは **provisional synthesis** であり、Vue、MyBatis、UniApp、キャッシュ注釈、環境トラブルシューティングの 10 の散在する随筆をアーカイブします。主に学習ノートと課題ログであり、安定した概念ではないため、他の知識ページの `sources` としては使用されません。
-
+以下は歴史的なアーカイブ内容である：
 ## 核心メカニズム（抜粋）
 
 - **Vue**：`vue.md` は Vue 基礎ノート；`Uniapp融合VantWeapp开发.md` は UniApp と Vant の統合を記録します。
@@ -97,14 +96,14 @@
 
 ## 関連ページ
 
-- [java-concurrency-deepdive](/blog/legacy/note/zh-cn/java-concurrency-deepdive/)
-- [spring-cloud-and-boot](/blog/legacy/note/zh-cn/spring-cloud-and-boot/)
-- [intranet-penetration-ssh-guide](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+- [java-concurrency-deepdive](/blog/legacy/note/ja/java-concurrency-deepdive/)
+- [spring-cloud-and-boot](/blog/legacy/note/ja/spring-cloud-and-boot/)
+- [intranet-penetration-ssh-guide](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ingest-frontend-essays](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-frontend-essays.md)
-- [Java 並行処理の深掘り：JUC、CAS、アトミック、ロックとスレッド機構](/blog/legacy/note/zh-cn/java-concurrency-deepdive/)
-- [Spring Boot と Spring Cloud：自動構成、トランザクション、サービス検出、ゲートウェイと可観測性](/blog/legacy/note/zh-cn/spring-cloud-and-boot/)
-- [SSH 内網アクセス：接続方向・公開面・障害復旧](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+- [Java 並行処理の深掘り：JUC、CAS、アトミック、ロックとスレッド機構](/blog/legacy/note/ja/java-concurrency-deepdive/)
+- [Spring Boot と Spring Cloud：自動構成、トランザクション、サービス検出、ゲートウェイと可観測性](/blog/legacy/note/ja/spring-cloud-and-boot/)
+- [SSH 内網アクセス：接続方向・公開面・障害復旧](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)

@@ -74,7 +74,6 @@
 }
 ---
 
-
 > **Evidence status**: This article is based on UltiCode's Core registry, owner-context manager, classloader, smoke/lifecycle tests, and architecture documents at a fixed commit. The current implementation limits Core to an opt-in, allowlist-driven experimental profile; this article does not describe it as a production modular monolith covering every business path.
 
 When multiple modules are placed in one JVM, the first problem is often not deployment count but verification: can owner wiring, port contracts, startup order, and stop behavior be checked without starting the entire distributed topology?
@@ -221,6 +220,6 @@ This Core analysis used source, architecture documents, and test entry points fo
 ## Sources and related documents
 
 - [ulticode-reliability-core-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-reliability-core-f801a1076.md)
-- [UltiCode: Modular Architecture and Domain Boundaries of an Online Judge Platform](/blog/legacy/note/en/ulticode/)
+- [UltiCode: Verifiable Boundaries for Online Judging and Agent Engineering](/blog/legacy/note/en/ulticode/)
 - [UltiCode Data Owners and Fact Snapshots: Keeping Cross-Service Submissions Bounded](/blog/legacy/note/en/ulticode-owner-and-facts/)
 - [UltiCode Generation and attemptId: Fencing Stale Judging Results with Conditional Updates](/blog/legacy/note/en/ulticode-generation-attempt-fence/)

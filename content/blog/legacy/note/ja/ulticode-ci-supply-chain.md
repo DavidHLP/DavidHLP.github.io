@@ -72,7 +72,6 @@
 }
 ---
 
-
 > **証拠の状態**：この記事は UltiCode の現在の workflow、テスト文書、スクリプトが宣言する検証レイヤーを説明する。設定が存在することは、この実行または毎回の CI で成功したことを意味しない。本番の安全性、性能、リリース資格情報には実行記録が必要である。
 
 多くのプロジェクトでは「テスト」を一つのコマンドとして扱い、リリースの安全性をイメージ作成後の手作業に委ねる。UltiCode の工学的な特徴の一つは、検証をコストと現実性で分層し、サプライチェーン要件の一部をリリースゲートへ直接組み込んでいる点にある。
@@ -132,7 +131,7 @@ workflow に Trivy、Cosign、provenance の設定があることは、リポジ
 
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
-- [UltiCode：オンラインジャッジプラットフォームのモジュール型アーキテクチャとドメイン境界](/blog/legacy/note/ja/ulticode/)
+- [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/)

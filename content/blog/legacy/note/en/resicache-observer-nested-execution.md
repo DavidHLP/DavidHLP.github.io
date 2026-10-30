@@ -64,13 +64,91 @@
     "resicache-observer-nested-execution-contract"
   ],
   "related": [
+    "resicache",
     "redis-jackson-java-time"
   ]
 }
 ---
 
-
 **Conclusion first**: in a Java system with a cache chain, a synchronization lock, and single-flight, the full `execute`, the lock-held `executeChainFragment`, and the observer's per-call scope token are three different concepts. The around hook's state must be paired and restored with the token returned by the current call; a fragment only advances nodes and does not reopen the outer lifecycle; `ThreadLocal` is only suitable for isolating the current execution snapshot and should not become the observer state machine.
+
+## Review guide: why a locked continuation must not restart the chain
+
+In the [ResiCache project](/blog/legacy/note/en/resicache/), a sync-lock handler must continue later nodes after acquiring execution rights. Reusing full `execute` would open a second timing/context-restoration lifecycle while the outer one is still active and could duplicate post-processing.
+
+This is a review of **pinned design choices and reproducible counterexamples**, not a claim of a production incident. Focus on:
+
+- **Ownership**: locked continuation belongs to the original invocation.
+- **Tradeoff**: fragments reuse node execution while skipping around hooks/post-processing; tokens carry per-call state.
+- **Validation**: inspect pinned source and observe event differences in the model below. It does not replace real Java, Redis, or concurrent integration tests.
+
+### Directly verifiable implementation evidence
+
+All links pin `75ed279a71b17f227c3170d738eb93e50d876c8a`:
+
+| Question | Source |
+|---|---|
+| Which entry point runs inside the lock? | [SyncLockHandler.java](https://github.com/DavidHLP/ResiCache/blob/75ed279a71b17f227c3170d738eb93e50d876c8a/src/main/java/io/github/davidhlp/spring/cache/redis/protection/breakdown/SyncLockHandler.java) |
+| Does a fragment skip full lifecycle and post-processing? | [ChainEngine.java](https://github.com/DavidHLP/ResiCache/blob/75ed279a71b17f227c3170d738eb93e50d876c8a/src/main/java/io/github/davidhlp/spring/cache/redis/chain/ChainEngine.java) |
+| How do start/end carry per-call state? | [ChainObserver.java](https://github.com/DavidHLP/ResiCache/blob/75ed279a71b17f227c3170d738eb93e50d876c8a/src/main/java/io/github/davidhlp/spring/cache/redis/chain/observer/ChainObserver.java) |
+| Where are the real project's tests? | [ChainEngineTest.java](https://github.com/DavidHLP/ResiCache/blob/75ed279a71b17f227c3170d738eb93e50d876c8a/src/test/java/io/github/davidhlp/spring/cache/redis/chain/ChainEngineTest.java) |
+
+### Minimal runnable counterexample
+
+Save as `lifecycle-check.mjs` and run `node lifecycle-check.mjs`. It uses only Node's standard library to express the language-independent lifecycle model.
+
+```js
+import assert from "node:assert/strict";
+
+const events = [];
+const started = [];
+const ended = [];
+
+async function execute(body) {
+  const token = {};
+  started.push(token);
+  events.push("start");
+  try {
+    const result = await body();
+    events.push("post");
+    return result;
+  } finally {
+    ended.push(token);
+    events.push("end");
+  }
+}
+
+async function fragment() {
+  events.push("node");
+  return "value";
+}
+
+assert.equal(await execute(fragment), "value");
+assert.deepEqual(events, ["start", "node", "post", "end"]);
+assert.equal(ended[0], started[0]);
+
+// Full execute inside the lock duplicates lifecycle and post-processing.
+events.length = 0;
+await execute(() => execute(fragment));
+assert.deepEqual(events, ["start", "start", "node", "post", "end", "post", "end"]);
+
+// Propagate the original failure and clean up without success post-processing.
+events.length = 0;
+const failure = new Error("handler failed");
+await assert.rejects(execute(() => { throw failure; }), (error) => error === failure);
+assert.deepEqual(events, ["start", "end"]);
+assert.equal(ended.at(-1), started.at(-1));
+
+// Overlapping async calls must each end with their own token.
+const offset = started.length;
+await Promise.all([execute(fragment), execute(fragment)]);
+assert.notEqual(started[offset], started[offset + 1]);
+assert.notEqual(ended[offset], ended[offset + 1]);
+assert.ok(ended.slice(offset).every((token) => started.slice(offset).includes(token)));
+console.log("PASS: fragment boundary, duplicate lifecycle counterexample, cleanup, token pairing");
+```
+
+**Expected**: one `PASS` line. The counterexample has two `start/post/end` sequences; the proper fragment has one of each. Failure retains `end` and propagates the original exception. This proves the model contract, not JVM multithreading. Thread isolation, lock loss, and same-key reentry still need the test matrix below. No throughput or production-stability claim is added.
 
 ## Scope
 
@@ -211,4 +289,5 @@ This page only promises behavior in the public fixed commit and does not treat u
 ## Sources and related documents
 
 - [resicache-observer-nested-execution-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-observer-nested-execution-contract.md)
-- [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
+- [ResiCache: Verifiable Concurrency and Consistency Boundaries for Cache Protection](/blog/legacy/note/en/resicache/)
+- [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/en/redis-jackson-java-time/)

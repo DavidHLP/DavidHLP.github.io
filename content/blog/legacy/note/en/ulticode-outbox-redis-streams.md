@@ -70,7 +70,6 @@
 }
 ---
 
-
 > **Evidence status**: This article is based on the current fixed-commit outbox, Redis Streams, and reaper source in UltiCode. “Recoverable” here means that durable intent and retry paths are implemented; it does not mean exactly-once processing, unlimited throughput, or production HA has been verified.
 
 The most dangerous queue failure is not “sending returned an error.” It is that the business transaction succeeded, but no reliable record remained of what needed to be sent. In an online judge, that window leaves the user seeing a successful submission while the Judge never receives a job.
@@ -143,4 +142,4 @@ Read [JudgeOutboxDispatcher.java](https://github.com/DavidHLP/UltiCode/blob/f801
 ## Sources and related documents
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
-- [UltiCode: Modular Architecture and Domain Boundaries of an Online Judge Platform](/blog/legacy/note/en/ulticode/)
+- [UltiCode: Verifiable Boundaries for Online Judging and Agent Engineering](/blog/legacy/note/en/ulticode/)

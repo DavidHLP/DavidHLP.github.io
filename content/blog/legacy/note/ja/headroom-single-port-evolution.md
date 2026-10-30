@@ -83,12 +83,19 @@
   "related": [
     "omp-config-and-rules-guide",
     "omp-headroom-persistence",
+    "headroom-cc-switch-coexistence",
+    "omp-headroom-provider-proxy",
     "omp-hook-extension-guide",
-    "llm-wiki-pattern"
+    "llm-wiki-pattern",
+    "headroom-compress-retrieve-contract"
   ]
 }
 ---
 
+> **昇格条件（三検査）**：
+> 1. 固定版で `/v1/messages` と `/v1/responses` の明示経路を contract test。
+> 2. 壊れた `model_cache` の削除・再構築と cold-start 復旧。
+> 3. `BindPaths` 隔離下の rollback と設定反映。
 
 このページの総合的な結論は、単一ポートとはすべての provider が自動的に 8787 へ書き換えられることではない、という点である。明示的に設定した custom provider が一つの loopback 入口を共有し、リクエストレベルの情報で実際の上流を選ぶ。現在の `headroom wrap omp` の自動範囲、OMP のモデル選択、派生状態である `models.db`、Headroom のライフサイクルは分けて考え、過去のルートを現在のデフォルトとは扱わない。
 
@@ -164,18 +171,21 @@ wrapped session の実行中に別ターミナルで `headroom doctor` と `head
 
 ## 関連ページ
 
-- [OMP 設定の階層](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
-- [Headroom ルート永続化](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
-- [OMP Hook 拡張](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
+- [OMP 設定の階層](/blog/legacy/note/ja/omp-config-and-rules-guide/)
+- [Headroom ルート永続化](/blog/legacy/note/ja/omp-headroom-persistence/)
+- [OMP Hook 拡張](/blog/legacy/note/ja/omp-hook-extension-guide/)
 - [LLM wiki pattern](/blog/legacy/note/ja/llm-wiki-pattern/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-headroom-single-port-evolution](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-headroom-single-port-evolution.md)
 - [legacy-omp-config-and-rules-guide](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-omp-config-and-rules-guide.md)
 - [legacy-omp-headroom-persistence](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-omp-headroom-persistence.md)
-- [OMP 設定の階層：モデルロール、Agent オーバーライド、フォールバックチェーン](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
-- [Headroom ルート永続化の総合：Named Profile、model_cache、復旧](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
-- [OMP Hook 拡張の概念：意思決定ポイントのヒント、ハードブロック、ステータス橋渡し](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
+- [OMP 設定の階層：モデルロール、Agent オーバーライド、フォールバックチェーン](/blog/legacy/note/ja/omp-config-and-rules-guide/)
+- [Headroom ルート永続化の総合：Named Profile、model_cache、復旧](/blog/legacy/note/ja/omp-headroom-persistence/)
+- [Headroom と cc-switch / Claude Code の共存：単一の整理責任とセキュリティ境界](/blog/legacy/note/ja/headroom-cc-switch-coexistence/)
+- [OMP Headroom Bridge：外部ルーティングコントローラとネイティブ Codex/OMP プロキシ境界](/blog/legacy/note/ja/omp-headroom-provider-proxy/)
+- [OMP Hook 拡張の概念：意思決定ポイントのヒント、ハードブロック、ステータス橋渡し](/blog/legacy/note/ja/omp-hook-extension-guide/)
 - [LLM-Wiki パターン：LLM で蓄積する個人 AI ナレッジベース](/blog/legacy/note/ja/llm-wiki-pattern/)
+- [Headroom 0.34 圧縮・取得契約：フィールド、モード、実エンドポイント検証](/blog/legacy/note/ja/headroom-compress-retrieve-contract/)

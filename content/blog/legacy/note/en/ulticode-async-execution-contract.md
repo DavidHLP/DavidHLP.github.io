@@ -70,7 +70,6 @@
 }
 ---
 
-
 > **Evidence status**: This article is based on UltiCode's asynchronous execution interface and Judge provider source. The current implementation includes a Docker default adapter, an optional Judge0 adapter, and bounded in-process metadata; durable receipt idempotency across replicas or restarts remains an explicit gap.
 
 Synchronous preview and asynchronous execution solve the same problem at different time scales: the former aims to return quickly, while the latter allows a job to be queued, run, cancelled, or timed out. If both paths define their inputs, states, and errors independently, callers eventually receive two incompatible execution semantics.
@@ -123,4 +122,4 @@ Read [AsyncSandboxExecutor.java](https://github.com/DavidHLP/UltiCode/blob/f801a
 ## Sources and related documents
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
-- [UltiCode: Modular Architecture and Domain Boundaries of an Online Judge Platform](/blog/legacy/note/en/ulticode/)
+- [UltiCode: Verifiable Boundaries for Online Judging and Agent Engineering](/blog/legacy/note/en/ulticode/)

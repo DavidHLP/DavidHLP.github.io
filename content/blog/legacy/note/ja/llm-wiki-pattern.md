@@ -60,11 +60,16 @@
     "karpathy-llm-wiki"
   ],
   "related": [
+    "headroom-single-port-evolution",
+    "omp-config-and-rules-guide",
+    "omp-headroom-persistence",
+    "omp-hook-extension-guide",
+    "kb-session-ingest-contract",
+    "mcp-codebase-memory-workflow",
     "headroom-compress-retrieve-contract"
   ]
 }
 ---
-
 
 > このページはナレッジベース自身の運用方法を説明します。一次資料は [`karpathy-llm-wiki`](https://gist.githubusercontent.com/karpathy/442a6bf555914893e9891c11519de94f/raw/ac46de1ad27f92b28ac95459c782c07f6b8c964a/llm-wiki.md)、保守契約は [KB.md](https://github.com/DavidHLP/DavidHLP.github.io/blob/main/KB.md) と [knowledge-base skill](https://github.com/DavidHLP/DavidHLP.github.io/blob/main/.claude/skills/knowledge-base.md) です。
 
@@ -131,7 +136,13 @@ RAG は必ずしも不正確なのではなく、知識が十分に蓄積され�
 3. **統合ページ**：複数ソースをまたぐ比較、進化、個人の判断。
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [karpathy-llm-wiki](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/karpathy-llm-wiki.md)
+- [Headroom 単一ポートの総合：入口、動的上流、検証の境界](/blog/legacy/note/ja/headroom-single-port-evolution/)
+- [OMP 設定の階層：モデルロール、Agent オーバーライド、フォールバックチェーン](/blog/legacy/note/ja/omp-config-and-rules-guide/)
+- [Headroom ルート永続化の総合：Named Profile、model_cache、復旧](/blog/legacy/note/ja/omp-headroom-persistence/)
+- [OMP Hook 拡張の概念：意思決定ポイントのヒント、ハードブロック、ステータス橋渡し](/blog/legacy/note/ja/omp-hook-extension-guide/)
+- [KB セッション摂取パイプライン契約：インクリメンタル再利用、redaction v19、不変 raw](/blog/legacy/note/ja/kb-session-ingest-contract/)
+- [MCP プロトコル時代の境界と codebase-memory-mcp v0.10.2 のグラフワークフロー](/blog/legacy/note/ja/mcp-codebase-memory-workflow/)
 - [Headroom 0.34 圧縮・取得契約：フィールド、モード、実エンドポイント検証](/blog/legacy/note/ja/headroom-compress-retrieve-contract/)

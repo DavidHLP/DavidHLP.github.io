@@ -73,7 +73,6 @@
 }
 ---
 
-
 **Conclusion first**: Within the pinned version boundaries of Redisson 3.50.0 / Spring Data Redis 3.5.13, the default Jackson configuration **fails at write time** for `LocalDateTime` (the encoding side throws `InvalidDefinitionException`) rather than "write succeeds, read fails". A real write-read asymmetry only appears when the writer's and reader's Jackson configurations differ.
 
 ## Applicable versions and scenarios
@@ -175,13 +174,13 @@ Locate "write exception" or "write succeeds, read fails" in this order:
 
 ## Related pages
 
-- [NullValue: placeholder objects for caching null and the serialization boundary](/blog/legacy/note/zh-cn/java-null-value/)
-- [Java online performance troubleshooting: the minimal decision tree from symptom to evidence](/blog/legacy/note/zh-cn/java-online-performance-debug/)
+- [NullValue: placeholder objects for caching null and the serialization boundary](/blog/legacy/note/en/java-null-value/)
+- [Java online performance troubleshooting: the minimal decision tree from symptom to evidence](/blog/legacy/note/en/java-online-performance-debug/)
 
 
 ## Sources and related documents
 
 - [redis-jackson-java-time-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/redis-jackson-java-time-contract.md)
-- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/zh-cn/java-null-value/)
-- [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [ResiCache: Observer Nested Execution Must Distinguish Lifecycle, Fragments, and Scope Tokens](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
+- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/en/java-null-value/)
+- [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/en/java-online-performance-debug/)
+- [ResiCache: Observer Nested Execution Must Distinguish Lifecycle, Fragments, and Scope Tokens](/blog/legacy/note/en/resicache-observer-nested-execution/)

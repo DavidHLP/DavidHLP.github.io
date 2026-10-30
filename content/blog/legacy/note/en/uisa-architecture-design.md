@@ -69,7 +69,6 @@
 }
 ---
 
-
 ## Definition
 
 This page does not retell UISA as a four-layer diagram. It synthesizes two raw sources to answer: when a general information-sync substrate meets a plugin lifecycle control plane, who owns each state, how messages synchronize, how failure is retried and audited, and which performance and safety trade-offs must be explicit. The result is provisional: it is a design model, not proof that a deployment meets the source's scale claims.
@@ -188,11 +187,11 @@ Plugin state can become logically offline first and be batch-cleaned after reten
 
 ## Related pages
 
-- [Plugin lifecycle management](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
+- [Plugin lifecycle management](/blog/legacy/note/en/plugin-lifecycle-management/)
 
 
 ## Sources and related documents
 
 - [legacy-uisa-architecture-design](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-uisa-architecture-design.md)
 - [legacy-plugin-lifecycle-management](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-plugin-lifecycle-management.md)
-- [Plugin Lifecycle Management at Million-Endpoint Scale: State, Heartbeats, and Controlled Release](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
+- [Plugin Lifecycle Management at Million-Endpoint Scale: State, Heartbeats, and Controlled Release](/blog/legacy/note/en/plugin-lifecycle-management/)

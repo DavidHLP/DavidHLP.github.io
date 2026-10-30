@@ -67,7 +67,6 @@
 }
 ---
 
-
 このナレッジベース自身のセッション摂取パイプラインは、ツールセッション（OMP、Codex、OpenCode、Hindsight、prompt-history）を wiki に入れられる候補証拠に変換する。中核的な保証を一言で言えば、**内容が変わっていないソースはインクリメンタル再利用し、内容が変わったか失敗したソースは再処理し、v19 脱感と内部コントロールプレーン・フィルタを通ったテキストだけをディスクに書き、raw 証拠層は manifest ハッシュでロックする。** このページは固定コミットの契約スナップショットであり、検証可能な挙動だけを記述し、実際の台帳内容や実行統計は記録しない。
 
 ## 適用バージョンとシナリオ
@@ -191,7 +190,7 @@ pnpm kb:lint
 - [LLM-Wiki パターン](/blog/legacy/note/ja/llm-wiki-pattern/)：このナレッジベースの三層アーキテクチャと ingest/query/lint 操作の総述。このページはその「ingest」操作の実装レベル契約である。
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [kb-ingest-pipeline-v19](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/kb-ingest-pipeline-v19.md)
 - [LLM-Wiki パターン：LLM で蓄積する個人 AI ナレッジベース](/blog/legacy/note/ja/llm-wiki-pattern/)

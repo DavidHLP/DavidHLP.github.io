@@ -72,7 +72,6 @@
 }
 ---
 
-
 > **Evidence status**: This article is based on UltiCode's FencedJobLeaseMapper, FencedJobLeaseService, OwnerReconciler, ReconciliationRunMapper, ADR, and MySQL migration at a fixed commit. Source and boundary tests show that stale completion is rejected; they do not mean every external side effect is fenced or that singleton jobs are exactly-once.
 
 Assume the system allows only one reconciliation job at a time. Instance A acquires a lease and starts scanning. After some time A pauses and the lease expires. Instance B acquires a new lease and completes a new scan. A then resumes and executes its final step: writing its own result as “the job is complete.”
@@ -187,5 +186,5 @@ The UltiCode analysis phase actually ran and passed the two MySQL 8 Testcontaine
 ## Sources and related documents
 
 - [ulticode-reliability-core-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-reliability-core-f801a1076.md)
-- [UltiCode: Modular Architecture and Domain Boundaries of an Online Judge Platform](/blog/legacy/note/en/ulticode/)
+- [UltiCode: Verifiable Boundaries for Online Judging and Agent Engineering](/blog/legacy/note/en/ulticode/)
 - [UltiCode Generation and attemptId: Fencing Stale Judging Results with Conditional Updates](/blog/legacy/note/en/ulticode-generation-attempt-fence/)

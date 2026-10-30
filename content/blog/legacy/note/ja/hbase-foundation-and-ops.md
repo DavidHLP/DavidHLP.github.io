@@ -71,7 +71,6 @@
 }
 ---
 
-
 2 つのリポジトリの 18 の HBase ノートは高度に同質です（Personal 9 + Fuwari 9、実質的には言語と長さが違うだけの一対一対応）。本ページはそれらをデータモデル—アーキテクチャ—テーブル設計—運用の 4 部に収束させ、重複する章を削除し再利用可能な概念を残します。
 
 ## 核心メカニズム
@@ -121,14 +120,14 @@
 
 ## 関連ページ
 
-- [spark-bigdata-ecosystem](/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/)
-- [database-schema-drift](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [mysql-storage-and-deadlock](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/)
+- [spark-bigdata-ecosystem](/blog/legacy/note/ja/spark-bigdata-ecosystem/)
+- [database-schema-drift](/blog/legacy/note/ja/database-schema-drift/)
+- [mysql-storage-and-deadlock](/blog/legacy/note/ja/mysql-storage-and-deadlock/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ingest-hbase-foundation](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-hbase-foundation.md)
-- [Spark とビッグデータエコシステム：Hadoop、HBase、Spark 実行モードとクラスタ](/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/)
-- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [MySQL ストレージエンジンとデッドロック検出](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/)
+- [Spark とビッグデータエコシステム：Hadoop、HBase、Spark 実行モードとクラスタ](/blog/legacy/note/ja/spark-bigdata-ecosystem/)
+- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/ja/database-schema-drift/)
+- [MySQL ストレージエンジンとデッドロック検出](/blog/legacy/note/ja/mysql-storage-and-deadlock/)

@@ -67,7 +67,6 @@
 }
 ---
 
-
 When treating a code-graph tool as an evidence source, first separate the two version boundaries: the MCP specification `2026-07-28` (modern) switched to **per-request stateless declarations** with no `initialize` handshake, while codebase-memory-mcp `v0.10.2` is a **legacy-era server** that supports at most `2025-11-25`, which modern clients cannot connect to directly. The compatibility facts between the two determine which contract the workflow uses to verify, while the discipline of the graph tool itself determines whether the conclusion is trustworthy: **graph results are not a completeness proof, and negative conclusions must rely on coverage checks plus a source-code fallback**.
 
 ## Protocol-era boundary: per-request `_meta` vs the `initialize` handshake
