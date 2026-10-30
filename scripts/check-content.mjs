@@ -6,6 +6,7 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
+import { parse } from "yaml";
 import { runInNewContext } from "node:vm";
 import {
   loadContent,
@@ -416,5 +417,39 @@ test("tick navigation stays within eight buttons for every selected article", ()
       assert.equal(ticks.length, Math.min(8, count));
       assert.ok(ticks.includes(selected));
     }
+  }
+});
+
+
+test("blog migration preserves original content, drafts and unpublished raw evidence", async () => {
+  const manifest = JSON.parse(await readFile(new URL("../migration/manifest.json", import.meta.url), "utf8"));
+  const live = new Map(published.records.map(record => [record.id, record]));
+  assert.ok(published.records.every(record => record.legacy && !record.legacy.path.startsWith("src/content/raw/")));
+  assert.ok(manifest.entries.every(entry => entry.path.startsWith("src/content/") && !entry.path.startsWith("src/content/raw/")));
+  for (const path of manifest.documents) {
+    const snapshot = await readFile(new URL(`../migration/source/${path}`, import.meta.url));
+    if (path.startsWith("src/content/"))
+      assert.deepEqual(await readFile(new URL(`../${path}`, import.meta.url)), snapshot, path);
+  }
+  for (const entry of manifest.entries) {
+    const original = await readFile(new URL(`../migration/source/${entry.path}`, import.meta.url), "utf8");
+    const adapted = await readFile(new URL(`../content/blog/${entry.slug}.md`, import.meta.url), "utf8");
+    const data = parse(adapted.match(/^---\n([\s\S]*?)\n---\n/)[1]);
+    const metadata = original.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n/);
+    assert.deepEqual(data.legacy.metadata, metadata ? parse(metadata[1]) : {});
+    assert.equal(data.draft, entry.draft);
+    assert.equal(live.has(entry.archiveId), !entry.draft);
+  }
+  const dist = new URL("../dist/", import.meta.url);
+  for (const entry of manifest.entries) {
+    const path = new URL(`blog/${entry.slug}/index.html`, dist);
+    if (entry.draft) await assert.rejects(readFile(path), { code: "ENOENT" });
+    else assert.ok((await readFile(path, "utf8")).includes("原文来源"));
+  }
+  for (const [path, target] of Object.entries(manifest.routes)) {
+    const output = new URL(path.slice(1) + (target === "/rss.xml" ? "" : "/index.html"), dist);
+    const html = await readFile(output, "utf8");
+    if (target === "/rss.xml") assert.equal(html, await readFile(new URL("rss.xml", dist), "utf8"));
+    else assert.ok(html.includes(`href="${target}"`), path);
   }
 });
