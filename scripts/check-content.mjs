@@ -17,7 +17,7 @@ import { postPath } from "../src/blog-path.ts";
 import { archiveTickWindow, recentRecords, visibleSavedCount, persistSaved, syncArticleMetadata, restoreArticleHash } from "../src/blog-client.ts";
 import { StartupGate } from "../src/startup.ts";
 import { normalizeUiLanguage, translateUiText, translatedBootText } from "../src/ui-language.ts";
-import { localizedArticles, languageUrl, translationKey, validateTranslations } from "../src/content-language.ts";
+import { contentLabel, localizedArticles, languageUrl, translationKey, validateTranslations } from "../src/content-language.ts";
 import { MOTION_LABELS } from "../src/motion-preferences.ts";
 
 test("interface language selection validates stored values and preserves source content", () => {
@@ -286,6 +286,20 @@ test("built pages carry one article body while shared search retains every publi
   assert.equal(manifest.name, site.title);
   assert.equal(manifest.short_name, site.title);
   assert.equal(manifest.description, site.description);
+  const labels = JSON.parse(await readFile(new URL("../content/locales.json", import.meta.url), "utf8"));
+  for (const language of ["en", "ja"]) {
+    const localizedManifest = JSON.parse(await readFile(new URL(`${language}/manifest.webmanifest`, dist), "utf8"));
+    assert.equal(localizedManifest.lang, language);
+    assert.equal(localizedManifest.description, contentLabel(site.description, language, labels));
+    assert.equal(localizedManifest.id, "/");
+    assert.equal(localizedManifest.scope, "/");
+    assert.ok(localizedManifest.icons.every(icon => icon.src.startsWith("/icons/")));
+    assert.equal(new URL(localizedManifest.start_url, "https://blog.example/").searchParams.get("lang"), language);
+    const rss = await readFile(new URL(`${language}/rss.xml`, dist), "utf8");
+    const links = [...rss.matchAll(/<item>[\s\S]*?<link>([^<]+)<\/link>/g)].map(match => new URL(match[1].replaceAll("&amp;", "&")));
+    assert.equal(links.length, localizedArticles(published.records, language).length);
+    assert.ok(links.every(link => link.pathname.includes(`/${language}/`) && link.searchParams.get("lang") === language));
+  }
   const pages = paths.filter(path => path === "index.html" || /^blog\/.*\/index\.html$/.test(path.replaceAll("\\", "/")));
   assert.equal(pages.length, published.records.length + 1);
   for (const path of pages) {
