@@ -130,7 +130,7 @@ pnpm kb:lint
 - [LLM-Wiki パターン](/blog/legacy/note/ja/llm-wiki-pattern/)：このナレッジベースの三層アーキテクチャと ingest/query/lint 操作の総述。このページはその「ingest」操作の実装レベル契約である。
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [kb-ingest-pipeline-v19](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/kb-ingest-pipeline-v19.md)
 - [LLM-Wiki パターン：LLM で蓄積する個人 AI ナレッジベース](/blog/legacy/note/ja/llm-wiki-pattern/)

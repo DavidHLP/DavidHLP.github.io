@@ -9,13 +9,15 @@
 
 このページでは、Vectorize Hindsight メモリエンジンを端末エージェント **OMP (Oh-My-Pi)** と **Codex CLI** に接続するブリッジ実装と設定規約を記録する。中心となる改善は、**マルチプロジェクト適応型の分離ルーティング（Dynamic Workspace Routing）**と、セッション状態を保持する **FastMCP stdio ブリッジ**である。
 
+> **範囲と確認（2026-09-08）**：2026-08-17 snapshot の Hindsight v0.9.1 接続記録。OMP、Codex、Node.js、bridge は版固定が不十分。コードは過去の例で、その修訂は全文・プロトコルの静的確認のみ。再起動や現 client 設定の互換検証はしていない。
+
 ---
 
 ## 1. マルチプロジェクト適応型分離
 
 複数プロジェクトを開発するとき、グローバルな単一 Bank（例えば常に `ulticode` を使う方式）をハードコードすると、異なるコードベースのメモリ、エンティティ、ルールが互いに汚染される。
 
-この方式は Git ルートを検出し、現在のリポジトリ名を独立した Bank 識別子（`ulticode`、`resicache`、`davidhlp_github_io` など）として自動的に使うことで、プロジェクト間の完全な物理分離を実現する。
+Git root のディレクトリ名から `ulticode`、`resicache`、`davidhlp_github_io` 等の Bank ID を作る。これはアプリ層の論理分割で、独立 DB・process・アクセス制御としての物理隔離ではない。basename と文字置換だけなので、異なるパスの同名 repo や `a.b` と `a_b` は衝突する。必要なら client ごとに異なる `HINDSIGHT_BANK_ID` を明示し、OMP の実 Bank も照合する。
 
 ```
 プロジェクトワークスペース (/path/to/project-a)  ──> Git ルート検出 ──> Bank: project_a ──> Hindsight /mcp/project_a/
@@ -24,7 +26,7 @@
 
 ---
 
-## 2. 汎用 FastMCP ブリッジ（`~/.hindsight/hindsight-bridge.mjs`）
+## 2. 過去の FastMCP ブリッジ例 (`~/.hindsight/hindsight-bridge.mjs`)
 
 Codex CLI と一部の Agent 子プロセスは stdio パイプ経由で JSON-RPC 通信を行う。一方、Hindsight v0.9.1 が提供するのは HTTP ベースの Streamable FastMCP エンドポイントである。そのため、プロトコル変換と Session ID の状態保持を行う軽量なローカル Node.js ブリッジが必要になる：
 
@@ -140,6 +142,10 @@ rl.on("line", async (line) => {
 
 ---
 
+### 例に残るプロトコルの不足
+
+Session ID 転送と Git root 検出の考え方は残るが、完全な汎用 MCP proxy ではない。SSE 応答全体の終了を待って転送し、完全なイベント境界を扱わず、通知の空応答、並行 handshake、session 失効後の再初期化、交渉後の protocol version header も明示処理しない。[MCP 2025-06-18 transport](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports) では通知成功は本文なし HTTP 202 を返せ、Streamable HTTP 自体が SSE を扱う。Session ID は server が割り当てた場合に後続転送が必要。実 client でこれらを検証し、一回の `tools/list` 成功を汎用互換の証明にしない。
+
 ## 3. Agent クライアント設定
 
 > **パス設定規約**：Node プロセスと環境は `args` のパス内の `~` を自動展開しない。`/home/user/` のような絶対パスを使うか、環境変数から注入すること。
@@ -194,7 +200,7 @@ HINDSIGHT_API_BASE_URL = "http://127.0.0.1:8888"
 
 ## 4. 検証結果と実測指標
 
-実際のマルチモジュールサブディレクトリからエンドツーエンド検証を行った：
+以下は 2026-08-17 raw の一回の書き込み・召回の転記で、再実行ではない。回数、負荷、全版、計時方法がなく、score と 0.059s は性能基準ではない。テスト文も現プロジェクトの設定事実ではない：
 
 ```
 [書き込み段階（Codex MCP Bridge -> GPU Fact Extraction）]
@@ -211,25 +217,26 @@ HINDSIGHT_API_BASE_URL = "http://127.0.0.1:8888"
 
 ## 5. 証拠と不確実性
 
-- **ソース事実**：固定 raw ソース `hindsight-local-deployment-and-agent-integration` に基づき、FastMCP stdio 状態機械、Git toplevel 検出、OMP/Codex のエンドツーエンド検索を検証した。
-- **本ページの統合**：ブリッジコード、両クライアントの設定、実測指標を独立した Entity 接続仕様として整理した。
-- **未確認**：プロジェクトが Git リポジトリとして初期化されておらず、`HINDSIGHT_BANK_ID` も指定されていない場合、ブリッジは `default` パーティションへフォールバックする。
+- **出典報告**：固定 raw `hindsight-local-deployment-and-agent-integration` は handshake、tool 発見、一回の検索成功を記録する。完全な状態機械や全 client 互換ではない。
+- **総合**：bridge code、両端設定、観測値を Entity 接続記録に整理。
+- **静的に確認可能**：Git root と明示 `HINDSIGHT_BANK_ID` がなければ CWD の basename から Bank を作る。空名、`/`、`.`、`root` の場合だけ `default`。非 Git ではサブディレクトリによるずれが残る。
+- **未確認**：現在の OMP `per-project` 命名との一致、model・権限・retain/recall 全経路は別途実測が必要。
 
 ---
 
 ## 6. 関連ページ
 
-- [Hindsight のローカル計算資源分担と Docker コンテナ化デプロイ](/blog/legacy/note/zh-cn/hindsight-local-deployment/)
-- [Hindsight ランタイムトラブルシューティングマトリクスと失敗モード](/blog/legacy/note/zh-cn/hindsight-troubleshooting/)
-- [OMP 設定レイヤーとルールガイド](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
+- [Hindsight のローカル計算資源分担と Docker コンテナ化デプロイ](/blog/legacy/note/ja/hindsight-local-deployment/)
+- [Hindsight ランタイムトラブルシューティングマトリクスと失敗モード](/blog/legacy/note/ja/hindsight-troubleshooting/)
+- [OMP 設定レイヤーとルールガイド](/blog/legacy/note/ja/omp-config-and-rules-guide/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [hindsight-local-deployment-and-agent-integration](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/hindsight-local-deployment-and-agent-integration.md)
 - [Hindsight のローカル計算資源分担と Docker コンテナ化デプロイ](/blog/legacy/note/ja/hindsight-local-deployment/)
 - [Hindsight ランタイムトラブルシューティングマトリクスと失敗モード](/blog/legacy/note/ja/hindsight-troubleshooting/)
-- [OMP 設定の階層：モデルロール、Agent オーバーライド、フォールバックチェーン](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
+- [OMP 設定の階層：モデルロール、Agent オーバーライド、フォールバックチェーン](/blog/legacy/note/ja/omp-config-and-rules-guide/)
 
 研究記録
 1. 元の文書: src/content/note/ja/hindsight-omp-codex-integration.md

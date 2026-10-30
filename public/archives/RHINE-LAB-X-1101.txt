@@ -144,14 +144,14 @@ String token = Jwts.builder()
 
 - **情報源の事実：** 初期 raw と `jjwt-013-security-api-contract-correction` が 0.13.0 の API 宣言、実装分岐、README 例を共同で固定する。
 - **本ページの総合：** アルゴリズム選択、明示署名、検証 key 型、claims builder を移行とトラブルシューティングの順序に整理する。
-- [Java オンライン性能トラブルシューティング：症状から証拠への最小決定木](/blog/legacy/note/zh-cn/java-online-performance-debug/)
+- [Java オンライン性能トラブルシューティング：症状から証拠への最小決定木](/blog/legacy/note/ja/java-online-performance-debug/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [jjwt-013-security-api-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/jjwt-013-security-api-contract.md)
 - [jjwt-013-security-api-contract-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/jjwt-013-security-api-contract-correction.md)
-- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/zh-cn/java-online-performance-debug/)
+- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)
 
 研究記録
 1. 元の文書: src/content/note/ja/jjwt-013-security-api.md

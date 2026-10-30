@@ -42,19 +42,19 @@ The 15 JUC/Java notes in Fuwari are the most systematic concurrency series in th
 
 ## Related Pages
 
-- [java-atomic-boolean](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [java-auto-closeable](/blog/legacy/note/zh-cn/java-auto-closeable/)
-- [java-online-performance-debug](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [jjwt-013-security-api](/blog/legacy/note/zh-cn/jjwt-013-security-api/)
+- [java-atomic-boolean](/blog/legacy/note/en/java-atomic-boolean/)
+- [java-auto-closeable](/blog/legacy/note/en/java-auto-closeable/)
+- [java-online-performance-debug](/blog/legacy/note/en/java-online-performance-debug/)
+- [jjwt-013-security-api](/blog/legacy/note/en/jjwt-013-security-api/)
 
 
 ## Sources and related documents
 
 - [ingest-java-concurrency](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-java-concurrency.md)
-- [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [AutoCloseable: Resource Ownership and Close-Exception Semantics](/blog/legacy/note/zh-cn/java-auto-closeable/)
-- [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [JJWT 0.13.0: Explicitly Fixing the Signature Algorithm, Verifying by Key Type](/blog/legacy/note/zh-cn/jjwt-013-security-api/)
+- [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/en/java-atomic-boolean/)
+- [AutoCloseable: Resource Ownership and Close-Exception Semantics](/blog/legacy/note/en/java-auto-closeable/)
+- [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/en/java-online-performance-debug/)
+- [JJWT 0.13.0: Explicitly Fixing the Signature Algorithm, Verifying by Key Type](/blog/legacy/note/en/jjwt-013-security-api/)
 
 Research notes
 1. Original document: src/content/note/en/java-concurrency-deepdive.md

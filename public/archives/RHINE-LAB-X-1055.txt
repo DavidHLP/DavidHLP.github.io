@@ -102,13 +102,13 @@ Accept heartbeat delay, lost receipts, duplicate reports, and lagging versions; 
 
 ## Related pages
 
-- [Enhanced UISA information-sync architecture](/blog/legacy/note/zh-cn/uisa-architecture-design/)
+- [Enhanced UISA information-sync architecture](/blog/legacy/note/en/uisa-architecture-design/)
 
 
 ## Sources and related documents
 
 - [legacy-plugin-lifecycle-management](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-plugin-lifecycle-management.md)
-- [Enhanced UISA: Owners, Boundaries, and Recovery for Heterogeneous-Node Sync](/blog/legacy/note/zh-cn/uisa-architecture-design/)
+- [Enhanced UISA: Owners, Boundaries, and Recovery for Heterogeneous-Node Sync](/blog/legacy/note/en/uisa-architecture-design/)
 
 Research notes
 1. Original document: src/content/note/en/plugin-lifecycle-management.md

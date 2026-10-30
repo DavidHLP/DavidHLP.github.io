@@ -108,16 +108,16 @@ RedisSerializer<Object> serializer = new GenericJackson2JsonRedisSerializer(mapp
 
 ## 関連ページ
 
-- [NullValue：null をキャッシュするプレースホルダオブジェクトと直列化の境界](/blog/legacy/note/zh-cn/java-null-value/)
-- [Java 本番パフォーマンストラブルシューティング：症状から証拠への最小決定木](/blog/legacy/note/zh-cn/java-online-performance-debug/)
+- [NullValue：null をキャッシュするプレースホルダオブジェクトと直列化の境界](/blog/legacy/note/ja/java-null-value/)
+- [Java 本番パフォーマンストラブルシューティング：症状から証拠への最小決定木](/blog/legacy/note/ja/java-online-performance-debug/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [redis-jackson-java-time-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/redis-jackson-java-time-contract.md)
-- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/zh-cn/java-null-value/)
-- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [ResiCache：observer のネスト実行はライフサイクル、fragment、scope token を区別しなければならない](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
+- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/ja/java-null-value/)
+- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)
+- [ResiCache：observer のネスト実行はライフサイクル、fragment、scope token を区別しなければならない](/blog/legacy/note/ja/resicache-observer-nested-execution/)
 
 研究記録
 1. 元の文書: src/content/note/ja/redis-jackson-java-time.md

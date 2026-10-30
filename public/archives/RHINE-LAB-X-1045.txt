@@ -75,6 +75,12 @@ Future pages should grow three connected networks:
 ## Sources and related documents
 
 - [karpathy-llm-wiki](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/karpathy-llm-wiki.md)
+- [Headroom Single-Port Synthesis: Entry, Dynamic Upstreams, and Verification Boundaries](/blog/legacy/note/en/headroom-single-port-evolution/)
+- [OMP Configuration Layers: Model Roles, Agent Overrides, and Fallback Chains](/blog/legacy/note/en/omp-config-and-rules-guide/)
+- [Headroom Route Persistence Synthesis: Named Profiles, model_cache, and Recovery](/blog/legacy/note/en/omp-headroom-persistence/)
+- [OMP Hook Extension Concept: Decision-Point Nudges, Hard Blocks, and Status Bridges](/blog/legacy/note/en/omp-hook-extension-guide/)
+- [KB Session Ingestion Pipeline Contract: Incremental Reuse, Redaction v19, and Immutable Raw](/blog/legacy/note/en/kb-session-ingest-contract/)
+- [MCP Protocol Era Boundary and the codebase-memory-mcp v0.10.2 Graph Workflow](/blog/legacy/note/en/mcp-codebase-memory-workflow/)
 - [Headroom 0.34 Compression and Retrieval Contract: Fields, Modes, and Real-Endpoint Tests](/blog/legacy/note/en/headroom-compress-retrieve-contract/)
 
 Research notes

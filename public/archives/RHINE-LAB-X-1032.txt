@@ -7,12 +7,13 @@ Collection: 2026-08-17
 Related people: DavidHLPL
 Access: Public
 
-> This historical integration page was split on 2026-08-23 into [deployment](/blog/legacy/note/en/hindsight-local-deployment/), [agent integration](/blog/legacy/note/en/hindsight-omp-codex-integration/) and [troubleshooting](/blog/legacy/note/en/hindsight-troubleshooting/). It is retained as an archive, not a source for new syntheses. The text below is historical.
-
-
-This page systematically archives the Vectorize Hindsight memory system's **runtime-local deployment** on Linux (daily inference and memory access fully backed by offline/local models; the first deployment and model-weight downloads require networking or pre-caching), as well as the ground practice of providing cross-tool unified memory support for the terminal agents **OMP (Oh-My-Pi)** and **Codex CLI**. It focuses on environment configuration, protocol adaptation, the debugging process, and 7 core "pitfall" lessons with prevention measures.
-
----
+> **Split and archive notice**:
+> This historical integrated record was a 445-line monolithic page. Following LLM-Wiki's one-concept-per-page principle, it was split on 2026-08-23 into three canonical pages:
+> 1. [Hindsight local compute allocation and Docker deployment](/blog/legacy/note/en/hindsight-local-deployment/) (L1/L2 deployment and hardware selection)
+> 2. [Unified Hindsight memory: FastMCP bridging and dynamic project routing](/blog/legacy/note/en/hindsight-omp-codex-integration/) (L4 entity and dual-client bridge integration)
+> 3. [Hindsight runtime troubleshooting matrix and failure modes](/blog/legacy/note/en/hindsight-troubleshooting/) (L3 troubleshooting and failure-mode synthesis)
+>
+> This page remains a historical archive, not a source for new synthesis pages. The historical snapshot follows.
 
 ## 1. System Architecture and Runtime Topology
 
@@ -446,9 +447,9 @@ End-to-end measurement was performed in a multi-module subdirectory:
 ## Sources and related documents
 
 - [hindsight-local-deployment-and-agent-integration](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/hindsight-local-deployment-and-agent-integration.md)
-- [OMP Configuration Layers: Model Roles, Agent Overrides, and Fallback Chains](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
-- [MCP Protocol Era Boundary and the codebase-memory-mcp v0.10.2 Graph Workflow](/blog/legacy/note/zh-cn/mcp-codebase-memory-workflow/)
-- [The LLM-Wiki Pattern: Maintaining a Compounding Personal Knowledge Base](/blog/legacy/note/en/llm-wiki-pattern/)
+- [Hindsight Local Compute Allocation and Dockerized Deployment](/blog/legacy/note/en/hindsight-local-deployment/)
+- [Hindsight Unified Memory Access: FastMCP Bridge and Dynamic Multi-Project Routing](/blog/legacy/note/en/hindsight-omp-codex-integration/)
+- [Hindsight Runtime Troubleshooting Matrix and Failure Modes](/blog/legacy/note/en/hindsight-troubleshooting/)
 
 Research notes
 1. Original document: src/content/note/en/hindsight-local-deployment-and-agent-integration.md

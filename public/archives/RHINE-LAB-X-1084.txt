@@ -123,12 +123,12 @@ dubbo registry-nacos 付属のテストは主に `NamingService` を mock する
 固定 commit、公式ドキュメント、設定キーの訂正、未検証項目は、リポジトリの `src/content/raw/zh-cn/dubbo-nacos-runtime-registration.md` と `dubbo-nacos-runtime-registration-correction.md` を参照。このページには非公開アドレス、資格情報、具体的な業務サービス名は含まれない。
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [dubbo-nacos-runtime-registration](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/dubbo-nacos-runtime-registration.md)
 - [dubbo-nacos-runtime-registration-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/dubbo-nacos-runtime-registration-correction.md)
-- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [マイクロサービスデータ所有権：領域 owner を先に決めてから、DB 分割と移行を考える](/blog/legacy/note/zh-cn/microservice-data-ownership/)
+- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)
+- [マイクロサービスデータ所有権：領域 owner を先に決めてから、DB 分割と移行を考える](/blog/legacy/note/ja/microservice-data-ownership/)
 
 研究記録
 1. 元の文書: src/content/note/ja/dubbo-nacos-runtime.md
