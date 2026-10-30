@@ -40,6 +40,7 @@ export function validateTranslations(articles: readonly Article[]) {
   const groups = new Map<string, Set<string>>();
   for (const article of articles) {
     const key = translationKey(article), language = article.lang ?? "zh-CN";
+    if (!["zh-CN", "en", "ja"].includes(language)) throw new Error(`Unsupported article language: ${language}`);
     const languages = groups.get(key) ?? new Set<string>();
     if (languages.has(language)) throw new Error(`Duplicate ${language} translation: ${key}`);
     languages.add(language);
