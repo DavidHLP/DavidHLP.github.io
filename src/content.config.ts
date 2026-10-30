@@ -23,6 +23,7 @@ const blog = defineCollection({
     tags: z.array(text).default([]),
     draft: z.boolean().default(false),
     lang: z.enum(["zh-CN", "en", "ja"]).default("zh-CN"),
+    translationKey: text.optional(),
   }),
 });
 export const collections = { blog };
