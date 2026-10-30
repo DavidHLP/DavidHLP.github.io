@@ -1,0 +1,25 @@
+content/blog/legacy/note/en/hindsight-omp-codex-integration.md
+  s_1f9e8743677ef7::t_01d4396b088dce 268
+content/blog/legacy/note/zh-cn/hindsight-omp-codex-integration.md
+  s_1f9e8743677ef7::t_898a72626b7e97 268
+scripts/check-content.mjs
+  s_1f9e8743677ef7::t_fd47547784a96b 58,105-106
+content/blog/legacy/note/ja/hindsight-omp-codex-integration.md
+  s_1f9e8743677ef7::t_78ac945a54a813 268
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5cba1ec6bd91f1657d0ef19a9fa0dcdafad37b38",
+  "prompts": {},
+  "sessions": {
+    "s_1f9e8743677ef7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c39-1e1b-7d73-9bf2-5a0fc3f2b65d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
