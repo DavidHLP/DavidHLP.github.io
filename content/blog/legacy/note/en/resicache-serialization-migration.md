@@ -129,7 +129,9 @@ Some java.lang, java.time, and java.math types, along with explicitly enumerated
 
 An allowlist is not simply “polymorphism on or off.” It must answer:
 
-`Is this exact fully qualified class name allowed to appear in the cache bytes?`
+```text
+Is this exact fully qualified class name allowed to appear in the cache bytes?
+```
 
 One configuration boundary in the current implementation deserves attention:
 

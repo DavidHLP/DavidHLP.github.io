@@ -129,7 +129,9 @@ java.lang、java.time、java.math の一部 type と、明示列挙された col
 
 allowlist は単なる「polymorphism を on/off」ではない。次に答える必要がある。
 
-`この完全修飾 class name は cache bytes に現れてよいか？`
+```text
+この完全修飾 class name は cache bytes に現れてよいか？
+```
 
 現在の設定には注意すべき境界がある。
 
