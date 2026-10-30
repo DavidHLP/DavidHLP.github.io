@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { markdownToMdast, htmlToHast } from "satteri";
 import { readFile, readdir, mkdtemp, mkdir, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -51,6 +52,84 @@ test("interface language selection validates stored values and preserves source 
 
 const published = await loadContent();
 const content = published;
+test("translations retain canonical sections, examples, tables, references and evidence metadata", async () => {
+  // Migrated source URLs identify each language's immutable original snapshot.
+  const sourceReference = record => record.legacy ? translationKey({ slug: record.source }) : record.source;
+  const structure = async body => {
+    const result = { heading: 0, code: 0, tableRow: 0, prose: "", references: new Set(), articles: new Set(), contracts: new Set(), codeTokens: new Set() };
+    const visit = node => {
+      if (node.type === "text") result.prose += node.value;
+      if (node.type === "code") {
+        const tokens = node.value.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*(\/\/|#|--).*$/gm, "").toLowerCase().match(/[a-z_][a-z0-9_.:-]*|\d+(?:\.\d+)*/g) ?? [];
+        for (const token of tokens) {
+          result.codeTokens.add(token);
+          if (!["text", "mermaid", "plaintext"].includes(node.lang)) result.contracts.add(token);
+        }
+      }
+      if (node.type === "html") visit(htmlToHast(node.value));
+      if (node.type === "element") {
+        if (node.tagName === "pre") { result.code++; return; }
+        if (node.tagName === "code") return;
+        if (/^h[1-6]$/.test(node.tagName)) result.heading++;
+        if (node.tagName === "tr") result.tableRow++;
+        const url = node.properties?.href ?? node.properties?.src;
+        if (typeof url === "string") collectLink(url);
+      }
+      if (node.type in result && typeof result[node.type] === "number") result[node.type]++;
+      if (node.type === "link" || node.type === "image") {
+        collectLink(node.url);
+      }
+      for (const child of node.children ?? []) visit(child);
+    };
+    const collectLink = url => {
+      if (/^https?:/.test(url)) result.references.add(url);
+      const article = url.match(/^\/blog\/(.+?)\/(?:[?#].*)?$/);
+      if (article) result.articles.add(translationKey({ slug: article[1] }));
+    };
+    visit(await markdownToMdast(body));
+    return result;
+  };
+  const sample = await structure("# Real heading\n\n~~~sql\nSELECT 1;\n~~~\n\n    # code, not a heading\n");
+  assert.equal(sample.heading, 1);
+  assert.equal(sample.code, 2);
+  const richText = await structure('<h2>Heading</h2><p>中文</p><a href="https://example.com/source">Source</a>');
+  assert.equal(richText.heading, 1);
+  assert.ok(richText.prose.includes("中文"));
+  assert.ok(richText.references.has("https://example.com/source"));
+  const syntaxCheck = await structure("~~~bash\nnode --check bridge.mjs\n~~~");
+  const startsProcess = await structure("~~~bash\nnode bridge.mjs\n~~~");
+  assert.ok(syntaxCheck.contracts.has("check") && !startsProcess.codeTokens.has("check"));
+  const indentedCheck = await structure("    node --check bridge.mjs\n");
+  const unlabeledCheck = await structure("~~~\nnode --check bridge.mjs\n~~~");
+  assert.ok([indentedCheck, unlabeledCheck].every(example => example.contracts.has("check") && !startsProcess.codeTokens.has("check")));
+  assert.equal(sourceReference({ legacy: {}, source: "https://example.com/v1/en/note.md" }), sourceReference({ legacy: {}, source: "https://example.com/v1/zh-cn/note.md" }));
+  assert.notEqual(sourceReference({ legacy: {}, source: "https://example.com/v2/en/note.md" }), sourceReference({ legacy: {}, source: "https://example.com/v1/zh-cn/note.md" }));
+  const failures = [];
+  for (const canonical of localizedArticles(published.records, "zh-CN")) {
+    const source = await structure(canonical.body);
+    for (const lang of ["en", "ja"]) {
+      const target = published.records.find(record => record.lang === lang && translationKey(record) === translationKey(canonical));
+      const translated = await structure(target.body);
+      if (sourceReference(target) !== sourceReference(canonical)) failures.push(`${target.slug}: stale source`);
+      for (const token of source.contracts) {
+        if (!translated.codeTokens.has(token)) failures.push(`${target.slug}: missing example token ${token}`);
+      }
+      const visibleText = target.title + " " + target.abstract + " " + translated.prose;
+      if (lang === "en" && /\p{Script=Han}/u.test(visibleText)) failures.push(`${target.slug}: untranslated Chinese prose`);
+      if (lang === "ja" && !/[\u3040-\u30ff]/.test(visibleText)) failures.push(`${target.slug}: missing Japanese prose`);
+      for (const key of ["heading", "code", "tableRow"]) {
+        if (translated[key] < source[key]) failures.push(`${target.slug}: ${key} ${translated[key]} < canonical ${source[key]}`);
+      }
+      for (const key of ["references", "articles"]) {
+        for (const item of source[key]) if (!translated[key].has(item)) failures.push(`${target.slug}: missing ${key} ${item}`);
+      }
+      for (const key of ["kind", "status", "sources", "related", "pubDate"]) {
+        if (JSON.stringify(target[key]) !== JSON.stringify(canonical[key])) failures.push(`${target.slug}: stale ${key}`);
+      }
+    }
+  }
+  assert.deepEqual(failures, [], "Structural/source parity requires review; it does not prove semantic translation quality.");
+});
 test("every article has all three languages and switching keeps the same logical article", () => {
   validateTranslations(published.records);
   const chinese = localizedArticles(published.records, "zh-CN");
