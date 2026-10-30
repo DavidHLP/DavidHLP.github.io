@@ -146,6 +146,10 @@ const labels: Record<string, readonly [string, string]> = {
   "拆解、重组与清晰度变化": ["Explode, assemble and clarity changes", "分解・組み立て・透明度の変化"],
   "当前使用完整动画。": ["Full animation is enabled.", "すべてのアニメーションが有効です。"],
   "当前已减少动画。": ["Reduced animation is enabled.", "アニメーションを控えめにしています。"],
+  "开场已跳过": ["Startup skipped", "起動演出を省略"],
+  "阵列波动已关闭": ["Array waves disabled", "配列の揺れを無効化"],
+  "文字滚动已关闭": ["Rolling text disabled", "文字スクロールを無効化"],
+  "3D 已关闭 · 三维模型与渲染资源已释放": ["3D is off · Models and rendering resources released", "3Dはオフ · モデルと描画リソースを解放済み"],
   "预设：完整动画 · 选择会保存在本站": ["Preset: Full animation · Saved on this site", "プリセット：すべて · このサイトに保存されます"],
   "预设：减少动画 · 选择会保存在本站": ["Preset: Reduced animation · Saved on this site", "プリセット：控えめ · このサイトに保存されます"],
   "预设：自定义 · 选择会保存在本站": ["Preset: Custom · Saved on this site", "プリセット：カスタム · このサイトに保存されます"],
@@ -252,6 +256,14 @@ export function translateUiText(value: string, language: UiLanguage): string {
   if (count) return value.replace(text, language === "en" ? `${count[1]} RECORDS FOUND` : `${count[1]} 件の資料`);
   const samples = /^(\d+) 采样$/.exec(text);
   if (samples) return value.replace(text, `${samples[1]} ${language === "en" ? "samples" : "サンプル"}`);
+  const motion = /^当前使用自定义动画（(.+)）。$/.exec(text);
+  if (motion) {
+    const detail = motion[1].split("、").map(part => {
+      const enabled = /^启用 (\d+) 项$/.exec(part);
+      return enabled ? (language === "en" ? `${enabled[1]} enabled` : `${enabled[1]}項目が有効`) : translateUiText(part, language);
+    }).join(language === "en" ? ", " : "、");
+    return value.replace(text, language === "en" ? `Custom animation (${detail}).` : `カスタムアニメーション（${detail}）。`);
+  }
   const quality = /^(超级性能模式已启用 · 画质设置暂被覆盖，关闭后恢复 · )?实际渲染 (\d+ × \d+) · (SMAA|原始抗锯齿) · 纹理 (\d+)×( · 已达到缓冲上限)?$/.exec(text);
   if (quality) return value.replace(text, language === "en"
     ? `${quality[1] ? "Performance mode overrides quality until disabled · " : ""}Rendered ${quality[2]} · ${quality[3] === "SMAA" ? "SMAA" : "Original antialiasing"} · Textures ${quality[4]}×${quality[5] ? " · Buffer limit reached" : ""}`
@@ -265,7 +277,7 @@ export function initUiLanguage() {
   let language: UiLanguage = "zh-CN";
   try { language = normalizeUiLanguage(localStorage.getItem("rhine-language")); } catch {}
   const original = new WeakMap<Node, Map<string, { source: string; translated: string }>>();
-  const excluded = "script, style, template, pre, code, .blog-body, .research-notes, .blog-static article, #selected-title, #column-name, #archive-category, #hover-title, #selected-clearance, .detail-title-cn, .detail-content > h2, .metadata dd, .result-name, #viewer-file";
+  const excluded = "script, style, template, pre, code, .blog-body, .research-notes, .blog-static article, #selected-title, #column-name, #archive-category, #hover-title, #selected-clearance, .detail-title-cn, .detail-content > h2, .metadata > div:not(:last-child) dd, .result-name, #viewer-file";
   function value(node: Node, key: string, current: string, write: (text: string) => void) {
     let fields = original.get(node);
     if (!fields) { fields = new Map(); original.set(node, fields); }
