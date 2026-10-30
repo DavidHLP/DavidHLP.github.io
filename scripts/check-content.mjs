@@ -37,6 +37,7 @@ test("interface language selection validates stored values and preserves source 
   assert.equal(translateUiText("点击切换画质预设", "en"), "Click to change Quality preset");
   assert.equal(translateUiText("返回交互界面 ↗", "en"), "Back to interactive view ↗");
   assert.equal(translateUiText(" / 更新 ", "en"), " / Updated ");
+  assert.equal(translateUiText("FILE X-1149 / INTERNAL DATABASE", "ja"), "資料 X-1149 / 内部データベース");
   for (const item of Object.values(MOTION_LABELS)) {
     for (const text of [item.title, item.description, item.group]) {
       assert.doesNotMatch(translateUiText(text, "en"), /\p{Script=Han}/u);

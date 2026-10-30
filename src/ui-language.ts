@@ -9,6 +9,8 @@ const labels: Record<string, readonly [string, string, string?]> = {
   "ACCESS": ["ACCESS", "アクセス", "访问权限"],
   "CONNECTED": ["CONNECTED", "接続済み", "已连接"],
   "SELECTING FILES...": ["SELECTING FILES...", "資料を選択中…", "正在选择档案…"],
+  "CONFIDENTIALITY:": ["CONFIDENTIALITY:", "機密区分:", "保密级别:"],
+  "GENERAL BUSINESS USE": ["GENERAL BUSINESS USE", "一般業務用", "一般业务使用"],
   "BOOT SEQUENCE": ["BOOT SEQUENCE", "起動演出", "启动流程"],
   "SELECTION WAVE": ["SELECTION WAVE", "選択時の波", "选档波浪"],
   "IDLE MOTION": ["IDLE MOTION", "待機中の動き", "待机起伏"],
@@ -326,6 +328,8 @@ export function translateUiText(value: string, language: UiLanguage): string {
   if (count) return value.replace(text, language === "zh-CN" ? `找到 ${count[1]} 份档案` : language === "en" ? `${count[1]} RECORDS FOUND` : `${count[1]} 件の資料`);
   const prefixed = /^([/／]\s+)(.+)$/.exec(text);
   if (prefixed) return value.replace(text, prefixed[1] + translateUiText(prefixed[2], language));
+  const modelFile = /^FILE (X-\d+) \/ INTERNAL DATABASE$/.exec(text);
+  if (modelFile) return value.replace(text, language === "zh-CN" ? `档案 ${modelFile[1]} / 内部数据库` : language === "ja" ? `資料 ${modelFile[1]} / 内部データベース` : text);
   if (language === "zh-CN") return value;
   if (text.startsWith("点击切换")) return value.replace(text, language === "en" ? `Click to change ${translateUiText(text.slice(4), language)}` : `${translateUiText(text.slice(4), language)}をクリックして切り替え`);
   const wallpaperQuality = "即时生效，仅限当前运行；长期设置请在 Wallpaper Engine 中调整。";
@@ -356,7 +360,7 @@ export function initUiLanguage() {
   let language: UiLanguage = "zh-CN";
   try { language = normalizeUiLanguage(localStorage.getItem("rhine-language")); } catch {}
   const original = new WeakMap<Node, Map<string, { source: string; translated: string }>>();
-  const excluded = 'script, style, template, pre, code, [translate="no"], .blog-body, .research-notes, #selected-title, #column-name, #archive-category, #hover-title, #selected-clearance, .detail-title-cn, .detail-content > h2, .metadata > div:not(:last-child) dd, .result-name, .result-row > span:nth-child(2), [data-filter]:not([data-filter="全部档案"]), #viewer-file';
+  const excluded = 'script, style, template, pre, code, [translate="no"], .blog-body, .research-notes, #selected-title, #column-name, #archive-category, #hover-title, #selected-clearance, .detail-title-cn, .detail-content > h2, .metadata > div:not(:last-child) dd, .result-name, .result-row > span:nth-child(2), [data-filter]:not([data-filter="全部档案"]), #viewer-title';
   function value(node: Node, key: string, current: string, write: (text: string) => void) {
     let fields = original.get(node);
     if (!fields) { fields = new Map(); original.set(node, fields); }
