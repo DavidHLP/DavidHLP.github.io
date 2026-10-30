@@ -103,6 +103,10 @@
 /* Portrait keeps the specimen above an independently scrollable document. */
 [data-layout="portrait"] .brand { transform: scale(.42) !important; }
 [data-layout="portrait"] .system-nav { gap: 8px; }
+[data-layout="portrait"] .system-nav { top: calc(var(--top-edge) + 72px); left: var(--edge); justify-content: flex-end; }
+[data-layout="portrait"] .system-nav :is(.nav-saved-label, .nav-theme-label) { display: none; }
+[data-layout="portrait"] .system-nav [data-action="toggle-theme"] { min-width: 44px; }
+[data-layout="portrait"] .nav-language { width: 72px; font-size: 11px; }
 [data-layout="portrait"] .system-nav button[data-action="search"] { font-size: 0; gap: 0; }
 [data-layout="portrait"] .system-nav button[data-action="saved"] { font-size: 10px; }
 [data-layout="portrait"] .archive-callout { left: var(--edge); top: auto; bottom: 205px; width: calc(100% - 2 * var(--edge)); }
@@ -111,7 +115,7 @@
 [data-layout="portrait"] .archive-navigation { bottom: 124px; left: 50%; transform: translateX(-50%); gap: 6px; }
 [data-layout="portrait"] .file-ticks button { width: 27px; }
 [data-layout="portrait"] .file-ticks button:before { left: 12px; }
-[data-layout="portrait"] .back-button { top: 77px; }
+[data-layout="portrait"] .back-button { top: calc(var(--top-edge) + 132px); }
 [data-layout="portrait"] .detail-content { left: var(--edge); right: var(--edge); width: auto; top: 54%; bottom: 40px; padding-top: 12px; border-top: 1px solid #aaa496; }
 [data-layout="portrait"] .object-caption { left: var(--edge); right: var(--edge); bottom: 46%; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 [data-layout="portrait"] .object-caption > div { display: none; }

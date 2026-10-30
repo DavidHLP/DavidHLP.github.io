@@ -16,6 +16,7 @@ export interface ArchiveRecord {
   slug?: string;
   body?: string;
   tags?: string[];
+  lang?: string;
 }
 
 // Astro supplies the published Markdown collection before the client starts.
