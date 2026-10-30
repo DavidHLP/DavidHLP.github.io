@@ -60,7 +60,18 @@
       "description": "Establishes an order for determining data ownership with service-private data, bounded context, saga, transactional outbox, and expand-migrate-contract, so a shared physical database, a shared schema, and service autonomy are not conflated.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "microservice-domain-data-ownership",
+    "microservice-domain-data-ownership-correction"
+  ],
+  "related": [
+    "database-schema-drift",
+    "multi-service-readiness",
+    "dubbo-nacos-runtime"
+  ]
 }
 ---
 

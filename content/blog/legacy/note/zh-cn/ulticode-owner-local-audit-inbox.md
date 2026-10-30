@@ -62,7 +62,17 @@
       "description": "从 Auth/App 本地审计 outbox、owner-specific Redis Stream 到 Admin consumer inbox，解释跨 owner 审计如何处理双写、重复投递、租约恢复与最终一致性。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-reliability-core-f801a1076"
+  ],
+  "related": [
+    "ulticode",
+    "ulticode-owner-and-facts",
+    "ulticode-outbox-redis-streams"
+  ]
 }
 ---
 

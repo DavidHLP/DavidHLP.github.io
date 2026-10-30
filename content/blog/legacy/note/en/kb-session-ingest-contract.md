@@ -55,7 +55,15 @@
       "description": "Pins the minimal contract of the KB session ingestion pipeline at commit c0ae74e: identity/content-hash-driven incremental reuse, no reuse of failed records, redaction v19, internal control-plane filtering, partial checkpoint resume, and immutable raw manifest validation, and clarifies placeholder semantics and redaction boundaries.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "kb-ingest-pipeline-v19"
+  ],
+  "related": [
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

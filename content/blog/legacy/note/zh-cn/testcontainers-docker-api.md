@@ -56,7 +56,17 @@
       "description": "说明 Testcontainers 1.20.6 如何将未知 Docker API 版本回退到 1.32、为什么 DOCKER_API_VERSION 不应套用 Docker CLI 经验，以及如何从最早的 400 错误区分版本不兼容和 Docker 环境缺失。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "testcontainers-docker-api-negotiation",
+    "testcontainers-docker-api-negotiation-correction"
+  ],
+  "related": [
+    "containerd-tls-troubleshooting",
+    "multi-service-readiness"
+  ]
 }
 ---
 

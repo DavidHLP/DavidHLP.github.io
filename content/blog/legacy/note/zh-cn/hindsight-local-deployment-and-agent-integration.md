@@ -54,7 +54,17 @@
       "description": "历史巨石页面已按 LLM-Wiki 原子化原则拆分为部署、接入与排障 3 个独立正典知识页。本页作为归档导引保留。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "deprecated",
+  "sources": [
+    "hindsight-local-deployment-and-agent-integration"
+  ],
+  "related": [
+    "hindsight-local-deployment",
+    "hindsight-omp-codex-integration",
+    "hindsight-troubleshooting"
+  ]
 }
 ---
 

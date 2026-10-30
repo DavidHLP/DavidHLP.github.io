@@ -58,7 +58,15 @@
       "description": "解释 UltiCode 如何用数据库 outbox、Redis Streams 原子投递、重试/死信和 PEL 回收，把判题消息从一次调用变成可恢复状态。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

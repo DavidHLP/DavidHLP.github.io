@@ -54,7 +54,17 @@
       "description": "从资源所有权出发解释 AutoCloseable 与 try-with-resources 的关闭顺序、主异常和 suppressed 异常语义，并划定 close 幂等与失败处理边界。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-java-auto-closeable"
+  ],
+  "related": [
+    "java-atomic-boolean",
+    "java-null-value",
+    "java-internship-interview-blog-polished"
+  ]
 }
 ---
 

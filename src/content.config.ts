@@ -23,6 +23,10 @@ const blog = defineCollection({
     tags: z.array(text).default([]),
     draft: z.boolean().default(false),
     lang: z.enum(["zh-CN", "en", "ja"]).default("zh-CN"),
+    kind: z.enum(["concept", "entity", "synthesis"]).optional(),
+    status: z.enum(["active", "provisional", "deprecated"]).optional(),
+    sources: z.array(text).optional(),
+    related: z.array(text).optional(),
     legacy: z.object({ path: text, revision: text, metadata: z.record(z.string(), z.unknown()) }).optional(),
   }),
 });

@@ -54,7 +54,15 @@
       "description": "MCP 2026-07-28 modern 逐请求 _meta 与 legacy initialize 握手的边界及错误码，以及 codebase-memory-mcp v0.10.2 的图搜索工作流：图结果不等于完整性证明，负面结论必须回到 coverage 与源码。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "mcp-codebase-memory-workflow"
+  ],
+  "related": [
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

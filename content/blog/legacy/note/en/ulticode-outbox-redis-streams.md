@@ -58,7 +58,15 @@
       "description": "How UltiCode uses a database outbox, atomic Redis Streams delivery, retries/dead letters, and PEL recovery to turn a judging message into recoverable state.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

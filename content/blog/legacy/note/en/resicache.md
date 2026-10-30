@@ -58,7 +58,19 @@
       "description": "Uses the fixed commit README as evidence to summarize ResiCache's positioning, handler order, protection defaults, and serializer-envelope migration cost, distinguishing declared from unverified capabilities.",
       "toc": true
     }
-  }
+  },
+  "kind": "entity",
+  "status": "active",
+  "sources": [
+    "resicache-project-overview",
+    "resicache-observer-nested-execution-contract"
+  ],
+  "related": [
+    "resicache-observer-nested-execution",
+    "java-null-value",
+    "redis-business-patterns",
+    "redis-jackson-java-time"
+  ]
 }
 ---
 

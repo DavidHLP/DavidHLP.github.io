@@ -57,7 +57,15 @@
       "description": "公開 ResiCache の固定コミットから、observer ライフサイクル、ロック内 fragment、per-call scope token、ThreadLocal スナップショット分離の境界を抽出し、ネスト実行での hook の二重発火や並行状態の汚染を避ける。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "resicache-observer-nested-execution-contract"
+  ],
+  "related": [
+    "redis-jackson-java-time"
+  ]
 }
 ---
 

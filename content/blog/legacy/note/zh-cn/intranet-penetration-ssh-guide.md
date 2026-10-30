@@ -59,7 +59,16 @@
       "description": "以连接方向、暴露面、控制平面、数据平面和故障恢复比较 Cloudflare Tunnel、Tailscale 与 FRP，并提炼移动端限制、端口语义和 systemd/linger 的可验证边界。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-intranet-penetration-ssh-guide"
+  ],
+  "related": [
+    "containerd-tls-troubleshooting",
+    "mysql-performance-troubleshooting"
+  ]
 }
 ---
 

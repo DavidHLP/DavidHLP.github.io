@@ -54,7 +54,17 @@
       "description": "キャッシュ値の version、Redis Lua CAS、通常の miss 経路を使い、古い非同期 task が新しい cache value を変更しないようにする ResiCache の方法。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "resicache-engineering-highlights-2954fff",
+    "resicache-project-overview"
+  ],
+  "related": [
+    "resicache",
+    "redis-business-patterns"
+  ]
 }
 ---
 

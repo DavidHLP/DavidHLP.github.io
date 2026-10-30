@@ -56,7 +56,16 @@
       "description": "A synthesis of Enhanced UISA and the plugin-lifecycle source, reorganized around owner/boundary, sync protocol, reliability and idempotency, heterogeneous nodes, failure recovery, and trade-offs rather than an architecture-blog sequence. Scale and thresholds remain source assumptions, not production promises.",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "legacy-uisa-architecture-design",
+    "legacy-plugin-lifecycle-management"
+  ],
+  "related": [
+    "plugin-lifecycle-management"
+  ]
 }
 ---
 

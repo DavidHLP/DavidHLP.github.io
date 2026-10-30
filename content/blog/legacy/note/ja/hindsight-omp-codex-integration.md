@@ -56,7 +56,17 @@
       "description": "OMP と Codex が Hindsight メモリへ統合アクセスするための FastMCP stdio ブリッジ状態機械、Git ルート適応型の動的 Bank ルーティング、両クライアントの設定規約を解説する。",
       "toc": true
     }
-  }
+  },
+  "kind": "entity",
+  "status": "active",
+  "sources": [
+    "hindsight-local-deployment-and-agent-integration"
+  ],
+  "related": [
+    "hindsight-local-deployment",
+    "hindsight-troubleshooting",
+    "omp-config-and-rules-guide"
+  ]
 }
 ---
 

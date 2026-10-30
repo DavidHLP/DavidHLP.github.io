@@ -54,7 +54,17 @@
       "description": "从 ResiCache 的加载路径分析 single-flight、分布式锁、double-check 和失败结果建模分别解决什么问题，以及它们不能保证什么。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "resicache-engineering-highlights-2954fff",
+    "resicache-project-overview"
+  ],
+  "related": [
+    "resicache",
+    "redis-business-patterns"
+  ]
 }
 ---
 

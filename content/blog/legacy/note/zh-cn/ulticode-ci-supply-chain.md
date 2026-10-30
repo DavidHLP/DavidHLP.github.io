@@ -60,7 +60,15 @@
       "description": "提炼 UltiCode 如何将 zero-infra static contract、分层验证、Trivy、SBOM、provenance 与 Cosign 组织成可追溯的交付门禁。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

@@ -57,7 +57,17 @@
       "description": "論理/物理モデル、アーキテクチャ、テーブル設計と運用を収束し、RDBMS とのトレードオフを明確化。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-hbase-foundation"
+  ],
+  "related": [
+    "spark-bigdata-ecosystem",
+    "database-schema-drift",
+    "mysql-storage-and-deadlock"
+  ]
 }
 ---
 

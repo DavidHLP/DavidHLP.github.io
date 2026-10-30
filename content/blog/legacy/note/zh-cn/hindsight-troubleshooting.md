@@ -56,7 +56,17 @@
       "description": "归纳 Hindsight 本地部署与 Agent 集成中的 7 大典型失效模式（假包、权限、超时、路由、Session丢失、工作区漂移）与排查矩阵。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "hindsight-local-deployment-and-agent-integration"
+  ],
+  "related": [
+    "hindsight-local-deployment",
+    "hindsight-omp-codex-integration",
+    "omp-hook-extension-guide"
+  ]
 }
 ---
 

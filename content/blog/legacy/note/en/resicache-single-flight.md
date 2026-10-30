@@ -54,7 +54,17 @@
       "description": "What single-flight, distributed locking, double-checking, and failure-result modeling each solve in ResiCache's load path—and what they cannot guarantee.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "resicache-engineering-highlights-2954fff",
+    "resicache-project-overview"
+  ],
+  "related": [
+    "resicache",
+    "redis-business-patterns"
+  ]
 }
 ---
 

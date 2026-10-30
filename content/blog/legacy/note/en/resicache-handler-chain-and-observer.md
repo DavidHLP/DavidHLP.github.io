@@ -57,7 +57,18 @@
       "description": "How ResiCache's current line uses HandlerResult, handler snapshots, in-lock fragments, and observer scope tokens to preserve control-flow and lifecycle boundaries in a cache responsibility chain.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "resicache-engineering-highlights-2954fff",
+    "resicache-observer-nested-execution-contract",
+    "resicache-project-overview"
+  ],
+  "related": [
+    "resicache",
+    "resicache-observer-nested-execution"
+  ]
 }
 ---
 

@@ -57,7 +57,18 @@
       "description": "以缓存一致性、锁正确性、消息语义为锚，收敛 Redis 在业务场景中的模式与反模式。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-redis-business"
+  ],
+  "related": [
+    "redis-persistence-principle",
+    "java-null-value",
+    "redis-jackson-java-time",
+    "resicache-observer-nested-execution"
+  ]
 }
 ---
 

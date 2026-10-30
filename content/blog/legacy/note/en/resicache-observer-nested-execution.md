@@ -57,7 +57,15 @@
       "description": "Distills from a public ResiCache fixed commit the boundaries of the observer lifecycle, lock-held fragments, per-call scope tokens, and ThreadLocal snapshot isolation, to avoid nested execution re-firing hooks or polluting concurrent state.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "resicache-observer-nested-execution-contract"
+  ],
+  "related": [
+    "redis-jackson-java-time"
+  ]
 }
 ---
 

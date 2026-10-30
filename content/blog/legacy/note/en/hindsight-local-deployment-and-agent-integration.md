@@ -65,7 +65,17 @@
       "description": "Records the fully local deployment of the Vectorize Hindsight memory engine (AMD ROCm GPU LLM + CPU Embedding), plus the complete implementation, deep troubleshooting, and root-cause investigation guide for configuring adaptive multi-project dynamically routed memory for OMP and Codex.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "hindsight-local-deployment-and-agent-integration"
+  ],
+  "related": [
+    "omp-config-and-rules-guide",
+    "mcp-codebase-memory-workflow",
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

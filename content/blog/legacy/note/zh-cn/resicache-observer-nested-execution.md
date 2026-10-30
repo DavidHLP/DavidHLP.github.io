@@ -57,7 +57,16 @@
       "description": "从公开 ResiCache 固定提交提炼 observer 生命周期、锁内 fragment、per-call scope token 与 ThreadLocal 快照隔离的边界，避免嵌套执行重复 hook 或污染并发状态。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "resicache-observer-nested-execution-contract"
+  ],
+  "related": [
+    "resicache",
+    "redis-jackson-java-time"
+  ]
 }
 ---
 

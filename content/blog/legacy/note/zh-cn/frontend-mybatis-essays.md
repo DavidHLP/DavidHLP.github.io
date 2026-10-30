@@ -56,7 +56,17 @@
       "description": "历史随笔收纳袋已溶解。零散前端、MyBatis 与环境排障内容保留在不可变 raw 快照中，主知识库不再维护此综合页。",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "deprecated",
+  "sources": [
+    "ingest-frontend-essays"
+  ],
+  "related": [
+    "java-concurrency-deepdive",
+    "spring-cloud-and-boot",
+    "intranet-penetration-ssh-guide"
+  ]
 }
 ---
 

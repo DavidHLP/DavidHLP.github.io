@@ -56,7 +56,17 @@
       "description": "基于 Apache Dubbo 3.3.6 与 Nacos 官方资料，说明接口级/应用级注册名、metadata、group/version 匹配、启动检查和真实 Nacos smoke test 的最小边界。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "dubbo-nacos-runtime-registration",
+    "dubbo-nacos-runtime-registration-correction"
+  ],
+  "related": [
+    "multi-service-readiness",
+    "microservice-data-ownership"
+  ]
 }
 ---
 

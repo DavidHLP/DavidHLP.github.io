@@ -58,7 +58,18 @@
       "description": "Anchors on service discovery to distill call-chain contracts.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-spring-cloud"
+  ],
+  "related": [
+    "dubbo-nacos-runtime",
+    "multi-service-readiness",
+    "microservice-data-ownership",
+    "containerd-tls-troubleshooting"
+  ]
 }
 ---
 

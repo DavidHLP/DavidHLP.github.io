@@ -56,7 +56,17 @@
       "description": "归纳 Docker 镜像分层、常用命令、数据卷、网络与 Compose 的适用条件与边界。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-docker-fundamentals"
+  ],
+  "related": [
+    "containerd-tls-troubleshooting",
+    "multi-service-readiness",
+    "intranet-penetration-ssh-guide"
+  ]
 }
 ---
 

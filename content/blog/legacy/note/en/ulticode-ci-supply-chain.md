@@ -60,7 +60,15 @@
       "description": "How UltiCode organizes zero-infra static contracts, layered verification, Trivy, SBOM, provenance, and Cosign into traceable delivery gates.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

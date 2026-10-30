@@ -30,7 +30,9 @@
     "@astrojs/sitemap": "3.7.4",
     "yaml": "2.9.1",
     "@kitlangton/rolling-number": "0.4.1",
-    "three": "^0.183.0"
+    "three": "^0.183.0",
+    "mermaid": "^11.17.2",
+    "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
     "prettier-plugin-astro": "1.1.0",

@@ -56,7 +56,18 @@
       "description": "Explains why a cache must distinguish a missing key from a business null, how NullValue prevents repeated negative lookups, and where singleton and serialization semantics stop.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-java-null-value"
+  ],
+  "related": [
+    "java-online-performance-debug",
+    "java-auto-closeable",
+    "java-internship-interview-blog-polished",
+    "redis-business-patterns"
+  ]
 }
 ---
 

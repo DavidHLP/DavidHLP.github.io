@@ -67,7 +67,20 @@
       "description": "用可复用的分层模型解释 OMP 配置：modelRoles 负责角色默认路由，agentModelOverrides 负责局部覆盖，fallbackChains 负责故障后的恢复；同时划清 Headroom、规则发现与模型选择的边界，并给出按层验证的顺序。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-omp-config-and-rules-guide",
+    "omp-17-2-15-runtime-contract",
+    "omp-17-2-15-runtime-contract-correction"
+  ],
+  "related": [
+    "headroom-single-port-evolution",
+    "omp-headroom-persistence",
+    "omp-hook-extension-guide",
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

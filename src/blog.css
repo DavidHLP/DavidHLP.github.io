@@ -1,4 +1,5 @@
 @import "./fonts.css";
+.mermaid svg { max-width: 100%; height: auto; }
 .interactive #blog-static { display: none; }
 html:not(.interactive) #viewport { display: none; }
 html:not(.interactive) body { overflow: auto; margin: 0; background: #e8e5e1; }

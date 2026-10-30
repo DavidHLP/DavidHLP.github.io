@@ -54,7 +54,17 @@
       "description": "说明何时需要原子布尔状态，compareAndSet 如何把检查与切换合并，以及 CAS 在多变量一致性、高竞争和复杂协作中的边界。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-java-atomic-boolean"
+  ],
+  "related": [
+    "java-auto-closeable",
+    "java-online-performance-debug",
+    "java-internship-interview-blog-polished"
+  ]
 }
 ---
 

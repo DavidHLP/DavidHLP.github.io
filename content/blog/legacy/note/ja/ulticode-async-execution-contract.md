@@ -58,7 +58,15 @@
       "description": "UltiCode が同期プレビューと非同期実行で同じコントラクトを共有し、冪等キー、SHA-256 フィンガープリント、状態機械、メモリ上限で長時間タスクを制約する方法。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

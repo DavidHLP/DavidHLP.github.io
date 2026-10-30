@@ -55,7 +55,15 @@
       "description": "MCP 2026-07-28 modern の request 単位 _meta と legacy initialize ハンドシェイクの境界とエラーコード、および codebase-memory-mcp v0.10.2 のグラフ検索ワークフロー。グラフ結果は完全性の証明ではなく、否定的結論は coverage とソースに立ち戻らなければならない。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "mcp-codebase-memory-workflow"
+  ],
+  "related": [
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

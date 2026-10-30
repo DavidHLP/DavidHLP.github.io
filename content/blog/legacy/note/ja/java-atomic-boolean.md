@@ -55,7 +55,17 @@
       "description": "原子ブール状態が必要な条件、compareAndSet が検査と遷移をまとめる仕組み、複数フィールドの整合性や高競合での CAS の限界を整理します。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-java-atomic-boolean"
+  ],
+  "related": [
+    "java-auto-closeable",
+    "java-online-performance-debug",
+    "java-internship-interview-blog-polished"
+  ]
 }
 ---
 

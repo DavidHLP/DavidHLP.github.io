@@ -1,14 +1,14 @@
 ---
 {
   "archiveId": "X-1014",
-  "title": "<span class=\"font-mono text-xs text-weak uppercase tracking-widest mr-2\">[ SEC 01 ]</span> 实习经历",
+  "title": "贺恋棚",
   "en": "SITE INFORMATION",
   "category": "站点随笔",
   "department": "站点信息",
   "date": "2026-10-05",
   "lead": "DavidHLPL",
   "clearance": "PUBLIC",
-  "abstract": "<span class=\"font-mono text-xs text-weak uppercase tracking-widest mr-2\">[ SEC 01 ]</span> 实习经历 · src/content/information/zh-cn/introduction.md",
+  "abstract": "贺恋棚 · src/content/information/zh-cn/introduction.md",
   "findings": [
     "Original document: src/content/information/zh-cn/introduction.md",
     "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64"

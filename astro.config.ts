@@ -3,6 +3,7 @@ import sitemap from "@astrojs/sitemap";
 import { existsSync, readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import site from "./content/site.json";
+import remarkMermaid from "./scripts/remark-mermaid.mjs";
 
 const models = ["archive-cassette", "archive-assembly"].map(name => {
   const source = readFileSync(`public/assets/${name}.glb`);
@@ -15,6 +16,7 @@ export default defineConfig({
   trailingSlash: "always",
   build: { assets: "assets" },
   integrations: [sitemap()],
+  markdown: { remarkPlugins: [remarkMermaid] },
   vite: {
     define: {
       __RHINE_MODELS__: JSON.stringify(Object.fromEntries(models.map(model => [model.key, model.fileName]))),

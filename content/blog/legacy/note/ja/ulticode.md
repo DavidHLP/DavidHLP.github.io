@@ -62,7 +62,19 @@
       "description": "固定コミットの README/CONTEXT を証拠として、UltiCode の owner 分割、port/projection による深いモジュール構造、ジャッジトランザクション不変条件、移行期の互換 seam を整理し、アーキテクチャ収束中の不確実性を明示する。",
       "toc": true
     }
-  }
+  },
+  "kind": "entity",
+  "status": "provisional",
+  "sources": [
+    "ulticode-project-context"
+  ],
+  "related": [
+    "microservice-data-ownership",
+    "dubbo-nacos-runtime",
+    "jjwt-013-security-api",
+    "multi-service-readiness",
+    "database-schema-drift"
+  ]
 }
 ---
 

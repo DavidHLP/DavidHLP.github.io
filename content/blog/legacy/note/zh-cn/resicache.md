@@ -65,7 +65,20 @@
       "description": "以 ResiCache 当前 main 的源码与边界测试为证据，提炼责任链、single-flight、版本化提前过期、白名单序列化和 observer 生命周期五个工程亮点，并明确与生产性能结论的距离。",
       "toc": true
     }
-  }
+  },
+  "kind": "entity",
+  "status": "provisional",
+  "sources": [
+    "resicache-engineering-highlights-2954fff",
+    "resicache-project-overview",
+    "resicache-observer-nested-execution-contract"
+  ],
+  "related": [
+    "resicache-observer-nested-execution",
+    "java-null-value",
+    "redis-business-patterns",
+    "redis-jackson-java-time"
+  ]
 }
 ---
 

@@ -62,7 +62,18 @@
       "description": "Treats an OMP Hook as an event extension at a tool decision point: sendMessage supplies a soft nudge without blocking, a hard result can reject a call, and setStatus bridges state into the UI. Includes API boundaries, mock and live-session checks, and the explicit warning that a suggestion is not a security boundary.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-omp-hook-extension-guide"
+  ],
+  "related": [
+    "headroom-single-port-evolution",
+    "omp-config-and-rules-guide",
+    "omp-headroom-persistence",
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

@@ -56,7 +56,16 @@
       "description": "Enhanced UISA とプラグインライフサイクルの raw を、owner/boundary、同期プロトコル、信頼性と冪等性、異種ノード、障害復旧、trade-offs の順に総合する。規模と閾値は本番保証ではなく、ソースの仮定として扱う。",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "legacy-uisa-architecture-design",
+    "legacy-plugin-lifecycle-management"
+  ],
+  "related": [
+    "plugin-lifecycle-management"
+  ]
 }
 ---
 

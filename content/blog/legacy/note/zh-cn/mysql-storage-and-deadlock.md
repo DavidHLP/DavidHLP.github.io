@@ -52,7 +52,17 @@
       "description": "区分存储引擎能力与死锁检测路径，提供存储选型与排障的最小判断。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-mysql-storage"
+  ],
+  "related": [
+    "mysql-performance-troubleshooting",
+    "database-schema-drift",
+    "multi-service-readiness"
+  ]
 }
 ---
 

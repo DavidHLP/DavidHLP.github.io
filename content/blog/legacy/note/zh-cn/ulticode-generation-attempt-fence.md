@@ -58,7 +58,15 @@
       "description": "用 UltiCode 的 generation、attemptId、租约和条件更新解释如何防止重判、超时或旧 Worker 的结果覆盖新状态。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

@@ -59,7 +59,16 @@
       "description": "Why an expiry time alone is insufficient, and how UltiCode's fenced_job_leases and reconciliation-run writes invalidate an old executor at the database boundary.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-reliability-core-f801a1076"
+  ],
+  "related": [
+    "ulticode",
+    "ulticode-generation-attempt-fence"
+  ]
 }
 ---
 

@@ -66,7 +66,18 @@
       "description": "A reusable model for OMP configuration layers: modelRoles selects a role default, agentModelOverrides supplies a local exception, and fallbackChains recovers after failure; the page also separates Headroom, rule discovery, and model selection and gives an ordered validation method.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-omp-config-and-rules-guide"
+  ],
+  "related": [
+    "headroom-single-port-evolution",
+    "omp-headroom-persistence",
+    "omp-hook-extension-guide",
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

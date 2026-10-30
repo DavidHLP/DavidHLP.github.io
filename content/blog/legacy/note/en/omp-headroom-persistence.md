@@ -68,7 +68,20 @@
       "description": "Synthesizes Headroom route persistence when OMP rewrites runtime model caches: Named Profiles isolate intent and credentials, an external declaration can preserve route intent, model_cache remains rebuildable derived state, and the legacy reconciler is limited to isolated migration recovery. Current wrapper lifecycle and version dependencies are explicit.",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "legacy-omp-headroom-persistence",
+    "legacy-headroom-single-port-evolution",
+    "legacy-omp-config-and-rules-guide"
+  ],
+  "related": [
+    "headroom-single-port-evolution",
+    "omp-config-and-rules-guide",
+    "omp-hook-extension-guide",
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

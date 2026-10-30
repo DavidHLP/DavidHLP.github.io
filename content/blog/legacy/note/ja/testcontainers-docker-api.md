@@ -57,7 +57,17 @@
       "description": "Testcontainers 1.20.6 が未知の Docker API バージョンを 1.32 にフォールバックする仕組み、DOCKER_API_VERSION に Docker CLI の経験を当てはめるべきでない理由、そして最も早い 400 エラーからバージョン非互換と Docker 環境の欠落を区別する方法を説明する。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "testcontainers-docker-api-negotiation",
+    "testcontainers-docker-api-negotiation-correction"
+  ],
+  "related": [
+    "containerd-tls-troubleshooting",
+    "multi-service-readiness"
+  ]
 }
 ---
 

@@ -14,6 +14,7 @@ import "./responsive.css";
 import { viewportLayout, openingLayout } from "./viewport-layout";
 import { assetUrl } from "./asset-url";
 import { postPath } from "./blog-path";
+import { renderDiagrams } from "./diagrams";
 import { archiveTickWindow, persistSaved, recentRecords, restoreArticleHash, syncArticleMetadata, visibleSavedCount } from "./blog-client";
 import { initPwa, pwaSettingsMarkup } from "./pwa";
 import { createRollingNumber, createRollingText } from "@kitlangton/rolling-number";
@@ -657,6 +658,7 @@ function setTab(tab: string, sound = true) {
   $("#tab-panel").scrollTop = 0;
   pendingArticleHash = tab === "overview" && Boolean(location.hash);
   documentDecryption.refresh();
+  if (tab === "overview") void renderDiagrams($("#tab-panel")).then(() => documentDecryption.refresh()).catch(console.error);
   if (sound) {
     tabTransition.reveal($("#tab-panel"), !motionActive("surfaceTransitions"));
     audio.play("ui-tick");

@@ -54,7 +54,17 @@
       "description": "从 ResiCache 的安全反序列化和迁移引擎分析，为什么 wire format、类型信任和存量数据迁移必须一起设计。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "resicache-engineering-highlights-2954fff",
+    "resicache-project-overview"
+  ],
+  "related": [
+    "resicache",
+    "redis-jackson-java-time"
+  ]
 }
 ---
 

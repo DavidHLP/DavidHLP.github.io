@@ -57,7 +57,18 @@
       "description": "从 ResiCache 当前主线分析 HandlerResult、handler snapshot、锁内 fragment 与 observer scope token 如何共同保持缓存责任链的控制流和生命周期边界。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "resicache-engineering-highlights-2954fff",
+    "resicache-observer-nested-execution-contract",
+    "resicache-project-overview"
+  ],
+  "related": [
+    "resicache",
+    "resicache-observer-nested-execution"
+  ]
 }
 ---
 

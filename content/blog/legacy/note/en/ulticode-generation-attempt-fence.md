@@ -58,7 +58,15 @@
       "description": "How UltiCode uses generations, attemptIds, leases, and conditional updates to stop rejudges, timeouts, or old workers from overwriting newer state.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

@@ -55,7 +55,17 @@
       "description": "バッチ/ストリームエンジンと Spark 実行モードを比較。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-spark-ecosystem"
+  ],
+  "related": [
+    "hbase-foundation-and-ops",
+    "multi-service-readiness",
+    "containerd-tls-troubleshooting"
+  ]
 }
 ---
 

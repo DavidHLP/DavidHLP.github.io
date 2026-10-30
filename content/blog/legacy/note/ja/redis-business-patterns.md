@@ -58,7 +58,18 @@
       "description": "一貫性・排他・メッセージ意味を軸に再利用可能なビジネスパターンを蒸留。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-redis-business"
+  ],
+  "related": [
+    "redis-persistence-principle",
+    "java-null-value",
+    "redis-jackson-java-time",
+    "resicache-observer-nested-execution"
+  ]
 }
 ---
 

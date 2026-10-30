@@ -59,7 +59,16 @@
       "description": "从 UltiCode 的 fenced_job_leases 和 reconciliation run 写入路径出发，说明为什么只有租约过期时间还不够，以及 fence token 如何让旧执行者在数据库门口失效。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-reliability-core-f801a1076"
+  ],
+  "related": [
+    "ulticode",
+    "ulticode-generation-attempt-fence"
+  ]
 }
 ---
 

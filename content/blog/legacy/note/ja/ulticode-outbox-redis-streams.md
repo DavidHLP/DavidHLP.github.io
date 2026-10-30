@@ -58,7 +58,15 @@
       "description": "データベース outbox、Redis Streams の atomic delivery、retry/dead letter、PEL 回収によって、判定メッセージを復旧可能な状態へ変える UltiCode の方法。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

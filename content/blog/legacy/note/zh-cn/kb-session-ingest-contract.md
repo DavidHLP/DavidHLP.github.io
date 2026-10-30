@@ -54,7 +54,15 @@
       "description": "固定提交 c0ae74e 中 KB 会话摄入管道的最小契约：身份/内容哈希驱动增量复用、失败记录不复用、redaction v19、内部控制面过滤、partial checkpoint 断点续跑与 raw manifest 不可变校验，并澄清占位符语义与脱敏边界。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "kb-ingest-pipeline-v19"
+  ],
+  "related": [
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

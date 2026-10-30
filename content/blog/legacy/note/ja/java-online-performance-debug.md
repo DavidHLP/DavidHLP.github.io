@@ -65,7 +65,17 @@
       "description": "Java 本番性能障害を、症状・証拠・スレッド/GC/コード特定・可逆的な止血と復旧の最小判断木に圧縮し、再起動やコマンド一覧を根因分析の代わりにしない方法を示します。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-java-online-performance-debug"
+  ],
+  "related": [
+    "java-null-value",
+    "java-atomic-boolean",
+    "java-internship-interview-blog-polished"
+  ]
 }
 ---
 

@@ -60,7 +60,17 @@
       "description": "UltiCode Core の owner-context manager が opt-in、allowlist、起動上限、close-once handoff を使い、modular monolith を可逆な topology testbed に限定する方法。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-reliability-core-f801a1076"
+  ],
+  "related": [
+    "ulticode",
+    "ulticode-owner-and-facts",
+    "ulticode-generation-attempt-fence"
+  ]
 }
 ---
 

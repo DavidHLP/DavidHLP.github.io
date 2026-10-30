@@ -56,7 +56,17 @@
       "description": "Vectorize Hindsight 記憶ハブのローカル計算資源分担（AMD GPU 推論 + CPU Embedding）、UID 1000 の権限モデル、Docker Compose によるコンテナオーケストレーションを記録する。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "hindsight-local-deployment-and-agent-integration"
+  ],
+  "related": [
+    "hindsight-omp-codex-integration",
+    "hindsight-troubleshooting",
+    "mcp-codebase-memory-workflow"
+  ]
 }
 ---
 

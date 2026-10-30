@@ -66,7 +66,18 @@
       "description": "固定プロジェクトコミットとランタイム証拠を総合する。Headroom 8787 が cc-switch 15721 の前で Claude Code Messages を受け、OMP パスを分離し、単一の整理責任とロールバック可能な systemd セキュリティ境界を保つ方法を記録する。",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "headroom-cc-switch-coexistence-runtime"
+  ],
+  "related": [
+    "headroom-single-port-evolution",
+    "omp-headroom-persistence",
+    "omp-headroom-provider-proxy",
+    "headroom-compress-retrieve-contract"
+  ]
 }
 ---
 

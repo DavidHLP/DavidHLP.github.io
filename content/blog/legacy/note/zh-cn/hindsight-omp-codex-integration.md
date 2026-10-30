@@ -56,7 +56,17 @@
       "description": "详解 Hindsight 为 OMP 与 Codex 统一接入记忆的 FastMCP stdio 桥接状态机、Git 根目录自适应 Bank 动态路由及双端配置规范。",
       "toc": true
     }
-  }
+  },
+  "kind": "entity",
+  "status": "active",
+  "sources": [
+    "hindsight-local-deployment-and-agent-integration"
+  ],
+  "related": [
+    "hindsight-local-deployment",
+    "hindsight-troubleshooting",
+    "omp-config-and-rules-guide"
+  ]
 }
 ---
 

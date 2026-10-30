@@ -55,7 +55,17 @@
       "description": "Condenses 200+ pages of course material into a checklist, flagging version and experimental gaps.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-redis-heima"
+  ],
+  "related": [
+    "redis-business-patterns",
+    "redis-persistence-principle",
+    "plugin-lifecycle-management"
+  ]
 }
 ---
 

@@ -62,7 +62,17 @@
       "description": "How Auth/App local audit outboxes, owner-specific Redis Streams, and an Admin consumer inbox handle double writes, duplicate delivery, lease recovery, and eventual consistency across owners.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-reliability-core-f801a1076"
+  ],
+  "related": [
+    "ulticode",
+    "ulticode-owner-and-facts",
+    "ulticode-outbox-redis-streams"
+  ]
 }
 ---
 

@@ -44,7 +44,9 @@ for (const path of documents) {
   const key = contentDocument ? path.slice("src/content/".length) : `documentation/${path}`;
   const slug = `legacy/${key.replace(/\.(mdx?|yaml)$/, "").toLowerCase()}`;
   const [, locale, name] = key.split("/");
-  const title = data.title || (match?.[2] ?? original).match(/^#{1,2}\s+(.+)$/m)?.[1] ||
+  const body = match?.[2] ?? original;
+  const heading = body.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1] ?? body.match(/^#{1,2}\s+(.+)$/m)?.[1];
+  const title = data.title || heading?.replace(/<[^>]*>/g, "").trim() ||
     (key.startsWith("preface/") ? `${data.author} · ${name.replace(/\.md$/, "")}` : posix.basename(path));
   entries.push({ path, key, slug, data, title, body: match?.[2] ?? original, category: categoryFor(key, data), locale });
 }
@@ -150,6 +152,7 @@ for (const [index, entry] of entries.entries()) {
     draft: Boolean(data.draft || path.split("/").some(part => part.startsWith("_"))),
     lang: entry.locale === "en" || entry.locale === "ja" ? entry.locale : "zh-CN",
     legacy: { path, revision, metadata: data },
+    ...(data.kind ? { kind: data.kind, status: data.status, sources: data.sources, related: data.related ?? [] } : {}),
   };
   const sources = (data.sources ?? []).map(name => ({ title: name, sourcePath: `src/content/raw/zh-cn/${name}.md` }));
   const related = (data.related ?? []).map(name => pathEntries.get(`src/content/note/${entry.locale}/${name}.md`)).filter(Boolean);

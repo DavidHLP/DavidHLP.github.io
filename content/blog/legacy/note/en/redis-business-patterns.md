@@ -58,7 +58,18 @@
       "description": "Anchors on consistency, mutual exclusion, and messaging semantics to distill reusable business patterns.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-redis-business"
+  ],
+  "related": [
+    "redis-persistence-principle",
+    "java-null-value",
+    "redis-jackson-java-time",
+    "resicache-observer-nested-execution"
+  ]
 }
 ---
 

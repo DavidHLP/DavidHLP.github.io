@@ -58,7 +58,15 @@
       "description": "How UltiCode lets synchronous previews and asynchronous execution share a contract, using idempotency keys, SHA-256 fingerprints, a state machine, and memory limits to constrain long-running jobs.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

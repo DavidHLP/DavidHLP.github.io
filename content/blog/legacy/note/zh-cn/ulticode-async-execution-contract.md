@@ -58,7 +58,15 @@
       "description": "解释 UltiCode 如何让同步预览与异步执行共享 contract，并用幂等键、SHA-256 fingerprint、状态机和内存上限约束长任务。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

@@ -60,7 +60,16 @@
       "description": "A five-axis comparison of Cloudflare Tunnel, Tailscale, and FRP—connection direction, exposure, control plane, data plane, and recovery—with evidence-backed boundaries for mobile clients, ports, and systemd/linger.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-intranet-penetration-ssh-guide"
+  ],
+  "related": [
+    "containerd-tls-troubleshooting",
+    "mysql-performance-troubleshooting"
+  ]
 }
 ---
 
