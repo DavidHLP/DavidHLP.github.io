@@ -54,6 +54,7 @@ let workbench: Workbench | undefined;
 import { ArchivePlayground } from "./archive-playground";
 import { ARRAY_OPENING_END, openingShowsDetail } from "./wallpaper-opening";
 import { paintTheme, themeSettingsMarkup } from "./theme-ui";
+import { initUiLanguage } from "./ui-language";
 let playground: ArchivePlayground | undefined;
 import { WallpaperEffects } from "./wallpaper-effects";
 import { WallpaperBackground } from "./wallpaper-background";
@@ -73,7 +74,9 @@ $("#stage").innerHTML = `
   <header class="brand">${brandHeading}</header>
   <nav class="system-nav" aria-label="系统导航">
     <button data-action="search"><span class="nav-glyph">⌕</span> ARCHIVE INDEX <span class="key">/</span></button>
-    <button data-action="saved" aria-label="查看收藏档案" title="收藏档案">＋ SAVED <span id="saved-count">00</span></button>
+    <button data-action="saved" aria-label="查看收藏档案" title="收藏档案">＋ <span class="nav-saved-label">SAVED</span> <span id="saved-count">00</span></button>
+    <select class="nav-language" data-ui-language aria-label="界面语言"><option value="zh-CN" lang="zh-CN">中文</option><option value="en" lang="en">English</option><option value="ja" lang="ja">日本語</option></select>
+    <button data-action="toggle-theme" aria-pressed="false" aria-label="切换为暗色模式"><svg class="theme-glyph" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor"/></svg><span class="nav-theme-label">亮色</span></button>
     <button class="settings-button" data-action="settings" aria-label="系统设置" title="系统设置"><span class="settings-glyph" aria-hidden="true">◷</span><span class="settings-label">设置</span></button>
   </nav>
   <button id="skip" class="skip" data-action="skip">ENTER SYSTEM <span>↗</span></button>
@@ -191,6 +194,8 @@ const prefs = {
 const motionActive = (key: MotionKey) => motionEnabled(prefs.motion, key);
 const motionIsReduced = () => Object.values(prefs.motion).every((value) => !value);
 paintTheme(prefs.colorTheme === "dark" ? 1 : 0);
+syncThemeControl();
+initUiLanguage();
 const rollingMotion = {
   duration: 460,
   motionBlur: true,
@@ -285,6 +290,12 @@ function saveAudioPrefs() {
 }
 function superPerformanceEnabled() { return isWallpaper ? wallpaperHost()?.properties.superperformance?.value === true : prefs.superPerformance; }
 function effectiveRenderQuality() { return superPerformanceEnabled() ? superPerformanceQuality : prefs.rendering; }
+function syncThemeControl() {
+  const button = $('[data-action="toggle-theme"]');
+  button.setAttribute("aria-pressed", String(prefs.colorTheme === "dark"));
+  button.setAttribute("aria-label", prefs.colorTheme === "dark" ? "切换为亮色模式" : "切换为暗色模式");
+  button.querySelector(".nav-theme-label")!.textContent = prefs.colorTheme === "dark" ? "暗色" : "亮色";
+}
 function savePrefs() {
   saveAudioPrefs();
   if (!motionActive("rollingText")) rollingTitles.forEach(title => title.finish());
@@ -298,6 +309,7 @@ function savePrefs() {
   scene?.setMotion(prefs.motion);
   scene?.setTheme(prefs.colorTheme === "dark", !motionActive("surfaceTransitions") || !started);
   document.querySelectorAll<HTMLElement>("[data-color-theme]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.colorTheme === prefs.colorTheme)));
+  syncThemeControl();
   scene?.setSuperPerformance(superPerformanceEnabled());
   viewer?.setSuperPerformance(superPerformanceEnabled());
   scene?.setQuality(effectiveRenderQuality());
@@ -596,7 +608,7 @@ function renderDetail() {
 function overview() {
   const record = records[selected];
   const body = articleBodies.get(record.slug!);
-  if (body !== undefined) return `<div class="panel-label">ARTICLE / 正文</div><div class="blog-body">${body}</div>`;
+  if (body !== undefined) return `<div class="panel-label">ARTICLE / 正文</div><div class="blog-body" lang="${escapeHtml(record.lang ?? "zh-CN")}">${body}</div>`;
   const failed = articleFailures.has(record.slug!);
   return `<div class="panel-label">ARTICLE / 正文</div><p role="status">${failed ? "正文暂未加载，请重试或直接阅读静态文章。" : "正在加载正文…"}</p>${failed ? `<button data-action="retry-article">重试加载 ↻</button> <a href="${postPath(record.slug!)}?view=static${escapeHtml(location.hash)}">直接阅读文章 ↗</a>` : ""}`;
 }
@@ -859,6 +871,11 @@ document.addEventListener("change", (e) => {
   }
 });
 document.addEventListener("click", (e) => {
+  if ((e.target as Element).closest('[data-action="toggle-theme"]')) {
+    prefs.colorTheme = prefs.colorTheme === "dark" ? "light" : "dark";
+    savePrefs();
+    return;
+  }
   const themeButton = (e.target as Element).closest<HTMLElement>("[data-color-theme]");
   if (themeButton) { prefs.colorTheme = themeButton.dataset.colorTheme === "dark" ? "dark" : "light"; savePrefs(); return; }
   if (!started) return;
@@ -1023,7 +1040,7 @@ document.addEventListener("keydown", (e) => {
     }
     return;
   }
-  if (typing || modal || !ready) return;
+  if (typing || modal || !ready || e.target instanceof HTMLSelectElement) return;
   if (
     (e.target as HTMLElement).dataset.tab &&
     ["ArrowLeft", "ArrowRight"].includes(e.key)
