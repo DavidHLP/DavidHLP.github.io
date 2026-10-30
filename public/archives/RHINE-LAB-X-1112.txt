@@ -11,7 +11,7 @@
 
 ## コアメカニズム
 
-### 1. 意思決定ポイントと二つの出力チャネル
+### 1. イベント全集、判断点、出力チャネル
 
 ```mermaid
 flowchart LR
@@ -25,23 +25,36 @@ flowchart LR
   I --> J[Hook 状態 map] --> K[ステータス行/任意 segment]
 ```
 
-| チャネル       | 最小契約                                                                             | 証明できる観測結果                                            | 仮定してはいけない効果                                   |
-| -------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------- | -------------------------------------------------------- |
-| ソフトヒント   | `pi.sendMessage({ customType, content, display, attribution })` の後に `void` を返す | メッセージが Agent コンテキストに入り、現在のツールは継続する | Agent が必ず従うこと、安全な操作が遮断されること         |
-| ハードブロック | `return { block: true, reason }`（フィールドは現行型に従う）                         | 現在のツール呼び出しが拒否され、呼び出し元が理由を受け取る    | 誤判定が起きないこと、サーバー認可の代替になること       |
-| UI 状態        | `ctx.ui.setStatus(key, text)`                                                        | 状態が Hook の状態集合に入り、レンダリング対象になり得る      | 必ずトップ border に表示されること、長文が切られないこと |
+固定した OMP `17.2.15` の `HookAPI.on()` が明示するイベントは：
+
+- **会話とツリー**：`session_start`, `session_before_switch`, `session_switch`, `session_before_branch`, `session_branch`, `session_before_compact`, `session.compacting`, `session_compact`, `session_shutdown`, `session_before_tree`, `session_tree`。
+- **文脈と Agent ターン**：`context`, `before_agent_start`, `agent_start`, `agent_end`, `turn_start`, `turn_end`。
+- **自動回復と通知**：`auto_compaction_start`, `auto_compaction_end`, `auto_retry_start`, `auto_retry_end`, `ttsr_triggered`, `todo_reminder`。
+- **ツール境界**：`tool_call`, `tool_result`。`tool_call` は `toolName`、`toolCallId`、`input` を持ち、handler は阻止結果を返せる。
+
+これは v17.2.15 の型上の全集であり、全バージョン・ロード方法・会話で全てが発火する保証ではない。
+
+| チャネル | 最小契約 | 確認できる効果 | 仮定できない効果 |
+|---|---|---|---|
+| LLM へのヒント | `pi.sendMessage({ customType, content, display, attribution })` の後 `void` | LLM 文脈の `CustomMessageEntry` を作る。現在のツールは継続 | 必ず従うこと、危険操作の阻止 |
+| Hook 状態・会話記録 | `pi.appendEntry(...)` | 公式説明では LLM に送らない Hook state を記録 | 自動 UI 表示、阻止・権限検査の代用 |
+| ハード阻止 | `return { block: true, reason }`（現行型を確認） | 現在の呼び出しを拒否し、呼び出し側が結果を処理 | 誤判定なし、サーバー権限・書き込みゲートの代用 |
+| UI 状態 | `ctx.ui.setStatus(key, text)` | 描画可能な状態に入る。`undefined` で消去 | 必ず上段に出ること、長文が省略されないこと |
 
 ### 2. 拡張ライフサイクルと状態ブリッジ
 
-- Hook ファイルは通常セッション開始時にロードされる。変更は新しいセッションで確認し、hot reload を前提にしない。
-- `session_start` は探針、プロジェクトルートの検出、状態初期化に使う。`tool_call` の分類は速く、診断失敗に耐えるものにして、ツール経路を診断処理で止めない。
-- `setStatus` は「イベント → 状態 map → renderer」の橋である。独立した Hook 状態行とトップ statusline segment は別の gate を持つことがある。一方に表示されないだけで API 失敗とは判断しない。
-- トップ segment が閉じた ID union や preset の allowlist で制御される場合、設定だけで新しい Hook segment は作れない。これはホスト UI の能力であり、Hook 側 API ではない。
-- 可視性と強制性を分離する。statusline は観測用、block 結果は一回の呼び出しを制御するもの、実際のセキュリティ境界は独立した権限または書き込みゲートである。
+- loader は capability API と明示設定のパスで Hook を発見する。v17.2.15 の証拠には `hooks/pre`・`hooks/post` の自動走査がなく、既定の規約とはしない。
+- `session_start` は探針、ルートのキャッシュ、状態初期化に使う。`tool_call` は高速で失敗に耐える分類に留める。
+- `setStatus` はイベント → 状態 map → renderer の橋。v17.2.15 の `statusLine` segment ID は 24 項目の閉じた union で、`hook` はない。設定で segment を追加できない。公開 PR #2001 は closed・未マージで主線機能ではない。
+- 可視性と強制性を分ける。状態行は観測、阻止結果は一回の呼び出し制御、実際の安全境界は独立した権限・書き込みゲートである。
 
-### 3. 安定した信号で検出する
+### 3. HookCommandContext のデッドロック安全境界
 
-脆い自然言語 pattern より、`toolName`、入力内のパス範囲、プロジェクトルートなど安定したフィールドを先に確認する。Hook は fail-soft にし、エラーを捕捉して記録または静かに縮退させ、通常のツールフローを壊さない。重複排除や throttling はノイズを減らすためのもので、ハードブロックの意味を変えてはならない。
+拡張コマンド context は `newSession`、`branch`、`navigateTree` を提供し、`switchSession`、`reload`、`compact`、`getContextUsage` を意図的に省く。`tool_call` や `context` の handler 内で呼ぶとデッドロックの可能性がある。欠落は安全境界であり、追加すべき API ではない。必要なら handler 外へ要求を移し、新しい会話で確認する。
+
+### 4. 安定した信号で検出する
+
+自然言語 pattern より `toolName`、入力のパス範囲、プロジェクトルートを使う。例外を捕捉・記録または静かに縮退し、通常フローを壊さない fail-soft にする。重複排除や抑制でハード阻止の意味を変えない。
 
 ## 適用条件
 
@@ -75,25 +88,28 @@ mock 探針では少なくとも、対象外ツールが静かであること、
 
 ## 証拠と不確実性
 
-- **情報源の事実**：`legacy-omp-hook-extension-guide` は `session_start`/`tool_call`、`HookAPI.sendMessage`、`ToolCallEventResult`、`ctx.ui.setStatus`、セッション開始時のロード、mock-pi と tmux の段階的検証、statusline segment のホスト制限を記録する。
-- **本ページの総合**：「意思決定への介入」と「可視性の橋渡し」を分離し、ソフトヒントを提案に限定することで、可視性をセキュリティ強制として報告しない。
-- **未確認**：イベント型、`display`/`triggerTurn` のデフォルト、status gate、segment 名、hot reload はインストール済み OMP のリリースで確認する必要がある。このページは UI 位置の永続性を保証しない。
+- **出典の事実**：`legacy-omp-hook-extension-guide` は初期イベント、`HookAPI.sendMessage`、`ToolCallEventResult`、`ctx.ui.setStatus`、mock-pi、tmux の検証を記録する。`omp-17-2-15-runtime-contract` は最初の固定 tag、`omp-17-2-15-runtime-contract-correction` は ExtensionRunner、全イベント群、sendMessage/appendEntry の分離、HookCommandContext の安全な省略、`hook` を含まない statusline union を補足する。
+- **総合**：イベント、LLM メッセージ・状態記録、判断介入、可視性を分け、観測を強制的な安全性と誤報しない。
+- **版と未確認事項**：公式事実は OMP `17.2.15` の固定 tag のみ。発火、`display`/`triggerTurn` の既定、状態行スイッチ、ロードパス、hot reload はインストール版と新会話で再確認する。`hooks/pre`/`post` 自動走査は確認していない。
 
 ## 関連ページ
 
-- [Headroom 単一ポート移行](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [OMP 設定の階層](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
-- [Headroom ルート永続化](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
+- [Headroom 単一ポート移行](/blog/legacy/note/ja/headroom-single-port-evolution/)
+- [OMP 設定の階層](/blog/legacy/note/ja/omp-config-and-rules-guide/)
+- [Headroom ルート永続化](/blog/legacy/note/ja/omp-headroom-persistence/)
 - [LLM wiki pattern](/blog/legacy/note/ja/llm-wiki-pattern/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-omp-hook-extension-guide](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-omp-hook-extension-guide.md)
-- [Headroom 単一ポートの総合：入口、動的上流、検証の境界](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [OMP 設定の階層：モデルロール、Agent オーバーライド、フォールバックチェーン](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
-- [Headroom ルート永続化の総合：Named Profile、model_cache、復旧](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
+- [omp-17-2-15-runtime-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/omp-17-2-15-runtime-contract.md)
+- [omp-17-2-15-runtime-contract-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/omp-17-2-15-runtime-contract-correction.md)
+- [Headroom 単一ポートの総合：入口、動的上流、検証の境界](/blog/legacy/note/ja/headroom-single-port-evolution/)
+- [OMP 設定の階層：モデルロール、Agent オーバーライド、フォールバックチェーン](/blog/legacy/note/ja/omp-config-and-rules-guide/)
+- [Headroom ルート永続化の総合：Named Profile、model_cache、復旧](/blog/legacy/note/ja/omp-headroom-persistence/)
 - [LLM-Wiki パターン：LLM で蓄積する個人 AI ナレッジベース](/blog/legacy/note/ja/llm-wiki-pattern/)
+- [Headroom 0.34 圧縮・取得契約：フィールド、モード、実エンドポイント検証](/blog/legacy/note/ja/headroom-compress-retrieve-contract/)
 
 研究記録
 1. 元の文書: src/content/note/ja/omp-hook-extension-guide.md

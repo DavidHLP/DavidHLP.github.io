@@ -74,17 +74,21 @@
   "sources": [
     "legacy-omp-headroom-persistence",
     "legacy-headroom-single-port-evolution",
-    "legacy-omp-config-and-rules-guide"
+    "legacy-omp-config-and-rules-guide",
+    "omp-17-2-15-runtime-contract",
+    "omp-17-2-15-runtime-contract-correction"
   ],
   "related": [
     "headroom-single-port-evolution",
+    "headroom-cc-switch-coexistence",
+    "omp-headroom-provider-proxy",
     "omp-config-and-rules-guide",
     "omp-hook-extension-guide",
-    "llm-wiki-pattern"
+    "llm-wiki-pattern",
+    "headroom-compress-retrieve-contract"
   ]
 }
 ---
-
 
 このページは、OMP 更新後にルート意図、ユーザー状態、runtime model cache が互いを汚染しないようにする方法と、壊れた過去のルートを安全に復旧する方法を答える。モデルは、Named Profile で設定と認証を分離し、必要なら OMP ディレクトリ外の宣言にルート意図を保存し、`models.db` の `model_cache` を再生成可能な派生状態とみなし、reconciler を通常の `headroom wrap omp` 起動手順にしない、というものだ。
 
@@ -168,20 +172,27 @@ flowchart TB
 - **本ページの総合**：ルート意図を `model_cache` から切り離し、現在の wrapper 検証と移行専用 reconciler 検証を分けることで、過去のスクリプトが製品の起動契約になるのを防ぐ。
 - **未確認**：Named Profile の CLI、database schema、authoritative override 規則、wrapper が `models.yml` を書く／消す時機、プロセス終了時のメモリ挙動、provider のプロトコル挙動は OMP/Headroom のバージョンに依存する。バージョンをまたぐ互換性は主張しない。
 
+- **OMP 版境界**：`omp-17-2-15-runtime-contract` は初期 tag、独立 `omp-17-2-15-runtime-contract-correction` は固定 commit の path tree/settings schema に負の証拠を限定。両者とも外部 Headroom wrapper の証拠ではない。本頁の lifecycle は legacy に由来し、Headroom 固定版で別途確認が必要。
+
 ## 関連ページ
 
-- [Headroom 単一ポート総合](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [OMP 設定の階層](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
-- [OMP Hook 拡張](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
+- [Headroom 単一ポート総合](/blog/legacy/note/ja/headroom-single-port-evolution/)
+- [OMP 設定の階層](/blog/legacy/note/ja/omp-config-and-rules-guide/)
+- [OMP Hook 拡張](/blog/legacy/note/ja/omp-hook-extension-guide/)
 - [LLM wiki pattern](/blog/legacy/note/ja/llm-wiki-pattern/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-omp-headroom-persistence](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-omp-headroom-persistence.md)
 - [legacy-headroom-single-port-evolution](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-headroom-single-port-evolution.md)
 - [legacy-omp-config-and-rules-guide](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-omp-config-and-rules-guide.md)
-- [Headroom 単一ポートの総合：入口、動的上流、検証の境界](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [OMP 設定の階層：モデルロール、Agent オーバーライド、フォールバックチェーン](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
-- [OMP Hook 拡張の概念：意思決定ポイントのヒント、ハードブロック、ステータス橋渡し](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
+- [omp-17-2-15-runtime-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/omp-17-2-15-runtime-contract.md)
+- [omp-17-2-15-runtime-contract-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/omp-17-2-15-runtime-contract-correction.md)
+- [Headroom 単一ポートの総合：入口、動的上流、検証の境界](/blog/legacy/note/ja/headroom-single-port-evolution/)
+- [Headroom と cc-switch / Claude Code の共存：単一の整理責任とセキュリティ境界](/blog/legacy/note/ja/headroom-cc-switch-coexistence/)
+- [OMP Headroom Bridge：外部ルーティングコントローラとネイティブ Codex/OMP プロキシ境界](/blog/legacy/note/ja/omp-headroom-provider-proxy/)
+- [OMP 設定の階層：モデルロール、Agent オーバーライド、フォールバックチェーン](/blog/legacy/note/ja/omp-config-and-rules-guide/)
+- [OMP Hook 拡張の概念：意思決定ポイントのヒント、ハードブロック、ステータス橋渡し](/blog/legacy/note/ja/omp-hook-extension-guide/)
 - [LLM-Wiki パターン：LLM で蓄積する個人 AI ナレッジベース](/blog/legacy/note/ja/llm-wiki-pattern/)
+- [Headroom 0.34 圧縮・取得契約：フィールド、モード、実エンドポイント検証](/blog/legacy/note/ja/headroom-compress-retrieve-contract/)

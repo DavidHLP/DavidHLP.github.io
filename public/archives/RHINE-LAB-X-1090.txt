@@ -7,12 +7,13 @@
 関連人物: DavidHLPL
 アクセス: 公開
 
-> この歴史的な統合ページは2026-08-23に[デプロイ](/blog/legacy/note/ja/hindsight-local-deployment/)、[エージェント連携](/blog/legacy/note/ja/hindsight-omp-codex-integration/)、[障害調査](/blog/legacy/note/ja/hindsight-troubleshooting/)の3ページに分割されました。新しい統合記事の出典ではなく、アーカイブとして保持されます。以下は当時の記録です。
-
-
-このページは、Linux 環境における Vectorize Hindsight 記憶システムの**実行時ローカルデプロイ**（日常の推論と記憶アクセスはすべてオフライン／ローカルモデルで賄う。初回デプロイとモデルウェイトの取得だけはネットワーク接続または事前キャッシュが必要）と、端末エージェント **OMP (Oh-My-Pi)** と **Codex CLI** にクロスツール統一記憶を提供するための実践を体系的に記録する。環境設定、プロトコル適応、デバッグ過程、および 7 つの主要な「落とし穴」の経験と予防策に重点を置く。
-
----
+> **分割・アーカイブの説明**：
+> 本文は 445 行の歴史的な統合記録である。LLM-Wiki の「一概念一ページ」原則に従い、2026-08-23 に次の三つの正典ページへ分割した。
+> 1. [Hindsight のローカル計算資源の分担と Docker デプロイ](/blog/legacy/note/ja/hindsight-local-deployment/)（L1/L2 デプロイとハードウェア選定）
+> 2. [Hindsight 統一記憶：FastMCP ブリッジと複数プロジェクトの動的ルーティング](/blog/legacy/note/ja/hindsight-omp-codex-integration/)（L4 エンティティと両クライアントのブリッジ接続）
+> 3. [Hindsight の実行時障害調査と失敗モード](/blog/legacy/note/ja/hindsight-troubleshooting/)（L3 障害調査・失敗モードの統合）
+>
+> 本ページは歴史的アーカイブとして保持し、新しい統合ページの引用元にはしない。以下は当時のスナップショット本文である。
 
 ## 1. システムアーキテクチャと実行トポロジー
 
@@ -443,12 +444,12 @@ graph TD
 | **段階 6：廃棄一時領域の掃除と規範アーカイブ**         | テスト残留 Bank を掃除し、全量沈殿を行う。                                                                               | `codex` と `omp` の一時 Bank を掃除。KB 憲法に従い raw スナップショットを補充し、Index/Log を更新して全静的チェックを通過。                                  | 知識ベースの全量検証が通過（`pnpm kb:lint`、`pnpm check`、`pnpm build` すべて通過）。                                                                                 |
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [hindsight-local-deployment-and-agent-integration](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/hindsight-local-deployment-and-agent-integration.md)
-- [OMP 設定の階層：モデルロール、Agent オーバーライド、フォールバックチェーン](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
-- [MCP プロトコル時代の境界と codebase-memory-mcp v0.10.2 のグラフワークフロー](/blog/legacy/note/zh-cn/mcp-codebase-memory-workflow/)
-- [LLM-Wiki パターン：LLM で蓄積する個人 AI ナレッジベース](/blog/legacy/note/ja/llm-wiki-pattern/)
+- [Hindsight のローカル計算資源分担と Docker コンテナ化デプロイ](/blog/legacy/note/ja/hindsight-local-deployment/)
+- [Hindsight 統合メモリアクセス：FastMCP ブリッジと動的マルチプロジェクトルーティング](/blog/legacy/note/ja/hindsight-omp-codex-integration/)
+- [Hindsight ランタイムトラブルシューティングマトリクスと失敗モード](/blog/legacy/note/ja/hindsight-troubleshooting/)
 
 研究記録
 1. 元の文書: src/content/note/ja/hindsight-local-deployment-and-agent-integration.md

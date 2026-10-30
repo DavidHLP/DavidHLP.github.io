@@ -68,7 +68,6 @@
 }
 ---
 
-
 Redis serializer の変更は、一つの Bean を編集するだけに見える。しかし Redis に保存されるのは Java object ではなく bytes である。
 
 旧 cache が JDK serializer や GenericJackson2JsonRedisSerializer を使い、新 serializer が別の envelope を使う場合、直接切り替えると二つの問いが生じる。
@@ -130,7 +129,9 @@ java.lang、java.time、java.math の一部 type と、明示列挙された col
 
 allowlist は単なる「polymorphism を on/off」ではない。次に答える必要がある。
 
-`この完全修飾 class name は cache bytes に現れてよいか？`
+```text
+この完全修飾 class name は cache bytes に現れてよいか？
+```
 
 現在の設定には注意すべき境界がある。
 
@@ -336,7 +337,7 @@ real Redis integration test の SerializationMigrationIntegrationTest は 8 test
 
 - envelope version は format version だけで、任意の過去 format を自動 migration しない。
 - current legacy decoder が support する format は限定され、別 serializer には別 decoder が必要。
-- VersionEnvelope.payload の JsonTypeInfo は固定の @class を使う。type property を変えるなら annotation と config を同時に変更する。
+- VersionEnvelope.payload の @JsonTypeInfo は固定の @class を使う。type property を変えるなら annotation と config を同時に変更する。
 - default allowlist は自身の package name を優先し、custom business type は明示設定が必要。
 - preflight は sample を scan するだけで Redis 全体に old format がないとは証明しない。
 - migration scan は maxKeys、pattern、batch size に制限され、全 database の一つの transaction ではない。
@@ -361,9 +362,9 @@ persistence format を変更するとき、少なくとも次を確認する。
 
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [resicache-engineering-highlights-2954fff](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md)
 - [resicache-project-overview](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-project-overview.md)
-- [ResiCache：Spring Cache 保護のためのオーケストレーション可能な責任チェーン](/blog/legacy/note/ja/resicache/)
-- [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
+- [ResiCache：キャッシュ保護を検証可能な並行性・一貫性の境界にする](/blog/legacy/note/ja/resicache/)
+- [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/ja/redis-jackson-java-time/)

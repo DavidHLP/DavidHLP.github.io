@@ -64,11 +64,12 @@
   ],
   "related": [
     "containerd-tls-troubleshooting",
-    "intranet-penetration-ssh-guide"
+    "intranet-penetration-ssh-guide",
+    "database-schema-drift",
+    "multi-service-readiness"
   ]
 }
 ---
-
 
 This page answers a triage question: when MySQL becomes slow or stuck, which metric should be observed first, which evidence belongs to the application/connection, Server/SQL, InnoDB, or OS/hardware layer, and which mitigation is least likely to widen the incident? It preserves a reusable causal model rather than turning a command checklist or one incident into the knowledge itself.
 
@@ -174,12 +175,14 @@ SHOW STATUS LIKE 'Created_tmp%';
 
 ## Related pages
 
-- [containerd TLS trust chain](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [SSH intranet access options](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+- [containerd TLS trust chain](/blog/legacy/note/en/containerd-tls-troubleshooting/)
+- [SSH intranet access options](/blog/legacy/note/en/intranet-penetration-ssh-guide/)
 
 
 ## Sources and related documents
 
 - [legacy-mysql-performance-troubleshooting](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-mysql-performance-troubleshooting.md)
-- [containerd TLS: Choosing a Trusted Chain or Temporary Verification Bypass](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [SSH Intranet Access: Connection Direction, Exposure, and Recovery](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+- [containerd TLS: Choosing a Trusted Chain or Temporary Verification Bypass](/blog/legacy/note/en/containerd-tls-troubleshooting/)
+- [SSH Intranet Access: Connection Direction, Exposure, and Recovery](/blog/legacy/note/en/intranet-penetration-ssh-guide/)
+- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/en/database-schema-drift/)
+- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/en/multi-service-readiness/)

@@ -69,7 +69,6 @@
 }
 ---
 
-
 Heima Redis practice consists of 5 notes (6 files with duplicates): quick start, 156KB practice, distributed cache, multi-level cache, and best practices. This page compresses 200+ pages of course material into a checklist, removing screenshots and duplicate copies.
 
 ## Core Mechanism
@@ -111,14 +110,14 @@ Heima Redis practice consists of 5 notes (6 files with duplicates): quick start,
 
 ## Related Pages
 
-- [redis-business-patterns](/blog/legacy/note/zh-cn/redis-business-patterns/)
-- [redis-persistence-principle](/blog/legacy/note/zh-cn/redis-persistence-principle/)
-- [plugin-lifecycle-management](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
+- [redis-business-patterns](/blog/legacy/note/en/redis-business-patterns/)
+- [redis-persistence-principle](/blog/legacy/note/en/redis-persistence-principle/)
+- [plugin-lifecycle-management](/blog/legacy/note/en/plugin-lifecycle-management/)
 
 
 ## Sources and related documents
 
 - [ingest-redis-heima](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-redis-heima.md)
-- [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Seckill](/blog/legacy/note/zh-cn/redis-business-patterns/)
-- [Redis Persistence and Internals: RDB/AOF, Data Structures, and Advanced Mechanisms](/blog/legacy/note/zh-cn/redis-persistence-principle/)
-- [Plugin Lifecycle Management at Million-Endpoint Scale: State, Heartbeats, and Controlled Release](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
+- [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Seckill](/blog/legacy/note/en/redis-business-patterns/)
+- [Redis Persistence and Internals: RDB/AOF, Data Structures, and Advanced Mechanisms](/blog/legacy/note/en/redis-persistence-principle/)
+- [Plugin Lifecycle Management at Million-Endpoint Scale: State, Heartbeats, and Controlled Release](/blog/legacy/note/en/plugin-lifecycle-management/)

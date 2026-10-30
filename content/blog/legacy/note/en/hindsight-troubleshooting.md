@@ -70,8 +70,9 @@
 }
 ---
 
+This page summarizes **seven historical failures, diagnostic approaches, and response records** from Hindsight's local deployment and Agent integration for troubleshooting similar environments.
 
-This page systematically summarizes **seven core failure modes, root causes, solutions, and preventive measures** from the local deployment and unified Agent integration of Vectorize Hindsight. It also provides a production-oriented quick inspection SOP and a staged decision path.
+> **Scope and review (2026-09-08)**: Events come from the Hindsight v0.9.1 raw captured on 2026-08-17; event times were not separately recorded. That revision compared text with official protocol, Docker, and Ollama documentation, without deploying, downloading, uninstalling, or writing memories. Historical outcomes are source reports, not universal current-version rules or production validation.
 
 ---
 
@@ -93,49 +94,51 @@ graph TD
 - **Symptom**: After `npm install -g hindsight-mcp`, its README requests `https://api.hindsight-ai.com`, a PAT Token, and an Agent UUID, and defines tools such as `create_memory_block`; it cannot connect to the Vectorize open-source endpoint.
 - **Root cause**: The npm registry contains a legacy third-party package with the same name; it is not an official Vectorize Hindsight artifact. Vectorize Hindsight embeds its own FastMCP service.
 - **Solution**: Uninstall the npm package and connect directly to the native `/mcp/{bank}/` endpoint exposed by Hindsight.
-- **Prevention**: Before adding ecosystem tools around an open-source project, verify the exported protocol and integration directory (such as `hindsight-integrations`) in the official repository.
+- **Prevention**: Before adding ecosystem tools around an open-source project, verify the exported protocol and integration directory (such as `hindsight-integrations/`) in the official repository.
 
-### 2. The Ollama official registry does not provide the `gemma4:12b` tag
+### 2. Historical request reports `gemma4:12b` not found
 
-- **Symptom**: Hindsight reports an LLM connectivity error at startup: `ApiStatusError(ollama/gemma4:12b): HTTP 404: {"message": "model 'gemma4:12b' not found"}`.
-- **Root cause**: At the time, the official Ollama Registry provided only `gemma4:31b`; the 12B version was mainly hosted by the open-source community (such as `unsloth` and `bartowski`) as a GGUF on HuggingFace.
-- **Solution**: Download `gemma-4-12b-it-Q4_K_M.gguf` from HuggingFace, then import it with `ollama create gemma4:12b -f /models/Modelfile`.
-- **Prevention**: Do not blindly depend on `ollama pull <tag>` for non-standard or community-quantized models; local GGUF plus a locally built Modelfile is more reliable.
+- **Symptom**: Startup LLM connectivity check returns `ApiStatusError(ollama/gemma4:12b): HTTP 404: {"message": "model 'gemma4:12b' not found"}`.
+- **Evidence boundary**: Only the requested Ollama instance lacking that model name is established. The raw reported an absent official tag, but supplied no registry snapshot. It cannot establish that only one model size existed or what is available today.
+- **Historical handling**: A GGUF and Modelfile created local alias `gemma4:12b`. A customizable alias proves neither architecture, parameter count, nor official identity. Original filenames/import steps remain on the [deployment page](/blog/legacy/note/en/hindsight-local-deployment/).
+- **Prerequisites**: Check the model card, source revision, license, checksum, and chat template before choosing an import method. The revision did not verify the weights' identity or current download URL, and supplies no new download instructions.
 
-### 3. Rootless Docker volume permission failure (UID 1000)
+### 3. Non-root container volume permissions (UID 1000)
 
-- **Symptom**: Hindsight exits automatically and the container log says: `[FAIL] The embedded database directory /home/hindsight/.pg0 is not writable by this container (UID 1000).`.
-- **Root cause**: The Hindsight image runs as the non-root user `hindsight` (UID 1000) for security. A host directory created automatically or by the current user may not be writable by the embedded pg0 database process inside the container.
-- **Solution**: Map `${HOME}/.hindsight/data:/home/hindsight/.pg0` and `${HOME}/.hindsight/models:/home/hindsight/.cache/huggingface`; explicitly grant the host directories to UID 1000 with `sudo chown -R 1000:1000 ~/.hindsight/data ~/.hindsight/models`.
-- **Prevention**: For any non-root container image, verify the container UID or grant the required permission when mounting a host path; do not blindly use global `777` permissions.
+The table preserves the source narrative. Missing model tags, successful downloads, temporary-Bank cleanup, and passing checks were reported then, not reverified in that revision.
+
+- **Symptom**: Hindsight exits with `[FAIL] The embedded database directory /home/hindsight/.pg0 is not writable by this container (UID 1000).`
+- **Cause**: The image uses non-root user `hindsight` (UID 1000); a host-created directory may not be writable by its embedded pg0 process.
+- **Response**: First check mount target, container UID/GID, and host mapping, then change ownership only for dedicated directories. Historical `chown 1000:1000` assumes confirmed mapping. UID 1000 does not imply a Rootless Docker daemon; [Rootless](https://docs.docker.com/engine/security/rootless/) also uses user namespaces, so host/container UIDs need not coincide. See [deployment conditions](/blog/legacy/note/en/hindsight-local-deployment/).
+- **Prevention**: Explicitly verify UID/permissions for non-root image host mounts; do not blindly apply global 777.
 
 ### 4. Oversized model file (6.63GB) download timeout
 
 - **Symptom**: Running the download synchronously through an Agent tool exceeds the 300-second timeout, leaving an orphaned temporary file.
 - **Root cause**: Model weights are large and cross-border bandwidth can be limited; a synchronous blocking request is easily killed by the process manager or CLI client timeout.
 - **Solution**: Use a dedicated Python downloader with `urllib.request` and HTTP `Range` headers for resumable downloads, and run it as a background process with `nohup python3 ... > download.log 2>&1 &`.
-- **Prevention**: Always use a background daemon and resumable transfer for model files larger than 1GB.
+- **Prevention**: Choose transfer methods by size, bandwidth, and tool timeout budget; 1GB is not universal. Historical `nohup` is not process supervision. Resumption must confirm server Range support and validate the final file, without appending error responses to weights.
 
 ### 5. Ollama API Base URL is missing `/v1`
 
 - **Symptom**: Hindsight cannot connect when configured with `HINDSIGHT_API_LLM_BASE_URL=http://ollama-gpu:11434`.
-- **Root cause**: Hindsight's `llm_wrapper.py` follows the OpenAI-compatible protocol for the `ollama` provider and builds requests below `/v1` by default. Omitting `/v1` with a custom container hostname produces a 404.
+- **Root cause**: Hindsight's `llm_wrapper.py` follows the OpenAI-compatible protocol for the `ollama` provider and builds requests below `/v1` by default (`http://localhost:11434/v1`). Omitting `/v1` with a custom container hostname produces a 404.
 - **Solution**: Set the complete URL explicitly in Docker Compose: `HINDSIGHT_API_LLM_BASE_URL=http://ollama-gpu:11434/v1`.
-- **Prevention**: Always include `/v1` in URLs for systems that connect to Ollama through the OpenAI-compatible protocol.
+- **Prevention**: Check the actual provider/SDK URL-joining rule. `/v1` fixed the source environment; do not append it blindly for all clients.
 
 ### 6. Missing FastMCP Session ID causes `Bad Request (-32600)`
 
 - **Symptom**: A simple stdio bridge completes the first `initialize` request, but later `tools/list` or `tools/call` requests return `Bad Request: Missing session ID`.
 - **Root cause**: Hindsight uses Streamable FastMCP. After the initial `initialize` handshake succeeds, the server returns `mcp-session-id` in the response headers; every later JSON-RPC POST must forward that Session ID in its HTTP headers.
 - **Solution**: Add lightweight state management to the Node.js bridge: capture `mcp-session-id` from the first response and send it on subsequent requests.
-- **Prevention**: An HTTP-to-stdio MCP proxy must explicitly handle and forward the handshake Session header.
+- **Prevention**: Under [MCP 2025-06-18](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports), a server may assign a Session ID; forwarding is required once it does. Headers are only part of the protocol. See the [integration page](/blog/legacy/note/en/hindsight-omp-codex-integration/) for SSE, notification, and recovery gaps.
 
 ### 7. Global hard-coded Bank and subdirectory routing drift
 
 - **Symptom**: Hard-coding `bank: ulticode` contaminates facts when working on another project; deriving the name only from `process.cwd()` misidentifies a project when the developer is inside a subdirectory, splitting its memory.
 - **Root cause**: A monorepo or multi-module project often runs with a working directory deep inside a submodule, so the current directory name does not represent the Git repository. OMP's `per-project-tagged` mode also has different routing semantics from Codex's independent Bank.
-- **Solution**: Set `hindsight.scoping: per-project` in OMP so its native logic also uses one Bank per Git root; make the bridge run `git rev-parse --show-toplevel` to walk back to the repository root and derive the unique Bank name there.
-- **Prevention**: Anchor multi-project dynamic memory routing to the Git root path; never depend on the relative CWD.
+- **Historical handling**: OMP used `hindsight.scoping: per-project`; the bridge derived the Bank from Git-root basename. This fixes subdirectory drift within one repository, not collisions between identical basenames or normalized names; it is not a unique identifier.
+- **Prevention**: Check both clients' actual Bank and explicitly assign distinct IDs if needed. See [integration](/blog/legacy/note/en/hindsight-omp-codex-integration/) for non-Git fallback and logical isolation.
 
 ---
 
@@ -147,8 +150,8 @@ Run these commands in order to inspect the infrastructure and Agent state:
 # 1. Check the GPU inference container
 docker logs hindsight-ollama-gpu | tail -n 20
 
-# 2. Check the GPU memory/model mapping
-docker exec hindsight-ollama-gpu ollama list
+# 2. List running models and loading details (load the model first)
+docker exec hindsight-ollama-gpu ollama ps
 
 # 3. Check Hindsight core logs and health
 docker logs hindsight-server | tail -n 20
@@ -157,11 +160,13 @@ curl -I http://127.0.0.1:8888/health
 # 4. Verify ownership of the persistent data directory
 ls -la ~/.hindsight/data/
 
-# 5. Verify the FastMCP stdio bridge
-node ~/.hindsight/hindsight-bridge.mjs
+# 5. Syntax only; does not start the bridge or prove a handshake
+node --check ~/.hindsight/hindsight-bridge.mjs
 ```
 
 ---
+
+`ollama list` lists local models; `ollama ps` lists running models ([CLI](https://docs.ollama.com/cli)). Starting a stdio script and waiting for input is not validation: check initialize, notifications, tools/list, and controlled write/recall to the intended Bank. Those checks were not executed in that revision.
 
 ## 3. Six-Stage Evolution and Technical Decisions
 
@@ -180,15 +185,15 @@ node ~/.hindsight/hindsight-bridge.mjs
 
 - **Source facts**: The `hindsight-local-deployment-and-agent-integration` raw record contains the seven troubleshooting logs, Docker state, Session ID handshake behavior, and Git toplevel script verification.
 - **Synthesis in this page**: The troubleshooting logs and experience are distilled into a standard failure-mode matrix and decision-evolution table.
-- **Unconfirmed**: If a future Hindsight version changes the MCP layer to an SSE-based persistent connection or changes the header format, the bridge's capture logic must be updated.
+- **Unconfirmed**: Streamable HTTP already supports SSE. Whether the historical bridge handles actual long-lived responses and full event framing remains untested. Model provenance, client versions, and nondefault deployments also need evidence.
 
 ---
 
 ## 5. Related Pages
 
-- [Hindsight Local Compute Allocation and Dockerized Deployment](/blog/legacy/note/zh-cn/hindsight-local-deployment/)
-- [Hindsight Unified Memory Access: FastMCP Bridge and Dynamic Multi-Project Routing](/blog/legacy/note/zh-cn/hindsight-omp-codex-integration/)
-- [OMP Hook Extension Guide](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
+- [Hindsight Local Compute Allocation and Dockerized Deployment](/blog/legacy/note/en/hindsight-local-deployment/)
+- [Hindsight Unified Memory Access: FastMCP Bridge and Dynamic Multi-Project Routing](/blog/legacy/note/en/hindsight-omp-codex-integration/)
+- [OMP Hook Extension Guide](/blog/legacy/note/en/omp-hook-extension-guide/)
 
 
 ## Sources and related documents
@@ -196,4 +201,4 @@ node ~/.hindsight/hindsight-bridge.mjs
 - [hindsight-local-deployment-and-agent-integration](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/hindsight-local-deployment-and-agent-integration.md)
 - [Hindsight Local Compute Allocation and Dockerized Deployment](/blog/legacy/note/en/hindsight-local-deployment/)
 - [Hindsight Unified Memory Access: FastMCP Bridge and Dynamic Multi-Project Routing](/blog/legacy/note/en/hindsight-omp-codex-integration/)
-- [OMP Hook Extension Concept: Decision-Point Nudges, Hard Blocks, and Status Bridges](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
+- [OMP Hook Extension Concept: Decision-Point Nudges, Hard Blocks, and Status Bridges](/blog/legacy/note/en/omp-hook-extension-guide/)

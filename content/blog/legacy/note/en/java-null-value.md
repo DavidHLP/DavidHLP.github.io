@@ -66,11 +66,11 @@
     "java-online-performance-debug",
     "java-auto-closeable",
     "java-internship-interview-blog-polished",
+    "redis-jackson-java-time",
     "redis-business-patterns"
   ]
 }
 ---
-
 
 `NullValue` is a cache-layer placeholder for “the key exists, but the business result is null.” This page explains how to prevent repeated lookups for absent data and why the placeholder’s singleton and serialization behavior must remain inside the cache boundary.
 
@@ -137,15 +137,16 @@ Negative caching blocks only an absent key that has already been observed. It st
 
 ## Related pages
 
-- [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [AutoCloseable: Resource Ownership and Close-Exception Semantics](/blog/legacy/note/zh-cn/java-auto-closeable/)
-- [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
+- [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/en/java-online-performance-debug/)
+- [AutoCloseable: Resource Ownership and Close-Exception Semantics](/blog/legacy/note/en/java-auto-closeable/)
+- [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/en/java-internship-interview-blog-polished/)
 
 
 ## Sources and related documents
 
 - [legacy-java-null-value](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-java-null-value.md)
-- [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [AutoCloseable: Resource Ownership and Close-Exception Semantics](/blog/legacy/note/zh-cn/java-auto-closeable/)
-- [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
-- [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Seckill](/blog/legacy/note/zh-cn/redis-business-patterns/)
+- [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/en/java-online-performance-debug/)
+- [AutoCloseable: Resource Ownership and Close-Exception Semantics](/blog/legacy/note/en/java-auto-closeable/)
+- [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/en/java-internship-interview-blog-polished/)
+- [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/en/redis-jackson-java-time/)
+- [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Seckill](/blog/legacy/note/en/redis-business-patterns/)

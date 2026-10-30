@@ -76,7 +76,6 @@
 }
 ---
 
-
 データベースの筆記試験を復盤すると、答えの一覧は残りやすい一方、その答えが成立する条件は失われやすい。結合でどの行を残すのか、NULL が式にどう参加するのか、その式がどの SQL 方言に属するのか、そしてデータ量が増えたときにコストを抑え、結果を検証し、失敗から復旧するにはどうするのか、という条件である。
 
 ここでは問題番号ごとに答えを書き写さず、ひとつの判断の連鎖に組み直す。**まず意味を復元し、次に方言を確認し、NULL と境界条件を補い、最後に実行コスト・復旧・照合を考える。** Oracle 固有の構文は個別に説明し、4 表の練習問題と巨大テーブルの操作は **MySQL 8.4 / InnoDB** を前提にする。日付式は Spark SQL、Oracle、MySQL を分けて扱う。
@@ -449,10 +448,10 @@ TRUNCATE を「より速く、いつでもロールバックできる DELETE」�
 [^34]: MySQL 8.4 Reference Manual — TRUNCATE TABLE Statement. https://dev.mysql.com/doc/refman/8.4/en/truncate-table.html
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [database-written-test-review](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md)
-- [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [MySQL ストレージエンジンとデッドロック検出](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/)
-- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [Spark とビッグデータエコシステム：Hadoop、HBase、Spark 実行モードとクラスタ](/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/)
+- [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
+- [MySQL ストレージエンジンとデッドロック検出](/blog/legacy/note/ja/mysql-storage-and-deadlock/)
+- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/ja/database-schema-drift/)
+- [Spark とビッグデータエコシステム：Hadoop、HBase、Spark 実行モードとクラスタ](/blog/legacy/note/ja/spark-bigdata-ecosystem/)

@@ -60,11 +60,16 @@
     "karpathy-llm-wiki"
   ],
   "related": [
+    "headroom-single-port-evolution",
+    "omp-config-and-rules-guide",
+    "omp-headroom-persistence",
+    "omp-hook-extension-guide",
+    "kb-session-ingest-contract",
+    "mcp-codebase-memory-workflow",
     "headroom-compress-retrieve-contract"
   ]
 }
 ---
-
 
 > This page describes the operating model of the knowledge base itself. The primary source is [`karpathy-llm-wiki`](https://gist.githubusercontent.com/karpathy/442a6bf555914893e9891c11519de94f/raw/ac46de1ad27f92b28ac95459c782c07f6b8c964a/llm-wiki.md). The maintenance contract lives in [KB.md](https://github.com/DavidHLP/DavidHLP.github.io/blob/main/KB.md) and the [knowledge-base skill](https://github.com/DavidHLP/DavidHLP.github.io/blob/main/.claude/skills/knowledge-base.md).
 
@@ -134,4 +139,10 @@ Future pages should grow three connected networks:
 ## Sources and related documents
 
 - [karpathy-llm-wiki](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/karpathy-llm-wiki.md)
+- [Headroom Single-Port Synthesis: Entry, Dynamic Upstreams, and Verification Boundaries](/blog/legacy/note/en/headroom-single-port-evolution/)
+- [OMP Configuration Layers: Model Roles, Agent Overrides, and Fallback Chains](/blog/legacy/note/en/omp-config-and-rules-guide/)
+- [Headroom Route Persistence Synthesis: Named Profiles, model_cache, and Recovery](/blog/legacy/note/en/omp-headroom-persistence/)
+- [OMP Hook Extension Concept: Decision-Point Nudges, Hard Blocks, and Status Bridges](/blog/legacy/note/en/omp-hook-extension-guide/)
+- [KB Session Ingestion Pipeline Contract: Incremental Reuse, Redaction v19, and Immutable Raw](/blog/legacy/note/en/kb-session-ingest-contract/)
+- [MCP Protocol Era Boundary and the codebase-memory-mcp v0.10.2 Graph Workflow](/blog/legacy/note/en/mcp-codebase-memory-workflow/)
 - [Headroom 0.34 Compression and Retrieval Contract: Fields, Modes, and Real-Endpoint Tests](/blog/legacy/note/en/headroom-compress-retrieve-contract/)

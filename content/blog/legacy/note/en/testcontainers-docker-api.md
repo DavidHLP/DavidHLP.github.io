@@ -71,7 +71,6 @@
 }
 ---
 
-
 **Conclusion first**: Testcontainers Java `1.20.6` falls back to `1.32` for an unknown Docker API version instead of first dynamically negotiating to the daemon's newest version. When you hit `Could not find a valid Docker environment`, first check the earliest `/v1.32/info` request and the HTTP 400; do not rule out API version incompatibility just because the daemon is running.
 
 ## Version boundaries
@@ -176,5 +175,5 @@ The initial source snapshot, version corrections, and unverified items are in th
 
 - [testcontainers-docker-api-negotiation](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/testcontainers-docker-api-negotiation.md)
 - [testcontainers-docker-api-negotiation-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/testcontainers-docker-api-negotiation-correction.md)
-- [containerd TLS: Choosing a Trusted Chain or Temporary Verification Bypass](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/zh-cn/multi-service-readiness/)
+- [containerd TLS: Choosing a Trusted Chain or Temporary Verification Bypass](/blog/legacy/note/en/containerd-tls-troubleshooting/)
+- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/en/multi-service-readiness/)

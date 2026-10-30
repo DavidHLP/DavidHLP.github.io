@@ -72,7 +72,6 @@
 }
 ---
 
-
 > **证据状态**：本文依据 UltiCode 固定提交中的 `FencedJobLeaseMapper`、`FencedJobLeaseService`、`OwnerReconciler`、`ReconciliationRunMapper`、ADR 和 MySQL 迁移整理。源码和边界测试说明了 stale completion 会被拒绝；不等于所有外部副作用都具备 fencing，也不等于单例任务 exactly-once。
 
 假设系统只允许一个 reconciliation 任务运行。实例 A 获取了租约，开始扫描；过了一段时间，A 停顿，租约过期。实例 B 获取新租约并完成了新一轮扫描。此时 A 恢复，继续执行最后一步：把自己的结果写成“任务已完成”。
@@ -178,7 +177,7 @@ fenced lease 把长任务拆成短事务：获取、续租、记录进度、完�
 
 ## 最小验证路径
 
-先阅读 [`FencedJobLeaseMapper`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/admin/src/main/java/com/ulticode/modules/lease/FencedJobLeaseMapper.java) 的获取/续租/释放条件，再阅读 [`ReconciliationRunMapper`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/admin/src/main/java/com/ulticode/modules/reconciliation/ReconciliationRunMapper.java) 的完成更新。最后看 [`FencedJobLeaseIT`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/admin/src/test/java/com/ulticode/modules/lease/FencedJobLeaseIT.java) 和 [`OwnerReconcilerTest`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c)：一个验证租约接管后旧释放失败，另一个验证旧 owner 的完成写入被拒绝。
+先阅读 [`FencedJobLeaseMapper`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/admin/src/main/java/com/ulticode/modules/lease/FencedJobLeaseMapper.java) 的获取/续租/释放条件，再阅读 [`ReconciliationRunMapper`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/admin/src/main/java/com/ulticode/modules/reconciliation/ReconciliationRunMapper.java) 的完成更新。最后看 [`FencedJobLeaseIT`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/admin/src/test/java/com/ulticode/modules/lease/FencedJobLeaseIT.java) 和 [`OwnerReconcilerTest`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/admin/src/test/java/com/ulticode/modules/reconciliation/OwnerReconcilerTest.java)：一个验证租约接管后旧释放失败，另一个验证旧 owner 的完成写入被拒绝。
 
 本次 UltiCode 分析阶段已实际执行并通过该 fenced lease 的两项 MySQL 8 Testcontainers 集成测试以及 reconciliation 的定向单元测试；这验证的是选定竞争场景，不是性能、网络分区或所有外部副作用的证明。
 

@@ -73,7 +73,6 @@
 }
 ---
 
-
 The 20 Redis business notes across the two repositories mirror each other (each topic appears once in Personal and once in Fuwari, in Chinese and English). This page anchors on cache consistency, lock correctness, and messaging semantics, converging them into reusable patterns rather than course transcripts.
 
 ## Core Mechanism
@@ -120,16 +119,16 @@ The 20 Redis business notes across the two repositories mirror each other (each 
 
 ## Related Pages
 
-- [redis-persistence-principle](/blog/legacy/note/zh-cn/redis-persistence-principle/)
-- [java-null-value](/blog/legacy/note/zh-cn/java-null-value/)
-- [redis-jackson-java-time](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
-- [resicache-observer-nested-execution](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
+- [redis-persistence-principle](/blog/legacy/note/en/redis-persistence-principle/)
+- [java-null-value](/blog/legacy/note/en/java-null-value/)
+- [redis-jackson-java-time](/blog/legacy/note/en/redis-jackson-java-time/)
+- [resicache-observer-nested-execution](/blog/legacy/note/en/resicache-observer-nested-execution/)
 
 
 ## Sources and related documents
 
 - [ingest-redis-business](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-redis-business.md)
-- [Redis Persistence and Internals: RDB/AOF, Data Structures, and Advanced Mechanisms](/blog/legacy/note/zh-cn/redis-persistence-principle/)
-- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/zh-cn/java-null-value/)
-- [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
-- [ResiCache: Observer Nested Execution Must Distinguish Lifecycle, Fragments, and Scope Tokens](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
+- [Redis Persistence and Internals: RDB/AOF, Data Structures, and Advanced Mechanisms](/blog/legacy/note/en/redis-persistence-principle/)
+- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/en/java-null-value/)
+- [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/en/redis-jackson-java-time/)
+- [ResiCache: Observer Nested Execution Must Distinguish Lifecycle, Fragments, and Scope Tokens](/blog/legacy/note/en/resicache-observer-nested-execution/)

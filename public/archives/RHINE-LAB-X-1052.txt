@@ -89,11 +89,13 @@ If the legacy reconciler must be tested, use a temporary database copy and non-p
 - **This page's synthesis**: decoupling route intent from `model_cache`, then separating current-wrapper verification from migration-only reconciler verification, prevents a historical script from becoming a product startup contract.
 - **Unconfirmed**: the Named Profile CLI, database schema, authoritative-override rules, when the wrapper writes or clears `models.yml`, process-exit memory behavior, and provider protocol behavior depend on OMP/Headroom versions; cross-version compatibility is not claimed.
 
+- **OMP version boundary**: `omp-17-2-15-runtime-contract` preserves the initial tag snapshot; independent `omp-17-2-15-runtime-contract-correction` narrows negative evidence to path-tree/settings-schema scans at a fixed commit. Neither proves external Headroom wrapper behavior. The wrapper lifecycle here comes from legacy evidence and needs separate pinned-Headroom verification.
+
 ## Related pages
 
-- [Headroom single-port synthesis](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [OMP configuration layers](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
-- [OMP Hook extension](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
+- [Headroom single-port synthesis](/blog/legacy/note/en/headroom-single-port-evolution/)
+- [OMP configuration layers](/blog/legacy/note/en/omp-config-and-rules-guide/)
+- [OMP Hook extension](/blog/legacy/note/en/omp-hook-extension-guide/)
 - [LLM wiki pattern](/blog/legacy/note/en/llm-wiki-pattern/)
 
 
@@ -102,10 +104,15 @@ If the legacy reconciler must be tested, use a temporary database copy and non-p
 - [legacy-omp-headroom-persistence](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-omp-headroom-persistence.md)
 - [legacy-headroom-single-port-evolution](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-headroom-single-port-evolution.md)
 - [legacy-omp-config-and-rules-guide](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-omp-config-and-rules-guide.md)
-- [Headroom Single-Port Synthesis: Entry, Dynamic Upstreams, and Verification Boundaries](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [OMP Configuration Layers: Model Roles, Agent Overrides, and Fallback Chains](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
-- [OMP Hook Extension Concept: Decision-Point Nudges, Hard Blocks, and Status Bridges](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
+- [omp-17-2-15-runtime-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/omp-17-2-15-runtime-contract.md)
+- [omp-17-2-15-runtime-contract-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/omp-17-2-15-runtime-contract-correction.md)
+- [Headroom Single-Port Synthesis: Entry, Dynamic Upstreams, and Verification Boundaries](/blog/legacy/note/en/headroom-single-port-evolution/)
+- [Headroom with cc-switch / Claude Code Coexistence: Single Synthesis and Security Boundaries](/blog/legacy/note/en/headroom-cc-switch-coexistence/)
+- [OMP Headroom Bridge: External Routing Controller and Native Codex/OMP Proxy Boundaries](/blog/legacy/note/en/omp-headroom-provider-proxy/)
+- [OMP Configuration Layers: Model Roles, Agent Overrides, and Fallback Chains](/blog/legacy/note/en/omp-config-and-rules-guide/)
+- [OMP Hook Extension Concept: Decision-Point Nudges, Hard Blocks, and Status Bridges](/blog/legacy/note/en/omp-hook-extension-guide/)
 - [The LLM-Wiki Pattern: Maintaining a Compounding Personal Knowledge Base](/blog/legacy/note/en/llm-wiki-pattern/)
+- [Headroom 0.34 Compression and Retrieval Contract: Fields, Modes, and Real-Endpoint Tests](/blog/legacy/note/en/headroom-compress-retrieve-contract/)
 
 Research notes
 1. Original document: src/content/note/en/omp-headroom-persistence.md

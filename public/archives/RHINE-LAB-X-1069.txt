@@ -125,14 +125,14 @@ Plugin state can become logically offline first and be batch-cleaned after reten
 
 ## Related pages
 
-- [Plugin lifecycle management](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
+- [Plugin lifecycle management](/blog/legacy/note/en/plugin-lifecycle-management/)
 
 
 ## Sources and related documents
 
 - [legacy-uisa-architecture-design](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-uisa-architecture-design.md)
 - [legacy-plugin-lifecycle-management](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-plugin-lifecycle-management.md)
-- [Plugin Lifecycle Management at Million-Endpoint Scale: State, Heartbeats, and Controlled Release](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
+- [Plugin Lifecycle Management at Million-Endpoint Scale: State, Heartbeats, and Controlled Release](/blog/legacy/note/en/plugin-lifecycle-management/)
 
 Research notes
 1. Original document: src/content/note/en/uisa-architecture-design.md

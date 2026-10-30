@@ -83,7 +83,6 @@
 }
 ---
 
-
 これは個人の物語や質問リストではなく、面接で確認できる能力の統合ページです。「プロジェクトを作った」を、担当範囲を示し、機構とトレードオフを説明し、障害・メトリクス・復旧の証拠で検証できる判断へ変換する方法を扱います。目的は技術名を並べることではなく、プロジェクトの真正性、機構の正しさ、実運用の可観測性を結び付けることです。
 
 ## 核心メカニズム
@@ -114,7 +113,7 @@
 CPU または latency 障害は次へ圧縮できます。
 
 ```text
-症状 → 時系列と snapshot を保存 → PID/TID → stack/GC/method の証拠
+症状 → 時系列と snapshot を保存 → PID/TID → jstack/GC/method の証拠
      → code、lock、GC、dependency の仮説 → 可逆止血 → 指標を再確認して review
 ```
 
@@ -164,18 +163,18 @@ CPU または latency 障害は次へ圧縮できます。
 
 ## 関連ページ
 
-- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/zh-cn/java-null-value/)
-- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/zh-cn/java-auto-closeable/)
+- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/ja/java-null-value/)
+- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)
+- [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/ja/java-atomic-boolean/)
+- [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/ja/java-auto-closeable/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-java-internship-interview-blog-polished](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-java-internship-interview-blog-polished.md)
 - [legacy-java-null-value](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-java-null-value.md)
 - [legacy-java-online-performance-debug](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-java-online-performance-debug.md)
-- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/zh-cn/java-null-value/)
-- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/zh-cn/java-auto-closeable/)
+- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/ja/java-null-value/)
+- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)
+- [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/ja/java-atomic-boolean/)
+- [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/ja/java-auto-closeable/)

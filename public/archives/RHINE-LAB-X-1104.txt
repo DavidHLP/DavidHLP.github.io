@@ -115,7 +115,7 @@ modern の request 単位 `_meta` フィールド（`basic/index.mdx` より）�
 - [LLM-Wiki パターン](/blog/legacy/note/ja/llm-wiki-pattern/)：このナレッジベースがこうしたソースを証拠駆動の wiki ページへ編纂する運用方式
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [mcp-codebase-memory-workflow](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/mcp-codebase-memory-workflow.md)
 - [LLM-Wiki パターン：LLM で蓄積する個人 AI ナレッジベース](/blog/legacy/note/ja/llm-wiki-pattern/)

@@ -76,7 +76,6 @@
 }
 ---
 
-
 > **証拠の状態**：この記事は固定コミット時点の UltiCode audit adapter、dispatcher、Admin inbox bridge、consumer inbox、database migration に基づく。repository に mechanism があることは、service 間 exactly-once や本番で audit が一件も失われないことの証明ではない。
 
 audit log には見落としやすい制約がある。audit event を生む action と audit log を保存する module は、異なる Data Owner であることが多い。
@@ -117,7 +116,7 @@ Auth/App local transaction
                     └── owner-specific Redis Stream
 ```
 
-AuthAuditSinkAdapter と AppAuditSinkAdapter の価値は「table が一つ増えた」ことではない。必ず一緒に起きるべき二つの action を一つの Owner の local transaction に入れる。
+[AuthAuditSinkAdapter](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/auth/src/main/java/com/ulticode/auth/audit/AuthAuditSinkAdapter.java) と [AppAuditSinkAdapter](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/app/app-web/src/main/java/com/ulticode/app/audit/AppAuditSinkAdapter.java) の価値は「table が一つ増えた」ことではない。必ず一緒に起きるべき二つの action を一つの Owner の local transaction に入れる。
 
 ```text
 @Transactional
@@ -148,7 +147,7 @@ consumer_inbox.insertIfAbsent(consumer, eventId, payload)
           └── only then ACK Stream
 ```
 
-AdminAuditIntegrationInboxBridge は message を先に validate し、Admin local の consumer_inbox に引き取る。Inbox write 前に process が落ちれば Stream message は unacknowledged のままで再読できる。Inbox insert 後 ACK 前に落ちても、次の read は unique key に当たり、insertIfAbsent が duplicate と認識して安全に ACK できる。
+[AdminAuditIntegrationInboxBridge](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/admin/src/main/java/com/ulticode/modules/admin/audit/AdminAuditIntegrationInboxBridge.java) は message を先に validate し、Admin local の consumer_inbox に引き取る。Inbox write 前に process が落ちれば Stream message は unacknowledged のままで再読できる。Inbox insert 後 ACK 前に落ちても、次の read は unique key に当たり、insertIfAbsent が duplicate と認識して安全に ACK できる。
 
 consumer inbox の unique key は (consumer, event_id) である。eventId を global unique にするより正確だ。同じ event に複数の正当な consumer がいてもよく、各 consumer が deduplication するのは自分の side effect だけだからである。
 
@@ -156,7 +155,7 @@ Admin は event id と payload 内の auditId も一致確認する。保守的�
 
 ## 第三の境界：Inbox 自身も復旧可能な state machine である
 
-message を Inbox に write するだけでは「永続的に引き取った」ことしか解決しない。consumer が処理途中で crash する問題は残るため、ConsumerInboxMapper と InboxConsumer が local state をもう一層作る。
+message を Inbox に write するだけでは「永続的に引き取った」ことしか解決しない。consumer が処理途中で crash する問題は残るため、[ConsumerInboxMapper](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/platform/integration-inbox/src/main/java/com/ulticode/modules/event/inbox/ConsumerInboxMapper.java) と [InboxConsumer](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/platform/integration-inbox/src/main/java/com/ulticode/modules/event/inbox/InboxConsumer.java) が local state をもう一層作る。
 
 ```text
 PENDING
@@ -225,15 +224,15 @@ source review では table structure だけを見るより次の順が断点を�
 
 1. AuthAuditSinkAdapter と AppAuditSinkAdapter を読み、outbox insert が本当に business transaction path にあるか確認する。
 2. AdminAuditIntegrationInboxBridge を読み、ACK が Inbox persistence より後か確認する。
-3. ConsumerInboxMapper、InboxConsumer、AdminAuditEventConsumer を同時に読み、lease recovery、unique key、handler transaction が閉じているか確認する。
+3. ConsumerInboxMapper、InboxConsumer、[AdminAuditEventConsumer](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/admin/src/main/java/com/ulticode/modules/admin/audit/AdminAuditEventConsumer.java) を同時に読み、lease recovery、unique key、handler transaction が閉じているか確認する。
 
 repository には Auth/App audit dispatcher test と Admin audit/inbox test がある。本 article の write 段階では UltiCode Maven test を再実行しておらず、test file の存在を real Redis multi-instance や cross-database failure exercise の証明とはしていない。
 
 
 
-## Sources and related documents
+## 出典と関連文書
 
-- [ulticode-reliability-core-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-reliability-core-f801a1076.md)
-- [UltiCode：オンラインジャッジプラットフォームのモジュール型アーキテクチャとドメイン境界](/blog/legacy/note/ja/ulticode/)
+- [ulticode-reliability-core-[f801a1076](https://github.com/DavidHLP/UltiCode/tree/f801a1076b2fa9aa06ce3d63821f0778b477042c)](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-reliability-core-f801a1076.md)
+- [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/)
 - [UltiCode の Data Owner と fact snapshot：サービス間 submit の境界を保つ](/blog/legacy/note/ja/ulticode-owner-and-facts/)
 - [UltiCode Outbox と Redis Streams：判定投递を復旧可能な状態にする](/blog/legacy/note/ja/ulticode-outbox-redis-streams/)

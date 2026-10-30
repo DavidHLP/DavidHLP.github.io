@@ -70,8 +70,9 @@
 }
 ---
 
-
 This page records the bridge implementation and configuration for connecting the Vectorize Hindsight memory engine to the terminal agents **OMP (Oh-My-Pi)** and **Codex CLI**. The central improvement is **dynamic workspace routing with multi-project isolation** plus a **FastMCP stdio bridge that preserves session state**.
+
+> **Scope and review (2026-09-08)**: This preserves the Hindsight v0.9.1 practice reported in the 2026-08-17 snapshot. OMP, Codex, Node.js, and bridge versions are not fully pinned. The code is historical; that revision performed text/protocol review only, without restarting services or validating current client configuration compatibility.
 
 ---
 
@@ -79,7 +80,7 @@ This page records the bridge implementation and configuration for connecting the
 
 In multi-project development, hard-coding one global Bank (for example, always using `ulticode`) causes memories, entities, and rules from different repositories to contaminate one another.
 
-This solution probes the Git repository root and automatically uses the current repository name as an independent Bank identifier (such as `ulticode`, `resicache`, or `davidhlp_github_io`), providing complete physical isolation across projects.
+The Git-root probe derives Bank IDs from repository directory names, such as `ulticode`, `resicache`, and `davidhlp_github_io`. This is logical application partitioning, not physical database/process isolation or access control. The code uses only basename and character replacement: repositories with the same basename in different paths, and `a.b` versus `a_b`, can collide. Set distinct `HINDSIGHT_BANK_ID` values explicitly when needed and check the Bank OMP actually uses.
 
 ```
 Project workspace (/path/to/project-a)  ──> Git root detection ──> Bank: project_a ──> Hindsight /mcp/project_a/
@@ -88,7 +89,7 @@ Project workspace (/path/to/project-b)  ──> Git root detection ──> Bank:
 
 ---
 
-## 2. Generic FastMCP Bridge (`~/.hindsight/hindsight-bridge.mjs`)
+## 2. Historical FastMCP Bridge Example (`~/.hindsight/hindsight-bridge.mjs`)
 
 Codex CLI and some Agent child processes communicate over JSON-RPC through stdio, while Hindsight v0.9.1 exposes an HTTP Streamable FastMCP endpoint. A small local Node.js bridge is therefore needed to convert the protocol and preserve the Session ID:
 
@@ -204,6 +205,10 @@ rl.on("line", async (line) => {
 
 ---
 
+### Protocol gaps in the example
+
+The example retains Session ID forwarding and Git-root detection, but is not a complete generic MCP proxy. It waits for the entire SSE response before forwarding, does not handle full SSE event boundaries, and lacks explicit handling of empty notification responses, concurrent handshakes, reinitialization after session expiry, and the negotiated protocol-version header. Under the [MCP 2025-06-18 transport specification](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports), successful notifications can return HTTP 202 without a body; Streamable HTTP already supports SSE; subsequent Session ID forwarding is required when the server assigned one. Validate these cases for the actual clients before deployment: one successful `tools/list` is not general compatibility proof.
+
 ## 3. Agent Client Configuration
 
 > **Path configuration rule**: Node processes and environments do not automatically expand `~` in `args` paths. Use an absolute path (such as `/home/user/`) or inject the path through an environment variable.
@@ -258,9 +263,9 @@ HINDSIGHT_API_BASE_URL = "http://127.0.0.1:8888"
 
 ## 4. Verification Results and Observed Metrics
 
-An end-to-end test was performed from real multi-module subdirectories:
+The following retells one write/recall record from the 2026-08-17 raw, not a fresh execution. Repetitions, load, full versions, and timing methods are not supplied; scores and 0.059s are not benchmarks, and the test text is not a current project configuration fact:
 
-```
+```text
 [Write stage (Codex MCP Bridge -> GPU Fact Extraction)]
 Written: "Backend uses Java 17 and Spring Boot 3.2.5 with three owner services: auth 9101, admin 9102, app 9103."
 Extraction result: 3 fact entities were extracted successfully and indexed with BAAI/bge-m3.
@@ -275,17 +280,18 @@ Metrics: reranker score 0.965, semantic score 0.668, retrieval latency 0.059s.
 
 ## 5. Evidence and Uncertainty
 
-- **Source facts**: The pinned raw source `hindsight-local-deployment-and-agent-integration` verifies the FastMCP stdio state machine, Git toplevel detection, and end-to-end OMP/Codex retrieval.
-- **Synthesis in this page**: The bridge code, dual-client configuration, and observed metrics are consolidated as an independent Entity integration specification.
-- **Unconfirmed**: If a project is not initialized as a Git repository and `HINDSIGHT_BANK_ID` is not specified, the bridge falls back to the `default` partition.
+- **Source report**: The pinned raw `hindsight-local-deployment-and-agent-integration` reports handshake, tool discovery, and one successful retrieval. It does not prove a complete state machine or compatibility with all clients.
+- **Synthesis**: Bridge code, dual-client configurations, and observed metrics form an Entity integration record.
+- **Statically confirmable**: Without a Git root or explicit `HINDSIGHT_BANK_ID`, code uses CWD and derives the Bank from its basename. Only an empty basename, `/`, `.`, or `root` returns `default`; non-Git subdirectory drift remains possible.
+- **Unconfirmed**: Current agreement between OMP `per-project` naming and this algorithm, plus model, permission, and complete retain/recall behavior, requires runtime checks.
 
 ---
 
 ## 6. Related Pages
 
-- [Hindsight Local Compute Allocation and Dockerized Deployment](/blog/legacy/note/zh-cn/hindsight-local-deployment/)
-- [Hindsight Runtime Troubleshooting Matrix and Failure Modes](/blog/legacy/note/zh-cn/hindsight-troubleshooting/)
-- [OMP Configuration Layers and Rules Guide](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
+- [Hindsight Local Compute Allocation and Dockerized Deployment](/blog/legacy/note/en/hindsight-local-deployment/)
+- [Hindsight Runtime Troubleshooting Matrix and Failure Modes](/blog/legacy/note/en/hindsight-troubleshooting/)
+- [OMP Configuration Layers and Rules Guide](/blog/legacy/note/en/omp-config-and-rules-guide/)
 
 
 ## Sources and related documents
@@ -293,4 +299,4 @@ Metrics: reranker score 0.965, semantic score 0.668, retrieval latency 0.059s.
 - [hindsight-local-deployment-and-agent-integration](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/hindsight-local-deployment-and-agent-integration.md)
 - [Hindsight Local Compute Allocation and Dockerized Deployment](/blog/legacy/note/en/hindsight-local-deployment/)
 - [Hindsight Runtime Troubleshooting Matrix and Failure Modes](/blog/legacy/note/en/hindsight-troubleshooting/)
-- [OMP Configuration Layers: Model Roles, Agent Overrides, and Fallback Chains](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
+- [OMP Configuration Layers: Model Roles, Agent Overrides, and Fallback Chains](/blog/legacy/note/en/omp-config-and-rules-guide/)

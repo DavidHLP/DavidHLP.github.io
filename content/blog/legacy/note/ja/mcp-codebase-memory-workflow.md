@@ -67,7 +67,6 @@
 }
 ---
 
-
 コードグラフツールを証拠源として扱うとき、まず二つのバージョン境界を分ける。MCP 仕様 `2026-07-28`（modern）は **request 単位の stateless 宣言**に変わり、`initialize` ハンドシェイクは存在しない。一方 codebase-memory-mcp `v0.10.2` は **legacy 時代のサーバー**で、最高でも `2025-11-25` までしか対応せず、modern クライアントは直接接続できない。この二つの互換事実がワークフローの検証契約を決め、グラフツール自体の規律が結論の信頼性を決める。**グラフ結果は完全性の証明ではなく、否定的結論は coverage チェックとソースへの回帰に依拠しなければならない**。
 
 ## プロトコル時代の境界：request 単位の `_meta` と `initialize` ハンドシェイク
@@ -176,7 +175,7 @@ modern の request 単位 `_meta` フィールド（`basic/index.mdx` より）�
 - [LLM-Wiki パターン](/blog/legacy/note/ja/llm-wiki-pattern/)：このナレッジベースがこうしたソースを証拠駆動の wiki ページへ編纂する運用方式
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [mcp-codebase-memory-workflow](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/mcp-codebase-memory-workflow.md)
 - [LLM-Wiki パターン：LLM で蓄積する個人 AI ナレッジベース](/blog/legacy/note/ja/llm-wiki-pattern/)

@@ -68,7 +68,6 @@
 }
 ---
 
-
 > この記事は現在のソースにある early-expiration protocol を説明する。これをバックグラウンドデータ更新とは呼ばず、テスト結果を性能や freshness SLA へ拡張しない。
 
 キャッシュの期限が近づいたとき、よくある目的は大量のリクエストが同時に miss へ到達するのを避けることである。
@@ -95,7 +94,9 @@ T3: 古い task が開始
 
 古い task が key だけを覚えていて、次を実行するとする。
 
-`EXPIRE key 5`
+```text
+EXPIRE key 5
+```
 
 value-B の TTL が短縮される。新しい値は early-expiration の判断に参加していないのに、古い task によって寿命を変更される。
 
@@ -153,11 +154,15 @@ future request: miss 後に通常の loader path へ入る
 
 format version が答えるのは次である。
 
-`この Redis bytes をどの protocol で decode するか？`
+```text
+この Redis bytes をどの protocol で decode するか？
+```
 
 cache value version が答えるのは次である。
 
-`この async task が capture した value は、現在 Redis にある同じ value か？`
+```text
+この async task が capture した value は、現在 Redis にある同じ value か？
+```
 
 CachedValue.of は現在の process の System.nanoTime() で value version を生成する。startNanoTime は永続化せず、process 内の monotonic time 計算に使う。どちらも cross-process の global clock や増加 sequence と解釈してはいけない。
 
@@ -325,9 +330,9 @@ old task は制御された次の action だけを作る
 
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [resicache-engineering-highlights-2954fff](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md)
 - [resicache-project-overview](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-project-overview.md)
-- [ResiCache：Spring Cache 保護のためのオーケストレーション可能な責任チェーン](/blog/legacy/note/ja/resicache/)
-- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/zh-cn/redis-business-patterns/)
+- [ResiCache：キャッシュ保護を検証可能な並行性・一貫性の境界にする](/blog/legacy/note/ja/resicache/)
+- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/ja/redis-business-patterns/)

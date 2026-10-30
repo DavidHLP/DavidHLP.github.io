@@ -69,7 +69,6 @@
 }
 ---
 
-
 黒馬 Redis 実践は 5 つのノート（重複を含む 6 ファイル）で構成されます：クイックスタート、156KB の実践、分散キャッシュ、マルチレベルキャッシュ、ベストプラクティス。本ページは 200 ページ超の教材をチェックリストに圧縮し、スクリーンショットと重複コピーを削除します。
 
 ## 核心メカニズム
@@ -111,14 +110,14 @@
 
 ## 関連ページ
 
-- [redis-business-patterns](/blog/legacy/note/zh-cn/redis-business-patterns/)
-- [redis-persistence-principle](/blog/legacy/note/zh-cn/redis-persistence-principle/)
-- [plugin-lifecycle-management](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
+- [redis-business-patterns](/blog/legacy/note/ja/redis-business-patterns/)
+- [redis-persistence-principle](/blog/legacy/note/ja/redis-persistence-principle/)
+- [plugin-lifecycle-management](/blog/legacy/note/ja/plugin-lifecycle-management/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ingest-redis-heima](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-redis-heima.md)
-- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/zh-cn/redis-business-patterns/)
-- [Redis 永続化と原理：RDB/AOF、データ構造と高度な仕組み](/blog/legacy/note/zh-cn/redis-persistence-principle/)
-- [百万端末のプラグインライフサイクル管理：状態・ハートビート・制御されたリリース](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
+- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/ja/redis-business-patterns/)
+- [Redis 永続化と原理：RDB/AOF、データ構造と高度な仕組み](/blog/legacy/note/ja/redis-persistence-principle/)
+- [百万端末のプラグインライフサイクル管理：状態・ハートビート・制御されたリリース](/blog/legacy/note/ja/plugin-lifecycle-management/)

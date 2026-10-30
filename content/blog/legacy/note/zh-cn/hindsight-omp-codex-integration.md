@@ -70,7 +70,6 @@
 }
 ---
 
-
 本篇详细记录 Vectorize Hindsight 记忆引擎接入终端智能体 **OMP (Oh-My-Pi)** 与 **Codex CLI** 的桥接实现与配置规范。核心突破在于设计了**多项目自适应隔离路由（Dynamic Workspace Routing）**与带会话状态保持的 **FastMCP stdio 桥接器**。
 
 > **适用范围与核验（2026-09-08）**：本文保留 2026-08-17 来源快照所报告的 Hindsight v0.9.1 接入实践；OMP、Codex、Node.js 与桥接器版本未完整固定。以下代码是历史示例，本轮仅作全文与协议静态审阅，未重跑服务或验证当前客户端配置兼容性。
@@ -266,7 +265,7 @@ HINDSIGHT_API_BASE_URL = "http://127.0.0.1:8888"
 
 下列内容转述自 2026-08-17 raw 的一次写入/召回记录，并非本轮重新执行。原快照未提供重复次数、负载、完整软件版本和计时方法，分数与 0.059s 不能作为性能基准；该测试文本也不是当前项目配置事实：
 
-```
+```text
 [写入阶段 (Codex MCP Bridge -> GPU Fact Extraction)]
 写入： "Backend uses Java 17 and Spring Boot 3.2.5 with three owner services: auth 9101, admin 9102, app 9103."
 提炼结果： 成功提炼 3 条 Fact 实体并完成 BAAI/bge-m3 向量索引。

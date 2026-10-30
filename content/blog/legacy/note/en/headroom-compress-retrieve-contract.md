@@ -61,11 +61,15 @@
     "headroom-0-34-compress-retrieve-contract"
   ],
   "related": [
+    "headroom-single-port-evolution",
+    "omp-headroom-persistence",
+    "headroom-cc-switch-coexistence",
+    "omp-headroom-provider-proxy",
+    "omp-hook-extension-guide",
     "llm-wiki-pattern"
   ]
 }
 ---
-
 
 Treat the Headroom 0.34.0 API as a versioned contract rather than inferring fields from the dashboard, type names, or mocks. `/v1/compress` requires `model` and `messages`, compression metrics are top-level response fields, and `/v1/retrieve` returns `original_content`. An adapter can pass a self-consistent mock suite while getting all three wrong against the real proxy.
 
@@ -178,4 +182,9 @@ Rollback does not require deleting data: restore new requests to the default mar
 ## Sources and related documents
 
 - [headroom-0-34-compress-retrieve-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/headroom-0-34-compress-retrieve-contract.md)
+- [Headroom Single-Port Synthesis: Entry, Dynamic Upstreams, and Verification Boundaries](/blog/legacy/note/en/headroom-single-port-evolution/)
+- [Headroom Route Persistence Synthesis: Named Profiles, model_cache, and Recovery](/blog/legacy/note/en/omp-headroom-persistence/)
+- [Headroom with cc-switch / Claude Code Coexistence: Single Synthesis and Security Boundaries](/blog/legacy/note/en/headroom-cc-switch-coexistence/)
+- [OMP Headroom Bridge: External Routing Controller and Native Codex/OMP Proxy Boundaries](/blog/legacy/note/en/omp-headroom-provider-proxy/)
+- [OMP Hook Extension Concept: Decision-Point Nudges, Hard Blocks, and Status Bridges](/blog/legacy/note/en/omp-hook-extension-guide/)
 - [The LLM-Wiki Pattern: Maintaining a Compounding Personal Knowledge Base](/blog/legacy/note/en/llm-wiki-pattern/)

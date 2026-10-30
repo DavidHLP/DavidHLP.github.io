@@ -71,7 +71,6 @@
 }
 ---
 
-
 **Conclusion first**: Troubleshooting Dubbo + Nacos cannot stop at "there are instances in the registry". First verify the interface-level service name `providers:{interface}:{version}:{group}`, the Nacos group, the provider URL metadata, and the consumer's version/group subscription conditions, then decide whether application-level discovery is needed. The default `register-mode=all` can produce both the application-name service and the interface-level service at the same time; only a real Nacos provider/consumer smoke test can prove end-to-end RPC.
 
 ## Version and scope
@@ -192,5 +191,5 @@ Pinned commits, official docs, config key corrections, and unverified items are 
 
 - [dubbo-nacos-runtime-registration](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/dubbo-nacos-runtime-registration.md)
 - [dubbo-nacos-runtime-registration-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/dubbo-nacos-runtime-registration-correction.md)
-- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [Microservice Data Ownership: Establish the Domain Owner First, Then Talk About Database Splitting and Migration](/blog/legacy/note/zh-cn/microservice-data-ownership/)
+- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/en/multi-service-readiness/)
+- [Microservice Data Ownership: Establish the Domain Owner First, Then Talk About Database Splitting and Migration](/blog/legacy/note/en/microservice-data-ownership/)

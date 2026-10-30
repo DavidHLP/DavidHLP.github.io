@@ -66,23 +66,25 @@
   "kind": "concept",
   "status": "active",
   "sources": [
-    "legacy-omp-hook-extension-guide"
+    "legacy-omp-hook-extension-guide",
+    "omp-17-2-15-runtime-contract",
+    "omp-17-2-15-runtime-contract-correction"
   ],
   "related": [
     "headroom-single-port-evolution",
     "omp-config-and-rules-guide",
     "omp-headroom-persistence",
-    "llm-wiki-pattern"
+    "llm-wiki-pattern",
+    "headroom-compress-retrieve-contract"
   ]
 }
 ---
-
 
 This page answers where a Hook belongs, what it should change, and how to prove that it works. The key position is the decision point immediately before a tool call: `sendMessage` is appropriate for a low-risk nudge, while `{ block, reason }` is the blocking channel; `ctx.ui.setStatus` only publishes state to a visible UI and cannot turn a suggestion into security enforcement.
 
 ## Core mechanism
 
-### 1. Decision point and two output channels
+### 1. Complete event list, decision points, and output channels
 
 ```mermaid
 flowchart LR
@@ -96,23 +98,36 @@ flowchart LR
   I --> J[Hook status map] --> K[Status row/optional segment]
 ```
 
-| Channel    | Minimal contract                                                                    | Observable effect it can prove                                     | Effect it must not assume                                                     |
-| ---------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
-| Soft nudge | `pi.sendMessage({ customType, content, display, attribution })`, then return `void` | The message enters Agent context and the current tool continues    | That the Agent will follow it or that any safety action is blocked            |
-| Hard block | `return { block: true, reason }` (fields follow the current types)                  | The current tool call is rejected and the caller receives a reason | That misclassification is impossible or that it replaces server authorization |
-| UI status  | `ctx.ui.setStatus(key, text)`                                                       | State enters the Hook status collection and may be rendered        | That it appears in the top border or that long text is never truncated        |
+At the pinned OMP `17.2.15` release, `HookAPI.on()` explicitly lists:
 
-### 2. Extension lifecycle and the status bridge
+- **Session and tree**: `session_start`, `session_before_switch`, `session_switch`, `session_before_branch`, `session_branch`, `session_before_compact`, `session.compacting`, `session_compact`, `session_shutdown`, `session_before_tree`, `session_tree`.
+- **Context and Agent turns**: `context`, `before_agent_start`, `agent_start`, `agent_end`, `turn_start`, `turn_end`.
+- **Automatic recovery and reminders**: `auto_compaction_start`, `auto_compaction_end`, `auto_retry_start`, `auto_retry_end`, `ttsr_triggered`, `todo_reminder`.
+- **Tool boundaries**: `tool_call`, `tool_result`. `tool_call` carries `toolName`, `toolCallId`, and `input`; handlers may return a blocking result.
 
-- Hook files are commonly loaded when a session starts. Validate changes in a new session; do not assume hot reload.
-- Use `session_start` for probes, project-root discovery, or state initialization. Keep `tool_call` classification fast and failure-tolerant so the tool path is not blocked by diagnostics.
-- `setStatus` is an “event → status map → renderer” bridge. A separate Hook-status row and a top statusline segment may have different gates; absence in one location does not prove that the API failed.
-- If the top segment is controlled by a closed ID union or preset allowlist, configuration cannot invent a new Hook segment. That is host UI capability, not a Hook-side API.
-- Separate visibility from enforcement: the statusline is for observation, a block result controls one call, and an independent permission or write gate remains the real security boundary.
+This is the type-level event set for v17.2.15, not a guarantee that every event fires in every version, loading method, or session.
 
-### 3. Prefer stable detection signals
+| Channel | Minimal contract | Established effect | Not guaranteed |
+|---|---|---|---|
+| LLM soft nudge | `pi.sendMessage({ customType, content, display, attribution })`, then return `void` | Creates a `CustomMessageEntry` in LLM context; current tool continues | Agent compliance or blocking of unsafe actions |
+| Hook state/session record | `pi.appendEntry(...)` | Records Hook state that official documentation says should not be sent to the LLM | Automatic UI visibility or replacement for blocking/authorization |
+| Hard block | `return { block: true, reason }` (check current types) | Rejects the current call; caller must handle it | No misclassification, or replacement of server-side authorization/write gates |
+| UI state | `ctx.ui.setStatus(key, text)` | Adds renderable Hook state; `undefined` clears it | Top-row placement or no text truncation |
 
-Check stable fields such as `toolName`, path scope in the input, and the project root before relying on fragile natural-language patterns. A Hook should fail soft: catch and record or silently degrade on errors rather than breaking the normal tool flow. Deduplication or throttling reduces noise; it must not silently change hard-block semantics.
+### 2. Extension lifecycle and status bridge
+
+- The loader discovers Hooks through the capability API and explicit configured paths. The v17.2.15 loader evidence does not show automatic scanning of `hooks/pre` or `hooks/post`; do not present it as a default convention.
+- `session_start` can initialize probes, cache project roots, or set state. Keep `tool_call` classification fast and failure-tolerant.
+- `setStatus` bridges event → status map → renderer. The v17.2.15 `statusLine` segment ID is a closed union of 24 members without `hook`. Configuration cannot invent a segment. Public PR #2001 is closed and unmerged, not mainline functionality.
+- Visibility and enforcement differ: status is observation, a block result controls one invocation, and independent authorization/write gates remain the security boundary.
+
+### 3. HookCommandContext's deadlock-safety boundary
+
+Extension command context exposes `newSession`, `branch`, and `navigateTree`, but deliberately omits `switchSession`, `reload`, `compact`, and `getContextUsage`. Calling those actions inside handlers such as `tool_call` or `context` can deadlock. Their absence is a safety boundary, not an API gap. Move such requests outside event handlers and validate in a fresh session.
+
+### 4. Stable detection signals
+
+Prefer `toolName`, input path scope, and project root to fragile natural-language patterns. Fail soft: catch and record errors or degrade quietly without breaking normal tools. Deduplication/throttling reduces noise without changing hard-block semantics.
 
 ## Applicable conditions
 
@@ -146,22 +161,25 @@ The mock probe should assert at least: non-target tools stay silent, a target to
 
 ## Evidence and uncertainty
 
-- **Source facts**: `legacy-omp-hook-extension-guide` records `session_start`/`tool_call`, `HookAPI.sendMessage`, `ToolCallEventResult`, `ctx.ui.setStatus`, session-start loading, mock-pi and tmux layered verification, and host restrictions on statusline segments.
-- **This page's synthesis**: separating “decision intervention” from “visibility bridging,” and explicitly reducing a soft nudge to advice, prevents observability from being reported as security enforcement.
-- **Unconfirmed**: event types, default `display`/`triggerTurn`, status gates, segment names, and hot-reload behavior must be checked against the installed OMP release; this page does not promise a permanent UI location.
+- **Source facts**: `legacy-omp-hook-extension-guide` records early events, `HookAPI.sendMessage`, `ToolCallEventResult`, `ctx.ui.setStatus`, mock-pi, and tmux checks. `omp-17-2-15-runtime-contract` preserves the initial pinned tag; `omp-17-2-15-runtime-contract-correction` adds ExtensionRunner, complete event groups, sendMessage/appendEntry separation, deadlock-safe omissions in HookCommandContext, and the closed statusline union without `hook`.
+- **Synthesis**: separating events, LLM messages/state records, decision intervention, and visibility prevents observability from being misreported as enforced safety.
+- **Version and uncertainty**: official facts above apply only to the OMP `17.2.15` tag. Event delivery, default `display`/`triggerTurn`, status gates, load paths, and hot reload still need installed-version and fresh-session checks. Automatic `hooks/pre`/`post` scanning is not established.
 
 ## Related pages
 
-- [Headroom single-port evolution](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [OMP configuration layers](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
-- [Headroom route persistence](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
+- [Headroom single-port evolution](/blog/legacy/note/en/headroom-single-port-evolution/)
+- [OMP configuration layers](/blog/legacy/note/en/omp-config-and-rules-guide/)
+- [Headroom route persistence](/blog/legacy/note/en/omp-headroom-persistence/)
 - [LLM wiki pattern](/blog/legacy/note/en/llm-wiki-pattern/)
 
 
 ## Sources and related documents
 
 - [legacy-omp-hook-extension-guide](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-omp-hook-extension-guide.md)
-- [Headroom Single-Port Synthesis: Entry, Dynamic Upstreams, and Verification Boundaries](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [OMP Configuration Layers: Model Roles, Agent Overrides, and Fallback Chains](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
-- [Headroom Route Persistence Synthesis: Named Profiles, model_cache, and Recovery](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
+- [omp-17-2-15-runtime-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/omp-17-2-15-runtime-contract.md)
+- [omp-17-2-15-runtime-contract-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/omp-17-2-15-runtime-contract-correction.md)
+- [Headroom Single-Port Synthesis: Entry, Dynamic Upstreams, and Verification Boundaries](/blog/legacy/note/en/headroom-single-port-evolution/)
+- [OMP Configuration Layers: Model Roles, Agent Overrides, and Fallback Chains](/blog/legacy/note/en/omp-config-and-rules-guide/)
+- [Headroom Route Persistence Synthesis: Named Profiles, model_cache, and Recovery](/blog/legacy/note/en/omp-headroom-persistence/)
 - [The LLM-Wiki Pattern: Maintaining a Compounding Personal Knowledge Base](/blog/legacy/note/en/llm-wiki-pattern/)
+- [Headroom 0.34 Compression and Retrieval Contract: Fields, Modes, and Real-Endpoint Tests](/blog/legacy/note/en/headroom-compress-retrieve-contract/)

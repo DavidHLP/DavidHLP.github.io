@@ -69,7 +69,6 @@
 }
 ---
 
-
 `AutoCloseable` is a resource-release protocol: code that owns a resource gives its lifetime to `try-with-resources`, which calls `close()` when the scope ends. This page focuses on ownership, ordering, and exception propagation rather than a catalog of stream, connection, or JDBC tutorials.
 
 ## Core mechanism
@@ -145,14 +144,14 @@ final class Handle implements AutoCloseable {
 
 ## Related pages
 
-- [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/zh-cn/java-null-value/)
-- [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
+- [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/en/java-atomic-boolean/)
+- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/en/java-null-value/)
+- [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/en/java-internship-interview-blog-polished/)
 
 
 ## Sources and related documents
 
 - [legacy-java-auto-closeable](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-java-auto-closeable.md)
-- [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/zh-cn/java-null-value/)
-- [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
+- [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/en/java-atomic-boolean/)
+- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/en/java-null-value/)
+- [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/en/java-internship-interview-blog-polished/)

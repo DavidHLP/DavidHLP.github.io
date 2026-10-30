@@ -83,12 +83,19 @@
   "related": [
     "omp-config-and-rules-guide",
     "omp-headroom-persistence",
+    "headroom-cc-switch-coexistence",
+    "omp-headroom-provider-proxy",
     "omp-hook-extension-guide",
-    "llm-wiki-pattern"
+    "llm-wiki-pattern",
+    "headroom-compress-retrieve-contract"
   ]
 }
 ---
 
+> **Graduation requirements (three verifiable checks)**:
+> 1. Pinned-version contract tests for explicit `/v1/messages` and `/v1/responses` routes.
+> 2. Delete/rebuild damaged `model_cache` and validate cold-start recovery.
+> 3. Validate rollback and effective configuration under `BindPaths` isolation.
 
 This page synthesizes one migration conclusion: a single port does not mean that every provider is automatically rewritten to 8787. It means explicitly configured custom providers can share one loopback entry, while request-level data selects the real upstream. The current `headroom wrap omp` automatic scope, OMP model selection, derived `models.db` state, and Headroom lifecycle must be considered separately; historical routes are not current defaults.
 
@@ -164,9 +171,9 @@ While the wrapped session is running, execute `headroom doctor` and `headroom pe
 
 ## Related pages
 
-- [OMP configuration layers](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
-- [Headroom route persistence](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
-- [OMP Hook extension](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
+- [OMP configuration layers](/blog/legacy/note/en/omp-config-and-rules-guide/)
+- [Headroom route persistence](/blog/legacy/note/en/omp-headroom-persistence/)
+- [OMP Hook extension](/blog/legacy/note/en/omp-hook-extension-guide/)
 - [LLM wiki pattern](/blog/legacy/note/en/llm-wiki-pattern/)
 
 
@@ -175,7 +182,10 @@ While the wrapped session is running, execute `headroom doctor` and `headroom pe
 - [legacy-headroom-single-port-evolution](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-headroom-single-port-evolution.md)
 - [legacy-omp-config-and-rules-guide](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-omp-config-and-rules-guide.md)
 - [legacy-omp-headroom-persistence](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-omp-headroom-persistence.md)
-- [OMP Configuration Layers: Model Roles, Agent Overrides, and Fallback Chains](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
-- [Headroom Route Persistence Synthesis: Named Profiles, model_cache, and Recovery](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
-- [OMP Hook Extension Concept: Decision-Point Nudges, Hard Blocks, and Status Bridges](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
+- [OMP Configuration Layers: Model Roles, Agent Overrides, and Fallback Chains](/blog/legacy/note/en/omp-config-and-rules-guide/)
+- [Headroom Route Persistence Synthesis: Named Profiles, model_cache, and Recovery](/blog/legacy/note/en/omp-headroom-persistence/)
+- [Headroom with cc-switch / Claude Code Coexistence: Single Synthesis and Security Boundaries](/blog/legacy/note/en/headroom-cc-switch-coexistence/)
+- [OMP Headroom Bridge: External Routing Controller and Native Codex/OMP Proxy Boundaries](/blog/legacy/note/en/omp-headroom-provider-proxy/)
+- [OMP Hook Extension Concept: Decision-Point Nudges, Hard Blocks, and Status Bridges](/blog/legacy/note/en/omp-hook-extension-guide/)
 - [The LLM-Wiki Pattern: Maintaining a Compounding Personal Knowledge Base](/blog/legacy/note/en/llm-wiki-pattern/)
+- [Headroom 0.34 Compression and Retrieval Contract: Fields, Modes, and Real-Endpoint Tests](/blog/legacy/note/en/headroom-compress-retrieve-contract/)

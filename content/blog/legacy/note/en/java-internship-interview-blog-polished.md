@@ -83,7 +83,6 @@
 }
 ---
 
-
 This is a synthesis of interview capabilities, not a personal story or a question list. It answers how to turn “I built a project” into an engineering judgment that can be checked: state what you owned, explain mechanisms and trade-offs, and show incident, metric, and recovery evidence. The goal is not to stack technology names, but to make project truth, mechanism correctness, and production observability reinforce one another.
 
 ## Core mechanism
@@ -114,7 +113,7 @@ This demonstrates boundary understanding better than reciting “penetration, br
 A CPU or latency incident can be compressed to:
 
 ```text
-symptom → preserve timeline and snapshots → PID/TID → stack/GC/method evidence
+symptom → preserve timeline and snapshots → PID/TID → jstack/GC/method evidence
         → code, lock, GC, or dependency hypothesis → reversible mitigation → verify and review
 ```
 
@@ -164,10 +163,10 @@ Selection remains a business constraint: if a job is not slow, queue latency and
 
 ## Related pages
 
-- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/zh-cn/java-null-value/)
-- [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [AutoCloseable: Resource Ownership and Close-Exception Semantics](/blog/legacy/note/zh-cn/java-auto-closeable/)
+- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/en/java-null-value/)
+- [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/en/java-online-performance-debug/)
+- [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/en/java-atomic-boolean/)
+- [AutoCloseable: Resource Ownership and Close-Exception Semantics](/blog/legacy/note/en/java-auto-closeable/)
 
 
 ## Sources and related documents
@@ -175,7 +174,7 @@ Selection remains a business constraint: if a job is not slow, queue latency and
 - [legacy-java-internship-interview-blog-polished](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-java-internship-interview-blog-polished.md)
 - [legacy-java-null-value](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-java-null-value.md)
 - [legacy-java-online-performance-debug](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-java-online-performance-debug.md)
-- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/zh-cn/java-null-value/)
-- [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [AutoCloseable: Resource Ownership and Close-Exception Semantics](/blog/legacy/note/zh-cn/java-auto-closeable/)
+- [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/en/java-null-value/)
+- [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/en/java-online-performance-debug/)
+- [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/en/java-atomic-boolean/)
+- [AutoCloseable: Resource Ownership and Close-Exception Semantics](/blog/legacy/note/en/java-auto-closeable/)
