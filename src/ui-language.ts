@@ -2,7 +2,68 @@ export const uiLanguages = ["zh-CN", "en", "ja"] as const;
 export type UiLanguage = typeof uiLanguages[number];
 
 // Keys are the terminal's original labels; article content never enters this table.
-const labels: Record<string, readonly [string, string]> = {
+const labels: Record<string, readonly [string, string, string?]> = {
+  "RHINE LAB / SYSTEM PREFERENCES": ["RHINE LAB / SYSTEM PREFERENCES", "RHINE LAB / システム設定", "RHINE LAB / 系统偏好"],
+  "RHINE LAB / ARCHIVE DIRECTORY": ["RHINE LAB / ARCHIVE DIRECTORY", "RHINE LAB / 資料目録", "RHINE LAB / 档案目录"],
+  "SAVED ARCHIVES": ["SAVED ARCHIVES", "保存した資料", "收藏档案"],
+  "ACCESS": ["ACCESS", "アクセス", "访问权限"],
+  "CONNECTED": ["CONNECTED", "接続済み", "已连接"],
+  "INTERNAL DATABASE / READY": ["INTERNAL DATABASE / READY", "内部データベース / 準備完了", "内部数据库 / 就绪"],
+  "SELECTING FILES...": ["SELECTING FILES...", "資料を選択中…", "正在选择档案…"],
+  "CONFIDENTIALITY:": ["CONFIDENTIALITY:", "機密区分:", "保密级别:"],
+  "GENERAL BUSINESS USE": ["GENERAL BUSINESS USE", "一般業務用", "一般业务使用"],
+  "BOOT SEQUENCE": ["BOOT SEQUENCE", "起動演出", "启动流程"],
+  "SELECTION WAVE": ["SELECTION WAVE", "選択時の波", "选档波浪"],
+  "IDLE MOTION": ["IDLE MOTION", "待機中の動き", "待机起伏"],
+  "POINTER PARALLAX": ["POINTER PARALLAX", "ポインター視差", "指针视差"],
+  "DRAG MOMENTUM": ["DRAG MOMENTUM", "ドラッグの慣性", "拖动惯性"],
+  "SELECTION TRANSITION": ["SELECTION TRANSITION", "選択の切り替え", "选档过渡"],
+  "DETAIL TRANSITION": ["DETAIL TRANSITION", "詳細の切り替え", "详情过渡"],
+  "MODEL DECRYPTION": ["MODEL DECRYPTION", "モデルの復号", "模型解密"],
+  "DOCUMENT REVEAL": ["DOCUMENT REVEAL", "本文の表示", "正文揭示"],
+  "ROLLING TEXT": ["ROLLING TEXT", "文字スクロール", "文字滚动"],
+  "ROLLING NUMBERS": ["ROLLING NUMBERS", "数字スクロール", "数字滚动"],
+  "SURFACE TRANSITIONS": ["SURFACE TRANSITIONS", "画面の切り替え", "界面过渡"],
+  "VIEWER NAVIGATION": ["VIEWER NAVIGATION", "ビューアーの操作", "查看器导航"],
+  "VIEWER MODEL TRANSITION": ["VIEWER MODEL TRANSITION", "ビューアーモデルの切り替え", "查看器模型过渡"],
+  "RHINE LAB / OBJECT STUDY": ["RHINE LAB / OBJECT STUDY", "RHINE LAB / モデル観察", "RHINE LAB / 模型观察"],
+  "FASTENERS": ["FASTENERS", "固定具", "紧固件"],
+  "OPTICAL COVER": ["OPTICAL COVER", "透明カバー", "透明盖板"],
+  "REFRACTIVE RINGS": ["REFRACTIVE RINGS", "屈折リング", "折射环组"],
+  "OPTICAL CORE": ["OPTICAL CORE", "光学コア", "光学核心"],
+  "SUBSTRATE": ["SUBSTRATE", "情報基板", "信息基板"],
+  "CARRIER": ["CARRIER", "背面板とフレーム", "背板与框架"],
+  "档案三维模型：拖动旋转，方向键平移，滚轮或加减键缩放，Home 复位": ["3D archive model: drag to rotate, arrow keys to pan, scroll or +/- to zoom, Home to reset", "3D資料モデル：ドラッグで回転、矢印キーで移動、ホイールまたは+/-でズーム、Homeでリセット"],
+  "请使用浏览器的全屏快捷键 F11": ["Use the browser's F11 shortcut for fullscreen", "ブラウザーのF11キーで全画面表示にしてください"],
+  "CONNECTION INTERRUPTED": ["CONNECTION INTERRUPTED", "接続が中断されました", "连接中断"],
+  "交互资源未能载入，可重新连接或直接阅读文章。": ["Interactive resources could not load. Reconnect or read the static article.", "操作用リソースを読み込めません。再接続するか、静的な記事を開いてください。"],
+  "直接阅读文章 →": ["Read static article →", "静的な記事を開く →"],
+  "RECONNECT →": ["RECONNECT →", "再接続 →", "重新连接 →"],
+  "返回交互界面 ↗": ["Back to interactive view ↗", "インタラクティブ画面に戻る ↗"],
+  "404 / 页面不存在": ["404 / Page not found", "404 / ページが見つかりません"],
+  "返回档案阵列 →": ["Back to archive array →", "資料配列に戻る →"],
+  "自定义壁纸无法读取，请在 Wallpaper Engine 属性中重新选择图片。": ["Could not read the custom wallpaper. Select the image again in Wallpaper Engine properties.", "壁紙画像を読み込めません。Wallpaper Engineのプロパティで画像を選び直してください。"],
+  "波纹接力": ["Ripple relay", "波紋リレー"],
+  "RIPPLE RELAY": ["RIPPLE RELAY", "波紋リレー", "波纹接力"],
+  "再玩一次": ["Play again", "もう一度遊ぶ"],
+  "结束游戏": ["End game", "ゲームを終了"],
+  "接住波纹": ["Catch the ripple", "波紋を受け取る"],
+  "点击抬起的档案，接住下一道波纹": ["Click the raised archive to catch the next ripple", "浮き上がった資料をクリックして次の波紋を受け取ります"],
+  "这一侧没有可接力的档案，请退出后移动阵列再试": ["No archive is available on this side. Exit, move the array and retry", "この側に資料がありません。終了して配列を移動し、再試行してください"],
+  "这道波纹停下了": ["The ripple stopped", "波紋が止まりました"],
+  "接力结束": ["Relay finished", "リレー終了"],
+  "已暂停": ["Paused", "一時停止中"],
+  "3D 载入中…": ["Loading 3D…", "3Dを読み込み中…"],
+  "3D 关闭中…": ["Closing 3D…", "3Dを終了中…"],
+  "3D 关闭": ["3D off", "3Dオフ"],
+  "3D 开启": ["3D on", "3Dオン"],
+  "重新载入三维模型": ["Reload 3D models", "3Dモデルを再読み込み"],
+  "取消关闭，恢复三维画面": ["Cancel closing and restore 3D", "終了を取り消して3Dを復元"],
+  "卸载三维模型，保留 2D 界面": ["Unload 3D models and keep the 2D interface", "3Dモデルを解放して2D画面を維持"],
+  "三维模型载入失败，请点击 3D 关闭重试。": ["3D models could not load. Click 3D off to retry.", "3Dモデルを読み込めません。3Dオフをクリックして再試行してください。"],
+  "DESKTOP CONTROLS": ["DESKTOP CONTROLS", "デスクトップ操作", "桌面操作"],
+  "拖动阵列或点击界面按钮浏览档案。桌面模式下，方向键与滚轮可能无法传入壁纸。": ["Drag the array or use the buttons to browse. Desktop mode may not receive arrow keys or scrolling.", "配列をドラッグするかボタンで資料を選択します。デスクトップでは矢印キーやホイールが届かない場合があります。"],
+  "每次启动都会读取 Wallpaper Engine 中的设置。在此修改仅对当前运行生效，无法持久保存；如需保留，请在 Wallpaper Engine 的壁纸属性中调整。": ["Wallpaper Engine settings load on startup. Changes here last only for this run; use wallpaper properties to save them.", "起動時にWallpaper Engineの設定を読み込みます。ここでの変更は今回のみ有効です。保存するには壁紙のプロパティを変更してください。"],
   "界面语言": ["Interface language", "表示言語"],
   "三维研究档案阵列，点击选择，左右拖动切列，上下拖动或滚轮切换列内档案": ["3D archive array: click to select, drag horizontally to change columns, drag vertically or scroll to browse archives", "3D資料配列：クリックで選択、横ドラッグで列を切り替え、縦ドラッグまたはホイールで資料を選択"],
   "系统导航": ["System navigation", "システムナビゲーション"],
@@ -85,7 +146,9 @@ const labels: Record<string, readonly [string, string]> = {
   "已取消收藏": ["Archive removed from saved", "保存を解除しました"],
   "收藏变更仅本次会话有效，浏览器未能保存": ["Saved for this session only; browser storage is unavailable", "ブラウザーに保存できないため、このセッションでのみ有効です"],
   "设定参考 ↗": ["Reference ↗", "参考資料 ↗"],
+  "设定参考": ["Reference", "参考資料"],
   "原文来源 ↗": ["Original source ↗", "原文の出典 ↗"],
+  "原文来源": ["Original source", "原文の出典"],
   "关闭窗口": ["Close window", "ウィンドウを閉じる"],
   "档案检索": ["Archive search", "資料検索"],
   "内部档案检索": ["Internal archive search", "内部資料検索"],
@@ -243,17 +306,37 @@ const labels: Record<string, readonly [string, string]> = {
   "请通过浏览器菜单添加到主屏幕": ["Use the browser menu to add to the home screen", "ブラウザーのメニューからホーム画面に追加してください"],
 };
 
+const chineseLabels: Record<string, string> = {
+  "ARCHIVE INDEX": "档案检索", "SAVED": "收藏", "ENTER SYSTEM": "进入系统",
+  "FILE NUMBER:": "档案编号:", "ACCESS FILE": "读取档案", "ARCHIVE / SELECT": "档案 / 选择",
+  "COLUMN": "列", "ARCHIVE OVERVIEW": "档案总览", "DRAG TO INSPECT": "拖动查看",
+  "REINITIALIZE ↗": "重新启动 ↗", "CLOSE": "关闭", "INTERNAL DATABASE": "内部数据库",
+  "READ AUTHORIZED": "读取已授权", "− REMOVE FROM SAVED": "− 取消收藏", "＋ SAVE ARCHIVE": "＋ 收藏档案",
+  "EXPORT": "导出", "SESSION AUTHORIZED": "会话已授权", "SYSTEM SETTINGS": "系统设置",
+  "SUPER PERFORMANCE": "超级性能模式", "INTERFACE SOUND": "界面音效", "BACKGROUND MUSIC": "背景音乐",
+  "ANIMATION CONTROLS": "动效控制", "RENDER QUALITY": "渲染画质", "KEYBOARD CONTROLS": "键盘操作",
+  "FULLSCREEN": "全屏", "REINITIALIZE SYSTEM": "重新启动系统", "SEARCH UNAVAILABLE": "检索不可用",
+  "LOADING SEARCH": "检索加载中", "CATALOG ONLY": "仅目录", "AUTHORIZED": "已授权",
+};
+
 export function normalizeUiLanguage(value: unknown): UiLanguage {
   return uiLanguages.find(language => language === value) ?? "zh-CN";
 }
 
 export function translateUiText(value: string, language: UiLanguage): string {
-  if (language === "zh-CN") return value;
   const text = value.trim();
-  const translated = labels[text]?.[language === "en" ? 0 : 1];
+  const translated = language === "zh-CN" ? labels[text]?.[2] ?? chineseLabels[text] : labels[text]?.[language === "en" ? 0 : 1];
   if (translated !== undefined) return value.replace(text, translated);
   const count = /^(\d+) RECORDS FOUND$/.exec(text);
-  if (count) return value.replace(text, language === "en" ? `${count[1]} RECORDS FOUND` : `${count[1]} 件の資料`);
+  if (count) return value.replace(text, language === "zh-CN" ? `找到 ${count[1]} 份档案` : language === "en" ? `${count[1]} RECORDS FOUND` : `${count[1]} 件の資料`);
+  const prefixed = /^([/／]\s+)(.+)$/.exec(text);
+  if (prefixed) return value.replace(text, prefixed[1] + translateUiText(prefixed[2], language));
+  const modelFile = /^FILE (X-\d+) \/ INTERNAL DATABASE$/.exec(text);
+  if (modelFile) return value.replace(text, language === "zh-CN" ? `档案 ${modelFile[1]} / 内部数据库` : language === "ja" ? `資料 ${modelFile[1]} / 内部データベース` : text);
+  if (language === "zh-CN") return value;
+  if (text.startsWith("点击切换")) return value.replace(text, language === "en" ? `Click to change ${translateUiText(text.slice(4), language)}` : `${translateUiText(text.slice(4), language)}をクリックして切り替え`);
+  const wallpaperQuality = "即时生效，仅限当前运行；长期设置请在 Wallpaper Engine 中调整。";
+  if (text.startsWith(wallpaperQuality)) return value.replace(text, (language === "en" ? "Changes apply to this run only; save permanent settings in Wallpaper Engine. " : "変更は今回のみ有効です。保存するにはWallpaper Engineで設定してください。") + translateUiText(text.replace(wallpaperQuality, "即时生效并自动保存。"), language));
   const samples = /^(\d+) 采样$/.exec(text);
   if (samples) return value.replace(text, `${samples[1]} ${language === "en" ? "samples" : "サンプル"}`);
   const motion = /^当前使用自定义动画（(.+)）。$/.exec(text);
@@ -273,11 +356,14 @@ export function translateUiText(value: string, language: UiLanguage): string {
   return value;
 }
 
+let initialized = false;
 export function initUiLanguage() {
+  if (initialized) return;
+  initialized = true;
   let language: UiLanguage = "zh-CN";
   try { language = normalizeUiLanguage(localStorage.getItem("rhine-language")); } catch {}
   const original = new WeakMap<Node, Map<string, { source: string; translated: string }>>();
-  const excluded = "script, style, template, pre, code, .blog-body, .research-notes, .blog-static article, #selected-title, #column-name, #archive-category, #hover-title, #selected-clearance, .detail-title-cn, .detail-content > h2, .metadata > div:not(:last-child) dd, .result-name, #viewer-file";
+  const excluded = 'script, style, template, pre, code, [translate="no"], .blog-body, .research-notes, #selected-title, #column-name, #archive-category, #hover-title, #selected-clearance, .detail-title-cn, .detail-content > h2, .metadata > div:not(:last-child) dd, .result-name, .result-row > span:nth-child(2), [data-filter]:not([data-filter="全部档案"]), #viewer-title';
   function value(node: Node, key: string, current: string, write: (text: string) => void) {
     let fields = original.get(node);
     if (!fields) { fields = new Map(); original.set(node, fields); }
