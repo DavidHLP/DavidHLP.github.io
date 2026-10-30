@@ -18,6 +18,21 @@ import { escapeHtml } from "../src/html.ts";
 import { postPath } from "../src/blog-path.ts";
 import { archiveTickWindow, recentRecords, visibleSavedCount, persistSaved, syncArticleMetadata, restoreArticleHash } from "../src/blog-client.ts";
 import { StartupGate } from "../src/startup.ts";
+import { normalizeUiLanguage, translateUiText } from "../src/ui-language.ts";
+
+test("interface language selection validates stored values and preserves source content", () => {
+  assert.equal(normalizeUiLanguage("ja"), "ja");
+  assert.equal(normalizeUiLanguage("en"), "en");
+  assert.equal(normalizeUiLanguage("invalid"), "zh-CN");
+  assert.equal(translateUiText("  系统设置 ", "en"), "  System settings ");
+  assert.equal(translateUiText("系统设置", "ja"), "システム設定");
+  assert.equal(translateUiText("系统设置", "zh-CN"), "系统设置");
+  assert.equal(translateUiText("127 RECORDS FOUND", "ja"), "127 件の資料");
+  assert.equal(translateUiText("实际渲染 1280 × 720 · 原始抗锯齿 · 纹理 16×", "en"), "Rendered 1280 × 720 · Original antialiasing · Textures 16×");
+  assert.equal(translateUiText("当前使用自定义动画（开场已跳过、文字滚动已关闭）。", "en"), "Custom animation (Startup skipped, Rolling text disabled).");
+  assert.equal(translateUiText("选择档案 X-1149 原始标题", "en"), "Select archive X-1149 原始标题");
+  assert.equal(translateUiText("原始文章中的普通文本", "en"), "原始文章中的普通文本");
+});
 
 const published = await loadContent();
 const content = published;
