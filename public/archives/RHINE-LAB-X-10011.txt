@@ -1,0 +1,18 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-10011 / SIGNAL & NOISE
+SIGNAL & NOISE
+
+Department: Data and Records
+Collection: Collected records across periods
+Related people: Ptilopsis
+Access: Reference material
+
+Ptilopsis maintained data at Rhine Lab and continues helping with medical records and information at Rhodes Island. Searchable data does not automatically become reliable knowledge. This volume examines the boundaries between recording, filtering and interpretation, especially the possibility that unusual signals are discarded as noise.
+
+Research notes
+1. Keep raw records alongside processed results so filtering criteria can be reconsidered.
+2. Explicitly mark missing data and anomalies rather than filling them by default.
+3. Interpret search conclusions within the circumstances in which the records were produced.
+
+Reference: https://prts.wiki/w/白面鸮
+This archive adaptation is based on publicly available setting material, not the game's original text.
