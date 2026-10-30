@@ -69,6 +69,7 @@ test("every article has all three languages and switching keeps the same logical
   }
   assert.throws(() => validateTranslations(published.records.filter(record => record.lang !== "en")), /Missing/);
   assert.throws(() => validateTranslations([...published.records, published.records[0]]), /Duplicate/);
+  assert.throws(() => validateTranslations([{ ...published.records[0], lang: "fr" }]), /Unsupported/);
   assert.equal(translatedBootText("REQUEST RECEIVED", "REQUEST RECEIVED", "ja"), "リクエスト受信済み");
   const partial = translatedBootText("REQUEST", "REQUEST RECEIVED", "ja");
   assert.ok("リクエスト受信済み".startsWith(partial) && partial.length > 0 && partial.length < 9);

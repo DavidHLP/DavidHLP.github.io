@@ -444,6 +444,9 @@ export function initUiLanguage() {
     document.documentElement.lang = language;
     document.documentElement.dataset.uiLanguage = language;
     translate(document.body);
+    for (const meta of document.querySelectorAll<HTMLMetaElement>('meta[name="description"], meta[property="og:description"]')) meta.content = translateUiText(meta.content, language);
+    const manifest = document.querySelector<HTMLLinkElement>('link[rel="manifest"]');
+    if (manifest) manifest.href = language === "zh-CN" ? "/manifest.webmanifest" : `/${language}/manifest.webmanifest`;
     document.querySelectorAll<HTMLElement>("[data-content-locale]").forEach(node => { node.hidden = node.dataset.contentLocale !== language; });
   }
   apply();
