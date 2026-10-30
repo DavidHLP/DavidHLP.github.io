@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-07-31",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Synthesizes the Headroom single-port routing model: one loopback entry can serve explicitly configured custom providers and dynamic upstreams while preserving protocol differences. It separates OMP role selection, model_cache, request routing, and wrapper lifecycle and verifies each layer independently. Historical routes remain provisional.",
   "findings": [
     "Original document: src/content/note/en/headroom-single-port-evolution.md",
@@ -32,7 +32,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/headroom-single-port-evolution.md",

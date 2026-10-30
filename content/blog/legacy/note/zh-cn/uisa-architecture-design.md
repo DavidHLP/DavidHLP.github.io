@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "综合 Enhanced UISA 与插件生命周期来源，按 owner/boundary、同步协议、可靠性与幂等、异构节点、失败恢复和权衡重组一套可验证的控制面模型；不把来源中的规模与阈值当作生产承诺。",
   "findings": [
-    "Original document: src/content/note/zh-cn/uisa-architecture-design.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/uisa-architecture-design.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/uisa-architecture-design.md",
   "pubDate": "2026-03-25T00:00:00.000Z",

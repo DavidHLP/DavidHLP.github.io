@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1010 / ナレッジベース操作ログ
-SITE INFORMATION
+﻿RHINE LAB · 内部データベース
+資料 X-1010 / ナレッジベース操作ログ
+サイト情報
 
-科室：站点信息
-编目范围：2026-10-05
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: サイト情報
+収録範囲: 2026-10-05
+関連人物: DavidHLPL
+アクセス: 公開
 
 # ナレッジベース操作ログ
 
@@ -43,8 +43,8 @@ Git commit `6f3d114a6ef9eb08b730f5f4740afe5b7d22d426` から 14 件の旧記事�
 
 固定した `v0.34.0` の source と実 loopback contract test から `/v1/compress` と `/v1/retrieve` のフィールド単位の契約を抽出し、三言語の知識ページを作成しました。`model` 欠落時の 400、トップレベルの `tokens_saved`、`original_content`、条件付き CCR marker、`frozen_message_count` の cache-prefix semantics を記録し、ローカル ledger の credential、path、host、session identifier は raw と公開ページから除外しました。
 
-研究记录
-1. Original document: src/content/information/ja/kb-log.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+研究記録
+1. 元の文書: src/content/information/ja/kb-log.md
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/ja/kb-log.md
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/ja/kb-log.md

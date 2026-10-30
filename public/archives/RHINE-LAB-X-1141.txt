@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1141 / Docker 基础：镜像分层、容器操作与 Compose 网络
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1141 / Docker 基础：镜像分层、容器操作与 Compose 网络
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-20
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-20
+相关人物: DavidHLPL
+访问范围: 公开
 
 `Docker` 的内容在两仓库 7 篇原文中以操作笔记形态重复出现：Dockerfile、分层、数据卷、网络与 Compose。本页把命令清单压成最小可用模型，明确何时用 volume/bind、bridge/host 与 Compose 的价值，不复制镜像倾倒。
 
@@ -71,8 +71,8 @@ ENGINEERING NOTES
 - [SSH 内网访问方案：连接方向、暴露面与故障恢复](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/docker-fundamentals.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/docker-fundamentals.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/docker-fundamentals.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/docker-fundamentals.md

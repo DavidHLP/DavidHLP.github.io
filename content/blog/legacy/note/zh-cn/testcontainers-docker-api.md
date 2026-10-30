@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "说明 Testcontainers 1.20.6 如何将未知 Docker API 版本回退到 1.32、为什么 DOCKER_API_VERSION 不应套用 Docker CLI 经验，以及如何从最早的 400 错误区分版本不兼容和 Docker 环境缺失。",
   "findings": [
-    "Original document: src/content/note/zh-cn/testcontainers-docker-api.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/testcontainers-docker-api.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/testcontainers-docker-api.md",
   "pubDate": "2026-08-12T16:00:00.000Z",

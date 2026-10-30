@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-20",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Distinguishes engine capabilities from deadlock log paths with minimal checks.",
   "findings": [
     "Original document: src/content/note/en/mysql-storage-and-deadlock.md",
@@ -24,7 +24,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/mysql-storage-and-deadlock.md",

@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "基于 Apache Dubbo 3.3.6 与 Nacos 官方资料，说明接口级/应用级注册名、metadata、group/version 匹配、启动检查和真实 Nacos smoke test 的最小边界。",
   "findings": [
-    "Original document: src/content/note/zh-cn/dubbo-nacos-runtime.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/dubbo-nacos-runtime.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/dubbo-nacos-runtime.md",
   "pubDate": "2026-08-12T16:00:00.000Z",

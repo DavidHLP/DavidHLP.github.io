@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "用 UltiCode 的 generation、attemptId、租约和条件更新解释如何防止重判、超时或旧 Worker 的结果覆盖新状态。",
   "findings": [
-    "Original document: src/content/note/zh-cn/ulticode-generation-attempt-fence.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/ulticode-generation-attempt-fence.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode-generation-attempt-fence.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

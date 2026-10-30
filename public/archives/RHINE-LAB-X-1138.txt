@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1138 / containerd TLS：证书信任链与临时跳过验证的决策
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1138 / containerd TLS：证书信任链与临时跳过验证的决策
+工程笔记
 
-科室：工程笔记
-编目范围：2026-02-24
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-02-24
+相关人物: DavidHLPL
+访问范围: 公开
 
 本页回答一个具体决策：私有 Registry 出现 `x509` 拉取错误时，何时让节点和 containerd 信任 CA，何时只能把跳过验证当作短期诊断手段。它把 containerd 配置、节点系统 CA、Kubernetes Secret/ServiceAccount 与缓存分开，避免把不同层的失败混为一谈。
 
@@ -114,8 +114,8 @@ openssl x509 -in /etc/containerd/certs.d/harbor.example.com/ca.crt -noout -subje
 - [Testcontainers 1.20.6：先排查 Docker API 版本，再判断 daemon 不可用](/blog/legacy/note/zh-cn/testcontainers-docker-api/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/containerd-tls-troubleshooting.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/containerd-tls-troubleshooting.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/containerd-tls-troubleshooting.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/containerd-tls-troubleshooting.md

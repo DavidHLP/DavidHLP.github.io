@@ -1,18 +1,18 @@
 ---
 {
   "archiveId": "X-1032",
-  "title": "Hindsight Fully Local Deployment and Unified Memory Integration for OMP / Codex",
+  "title": "Hindsight Fully Local Deployment and Unified Memory Integration for OMP / Codex (archived)",
   "en": "ENGINEERING NOTES",
   "category": "AI 工具",
   "department": "工程笔记",
   "date": "2026-08-17",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
-  "abstract": "Records the fully local deployment of the Vectorize Hindsight memory engine (AMD ROCm GPU LLM + CPU Embedding), plus the complete implementation, deep troubleshooting, and root-cause investigation guide for configuring adaptive multi-project dynamically routed memory for OMP and Codex.",
+  "clearance": "PUBLIC",
+  "abstract": "Historical integrated page, split into deployment, agent integration and troubleshooting pages. Retained as an archive guide.",
   "findings": [
     "Original document: src/content/note/en/hindsight-local-deployment-and-agent-integration.md",
     "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "Evidence status: deprecated"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/hindsight-local-deployment-and-agent-integration.md",
   "pubDate": "2026-08-17T12:00:00.000Z",
@@ -30,7 +30,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/hindsight-local-deployment-and-agent-integration.md",
@@ -67,7 +67,7 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "deprecated",
   "sources": [
     "hindsight-local-deployment-and-agent-integration"
   ],
@@ -78,6 +78,8 @@
   ]
 }
 ---
+
+> This historical integration page was split on 2026-08-23 into [deployment](/blog/legacy/note/en/hindsight-local-deployment/), [agent integration](/blog/legacy/note/en/hindsight-omp-codex-integration/) and [troubleshooting](/blog/legacy/note/en/hindsight-troubleshooting/). It is retained as an archive, not a source for new syntheses. The text below is historical.
 
 
 This page systematically archives the Vectorize Hindsight memory system's **runtime-local deployment** on Linux (daily inference and memory access fully backed by offline/local models; the first deployment and model-weight downloads require networking or pre-caching), as well as the ground practice of providing cross-tool unified memory support for the terminal agents **OMP (Oh-My-Pi)** and **Codex CLI**. It focuses on environment configuration, protocol adaptation, the debugging process, and 7 core "pitfall" lessons with prevention measures.

@@ -2,10 +2,10 @@
 FILE X-1033 / Hindsight Local Compute Allocation and Dockerized Deployment
 ENGINEERING NOTES
 
-科室：工程笔记
-编目范围：2026-08-22
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Engineering notes
+Collection: 2026-08-22
+Related people: DavidHLPL
+Access: Public
 
 This page archives the **compute-allocation architecture and containerized deployment plan** for the Vectorize Hindsight memory system in Linux. Daily inference and memory access run fully offline and locally; the focus is coordinating heterogeneous compute (GPU LLM plus CPU embedding), data-persistence permissions, and service lifecycle orchestration.
 
@@ -182,9 +182,9 @@ docker exec hindsight-ollama-gpu ollama list
 - [Hindsight Runtime Troubleshooting Matrix and Failure Modes](/blog/legacy/note/en/hindsight-troubleshooting/)
 - [MCP Protocol Era Boundary and the codebase-memory-mcp v0.10.2 Graph Workflow](/blog/legacy/note/zh-cn/mcp-codebase-memory-workflow/)
 
-研究记录
+Research notes
 1. Original document: src/content/note/en/hindsight-local-deployment.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 3. Evidence status: active
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/hindsight-local-deployment.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/hindsight-local-deployment.md

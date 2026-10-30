@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1173 / Redis 黑马实战与进阶：分布式缓存、多级缓存与最佳实践
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1173 / Redis 黑马实战与进阶：分布式缓存、多级缓存与最佳实践
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-20
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-20
+相关人物: DavidHLPL
+访问范围: 公开
 
 黑马 Redis 实战是 5 篇（6 文件含重复）构成的课程笔记：快速入门、实战 156KB、分布式缓存、多级缓存与最佳实践。本页把 200+ 页课程压成清单，删除截图与重复副本。
 
@@ -61,8 +61,8 @@ ENGINEERING NOTES
 - [百万级终端插件生命周期管理：状态、心跳与受控发布](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/redis-heima-practice.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/redis-heima-practice.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/redis-heima-practice.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/redis-heima-practice.md

@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1162 / MCP 协议时代边界与 codebase-memory-mcp v0.10.2 图工作流
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1162 / MCP 协议时代边界与 codebase-memory-mcp v0.10.2 图工作流
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-12
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-12
+相关人物: DavidHLPL
+访问范围: 公开
 
 把代码图工具当证据源时，先分清两个版本边界：MCP 规范 `2026-07-28`（modern）改为**逐请求 stateless 声明**，不再有 `initialize` 握手；而 codebase-memory-mcp `v0.10.2` 是 **legacy 时代服务器**，最高只支持 `2025-11-25`，modern 客户端无法直连。两者之间的兼容事实决定工作流用什么契约验证，而图工具本身的纪律决定结论是否可信：**图结果不等于完整性证明，负面结论必须靠 coverage 检查加源码回退**。
 
@@ -121,8 +121,8 @@ modern 逐请求 `_meta` 字段（来自 `basic/index.mdx`）：
 - [LLM-Wiki 模式：用 LLM 增量维护一个持久的个人知识库](/blog/legacy/note/zh-cn/llm-wiki-pattern/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/mcp-codebase-memory-workflow.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/mcp-codebase-memory-workflow.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/mcp-codebase-memory-workflow.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/mcp-codebase-memory-workflow.md

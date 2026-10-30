@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1155 / Java 并发深度：JUC、CAS、原子类、锁与线程机制
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1155 / Java 并发深度：JUC、CAS、原子类、锁与线程机制
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-20
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-20
+相关人物: DavidHLPL
+访问范围: 公开
 
 Fuwari 15 篇 JUC/Java 原文是本知识库最系统的并发专题，覆盖 CAS、原子类、`synchronized`、`Monitor`、`ReentrantLock`、`ThreadLocal`、`LockSupport`、死锁与引用类型。本页以 CAS 为内核串联。
 
@@ -57,8 +57,8 @@ Fuwari 15 篇 JUC/Java 原文是本知识库最系统的并发专题，覆盖 CA
 - [JJWT 0.13.0：显式固定签名算法，按 key 类型验签](/blog/legacy/note/zh-cn/jjwt-013-security-api/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/java-concurrency-deepdive.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/java-concurrency-deepdive.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-concurrency-deepdive.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-concurrency-deepdive.md

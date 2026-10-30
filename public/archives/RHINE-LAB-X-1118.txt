@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1118 / 非同期の早期期限切れが TTL 短縮だけを行う理由：version CAS で古い task を無効化する
-ENGINEERING NOTES
+﻿RHINE LAB · 内部データベース
+資料 X-1118 / 非同期の早期期限切れが TTL 短縮だけを行う理由：version CAS で古い task を無効化する
+技術ノート
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: 技術ノート
+収録範囲: 2026-09-08
+関連人物: DavidHLPL
+アクセス: 公開
 
 > この記事は現在のソースにある early-expiration protocol を説明する。これをバックグラウンドデータ更新とは呼ばず、テスト結果を性能や freshness SLA へ拡張しない。
 
@@ -270,9 +270,9 @@ old task は制御された次の action だけを作る
 - [ResiCache：Spring Cache 保護のためのオーケストレーション可能な責任チェーン](/blog/legacy/note/ja/resicache/)
 - [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/zh-cn/redis-business-patterns/)
 
-研究记录
-1. Original document: src/content/note/ja/resicache-early-expiration-cas.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+研究記録
+1. 元の文書: src/content/note/ja/resicache-early-expiration-cas.md
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 証拠の状態: 暫定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/resicache-early-expiration-cas.md
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/resicache-early-expiration-cas.md

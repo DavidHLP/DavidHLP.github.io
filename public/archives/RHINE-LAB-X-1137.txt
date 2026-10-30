@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1137 / UltiCode：オンラインジャッジプラットフォームのモジュール型アーキテクチャとドメイン境界
-ENGINEERING NOTES
+﻿RHINE LAB · 内部データベース
+資料 X-1137 / UltiCode：オンラインジャッジプラットフォームのモジュール型アーキテクチャとドメイン境界
+技術ノート
 
-科室：工程笔记
-编目范围：2026-08-20
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: 技術ノート
+収録範囲: 2026-08-20
+関連人物: DavidHLPL
+アクセス: 公開
 
 > **卒業条件（検証可能な 3 項目）**：
 > 1. ジャッジトランザクションの最小 E2E 検証実験（port/projection のトランザクションロールバック）；
@@ -75,9 +75,9 @@ ENGINEERING NOTES
 - [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/zh-cn/multi-service-readiness/)
 - [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/zh-cn/database-schema-drift/)
 
-研究记录
-1. Original document: src/content/note/ja/ulticode.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+研究記録
+1. 元の文書: src/content/note/ja/ulticode.md
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 証拠の状態: 暫定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode.md
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode.md

@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "以 UltiCode 当前 main 的固定提交为证据，解释 owner 边界、outbox 与 Streams、generation/attempt 围栏、Docker 沙箱和交付门禁如何组合成可验证的在线评测系统，并明确生产验证与性能结论的缺口。",
   "findings": [
-    "Original document: src/content/note/zh-cn/ulticode.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/ulticode.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

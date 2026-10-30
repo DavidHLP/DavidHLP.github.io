@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "详解 Hindsight 为 OMP 与 Codex 统一接入记忆的 FastMCP stdio 桥接状态机、Git 根目录自适应 Bank 动态路由及双端配置规范。",
   "findings": [
-    "Original document: src/content/note/zh-cn/hindsight-omp-codex-integration.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/hindsight-omp-codex-integration.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/hindsight-omp-codex-integration.md",
   "pubDate": "2026-08-22T16:00:00.000Z",

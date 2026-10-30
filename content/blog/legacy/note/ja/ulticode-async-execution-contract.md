@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "UltiCode が同期プレビューと非同期実行で同じコントラクトを共有し、冪等キー、SHA-256 フィンガープリント、状態機械、メモリ上限で長時間タスクを制約する方法。",
   "findings": [
-    "Original document: src/content/note/ja/ulticode-async-execution-contract.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "元の文書: src/content/note/ja/ulticode-async-execution-contract.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode-async-execution-contract.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

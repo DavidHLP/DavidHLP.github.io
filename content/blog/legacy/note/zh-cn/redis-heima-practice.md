@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "把黑马 Redis 实战提炼为分布式缓存、多级缓存与最佳实践的最小可用清单，标注版本与实验缺口。",
   "findings": [
-    "Original document: src/content/note/zh-cn/redis-heima-practice.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/redis-heima-practice.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/redis-heima-practice.md",
   "pubDate": "2026-08-20T16:00:00.000Z",

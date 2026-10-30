@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1156 / Java 后端面试复盘：项目真实性、工程机制与生产证据
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1156 / Java 后端面试复盘：项目真实性、工程机制与生产证据
+工程笔记
 
-科室：工程笔记
-编目范围：2026-02-24
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-02-24
+相关人物: DavidHLPL
+访问范围: 公开
 
 > **毕业条件（3 个可验证检查）**：
 > 1. 补齐 1 个脱敏生产止损案例（现象 → 定位 → 恢复指标）；
@@ -108,8 +108,8 @@ ENGINEERING NOTES
 - [AutoCloseable：资源所有权与关闭异常语义](/blog/legacy/note/zh-cn/java-auto-closeable/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/java-internship-interview-blog-polished.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+1. 原始文档: src/content/note/zh-cn/java-internship-interview-blog-polished.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 暂定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-internship-interview-blog-polished.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-internship-interview-blog-polished.md

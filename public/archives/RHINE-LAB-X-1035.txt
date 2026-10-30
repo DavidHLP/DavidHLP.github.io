@@ -2,10 +2,10 @@
 FILE X-1035 / Hindsight Runtime Troubleshooting Matrix and Failure Modes
 ENGINEERING NOTES
 
-科室：工程笔记
-编目范围：2026-08-22
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Engineering notes
+Collection: 2026-08-22
+Related people: DavidHLPL
+Access: Public
 
 This page systematically summarizes **seven core failure modes, root causes, solutions, and preventive measures** from the local deployment and unified Agent integration of Vectorize Hindsight. It also provides a production-oriented quick inspection SOP and a staged decision path.
 
@@ -134,9 +134,9 @@ node ~/.hindsight/hindsight-bridge.mjs
 - [Hindsight Unified Memory Access: FastMCP Bridge and Dynamic Multi-Project Routing](/blog/legacy/note/en/hindsight-omp-codex-integration/)
 - [OMP Hook Extension Concept: Decision-Point Nudges, Hard Blocks, and Status Bridges](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
 
-研究记录
+Research notes
 1. Original document: src/content/note/en/hindsight-troubleshooting.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 3. Evidence status: active
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/hindsight-troubleshooting.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/hindsight-troubleshooting.md

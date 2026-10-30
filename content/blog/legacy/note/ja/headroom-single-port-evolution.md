@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-07-31",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Headroom 単一ポートルーティングのモデルを総合する。明示的に設定した custom provider と動的上流を一つの loopback 入口で扱いながらプロトコル差を保持し、OMP のロール選択、model_cache、リクエストルート、wrapper ライフサイクルを分離して検証する。過去のルートは provisional である。",
   "findings": [
-    "Original document: src/content/note/ja/headroom-single-port-evolution.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "元の文書: src/content/note/ja/headroom-single-port-evolution.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/headroom-single-port-evolution.md",
   "pubDate": "2026-07-31T16:00:00.000Z",
@@ -32,7 +32,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/headroom-single-port-evolution.md",

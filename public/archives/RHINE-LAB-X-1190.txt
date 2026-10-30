@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1190 / 数据库租约不够：UltiCode 用 Fence Token 拦住过期单例任务
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1190 / 数据库租约不够：UltiCode 用 Fence Token 拦住过期单例任务
+工程笔记
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-09-08
+相关人物: DavidHLPL
+访问范围: 公开
 
 > **证据状态**：本文依据 UltiCode 固定提交中的 `FencedJobLeaseMapper`、`FencedJobLeaseService`、`OwnerReconciler`、`ReconciliationRunMapper`、ADR 和 MySQL 迁移整理。源码和边界测试说明了 stale completion 会被拒绝；不等于所有外部副作用都具备 fencing，也不等于单例任务 exactly-once。
 
@@ -124,8 +124,8 @@ fenced lease 把长任务拆成短事务：获取、续租、记录进度、完�
 - [UltiCode generation 与 attemptId：用条件更新拦截过期判题结果](/blog/legacy/note/zh-cn/ulticode-generation-attempt-fence/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/ulticode-fenced-singleton-lease.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+1. 原始文档: src/content/note/zh-cn/ulticode-fenced-singleton-lease.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 暂定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode-fenced-singleton-lease.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode-fenced-singleton-lease.md

@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "从 Auth/App 本地审计 outbox、owner-specific Redis Stream 到 Admin consumer inbox，解释跨 owner 审计如何处理双写、重复投递、租约恢复与最终一致性。",
   "findings": [
-    "Original document: src/content/note/zh-cn/ulticode-owner-local-audit-inbox.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/ulticode-owner-local-audit-inbox.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode-owner-local-audit-inbox.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

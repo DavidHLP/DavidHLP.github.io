@@ -2,10 +2,10 @@
 FILE X-1072 / Treat a Modular Monolith as a Testbed: UltiCode Core's Allowlist, Timeouts, and Close-Once Lifecycle
 ENGINEERING NOTES
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Engineering notes
+Collection: 2026-09-08
+Related people: DavidHLPL
+Access: Public
 
 > **Evidence status**: This article is based on UltiCode's Core registry, owner-context manager, classloader, smoke/lifecycle tests, and architecture documents at a fixed commit. The current implementation limits Core to an opt-in, allowlist-driven experimental profile; this article does not describe it as a production modular monolith covering every business path.
 
@@ -157,9 +157,9 @@ This Core analysis used source, architecture documents, and test entry points fo
 - [UltiCode Data Owners and Fact Snapshots: Keeping Cross-Service Submissions Bounded](/blog/legacy/note/en/ulticode-owner-and-facts/)
 - [UltiCode Generation and attemptId: Fencing Stale Judging Results with Conditional Updates](/blog/legacy/note/en/ulticode-generation-attempt-fence/)
 
-研究记录
+Research notes
 1. Original document: src/content/note/en/ulticode-core-bounded-testbed.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 3. Evidence status: provisional
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/ulticode-core-bounded-testbed.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/ulticode-core-bounded-testbed.md

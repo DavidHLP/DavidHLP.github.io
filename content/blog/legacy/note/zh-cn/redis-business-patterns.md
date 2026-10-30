@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "以缓存一致性、锁正确性、消息语义为锚，收敛 Redis 在业务场景中的模式与反模式。",
   "findings": [
-    "Original document: src/content/note/zh-cn/redis-business-patterns.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/redis-business-patterns.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/redis-business-patterns.md",
   "pubDate": "2026-08-20T16:00:00.000Z",

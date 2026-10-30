@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-05",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Synthesizes Headroom route persistence when OMP rewrites runtime model caches: Named Profiles isolate intent and credentials, an external declaration can preserve route intent, model_cache remains rebuildable derived state, and the legacy reconciler is limited to isolated migration recovery. Current wrapper lifecycle and version dependencies are explicit.",
   "findings": [
     "Original document: src/content/note/en/omp-headroom-persistence.md",
@@ -30,7 +30,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/omp-headroom-persistence.md",

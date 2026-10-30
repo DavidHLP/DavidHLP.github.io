@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-02-24",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Synthesizes a capability model that moves from proving project ownership, through cache and asynchronous mechanisms, to production evidence for diagnosis, mitigation, and recovery.",
   "findings": [
     "Original document: src/content/note/en/java-internship-interview-blog-polished.md",
@@ -29,7 +29,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/java-internship-interview-blog-polished.md",

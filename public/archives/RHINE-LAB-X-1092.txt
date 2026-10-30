@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1092 / Hindsight 統合メモリアクセス：FastMCP ブリッジと動的マルチプロジェクトルーティング
-ENGINEERING NOTES
+﻿RHINE LAB · 内部データベース
+資料 X-1092 / Hindsight 統合メモリアクセス：FastMCP ブリッジと動的マルチプロジェクトルーティング
+技術ノート
 
-科室：工程笔记
-编目范围：2026-08-22
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: 技術ノート
+収録範囲: 2026-08-22
+関連人物: DavidHLPL
+アクセス: 公開
 
 このページでは、Vectorize Hindsight メモリエンジンを端末エージェント **OMP (Oh-My-Pi)** と **Codex CLI** に接続するブリッジ実装と設定規約を記録する。中心となる改善は、**マルチプロジェクト適応型の分離ルーティング（Dynamic Workspace Routing）**と、セッション状態を保持する **FastMCP stdio ブリッジ**である。
 
@@ -231,9 +231,9 @@ HINDSIGHT_API_BASE_URL = "http://127.0.0.1:8888"
 - [Hindsight ランタイムトラブルシューティングマトリクスと失敗モード](/blog/legacy/note/ja/hindsight-troubleshooting/)
 - [OMP 設定の階層：モデルロール、Agent オーバーライド、フォールバックチェーン](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
 
-研究记录
-1. Original document: src/content/note/ja/hindsight-omp-codex-integration.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+研究記録
+1. 元の文書: src/content/note/ja/hindsight-omp-codex-integration.md
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 証拠の状態: 有効
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/hindsight-omp-codex-integration.md
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/hindsight-omp-codex-integration.md

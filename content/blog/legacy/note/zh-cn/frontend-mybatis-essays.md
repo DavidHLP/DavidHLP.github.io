@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "历史随笔收纳袋已溶解。零散前端、MyBatis 与环境排障内容保留在不可变 raw 快照中，主知识库不再维护此综合页。",
   "findings": [
-    "Original document: src/content/note/zh-cn/frontend-mybatis-essays.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: deprecated"
+    "原始文档: src/content/note/zh-cn/frontend-mybatis-essays.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 已归档"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/frontend-mybatis-essays.md",
   "pubDate": "2026-08-20T16:00:00.000Z",

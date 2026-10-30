@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "从公开 ResiCache 固定提交提炼 observer 生命周期、锁内 fragment、per-call scope token 与 ThreadLocal 快照隔离的边界，避免嵌套执行重复 hook 或污染并发状态。",
   "findings": [
-    "Original document: src/content/note/zh-cn/resicache-observer-nested-execution.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/resicache-observer-nested-execution.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/resicache-observer-nested-execution.md",
   "pubDate": "2026-08-12T16:00:00.000Z",

@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2025-10-07",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "キャッシュで key 不在と業務上の null を区別する理由、NullValue が負の結果を保持してキャッシュ穿透を抑える仕組み、singleton とシリアライズの境界を整理します。",
   "findings": [
-    "Original document: src/content/note/ja/java-null-value.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/java-null-value.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/java-null-value.md",
   "pubDate": "2025-10-07T13:43:00.000Z",
@@ -25,7 +25,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/java-null-value.md",

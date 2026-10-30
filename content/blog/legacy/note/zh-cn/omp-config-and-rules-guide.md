@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "用可复用的分层模型解释 OMP 配置：modelRoles 负责角色默认路由，agentModelOverrides 负责局部覆盖，fallbackChains 负责故障后的恢复；同时划清 Headroom、规则发现与模型选择的边界，并给出按层验证的顺序。",
   "findings": [
-    "Original document: src/content/note/zh-cn/omp-config-and-rules-guide.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/omp-config-and-rules-guide.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/omp-config-and-rules-guide.md",
   "pubDate": "2026-07-31T16:00:00.000Z",

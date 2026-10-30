@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-02-24",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "A layer-by-layer decision model for private-registry pull failures: separate certificate trust, containerd configuration, Kubernetes credentials, and node cache, then choose a production CA or a temporary skip_verify probe.",
   "findings": [
     "Original document: src/content/note/en/containerd-tls-troubleshooting.md",
@@ -26,7 +26,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/containerd-tls-troubleshooting.md",

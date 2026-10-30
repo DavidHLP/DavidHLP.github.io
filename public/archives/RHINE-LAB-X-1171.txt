@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1171 / 百万级终端插件生命周期管理：状态、心跳与受控发布
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1171 / 百万级终端插件生命周期管理：状态、心跳与受控发布
+工程笔记
 
-科室：工程笔记
-编目范围：2026-06-01
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-06-01
+相关人物: DavidHLPL
+访问范围: 公开
 
 ## 定义
 
@@ -111,8 +111,8 @@ lock:{uuid}:{plugin}:{op}:{targetVersion}
 - [Enhanced UISA：异构节点信息同步的 owner、边界与恢复模型](/blog/legacy/note/zh-cn/uisa-architecture-design/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/plugin-lifecycle-management.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/plugin-lifecycle-management.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/plugin-lifecycle-management.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/plugin-lifecycle-management.md

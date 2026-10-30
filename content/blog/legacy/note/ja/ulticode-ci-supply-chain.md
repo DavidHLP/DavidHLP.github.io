@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "zero-infra の static contract、段階的検証、Trivy、SBOM、provenance、Cosign を追跡可能な delivery gate として組み立てる UltiCode の方法。",
   "findings": [
-    "Original document: src/content/note/ja/ulticode-ci-supply-chain.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "元の文書: src/content/note/ja/ulticode-ci-supply-chain.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode-ci-supply-chain.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

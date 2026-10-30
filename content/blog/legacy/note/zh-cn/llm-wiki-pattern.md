@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "本页是 DavidHLPL 个人 AI 知识库的自我说明书，解释 raw、wiki、schema 三层和 ingest、query、lint 三个操作。",
   "findings": [
-    "Original document: src/content/note/zh-cn/llm-wiki-pattern.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/llm-wiki-pattern.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/llm-wiki-pattern.md",
   "pubDate": "2026-08-07T00:00:00.000Z",

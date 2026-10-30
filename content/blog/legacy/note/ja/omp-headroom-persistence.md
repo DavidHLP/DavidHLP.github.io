@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-08-05",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "OMP が runtime model cache を書き換える場合の Headroom ルート永続化を総合する。Named Profile は意図と資格情報を分離し、外部宣言はルート意図を保持し、model_cache は再生成可能な派生状態とする。旧 reconciler は隔離した移行復旧だけに限定し、現在の wrapper ライフサイクルとバージョン依存も明記する。",
   "findings": [
-    "Original document: src/content/note/ja/omp-headroom-persistence.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "元の文書: src/content/note/ja/omp-headroom-persistence.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/omp-headroom-persistence.md",
   "pubDate": "2026-08-05T16:00:00.000Z",
@@ -30,7 +30,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/omp-headroom-persistence.md",

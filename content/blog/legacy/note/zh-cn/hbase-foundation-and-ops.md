@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "收敛 HBase 数据模型（逻辑/物理）、架构组件、表设计与运维操作，明确与 Redis/传统 RDBMS 的取舍。",
   "findings": [
-    "Original document: src/content/note/zh-cn/hbase-foundation-and-ops.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/hbase-foundation-and-ops.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/hbase-foundation-and-ops.md",
   "pubDate": "2026-08-20T16:00:00.000Z",

@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1161 / LLM-Wiki 模式：用 LLM 增量维护一个持久的个人知识库
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1161 / LLM-Wiki 模式：用 LLM 增量维护一个持久的个人知识库
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-07
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-07
+相关人物: DavidHLPL
+访问范围: 公开
 
 > 本页描述的就是本知识库自身的运作方式。原始依据见 [`karpathy-llm-wiki`](https://gist.githubusercontent.com/karpathy/442a6bf555914893e9891c11519de94f/raw/ac46de1ad27f92b28ac95459c782c07f6b8c964a/llm-wiki.md)，维护契约见 [KB.md](https://github.com/DavidHLP/DavidHLP.github.io/blob/main/KB.md) 与 [knowledge-base skill](https://github.com/DavidHLP/DavidHLP.github.io/blob/main/.claude/skills/knowledge-base.md)。
 
@@ -84,8 +84,8 @@ RAG 的问题不是检索必然不准，而是缺少积累：需要综合多个�
 - [Headroom 0.34 压缩与检索契约：字段、模式与真实端点验证](/blog/legacy/note/zh-cn/headroom-compress-retrieve-contract/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/llm-wiki-pattern.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/llm-wiki-pattern.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/llm-wiki-pattern.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/llm-wiki-pattern.md

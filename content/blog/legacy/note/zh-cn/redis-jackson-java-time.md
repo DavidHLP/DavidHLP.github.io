@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "说明默认 JsonJacksonCodec 与 GenericJackson2JsonRedisSerializer 为什么对 LocalDateTime 写入即失败、Redisson 默认 codec 实为 Kryo5Codec，以及按三层配置排查写读不对称的决策路径。",
   "findings": [
-    "Original document: src/content/note/zh-cn/redis-jackson-java-time.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/redis-jackson-java-time.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/redis-jackson-java-time.md",
   "pubDate": "2026-08-12T16:00:00.000Z",

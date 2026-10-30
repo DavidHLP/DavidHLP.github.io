@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "说明 Flyway validate 为什么不能替代实际 Schema 检查，并用 migration history、实际 schema 与应用 query 三个视图区分 checksum 漂移、外部 DDL、Unknown column 和失败迁移残留。",
   "findings": [
-    "Original document: src/content/note/zh-cn/database-schema-drift.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/database-schema-drift.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/database-schema-drift.md",
   "pubDate": "2026-08-12T16:00:00.000Z",

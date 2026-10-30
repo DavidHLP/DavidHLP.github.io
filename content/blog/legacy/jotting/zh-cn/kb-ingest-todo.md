@@ -10,8 +10,8 @@
   "clearance": "PUBLIC",
   "abstract": "尚未经过证据审查的来源和问题，只能作为摄入候选，不能当作稳定知识。",
   "findings": [
-    "Original document: src/content/jotting/zh-cn/kb-ingest-todo.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64"
+    "原始文档: src/content/jotting/zh-cn/kb-ingest-todo.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/jotting/zh-cn/kb-ingest-todo.md",
   "pubDate": "2026-08-07T00:00:00.000Z",

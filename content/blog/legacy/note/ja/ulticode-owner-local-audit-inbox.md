@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "Auth/App の local audit outbox、owner-specific Redis Stream、Admin consumer inbox から、owner 間 audit の double write、重複 delivery、lease 回復、eventual consistency を説明する。",
   "findings": [
-    "Original document: src/content/note/ja/ulticode-owner-local-audit-inbox.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "元の文書: src/content/note/ja/ulticode-owner-local-audit-inbox.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode-owner-local-audit-inbox.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1128 / UltiCode 非同期実行コントラクト：冪等性、フィンガープリント、上限付き receipt
-ENGINEERING NOTES
+﻿RHINE LAB · 内部データベース
+資料 X-1128 / UltiCode 非同期実行コントラクト：冪等性、フィンガープリント、上限付き receipt
+技術ノート
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: 技術ノート
+収録範囲: 2026-09-08
+関連人物: DavidHLPL
+アクセス: 公開
 
 > **証拠の状態**：この記事は UltiCode の非同期実行インターフェースと Judge provider のソースに基づく。現在の実装には Docker のデフォルト adapter、任意の Judge0 adapter、上限付きのプロセス内 metadata が含まれる。一方、複数レプリカや再起動をまたぐ durable receipt の冪等性は明確な未完了点である。
 
@@ -61,9 +61,9 @@ Agent のタスクにも明確な `QUEUED/RUNNING/COMPLETED/FAILED/CANCELLED/TIM
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
 - [UltiCode：オンラインジャッジプラットフォームのモジュール型アーキテクチャとドメイン境界](/blog/legacy/note/ja/ulticode/)
 
-研究记录
-1. Original document: src/content/note/ja/ulticode-async-execution-contract.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+研究記録
+1. 元の文書: src/content/note/ja/ulticode-async-execution-contract.md
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 証拠の状態: 暫定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode-async-execution-contract.md
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode-async-execution-contract.md

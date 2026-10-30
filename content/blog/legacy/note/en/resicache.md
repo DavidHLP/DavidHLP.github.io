@@ -12,7 +12,7 @@
   "findings": [
     "Original document: src/content/note/en/resicache.md",
     "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "Evidence status: provisional"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/resicache.md",
   "pubDate": "2026-08-20T16:00:00.000Z",
@@ -60,7 +60,7 @@
     }
   },
   "kind": "entity",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "resicache-project-overview",
     "resicache-observer-nested-execution-contract"
@@ -73,6 +73,8 @@
   ]
 }
 ---
+
+> Evidence status: provisional. This existing translation retains its original evidence basis. The Chinese canonical page now refers to source and repository tests at `main@2954fff217257e9cf7c906450a75070d5e092637`: Java 21, Spring Boot 4.0.0, Spring Data Redis 4.0, optional Redisson 3.50.0, pre-1.0. Repository test evidence does not establish a new execution here or production performance, P99, high availability, zero loss or a complete security audit.
 
 
 `ResiCache` is an enhancement ecosystem for Spring Cache protection. Beyond `@Cacheable`, the `@RedisCacheable` annotation adds cache-penetration, cache-breakdown, cache-avalanche, and hot-key early-refresh protection to Redis, using an orchestratable responsibility chain instead of rebuilding AOP. This page describes the declared state of the public repository's fixed main commit `75ed279a` (v0.0.2); the observer nested-execution contract is covered in [ResiCache observer nested execution](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/).

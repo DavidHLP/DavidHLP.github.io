@@ -1,0 +1,46 @@
+{
+  "en": {
+    "后端工程": "Backend engineering",
+    "系统运维": "Systems operations",
+    "AI 工具": "AI tools",
+    "项目实践": "Project practice",
+    "站点随笔": "Site journal",
+    "工程笔记": "Engineering notes",
+    "站点信息": "Site information",
+    "序文": "Preface",
+    "随笔": "Jottings",
+    "ENGINEERING NOTES": "ENGINEERING NOTES",
+    "SITE INFORMATION": "SITE INFORMATION",
+    "PREFACE": "PREFACE",
+    "JOTTINGS": "JOTTINGS",
+    "PUBLIC": "Public",
+    "RESTRICTED": "Restricted",
+    "DavidHLPL 的个人 AI 知识库，使用 LLM 持续整理可追溯的技术与工程知识": "DavidHLPL's personal AI knowledge base, using LLMs to organize traceable technical and engineering knowledge."
+  },
+  "ja": {
+    "后端工程": "バックエンド工学",
+    "系统运维": "システム運用",
+    "AI 工具": "AIツール",
+    "项目实践": "プロジェクト実践",
+    "站点随笔": "サイト日誌",
+    "工程笔记": "技術ノート",
+    "站点信息": "サイト情報",
+    "序文": "序文",
+    "随笔": "随筆",
+    "ENGINEERING NOTES": "技術ノート",
+    "SITE INFORMATION": "サイト情報",
+    "PREFACE": "序文",
+    "JOTTINGS": "随筆",
+    "PUBLIC": "公開",
+    "RESTRICTED": "閲覧制限",
+    "DavidHLPL 的个人 AI 知识库，使用 LLM 持续整理可追溯的技术与工程知识": "LLMを用いて出典を追跡できる技術・工学知識を整理する、DavidHLPLの個人AIナレッジベース。"
+  },
+  "zh-CN": {
+    "ENGINEERING NOTES": "工程笔记",
+    "SITE INFORMATION": "站点信息",
+    "PREFACE": "序文",
+    "JOTTINGS": "随笔",
+    "PUBLIC": "公开",
+    "RESTRICTED": "限制访问"
+  }
+}

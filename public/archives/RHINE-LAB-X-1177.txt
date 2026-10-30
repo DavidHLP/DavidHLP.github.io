@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1177 / ResiCache 的缓存责任链：控制流、嵌套 fragment 与 observer 生命周期
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1177 / ResiCache 的缓存责任链：控制流、嵌套 fragment 与 observer 生命周期
+工程笔记
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-09-08
+相关人物: DavidHLPL
+访问范围: 公开
 
 > 本文基于 ResiCache 当前 `main@2954fff217257e9cf7c906450a75070d5e092637` 的源码。它不是项目历史事故复盘，也不把责任链抽象本身当作设计价值；重点是当前代码如何把控制流、嵌套执行和观测状态分开。
 
@@ -227,8 +227,8 @@ observer 自身的 hook 异常会被记录并隔离，不应覆盖业务 handler
 - [ResiCache：observer 嵌套执行必须区分生命周期、fragment 与 scope token](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/resicache-handler-chain-and-observer.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+1. 原始文档: src/content/note/zh-cn/resicache-handler-chain-and-observer.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 暂定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/resicache-handler-chain-and-observer.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/resicache-handler-chain-and-observer.md

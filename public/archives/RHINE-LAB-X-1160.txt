@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1160 / KB 会话摄入管道契约：增量复用、redaction v19 与不可变 raw
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1160 / KB 会话摄入管道契约：增量复用、redaction v19 与不可变 raw
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-12
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-12
+相关人物: DavidHLPL
+访问范围: 公开
 
 本知识库自身的会话摄入管道把工具会话（OMP、Codex、OpenCode、Hindsight、prompt-history）转成可入 wiki 的候选证据。核心保证一句话：**内容没变的来源增量复用，内容变了或失败过的来源重新处理，只有通过 v19 脱敏与内部控制面过滤的文本才能落盘，raw 证据层由 manifest 哈希锁死。** 本页是固定提交的契约快照，只描述可复核行为，不记录任何真实账本内容或运行统计。
 
@@ -136,8 +136,8 @@ pnpm kb:lint
 - [LLM-Wiki 模式：用 LLM 增量维护一个持久的个人知识库](/blog/legacy/note/zh-cn/llm-wiki-pattern/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/kb-session-ingest-contract.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/kb-session-ingest-contract.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/kb-session-ingest-contract.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/kb-session-ingest-contract.md

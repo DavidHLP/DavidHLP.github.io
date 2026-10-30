@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-07-31",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "A five-axis comparison of Cloudflare Tunnel, Tailscale, and FRP—connection direction, exposure, control plane, data plane, and recovery—with evidence-backed boundaries for mobile clients, ports, and systemd/linger.",
   "findings": [
     "Original document: src/content/note/en/intranet-penetration-ssh-guide.md",
@@ -28,7 +28,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/intranet-penetration-ssh-guide.md",

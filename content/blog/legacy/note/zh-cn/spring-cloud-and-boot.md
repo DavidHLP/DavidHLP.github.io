@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "以服务注册发现为起点，归纳自动装配、事务、熔断限流与可观测性的配置与运行边界。",
   "findings": [
-    "Original document: src/content/note/zh-cn/spring-cloud-and-boot.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/spring-cloud-and-boot.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/spring-cloud-and-boot.md",
   "pubDate": "2026-08-20T16:00:00.000Z",

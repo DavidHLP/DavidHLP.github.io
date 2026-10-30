@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1152 / SSH 内网访问方案：连接方向、暴露面与故障恢复
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1152 / SSH 内网访问方案：连接方向、暴露面与故障恢复
+工程笔记
 
-科室：工程笔记
-编目范围：2026-07-31
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-07-31
+相关人物: DavidHLPL
+访问范围: 公开
 
 本页回答一个远程访问决策：内网 Linux 没有可直连公网地址时，怎样按客户端能力、控制面可达性和公网暴露面选择 SSH 方案。重点不是堆叠教程，而是区分 Cloudflare Tunnel、Tailscale、FRP 的连接方向与故障域，再确定如何让 FRP 客户端在注销后恢复。
 
@@ -141,8 +141,8 @@ loginctl show-user $USER | grep Linger
 - [MySQL 性能排查：现象→指标→定位层→安全缓解](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/intranet-penetration-ssh-guide.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/intranet-penetration-ssh-guide.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/intranet-penetration-ssh-guide.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/intranet-penetration-ssh-guide.md
