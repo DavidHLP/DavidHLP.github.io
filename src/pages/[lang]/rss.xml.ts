@@ -13,6 +13,7 @@ export function getStaticPaths() {
 export async function GET(context: APIContext) {
   const language = normalizeUiLanguage(context.params.lang);
   return rss({
+    trailingSlash: false,
     title: site.title, description: contentLabel(site.description, language, labels), site: context.site!,
     items: (await getPosts()).filter(post => post.data.lang === language)
       .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
