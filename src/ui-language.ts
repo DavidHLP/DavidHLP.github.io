@@ -463,6 +463,7 @@ export function initUiLanguage() {
     try { localStorage.setItem("rhine-language", language); } catch {}
     const target = new URL(languageUrl(articles, location.href, language), location.href);
     if (document.documentElement.classList.contains("interactive")) target.searchParams.set("scene", "archive");
+    document.dispatchEvent(new CustomEvent("rhine:languagechange", { detail: { url: target } }));
     location.assign(target.href);
   });
 }

@@ -49,3 +49,17 @@ export function validateTranslations(articles: readonly Article[]) {
   for (const [key, languages] of groups)
     if (languages.size !== 3) throw new Error(`Missing article translations: ${key}`);
 }
+
+export function restoredArchiveNavigation<T extends Article & { category: string }>(articles: readonly T[], columns: readonly string[], encoded: string | null) {
+  if (!encoded) return;
+  try {
+    const state = JSON.parse(encoded);
+    if (!state || typeof state.selected !== "string" || !Array.isArray(state.columns) || state.columns.length !== columns.length || !state.columns.every((key: unknown) => typeof key === "string")) return;
+    const indexFor = (key: string) => articles.findIndex(article => translationKey(article) === key);
+    const selected = indexFor(state.selected);
+    const memory: number[] = state.columns.map(indexFor);
+    if (selected < 0 || memory.some((index, lane) => index < 0 || articles[index].category !== columns[lane])) return;
+    memory[columns.indexOf(articles[selected].category)] = selected;
+    return { selected, columns: memory };
+  } catch { return; }
+}
