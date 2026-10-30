@@ -22,6 +22,7 @@ const blog = defineCollection({
     updatedDate: z.coerce.date().optional(),
     tags: z.array(text).default([]),
     draft: z.boolean().default(false),
+    lang: z.enum(["zh-CN", "en", "ja"]).default("zh-CN"),
   }),
 });
 export const collections = { blog };
