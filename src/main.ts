@@ -53,7 +53,7 @@ let workbench: Workbench | undefined;
 import { ArchivePlayground } from "./archive-playground";
 import { ARRAY_OPENING_END, openingShowsDetail } from "./wallpaper-opening";
 import { paintTheme, themeSettingsMarkup } from "./theme-ui";
-import { initUiLanguage } from "./ui-language";
+import { initUiLanguage, normalizeUiLanguage, translateUiText } from "./ui-language";
 let playground: ArchivePlayground | undefined;
 import { WallpaperEffects } from "./wallpaper-effects";
 import { WallpaperBackground } from "./wallpaper-background";
@@ -1119,7 +1119,7 @@ function bootFrame(t: number) {
   }
   $(".file-title").firstChild!.textContent =
     step === "array"
-      ? "SELECTING FILES...".slice(0, Math.max(0, Math.floor((t - 21.94) * 18)))
+      ? translateUiText("SELECTING FILES...", normalizeUiLanguage(document.documentElement.lang)).slice(0, Math.max(0, Math.floor((t - 21.94) * 18)))
       : "FILE NUMBER: ";
   $("#stage").style.setProperty(
     "--entry-opacity",

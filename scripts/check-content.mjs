@@ -36,6 +36,7 @@ test("interface language selection validates stored values and preserves source 
   assert.equal(translateUiText("RHINE LAB / ARCHIVE DIRECTORY", "ja"), "RHINE LAB / 資料目録");
   assert.equal(translateUiText("点击切换画质预设", "en"), "Click to change Quality preset");
   assert.equal(translateUiText("返回交互界面 ↗", "en"), "Back to interactive view ↗");
+  assert.equal(translateUiText(" / 更新 ", "en"), " / Updated ");
   for (const item of Object.values(MOTION_LABELS)) {
     for (const text of [item.title, item.description, item.group]) {
       assert.doesNotMatch(translateUiText(text, "en"), /\p{Script=Han}/u);
