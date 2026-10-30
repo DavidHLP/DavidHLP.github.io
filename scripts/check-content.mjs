@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { markdownToMdast } from "satteri";
+import { markdownToMdast, htmlToHast } from "satteri";
 import { readFile, readdir, mkdtemp, mkdir, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -59,13 +59,25 @@ test("translations retain canonical sections, examples, tables, references and e
     const result = { heading: 0, code: 0, tableRow: 0, prose: "", references: new Set(), articles: new Set() };
     const visit = node => {
       if (node.type === "text") result.prose += node.value;
+      if (node.type === "html") visit(htmlToHast(node.value));
+      if (node.type === "element") {
+        if (node.tagName === "pre") { result.code++; return; }
+        if (node.tagName === "code") return;
+        if (/^h[1-6]$/.test(node.tagName)) result.heading++;
+        if (node.tagName === "tr") result.tableRow++;
+        const url = node.properties?.href ?? node.properties?.src;
+        if (typeof url === "string") collectLink(url);
+      }
       if (node.type in result && typeof result[node.type] === "number") result[node.type]++;
       if (node.type === "link" || node.type === "image") {
-        if (/^https?:/.test(node.url)) result.references.add(node.url);
-        const article = node.url.match(/^\/blog\/(.+?)\/(?:[?#].*)?$/);
-        if (article) result.articles.add(translationKey({ slug: article[1] }));
+        collectLink(node.url);
       }
       for (const child of node.children ?? []) visit(child);
+    };
+    const collectLink = url => {
+      if (/^https?:/.test(url)) result.references.add(url);
+      const article = url.match(/^\/blog\/(.+?)\/(?:[?#].*)?$/);
+      if (article) result.articles.add(translationKey({ slug: article[1] }));
     };
     visit(await markdownToMdast(body));
     return result;
@@ -73,6 +85,10 @@ test("translations retain canonical sections, examples, tables, references and e
   const sample = await structure("# Real heading\n\n~~~sql\nSELECT 1;\n~~~\n\n    # code, not a heading\n");
   assert.equal(sample.heading, 1);
   assert.equal(sample.code, 2);
+  const richText = await structure('<h2>Heading</h2><p>中文</p><a href="https://example.com/source">Source</a>');
+  assert.equal(richText.heading, 1);
+  assert.ok(richText.prose.includes("中文"));
+  assert.ok(richText.references.has("https://example.com/source"));
   const failures = [];
   for (const canonical of localizedArticles(published.records, "zh-CN")) {
     const source = await structure(canonical.body);
