@@ -1,8 +1,0 @@
----
-import config from "$config";
-import { localeStaticPaths } from "$utils/content-routing";
-import RhineArchive from "$components/RhineArchive.astro";
-export const getStaticPaths = localeStaticPaths;
-const { locale = config.i18n.defaultLocale } = Astro.params;
----
-<RhineArchive {locale} />
