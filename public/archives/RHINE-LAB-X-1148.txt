@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1148 / Hindsight 完全本地化部署与 OMP / Codex 统一记忆集成实践（已拆分归档）
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1148 / Hindsight 完全本地化部署与 OMP / Codex 统一记忆集成实践（已拆分归档）
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-17
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-17
+相关人物: DavidHLPL
+访问范围: 公开
 
 > **页面拆分与归档说明**：
 > 本文为历史单页集成记录（445 行巨石页面）。为遵循 LLM-Wiki“一概念一页”原子化原则，已于 2026-08-23 拆分收敛为以下 3 个正典知识页：
@@ -452,8 +452,8 @@ graph TD
 - [Hindsight 记忆系统运行时排障矩阵与失效模式](/blog/legacy/note/zh-cn/hindsight-troubleshooting/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/hindsight-local-deployment-and-agent-integration.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: deprecated
+1. 原始文档: src/content/note/zh-cn/hindsight-local-deployment-and-agent-integration.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 已归档
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/hindsight-local-deployment-and-agent-integration.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/hindsight-local-deployment-and-agent-integration.md

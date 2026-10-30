@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1142 / Dubbo + Nacos：先核对注册名、group/version，再做真实 smoke test
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1142 / Dubbo + Nacos：先核对注册名、group/version，再做真实 smoke test
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-12
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-12
+相关人物: DavidHLPL
+访问范围: 公开
 
 **结论优先**：Dubbo + Nacos 排障不能只看“注册中心里有实例”。先核对接口级 service name `providers:{interface}:{version}:{group}`、Nacos group、provider URL metadata 和 consumer 的 version/group 订阅条件，再判断是否需要应用级发现。默认 `register-mode=all` 可能同时产生应用名服务与接口级服务；只有真实 Nacos provider/consumer smoke test 才能证明端到端 RPC。
 
@@ -131,8 +131,8 @@ Dubbo registry-nacos 自带测试以 mock `NamingService` 为主，不能替代�
 - [微服务数据所有权：先定领域 owner，再谈拆库与迁移](/blog/legacy/note/zh-cn/microservice-data-ownership/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/dubbo-nacos-runtime.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/dubbo-nacos-runtime.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/dubbo-nacos-runtime.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/dubbo-nacos-runtime.md

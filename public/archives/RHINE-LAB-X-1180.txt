@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1180 / 缓存击穿时，为什么要同时有 Future、分布式锁和 double-check？
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1180 / 缓存击穿时，为什么要同时有 Future、分布式锁和 double-check？
+工程笔记
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-09-08
+相关人物: DavidHLPL
+访问范围: 公开
 
 > 本文不是项目历史事故复盘。仓库没有提供某次线上事故记录，下面的并发 miss 场景是根据当前源码还原出的最小工程问题。
 
@@ -295,8 +295,8 @@ mise exec java@temurin-21.0.12+101.0.LTS -- \
 - [Redis 业务模式：缓存、分布式锁、消息队列、Feed 流与秒杀](/blog/legacy/note/zh-cn/redis-business-patterns/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/resicache-single-flight.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+1. 原始文档: src/content/note/zh-cn/resicache-single-flight.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 暂定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/resicache-single-flight.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/resicache-single-flight.md

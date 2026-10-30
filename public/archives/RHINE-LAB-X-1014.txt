@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1014 / 贺恋棚
-SITE INFORMATION
+﻿RHINE LAB · 内部数据库
+档案 X-1014 / 贺恋棚
+站点信息
 
-科室：站点信息
-编目范围：2026-10-05
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 站点信息
+编目范围: 2026-10-05
+相关人物: DavidHLPL
+访问范围: 公开
 
 <div class="not-prose flex flex-col md:flex-row justify-between items-start border-b border-weak/20 pb-6 mb-8 gap-4 select-text">
   <div>
@@ -156,7 +156,7 @@ SITE INFORMATION
 </div>
 
 研究记录
-1. Original document: src/content/information/zh-cn/introduction.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+1. 原始文档: src/content/information/zh-cn/introduction.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/zh-cn/introduction.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/zh-cn/introduction.md

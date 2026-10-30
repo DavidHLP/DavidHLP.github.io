@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1185 / Enhanced UISA：异构节点信息同步的 owner、边界与恢复模型
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1185 / Enhanced UISA：异构节点信息同步的 owner、边界与恢复模型
+工程笔记
 
-科室：工程笔记
-编目范围：2026-03-25
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-03-25
+相关人物: DavidHLPL
+访问范围: 公开
 
 > **毕业条件（3 个可验证检查）**：
 > 1. 去除“规模/阈值”隐含承诺，改为可复现的重试/幂等约束描述；
@@ -139,8 +139,8 @@ register -> heartbeat -> persist(task_id) -> dispatch|queue
 - [百万级终端插件生命周期管理：状态、心跳与受控发布](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/uisa-architecture-design.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+1. 原始文档: src/content/note/zh-cn/uisa-architecture-design.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 暂定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/uisa-architecture-design.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/uisa-architecture-design.md

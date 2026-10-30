@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1082 / データベース筆記試験の復盤：SQL セマンティクスからバッチ処理まで
-ENGINEERING NOTES
+﻿RHINE LAB · 内部データベース
+資料 X-1082 / データベース筆記試験の復盤：SQL セマンティクスからバッチ処理まで
+技術ノート
 
-科室：工程笔记
-编目范围：2026-09-12
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: 技術ノート
+収録範囲: 2026-09-12
+関連人物: DavidHLPL
+アクセス: 公開
 
 データベースの筆記試験を復盤すると、答えの一覧は残りやすい一方、その答えが成立する条件は失われやすい。結合でどの行を残すのか、NULL が式にどう参加するのか、その式がどの SQL 方言に属するのか、そしてデータ量が増えたときにコストを抑え、結果を検証し、失敗から復旧するにはどうするのか、という条件である。
 
@@ -387,9 +387,9 @@ TRUNCATE を「より速く、いつでもロールバックできる DELETE」�
 - [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/zh-cn/database-schema-drift/)
 - [Spark とビッグデータエコシステム：Hadoop、HBase、Spark 実行モードとクラスタ](/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/)
 
-研究记录
-1. Original document: src/content/note/ja/database-written-test-review.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+研究記録
+1. 元の文書: src/content/note/ja/database-written-test-review.md
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 証拠の状態: 暫定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/database-written-test-review.md
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/database-written-test-review.md

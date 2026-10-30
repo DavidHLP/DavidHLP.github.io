@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1122 / cache stampede に Future、distributed lock、double-check が同時に必要な理由
-ENGINEERING NOTES
+﻿RHINE LAB · 内部データベース
+資料 X-1122 / cache stampede に Future、distributed lock、double-check が同時に必要な理由
+技術ノート
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: 技術ノート
+収録範囲: 2026-09-08
+関連人物: DavidHLPL
+アクセス: 公開
 
 > この記事は過去の障害の振り返りではない。リポジトリには特定の本番障害記録がなく、以下の concurrent miss は現在のソースから復元した最小の engineering problem である。
 
@@ -293,9 +293,9 @@ concurrent miss に遭遇したら次を答える。
 - [ResiCache：Spring Cache 保護のためのオーケストレーション可能な責任チェーン](/blog/legacy/note/ja/resicache/)
 - [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/zh-cn/redis-business-patterns/)
 
-研究记录
-1. Original document: src/content/note/ja/resicache-single-flight.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+研究記録
+1. 元の文書: src/content/note/ja/resicache-single-flight.md
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 証拠の状態: 暫定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/resicache-single-flight.md
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/resicache-single-flight.md

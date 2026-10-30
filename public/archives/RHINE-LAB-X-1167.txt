@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1167 / OMP 配置分层：模型角色、Agent 覆盖与降级链
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1167 / OMP 配置分层：模型角色、Agent 覆盖与降级链
+工程笔记
 
-科室：工程笔记
-编目范围：2026-07-31
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-07-31
+相关人物: DavidHLPL
+访问范围: 公开
 
 这页回答一个配置问题：当 OMP 同时有角色路由、子 Agent 覆盖、降级策略、代理和规则时，哪一层决定什么？结论是：先选角色默认模型，再应用明确的局部覆盖，只有请求失败或额度策略触发时才走降级链；网络入口和行为规则不是这三个键的职责。
 
@@ -117,8 +117,8 @@ flowchart LR
 - [LLM-Wiki 模式：用 LLM 增量维护一个持久的个人知识库](/blog/legacy/note/zh-cn/llm-wiki-pattern/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/omp-config-and-rules-guide.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/omp-config-and-rules-guide.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/omp-config-and-rules-guide.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/omp-config-and-rules-guide.md

@@ -2,10 +2,10 @@
 FILE X-1079 / UltiCode: Modular Architecture and Domain Boundaries of an Online Judge Platform
 ENGINEERING NOTES
 
-科室：工程笔记
-编目范围：2026-08-20
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Engineering notes
+Collection: 2026-08-20
+Related people: DavidHLPL
+Access: Public
 
 > **Graduation conditions (3 verifiable checks)**:
 > 1. A minimal E2E experiment for the judging transaction (port/projection transaction rollback);
@@ -75,9 +75,9 @@ ENGINEERING NOTES
 - [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/zh-cn/multi-service-readiness/)
 - [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/zh-cn/database-schema-drift/)
 
-研究记录
+Research notes
 1. Original document: src/content/note/en/ulticode.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 3. Evidence status: provisional
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/ulticode.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/ulticode.md

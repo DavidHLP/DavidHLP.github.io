@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1151 / Hindsight 记忆系统运行时排障矩阵与失效模式
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1151 / Hindsight 记忆系统运行时排障矩阵与失效模式
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-22
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-22
+相关人物: DavidHLPL
+访问范围: 公开
 
 本篇归纳 Vectorize Hindsight 本地部署及 Agent 统一集成过程中的 **7 项历史故障、排查思路与处理记录**，供相近环境定位问题。
 
@@ -145,8 +145,8 @@ node --check ~/.hindsight/hindsight-bridge.mjs
 - [OMP Hook 扩展概念：决策点提示、硬阻断与状态桥接](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/hindsight-troubleshooting.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/hindsight-troubleshooting.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/hindsight-troubleshooting.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/hindsight-troubleshooting.md

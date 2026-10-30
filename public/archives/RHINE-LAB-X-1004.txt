@@ -2,10 +2,10 @@
 FILE X-1004 / Knowledge Base Operation Log
 SITE INFORMATION
 
-科室：站点信息
-编目范围：2026-10-05
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Site information
+Collection: 2026-10-05
+Related people: DavidHLPL
+Access: Public
 
 # Knowledge Base Operation Log
 
@@ -43,8 +43,8 @@ The previous pass only moved historical articles into raw-backed notes. This pas
 
 Extracted the field-level `/v1/compress` and `/v1/retrieve` contract from the pinned `v0.34.0` source and a real loopback contract test, then created the tri-lingual knowledge page. The page records the missing-`model` 400, top-level `tokens_saved`, `original_content`, conditional CCR markers, and `frozen_message_count` cache-prefix semantics; credentials, paths, hosts, and session identifiers from local ledgers were excluded from raw and public pages.
 
-研究记录
+Research notes
 1. Original document: src/content/information/en/kb-log.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/en/kb-log.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/en/kb-log.md

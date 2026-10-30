@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1195 / UltiCode：把在线评测做成可验证的工程系统
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1195 / UltiCode：把在线评测做成可验证的工程系统
+工程笔记
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-09-08
+相关人物: DavidHLPL
+访问范围: 公开
 
 > **证据状态**：本文以 UltiCode `main` 的固定提交 [`f801a1076`](https://github.com/DavidHLP/UltiCode/tree/f801a1076b2fa9aa06ce3d63821f0778b477042c) 为主要来源，辅以早期 README/CONTEXT 快照。文中“已实现”表示当前仓库存在相应源码、配置或测试；不等于已经部署到生产。
 >
@@ -276,8 +276,8 @@ UltiCode 的领域对象是代码提交，不是 prompt；但它给 LLM 系统�
 - [UltiCode 验证与供应链门禁：从 static contract 到可验证发布](/blog/legacy/note/zh-cn/ulticode-ci-supply-chain/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/ulticode.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+1. 原始文档: src/content/note/zh-cn/ulticode.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 暂定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode.md

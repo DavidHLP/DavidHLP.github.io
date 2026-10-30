@@ -2,10 +2,10 @@
 FILE X-1060 / Why Async Early Expiration Only Shortens TTL: Version CAS Makes Stale Jobs Harmless
 ENGINEERING NOTES
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Engineering notes
+Collection: 2026-09-08
+Related people: DavidHLPL
+Access: Public
 
 > This article describes the early-expiration protocol in the current source. It does not call that protocol background data refresh, and it does not expand the tests into a performance or freshness SLA.
 
@@ -270,9 +270,9 @@ old job only creates a controlled next action
 - [ResiCache: An Orchestratable Responsibility Chain for Spring Cache Protection](/blog/legacy/note/en/resicache/)
 - [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Seckill](/blog/legacy/note/zh-cn/redis-business-patterns/)
 
-研究记录
+Research notes
 1. Original document: src/content/note/en/resicache-early-expiration-cas.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 3. Evidence status: provisional
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/resicache-early-expiration-cas.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/resicache-early-expiration-cas.md
