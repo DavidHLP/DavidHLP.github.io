@@ -152,8 +152,8 @@ graph TD
 # 1. GPU 推論コンテナの状態を確認
 docker logs hindsight-ollama-gpu | tail -n 20
 
-# 2. GPU メモリとモデルのマッピングを確認
-docker exec hindsight-ollama-gpu ollama list
+# 2. 実行中モデルと読み込み情報（事前にロード）
+docker exec hindsight-ollama-gpu ollama ps
 
 # 3. Hindsight コアサーバーのログとヘルスを確認
 docker logs hindsight-server | tail -n 20
@@ -162,8 +162,8 @@ curl -I http://127.0.0.1:8888/health
 # 4. 永続化データディレクトリの UID 所有権を確認
 ls -la ~/.hindsight/data/
 
-# 5. FastMCP stdio ブリッジを検証
-node ~/.hindsight/hindsight-bridge.mjs
+# 5. 構文のみ。起動・handshake 成功の証明ではない
+node --check ~/.hindsight/hindsight-bridge.mjs
 ```
 
 ---

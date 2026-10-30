@@ -162,7 +162,7 @@ Automatic compaction `reason` is defined only as `threshold`, `overflow`, `idle`
 ## Minimal verification
 
 ```text
-Parse config → role default → override hit → fallback order
+Parse config → role default → override hit → fallback order → automatic compaction reason/action
             → (if enabled) actual entry/upstream → rule discovery/path hit
 ```
 
