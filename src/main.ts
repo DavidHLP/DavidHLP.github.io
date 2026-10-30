@@ -1006,7 +1006,6 @@ document.addEventListener("click", (e) => {
 });
 document.addEventListener("keydown", (e) => {
   if (!started) return;
-  if (e.target instanceof HTMLSelectElement) return;
   if (viewer?.isOpen) return;
   if (playground?.active && !modal) {
     if (e.key === "Escape") { e.preventDefault(); playground.stop(); }
@@ -1041,7 +1040,7 @@ document.addEventListener("keydown", (e) => {
     }
     return;
   }
-  if (typing || modal || !ready) return;
+  if (typing || modal || !ready || e.target instanceof HTMLSelectElement) return;
   if (
     (e.target as HTMLElement).dataset.tab &&
     ["ArrowLeft", "ArrowRight"].includes(e.key)
