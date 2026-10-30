@@ -8,6 +8,7 @@ const labels: Record<string, readonly [string, string, string?]> = {
   "SAVED ARCHIVES": ["SAVED ARCHIVES", "保存した資料", "收藏档案"],
   "ACCESS": ["ACCESS", "アクセス", "访问权限"],
   "CONNECTED": ["CONNECTED", "接続済み", "已连接"],
+  "SELECTING FILES...": ["SELECTING FILES...", "資料を選択中…", "正在选择档案…"],
   "BOOT SEQUENCE": ["BOOT SEQUENCE", "起動演出", "启动流程"],
   "SELECTION WAVE": ["SELECTION WAVE", "選択時の波", "选档波浪"],
   "IDLE MOTION": ["IDLE MOTION", "待機中の動き", "待机起伏"],
@@ -25,7 +26,7 @@ const labels: Record<string, readonly [string, string, string?]> = {
   "RHINE LAB / OBJECT STUDY": ["RHINE LAB / OBJECT STUDY", "RHINE LAB / モデル観察", "RHINE LAB / 模型观察"],
   "FASTENERS": ["FASTENERS", "固定具", "紧固件"],
   "OPTICAL COVER": ["OPTICAL COVER", "透明カバー", "透明盖板"],
-  "REFRACTION RINGS": ["REFRACTION RINGS", "屈折リング", "折射环组"],
+  "REFRACTIVE RINGS": ["REFRACTIVE RINGS", "屈折リング", "折射环组"],
   "OPTICAL CORE": ["OPTICAL CORE", "光学コア", "光学核心"],
   "SUBSTRATE": ["SUBSTRATE", "情報基板", "信息基板"],
   "CARRIER": ["CARRIER", "背面板とフレーム", "背板与框架"],
@@ -323,6 +324,8 @@ export function translateUiText(value: string, language: UiLanguage): string {
   if (translated !== undefined) return value.replace(text, translated);
   const count = /^(\d+) RECORDS FOUND$/.exec(text);
   if (count) return value.replace(text, language === "zh-CN" ? `找到 ${count[1]} 份档案` : language === "en" ? `${count[1]} RECORDS FOUND` : `${count[1]} 件の資料`);
+  const prefixed = /^([/／]\s+)(.+)$/.exec(text);
+  if (prefixed) return value.replace(text, prefixed[1] + translateUiText(prefixed[2], language));
   if (language === "zh-CN") return value;
   if (text.startsWith("点击切换")) return value.replace(text, language === "en" ? `Click to change ${translateUiText(text.slice(4), language)}` : `${translateUiText(text.slice(4), language)}をクリックして切り替え`);
   const wallpaperQuality = "即时生效，仅限当前运行；长期设置请在 Wallpaper Engine 中调整。";

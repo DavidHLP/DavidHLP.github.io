@@ -48,7 +48,7 @@ const canonical = new URL(post ? postPath(post.id) : "/", Astro.site);
         <div class="detail-kicker" translate="no">FILE {post.data.archiveId} / {post.data.category}</div>
         <h1 translate="no">{post.data.title}</h1>
         <p translate="no">{post.data.en}</p>
-        <p>发布 <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10)}</time>{post.data.updatedDate && <> / 更新 <time datetime={post.data.updatedDate.toISOString()}>{post.data.updatedDate.toISOString().slice(0, 10)}</time></>} / {post.data.lead}</p>
+        <p>发布 <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10)}</time>{post.data.updatedDate && <> / 更新 <time datetime={post.data.updatedDate.toISOString()}>{post.data.updatedDate.toISOString().slice(0, 10)}</time></>} / <span translate="no">{post.data.lead}</span></p>
         <div class="blog-body" lang={post.data.lang} translate="no">{rendered.map(({ Content }) => <Content />)}</div>
         <h2>研究记录</h2><ol translate="no">{post.data.findings.map(finding => <li>{finding}</li>)}</ol>
         <p><a href={post.data.source} rel="noopener">设定参考 ↗</a></p>
