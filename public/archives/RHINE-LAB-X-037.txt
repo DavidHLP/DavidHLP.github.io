@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-037 / 孤星航迹
-LONE TRAIL
+﻿RHINE LAB · 内部数据库
+档案 X-037 / 孤星航迹
+孤星航迹
 
-科室：高空研究资料组
-编目范围：跨期资料汇编
-相关人物：Kristen Wright
-访问范围：REFERENCE AREA
+科室: 高空研究资料组
+编目范围: 跨期资料汇编
+相关人物: Kristen Wright
+访问范围: 参考资料
 
 《孤星》将克丽斯腾的探索推向天空之外，也让留在地面的人重新判断自己与莱茵生命的关系。本卷以航迹为线索阅读这一事件：每一次向前推进，都伴随着某些联系的延续，也伴随着无法撤回的告别。
 
@@ -14,5 +14,5 @@ LONE TRAIL
 2. 保留不同人物对同一时刻的理解。
 3. 探索的意义既在于抵达，也在于它改变了后来者能够提出的问题。
 
-设定参考：https://arknights.wiki.gg/wiki/Lone_Trail
+设定参考: https://arknights.wiki.gg/wiki/Lone_Trail
 本文为基于公开设定的档案式改写，非游戏原文。

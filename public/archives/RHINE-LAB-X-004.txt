@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-004 / 能量转换
-ENERGY CONVERSION
+﻿RHINE LAB · 内部数据库
+档案 X-004 / 能量转换
+能量转换
 
-科室：能量科
-编目范围：跨期资料汇编
-相关人物：Ferdinand Clooney
-访问范围：REFERENCE AREA
+科室: 能量科
+编目范围: 跨期资料汇编
+相关人物: Ferdinand Clooney
+访问范围: 参考资料
 
 斐尔迪南与莱茵生命能量科、重大项目的资源投入关系密切。大型能源工程也因此同时是一项科研工作和一场组织协作。本卷讨论能量从实验结果走向实际应用时，效率、供给与外部利益之间的关联。
 
@@ -14,5 +14,5 @@ ENERGY CONVERSION
 2. 规模扩大后，单次实验的成功不能替代持续运行的验证。
 3. 项目的资金安排也会改变技术路线与成果使用的方向。
 
-设定参考：https://prts.wiki/w/多萝西
+设定参考: https://prts.wiki/w/多萝西
 本文为基于公开设定的档案式改写，非游戏原文。
