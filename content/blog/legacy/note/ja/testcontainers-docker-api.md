@@ -71,7 +71,6 @@
 }
 ---
 
-
 **結論優先**：Testcontainers Java `1.20.6` は未知の Docker API バージョンを `1.32` にフォールバックし、先に daemon の最新バージョンへ動的ネゴシエーションはしない。`Could not find a valid Docker environment` に出会ったら、まず最も早い `/v1.32/info` リクエストと HTTP 400 を確認する。daemon が稼働しているからといって API バージョン非互換を除外してはならない。
 
 ## バージョン境界
@@ -172,9 +171,9 @@ Could not find a valid Docker environment. Please see logs and check configurati
 初期ソーススナップショット、バージョン訂正、未検証項目はリポジトリ `src/content/raw/zh-cn/testcontainers-docker-api-negotiation.md` と `testcontainers-docker-api-negotiation-correction.md` にある。これはすべての Testcontainers や Docker バージョンへの汎用保証ではない。
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [testcontainers-docker-api-negotiation](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/testcontainers-docker-api-negotiation.md)
 - [testcontainers-docker-api-negotiation-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/testcontainers-docker-api-negotiation-correction.md)
-- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/zh-cn/multi-service-readiness/)
+- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
+- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)

@@ -68,7 +68,6 @@
 }
 ---
 
-
 Changing a Redis serializer may appear to require editing one Bean. But Redis stores bytes, not Java objects.
 
 If old cache entries use a JDK serializer or GenericJackson2JsonRedisSerializer and the new serializer uses another envelope, switching directly creates two separate questions:
@@ -130,7 +129,9 @@ Some java.lang, java.time, and java.math types, along with explicitly enumerated
 
 An allowlist is not simply “polymorphism on or off.” It must answer:
 
-`Is this exact fully qualified class name allowed to appear in the cache bytes?`
+```text
+Is this exact fully qualified class name allowed to appear in the cache bytes?
+```
 
 One configuration boundary in the current implementation deserves attention:
 
@@ -169,7 +170,7 @@ if (EnvelopeCodec.version(envelope)
 
 This is not a complete deserialization security audit, but it places the most important type check before object instantiation.
 
-See [SecureJacksonRedisSerializer.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/SecureJacksonRedisSerializer.java#L132-L205) and [WhitelistPolicy.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c90645070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/WhitelistPolicy.java#L89-L134).
+See [SecureJacksonRedisSerializer.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/SecureJacksonRedisSerializer.java#L132-L205) and [WhitelistPolicy.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/WhitelistPolicy.java#L89-L134).
 
 ## Why support migration of old cache entries
 
@@ -336,7 +337,7 @@ The boundaries of this design also need to be explicit.
 
 - envelope version is only a format version; it does not automatically migrate arbitrary historical formats;
 - the current legacy decoder supports a defined set of formats; other serializers need their own decoder;
-- VersionEnvelope.payload uses a fixed @class JsonTypeInfo property; changing the type property requires annotation and configuration changes together;
+- VersionEnvelope.payload uses a fixed @class @JsonTypeInfo property; changing the type property requires annotation and configuration changes together;
 - the default allowlist favors the project's own package names; custom business types must be explicitly configured;
 - preflight scans samples and cannot prove that the entire Redis dataset has no old format;
 - migration scans are limited by maxKeys, pattern, and batch size, not one whole-database transaction;
@@ -365,5 +366,5 @@ If these questions have no answers, changing a serializer configuration is not t
 
 - [resicache-engineering-highlights-2954fff](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md)
 - [resicache-project-overview](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-project-overview.md)
-- [ResiCache: An Orchestratable Responsibility Chain for Spring Cache Protection](/blog/legacy/note/en/resicache/)
-- [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
+- [ResiCache: Verifiable Concurrency and Consistency Boundaries for Cache Protection](/blog/legacy/note/en/resicache/)
+- [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/en/redis-jackson-java-time/)

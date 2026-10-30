@@ -102,13 +102,13 @@ lock:{uuid}:{plugin}:{op}:{targetVersion}
 
 ## 関連ページ
 
-- [Enhanced UISA 情報同期アーキテクチャ](/blog/legacy/note/zh-cn/uisa-architecture-design/)
+- [Enhanced UISA 情報同期アーキテクチャ](/blog/legacy/note/ja/uisa-architecture-design/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-plugin-lifecycle-management](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-plugin-lifecycle-management.md)
-- [Enhanced UISA：異種ノード同期の owner・boundary・復旧モデル](/blog/legacy/note/zh-cn/uisa-architecture-design/)
+- [Enhanced UISA：異種ノード同期の owner・boundary・復旧モデル](/blog/legacy/note/ja/uisa-architecture-design/)
 
 研究記録
 1. 元の文書: src/content/note/ja/plugin-lifecycle-management.md

@@ -379,13 +379,13 @@ TRUNCATE を「より速く、いつでもロールバックできる DELETE」�
 [^34]: MySQL 8.4 Reference Manual — TRUNCATE TABLE Statement. https://dev.mysql.com/doc/refman/8.4/en/truncate-table.html
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [database-written-test-review](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md)
-- [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [MySQL ストレージエンジンとデッドロック検出](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/)
-- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [Spark とビッグデータエコシステム：Hadoop、HBase、Spark 実行モードとクラスタ](/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/)
+- [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
+- [MySQL ストレージエンジンとデッドロック検出](/blog/legacy/note/ja/mysql-storage-and-deadlock/)
+- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/ja/database-schema-drift/)
+- [Spark とビッグデータエコシステム：Hadoop、HBase、Spark 実行モードとクラスタ](/blog/legacy/note/ja/spark-bigdata-ecosystem/)
 
 研究記録
 1. 元の文書: src/content/note/ja/database-written-test-review.md

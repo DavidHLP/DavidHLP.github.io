@@ -71,7 +71,6 @@
 }
 ---
 
-
 **結論を先に**：Flyway Community の `validate` が比較するのは「適用済み migration history」と「ローカルで解決できる migration」であり、「実際の database schema」と「期待 schema」ではない。`Unknown column`、列の重複追加、migration 失敗に遭遇した場合は、history、schema、query の三ビューを必ず同時に確認すること。`repair` だけを実行しても history テーブルの整合性は回復するかもしれないが、DDL を再生・取り消し・クリーンアップすることはない。
 
 ## 適用バージョンと証拠の強度
@@ -177,13 +176,13 @@ docker rm -f schema-drift-mysql
 
 ## 関連ページ
 
-- [MySQL 性能トラブルシューティング：現象→指標→特定層→安全な緩和](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [マルチサービス起動レディネス：running、ready、依存の伝播](/blog/legacy/note/zh-cn/multi-service-readiness/)
+- [MySQL 性能トラブルシューティング：現象→指標→特定層→安全な緩和](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
+- [マルチサービス起動レディネス：running、ready、依存の伝播](/blog/legacy/note/ja/multi-service-readiness/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [database-schema-drift-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-schema-drift-contract.md)
-- [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [マイクロサービスデータ所有権：領域 owner を先に決めてから、DB 分割と移行を考える](/blog/legacy/note/zh-cn/microservice-data-ownership/)
+- [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
+- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)
+- [マイクロサービスデータ所有権：領域 owner を先に決めてから、DB 分割と移行を考える](/blog/legacy/note/ja/microservice-data-ownership/)

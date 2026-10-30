@@ -66,11 +66,11 @@
     "java-online-performance-debug",
     "java-auto-closeable",
     "java-internship-interview-blog-polished",
+    "redis-jackson-java-time",
     "redis-business-patterns"
   ]
 }
 ---
-
 
 `NullValue` は「key は存在するが業務結果は null」という状態をキャッシュ層で表すプレースホルダーです。本ページでは、不在データへの繰り返しアクセスを防ぐ方法と、プレースホルダーの singleton/シリアライズ意味論をキャッシュ境界内に閉じ込める理由を説明します。
 
@@ -137,15 +137,16 @@ value = store == NullValue.INSTANCE ? null : store;
 
 ## 関連ページ
 
-- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/zh-cn/java-auto-closeable/)
-- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
+- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)
+- [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/ja/java-auto-closeable/)
+- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/ja/java-internship-interview-blog-polished/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-java-null-value](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-java-null-value.md)
-- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/zh-cn/java-auto-closeable/)
-- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
-- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/zh-cn/redis-business-patterns/)
+- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)
+- [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/ja/java-auto-closeable/)
+- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/ja/java-internship-interview-blog-polished/)
+- [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/ja/redis-jackson-java-time/)
+- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/ja/redis-business-patterns/)

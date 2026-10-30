@@ -71,7 +71,6 @@
 }
 ---
 
-
 `Docker` は 2 つのリポジトリの 7 つのノートで操作チェックリストとして登場します：Dockerfile、レイヤー、ボリューム、ネットワーク、Compose。本ページはチェックリストを最小の実用モデルに圧縮し、`volume` と `bind`、`bridge` と `host`、そして Compose の価値を明確化し、イメージの丸写しはしません。
 
 ## 核心メカニズム
@@ -123,14 +122,14 @@
 
 ## 関連ページ
 
-- [containerd-tls-troubleshooting](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [intranet-penetration-ssh-guide](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+- [containerd-tls-troubleshooting](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
+- [multi-service-readiness](/blog/legacy/note/ja/multi-service-readiness/)
+- [intranet-penetration-ssh-guide](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ingest-docker-fundamentals](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-docker-fundamentals.md)
-- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [SSH 内網アクセス：接続方向・公開面・障害復旧](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
+- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)
+- [SSH 内網アクセス：接続方向・公開面・障害復旧](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)

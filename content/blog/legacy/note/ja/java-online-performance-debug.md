@@ -74,11 +74,12 @@
   "related": [
     "java-null-value",
     "java-atomic-boolean",
-    "java-internship-interview-blog-polished"
+    "java-internship-interview-blog-polished",
+    "redis-jackson-java-time",
+    "jjwt-013-security-api"
   ]
 }
 ---
-
 
 本ページは Java 本番性能障害の判断木であり、1500 行のコマンド手順ではありません。サービスが観測可能な間に証拠を保存し、システム症状をプロセス、スレッド、GC、コードの hot spot へ絞り、可逆的な止血と復旧を選ぶことが目的です。
 
@@ -143,14 +144,16 @@ Arthas は実行中 JVM に接続して thread/method を観測します。`watc
 
 ## 関連ページ
 
-- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/zh-cn/java-null-value/)
-- [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
+- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/ja/java-null-value/)
+- [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/ja/java-atomic-boolean/)
+- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/ja/java-internship-interview-blog-polished/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-java-online-performance-debug](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-java-online-performance-debug.md)
-- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/zh-cn/java-null-value/)
-- [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
+- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/ja/java-null-value/)
+- [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/ja/java-atomic-boolean/)
+- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/ja/java-internship-interview-blog-polished/)
+- [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/ja/redis-jackson-java-time/)
+- [JJWT 0.13.0：署名アルゴリズムを明示固定し、key 型で検証する](/blog/legacy/note/ja/jjwt-013-security-api/)

@@ -61,11 +61,15 @@
     "headroom-0-34-compress-retrieve-contract"
   ],
   "related": [
+    "headroom-single-port-evolution",
+    "omp-headroom-persistence",
+    "headroom-cc-switch-coexistence",
+    "omp-headroom-provider-proxy",
+    "omp-hook-extension-guide",
     "llm-wiki-pattern"
   ]
 }
 ---
-
 
 Headroom 0.34.0 の API は、dashboard、型名、mock から推測せず、バージョン付き契約として扱う。`/v1/compress` には `model` と `messages` が必要で、圧縮統計は response のトップレベルにあり、`/v1/retrieve` は `original_content` を返す。この三点を誤っていても、実装と mock が同じ誤りを共有すればテストは成功してしまう。
 
@@ -175,7 +179,12 @@ recent message の保護とは方向が逆である。
 - [LLM-Wiki パターン](/blog/legacy/note/ja/llm-wiki-pattern/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [headroom-0-34-compress-retrieve-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/headroom-0-34-compress-retrieve-contract.md)
+- [Headroom 単一ポートの総合：入口、動的上流、検証の境界](/blog/legacy/note/ja/headroom-single-port-evolution/)
+- [Headroom ルート永続化の総合：Named Profile、model_cache、復旧](/blog/legacy/note/ja/omp-headroom-persistence/)
+- [Headroom と cc-switch / Claude Code の共存：単一の整理責任とセキュリティ境界](/blog/legacy/note/ja/headroom-cc-switch-coexistence/)
+- [OMP Headroom Bridge：外部ルーティングコントローラとネイティブ Codex/OMP プロキシ境界](/blog/legacy/note/ja/omp-headroom-provider-proxy/)
+- [OMP Hook 拡張の概念：意思決定ポイントのヒント、ハードブロック、ステータス橋渡し](/blog/legacy/note/ja/omp-hook-extension-guide/)
 - [LLM-Wiki パターン：LLM で蓄積する個人 AI ナレッジベース](/blog/legacy/note/ja/llm-wiki-pattern/)

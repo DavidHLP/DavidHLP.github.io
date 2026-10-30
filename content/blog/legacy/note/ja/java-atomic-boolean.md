@@ -69,7 +69,6 @@
 }
 ---
 
-
 `AtomicBoolean` は、複数スレッドで共有する二値状態を、可視かつ原子的に切り替えるための型です。本ページでは、通常の `boolean` や `volatile` では足りない場面と、CAS が保証できない範囲を示します。「ロックフリーなら常にロックよりよい」という規則ではありません。
 
 ## 核心メカニズム
@@ -134,14 +133,14 @@ CAS は現在値が `expectedValue` と一致したときだけ `newValue` を�
 
 ## 関連ページ
 
-- [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/zh-cn/java-auto-closeable/)
-- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
+- [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/ja/java-auto-closeable/)
+- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)
+- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/ja/java-internship-interview-blog-polished/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-java-atomic-boolean](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-java-atomic-boolean.md)
-- [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/zh-cn/java-auto-closeable/)
-- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
+- [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/ja/java-auto-closeable/)
+- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)
+- [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/ja/java-internship-interview-blog-polished/)

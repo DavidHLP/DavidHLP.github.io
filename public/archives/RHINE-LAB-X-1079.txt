@@ -1,79 +1,276 @@
 ﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1079 / UltiCode: Modular Architecture and Domain Boundaries of an Online Judge Platform
+FILE X-1079 / UltiCode: Verifiable Boundaries for Online Judging and Agent Engineering
 ENGINEERING NOTES
 
 Department: Engineering notes
-Collection: 2026-08-20
+Collection: 2026-09-08
 Related people: DavidHLPL
 Access: Public
 
-> **Graduation conditions (3 verifiable checks)**:
-> 1. A minimal E2E experiment for the judging transaction (port/projection transaction rollback);
-> 2. Counterexamples and refactoring evidence when module owner boundaries are violated;
-> 3. Explicit statements and tests for Redis Streams consumption and concurrency boundaries.
+> **Evidence status**: The primary source is UltiCode's pinned `main` commit [`f801a1076`](https://github.com/DavidHLP/UltiCode/tree/f801a1076b2fa9aa06ce3d63821f0778b477042c), supplemented by earlier README/CONTEXT snapshots. “Implemented” means corresponding source, configuration, or tests exist in the repository; it does not mean production deployment.
+>
+> **Reading boundary**: Repository documentation explicitly states there is no production environment, traffic, or credential set. This article claims no throughput, high availability, zero loss, or complete sandbox-escape prevention. Durable idempotency of asynchronous receipts across instances/restarts remains a documented gap.
 
-`UltiCode` is a full-stack online judge platform covering a problem bank, contests, community, achievements, and an administration console. The backend is a Java 17 + Spring Boot 3.2.5 Maven reactor with multiple modules (auth/admin/app/notification/judge/submission); the frontend consists of strict-mode Vue 3 + TypeScript Console and Management applications. This page describes the declared state of the public repository's fixed main commit `3f14ac89`; the repository is still converging architecturally, so the page is marked `provisional`.
+UltiCode is an online judge with Console and Management entry points. Auth, Admin, App, Submission, and Notification have separate data responsibilities. Judge Worker consumes submissions, runs Docker sandboxes, and writes results; Search Worker maintains only derived search indexes.
 
-## Core Mechanism
+Its engineering interest lies in cross-service facts, delivery failures, rejudge races, expired leases, container infrastructure errors, and delivery pipelines. Failure and uncertainty become inspectable states.
 
-### Owner Split and Gateway
+UltiCode is not an LLM product, but its treatment of untrusted input, asynchronous execution, idempotency, isolation, and evidence also applies to generated code, tool calls, and long-running Agent tasks.
 
-- Each API gateway route has one owner: Auth :9101, Admin :9102, App :9103, Notification :9105, authenticated with JWT + Redis Session.
-- Submission is a compatibility owner seam (:9106 / Dubbo 20886 internally), in transition and without business HTTP; an independent Judge worker consumes Redis Streams.
-- Infrastructure: MySQL 9.1 (Flyway migrations), Redis 7, and Nacos 2.3.2 as the registry/configuration center (the runtime registration boundary is covered in [Dubbo + Nacos](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)).
+## Series: nine verifiable questions about online judging
 
-### Deep Port / Projection Module Pattern
+This entity page provides the overall map. The nine `concept` pages can be read independently or in the order facts → delivery → execution → release:
 
-- **Port**: an interface owned by the consuming module and adapted by the providing module (dependency inversion), such as `ContestSubmissionPort`, `TokenBlacklistPort`, and `CurrentUserProvider`. `TokenBlacklistPort` exposes only the read side and fails closed: a Redis failure must not let a revoked token through.
-- **Projection**: each domain is a deep module that owns entity-to-VO projection and read-side aggregation (`ProblemProjection`, the `AdminXxxProjection` family), moving VO shaping out of orchestration services.
-- **Realtime push seam**: six consuming modules own push ports that invert the WebSocket path, removing the old `RealtimeService` god service.
+- [Data owners and fact snapshots](/blog/legacy/note/en/ulticode-owner-and-facts/): fact ownership and immutable intake snapshots.
+- [Owner-local Outbox and consumer Inbox](/blog/legacy/note/en/ulticode-owner-local-audit-inbox/): audit intent, message takeover, and consumer idempotency.
+- [Outbox and Redis Streams](/blog/legacy/note/en/ulticode-outbox-redis-streams/): durable intent, retries, deduplication, PEL, and recovery.
+- [generation and attemptId](/blog/legacy/note/en/ulticode-generation-attempt-fence/): races between rejudging, leases, and stale workers.
+- [Fence tokens beyond database leases](/blog/legacy/note/en/ulticode-fenced-singleton-lease/): expired singleton takeover and stale completion.
+- [Docker sandbox](/blog/legacy/note/en/ulticode-docker-sandbox/): security options, seccomp, and separation of user and infrastructure errors.
+- [Asynchronous execution contracts](/blog/legacy/note/en/ulticode-async-execution-contract/): idempotency, fingerprints, bounded receipts, and shared preview/task states.
+- [Core modular-monolith testbed](/blog/legacy/note/en/ulticode-core-bounded-testbed/): allowlists, timeouts, close-once lifecycle, and opt-in owner contexts without changing the default topology.
+- [Validation and supply-chain gates](/blog/legacy/note/en/ulticode-ci-supply-chain/): static contracts, integration tests, image scanning, and signatures.
 
-### Judging Transaction Invariants
+## Eight design highlights
 
-- Submission and ContestSubmission are recorded synchronously in the **same transaction** (D-04); post-contest scoring is event-driven through AFTER_COMMIT.
-- ContestSubmission is recorded only when the contest is RUNNING and the participant is STARTED (D-05/D-06); Accepted in a virtual contest does not trigger achievements (R6.3/F-08).
-- The contents of HIDDEN test cases must never be exposed to users (P0-1).
+| Highlight | Problem | Mechanism |
+|---|---|---|
+| Owner boundaries | Read/write ownership remains an oral agreement | Data owner, implementation-free contract, port/projection |
+| Recoverable auditing | Business commit succeeds but cross-owner audit does not | Owner-local outbox, Redis Stream, consumer inbox, idempotency key |
+| Recoverable delivery | Submission commits while the queue is unavailable | DB outbox, `FOR UPDATE SKIP LOCKED`, Streams, retry/dead-letter |
+| Result fencing | A rejudge or old worker overwrites a newer result | `generation` + `attemptId` + conditional update |
+| Singleton fencing | Expired worker marks completion after takeover | DB lease, monotonic `fence_token`, conditional update |
+| Execution isolation | Infrastructure failures look like ordinary user runtime errors | Docker resource/security flags, seccomp, failure classification |
+| Module lifecycle | Multi-context timeouts, late returns, duplicate close | opt-in, allowlist, bounded timeout, close-once handoff |
+| Delivery evidence | Build success says little about dependency/image security | zero-infra static contract, Trivy, SBOM, Cosign, provenance |
 
-## Applicability
+## 1. Owner boundaries make write ownership explicit
 
-- Practice, contest, community, and administration scenarios that need a complete online-judge loop.
-- Teams willing to collaborate in a multi-module monorepo with private domain modules (`modules/`) and explicit port boundaries.
+Architecture documents define five Data Owners and two Workers:
 
-## Inapplicability and Risks
+| Role | Facts/writes owned | Excluded responsibility |
+|---|---|---|
+| Auth | Login, registration, OAuth, credentials, refresh state, RBAC, JWKS | Other owners' business tables |
+| Admin | Management BFF, audit, settings, monitoring, backups, read models | App or Submission domain writes |
+| App | Profiles, Problem, Contest, Solution, Forum, interactions, achievements, subscriptions | Submission results |
+| Submission | Intake, judging state, generation, lease fencing, results, judge outbox | Problem, TestCase, Contest tables |
+| Notification | Notifications, preferences, delivery ledger, email, Inbox, retries | Scattering notification state among business owners |
+| Judge Worker | Judge Stream consumption, Problem facts, sandbox execution, verdict writes | Direct business-table writes or business HTTP entry points |
+| Search Worker | `SearchDocumentChanged`, derived MeiliSearch indexes | Business-table writes or business HTTP entry points |
 
-- The architecture documentation describes an ongoing convergence: the Submission compatibility seam and the Admin read-model seam still have “future phases”, so their interfaces may continue to change.
-- The original `wiki/concepts/` ADR layer was retired on 2026-07-09; the design rationale is scattered across commit messages and source Javadocs, increasing traceability cost.
-- README ports and versions describe development state and have not been validated in production deployment.
+The default cross-boundary interface is a provider-owned contract or consumer-owned port, rather than shared Entity, Mapper, or business Service. `services/api/*` contains implementation-free contracts; `services/platform/*` is a constrained shared layer. Reusable `judge-runtime` does not automatically imply a separate process.
 
-## Minimal Verification
+### Immutable fact snapshots reduce cross-owner coupling
 
-1. Start the infrastructure with Docker Compose and run the `scripts/dev` initialization flow; confirm Nacos registration and gateway-route health (see the multi-service readiness gate in [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)).
-2. Submit one piece of code to validate the Submission → Judge outbox → verdict → AFTER_COMMIT scoring chain.
-3. Compare local schema with Flyway migration history to detect drift (method: [Database Schema Drift](/blog/legacy/note/zh-cn/database-schema-drift/)).
+Querying App/Auth during Submission's database write would mix remote calls, authorization boundaries, and request timing into the write path.
 
-## Evidence and Uncertainty
+The intake interface accepts [`SubmissionFactsSnapshot`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/api/submission-api/src/main/java/com/ulticode/submission/api/dto/SubmissionFactsSnapshot.java). App's [`RemoteSubmissionWritePort`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/app/app-web/src/main/java/com/ulticode/modules/submission/port/adapter/RemoteSubmissionWritePort.java) first captures:
 
-- **Source facts**: The architecture diagram, owner split, domain vocabulary, and design invariants come from the README and CONTEXT.md at fixed commit `3f14ac89` (`ulticode-project-context`).
-- **Synthesis in this page**: The vocabulary is organized into three layers: “owner — seam — invariant”.
-- **Unconfirmed**: Unpublished refactoring in the local workspace, which is 25 commits ahead of `origin/main`, is excluded; sandbox D-form isolation strength, judging throughput, and leaderboard-rule correctness have not been independently reproduced.
+- `userId` and `userExists`;
+- problem ID, title, slug, time/memory limits, and starter code;
+- `capturedAtEpochMillis` and `schemaVersion`.
 
-## Related Pages
+Submission uses `facts.admits(requestedUserId, requestedProblemId)` to check schema version, user existence, user ID, and problem ID. Origin, capture time, and interpretation version become data rather than implicit caller assumptions.
 
-- [microservice-data-ownership](/blog/legacy/note/zh-cn/microservice-data-ownership/)
-- [dubbo-nacos-runtime](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
-- [jjwt-013-security-api](/blog/legacy/note/zh-cn/jjwt-013-security-api/)
-- [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [database-schema-drift](/blog/legacy/note/zh-cn/database-schema-drift/)
+Snapshot validity periods, cross-owner revocation, and business rules still need system definitions. This is not a complete authorization or consistency proof, but it makes the write contract easier to test and audit than ad hoc remote calls inside the core transaction.
 
+## 2. Outbox + Redis Streams turn delivery failure into state
+
+With judge outbox enabled, submission and judging intent are stored in one database transaction:
+
+```text
+submit @Transactional
+    ├── submissions: Pending
+    └── judge_outbox: PENDING
+             │
+             ├── claim: FOR UPDATE SKIP LOCKED
+             ├── atomic SET + XADD
+             └── judge-workers
+                    └── lease fence -> verdict
+```
+
+[`JudgeOutboxMapper`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/submission/src/main/java/com/ulticode/modules/submission/outbox/mapper/JudgeOutboxMapper.java) claims `PENDING` records by next retry time with `FOR UPDATE SKIP LOCKED`, preventing dispatchers from claiming the same batch. Default batch size is 50 and scheduling period is two seconds: source defaults, not throughput promises.
+
+[`JudgeOutboxDispatcher`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/submission/src/main/java/com/ulticode/modules/queue/outbox/dispatcher/JudgeOutboxDispatcher.java) distinguishes:
+
+- Missing queue provider or enqueue exception: retain retryable state.
+- Malformed payload missing `problemId`, `userId`, `language`, or `code`: mark `DEAD` rather than “sent.”
+- Exponential backoff, currently capped at 60 seconds.
+- Real dispatch constrained by cutover watermark and shadow flags to separate migration shadow jobs from real jobs.
+
+The Streams adapter atomically sets a deduplication key and performs `XADD` in Lua. Its key contains `submissionId:generation`, avoiding a permanent delivery hole if the process crashes between successful SETNX and XADD.
+
+This is not exactly-once: the database transaction and external Redis operation still have a boundary. It combines durable intent, retryable delivery, message deduplication, and result fencing against duplicate or stale execution.
+
+### PEL recovery exposes unacknowledged messages
+
+Consumer groups start at `0-0` so entries predating group creation remain visible. Worker NACK retains the Pending Entries List (PEL). [`UnackedStreamEntriesReaper`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge-runtime/src/main/java/com/ulticode/modules/queue/outbox/reaper/UnackedStreamEntriesReaper.java) scans idle entries every ten seconds by default, reclaims at most one per sweep, and exposes PEL size, queue delay, oldest-entry age, and DLQ metrics.
+
+The judge-stream visibility timeout is `1_800_000L` (30 minutes). This implementation parameter guarantees neither completion within 30 minutes nor HA. Reclaimed tasks still pass generation/attempt fencing; reclaiming alone grants no write authority.
+
+## 3. `generation` + `attemptId` reject old results at the database
+
+A submission may be rejudged, leases expire, workers restart, and Redis messages repeat. UltiCode separates:
+
+- `generation`: logical submission/rejudge epoch.
+- `attemptId`: token for one worker's execution lease.
+
+```text
+acquire lease:  id + status=Pending + generation
+renew lease:    id + current_attempt_id
+write verdict:  id + generation + current_attempt_id
+rejudge/reaper: expected generation -> generation + 1
+```
+
+Lease, renewal, and verdict SQL in [`SubmissionMapper`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/submission/src/main/java/com/ulticode/modules/submission/mapper/SubmissionMapper.java) implement conditional updates. Zero affected rows means lost lease, expired generation, or competitor takeover, rather than permission to overwrite. The executor records `judge.stale_result.dropped` and ACKs safely discarded stale results.
+
+[`SubmissionRejudgeService`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/submission/src/main/java/com/ulticode/submission/admin/SubmissionRejudgeService.java) and [`JudgingLeaseReaper`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/submission/src/main/java/com/ulticode/modules/submission/reaper/JudgingLeaseReaper.java) advance the epoch through generation CAS, then create new judging intent. Late old messages cannot satisfy the new conditions.
+
+This concentrates final write authority into a verifiable database condition without requiring flawless single execution upstream. Its scope is Submission's database; it does not replace cross-system authorization, message durability, or business auditing.
+
+## 4. Docker D-form isolation also classifies infrastructure errors
+
+The D-form path in [`SandboxExecutorImpl`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge-runtime/src/main/java/com/ulticode/modules/submission/sandbox/executor/SandboxExecutorImpl.java) creates a temporary job workspace, writes read-only `input.json`, launches Docker through the lifecycle runner, and attempts cleanup in `finally`. The command includes:
+
+```text
+--network none
+--cap-drop ALL
+--read-only
+--user 1000:1000
+--security-opt no-new-privileges
+--security-opt seccomp=<resolved profile>
+--memory <effective limit>
+--cpus <effective limit>
+--pids-limit <effective limit>
+--ulimit nofile=128:128
+--tmpfs /tmp:rw,exec,size=64m
+<workspace>:/workspace:ro
+--rm
+```
+
+A seccomp-profile resolution failure produces an explicit Docker configuration error rather than silently removing the filter. Isolation is not implicitly downgraded just to make execution appear successful.
+
+[`SandboxOutcomeClassifier`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge-runtime/src/main/java/com/ulticode/modules/submission/sandbox/SandboxOutcomeClassifier.java) separates:
+
+- Process startup failure: launch failure.
+- Exit 137: OOM.
+- Exit 125: OCI configuration or Docker daemon error.
+- `Cannot fork`, pids, or `RLIMIT_NPROC`: fork limit.
+- Compiler errors: compile error.
+- Other nonzero exits: ordinary runtime error.
+
+A container that never starts, a bad seccomp path, or insufficient fork resources should not be reported as user-code Runtime Error. Classification makes diagnosis and retry understandable, but comprehensive sandbox-escape prevention still requires a dedicated security audit and real-environment verification.
+
+## 5. Preview and asynchronous execution share a contract
+
+Separate request/state/error definitions for immediate previews and long-running tasks would cause inconsistent behavior for the same code.
+
+[`AsyncSandboxExecutor`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge-runtime/src/main/java/com/ulticode/modules/submission/runtime/async/AsyncSandboxExecutor.java) defines `submit/poll/cancel`. `ExecutionRequest` requires a job, test case, visibility, and nonempty idempotency key. The default key is `job.runId:testCase.id`; requests also receive a SHA-256 fingerprint. Different payloads for one key can be rejected as conflicts rather than reusing the wrong result.
+
+Judge's [`CodeExecutionProvider`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge/src/main/java/com/ulticode/judge/provider/CodeExecutionProvider.java) enforces these boundaries:
+
+- Synchronous `execute` accepts only `PUBLIC_PREVIEW`.
+- Business exceptions become typed `RpcResult`, avoiding arbitrary string parsing.
+- An asynchronous submission contains one test case and bounded in-memory metadata.
+- Capacity is 1024 records with a 15-minute TTL; terminal completion, cancellation, or timeout reclaims them.
+- Docker is the default runtime; Judge0 is an optional adapter.
+
+Generated code, tool arguments, and long-running Agent results likewise need state machines, idempotency keys, and capacity bounds rather than an ever-growing global tool/model invocation function.
+
+The documented gap matters: asynchronous receipts remain bounded process-local metadata; persistent idempotency across replicas/restarts is unfinished, and external Judge0 instances are not validated by default.
+
+## 6. Quality gates separate static contracts from heavier validation
+
+[`scripts/dev/test.sh`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/scripts/dev/test.sh) and project documentation tier checks by cost and realism:
+
+```text
+static       -> zero-infra contract checks
+unit         -> unit tests, exclude IT/IntegrationTest
+quick/full   -> progressively heavier local checks
+integration  -> Testcontainers, DB/Redis, sandbox and owner migration
+```
+
+The CI zero-infra entry point is:
+
+```bash
+bash scripts/test/zero-infra-validation-contract.sh --static-only
+```
+
+The static path starts no Docker, databases, services, Testcontainers, Maven, or pnpm install. It checks script contracts, paths, configuration, and safety boundaries cheaply. Database, Redis, sandbox, and cross-owner behavior belong to heavier unit/integration stages. Static checks do not replace integration evidence, and integration tests do not replace production traffic evidence.
+
+[`docker-publish.yml`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/.github/workflows/docker-publish.yml) builds a GHCR service matrix with SBOM and provenance. Trivy blocks HIGH/CRITICAL OS/library vulnerabilities through its exit code. Cosign then signs digests and verifies signatures and attestations. GHCR image names are normalized to lowercase to prevent case-related publishing failures.
+
+These are automated delivery/security gates, not proof that CI has established system security. Actual execution records and external credentials determine whether the pipeline runs fully in a given environment.
+
+## 7. Four lessons for LLM/Agent engineering
+
+UltiCode handles submissions rather than prompts, but offers four direct analogies.
+
+### 7.1 Put untrusted input through capability boundaries
+
+Generated code, tool arguments, patches, and external pages need capability, resource, and data-scope checks, just as user code needs a sandbox. `owner + port + adapter` makes fact ownership and execution authority interface/type constraints rather than wishes in a system prompt.
+
+### 7.2 Asynchronous work needs durable intent, idempotency, and fencing
+
+Model tasks can time out, retry, repeat, or be cancelled. Outbox preserves intent; idempotency keys identify repeated requests; generation/attempt fences stop old workers writing new state. These responsibilities differ: no duplicate message does not imply no stale result.
+
+### 7.3 Fact snapshots are easier to reproduce than implicit context
+
+`SubmissionFactsSnapshot` carries request-time facts, capture time, and schema version. Agents can similarly snapshot visible resources, authorization scope, model version, input summaries, and execution policy to reduce ambiguity when one ID denotes different objects over time.
+
+### 7.4 Failure classes determine recovery
+
+Calling OOM, OCI errors, fork limits, and compile errors “execution failed” leaves monitoring and retry directionless. LLM systems likewise need distinct provider throttling, tool permission denial, invalid input, unparseable output, and business-result failure. Observable states are more useful than a single `FAILED`.
+
+## 8. Implemented, validated, and unclaimed
+
+| Label | Precise claim |
+|---|---|
+| `Repository Implemented` | The pinned commit contains owner/worker documentation, fact snapshots, DB outbox, Streams deduplication/PEL recovery, generation/attempt CAS, Docker security flags, failure classification, and CI release gates. |
+| `Repository Evidence` | Corresponding source, configuration, and boundary tests exist. Test names provide traceability, not proof of execution in this run. |
+| `Locally Validated` | Blog KB lint/build are to be validated; those results are not UltiCode Maven, Docker, Redis, or Testcontainers validation. |
+| `BLOCKED_EXTERNAL` | Production deployment/traffic, external Judge0, real replica/restart receipts, credentials, image runtimes, and publishing credentials are outside scope. |
+| `OUT_OF_SCOPE` | No claim of high throughput, production HA, zero loss, complete sandbox-escape prevention, or production-ready optional Core profiles. |
+
+The article remains `provisional`. Stronger conclusions need reproducible static/unit/integration runs, actual Docker/Redis/MySQL results, receipt tests across restart/replicas, and a separate sandbox security audit.
+
+## Minimal reading route
+
+Return to source in this order rather than inferring implementation from deployment diagrams:
+
+1. [Architecture overview](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/docs/architecture/overview.md) → [owners and module boundaries](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/docs/architecture/modules.md).
+2. [Fact snapshots](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/api/submission-api/src/main/java/com/ulticode/submission/api/dto/SubmissionFactsSnapshot.java) → [Submission writes](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/submission/src/main/java/com/ulticode/modules/submission/port/DefaultSubmissionWritePort.java).
+3. [Outbox dispatcher](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/submission/src/main/java/com/ulticode/modules/queue/outbox/dispatcher/JudgeOutboxDispatcher.java) → [Streams adapter](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge-runtime/src/main/java/com/ulticode/modules/queue/port/adapter/RedissonStreamsJudgeQueueAdapter.java) → [attempt executor](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge-runtime/src/main/java/com/ulticode/modules/queue/processor/DefaultJudgeAttemptExecutor.java).
+4. [Docker executor](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge-runtime/src/main/java/com/ulticode/modules/submission/sandbox/executor/SandboxExecutorImpl.java) → [failure classification](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge-runtime/src/main/java/com/ulticode/modules/submission/sandbox/SandboxOutcomeClassifier.java).
+5. [Validation status](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/docs/project/current-status.md) → [test tiers](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/docs/development/testing.md).
+
+### Corresponding boundary-test entry points
+
+These names support further contract verification; this run does not execute UltiCode's tests:
+
+- [`SubmissionFactsSnapshotTest`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/submission/src/test/java/com/ulticode/submission/port/SubmissionFactsSnapshotTest.java), [`DefaultSubmissionWritePortIT`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/submission/src/test/java/com/ulticode/modules/submission/port/DefaultSubmissionWritePortIT.java), [`SubmissionOutboxDispatcherIT`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/submission/src/test/java/com/ulticode/modules/queue/outbox/dispatcher/SubmissionOutboxDispatcherIT.java).
+- [`SandboxForkE2EIT`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge-runtime/src/test/java/com/ulticode/modules/submission/sandbox/SandboxForkE2EIT.java), [`SandboxExecutorImplForkDetectionTest`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge-runtime/src/test/java/com/ulticode/modules/submission/sandbox/executor/SandboxExecutorImplForkDetectionTest.java), [`SandboxOutcomeClassifierTest`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge-runtime/src/test/java/com/ulticode/modules/submission/sandbox/SandboxOutcomeClassifierTest.java).
+- [`DockerAsyncSandboxAdapterTest`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge-runtime/src/test/java/com/ulticode/modules/submission/runtime/async/DockerAsyncSandboxAdapterTest.java), [`Judge0AsyncSandboxAdapterTest`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge-runtime/src/test/java/com/ulticode/modules/submission/runtime/async/Judge0AsyncSandboxAdapterTest.java).
 
 ## Sources and related documents
 
+- [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
 - [ulticode-project-context](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-project-context.md)
-- [Microservice Data Ownership: Establish the Domain Owner First, Then Talk About Database Splitting and Migration](/blog/legacy/note/zh-cn/microservice-data-ownership/)
-- [Dubbo + Nacos: Verify the Registration Name and group/version First, Then Run a Real Smoke Test](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
-- [JJWT 0.13.0: Explicitly Fixing the Signature Algorithm, Verifying by Key Type](/blog/legacy/note/zh-cn/jjwt-013-security-api/)
-- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/zh-cn/database-schema-drift/)
+- [ulticode-reliability-core-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-reliability-core-f801a1076.md)
+- [Microservice Data Ownership: Establish the Domain Owner First, Then Talk About Database Splitting and Migration](/blog/legacy/note/en/microservice-data-ownership/)
+- [Dubbo + Nacos: Verify the Registration Name and group/version First, Then Run a Real Smoke Test](/blog/legacy/note/en/dubbo-nacos-runtime/)
+- [JJWT 0.13.0: Explicitly Fixing the Signature Algorithm, Verifying by Key Type](/blog/legacy/note/en/jjwt-013-security-api/)
+- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/en/multi-service-readiness/)
+- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/en/database-schema-drift/)
+- [UltiCode Data Owners and Fact Snapshots: Keeping Cross-Service Submissions Bounded](/blog/legacy/note/en/ulticode-owner-and-facts/)
+- [Do Not Audit Across Owners by Writing Across Databases: UltiCode's Local Outbox and Consumer Inbox](/blog/legacy/note/en/ulticode-owner-local-audit-inbox/)
+- [UltiCode Outbox and Redis Streams: Making Judge Delivery Recoverable](/blog/legacy/note/en/ulticode-outbox-redis-streams/)
+- [UltiCode Generation and attemptId: Fencing Stale Judging Results with Conditional Updates](/blog/legacy/note/en/ulticode-generation-attempt-fence/)
+- [A Database Lease Is Not Enough: UltiCode Uses Fence Tokens to Stop Stale Singleton Jobs](/blog/legacy/note/en/ulticode-fenced-singleton-lease/)
+- [UltiCode Docker Sandbox: Resource Isolation and Infrastructure Error Classification](/blog/legacy/note/en/ulticode-docker-sandbox/)
+- [UltiCode Async Execution Contract: Idempotency, Fingerprints, and Bounded Receipts](/blog/legacy/note/en/ulticode-async-execution-contract/)
+- [Treat a Modular Monolith as a Testbed: UltiCode Core's Allowlist, Timeouts, and Close-Once Lifecycle](/blog/legacy/note/en/ulticode-core-bounded-testbed/)
+- [UltiCode Verification and Supply-Chain Gates: From Static Contracts to Verifiable Releases](/blog/legacy/note/en/ulticode-ci-supply-chain/)
 
 Research notes
 1. Original document: src/content/note/en/ulticode.md

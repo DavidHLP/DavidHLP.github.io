@@ -75,7 +75,6 @@
 }
 ---
 
-
 **Conclusion first**: The first step of microservice decomposition is not splitting the database into multiple instances, but determining the bounded context, the final write owner, and the data access contract. Service data should be accessed through API/messages; a shared physical database server can be a transitional deployment, while multiple services reading and writing the same business schema/table is the main coupling. Migration proceeds as `expand → migrate → contract`; `contract` must close the rollback window before deleting old objects.
 
 ## 1. Determine the owner with a four-layer sequence
@@ -164,6 +163,6 @@ The layering of revision-pinned documents and live pages is in the repo at `src/
 
 - [microservice-domain-data-ownership](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/microservice-domain-data-ownership.md)
 - [microservice-domain-data-ownership-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/microservice-domain-data-ownership-correction.md)
-- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [Dubbo + Nacos: Verify the Registration Name and group/version First, Then Run a Real Smoke Test](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
+- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/en/database-schema-drift/)
+- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/en/multi-service-readiness/)
+- [Dubbo + Nacos: Verify the Registration Name and group/version First, Then Run a Real Smoke Test](/blog/legacy/note/en/dubbo-nacos-runtime/)

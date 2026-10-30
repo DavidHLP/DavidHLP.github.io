@@ -29,6 +29,12 @@
 }
 ---
 
+## 2026-02-23
+
+- Personalized blog content
+- Java technical notes
+- Interview experience sharing
+
 ## 2025-11-29
 
 - OpenGraph image support
@@ -67,9 +73,9 @@
 ## 2025-01-02
 
 - Notes
-- Jottins
+- Jottings
 - Preface
 
 ## 2025-01-01
 
-- Welcome to Astro
+- Blog created

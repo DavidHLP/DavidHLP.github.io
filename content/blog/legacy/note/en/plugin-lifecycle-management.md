@@ -65,7 +65,6 @@
 }
 ---
 
-
 ## Definition
 
 This page answers one question: how can plugin installation, upgrade, uninstallation, and rule delivery converge safely when endpoint capabilities differ, networks jitter, and actions can be destructive? It is a control-plane model, not a validated capacity plan; million-scale operation, capability variance, and recovery behavior are design assumptions in the source.
@@ -161,10 +160,10 @@ Accept heartbeat delay, lost receipts, duplicate reports, and lagging versions; 
 
 ## Related pages
 
-- [Enhanced UISA information-sync architecture](/blog/legacy/note/zh-cn/uisa-architecture-design/)
+- [Enhanced UISA information-sync architecture](/blog/legacy/note/en/uisa-architecture-design/)
 
 
 ## Sources and related documents
 
 - [legacy-plugin-lifecycle-management](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-plugin-lifecycle-management.md)
-- [Enhanced UISA: Owners, Boundaries, and Recovery for Heterogeneous-Node Sync](/blog/legacy/note/zh-cn/uisa-architecture-design/)
+- [Enhanced UISA: Owners, Boundaries, and Recovery for Heterogeneous-Node Sync](/blog/legacy/note/en/uisa-architecture-design/)

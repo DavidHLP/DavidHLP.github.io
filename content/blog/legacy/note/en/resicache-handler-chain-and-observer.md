@@ -72,7 +72,6 @@
 }
 ---
 
-
 > This article is based on the current ResiCache source at main@2954fff217257e9cf7c906450a75070d5e092637. It is not a retrospective of a historical incident, and it does not treat the chain abstraction itself as a design virtue; the focus is how current code separates control flow, nested execution, and observation state.
 
 Cache protection is usually not one handler but several ordered steps: a Bloom filter, a synchronization lock, early expiration, TTL, null-value handling, and actual Redis reads and writes. The question quickly changes from “how should each handler be written?” to:
@@ -155,7 +154,7 @@ The order determines control flow:
 - early expiration can decide whether the current request takes the miss path or keeps using its cached value;
 - ActualCacheHandler performs real reads and writes last.
 
-CacheHandlerChainFactory sorts by HandlerPriority and then filters disabled handlers. Bloom, SyncLock, EarlyExpiration, and NullValue share the protection toggle; TTL is deliberately excluded because disabling TTL would remove the expiration boundary from actual cache writes.
+CacheHandlerChainFactory sorts by @HandlerPriority and then filters disabled handlers. Bloom, SyncLock, EarlyExpiration, and NullValue share the protection toggle; TTL is deliberately excluded because disabling TTL would remove the expiration boundary from actual cache writes.
 
 This makes a new protection mechanism reviewable: its place in the existing order, termination semantics, and toggle semantics must all be explicit.
 
@@ -281,7 +280,7 @@ When designing a composable processing chain, decide first:
 
 If these questions have no answers, adding more handlers only spreads implicit coupling across more files.
 
-Related deep dive: [ResiCache: nested observer execution must distinguish lifecycle, fragments, and scope tokens](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/).
+Related deep dive: [ResiCache: nested observer execution must distinguish lifecycle, fragments, and scope tokens](/blog/legacy/note/en/resicache-observer-nested-execution/).
 
 
 
@@ -290,5 +289,5 @@ Related deep dive: [ResiCache: nested observer execution must distinguish lifecy
 - [resicache-engineering-highlights-2954fff](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md)
 - [resicache-observer-nested-execution-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-observer-nested-execution-contract.md)
 - [resicache-project-overview](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-project-overview.md)
-- [ResiCache: An Orchestratable Responsibility Chain for Spring Cache Protection](/blog/legacy/note/en/resicache/)
-- [ResiCache: Observer Nested Execution Must Distinguish Lifecycle, Fragments, and Scope Tokens](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
+- [ResiCache: Verifiable Concurrency and Consistency Boundaries for Cache Protection](/blog/legacy/note/en/resicache/)
+- [ResiCache: Observer Nested Execution Must Distinguish Lifecycle, Fragments, and Scope Tokens](/blog/legacy/note/en/resicache-observer-nested-execution/)

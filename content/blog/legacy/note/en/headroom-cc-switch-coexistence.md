@@ -81,7 +81,6 @@
 }
 ---
 
-
 This page records the coexistence contract of one specific Headroom provider proxy deployment: Claude Code does not hand requests directly to cc-switch; they pass through Headroom first. OMP's Responses path still enters the same Headroom entry and is routed by request-level upstream selection. The conclusion is that **a request can have only one synthesis owner**: Headroom owns compression and synthesis, while cc-switch only performs Anthropic↔OpenAI protocol conversion and credential injection. This page is a version-dependent `provisional` synthesis, not the default behavior of every Headroom or cc-switch release.
 
 ## Chain and responsibility boundary
@@ -157,15 +156,15 @@ Seeing only `/health` or a single HTTP 200 is not enough to prove the request re
 
 ## Related pages
 
-- [Headroom single-port synthesis](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [Headroom route persistence synthesis](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
+- [Headroom single-port synthesis](/blog/legacy/note/en/headroom-single-port-evolution/)
+- [Headroom route persistence synthesis](/blog/legacy/note/en/omp-headroom-persistence/)
 - [Headroom 0.34 compression and retrieval contract](/blog/legacy/note/en/headroom-compress-retrieve-contract/)
 
 
 ## Sources and related documents
 
 - [headroom-cc-switch-coexistence-runtime](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/headroom-cc-switch-coexistence-runtime.md)
-- [Headroom Single-Port Synthesis: Entry, Dynamic Upstreams, and Verification Boundaries](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
-- [Headroom Route Persistence Synthesis: Named Profiles, model_cache, and Recovery](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
-- [OMP Headroom Bridge: External Routing Controller and Native Codex/OMP Proxy Boundaries](/blog/legacy/note/zh-cn/omp-headroom-provider-proxy/)
+- [Headroom Single-Port Synthesis: Entry, Dynamic Upstreams, and Verification Boundaries](/blog/legacy/note/en/headroom-single-port-evolution/)
+- [Headroom Route Persistence Synthesis: Named Profiles, model_cache, and Recovery](/blog/legacy/note/en/omp-headroom-persistence/)
+- [OMP Headroom Bridge: External Routing Controller and Native Codex/OMP Proxy Boundaries](/blog/legacy/note/en/omp-headroom-provider-proxy/)
 - [Headroom 0.34 Compression and Retrieval Contract: Fields, Modes, and Real-Endpoint Tests](/blog/legacy/note/en/headroom-compress-retrieve-contract/)

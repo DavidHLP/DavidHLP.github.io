@@ -73,7 +73,6 @@
 }
 ---
 
-
 本ページは、内網の Linux サーバーに直接到達できるパブリックアドレスがないとき、クライアント能力、コントロールプレーンの到達性、公開面で SSH 方式を選ぶための判断を示す。チュートリアルを増やすのではなく、Cloudflare Tunnel、Tailscale、FRP の接続方向と障害ドメインを分け、ログアウト後も FRP クライアントを復旧させる条件を明確にする。
 
 ## コアメカニズム
@@ -197,12 +196,12 @@ loginctl show-user $USER | grep Linger
 
 ## 関連ページ
 
-- [containerd TLS 信頼チェーン](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [MySQL パフォーマンス問題モデル](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
+- [containerd TLS 信頼チェーン](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
+- [MySQL パフォーマンス問題モデル](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-intranet-penetration-ssh-guide](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-intranet-penetration-ssh-guide.md)
-- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
+- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
+- [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/ja/mysql-performance-troubleshooting/)

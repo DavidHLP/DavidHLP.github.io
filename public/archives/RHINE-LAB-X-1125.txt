@@ -39,19 +39,19 @@ Fuwari の 13 の Spring Boot/Cloud ノートはマイクロサービスノー�
 
 ## 関連ページ
 
-- [dubbo-nacos-runtime](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
-- [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [microservice-data-ownership](/blog/legacy/note/zh-cn/microservice-data-ownership/)
-- [containerd-tls-troubleshooting](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
+- [dubbo-nacos-runtime](/blog/legacy/note/ja/dubbo-nacos-runtime/)
+- [multi-service-readiness](/blog/legacy/note/ja/multi-service-readiness/)
+- [microservice-data-ownership](/blog/legacy/note/ja/microservice-data-ownership/)
+- [containerd-tls-troubleshooting](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ingest-spring-cloud](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md)
-- [Dubbo + Nacos：登録名と group/version を先に確認してから、本物の smoke test を実行する](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
-- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [マイクロサービスデータ所有権：領域 owner を先に決めてから、DB 分割と移行を考える](/blog/legacy/note/zh-cn/microservice-data-ownership/)
-- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
+- [Dubbo + Nacos：登録名と group/version を先に確認してから、本物の smoke test を実行する](/blog/legacy/note/ja/dubbo-nacos-runtime/)
+- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)
+- [マイクロサービスデータ所有権：領域 owner を先に決めてから、DB 分割と移行を考える](/blog/legacy/note/ja/microservice-data-ownership/)
+- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
 
 研究記録
 1. 元の文書: src/content/note/ja/spring-cloud-and-boot.md

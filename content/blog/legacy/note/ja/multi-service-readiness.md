@@ -79,7 +79,6 @@
 }
 ---
 
-
 このページは一つの質問に答える：Compose や systemd で依存関係を宣言したとき、実際には何が保証されるのか。核心結論：オーケストレーターは宣言された condition（`service_started` / `service_healthy` / `service_completed_successfully`）に基づく起動ゲートしか適用せず、業務レディネスを自動で保証しない。順序付け、依存、失敗と再起動の伝播は直交する四つの意味論であり、分けて判断しなければならない。
 
 ## コアメカニズム
@@ -213,17 +212,17 @@ systemd-analyze verify <unit>.service          # 单元文件校验
 
 ## 関連ページ
 
-- [MySQL 性能トラブルシューティング](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [データベース Schema ドリフト](/blog/legacy/note/zh-cn/database-schema-drift/)
+- [MySQL 性能トラブルシューティング](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
+- [データベース Schema ドリフト](/blog/legacy/note/ja/database-schema-drift/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [multi-service-readiness-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/multi-service-readiness-contract.md)
 - [multi-service-readiness-contract-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/multi-service-readiness-contract-correction.md)
 - [multi-service-readiness-safety-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/multi-service-readiness-safety-correction.md)
-- [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [Testcontainers 1.20.6：Docker API バージョンを先に切り分けてから、daemon の利用不可を判断する](/blog/legacy/note/zh-cn/testcontainers-docker-api/)
-- [Dubbo + Nacos：登録名と group/version を先に確認してから、本物の smoke test を実行する](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
-- [マイクロサービスデータ所有権：領域 owner を先に決めてから、DB 分割と移行を考える](/blog/legacy/note/zh-cn/microservice-data-ownership/)
+- [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
+- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/ja/database-schema-drift/)
+- [Testcontainers 1.20.6：Docker API バージョンを先に切り分けてから、daemon の利用不可を判断する](/blog/legacy/note/ja/testcontainers-docker-api/)
+- [Dubbo + Nacos：登録名と group/version を先に確認してから、本物の smoke test を実行する](/blog/legacy/note/ja/dubbo-nacos-runtime/)
+- [マイクロサービスデータ所有権：領域 owner を先に決めてから、DB 分割と移行を考える](/blog/legacy/note/ja/microservice-data-ownership/)

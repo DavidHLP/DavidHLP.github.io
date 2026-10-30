@@ -79,7 +79,6 @@
 }
 ---
 
-
 This page answers one question: after declaring dependencies in Compose or systemd, what guarantee do I actually get? Core conclusion: the orchestrator only applies a startup gate based on the declared condition (`service_started` / `service_healthy` / `service_completed_successfully`) and does not automatically guarantee business readiness; ordering, dependency, failure, and restart propagation are four orthogonal semantics that must be judged separately.
 
 ## Core mechanism
@@ -214,8 +213,8 @@ Interpret the results against the decision table: `ps`'s healthy column only pro
 
 ## Related pages
 
-- [MySQL performance troubleshooting](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [Database schema drift](/blog/legacy/note/zh-cn/database-schema-drift/)
+- [MySQL performance troubleshooting](/blog/legacy/note/en/mysql-performance-troubleshooting/)
+- [Database schema drift](/blog/legacy/note/en/database-schema-drift/)
 
 
 ## Sources and related documents
@@ -223,8 +222,8 @@ Interpret the results against the decision table: `ps`'s healthy column only pro
 - [multi-service-readiness-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/multi-service-readiness-contract.md)
 - [multi-service-readiness-contract-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/multi-service-readiness-contract-correction.md)
 - [multi-service-readiness-safety-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/multi-service-readiness-safety-correction.md)
-- [MySQL Performance Triage: Symptom → Metric → Layer → Safe Mitigation](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [Testcontainers 1.20.6: Rule Out the Docker API Version First, Then Judge the daemon Unavailable](/blog/legacy/note/zh-cn/testcontainers-docker-api/)
-- [Dubbo + Nacos: Verify the Registration Name and group/version First, Then Run a Real Smoke Test](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
-- [Microservice Data Ownership: Establish the Domain Owner First, Then Talk About Database Splitting and Migration](/blog/legacy/note/zh-cn/microservice-data-ownership/)
+- [MySQL Performance Triage: Symptom → Metric → Layer → Safe Mitigation](/blog/legacy/note/en/mysql-performance-troubleshooting/)
+- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/en/database-schema-drift/)
+- [Testcontainers 1.20.6: Rule Out the Docker API Version First, Then Judge the daemon Unavailable](/blog/legacy/note/en/testcontainers-docker-api/)
+- [Dubbo + Nacos: Verify the Registration Name and group/version First, Then Run a Real Smoke Test](/blog/legacy/note/en/dubbo-nacos-runtime/)
+- [Microservice Data Ownership: Establish the Domain Owner First, Then Talk About Database Splitting and Migration](/blog/legacy/note/en/microservice-data-ownership/)

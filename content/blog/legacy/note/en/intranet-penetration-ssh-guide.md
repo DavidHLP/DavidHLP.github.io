@@ -73,7 +73,6 @@
 }
 ---
 
-
 This page answers a remote-access decision: when an internal Linux server has no directly reachable public address, how should SSH tooling be chosen by client capability, control-plane reachability, and public exposure? The useful result is not another tutorial; it is a map of each option's connection direction and failure domain, followed by the conditions that keep an FRP client alive after logout.
 
 ## Core mechanism
@@ -197,12 +196,12 @@ loginctl show-user $USER | grep Linger
 
 ## Related pages
 
-- [containerd TLS trust chain](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [MySQL performance problem model](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
+- [containerd TLS trust chain](/blog/legacy/note/en/containerd-tls-troubleshooting/)
+- [MySQL performance problem model](/blog/legacy/note/en/mysql-performance-troubleshooting/)
 
 
 ## Sources and related documents
 
 - [legacy-intranet-penetration-ssh-guide](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-intranet-penetration-ssh-guide.md)
-- [containerd TLS: Choosing a Trusted Chain or Temporary Verification Bypass](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [MySQL Performance Triage: Symptom → Metric → Layer → Safe Mitigation](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
+- [containerd TLS: Choosing a Trusted Chain or Temporary Verification Bypass](/blog/legacy/note/en/containerd-tls-troubleshooting/)
+- [MySQL Performance Triage: Symptom → Metric → Layer → Safe Mitigation](/blog/legacy/note/en/mysql-performance-troubleshooting/)

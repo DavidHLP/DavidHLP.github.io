@@ -1,28 +1,31 @@
 ---
 {
   "archiveId": "X-1123",
-  "title": "ResiCache：Spring Cache 保護のためのオーケストレーション可能な責任チェーン",
+  "title": "ResiCache：キャッシュ保護を検証可能な並行性・一貫性の境界にする",
   "en": "ENGINEERING NOTES",
   "category": "项目实践",
   "department": "工程笔记",
-  "date": "2026-08-20",
+  "date": "2026-09-08",
   "lead": "DavidHLPL",
   "clearance": "PUBLIC",
-  "abstract": "固定コミットの README を証拠として、ResiCache の位置付け、責任チェーンの handler 順序、保護機能のデフォルト設定、シリアライズエンベロープ移行コストを整理し、宣言された機能と未検証の機能を区別する。",
+  "abstract": "固定ソースと境界テストから、責任チェーン、single-flight、version 付き早期期限切れ、ホワイトリスト・シリアライズ、observer の五つの設計を整理し、本番性能の結論とは区別する。",
   "findings": [
     "元の文書: src/content/note/ja/resicache.md",
     "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
     "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/resicache.md",
-  "pubDate": "2026-08-20T16:00:00.000Z",
+  "pubDate": "2026-09-08T16:00:00.000Z",
   "tags": [
     "ResiCache",
     "SpringCache",
     "Redis",
-    "BloomFilter",
-    "DistributedLock",
-    "ResponsibilityChain",
+    "Concurrency",
+    "SingleFlight",
+    "Serialization",
+    "CAS",
+    "EarlyExpiration",
+    "LLM",
     "ja",
     "note"
   ],
@@ -62,6 +65,7 @@
   "kind": "entity",
   "status": "provisional",
   "sources": [
+    "resicache-engineering-highlights-2954fff",
     "resicache-project-overview",
     "resicache-observer-nested-execution-contract"
   ],
@@ -74,71 +78,282 @@
 }
 ---
 
-> 証拠の状態：暫定。この既存訳は元の証拠範囲を保持しています。中国語の正典は現在、`main@2954fff217257e9cf7c906450a75070d5e092637`のソースとリポジトリ内テストを参照しています。対象はJava 21、Spring Boot 4.0.0、Spring Data Redis 4.0、任意のRedisson 3.50.0で、pre-1.0段階です。テストが存在することは、今回の再実行や本番性能、P99、高可用性、損失ゼロ、完全なセキュリティ監査を証明しません。
+> **証拠の状態**：主に `main@2954fff217257e9cf7c906450a75070d5e092637` のソースとテストを用い、固定した README のスナップショットで補足する。「実装済み」はソースにその構造があること、「リポジトリのテスト証拠」は対応するテストがコミットに存在することを意味する。今回の再実行や本番検証を意味しない。
+>
+> **範囲**：現在のビルド系列は Java 21、Spring Boot 4.0.0、Spring Data Redis 4.0、optional の Redisson 3.50.0。リポジトリは pre-1.0 である。設計構造からスループット、P99、HA、ゼロ損失、包括的なセキュリティ監査の結論は導かない。
 
+キャッシュ miss は一見「読めなければ元データを取得し、書き戻す」だけに見える。しかし実システムでは、同じ miss が存在しない key、同時ロード、TTL の雪崩、古い非同期タスク、信頼できない型に同時に遭遇する。各対策を別々のアスペクトにすると、誰も説明できない暗黙の制御フローになりやすい。
 
-`ResiCache` は Spring Cache の保護を強化するアノテーションエコシステムである。`@Cacheable` の外側で `@RedisCacheable` を一行追加するだけで、Redis キャッシュに対するキャッシュ貫通、キャッシュブレークダウン、キャッシュアバランシェ、ホットキー早期リフレッシュへの対策を補い、再度 AOP を作り直すことなくオーケストレーション可能な責任チェーンを注入する。本ページは公開リポジトリ main の固定コミット `75ed279a`（v0.0.2）の宣言状態を扱う。observer のネスト実行契約は [ResiCache observer のネスト実行](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/) を参照。
+ResiCache はこれらを一つの読めるチェーンにまとめている。
 
-## コアメカニズム
+```text
+BloomFilter
+  -> SyncLock
+  -> EarlyExpiration
+  -> TTL
+  -> NullValue
+  -> ActualCache
+```
 
-### 責任チェーンと handler の順序
+各ノードに短絡、継続、失敗の意味があり、並行ロード、非同期の早期期限切れ、シリアライズ、observer にも小さな契約がある。機能の一覧よりも、事故につながりやすい境界を明示している点に価値がある。
 
-書き込みパスは `CacheHandlerChain` が組織し、順序は `HandlerOrder` enum が統一的に定義し、`@HandlerPriority` がバインドする：
+## 利用入口から設計意図を見る
 
-1. BloomFilter（100）— 存在しない key を Bloom filter で遮断し、キャッシュ貫通を防ぐ。
-2. SyncLock（200）— Redisson 分散ロックでキャッシュブレークダウンを防ぐ。`sync=true` で Redisson がない場合は暗黙に降格せず fail-fast する。
-3. EarlyExpiration（250）— ホットキーを非同期で早期リフレッシュする。
-4. TTL（300）— TTL にランダムな揺らぎ（デフォルト ±20%）を加え、アバランシェを防ぐ。
-5. NullValue（400）— null 値をキャッシュして貫通を防ぐ（概念は [NullValue](/blog/legacy/note/zh-cn/java-null-value/) を参照）。
-6. ActualCache（500）— 実際に Redis へ書き込む。
+呼び出し側は `@RedisCacheable` で必要な保護を宣言する。
 
-任意の handler は `output.skipRemaining=true` でチェーンを短絡でき、第三者 handler は `HandlerOrder` を拡張して途中に挿入できる。これは多段キャッシュを主眼とする JetCache との差であり、両者は代替ではなくスコープを補完する。
+```java
+@RedisCacheable(
+        cacheNames = "profile",
+        key = "#userId",
+        sync = true,
+        useBloomFilter = true,
+        cacheNullValues = true,
+        randomTtl = true,
+        enableEarlyExpiration = true,
+        earlyExpirationMode = EarlyExpirationMode.ASYNC)
+public Profile loadProfile(long userId) {
+    return profileRepository.find(userId);
+}
+```
 
-### 共存と接続境界
+`sync`、Bloom、null キャッシュ、ランダム TTL、早期期限切れのスイッチはデフォルトで無効である。呼び出し箇所は、その操作が引き受ける追加コストと意味を明示する。
 
-- `RedisCacheManager` / `CacheInterceptor` を継承するが、`@EnableCaching` は置き換えない。自動構成の入口は `RedisCacheAutoConfiguration` である。
-- 純粋な `@Cacheable` はデフォルトで Spring ネイティブ（`nativeAnnotationMode=SELECTIVE`）を通り、横取りされない。保護属性が適用されるのは `@RedisCacheable` だけである。
-- `resi-cache.*` プレフィックスは、グローバル、アノテーション単位、キャッシュ単位（`caches.<name>`）の 3 層上書きをサポートする。
+入口は独自の AOP を作り直さない。`RedisCacheInterceptor` は Spring の `CacheInterceptor` を継承し、メソッドのメタデータを有効にして拡張チェーンを実行してから Spring Cache の invocation に進む。`RedisProCache` はロード箇所で `LoaderOrchestrator` に接続する。保護を業務メソッドの周囲に散らさず、拡張点に集約する。
 
-## 適用条件
+## 1. 責任チェーンで保護の組み合わせを検証可能にする
 
-- 読み取りが多く、貫通／ブレークダウン／アバランシェ対策を宣言的に補いたい Spring Boot + Redis プロジェクト。
-- アノテーション属性で各保護機能を明示的に有効化する意思があること（5 つの保護機能はすべてデフォルト `false`）。
-- Java 21+、Spring Boot 4.0.0 parent、Redisson 3.50.0（optional）の技術スタック。
+### 順序は実装の細部ではない
 
-## 非適用条件とリスク
+`HandlerOrder` が各 handler に安定した優先順位を与える。現在の主要な順序は次の通り。
 
-- **シリアライズエンベロープの非互換**：`{version, payload}` エンベロープは Spring デフォルトの `GenericJackson2JsonRedisSerializer` / `JdkSerializer` と互換性がない。既存プロジェクトで導入する場合は移行が必要で、移行しないと既存キャッシュがすべて無効になる。
-- **デシリアライズのホワイトリストが作者パッケージに固定される**：独自の業務型は `allowed-package-prefixes` を明示設定しないと例外になる。
-- **CLEAN は非アトミック**：`@CacheEvict(allEntries=true)` は SCAN + バッチ UNLINK/DEL を使う best-effort 処理である。Bloom を有効にした場合は `rebuild-window-seconds` により、削除後の再構築期間に静かな null が返ることを防ぐ。
-- **Reactive 非対応**：インターセプターはブロッキング式のため、WebFlux のメソッドはキャッシュを発火しない。
-- サーキットブレーカー、レート制限、多段ローカルキャッシュは意図的に範囲外（Not in Scope）であり、必要なら Resilience4j / Caffeine と組み合わせる。
+```text
+BLOOM_FILTER(100)
+  -> SYNC_LOCK(200)
+  -> EARLY_EXPIRATION(250)
+  -> TTL(300)
+  -> NULL_VALUE(400)
+  -> ACTUAL_CACHE(500)
+```
 
-## 最小検証
+Bloom は実際のロード前に確実に存在しない key を遮断し、SyncLock は同時ロードをまとめる。EarlyExpiration は miss または非同期 TTL 処理への移行を判断し、TTL、NullValue、ActualCache が後続の書き込みを担当する。
 
-1. `io.github.davidhlp:ResiCache:0.0.2` を導入し、`@RedisCacheable` で単一の保護機能（例えば `randomTtl`）を有効化して TTL の揺らぎを観察する。
-2. 2 プロセスで同時にロックを取り合い、`sync=true` の相互排他と fail-fast 挙動を検証する。
-3. 独自型の読み書き前にホワイトリストプレフィックスを設定し、デシリアライズが例外にならないことを確認する。
+`ChainEngine` は `CONTINUE`、`SKIP_ALL`、`TERMINATE` でノードの結果を表す。暗黙の例外や共有フラグから互いの意図を推測させない。新しい保護を追加する際には、チェーン内の位置と、短絡後にも書き戻しを許すかを明確にする必要がある。
 
-## 証拠と不確実性
+### factory は安定性、スイッチは選択性を担う
 
-- **ソース事実**：位置付け、handler 順序、設定境界、既知の制限は固定コミット `75ed279a` の README（`resicache-project-overview`）に基づく。observer/scope token 契約は同コミットのソース分析（`resicache-observer-nested-execution-contract`）に基づく。
-- **本ページの統合**：README の機能マトリクスを「メカニズム—境界—検証」の 3 部に整理した。
-- **未確認**：ローカルワークスペースは `origin/main` より 14 コミット先行しているが、その未公開変更は含めない。負荷時の容量パラメータと Cluster/Sentinel モードの挙動は再現実験で検証していない。
+`CacheHandlerChainFactory` は遅延初期化、二重チェック、キャッシュを行い、優先順に並べて無効な項目を除外する。BloomFilter、SyncLock、EarlyExpiration、NullValue は共通の protection toggle の対象である。TTL は意図的に除外されている。TTL まで無効にするとキャッシュが永久に残る可能性があるためだ。
+
+全体の protection スイッチを無効にしても、TTL と ActualCache は残る。個別スイッチは対応する handler のみを除外する。保護の無効化はキャッシュ自体の無効化ではない。
+
+責任チェーンは組み合わせを、名前、順序、無効化条件、テストを持つ policy にまとめる。レビューでは各 handler の局所実装に加え、経路全体の契約を確認できる。
+
+## 2. single-flight はロードの所有者を定める
+
+### 同時 miss の本当の問題
+
+人気の key が失効すると、十件の要求がほぼ同時に loader に入ることがある。各要求が個別に取得すればデータベースや外部サービスに同じ問い合わせが十回届く。粗いロックだけでは不要な直列化や再入時のデッドロックが生じる。
+
+ResiCache は `get(key, loader)` を次の段階に分ける。
+
+```text
+Bloom short-circuit
+  -> sync=true ? SyncSupport : Spring のデフォルトロード経路
+      -> double-check
+      -> loader
+      -> write-back
+```
+
+`SyncSupport` は次を使う。
+
+```java
+ConcurrentMap<String, CompletableFuture<Object>> inFlight;
+ThreadLocal<Set<String>> reentrantKeys;
+```
+
+同一 JVM 内で最初に `putIfAbsent` に成功した要求が leader となり、ロードと future の完了を担当する。後続の follower は同じ future を待って再利用する。leader はロック内で再確認し、待機中に別の要求が値を書き込んだ場合の重複ロードを防ぐ。同じスレッドから同じ key を再度要求すると reentrant fast path に入り、自分自身の完了を待たない。
+
+役割は三つに分かれる。
+
+- **leader**：ロード、書き戻し、結果の公開を所有する。
+- **follower**：重複ロードせず、leader の結果または例外を待つ。
+- **reentrant**：同一スレッド・同一 key の入れ子呼び出しで、自己待機を避ける。
+
+プロセス間排他には分散ロックのバックエンドが必要である。ロックマネージャーがない場合は原則 fail-fast。`resi-cache.sync-lock.local-only=true` を明示した場合に限り JVM 内の single-flight へ縮退できる。複数インスタンスの保護能力があるように黙って振る舞わない。
+
+### 失敗にも型を与える
+
+`LoaderOrchestrator.LoadOutcome` は Java 21 の sealed 型で、少なくとも次を区別する。
+
+- `BloomShortCircuited`：元データをロードしてはいけない。
+- `Loaded`：ロードと書き戻しが成功。
+- `LoadedWithWriteBackFailure`：元データの値は得られたが、キャッシュへの書き戻しが失敗。
+- `LoadFailed`：loader 自体が失敗し、利用できる値がない。
+
+これは availability-first の判断を可能にする。Redis 書き込み時の実行時例外で、既に元データから得た値を失わず、呼び出し側へ返す。loader の失敗だけを Spring の `ValueRetrievalException` に変換する。例外の診断境界には cache name を使い、生の key を例外メッセージに直接含めない。
+
+上位システムは、キャッシュに書けない場合と業務データを読めない場合で、縮退、再試行、警告、応答継続を別々に選べる。
+
+### テスト行列が検証する境界
+
+固定コミットには次のシナリオがある。
+
+- `SyncSupportSingleFlightTest`：複数 follower による一回の loader 結果の共有、leader の例外伝播、同一 key の再入でのデッドロック回避、follower のタイムアウト。
+- `SyncSingleFlightIntegrationTest`：`sync=true` の並行メソッドが一度だけ実行される。
+- `LoaderOrchestratorTest`：Bloom の短絡、sync の経路選択、二重チェック、書き戻し失敗、ロード失敗。
+
+テスト名はリポジトリの証拠であり、この記事の生成時に再実行して成功したという意味ではない。ロード回数、失敗伝播、再入を実装上の偶然ではなく設計契約として扱っていることを示す。
+
+## 3. 早期期限切れの中心は stale-task fence
+
+### 二つの version を区別する
+
+`CachedValue` は業務値に加え、`ttl`、`createdTime`、`lastAccessTime`、`visitTimes`、`expired`、`version` を持つ。`CachedValue.version` は値の識別子で、非同期タスクが今も同じ値を対象としているかを判断する。
+
+シリアライズのエンベロープにもトップレベルの `version` があり、現在は 2。こちらは wire format の識別子である。
+
+| フィールド | 答える問い | 用途 |
+|---|---|---|
+| `VersionEnvelope.version` | このバイト列はどの形式か | 現在のシリアライズ規約で読めるかを判断 |
+| `CachedValue.version` | 遅延タスクは今も現在の値を対象としているか | TTL 短縮の CAS token |
+
+両者を曖昧な一つの version にすると、形式の更新と並行処理の競合が混線する。
+
+### ASYNC は TTL だけを短縮する
+
+`EarlyExpirationHandler` は作成時刻、TTL、閾値から早期期限切れの方針を計算する。
+
+- SYNC モードで条件を満たすと残りのチェーンを飛ばし、実キャッシュ経路を miss としてロードさせる。
+- ASYNC モードはバックグラウンドタスクを登録するが、そのタスクは loader を直接呼ばない。
+
+タスクは live value を読み直し、値が存在し、5 秒の grace period に入っていないことを確認して、先に取得した `CachedValue.version` を Redis Lua に渡す。一致した場合に TTL を 5 秒へ短縮するだけで、実際のロードは後の miss 時に通常経路で行う。
+
+Lua は Redis 内で読み取り、展開、version 比較、`EXPIRE` を行う。
+
+```text
+GET current value
+  -> unwrap wrapper/envelope
+  -> read payload.version
+  -> compare with expected CachedValue.version
+  -> match: EXPIRE(key, 5)
+  -> mismatch or parse failure: return 0
+```
+
+待機中に key が新しい値に置き換われば version 比較が失敗し、新しい値の TTL は短縮されない。`EarlyExpirationHandlerRaceConditionIntegrationTest` は version が不変の場合と値が置換された場合を分け、前者では TTL が 1～5 秒になることを許し、後者では短縮を行わない。
+
+スケジューラーは制御された miss を作る役割に限定され、ロード、書き戻し、エラー処理は主ロード規約が引き続き担当する。
+
+### 時間の意味も分離する
+
+`CachedValue` は現在のプロセス内では `startNanoTime` で単調時間を計算できる。このフィールドはシリアライズせず、復元後は wall-clock に戻る。プロセス内のナノ秒基準を、永続化可能なプロセス間の時刻情報と取り違えない。
+
+時刻計算の基準系をデータのライフサイクルに合わせることが、早期期限切れの信頼性を支える。
+
+## 4. 安全なシリアライズは生成前に検査する
+
+### {version,payload} から始める
+
+`SecureJacksonRedisSerializer` は非 null 値を version 付きのエンベロープに書く。
+
+```json
+{
+  "version": 2,
+  "payload": "..."
+}
+```
+
+許可される型のデフォルト接頭辞は `io.github.davidhlp`。ホワイトリスト制約付きの `PolymorphicTypeValidator` を常に入れ、Jackson default typing はデフォルトでは有効にしない。業務型が許可範囲外なら明示設定が必要で、なければデシリアライズは拒否される。
+
+streaming preflight は、設定された type property、`@class`、wrapper-array 形式の型 ID を検査する。Jackson がオブジェクトを生成する前に、許可されない型を拒否する。
+
+Spring `NullValue` の限定的な互換経路、未知の envelope version の失敗方針、更新用メタデータを欠く旧 `CachedValue` にも対応する。旧 payload を wall-clock で読むことはできても、すべての過去 serializer と相互互換であることは意味しない。
+
+### wire format の変更は移行として扱う
+
+内部の `{version,payload}` は Spring の `GenericJackson2JsonRedisSerializer` や JDK serializer と同じ wire format ではない。既存システムでの置換を、状態を持たない設定変更と捉えてはいけない。shadow-read、dual-write、cutover と進め、旧値の読み取り、元データへのアクセス比率、失敗の種類を個別に観測する方が堅実である。
+
+形式の識別、型への信頼、既存データの移行コストを明示的な契約に置いている。
+
+## 5. observer が入れ子チェーンのライフサイクルを守る
+
+handler はロック内で chain fragment を続行する場合がある。fragment ごとに新しいチェーンとして扱うと around ライフサイクルが重複し、イベントを全て抑えるとノード単位の診断が失われる。
+
+`ChainEngine` は `CURRENT_SNAPSHOT` に現在のスレッドの不変な handler スナップショットを保存する。fragment はそれを再利用し、指定ノードの後から続ける。チェーンを再構築せず、入れ子実行を新しいトップレベル呼び出しと偽らない。
+
+`ChainObserver` の start hook は scope token を返し、end hook は同じ token を受け取る。
+
+```text
+onChainStart -> chainToken -> onChainEnd
+onNodeStart  -> nodeToken  -> onNodeEnd
+```
+
+handler が例外を投げても、`onNodeEnd` と `onChainEnd` は `finally` で終了する。例外ノードの result は `null`。observer 自身の hook の例外は捕捉・記録され、業務 handler の結果を汚染しないようにする。
+
+token は scope、snapshot は実行コンテキスト、fragment は再開位置を表す。入れ子の境界、ライフサイクル重複の反例、モデル検証は [ResiCache：observer の入れ子実行におけるライフサイクル、fragment、scope token](/blog/legacy/note/ja/resicache-observer-nested-execution/) を参照。
+
+## 五つの設計を合わせて見る
+
+共通原則は、遅延動作に十分なコンテキストと失敗の意味を持たせることである。
+
+| 場面 | 暗黙のリスク | ResiCache の明示的な境界 |
+|---|---|---|
+| 保護の組み合わせ | handler の上書き、順序のずれ | `HandlerOrder` + `HandlerResult` |
+| 同時 miss | 重複ロード、ロック待機、自己待機 | leader/follower/reentrant |
+| 非同期の早期期限切れ | 古いタスクが新しい値を傷つける | `CachedValue.version` + Lua CAS |
+| デシリアライズ | 信頼できない型が先に生成される | whitelist + streaming preflight |
+| 入れ子実行 | ライフサイクルの重複・欠落 | snapshot + scope token |
+
+再利用できるのは、各副作用を検査可能な識別子、順序、結果規約に結び付ける設計である。BloomFilter、分散ロック、TTL の揺らぎという機能一覧だけではこの価値を表せない。
+
+## LLM/Agent エンジニアリングへの示唆
+
+以下は上記ソースに基づく考察であり、ResiCache が LLM/Agent 機能を提供するという主張ではない。
+
+### 1. 縮退を例外文字列ではなく outcome にする
+
+「生成できたが保存に失敗」と「生成そのものが失敗」は異なる。LLM 要求、ツール呼び出し、検索パイプラインも `Success`、`SuccessButPersistFailed`、`Rejected`、`Failed` を明示し、上位層が表示、再試行、補償、人への引き継ぎを選べるようにする。
+
+### 2. 形式とオブジェクトの識別を分ける
+
+prompt/schema の形式 version は、会話、タスク、ツール呼び出しのオブジェクト version の代用にならない。問いが異なるため、フィールド、検証、更新方針も分ける。
+
+### 3. 遅延タスクに stale-task fence を設ける
+
+再試行、インデックス更新、キャッシュ更新、Agent のバックグラウンド処理は、対象が変化してから動く可能性がある。live state を読み、generation、attempt、CAS で書き込みを守る。キューに入ったという理由だけで無条件に書かない。
+
+### 4. 生成・実行より先に信頼を検査する
+
+型ホワイトリストの streaming preflight は、ツール、プラグイン、テンプレート、コード実行にも応用できる。schema、出所、権限を検証してから実行可能なオブジェクトを作る。
+
+## 証拠の階層と主張していない事項
+
+| 階層 | 確認できること | 導けないこと |
+|---|---|---|
+| `Repository Implemented` | 責任チェーン、single-flight、sealed outcome、値 version の Lua CAS、安全なシリアライズ、observer token がソースにある | 本番配置済みであること |
+| `Repository Test Evidence` | 固定コミットに並行、競合、シリアライズ拒否、ライフサイクルのテストがある | 今回の実行成功 |
+| `Locally Validated` | ブログで KB lint、Astro ビルド、diff 検査を行える | 今回 Redis、Testcontainers、Maven 統合テストを起動したこと |
+| `BLOCKED_EXTERNAL` | 本番トラフィック、実容量、複数インスタンスの failover、長期データはローカル証拠にない | スループット、P99、HA、ゼロ損失、SLA |
+| `OUT_OF_SCOPE` | Reactive `Mono`/`Flux`、`@Async` キャッシュ拡張、包括的なサプライチェーン監査は別途検証が必要 | 同期ブロッキング実装を全 Spring 呼び出しモデルに一般化すること |
+
+## 最小限のソース読解順
+
+1. [HandlerOrder.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/chain/HandlerOrder.java) で順序と優先順位を確認する。
+2. [LoaderOrchestrator.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/LoaderOrchestrator.java) と [SyncSupport.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/SyncSupport.java) でロードの統合を見る。
+3. [EarlyExpirationScripts.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/EarlyExpirationScripts.java) と [SecureJacksonRedisSerializer.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/SecureJacksonRedisSerializer.java) で CAS と信頼境界を見る。
+4. [SyncSupportSingleFlightTest.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/test/java/io/github/davidhlp/spring/cache/redis/cache/SyncSupportSingleFlightTest.java) と [EarlyExpirationHandlerRaceConditionIntegrationTest.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/test/java/io/github/davidhlp/spring/cache/redis/cache/EarlyExpirationHandlerRaceConditionIntegrationTest.java) で競合テストへの落とし込みを見る。
 
 ## 関連ページ
 
-- [resicache-observer-nested-execution](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
-- [java-null-value](/blog/legacy/note/zh-cn/java-null-value/)
-- [redis-business-patterns](/blog/legacy/note/zh-cn/redis-business-patterns/)
-- [redis-jackson-java-time](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
+- [ResiCache：observer の入れ子実行におけるライフサイクル、fragment、scope token](/blog/legacy/note/ja/resicache-observer-nested-execution/)
+- [Java NullValue：null キャッシュは貫通防止策であり業務の意味ではない](/blog/legacy/note/ja/java-null-value/)
+- [Redis 業務パターン：責務を分けてから二重削除、TTL、一貫性方針を選ぶ](/blog/legacy/note/ja/redis-business-patterns/)
+- [Redis と Jackson の Java 時刻型：実験で互換性を確認する](/blog/legacy/note/ja/redis-jackson-java-time/)
 
+## 出典と関連文書
 
-## Sources and related documents
-
+- [resicache-engineering-highlights-2954fff](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md)
 - [resicache-project-overview](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-project-overview.md)
 - [resicache-observer-nested-execution-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-observer-nested-execution-contract.md)
-- [ResiCache：observer のネスト実行はライフサイクル、fragment、scope token を区別しなければならない](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
-- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/zh-cn/java-null-value/)
-- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/zh-cn/redis-business-patterns/)
-- [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
+- [ResiCache：observer のネスト実行はライフサイクル、fragment、scope token を区別しなければならない](/blog/legacy/note/ja/resicache-observer-nested-execution/)
+- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/ja/java-null-value/)
+- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/ja/redis-business-patterns/)
+- [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/ja/redis-jackson-java-time/)

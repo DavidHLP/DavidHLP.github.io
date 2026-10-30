@@ -85,7 +85,7 @@ try {
 
 第一に sync=true はすべての cache request の default ではなく、method-level operation metadata が選んだ経路である。
 
-第二に load result は単純な T や exception ではない。現在の実装は次を区別する。
+第二に load result は単純な `T` や exception ではなく `LoadOutcome` である。現在の実装は次を区別する。
 
 - BloomShortCircuited：source を load すべきでないと確定。
 - Loaded：load と write-back が両方成功。
@@ -286,12 +286,12 @@ concurrent miss に遭遇したら次を答える。
 
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [resicache-engineering-highlights-2954fff](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md)
 - [resicache-project-overview](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-project-overview.md)
-- [ResiCache：Spring Cache 保護のためのオーケストレーション可能な責任チェーン](/blog/legacy/note/ja/resicache/)
-- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/zh-cn/redis-business-patterns/)
+- [ResiCache：キャッシュ保護を検証可能な並行性・一貫性の境界にする](/blog/legacy/note/ja/resicache/)
+- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/ja/redis-business-patterns/)
 
 研究記録
 1. 元の文書: src/content/note/ja/resicache-single-flight.md

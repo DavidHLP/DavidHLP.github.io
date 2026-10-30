@@ -67,7 +67,6 @@
 }
 ---
 
-
 This knowledge base's own session ingestion pipeline converts tool sessions (OMP, Codex, OpenCode, Hindsight, prompt-history) into candidate evidence that can enter the wiki. The core guarantee in one sentence: **sources whose content is unchanged are incrementally reused; sources whose content changed or that failed are reprocessed; only text that passes v19 redaction and internal control-plane filtering is written to disk; the raw evidence layer is locked by the manifest hash.** This page is a contract snapshot of a fixed commit; it only describes verifiable behavior and records no real ledger content or run statistics.
 
 ## Applicable versions and scenarios

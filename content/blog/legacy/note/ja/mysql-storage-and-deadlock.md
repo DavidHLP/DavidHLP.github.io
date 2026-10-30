@@ -67,7 +67,6 @@
 }
 ---
 
-
 3 つの MySQL ノートはストレージエンジンとデッドロックに焦点を当てています：`存储引擎.md`、`基础面试题.md`、`checkmysqldeadlock.md`。本ページはエンジン能力とトラブルシューティングの経路を区別します。
 
 ## 核心メカニズム
@@ -96,14 +95,14 @@
 
 ## 関連ページ
 
-- [mysql-performance-troubleshooting](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [database-schema-drift](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
+- [mysql-performance-troubleshooting](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
+- [database-schema-drift](/blog/legacy/note/ja/database-schema-drift/)
+- [multi-service-readiness](/blog/legacy/note/ja/multi-service-readiness/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ingest-mysql-storage](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-mysql-storage.md)
-- [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/zh-cn/multi-service-readiness/)
+- [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
+- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/ja/database-schema-drift/)
+- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)

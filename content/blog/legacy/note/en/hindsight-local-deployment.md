@@ -70,14 +70,15 @@
 }
 ---
 
+This page records the **compute-allocation architecture and container deployment** of Vectorize Hindsight on Linux. The source reports local daily inference and memory access, focusing on GPU LLM + CPU embedding, persistence permissions, and service lifecycle orchestration. Fully offline operation still requires all models cached and no external provider dependencies.
 
-This page archives the **compute-allocation architecture and containerized deployment plan** for the Vectorize Hindsight memory system in Linux. Daily inference and memory access run fully offline and locally; the focus is coordinating heterogeneous compute (GPU LLM plus CPU embedding), data-persistence permissions, and service lifecycle orchestration.
+> **Scope and review (2026-09-08)**: This preserves the v0.9.1 deployment reported in the 2026-08-17 raw. Compose, model import, and health checks were not executed in that revision. Ollama uses the mutable `rocm` tag; driver versions, model revisions/checksums, and reranker are not fully pinned. This is not a directly reproducible version lock. Model names and successful execution are source reports; current availability is unverified.
 
 ---
 
 ## 1. System Architecture and Runtime Topology
 
-The local memory system consists of a compute foundation, a memory hub, and an Agent access layer. All ports and traffic are strictly confined to the local loopback (`127.0.0.1`):
+The system has compute, memory hub, and Agent layers. Compose binds published host ports to `127.0.0.1`; containers communicate through the Compose network and `ollama-gpu` service name, not exclusively host loopback. Port binding does not prevent container egress.
 
 ```mermaid
 flowchart TD
@@ -108,35 +109,35 @@ flowchart TD
 
 ### Core design principles
 
-1. **Precise compute allocation**:
-    - **GPU dedicated to the LLM**: Load the 12B-parameter `gemma4:12b` (Q4_K_M) into AMD GPU VRAM, dedicated to fact extraction from conversations and mental-model synthesis (Reflection).
-    - **CPU dedicated to Embedding**: Force `BAAI/bge-m3` to run on the CPU, avoiding valuable GPU VRAM usage and keeping LLM context inference stable.
-2. **Full-lifecycle local data**:
-    - Store all vectors, entity relations, transcripts, and model caches under `$HOME/.hindsight/`.
+1. **Compute allocation**:
+    - **GPU LLM**: The source describes local alias `gemma4:12b` as a 12B Q4_K_M model for Fact Extraction and Reflection. Model identity and VRAM usage require independent confirmation.
+    - **CPU embedding**: `BAAI/bge-m3` is configured for CPU to reduce VRAM competition, without guaranteeing LLM stability at arbitrary context lengths.
+2. **Local data lifecycle**:
+    - Database, Hugging Face cache, and Ollama data are mounted under `$HOME/.hindsight/`. Client transcripts and Docker logs are not all governed by these mounts. Compose does not explicitly pin the reranker or where it runs.
 
 ---
 
 ## 2. Deployment Steps
 
-### 1. Persistent Directory Planning and Permission Management
+### 1. Persistent Directory Planning and Permissions
 
-The Hindsight container runs as the non-root user `hindsight` (UID 1000), so mounted host directories must give UID 1000 write permission:
+The source records a container process using UID 1000, which needs writable mounts. **A non-root container user is not Docker Rootless mode**; Rootless/user namespaces change host UID mapping ([Docker Rootless](https://docs.docker.com/engine/security/rootless/)). These historical ownership commands apply only after confirming no UID remapping, dedicated deployment directories, and matching container UID/GID. Do not apply them blindly to shared existing data.
 
 ```bash
 mkdir -p ~/.hindsight/data ~/.hindsight/models ~/.hindsight/ollama
 
-# Safe permission setup: assign ownership of the data and model directories to container UID 1000
+# 安全权限配置：将数据与模型目录所属权赋予容器 UID 1000
 sudo chown -R 1000:1000 ~/.hindsight/data ~/.hindsight/models
 chmod -R u+rwX,g+rwX ~/.hindsight/data ~/.hindsight/models
 ```
 
-### 2. Docker Compose Orchestration (`~/.hindsight/docker-compose.yml`)
+### 2. Docker Compose (`~/.hindsight/docker-compose.yml`)
 
-Use `${HOME}` or an absolute path for host paths, avoiding reliance on Shell tilde `~` expansion in non-interactive environments:
+Use `${HOME}` or absolute host paths instead of depending on shell `~` expansion in noninteractive environments:
 
 ```yaml
 services:
-    # GPU LLM service: load the model through Ollama ROCm
+    # GPU LLM 服务：通过 Ollama ROCm 加载模型
     ollama-gpu:
         image: ollama/ollama:rocm
         container_name: hindsight-ollama-gpu
@@ -154,24 +155,24 @@ services:
             - ${HOME}/.hindsight/ollama:/root/.ollama
             - ${HOME}/.hindsight/models:/models:ro
 
-    # Hindsight core server (pinned Vectorize.io version)
+    # Hindsight 核心服务端 (Vectorize.io 固定版本)
     hindsight:
         image: ghcr.io/vectorize-io/hindsight:v0.9.1
         container_name: hindsight-server
         restart: unless-stopped
         ports:
-            - "127.0.0.1:8888:8888" # API and MCP endpoint
-            - "127.0.0.1:9999:9999" # Web UI console
+            - "127.0.0.1:8888:8888" # API & MCP 端点
+            - "127.0.0.1:9999:9999" # Web UI 控制台
         environment:
-            # --- LLM driver (GPU) ---
+            # --- LLM 驱动 (GPU) ---
             - HINDSIGHT_API_LLM_PROVIDER=ollama
             - HINDSIGHT_API_LLM_BASE_URL=http://ollama-gpu:11434/v1
             - HINDSIGHT_API_LLM_MODEL=gemma4:12b
-            # --- Embedding driver (CPU) ---
+            # --- Embedding 驱动 (CPU) ---
             - HINDSIGHT_API_EMBEDDINGS_PROVIDER=local
             - HINDSIGHT_API_EMBEDDINGS_LOCAL_MODEL=BAAI/bge-m3
             - HINDSIGHT_API_EMBEDDINGS_LOCAL_FORCE_CPU=true
-            # --- Model weight download config (first pull needs network; pre-caching allows offline operation) ---
+            # --- 模型权重下载配置（首发拉取需连网，预缓存后可脱网） ---
             - HF_ENDPOINT=https://huggingface.co
             - HINDSIGHT_API_LOG_LEVEL=info
         volumes:
@@ -181,7 +182,7 @@ services:
             - ollama-gpu
 ```
 
-### 3. GGUF Model Import and Alias Registration
+### 3. GGUF Import and Alias Registration
 
 Write `~/.hindsight/models/Modelfile`:
 
@@ -199,7 +200,7 @@ PARAMETER stop "<end_of_turn>"
 PARAMETER num_ctx 8192
 ```
 
-Import and verify it:
+Import and verify:
 
 ```bash
 docker exec -i hindsight-ollama-gpu ollama create gemma4:12b -f /models/Modelfile
@@ -210,38 +211,39 @@ docker exec hindsight-ollama-gpu ollama list
 
 ## 3. Applicability and Boundaries
 
-- **Hardware**: An AMD GPU with ROCm support (such as an RX 6800/6900 XT or the same generation and newer), at least 16 GB of VRAM, and a multi-core CPU for BGE-M3 vector extraction.
-- **Network boundary**: All service endpoints must bind to the `127.0.0.1` loopback interface; never expose them to the public network without authentication.
-- **Cold start**: Initial model-weight downloads require an external network connection or pre-cached files under `~/.hindsight/models`.
+- **Hardware**: The pictured GPU and 16GB VRAM are examples, not universal minimums or a compatibility promise for the same generation. GPU, drivers, ROCm/Ollama, quantization, and context length determine usability; no hardware matrix was tested in that revision.
+- **Network**: Published host ports bind to `127.0.0.1`; containers use internal networking. Do not expose unauthenticated services publicly.
+- **Cold start**: Initial weights need external networking or an offline cache under `~/.hindsight/models`.
 
 ---
 
 ## 4. Minimal Verification
 
-1. **Container status**: Run `docker ps` and confirm that `hindsight-server` and `hindsight-ollama-gpu` are Up.
-2. **GPU VRAM**: Run `docker exec hindsight-ollama-gpu ollama ps` and confirm that `gemma4:12b` is fully loaded into GPU VRAM.
-3. **Health endpoint**: `curl -I http://127.0.0.1:8888/health` should return HTTP 200.
+1. **Container status**: `docker ps` should show `hindsight-server` and `hindsight-ollama-gpu` Up.
+2. **GPU memory**: `docker exec hindsight-ollama-gpu ollama ps` should show `gemma4:12b` fully loaded in GPU VRAM.
+3. **Health**: `curl -I http://127.0.0.1:8888/health` should return HTTP 200.
+
+This is a checklist, not results from that revision. Up means running; `ollama list` lists local models, whereas `ollama ps` lists running models ([Ollama CLI](https://docs.ollama.com/cli)). HTTP health does not replace inference and memory write/recall checks. Short-form `depends_on` does not wait for readiness ([Compose startup order](https://docs.docker.com/compose/how-tos/startup-order/)); end-to-end checks must follow model registration and service readiness.
 
 ---
 
 ## 5. Evidence and Uncertainty
 
-- **Source facts**: Based on the verified `hindsight-local-deployment-and-agent-integration` deployment; the Ollama ROCm container maps `/dev/kfd` and `/dev/dri`, and Hindsight uses the pinned v0.9.1 image.
-- **Synthesis in this page**: The compute split, directory permissions, and Compose orchestration are consolidated as an independent Concept specification.
-- **Unconfirmed**: ROCm kernel-driver installation differs by Linux distribution (for example Ubuntu versus Fedora/Arch) and must be adapted to the host environment.
+- **Source report**: `hindsight-local-deployment-and-agent-integration` reports successful deployment and one retrieval; Compose maps `/dev/kfd` and `/dev/dri`, with Hindsight v0.9.1. Historical reports are not fresh runtime validation.
+- **Synthesis**: Compute allocation, permissions, and Compose form a separate Concept.
+- **Unconfirmed**: ROCm driver installation varies across distributions such as Ubuntu, Fedora, and Arch and must fit the host.
 
 ---
 
 ## 6. Related Pages
 
-- [Hindsight Unified Memory Access: FastMCP Bridge and Dynamic Multi-Project Routing](/blog/legacy/note/zh-cn/hindsight-omp-codex-integration/)
-- [Hindsight Runtime Troubleshooting Matrix and Failure Modes](/blog/legacy/note/zh-cn/hindsight-troubleshooting/)
-- [MCP Codebase Memory Workflow](/blog/legacy/note/zh-cn/mcp-codebase-memory-workflow/)
-
+- [Hindsight unified memory integration](/blog/legacy/note/en/hindsight-omp-codex-integration/)
+- [Hindsight runtime troubleshooting](/blog/legacy/note/en/hindsight-troubleshooting/)
+- [MCP Codebase Memory workflow](/blog/legacy/note/en/mcp-codebase-memory-workflow/)
 
 ## Sources and related documents
 
 - [hindsight-local-deployment-and-agent-integration](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/hindsight-local-deployment-and-agent-integration.md)
 - [Hindsight Unified Memory Access: FastMCP Bridge and Dynamic Multi-Project Routing](/blog/legacy/note/en/hindsight-omp-codex-integration/)
 - [Hindsight Runtime Troubleshooting Matrix and Failure Modes](/blog/legacy/note/en/hindsight-troubleshooting/)
-- [MCP Protocol Era Boundary and the codebase-memory-mcp v0.10.2 Graph Workflow](/blog/legacy/note/zh-cn/mcp-codebase-memory-workflow/)
+- [MCP Protocol Era Boundary and the codebase-memory-mcp v0.10.2 Graph Workflow](/blog/legacy/note/en/mcp-codebase-memory-workflow/)

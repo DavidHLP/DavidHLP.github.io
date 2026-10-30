@@ -73,7 +73,6 @@
 }
 ---
 
-
 Fuwari の 15 の JUC/Java ノートは本知識ベースで最も体系的な並行シリーズであり、CAS、アトミック、`synchronized`、`Monitor`、`ReentrantLock`、`ThreadLocal`、`LockSupport`、デッドロック、参照型をカバーします。本ページは CAS を核につなぎます。
 
 ## 核心メカニズム
@@ -109,16 +108,16 @@ Fuwari の 15 の JUC/Java ノートは本知識ベースで最も体系的な�
 
 ## 関連ページ
 
-- [java-atomic-boolean](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [java-auto-closeable](/blog/legacy/note/zh-cn/java-auto-closeable/)
-- [java-online-performance-debug](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [jjwt-013-security-api](/blog/legacy/note/zh-cn/jjwt-013-security-api/)
+- [java-atomic-boolean](/blog/legacy/note/ja/java-atomic-boolean/)
+- [java-auto-closeable](/blog/legacy/note/ja/java-auto-closeable/)
+- [java-online-performance-debug](/blog/legacy/note/ja/java-online-performance-debug/)
+- [jjwt-013-security-api](/blog/legacy/note/ja/jjwt-013-security-api/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ingest-java-concurrency](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-java-concurrency.md)
-- [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/zh-cn/java-auto-closeable/)
-- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [JJWT 0.13.0：署名アルゴリズムを明示固定し、key 型で検証する](/blog/legacy/note/zh-cn/jjwt-013-security-api/)
+- [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/ja/java-atomic-boolean/)
+- [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/ja/java-auto-closeable/)
+- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)
+- [JJWT 0.13.0：署名アルゴリズムを明示固定し、key 型で検証する](/blog/legacy/note/ja/jjwt-013-security-api/)

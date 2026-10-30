@@ -59,7 +59,7 @@ Read [AsyncSandboxExecutor.java](https://github.com/DavidHLP/UltiCode/blob/f801a
 ## Sources and related documents
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
-- [UltiCode: Modular Architecture and Domain Boundaries of an Online Judge Platform](/blog/legacy/note/en/ulticode/)
+- [UltiCode: Verifiable Boundaries for Online Judging and Agent Engineering](/blog/legacy/note/en/ulticode/)
 
 Research notes
 1. Original document: src/content/note/en/ulticode-async-execution-contract.md

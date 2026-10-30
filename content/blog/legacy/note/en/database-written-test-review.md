@@ -76,7 +76,6 @@
 }
 ---
 
-
 When reviewing a database written test, the easiest thing to keep is a list of answers. The conditions that make those answers valid are easier to lose: which rows a join keeps, how NULL participates in expressions, which SQL dialect an expression belongs to, and how to control cost, verify results, and handle failure as the data grows.
 
 This review does not copy answers by question number. It reorganizes them into one reasoning chain: **restore the semantics first, confirm the dialect next, cover null and boundary cases, and only then discuss execution cost, recovery, and reconciliation.** Oracle-specific syntax is called out separately; the four-table exercises and large-table operations use **MySQL 8.4 / InnoDB** as their context; date expressions cover Spark SQL, Oracle, and MySQL separately.
@@ -452,7 +451,7 @@ After this review, I find it more useful to see database questions as three laye
 ## Sources and related documents
 
 - [database-written-test-review](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md)
-- [MySQL Performance Triage: Symptom → Metric → Layer → Safe Mitigation](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [MySQL Storage Engines and Deadlock Detection](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/)
-- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [Spark and Big Data Ecosystem: Hadoop, HBase, Spark Runtime Modes, and Clusters](/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/)
+- [MySQL Performance Triage: Symptom → Metric → Layer → Safe Mitigation](/blog/legacy/note/en/mysql-performance-troubleshooting/)
+- [MySQL Storage Engines and Deadlock Detection](/blog/legacy/note/en/mysql-storage-and-deadlock/)
+- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/en/database-schema-drift/)
+- [Spark and Big Data Ecosystem: Hadoop, HBase, Spark Runtime Modes, and Clusters](/blog/legacy/note/en/spark-bigdata-ecosystem/)

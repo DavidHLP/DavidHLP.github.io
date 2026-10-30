@@ -73,7 +73,6 @@
 }
 ---
 
-
 **結論を先に**：Redisson 3.50.0 / Spring Data Redis 3.5.13 という固定バージョンの境界内では、デフォルトの Jackson 設定は `LocalDateTime` に対して**書き込み時に失敗する**（エンコード側が `InvalidDefinitionException` を投げる）のであって、「書き込み成功・読み出し失敗」ではない。真の書き込み・読み出し非対称は、書き込み側と読み出し側の Jackson 設定が一致しないときだけ現れる。
 
 ## 適用バージョンとシナリオ
@@ -175,13 +174,13 @@ RedisSerializer<Object> serializer = new GenericJackson2JsonRedisSerializer(mapp
 
 ## 関連ページ
 
-- [NullValue：null をキャッシュするプレースホルダオブジェクトと直列化の境界](/blog/legacy/note/zh-cn/java-null-value/)
-- [Java 本番パフォーマンストラブルシューティング：症状から証拠への最小決定木](/blog/legacy/note/zh-cn/java-online-performance-debug/)
+- [NullValue：null をキャッシュするプレースホルダオブジェクトと直列化の境界](/blog/legacy/note/ja/java-null-value/)
+- [Java 本番パフォーマンストラブルシューティング：症状から証拠への最小決定木](/blog/legacy/note/ja/java-online-performance-debug/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [redis-jackson-java-time-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/redis-jackson-java-time-contract.md)
-- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/zh-cn/java-null-value/)
-- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [ResiCache：observer のネスト実行はライフサイクル、fragment、scope token を区別しなければならない](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
+- [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/ja/java-null-value/)
+- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)
+- [ResiCache：observer のネスト実行はライフサイクル、fragment、scope token を区別しなければならない](/blog/legacy/note/ja/resicache-observer-nested-execution/)

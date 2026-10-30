@@ -64,11 +64,11 @@
   ],
   "related": [
     "intranet-penetration-ssh-guide",
-    "mysql-performance-troubleshooting"
+    "mysql-performance-troubleshooting",
+    "testcontainers-docker-api"
   ]
 }
 ---
-
 
 This page answers one decision: when a private registry reports an `x509` pull failure, should the node and containerd trust a CA, or should verification be skipped only long enough to isolate the fault? It separates containerd configuration, the node OS trust store, Kubernetes Secret/ServiceAccount credentials, and cached image state so that failures from different layers are not conflated.
 
@@ -129,7 +129,7 @@ For a temporary diagnostic, replace only the last setting with `skip_verify = tr
 - Do not treat “the OS CA was updated” as “containerd has reloaded it”; confirm the correct `config_path` and restart the service.
 - Do not replace CA files in response to `unauthorized`; that is a Secret, ServiceAccount, or registry-account boundary.
 - Do not delete `/root/.docker/config.json` or `/var/lib/kubelet/config.json` without checking the environment. The raw source lists them only as possible historical residue.
-- The containerd 1.x/2.x plugin paths and distribution-specific CA commands are source-scoped version/platform claims, not guarantees for an unverified environment.
+- Like the source's `EXPLAIN` examples, `containerd 1.x/2.x` plugin paths and distribution-specific CA commands have version/platform conditions; do not extrapolate to unverified environments.
 
 ## Minimal verification
 
@@ -165,12 +165,13 @@ openssl x509 -in /etc/containerd/certs.d/harbor.example.com/ca.crt -noout -subje
 
 ## Related pages
 
-- [SSH intranet access options](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
-- [MySQL performance problem model](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
+- [SSH intranet access options](/blog/legacy/note/en/intranet-penetration-ssh-guide/)
+- [MySQL performance problem model](/blog/legacy/note/en/mysql-performance-troubleshooting/)
 
 
 ## Sources and related documents
 
 - [legacy-containerd-tls-troubleshooting](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-containerd-tls-troubleshooting.md)
-- [SSH Intranet Access: Connection Direction, Exposure, and Recovery](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
-- [MySQL Performance Triage: Symptom → Metric → Layer → Safe Mitigation](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
+- [SSH Intranet Access: Connection Direction, Exposure, and Recovery](/blog/legacy/note/en/intranet-penetration-ssh-guide/)
+- [MySQL Performance Triage: Symptom → Metric → Layer → Safe Mitigation](/blog/legacy/note/en/mysql-performance-troubleshooting/)
+- [Testcontainers 1.20.6: Rule Out the Docker API Version First, Then Judge the daemon Unavailable](/blog/legacy/note/en/testcontainers-docker-api/)

@@ -72,7 +72,6 @@
 }
 ---
 
-
 > この記事は ResiCache の現在の main@2954fff217257e9cf7c906450a75070d5e092637 のソースに基づく。過去の障害の振り返りではなく、chain abstraction 自体を価値とみなすものでもない。焦点は、現在のコードが control flow、nested execution、観測 state をどう分離するかである。
 
 cache protection は通常一つの handler ではなく、順序を持つ複数の step である。Bloom filter、sync lock、early expiration、TTL、null value 処理、実際の Redis read/write などである。問いはすぐに「各 handler をどう書くか」から変わる。
@@ -155,7 +154,7 @@ BLOOM_FILTER(100)
 - early expiration は現在の request が miss path に入るか cache value を使い続けるか決める。
 - ActualCacheHandler は最後に real read/write を行う。
 
-CacheHandlerChainFactory は HandlerPriority で並べ替え、disabled config で handler を filter する。Bloom、SyncLock、EarlyExpiration、NullValue は共通の protection toggle に入り、TTL は意図的に除外される。TTL を off にすると実際の cache write の expiry boundary がなくなるからである。
+CacheHandlerChainFactory は @HandlerPriority で並べ替え、disabled config で handler を filter する。Bloom、SyncLock、EarlyExpiration、NullValue は共通の protection toggle に入り、TTL は意図的に除外される。TTL を off にすると実際の cache write の expiry boundary がなくなるからである。
 
 新しい protection mechanism を review 可能にするには、既存 order の位置、termination semantics、toggle semantics を明示しなければならない。
 
@@ -281,14 +280,14 @@ composable な processing chain を設計するとき、まず決める。
 
 答えがなければ、handler を増やすほど暗黙の coupling が多くの file に分散する。
 
-関連专项：[ResiCache：observer の nested execution は lifecycle、fragment、scope token を区別する](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)。
+関連专项：[ResiCache：observer の nested execution は lifecycle、fragment、scope token を区別する](/blog/legacy/note/ja/resicache-observer-nested-execution/)。
 
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [resicache-engineering-highlights-2954fff](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md)
 - [resicache-observer-nested-execution-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-observer-nested-execution-contract.md)
 - [resicache-project-overview](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-project-overview.md)
-- [ResiCache：Spring Cache 保護のためのオーケストレーション可能な責任チェーン](/blog/legacy/note/ja/resicache/)
-- [ResiCache：observer のネスト実行はライフサイクル、fragment、scope token を区別しなければならない](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
+- [ResiCache：キャッシュ保護を検証可能な並行性・一貫性の境界にする](/blog/legacy/note/ja/resicache/)
+- [ResiCache：observer のネスト実行はライフサイクル、fragment、scope token を区別しなければならない](/blog/legacy/note/ja/resicache-observer-nested-execution/)

@@ -31,81 +31,85 @@
 
 <div class="not-prose flex flex-col md:flex-row justify-between items-start border-b border-weak/20 pb-6 mb-8 gap-4 select-text">
   <div>
-    <h1 class="text-3xl font-serif font-light mb-1">賀恋棚 (が れんほう)</h1>
-    <p class="text-xs font-mono text-weak uppercase tracking-wider">// ジュニア Java バックエンドエンジニア</p>
+    <h1 class="text-3xl font-serif font-light mb-1">賀恋棚（David）</h1>
+    <p class="text-xs font-mono text-weak uppercase tracking-wider">// Java バックエンド開発エンジニア</p>
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-xs font-mono text-secondary">
-    <div>居住地: 中国 重慶 / 年齢: 23歳</div>
-    <div>WeChat: B1372998589</div>
-    <div>メール: <a href="mailto:lysf15520112973@163.com" class="hover:underline">lysf15520112973@163.com</a></div>
-    <div>電話: +86 15520112973</div>
+    <div>都市：重慶 / 23 歳</div>
+    <div>WeChat：B1372998589</div>
+    <div>メール： <a href="mailto:lysf15520112973@163.com" class="hover:underline">lysf15520112973@163.com</a></div>
+    <div>電話：15520112973</div>
     <div>GitHub: <a href="https://github.com/DavidHLP" target="_blank" class="hover:underline">github.com/DavidHLP</a></div>
-    <div>ブログ: <a href="https://davidhlp.github.io/" target="_blank" class="hover:underline">davidhlp.github.io</a></div>
+    <div>知識庫： <a href="/blog/legacy/information/ja/kb-index/" target="_blank" class="hover:underline">davidhlp.github.io/kb</a></div>
   </div>
 </div>
 
-## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 01 ]</span> 実務・インターン経験
+## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 01 ]</span> 実習経験
 
 <div class="relative pl-6 border-l border-weak/10 my-4 flex flex-col gap-6">
   <div class="relative select-text">
     <span class="absolute -left-[29px] top-2 w-2.5 h-2.5 rounded-full bg-background border-2 border-primary"></span>
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-      <div class="font-serif font-medium text-lg text-primary">アリババクラウド · Aegis ホストセキュリティ（デリバリー開発）</div>
+      <div class="font-serif font-medium text-lg text-primary">博彦科技（Beyondsoft）</div>
       <div class="text-xs font-mono text-weak">// 2026.01 - 2026.06</div>
     </div>
-    <div class="text-xs font-mono text-remark mb-3 uppercase tracking-wider">バックエンド开发インターン</div>
+    <div class="text-xs font-mono text-remark mb-3 uppercase tracking-wider">バックエンド開発実習｜Alibaba Cloud 専有クラウド・Aegis ホスト安全</div>
     <ul class="list-disc pl-4 text-sm text-secondary space-y-2">
-      <li><strong>業務背景</strong>：プライベートクラウド環境におけるホストセキュリティ製品（Aegis）のサーバー侧R&Dに従事。クラスター側のリソース管理、AI資産識別、クエリ最適化、オンラインのトラブルシューティング等を担当。</li>
-      <li><strong>クラスター側リソース連携</strong>：Platform、Cluster、ECS、BMS等の多種多様なリソースデータからGPU情報を単独で収集・集計し、上層リソースの効率的な統計、条件抽出、複雑な検索クエリをサポート。</li>
-      <li><strong>AI資産識別機能</strong>：OllamaやOpenClaw等のコンテナ動作テスト環境を設計・構築。コンテナ動作状態、GPU関連、脆弱性データに基づき、AI実行環境のリスク識別およびセキュリティ表示を実装。</li>
-      <li><strong>慢クエリSQL最適化</strong>：複雑なSQL実行計画の分析とインデックス調整により、統計クエリの応答速度を秒単位からミリ秒単位へと大幅に改善。</li>
-      <li><strong>containerd/Harbor 障害対応</strong>：containerd 実行環境における Harbor の TLS 証明書検証障害および CA 信頼チェーンのエラーに対応。障害診断チェックリストおよびスクリプトを整備。</li>
-      <li><strong>不具合解析・バグ修正</strong>：オンライン環境で Arthas 診断ツール（<code>watch</code>, <code>trace</code>, <code>stack</code>）を駆使し、呼び出しパスやスタックトレースを捕捉。20個以上のバグや不具合を単独で特定・修正。</li>
+      <li><strong>業務背景</strong>：Aegis ホスト安全製品のサーバー開発に参加し、cluster 資源取り込み、AI 資産識別、検索最適化、実環境の障害診断を担当。</li>
+      <li><strong>GPU 資源取り込み</strong>：platform、ECS、BMS、BMCP 等と連携し、cluster 側 GPU 情報の取り込み・集約を独力で実装。統計、条件 filter、関連検索を支援。</li>
+      <li><strong>AI 資産識別</strong>：機能開発に参加し OpenClaw/Ollama テスト container を独力構築。container 状態、GPU 関係、脆弱性データから資産状態判断、GPU 関連、risk 表示を実装。</li>
+      <li><strong>複雑な検索の最適化</strong>：SQL 実行計画を分析し、index、条件、cover 対象を調整して資源一覧・統計 API の時間を短縮。</li>
+      <li><strong>実環境の問題特定</strong>：Arthas <code>watch</code> / <code>trace</code> / <code>stack</code> で経路、時間、例外 stack、重要引数を調べ、欠陥特定・修正・回帰検証を独力で実施。</li>
+      <li><strong>container image 障害診断</strong>：containerd による Harbor 私有 image 取得時の TLS・trust chain を特定。CA、<code>certs.d</code>、<code>hosts.toml</code>、<code>imagePullSecrets</code> と node cache を調べ、診断 script と checklist に整理。</li>
     </ul>
   </div>
 </div>
 
-## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 02 ]</span> プロジェクト実績
+## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 02 ]</span> プロジェクト経験
 
 <div class="relative pl-6 border-l border-weak/10 my-4 flex flex-col gap-8">
   <div class="relative select-text">
     <span class="absolute -left-[29px] top-2 w-2.5 h-2.5 rounded-full bg-background border-2 border-primary"></span>
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
       <div class="font-serif font-medium text-lg text-primary flex items-center gap-2">
-        <span>ResiCache: キャッシュ保護ミドルウェア</span>
-        <a href="https://github.com/DavidHLP/ResiCache" target="_blank" class="text-xs font-mono text-weak hover:text-primary">[GITHUB]</a>
+        <span>オンラインプログラミング評価システム UltiCode</span>
+        <a href="https://github.com/DavidHLP/UltiCode" target="_blank" class="text-xs font-mono text-weak hover:text-primary">[GITHUB]</a>
       </div>
-      <div class="text-xs font-mono text-weak">// 2025.01 - 現在</div>
+      <div class="text-xs font-mono text-weak">// 2025.10 - 現在</div>
     </div>
-    <div class="text-xs font-mono text-remark mb-3 uppercase">技術スタック: Spring Boot 3 / Redis / Redisson / Caffeine / SPI / Micrometer</div>
+    <div class="text-xs font-mono text-remark mb-3 uppercase">技術：Java 17 / Spring Boot 3 / Spring Security / MyBatis-Plus / MySQL / Redis Streams / Dubbo / Flyway / Docker</div>
+    <p class="text-sm text-secondary leading-relaxed mb-3">練習、競技、提出、sandbox 判定、管理を含む個人 OSS。Submission が提出データを所有し、独立 Judge Worker が実行。配送失敗、重複実行、再判定結果の競合を重点的に扱う。</p>
     <ul class="list-disc pl-4 text-sm text-secondary space-y-2">
-      <li><strong>声明型キャッシュ実装</strong>：Spring AOP に基づき、<code>@RedisCacheable</code> 等のアノテーションを自作。キャッシュ読み込み、空値書き込み、事前リフレッシュ、TTLジッターなどのロジックをビジネスコードから分離。</li>
-      <li><strong>責任連鎖設計</strong>：<code>CacheHandlerChain</code> により、BloomFilter、SyncLock、PreRefresh、TTLジッター等の機能を独立したハンドラーとして区分、SPIプラグインに対応。</li>
-      <li><strong>キャッシュペネトレーション/アバランチ防御</strong>：JVM BitSet + Redis Pipeline による階層的ブルームフィルタでペネトレーションを防御。TTLランダムジッターと非同期事前リフレッシュでアバランチを防止。</li>
-      <li><strong>ホットキー対策</strong>：ローカル JVM ロックと Redisson 分散ロックを組み合わせた二段階同期ロック制御により、ホットキー期限切れ時のデータベース負荷集中を防止。</li>
-      <li><strong>可観測性とテスト</strong>：Micrometer を導入してキャッシュヒット率、遅延等の統計指標を公開。Testcontainers 技術により Docker コンテナ上で Redis 結合テストを自動化。</li>
+      <li><strong>transactional Outbox 配送</strong>：提出と判定 Outbox を一つの local transaction に保存し、背景で Redis Streams に配送して状態更新、失敗時は backoff。Lua で重複印と enqueue を統合し、印だけ保存された障害窓を扱う。</li>
+      <li><strong>task 回収と dead-letter</strong>： <code>XPENDING</code> / <code>XCLAIM</code> で timeout 未確認 task を回収し、容量・再試行回数で再配送を制御。予算切れは dead-letter にし、無効 task の資源占有を防ぐ。</li>
+      <li><strong>再判定結果の競合制御</strong>： <code>generation</code> + <code>attemptId</code> で有効実行を識別し lease と heartbeat 更新を併用。二条件 SQL CAS により期限切れ実行が新しい判定を上書きするのを拒む。</li>
+      <li><strong>不信コードの実行制約</strong>：Docker の禁網、non-root、read-only root、Capabilities 削減、Seccomp と CPU・memory・PID・file handle 制限で権限・資源を拘束。</li>
+      <li><strong>refresh token 再利用防止</strong>：SHA-256 hash のみ DB 保存。用途・所有・期限を検査し、条件更新で旧 token を一回だけ消費して同 transaction で新 token を発行し、並行 refresh を扱う。</li>
     </ul>
   </div>
   <div class="relative select-text">
     <span class="absolute -left-[29px] top-2 w-2.5 h-2.5 rounded-full bg-background border-2 border-primary"></span>
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
       <div class="font-serif font-medium text-lg text-primary flex items-center gap-2">
-        <span>オンライン判定システム UltiCode</span>
-        <a href="https://github.com/DavidHLP/UltiCode" target="_blank" class="text-xs font-mono text-weak hover:text-primary">[GITHUB]</a>
+        <span>ResiCache キャッシュ保護 middleware</span>
+        <a href="https://github.com/DavidHLP/ResiCache" target="_blank" class="text-xs font-mono text-weak hover:text-primary">[GITHUB]</a>
       </div>
-      <div class="text-xs font-mono text-weak">// 2025.10 - 現在</div>
+      <div class="text-xs font-mono text-weak">// 2025.01 - 現在</div>
     </div>
-    <div class="text-xs font-mono text-remark mb-3 uppercase">技術スタック: Spring Boot 3 / Security / Redis / JWT / MeiliSearch / Docker / Vue 3</div>
+    <div class="text-xs font-mono text-remark mb-3 uppercase">技術（現開発系列）：Java 21 / Spring Boot 4 / Spring Cache / Redis / Redisson / Micrometer / Testcontainers</div>
+    <p class="text-sm text-secondary leading-relaxed mb-3">拡張 annotation と責任 chain を組み合わせた個人 Spring Cache OSS。同 key 要求統合、分散ロード、version 付き早期期限切れ、安全な復元を重点実装。</p>
     <ul class="list-disc pl-4 text-sm text-secondary space-y-2">
-      <li><strong>コード判定サンドボックス</strong>：Docker コンテナによる安全な隔離実行環境を構築。seccomp権限制限、非rootユーザー、リソース制限を適用し、ユーザーコードによる悪意ある脱出やシステム破壊を防止。</li>
-      <li><strong>非同期タスク判定フロー</strong>：Redis Stream と Consumer Group を採用し、判定タスクフローを非同期化して負荷を平滑化。ハートビート監視と自動再試行を組み合わせ信頼性を確保。</li>
-      <li><strong>ランキング集計の最適化</strong>：ICPC/IOI 形式のランキング集計アルゴリズムを、ループ処理から多次元集計クエリへとリファクタリングし、更新時の CPU 負荷を削減。</li>
-      <li><strong>多段階キャッシュと検索</strong>：Caffeine + Redis を用いたローカル・分散型二段階キャッシュを実装。MeiliSearch を導入し、高スループットな全文検索をサポート。</li>
+      <li><strong>同 key 要求の統合</strong>： <code>ConcurrentHashMap</code> + <code>CompletableFuture</code> による JVM Single-flight。Leader が分散 lock とロードを担当し Follower が共有。lock 内二重確認で重複取得・競合を減らす。</li>
+      <li><strong>階層 Bloom filter</strong>：local と Redis を組み合わせ、local hit は遠隔検査を省き、miss は遠隔確認後に補充。local miss だけで有効ロードを拒まない。</li>
+      <li><strong>version 付き早期期限切れ</strong>：Redis Lua で値 version を原子的に照合して TTL 短縮。古い task が新値の寿命を変更しない。期限後の要求がロードし、更新・削除との競合を扱う。</li>
+      <li><strong>deserialization の境界保護</strong>：Jackson streaming で型 whitelist を検査してから version envelope を解析。悪性 type marker・metadata 往復を回帰検査し、検査時に全 JSON tree は作らない。</li>
+      <li><strong>非同期 task 重複排除</strong>：key ごとの in-flight Future と有界 queue、 <code>CallerRunsPolicy</code> で滞留を制御。完了と Future 登録の交錯による cleanup 競合を処理。</li>
+      <li><strong>失敗の意味と検証</strong>：業務ロード例外と cache 書込失敗を分け、ロード済みなら書込失敗でも値を返す。並行・実 Redis 統合 test で共有、例外伝播、新値 TTL 保護、削除後の非復活を確認。</li>
     </ul>
   </div>
 </div>
 
-## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 03 ]</span> スキル要約
+## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 03 ]</span> 専門スキル
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-4 select-text">
   <div class="border border-weak/10 p-5 bg-background/50 relative">
@@ -113,11 +117,11 @@
     <span class="absolute -top-1 -right-1 text-[8px] font-mono text-weak/50">+</span>
     <span class="absolute -bottom-1 -left-1 text-[8px] font-mono text-weak/50">+</span>
     <span class="absolute -bottom-1 -right-1 text-[8px] font-mono text-weak/50">+</span>
-    <h3 class="text-xs font-mono text-primary uppercase mb-2">// バックエンド開発 ＆ データベース</h3>
+    <h3 class="text-xs font-mono text-primary uppercase mb-2">// Java バックエンドとデータ処理</h3>
     <ul class="list-disc pl-4 text-xs text-secondary space-y-1.5">
-      <li>Java / JVM およびエンタープライズフレームワーク (Spring Boot, Security, MyBatis-Plus) に習熟。</li>
-      <li>MySQL データベースの設計・最適化。スロークエリ調査、実行計画の分析、インデックスのチューニングの実務経験。</li>
-      <li>Redis キャッシュ保護設計、Redisson 分散ロック、多段階キャッシュ構築の深い理解。</li>
+      <li>Java、Spring Boot、Spring MVC、Spring Security、MyBatis-Plus に習熟し、API 設計、認証・認可、例外処理の実践を持つ。</li>
+      <li>MySQL index 設計、実行計画、slow SQL 最適化に習熟。Redis 保護、分散 lock、並行ロードの経験。</li>
+      <li>Dubbo、Redis Streams、Outbox の実装経験があり、transaction 境界、重複消費、再試行、結果整合性を理解。</li>
     </ul>
   </div>
   <div class="border border-weak/10 p-5 bg-background/50 relative">
@@ -125,49 +129,50 @@
     <span class="absolute -top-1 -right-1 text-[8px] font-mono text-weak/50">+</span>
     <span class="absolute -bottom-1 -left-1 text-[8px] font-mono text-weak/50">+</span>
     <span class="absolute -bottom-1 -right-1 text-[8px] font-mono text-weak/50">+</span>
-    <h3 class="text-xs font-mono text-primary uppercase mb-2">// コンテナ ＆ トラブルシューティング</h3>
+    <h3 class="text-xs font-mono text-primary uppercase mb-2">// 障害診断と工学検証</h3>
     <ul class="list-disc pl-4 text-xs text-secondary space-y-1.5">
-      <li>Docker コンテナネットワーク、セキュリティ制限に習熟。containerd、Harbor、K8s イメージ TLS 証明書エラー等の対処スキル。</li>
-      <li>Arthas 診断ツール (watch, trace, stack) によるメソッド遅延、エラー追跡などのオンライン診断の実務経験。</li>
-      <li>Git、Maven、Flyway マイグレーション、Micrometer による可観測性構築。</li>
+      <li>Arthas、Linux process、container log、SQL plan を組み合わせ特定・修正・回帰検証できる。</li>
+      <li>Docker image、network、資源制限、基本隔離に習熟。containerd、Harbor、私有 image TLS の診断経験。</li>
+      <li>Git、Maven、Docker Compose、Flyway、Micrometer に習熟。Testcontainers・並行 test で障害と競合を確認。</li>
     </ul>
   </div>
 </div>
 
-## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 04 ]</span> 学歴・受賞歴
+## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 04 ]</span> 学歴・受賞
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-4 select-text">
   <div class="flex flex-col gap-2">
     <h3 class="text-xs font-mono text-weak uppercase tracking-wider">// 学歴</h3>
     <div class="border-l border-weak/20 pl-4 py-1">
       <div class="font-serif font-medium text-base text-primary">洛陽師範学院</div>
-      <div class="text-xs text-secondary">データサイエンスとビッグデータ技術 · 学士課程</div>
+      <div class="text-xs text-secondary">データ科学とビッグデータ技術・学士課程</div>
       <div class="text-xs font-mono text-remark mt-1">GPA: 3.6 / 4.0 (2021.09 - 2026.07)</div>
     </div>
   </div>
   <div class="flex flex-col gap-2">
-    <h3 class="text-xs font-mono text-weak uppercase tracking-wider">// 受賞歴</h3>
+    <h3 class="text-xs font-mono text-weak uppercase tracking-wider">// 受賞</h3>
     <div class="border-l border-weak/20 pl-4 py-1 text-xs text-secondary space-y-1.5">
-      <div>🏆 全国三等賞 · <strong>2025 藍橋杯 Java ソフトウェアデザイン B グループ</strong></div>
-      <div>🏆 全国三等賞 · <strong>2024 テディカップデータ分析スキルコンテスト</strong></div>
-      <div>🏆 全国三等賞 · <strong>2023 全国高校コンピューター能力チャレンジコンテスト</strong></div>
+      <div>🏆 2025 藍橋杯 Java ソフトウェア設計 B 組・ <strong>全国三等賞</strong></div>
+      <div>🏆 2024 テディ杯データ分析技能競技・ <strong>全国三等賞</strong></div>
+      <div>🏆 2023 全国大学コンピューター能力挑戦・ <strong>全国三等賞</strong></div>
     </div>
   </div>
 </div>
 
-## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 05 ]</span> 価値創出
+## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 05 ]</span> OSS 貢献と技術記録
 
 <div class="border-t border-weak/10 pt-6 mt-8 flex flex-col gap-6 select-text">
   <div>
-    <h3 class="text-xs font-mono text-weak uppercase tracking-wider mb-2">// 強み・コアスキル</h3>
+    <h3 class="text-xs font-mono text-weak uppercase tracking-wider mb-2">// OSS 貢献</h3>
     <p class="text-sm text-secondary leading-relaxed">
-      プライベートクラウド環境におけるセキュリティ製品開発および実業務でのバグ修正経験を持ち、キャッシュやデータベースのパフォーマンス改善に強みがあります。トラブルシューティング手法を診断チェックリストや検証自動化スクリプトとしてドキュメント化し、チームの開発効率向上に貢献できます。可観測性（Observability）とコンテナセキュリティへの関心が高く、2つのプロジェクトをフルスクラッチで実装しました。
+      <strong>codebase-memory-mcp</strong>：<a href="https://github.com/DeusData/codebase-memory-mcp/pull/1229" target="_blank" rel="noopener noreferrer" class="hover:underline">PR #1229</a> <strong>マージ済み</strong>。Oh My Pi（OMP）接続を追加し、設定ディレクトリ検出、MCP 登録、Skill 配置、install/uninstall、設定隔離・利用者内容保持の test に対応。
     </p>
   </div>
   <div>
-    <h3 class="text-xs font-mono text-weak uppercase tracking-wider mb-2">// 自己PR</h3>
-    <p class="text-sm text-secondary leading-relaxed font-light">
-      Java バックエンド開発およびシステムの可用性向上に注力し、クリーンでモジュール化された凝集度の高いコードの執筆を徹底しています。インターン業務および個人プロジェクトを通じて、リアルタイムなモニタリングとトラブルシューティング能力を磨いてきました。複雑なビジネスドメインおよび大規模システムに挑戦し、高可用かつ高性能なシステム基盤構築に貢献したいと考えています。
-    </p>
+    <h3 class="text-xs font-mono text-weak uppercase tracking-wider mb-2">// 代表的な技術知識頁</h3>
+    <ul class="list-disc pl-4 text-sm text-secondary space-y-2">
+      <li><a href="/blog/legacy/note/ja/java-online-performance-debug/" class="hover:underline">Java 性能障害：現象から証拠への最小判断木</a>：process、thread stack、GC、Arthas をつなぎ、止血・保存・特定・復旧を整理。</li>
+      <li><a href="/blog/legacy/note/ja/containerd-tls-troubleshooting/" class="hover:underline">containerd TLS：証明書信頼と一時検証省略の判断</a>：runtime CA、node trust、Registry 認証、image cache を分け、階層的診断を整理。</li>
+    </ul>
   </div>
 </div>

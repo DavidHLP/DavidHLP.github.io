@@ -66,7 +66,7 @@ server = "https://harbor.example.com"
 - 「OS の CA を更新した」ことを「containerd が読み込んだ」ことと同一視しない。正しい `config_path` を確認し、サービスを再起動する。
 - `unauthorized` が出たからといって CA を何度も交換しない。これは Secret、ServiceAccount、Registry アカウントの境界である。
 - `/root/.docker/config.json` や `/var/lib/kubelet/config.json` を確認なしに削除しない。raw はそれらを過去の残留候補として挙げているだけである。
-- containerd 1.x/2.x のプラグインパスや各ディストリビューションの CA 更新コマンドは、raw に基づくバージョン・環境依存の主張であり、未確認環境への保証ではない。
+- 出典の `EXPLAIN` 例と同様に、`containerd 1.x/2.x` の plugin path・CA 更新コマンドも版・platform 条件付きで、未確認環境へ外挿しない。
 
 ## 最小検証
 
@@ -102,15 +102,16 @@ openssl x509 -in /etc/containerd/certs.d/harbor.example.com/ca.crt -noout -subje
 
 ## 関連ページ
 
-- [SSH 内網アクセスの選択](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
-- [MySQL パフォーマンス問題モデル](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
+- [SSH 内網アクセスの選択](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)
+- [MySQL パフォーマンス問題モデル](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-containerd-tls-troubleshooting](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-containerd-tls-troubleshooting.md)
-- [SSH 内網アクセス：接続方向・公開面・障害復旧](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
-- [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
+- [SSH 内網アクセス：接続方向・公開面・障害復旧](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)
+- [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
+- [Testcontainers 1.20.6：Docker API バージョンを先に切り分けてから、daemon の利用不可を判断する](/blog/legacy/note/ja/testcontainers-docker-api/)
 
 研究記録
 1. 元の文書: src/content/note/ja/containerd-tls-troubleshooting.md

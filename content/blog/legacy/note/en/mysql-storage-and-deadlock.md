@@ -67,7 +67,6 @@
 }
 ---
 
-
 Three MySQL notes focus on storage engines and deadlocks: `存储引擎.md` (Storage Engine), `基础面试题.md` (Basic Interview Questions), and `checkmysqldeadlock.md`. This page distinguishes engine capabilities from troubleshooting paths.
 
 ## Core Mechanism
@@ -96,14 +95,14 @@ Three MySQL notes focus on storage engines and deadlocks: `存储引擎.md` (Sto
 
 ## Related Pages
 
-- [mysql-performance-troubleshooting](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [database-schema-drift](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
+- [mysql-performance-troubleshooting](/blog/legacy/note/en/mysql-performance-troubleshooting/)
+- [database-schema-drift](/blog/legacy/note/en/database-schema-drift/)
+- [multi-service-readiness](/blog/legacy/note/en/multi-service-readiness/)
 
 
 ## Sources and related documents
 
 - [ingest-mysql-storage](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-mysql-storage.md)
-- [MySQL Performance Triage: Symptom → Metric → Layer → Safe Mitigation](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/zh-cn/multi-service-readiness/)
+- [MySQL Performance Triage: Symptom → Metric → Layer → Safe Mitigation](/blog/legacy/note/en/mysql-performance-troubleshooting/)
+- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/en/database-schema-drift/)
+- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/en/multi-service-readiness/)

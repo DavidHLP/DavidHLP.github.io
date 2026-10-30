@@ -71,7 +71,6 @@
 }
 ---
 
-
 The 18 HBase notes across the two repositories are highly homologous (9 in Personal + 9 in Fuwari, essentially one-to-one counterparts differing only in language and length). This page converges them into four parts — data model, architecture, table design, and operations — removing duplicated chapters and keeping reusable concepts.
 
 ## Core Mechanism
@@ -121,14 +120,14 @@ The 18 HBase notes across the two repositories are highly homologous (9 in Perso
 
 ## Related Pages
 
-- [spark-bigdata-ecosystem](/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/)
-- [database-schema-drift](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [mysql-storage-and-deadlock](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/)
+- [spark-bigdata-ecosystem](/blog/legacy/note/en/spark-bigdata-ecosystem/)
+- [database-schema-drift](/blog/legacy/note/en/database-schema-drift/)
+- [mysql-storage-and-deadlock](/blog/legacy/note/en/mysql-storage-and-deadlock/)
 
 
 ## Sources and related documents
 
 - [ingest-hbase-foundation](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-hbase-foundation.md)
-- [Spark and Big Data Ecosystem: Hadoop, HBase, Spark Runtime Modes, and Clusters](/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/)
-- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [MySQL Storage Engines and Deadlock Detection](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/)
+- [Spark and Big Data Ecosystem: Hadoop, HBase, Spark Runtime Modes, and Clusters](/blog/legacy/note/en/spark-bigdata-ecosystem/)
+- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/en/database-schema-drift/)
+- [MySQL Storage Engines and Deadlock Detection](/blog/legacy/note/en/mysql-storage-and-deadlock/)

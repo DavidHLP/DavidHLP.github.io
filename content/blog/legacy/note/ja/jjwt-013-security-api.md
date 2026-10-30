@@ -71,7 +71,6 @@
 }
 ---
 
-
 **結論優先**：JJWT 0.13.0 の `signWith(Key)` は key のアルゴリズム名と強度で推奨アルゴリズムを選ぶ。プロトコルが `HS256`、`RS256`、`PS*` の固定を要求する場合は `signWith(key, Jwts.SIG.*)` を使うべきだ。検証に秘密鍵や非推奨の汎用 `setSigningKey(Key)` を使ってはならない。`verifyWith(SecretKey)` か `verifyWith(PublicKey)` を使い、token header の `alg` とサーバー側で許可するアルゴリズム戦略は分けて監査する。
 
 ## 適用バージョンとシナリオ
@@ -209,11 +208,11 @@ String token = Jwts.builder()
 
 - **情報源の事実：** 初期 raw と `jjwt-013-security-api-contract-correction` が 0.13.0 の API 宣言、実装分岐、README 例を共同で固定する。
 - **本ページの総合：** アルゴリズム選択、明示署名、検証 key 型、claims builder を移行とトラブルシューティングの順序に整理する。
-- [Java オンライン性能トラブルシューティング：症状から証拠への最小決定木](/blog/legacy/note/zh-cn/java-online-performance-debug/)
+- [Java オンライン性能トラブルシューティング：症状から証拠への最小決定木](/blog/legacy/note/ja/java-online-performance-debug/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [jjwt-013-security-api-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/jjwt-013-security-api-contract.md)
 - [jjwt-013-security-api-contract-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/jjwt-013-security-api-contract-correction.md)
-- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/zh-cn/java-online-performance-debug/)
+- [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)
