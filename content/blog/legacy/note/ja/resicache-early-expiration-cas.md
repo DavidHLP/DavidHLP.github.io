@@ -94,7 +94,9 @@ T3: 古い task が開始
 
 古い task が key だけを覚えていて、次を実行するとする。
 
-`EXPIRE key 5`
+```text
+EXPIRE key 5
+```
 
 value-B の TTL が短縮される。新しい値は early-expiration の判断に参加していないのに、古い task によって寿命を変更される。
 
@@ -152,11 +154,15 @@ future request: miss 後に通常の loader path へ入る
 
 format version が答えるのは次である。
 
-`この Redis bytes をどの protocol で decode するか？`
+```text
+この Redis bytes をどの protocol で decode するか？
+```
 
 cache value version が答えるのは次である。
 
-`この async task が capture した value は、現在 Redis にある同じ value か？`
+```text
+この async task が capture した value は、現在 Redis にある同じ value か？
+```
 
 CachedValue.of は現在の process の System.nanoTime() で value version を生成する。startNanoTime は永続化せず、process 内の monotonic time 計算に使う。どちらも cross-process の global clock や増加 sequence と解釈してはいけない。
 

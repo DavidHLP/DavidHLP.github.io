@@ -230,7 +230,7 @@ raw は `src/content/raw/zh-cn/` にあり LLM 用で公開ルートを作らな
 
 ## 取り込み受信箱
 
-- [知识库摄入收件箱](/blog/legacy/jotting/ja/kb-ingest-todo/) — 次の個人案件と問い。過去記事、Personal-markdown-notes/Fuwari の 107 原文、ResiCache/UltiCode README/CONTEXT は取り込み済み。Phase 2 で Hindsight 分割・随筆分解。次は Phase 3 の provisional 11 件の四半期審査と新テーマ。
+- [知識庫 ingest 受信箱](/blog/legacy/jotting/ja/kb-ingest-todo/) — 次の個人案件と問い。過去記事、Personal-markdown-notes/Fuwari の 107 原文、ResiCache/UltiCode README/CONTEXT は取り込み済み。Phase 2 で Hindsight 分割・随筆分解。次は Phase 3 の provisional 11 件の四半期審査と新テーマ。
 
 ## 保守規則
 

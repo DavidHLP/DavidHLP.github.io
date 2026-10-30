@@ -94,7 +94,7 @@ JJWT `PrivateKey`/`verifyWith`、Testcontainers `TestEnvironment` と `999.999` 
 
 ## [2026-08-13] ingest | OMP Headroom Bridge と native Codex 経路
 
-固定 commit と現 worktree の脱敏配送証拠から entity/raw 各一件を追加。user systemd 管理 loopback 8787、OMP 二 provider route、Codex CLI/Desktop 共通 user Responses provider、Claude Code 共存、`bin/codex-routes` の marker/lock/hash/mode/atomic restore、static/lifecycle/fresh-client 検証、rollback 順を記録。認証・利用者設定本文・`models.db`・要求本文・host 絶対パス・未 commit コードの架空固定 URL は含めない。現 worktree は新しい公開 commit ではないと明示。
+固定 commit と現 worktree の脱敏配送証拠から entity/raw 各一件を追加。`systemd --user` 管理 loopback 8787、OMP 二 provider route、Codex CLI/Desktop 共通 user Responses provider、Claude Code 共存、`bin/codex-routes` の marker/lock/hash/mode/atomic restore、static/lifecycle/fresh-client 検証、rollback 順を記録。認証・利用者設定本文・`models.db`・要求本文・host 絶対パス・未 commit コードの架空固定 URL は含めない。現 worktree は新しい公開 commit ではないと明示。
 
 ## [2026-08-17] ingest | Hindsight 配置と OMP / Codex 記憶接続
 
@@ -110,7 +110,7 @@ ResiCache `75ed279a` の canonical README.md と README.zh-CN.md、UltiCode `3f1
 
 ## [2026-08-21] maintenance | series 分類の統合
 
-Java 安全・並行・試験、LLM/Agent の六つの単頁 series と、spring-cloud/schema-drift の誤分類を発見。六頁三言語の 18 frontmatter を索引に合わせ、jjwt/resicache-observer/testcontainers は Java 安全・並行・試験、hindsight は OMP/Agent、spring-cloud は microservice/RPC、schema-drift は構成工学へ統合。中文は八つの複数頁 series、en/ja draft metadata は slug 対応。本文、sources、raw は不変。三言語 `/note/` と related に断線なし。
+Java 安全・並行・試験、LLM/Agent の六つの単頁 series と、`spring-cloud-and-boot`/`database-schema-drift` の誤分類を発見。六頁三言語の 18 frontmatter を索引に合わせ、jjwt/resicache-observer/testcontainers は Java 安全・並行・試験、hindsight は OMP/Agent、spring-cloud は microservice/RPC、schema-drift は構成工学へ統合。中文は八つの複数頁 series、en/ja draft metadata は slug 対応。本文、sources、raw は不変。三言語 `/note/` と related に断線なし。
 
 ## [2026-08-23] maintenance | 収束 Phase 1 と索引再構成
 
@@ -118,7 +118,7 @@ Java 安全・並行・試験、LLM/Agent の六つの単頁 series と、spring
 
 ## [2026-08-23] maintenance | Phase 2：Hindsight 分割と随筆分解
 
-445 行の単一ページを `hindsight-local-deployment`（L1/L2、concept）、`hindsight-omp-codex-integration`（L4、entity）、`hindsight-troubleshooting`（L3、七障害、単一出典 concept）へ分割。元は deprecated 案内。frontend 十随筆も deprecated archive にして主索引から外した。案内、provisional 七件の板、保存域を更新。`pnpm kb:lint`、`pnpm test:run`、`pnpm build` 全て成功。
+445 行の単一ページを `hindsight-local-deployment`（L1/L2、concept）、`hindsight-omp-codex-integration`（L4、entity）、`hindsight-troubleshooting`（L3、七障害、単一出典 concept）へ分割。元は deprecated 案内。`frontend-mybatis-essays` 十随筆も deprecated archive にして主索引から外した。案内、provisional 七件の板、保存域を更新。`pnpm kb:lint`、`pnpm test:run`、`pnpm build` 全て成功。
 
 ## [2026-09-07] maintenance | 採用向け入口と ResiCache 設計復盤
 
@@ -132,13 +132,13 @@ Java 安全・並行・試験、LLM/Agent の六つの単頁 series と、spring
 |---|---|---|---|---|
 | `hindsight-local-deployment.md` | 配置 concept、導入者、資源・網・mount | 同一パスで更新 | container 網/loopback、non-root/Rootless を区別し一般的機種保証を除く。Compose、Modelfile、権限コマンドと前提を保持 | 全文・raw・公式文書確認、配置再実行なし |
 | `hindsight-omp-codex-integration.md` | 接続 entity、Agent 統合者、Bank 経路 | 同一パスで更新 | 物理隔離・非 Git default を修正、basename 衝突・MCP 不足を明記。bridge、両端設定、単回検索値を保持 | 本文・code 静的確認、protocol 照合、handshake/write/recall 再実行なし |
-| `hindsight-troubleshooting.md` | 障害 concept、運用者、検査の選択 | 同一パスで更新 | モデル不在、Rootless、取得閾値、list/stdio の意味を修正。七障害・六段階を出典報告として保持 | 全文・文脈・文書確認、コマンドは例 |
+| `hindsight-troubleshooting.md` | 障害 concept、運用者、検査の選択 | 同一パスで更新 | モデル不在、Rootless、取得閾値、`ollama list`/stdio の意味を修正。七障害・六段階を出典報告として保持 | 全文・文脈・文書確認、コマンドは例 |
 
 初回 timestamp は 2026-08-23 のまま。独立修訂日欄はなく 2026-09-08 を本文・ログに記し schema は追加しない。分類は OMP/Agent。タグは配置 Hindsight/Docker/Ollama/ROCm/BGE-M3/Architecture、接続 Hindsight/OMP/Codex/FastMCP/MCP/DynamicRouting、障害 Hindsight/Troubleshooting/Docker/Permissions/FastMCP/Ollama のまま。索引 A 域・Agent 経路から入り、配置・接続・障害の別責務を同語という理由で統合せず、新分類・要約頁も作らない。
 
-共通 raw は `raw/zh-cn/hindsight-local-deployment-and-agent-integration.md`、capturedAt 2026-08-17、個別発生時刻なし。Hindsight v0.9.1 は出典指定、Ollama `rocm` は可変。OMP/Codex/Node/driver、model revision/hash は固定不足。値は歴史報告で再実測ではない。公開 `https://davidhlp.github.io/note/<拡張子なし名>` は不変で新 redirect・移行なし、旧統合案内も残る。
+共通 raw は `raw/zh-cn/hindsight-local-deployment-and-agent-integration.md`、capturedAt 2026-08-17、個別発生時刻なし。Hindsight v0.9.1 は出典指定、Ollama `rocm` は可変。OMP/Codex/Node/driver、model revision/hash は固定不足。値は歴史報告で再実測ではない。公開 `https://davidhlp.github.io/note/<拡張子なし名>` は不変で新 redirect・移行なし、旧 `/note/hindsight-local-deployment-and-agent-integration` 案内も残る。
 
-依存更新は index 三要約とログ追記のみ。相互リンク、旧案内、en/ja は直接参照として残る。添付、code、図、実践値は保持。protocol 不足 anchor を追加し、slug・title・他 anchor は保ち、bridge の旧見出しも互換対応。削除、新 archive、wiki、raw はない。開始時の clean commit `6ee762b0db89357fc670edd16b4ad910fd6ebcb3` から個別復元でき、worktree reset は不要。
+依存更新は `information/zh-cn/kb-index.md` 三要約とログ追記のみ。相互リンク、旧案内、en/ja は直接参照として残る。添付、code、図、実践値は保持。protocol 不足 anchor を追加し、slug・title・他 anchor は保ち、bridge の旧見出しも互換対応。削除、新 archive、wiki、raw はない。開始時の clean commit `6ee762b0db89357fc670edd16b4ad910fd6ebcb3` から個別復元でき、worktree reset は不要。
 
 2026-09-08 に採用した外部照合は [MCP 2025-06-18 transports](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports)、[Docker Rootless](https://docs.docker.com/engine/security/rootless/)、[Compose 起動順](https://docs.docker.com/compose/how-tos/startup-order/)、[Ollama CLI](https://docs.ollama.com/cli)。後三件の独立公開日は見えず捏造しない。[Hindsight v0.9.1 tag](https://github.com/vectorize-io/hindsight/tree/v0.9.1) は到達確認のみで image・key・model 検証とはしない。結論へ直接リンクし raw は不変。
 
@@ -149,26 +149,26 @@ Java 安全・並行・試験、LLM/Agent の六つの単頁 series と、spring
 - **成功**：`node --import tsx scripts/kb-lint.ts`（49 raw/132 wiki）、最終 `node node_modules/astro/astro.js build`（84 頁）、diff。pnpm は起動時 `unable to open database file`、直接 tsx は IPC `listen EPERM` で未完了。同じ script の Node loader で成功し規則は変えない。
 - **成功**：HTML の note/anchor 78、旧互換 anchor 三、元案内を確認。frontmatter・bridge JS は同一、fence 数不変、raw diff なし、log 旧 prefix 不変、backup 公開なし。
 - **手動**：全文を原文/raw と照合し、設定・code・七障害・六段階・単回召回を保持。削除は根拠のない一般化だけ。独立入口を保持し索引は歴史的範囲へ修正。
-- **build 通知**：両回 duplicate-id、二回目は index/log も含む。build/link 成功でも原因は未確定。同名追加・ID 変更なし。Node `module.register()`、PhotoSwipe 静的/動的 import、大 chunk も通知。未変更 baseline がなく新旧を断定せず、program 修正へ拡大しない。
+- **build 通知**：両回 duplicate-id、二回目は `kb-index.md`/`kb-log.md` も含む。build/link 成功でも原因は未確定。同名追加・ID 変更なし。Node `module.register()`、PhotoSwipe 静的/動的 import、大 chunk も通知。未変更 baseline がなく新旧を断定せず、program 修正へ拡大しない。
 - **未実施**：独立 Astro 型、全 unit、browser visual、live site、配置/model/Agent 実行。内容 lint/build は公開や service 再現ではない。commit/push/公開なし。
 
 隔離・fallback を正し、権限・model・性能を限定し実践と旧入口を保持。残リスクは en/ja の古さと model/runtime 証拠不足。
 
 ## [2026-09-09] ingest | UltiCode 主線の特徴と LLM 工学
 
-entity を中文長文へ更新し slug/provisional を保持。固定 main `f801a1076b2fa9aa06ce3d63821f0778b477042c` から owner、`SubmissionFactsSnapshot`、DB outbox/Streams、generation/attempt fence、Docker D-form、同期/非同期、static/供給網 gate を整理し LLM 示唆を別記。
+entity を中文長文へ更新し slug/provisional を保持。固定 main `f801a1076b2fa9aa06ce3d63821f0778b477042c` から owner、`SubmissionFactsSnapshot`、DB outbox/Streams、generation/`attemptId` fence、Docker D-form、同期/非同期、static/供給網 gate を整理し LLM 示唆を別記。
 
-不変 raw `ulticode-engineering-highlights-f801a1076` に構成、判定/sandbox、境界 test 名、CI を追加し旧 context も保持。Repository Implemented、source/test、blog-local、BLOCKED_EXTERNAL/OUT_OF_SCOPE を分け、本番・高性能・HA・ゼロ損失・完全脱出防止としない。索引の学習経路・entity・raw 数・表を更新し home/履歴書/en/ja/UltiCode code は不変。pnpm lint/check/build は DB 起動エラー、等価 Node/tsx で lint/check/build/diff 成功。duplicate-id、Node、PhotoSwipe、chunk は残し code 修正しない。commit/push/公開なし。
+不変 raw `ulticode-engineering-highlights-f801a1076` に構成、判定/sandbox、境界 test 名、CI を追加し旧 `ulticode-project-context` も保持。Repository Implemented、source/test、blog-local、BLOCKED_EXTERNAL/OUT_OF_SCOPE を分け、本番・高性能・HA・ゼロ損失・完全脱出防止としない。索引の学習経路・entity・raw 数・表を更新し home/履歴書/en/ja/UltiCode code は不変。pnpm lint/check/build は DB 起動エラー、等価 Node/tsx で lint/check/build/`git diff --check` 成功。duplicate-id、Node、PhotoSwipe、chunk は残し code 修正しない。commit/push/公開なし。
 
 ## [2026-09-09] ingest | ResiCache 主線の特徴と LLM 工学
 
 entity を並行・一貫性境界の長文へ変更し slug 保持、provisional にした。固定 `main@2954fff217257e9cf7c906450a75070d5e092637` で順序・toggle、leader/follower/reentrant、sealed outcome、`CachedValue.version` Lua CAS、whitelist、observer token を整理。ASYNC は安全な TTL 短縮で loader 直接呼出ではない。
 
-不変 raw `resicache-engineering-highlights-2954fff` に build 系列、入口、並行/競合/serializer/lifecycle test、境界を記録。overview/observer raw は保持。LLM は考察で機能声明ではない。実装・test 証拠・local・外部阻害・範囲外を分離し、本番 throughput/P99/HA/ゼロ損失/SLA/全監査を主張しない。index entity/raw 数・表、manifest を更新。home/履歴書/en/ja/ResiCache code は不変。blog lint/build/diff のみ、Maven/Redis/Testcontainers、commit/push/公開なし。
+不変 raw `resicache-engineering-highlights-2954fff` に build 系列、入口、並行/競合/serializer/lifecycle test、境界を記録。`resicache-project-overview`/observer raw は保持。LLM は考察で機能声明ではない。`Repository Implemented`・`Repository Test Evidence`・`Locally Validated`・外部阻害・範囲外を分離し、本番 throughput/P99/HA/ゼロ損失/SLA/全監査を主張しない。index entity/raw 数・表、manifest を更新。home/履歴書/en/ja/ResiCache code は不変。blog lint/build/diff のみ、Maven/Redis/Testcontainers、commit/push/公開なし。
 
 ## [2026-09-09] ingest | UltiCode の六 concept
 
-entity を入口に保ち、owner/事実、outbox/Streams、generation/attempt、Docker/基盤エラー、非同期、static/供給網の六つの中文 provisional concept を追加。共通不変 raw `ulticode-engineering-highlights-f801a1076`、`/note/ulticode` 双方向で、raw 重複・UltiCode 変更なし。
+entity を入口に保ち、owner/事実、outbox/Streams、generation/`attemptId`、Docker/基盤エラー、非同期、static/供給網の六つの中文 provisional concept を追加。共通不変 raw `ulticode-engineering-highlights-f801a1076`、`/note/ulticode` 双方向で、raw 重複・UltiCode 変更なし。
 
 各頁に問い、仕組み、固定ソース、LLM 示唆、範囲、最小検証を設ける。exactly-once、本番 HA、完全脱出防止を除外。index 更新、home/履歴書/en/ja/既存 ResiCache 変更は不変。検証は当 batch の実 lint/check/build/diff に基づく。commit/push/公開なし。
 
@@ -176,17 +176,17 @@ entity を入口に保ち、owner/事実、outbox/Streams、generation/attempt�
 
 依頼で特徴一覧を miss 経路から始まる中文記事へ変更。責任 chain、single-flight/sealed outcome、値 version CAS、安全な version serializer、observer、LLM 示唆、証拠階層を展開。
 
-不変 highlights/overview/observer raw を保持。raw/code/home/履歴書/en/ja は不変。ASYNC は TTL のみ、envelope/value version 分離、書込失敗でも値を返す境界を保持。pnpm の DB/sandbox 障害は残るが等価 Node lint/build/diff 成功。Maven/Redis/Testcontainers、commit/push/公開なし。
+不変 highlights/overview/observer raw を保持。raw/code/home/履歴書/en/ja は不変。ASYNC は TTL のみ、`VersionEnvelope.version` と `CachedValue.version` 分離、書込失敗でも値を返す境界を保持。pnpm の DB/sandbox 障害は残るが等価 Node lint/build/`git diff --check` 成功。Maven/Redis/Testcontainers、commit/push/公開なし。
 
 ## [2026-09-09] ingest | UltiCode 残り三 concept
 
-owner-local 監査 Outbox/Consumer Inbox、fenced singleton lease、Core opt-in bounded testbed を中文独立頁へ。既存 generation/attempt は九頁シリーズに保持し URL 重複なし。
+owner-local 監査 Outbox/Consumer Inbox、fenced singleton lease、Core opt-in bounded testbed を中文独立頁へ。既存 `/note/ulticode-generation-attempt-fence` は九頁シリーズに保持し URL 重複なし。
 
-不変 `ulticode-reliability-core-f801a1076` に audit adapter/dispatcher、Admin bridge、consumer inbox、lease、reconciliation、Core lifecycle、migration、ADR、test を追加。local transaction、ACK 順、`(consumer,event_id)`、fence 条件、allowlist、timeout handoff、close-once の範囲を保ち、跨 service exactly-once、本番 HA、完全隔離、全 Core 起動とはしない。index/entity/manifest 更新、UltiCode code/home/履歴書/en/ja は不変。diff、等価 Node/tsx lint/check/build 成功、check 0 error/0 warning/2 hint、93 頁。pnpm DB エラーと duplicate-id/Node/PhotoSwipe/chunk は残る。commit/push/公開なし。
+不変 `ulticode-reliability-core-f801a1076` に audit adapter/dispatcher、Admin bridge、consumer inbox、lease、reconciliation、Core lifecycle、migration、ADR、test を追加。local transaction、ACK 順、`(consumer,event_id)`、fence 条件、allowlist、timeout handoff、close-once の範囲を保ち、跨 service exactly-once、本番 HA、完全隔離、全 Core 起動とはしない。index/`ulticode.md`/manifest 更新、UltiCode code/home/履歴書/en/ja は不変。diff、等価 Node/tsx lint/`astro check`/`astro build` 成功、check 0 error/0 warning/2 hint、93 頁。pnpm DB エラーと duplicate-id/Node/PhotoSwipe/chunk は残る。commit/push/公開なし。
 
 ## [2026-09-09] ingest | ResiCache 四 concept
 
-chain/observer、single-flight/分散 lock、version CAS 早期期限切れ、安全 serializer/段階移行の四つを中文 provisional にした。overview と既存 observer は保持し改変せず、新規 raw なし。highlights/overview/observer を再利用。
+chain/observer、single-flight/分散 lock、version CAS 早期期限切れ、安全 serializer/段階移行の四つを中文 provisional にした。`/note/resicache` と `/note/resicache-observer-nested-execution` は保持し改変せず、新規 raw なし。highlights/overview/observer を再利用。
 
 index concept 群・観察板に登録。固定 main `2954fff217257e9cf7c906450a75070d5e092637`、境界 test、当 batch の local 検証を、本番性能・HA・exactly-once・全安全監査へ拡大しない。home/履歴書/ResiCache code/en/ja は不変。commit/push/公開なし。
 
@@ -196,4 +196,4 @@ index concept 群・観察板に登録。固定 main `2954fff217257e9cf7c906450a
 
 不変 raw を追加し sources で引用。index C、昇格板、53 raw 数・表、manifest 更新。Downloads 原稿、home/履歴書、既存 Rhine 変更は不変。commit/push/公開なし。
 
-diff 成功。pnpm lint は tsx IPC `listen EPERM` で未完了、等価 Node loader で成功（53 raw/146 wiki）。check 0 error/0 warning/4 hint、build 98 頁、対象 `/note/database-written-test-review` と OG を生成。既存 duplicate-id/Node/PhotoSwipe/chunk は残し code 修正しない。Oracle/MySQL/Spark/Kettle 実行、性能、browser、live 公開は未検証。
+`git diff --check` 成功。pnpm lint は `/tmp` の tsx IPC `listen EPERM` で未完了、等価 Node loader で成功（53 raw/146 wiki）。check 0 error/0 warning/4 hint、build 98 頁、対象 `/note/database-written-test-review` と OG を生成。既存 duplicate-id/Node/PhotoSwipe/chunk は残し code 修正しない。Oracle/MySQL/Spark/Kettle 実行、性能、browser、live 公開は未検証。

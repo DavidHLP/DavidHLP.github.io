@@ -94,7 +94,9 @@ T3: the old job starts
 
 If the old job remembers only the key and executes:
 
-`EXPIRE key 5`
+```text
+EXPIRE key 5
+```
 
 it shortens the TTL of value-B. The new value did not participate in the early-expiration decision, but its lifetime was still changed by an old job.
 
@@ -152,11 +154,15 @@ The implementation has two easily confused version numbers:
 
 The format version answers:
 
-`Which protocol should decode these Redis bytes?`
+```text
+Which protocol should decode these Redis bytes?
+```
 
 The cached-value version answers:
 
-`Is the value captured by this asynchronous job still the same value currently in Redis?`
+```text
+Is the value captured by this asynchronous job still the same value currently in Redis?
+```
 
 CachedValue.of uses the current process's System.nanoTime() to generate the value version. startNanoTime is not persisted and is used for monotonic time calculations inside the process. Neither should be interpreted as a global cross-process clock or an increasing sequence.
 

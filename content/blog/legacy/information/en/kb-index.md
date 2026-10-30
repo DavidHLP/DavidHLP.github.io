@@ -230,7 +230,7 @@ Raw files reside in `src/content/raw/zh-cn/` for LLM reading, without public rou
 
 ## Capture inbox
 
-- [知识库摄入收件箱](/blog/legacy/jotting/en/kb-ingest-todo/) — Upcoming personal-project sources and questions. Historical articles, all 107 originals from Personal-markdown-notes/Fuwari, and ResiCache/UltiCode README/CONTEXT have been ingested. Phase 2 split Hindsight and dissolved miscellaneous frontend notes. Next: Phase 3 quarterly review of 11 provisional pages and incremental new topics.
+- [Knowledge-base Ingest Inbox](/blog/legacy/jotting/en/kb-ingest-todo/) — Upcoming personal-project sources and questions. Historical articles, all 107 originals from Personal-markdown-notes/Fuwari, and ResiCache/UltiCode README/CONTEXT have been ingested. Phase 2 split Hindsight and dissolved miscellaneous frontend notes. Next: Phase 3 quarterly review of 11 provisional pages and incremental new topics.
 
 ## Maintenance rules
 
