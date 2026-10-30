@@ -1,0 +1,187 @@
+.github/workflows/deploy.yml
+  s_1f9e8743677ef7::t_9fb48388843dcd 1,6-7,15-16,19-24,26,39
+migration/README.md
+  s_1f9e8743677ef7::t_9fb48388843dcd 1-13
+.github/workflows/astro.yml
+  s_1f9e8743677ef7::t_aa426b08a139d6 1,5,7,10-11,14-18
+.gitignore
+  s_1f9e8743677ef7::t_234bba73a59240 2-12,17-21
+.prettierrc.json
+  s_1f9e8743677ef7::t_a5d75682d269df 1-3
+AGENTS.md
+  s_1f9e8743677ef7::t_769d2f5bd3aade 1-12
+PR15-ATTRIBUTION.md
+  s_1f9e8743677ef7::t_9946e61ba7ec04 1,3,5-6,8,10,12,14
+README.md
+  s_1f9e8743677ef7::t_1494c384c03ea3 1,3,5,7,9,12-16,19,21,24-25,28,30
+astro.config.ts
+  s_1f9e8743677ef7::t_ef39ba1840317b 3-5,7-10,13-31
+content/README.md
+  s_1f9e8743677ef7::t_f4a803d394c9b1 1-11
+content/site.json
+  s_1f9e8743677ef7::t_a994be92040946 1-19
+docs/BUSINESS-AUDIT.md
+  s_1f9e8743677ef7::t_ccfd7dd0860378 1-166
+docs/BUSINESS-IMPLEMENTATION.md
+  s_1f9e8743677ef7::t_e605b2d5778d8f 1-75
+docs/CLOUDFLARE-DEPLOYMENT.md
+  s_1f9e8743677ef7::t_320d720adf4df4 1-13
+docs/PWA.md
+  s_1f9e8743677ef7::t_2015e17c1c49e2 1-13
+package-lock.json
+  s_1f9e8743677ef7::t_ae5cb7693e8006 1-6141
+package.json
+  s_1f9e8743677ef7::t_b1e6c26e1d4e58 5-8,11-17,19-22,25-28,30,33-41,43
+public/audio/README.md
+  s_1f9e8743677ef7::t_19e3ce6e179ffb 1,3,5,7
+public/favicon.svg
+  s_1f9e8743677ef7::t_de2aea27c4dbff 1
+public/icons/app-icon.svg
+  s_1f9e8743677ef7::t_706f34cd5fd6f0 1
+public/licenses/RhineLabUI-Astro-MIT.txt
+  s_1f9e8743677ef7::t_42260cd1cda755 1-21
+public/update.html
+  s_1f9e8743677ef7::t_8a3742556dbd48 1-34
+public/update.js
+  s_1f9e8743677ef7::t_55273f829bb646 1-45
+scripts/archive-content.mjs
+  s_1f9e8743677ef7::t_5cf80c18d02615 1-99
+scripts/build-pwa.mjs
+  s_1f9e8743677ef7::t_c5feaf3d0657ad 1-16,18-26
+scripts/check-content.mjs
+  s_1f9e8743677ef7::t_893daa5940871e 1-420
+scripts/check-viewport.mjs
+  s_1f9e8743677ef7::t_69681c9fad7920 2-3,5-24,26-29
+scripts/export-records.mjs
+  s_1f9e8743677ef7::t_7125024f6c39ff 1-2,4-13,15-18,20
+scripts/import-legacy.mjs
+  s_1f9e8743677ef7::t_8b8581a7129b55 1-164
+scripts/package-cloudflare.mjs
+  s_1f9e8743677ef7::t_7d762522b85461 1-61,63-69
+scripts/patch-rolling-number.mjs
+  s_1f9e8743677ef7::t_6920a7ec3be223 1-7
+scripts/prepare-webfonts.mjs
+  s_1f9e8743677ef7::t_6aaad923d836ea 1-40
+scripts/pwa-worker.js
+  s_1f9e8743677ef7::t_cd51727705d256 1-8,10-79
+scripts/webfont-sources.json
+  s_1f9e8743677ef7::t_71c639b1089672 1-5
+src/archive-draw-coverage.ts
+  s_1f9e8743677ef7::t_b651d7375962ca 1-2,4-5,7-24,26-74
+src/archive-loop.ts
+  s_1f9e8743677ef7::t_ef410a8f3761ff 27,29,36,41
+src/archive-visibility.ts
+  s_1f9e8743677ef7::t_6f66ebc1d470e1 12-13,15-18,41,54
+src/asset-url.ts
+  s_1f9e8743677ef7::t_ea1f3365512532 1-7
+src/audio-settings.ts
+  s_1f9e8743677ef7::t_9ca5fa2f4ca9c9 6-7,11-13
+src/blog-client.ts
+  s_1f9e8743677ef7::t_44d578cd8d2a41 1-52
+src/blog-path.ts
+  s_1f9e8743677ef7::t_cfc1ab6de907dd 1-3
+src/blog.css
+  s_1f9e8743677ef7::t_eaea839a76b207 1-16
+src/boot-orbit-tracks.ts
+  s_1f9e8743677ef7::t_767e790d0b3953 7
+src/boot-tracks.ts
+  s_1f9e8743677ef7::t_959a7dd3573ab3 1
+src/boot.ts
+  s_1f9e8743677ef7::t_00c59631b0405d 118
+src/content.config.ts
+  s_1f9e8743677ef7::t_98f95adf9a9472 1-2,4,6-27,29
+src/data.ts
+  s_1f9e8743677ef7::t_4dcb5065b24e62 1-18,20-28,30-33,38,41-42
+src/env.d.ts
+  s_1f9e8743677ef7::t_b1cafccfc1bc41 1
+src/hud-projection.ts
+  s_1f9e8743677ef7::t_02a94570b38a8e 29-30,41,50,88-90,99-106,108-116
+src/inspection-overlay.ts
+  s_1f9e8743677ef7::t_e7f4b7b032de43 30,35,61
+src/instance-updates.ts
+  s_1f9e8743677ef7::t_9ecd2e38ffb1f2 1-35
+src/layouts/Terminal.astro
+  s_1f9e8743677ef7::t_396d08db91f472 1-5,7-91
+src/lib/blog.ts
+  s_1f9e8743677ef7::t_b5c7f408be2505 2,4-11,13
+src/main.ts
+  s_1f9e8743677ef7::t_70613843f6d219 16-18,35-46,63-65,73-76,78-80,83-84,87-89,91-94,96-98,101-103,105,113,123,125-131,158,169-177,179-186,188,190-191,196,210,219,272,289-291,294,297-298,304,307-315,366-371,376,384,402,406,413,453-455,464,469,478,484,487-490,492-500,510,517-548,557,560-561,564-565,568,573,580,583-585,587-588,590-591,593,596-625,639,646-647,652,656,658,661,684,687,694,698,708-710,717,719-721,724,742-750,753-755,759,763-764,767,769-787,792,795,797-800,803,835,837-855,866-876,881-888,902-908,917-923,944,950,967,969,975-976,985,1009,1012,1105-1106,1145,1152,1162-1165,1169,1172,1203-1204,1207,1212,1221,1224,1245,1251-1252,1269,1274,1280-1281,1286,1293,1295,1300,1307,1318-1319,1321-1333,1346,1350-1355,1373,1378,1385,1387-1390,1403,1406-1413,1440,1442,1485
+src/model-viewer.ts
+  s_1f9e8743677ef7::t_5e0f24cd498d05 14,17-18,21,25-27,71,75,103-104,107-109,111-113,115,127,189-211,235,256,284,287-293,298,308,358-359,363,398-400,427,439,441,457,578-579,593-594,600
+src/motion-preferences.ts
+  s_1f9e8743677ef7::t_1551ce6a8a56fa 1-211
+src/motion.ts
+  s_1f9e8743677ef7::t_203a44f52a9b6f 9-10
+src/pages/404.astro
+  s_1f9e8743677ef7::t_b5e4a192b4f289 2-3,5-6
+src/pages/[...feed].xml.ts
+  s_1f9e8743677ef7::t_6f6c3d070c7aa6 1-5
+src/pages/[...legacy].astro
+  s_1f9e8743677ef7::t_78cd21e04420d1 1-25
+src/pages/blog-search.json.ts
+  s_1f9e8743677ef7::t_019bf7007b65de 1-8
+src/pages/blog/[...slug].astro
+  s_1f9e8743677ef7::t_b58078a81cccc6 2-3,5,7,9
+src/pages/index.astro
+  s_1f9e8743677ef7::t_94a1037577f46e 2,4
+src/pages/manifest.webmanifest.ts
+  s_1f9e8743677ef7::t_c3c5bfd519758b 1-21
+src/pages/rss.xml.ts
+  s_1f9e8743677ef7::t_306dc0e13c6a85 1-18
+src/pwa.ts
+  s_1f9e8743677ef7::t_4691f1db68cb4c 26-36,93
+src/quality-settings.ts
+  s_1f9e8743677ef7::t_93aabdf9fdc094 3,12-13,15,50-51,53-54,58-59,62-63,69-70,76-77,83-84,86,95-96,98-101,107-108,111-112,119-130,140
+src/render-quality.ts
+  s_1f9e8743677ef7::t_4a7cb3c8b3b9d2 61-66
+src/render-state.ts
+  s_1f9e8743677ef7::t_86f206bbdfa9fe 1-24
+src/responsive.css
+  s_1f9e8743677ef7::t_f866d7cb337918 125-129,145-149,200-203
+src/scene.ts
+  s_1f9e8743677ef7::t_28e1e2c03d71a3 3-6,23,41,167,170-175,177-178,217,233-234,243,271-273,279,282-285,287-289,320,330,334,472-473,480-481,503,539,584,602-626,639,683,717,740,748,810-811,820-821,825,850,882,954,980,996-1000,1002,1050,1083-1084,1116,1127,1147,1212-1213,1218-1219,1224-1225,1250,1258-1259,1262-1263,1295,1333-1334,1357,1377-1385,1405,1423,1425-1427,1430,1441,1446,1455,1485,1644,1648-1651,1673-1674,1684-1687,1695,1702-1708,1710-1713,1719-1720,1762-1809,1834,1848-1849,1868,1909
+src/shared-depth.ts
+  s_1f9e8743677ef7::t_313dc22b55e8d7 1-4,6-8,10-65,68-95
+src/startup.ts
+  s_1f9e8743677ef7::t_eeb59273dbcd06 10,16-17,21-22,37-38,40,53-55,64-65,80-81,89-90
+src/style.css
+  s_1f9e8743677ef7::t_de0e93e7fe2413 631,831-833,968-970,981-990,1098,1190,1259-1264,1336-1337,1340-1341,1348-1454,1483,1577-1578,1696,1779-1781,2123-2124
+src/theme-motion.ts
+  s_1f9e8743677ef7::t_47e5d853746893 24-26
+src/theme-ui.ts
+  s_1f9e8743677ef7::t_397d7d07a56ce0 23
+src/theme.css
+  s_1f9e8743677ef7::t_941bc96386b5cc 30-35
+src/typing-samples.ts
+  s_1f9e8743677ef7::t_5a9adefe12b75b 1
+src/ui-transitions.ts
+  s_1f9e8743677ef7::t_e3afc23d6e83ea 104-108
+src/wallpaper-effects.css
+  s_1f9e8743677ef7::t_e6589ab5aa9d8e 47
+src/wallpaper-effects.ts
+  s_1f9e8743677ef7::t_bea773094e4cb7 55,71,74
+src/workbench.css
+  s_1f9e8743677ef7::t_36eb523da21f80 13
+src/workbench.ts
+  s_1f9e8743677ef7::t_2acec584fd6303 1,16-25,96,183,187,218
+tsconfig.json
+  s_1f9e8743677ef7::t_92a3867ee191ec 2-16
+vercel.json
+  s_1f9e8743677ef7::t_39ecf091f9e46d 1-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "bd7fc681cab82306d086efb3eab3bb154af62cd1",
+  "prompts": {},
+  "sessions": {
+    "s_1f9e8743677ef7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c39-1e1b-7d73-9bf2-5a0fc3f2b65d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
