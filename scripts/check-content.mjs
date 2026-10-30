@@ -17,6 +17,7 @@ import { postPath } from "../src/blog-path.ts";
 import { archiveTickWindow, recentRecords, visibleSavedCount, persistSaved, syncArticleMetadata, restoreArticleHash } from "../src/blog-client.ts";
 import { StartupGate } from "../src/startup.ts";
 import { normalizeUiLanguage, translateUiText } from "../src/ui-language.ts";
+import { MOTION_LABELS } from "../src/motion-preferences.ts";
 
 test("interface language selection validates stored values and preserves source content", () => {
   assert.equal(normalizeUiLanguage("ja"), "ja");
@@ -30,6 +31,19 @@ test("interface language selection validates stored values and preserves source 
   assert.equal(translateUiText("当前使用自定义动画（开场已跳过、文字滚动已关闭）。", "en"), "Custom animation (Startup skipped, Rolling text disabled).");
   assert.equal(translateUiText("选择档案 X-1149 原始标题", "en"), "Select archive X-1149 原始标题");
   assert.equal(translateUiText("原始文章中的普通文本", "en"), "原始文章中的普通文本");
+  assert.equal(translateUiText("ARCHIVE INDEX", "zh-CN"), "档案检索");
+  assert.equal(translateUiText("127 RECORDS FOUND", "zh-CN"), "找到 127 份档案");
+  assert.equal(translateUiText("RHINE LAB / ARCHIVE DIRECTORY", "ja"), "RHINE LAB / 資料目録");
+  assert.equal(translateUiText("点击切换画质预设", "en"), "Click to change Quality preset");
+  assert.equal(translateUiText("返回交互界面 ↗", "en"), "Back to interactive view ↗");
+  assert.equal(translateUiText(" / 更新 ", "en"), " / Updated ");
+  assert.equal(translateUiText("FILE X-1149 / INTERNAL DATABASE", "ja"), "資料 X-1149 / 内部データベース");
+  for (const item of Object.values(MOTION_LABELS)) {
+    for (const text of [item.title, item.description, item.group]) {
+      assert.doesNotMatch(translateUiText(text, "en"), /\p{Script=Han}/u);
+      assert.notEqual(translateUiText(text, "ja"), text);
+    }
+  }
 });
 
 const published = await loadContent();
