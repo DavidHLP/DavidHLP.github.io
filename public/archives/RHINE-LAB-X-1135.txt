@@ -7,7 +7,7 @@
 関連人物: DavidHLPL
 アクセス: 公開
 
-> **証拠の状態**：この記事は UltiCode の固定コミット f801a1076 のアーキテクチャ文書とソースに基づく。「Repository Implemented」はリポジトリに対応する設計と実装があることを示すだけで、本番検証を意味しない。
+> **証拠の状態**：この記事は UltiCode の固定コミット [f801a1076](https://github.com/DavidHLP/UltiCode/tree/f801a1076b2fa9aa06ce3d63821f0778b477042c) のアーキテクチャ文書とソースに基づく。「Repository Implemented」はリポジトリに対応する設計と実装があることを示すだけで、本番検証を意味しない。
 
 オンライン判定の submit API は単純に見える。ユーザーがコードを送り、システムが問題を見つけ、Judge に渡す。しかし「問題を見つけること」と「ユーザーが有効であることの確認」はサービス間の事実である。Submission が自分のデータベーストランザクション内で App、Auth、Contest を都度照会すると、書き込み経路がリモート呼び出し、権限判断、時系列の整合性まで引き受けることになる。
 
@@ -70,10 +70,10 @@ LLM tool call にも request 時点の事実が必要である。アクセス可
 
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
-- [UltiCode：オンラインジャッジプラットフォームのモジュール型アーキテクチャとドメイン境界](/blog/legacy/note/ja/ulticode/)
+- [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/)
 
 研究記録
 1. 元の文書: src/content/note/ja/ulticode-owner-and-facts.md

@@ -1,5 +1,5 @@
 ﻿RHINE LAB · 内部データベース
-資料 X-1020 / 知识库摄入收件箱
+資料 X-1020 / 知識庫 ingest 受信箱
 随筆
 
 部門: 随筆
@@ -7,49 +7,49 @@
 関連人物: DavidHLPL
 アクセス: 公開
 
-# 知识库摄入收件箱
+# 知識庫 ingest 受信箱
 
-这里记录待整理的候选来源和问题。收件箱不是知识页：条目完成 `ingest` 后，要么进入 `src/content/raw/zh-cn/` 并产生对应 wiki 页面，要么明确关闭并说明原因。
+整理前の候補出典と問いを記録する。知識頁ではない。`ingest` 完了後は `src/content/raw/zh-cn/` と wiki を作るか、理由を明記して閉じる。
 
-## 已完成摄入
+## 取り込み済み
 
-以下历史文章已经完成 raw → wiki → index → log 闭环：
+次の過去記事は raw → wiki → index → log を完了した。
 
-- Java 基础与后端调优：AtomicBoolean、AutoCloseable、NullValue、Java 线上性能排查、Java 后端实习面试复盘。
-- 系统运维与基础设施：containerd TLS、SSH 内网穿透、MySQL 性能排查。
-- OMP 与 Agent 工程：配置与规则、Hook 扩展、Headroom 单端口演进、Headroom 持久化恢复。
-- 架构与工程实践：终端插件生命周期、UISA 高可靠信息同步架构。
+- Java 基礎・調整：AtomicBoolean、AutoCloseable、NullValue、性能診断、バックエンド実習面接。
+- 運用・基盤：containerd TLS、SSH 内網接続、MySQL 性能。
+- OMP/Agent：設定・ルール、Hook、Headroom 単一 port と永続化復旧。
+- 構成・工学：端末 plugin 寿命、UISA 高信頼情報同期。
 
-### 2026-08-21 全量聚合摄入
+### 2026-08-21 全量集約
 
-- [x] `Personal-markdown-notes`（bbb2126，46 篇）与 `Fuwari`（07cee2b，61 篇）全部原文已按 10 主题聚合为 `ingest-*` 不可变 raw 与 10 个 `note` wiki 页，覆盖 Docker、HBase、Redis（业务/持久化/黑马）、Java 并发、Spring Cloud、Spark/大数据、MySQL、前指随笔。3 份完全重复与 1 份空文件已在 raw 中标注去重；图片相对路径已转义为链接以通过构建。
-- [x] Hindsight 记忆及其衍生结论仍需用可访问快照复核；本批未将其作为稳定概念写入（见 [Hindsight 实践](/blog/legacy/note/zh-cn/hindsight-local-deployment-and-agent-integration/)）。
+- [x] `Personal-markdown-notes`（bbb2126、46 件）と `Fuwari`（07cee2b、61 件）の全原文を十テーマの不変 `ingest-*` raw と十 `note` wiki へ集約。Docker、HBase、Redis 業務・永続化・Heima、Java 並行、Spring Cloud、Spark/大規模データ、MySQL、frontend 随筆を扱う。完全重複三件・空一件を raw に明記し、画像相対パスは build 用にリンク化・escape。
+- [x] Hindsight の記憶・派生結論は到達可能な snapshot で再確認が必要。この batch は安定概念に昇格させなかった（[実践](/blog/legacy/note/ja/hindsight-local-deployment-and-agent-integration/)）。
 
-详情见 [知识库目录](/blog/legacy/information/zh-cn/kb-index/)。
+[知識庫目次](/blog/legacy/information/ja/kb-index/) を参照。
 
-## 待摄入来源
+## 待機中の出典
 
-- [x] 个人项目 `ResiCache`（固定提交 `75ed279a`）与 `UltiCode`（固定提交 `3f14ac89`）的 README/CONTEXT 已完成 raw → entity 页闭环（正典见 zh-cn `/note/resicache` 与 `/note/ulticode`）；运行证据（压测、沙箱隔离强度、生产部署）仍待补充。
-- [ ] 为 OMP / Headroom 新版本配置收集官方文档或可复现实验，替换历史页面中的 provisional 结论。
+- [x] 個人 `ResiCache`（`75ed279a`）と `UltiCode`（`3f14ac89`）の README/CONTEXT は raw → entity 完了（[ResiCache](/blog/legacy/note/ja/resicache/)、[UltiCode](/blog/legacy/note/ja/ulticode/)）。負荷・sandbox 隔離強度・本番配置の実行証拠は未追加。
+- [ ] 新 OMP/Headroom 設定の公式文書・再現実験を集め、過去の provisional を置き換える。
 
-## 2026-08-12 会话候选分流
+## 2026-08-12 会話候補の振り分け
 
-- [x] Headroom 0.34 `/v1/compress` 与 `/v1/retrieve` 的字段、模式和真实端点验证已补充上游源码证据，并提升为正式知识页。
-- [ ] Hindsight 记忆及其衍生结论仍需用可访问的服务快照、上游源码或可重复实验逐条复核；当前只保留在受忽略的脱敏账本中。
-- [ ] 未匹配的 OMP、OpenCode、Codex 候选先按主题聚类；工作流提示、Agent 内部消息和工具轨迹不作为公开知识，不能批量复制进文章。
+- [x] Headroom 0.34 `/v1/compress`・`/v1/retrieve` の field、mode、実 endpoint 検証を upstream ソースで補強し正式知識頁へ。
+- [ ] Hindsight と派生結論を service snapshot、upstream、反復実験で項目ごとに確認。現時点は ignore 対象の脱敏台帳のみ。
+- [ ] 未分類 OMP/OpenCode/Codex はテーマ別にする。workflow prompt、内部 Agent 消息、tool trace は公開知識ではなく一括転記しない。
 
-## 待回答问题
+## 未回答の問い
 
-- [ ] 哪些排障步骤是个人经验，哪些可以被官方文档或可重复实验支持？
-- [ ] 哪些页面应该合并为共享概念，哪些应该保留为不同实体的局部实现？
-- [ ] 当新来源与旧 wiki 冲突时，应该废弃哪条声明，还是保留条件化结论？
+- [ ] どの障害対応が個人経験で、どれが公式・反復証拠を持つか。
+- [x] 共通概念へ統合する頁と entity 固有実装をどう分けるか。2026-08-21 監査では Redis 三頁（業務・永続化・Heima）は出典・視点が異なるため保持し `related` を相互化。Headroom/OMP 七頁も契約・変遷・共存・永続化で責務が異なり統合しない。series は八正典分類へ統合済み（kb-log 2026-08-21 maintenance）。
+- [ ] 新出典が旧 wiki と矛盾するとき、廃止か条件付き結論か。
 
-## 完成标准
+## 完了基準
 
-- 有 raw 来源 slug、来源 URL 或明确的内部证据。
-- wiki 页面声明 `kind`、`status`、`sources`。
-- `kb-index.md` 与 `kb-log.md` 已同步。
-- 原始来源没有被改写来迎合新结论。
+- raw slug、出典 URL、または明確な内部証拠がある。
+- wiki が `kind`、`status`、`sources` を宣言。
+- `kb-index.md`・`kb-log.md` が同期済み。
+- 新しい結論に合わせて原始出典を改変しない。
 
 研究記録
 1. 元の文書: src/content/jotting/ja/kb-ingest-todo.md

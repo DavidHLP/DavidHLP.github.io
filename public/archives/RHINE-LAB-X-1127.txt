@@ -125,14 +125,14 @@ register -> heartbeat -> persist(task_id) -> dispatch|queue
 
 ## 関連ページ
 
-- [プラグインライフサイクル管理](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
+- [プラグインライフサイクル管理](/blog/legacy/note/ja/plugin-lifecycle-management/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-uisa-architecture-design](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-uisa-architecture-design.md)
 - [legacy-plugin-lifecycle-management](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-plugin-lifecycle-management.md)
-- [百万端末のプラグインライフサイクル管理：状態・ハートビート・制御されたリリース](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
+- [百万端末のプラグインライフサイクル管理：状態・ハートビート・制御されたリリース](/blog/legacy/note/ja/plugin-lifecycle-management/)
 
 研究記録
 1. 元の文書: src/content/note/ja/uisa-architecture-design.md

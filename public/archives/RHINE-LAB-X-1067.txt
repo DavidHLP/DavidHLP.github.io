@@ -39,19 +39,19 @@ The 13 Spring Boot/Cloud notes in Fuwari form the main body of microservice note
 
 ## Related Pages
 
-- [dubbo-nacos-runtime](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
-- [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [microservice-data-ownership](/blog/legacy/note/zh-cn/microservice-data-ownership/)
-- [containerd-tls-troubleshooting](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
+- [dubbo-nacos-runtime](/blog/legacy/note/en/dubbo-nacos-runtime/)
+- [multi-service-readiness](/blog/legacy/note/en/multi-service-readiness/)
+- [microservice-data-ownership](/blog/legacy/note/en/microservice-data-ownership/)
+- [containerd-tls-troubleshooting](/blog/legacy/note/en/containerd-tls-troubleshooting/)
 
 
 ## Sources and related documents
 
 - [ingest-spring-cloud](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md)
-- [Dubbo + Nacos: Verify the Registration Name and group/version First, Then Run a Real Smoke Test](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
-- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [Microservice Data Ownership: Establish the Domain Owner First, Then Talk About Database Splitting and Migration](/blog/legacy/note/zh-cn/microservice-data-ownership/)
-- [containerd TLS: Choosing a Trusted Chain or Temporary Verification Bypass](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
+- [Dubbo + Nacos: Verify the Registration Name and group/version First, Then Run a Real Smoke Test](/blog/legacy/note/en/dubbo-nacos-runtime/)
+- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/en/multi-service-readiness/)
+- [Microservice Data Ownership: Establish the Domain Owner First, Then Talk About Database Splitting and Migration](/blog/legacy/note/en/microservice-data-ownership/)
+- [containerd TLS: Choosing a Trusted Chain or Temporary Verification Bypass](/blog/legacy/note/en/containerd-tls-troubleshooting/)
 
 Research notes
 1. Original document: src/content/note/en/spring-cloud-and-boot.md

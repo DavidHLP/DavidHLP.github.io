@@ -111,15 +111,17 @@ SHOW STATUS LIKE 'Created_tmp%';
 
 ## 関連ページ
 
-- [containerd TLS 信頼チェーン](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [SSH 内網アクセスの選択](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+- [containerd TLS 信頼チェーン](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
+- [SSH 内網アクセスの選択](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [legacy-mysql-performance-troubleshooting](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-mysql-performance-troubleshooting.md)
-- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-- [SSH 内網アクセス：接続方向・公開面・障害復旧](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
+- [SSH 内網アクセス：接続方向・公開面・障害復旧](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)
+- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/ja/database-schema-drift/)
+- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)
 
 研究記録
 1. 元の文書: src/content/note/ja/mysql-performance-troubleshooting.md

@@ -7,6 +7,12 @@ Collection: 2026-10-05
 Related people: DavidHLPL
 Access: Public
 
+## 2026-02-23
+
+- Personalized blog content
+- Java technical notes
+- Interview experience sharing
+
 ## 2025-11-29
 
 - OpenGraph image support
@@ -45,12 +51,12 @@ Access: Public
 ## 2025-01-02
 
 - Notes
-- Jottins
+- Jottings
 - Preface
 
 ## 2025-01-01
 
-- Welcome to Astro
+- Blog created
 
 Research notes
 1. Original document: src/content/information/en/chronicle.yaml

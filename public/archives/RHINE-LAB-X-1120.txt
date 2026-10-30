@@ -9,6 +9,84 @@
 
 **結論優先**：キャッシュチェーン、同期ロック、single-flight を持つ Java システムでは、完全な `execute`、ロック内の `executeChainFragment`、observer の per-call scope token は三つの異なる概念だ。around hook の状態は今回の呼び出しが返した token とペアにして復元しなければならない。fragment はノードを進めるだけで外側のライフサイクルを開き直さない。`ThreadLocal` は現在の実行スナップショットを分離するのにだけ適し、observer の状態機械にしてはならない。
 
+## 復盤案内：lock 内の続行で全チェーンを再実行してはいけない理由
+
+[ResiCache](/blog/legacy/note/ja/resicache/) の同期 lock handler は実行権を得て後続 node を続ける。外側の寿命が続く中で完全 `execute` を使うと、計時・context 復元をもう一組開き、後処理も重複し得る。
+
+これは**固定 commit の設計と再現可能な反例**であり、本番事故の主張ではない。
+
+- **帰属**：lock 後の続行は元の呼び出しで、新規要求ではない。
+- **選択**：fragment は node 能力を再利用し around/post-process を省く。状態は呼出 token。
+- **検証**：固定 source と次のモデルでイベント差を確認。実 Java/Redis/並行統合 test の代用ではない。
+
+### 直接確認できる実装証拠
+
+全リンクを `75ed279a71b17f227c3170d738eb93e50d876c8a` に固定する。
+
+| 問い | ソース |
+|---|---|
+| lock 内でどの入口を呼ぶか | [SyncLockHandler.java](https://github.com/DavidHLP/ResiCache/blob/75ed279a71b17f227c3170d738eb93e50d876c8a/src/main/java/io/github/davidhlp/spring/cache/redis/protection/breakdown/SyncLockHandler.java) |
+| fragment は lifecycle/後処理を省くか | [ChainEngine.java](https://github.com/DavidHLP/ResiCache/blob/75ed279a71b17f227c3170d738eb93e50d876c8a/src/main/java/io/github/davidhlp/spring/cache/redis/chain/ChainEngine.java) |
+| start/end の状態の受け渡し | [ChainObserver.java](https://github.com/DavidHLP/ResiCache/blob/75ed279a71b17f227c3170d738eb93e50d876c8a/src/main/java/io/github/davidhlp/spring/cache/redis/chain/observer/ChainObserver.java) |
+| 実 project test はどこか | [ChainEngineTest.java](https://github.com/DavidHLP/ResiCache/blob/75ed279a71b17f227c3170d738eb93e50d876c8a/src/test/java/io/github/davidhlp/spring/cache/redis/chain/ChainEngineTest.java) |
+
+### 最小実行可能な反例
+
+`lifecycle-check.mjs` として保存し `node lifecycle-check.mjs` を実行する。Node 標準 library のみで言語非依存の寿命モデルを表す。
+
+```js
+import assert from "node:assert/strict";
+
+const events = [];
+const started = [];
+const ended = [];
+
+async function execute(body) {
+  const token = {};
+  started.push(token);
+  events.push("start");
+  try {
+    const result = await body();
+    events.push("post");
+    return result;
+  } finally {
+    ended.push(token);
+    events.push("end");
+  }
+}
+
+async function fragment() {
+  events.push("node");
+  return "value";
+}
+
+assert.equal(await execute(fragment), "value");
+assert.deepEqual(events, ["start", "node", "post", "end"]);
+assert.equal(ended[0], started[0]);
+
+// lock 内の完全 execute は lifecycle と後処理を重複させる。
+events.length = 0;
+await execute(() => execute(fragment));
+assert.deepEqual(events, ["start", "start", "node", "post", "end", "post", "end"]);
+
+// 元例外を伝播し終了処理する。成功後処理は行わない。
+events.length = 0;
+const failure = new Error("handler failed");
+await assert.rejects(execute(() => { throw failure; }), (error) => error === failure);
+assert.deepEqual(events, ["start", "end"]);
+assert.equal(ended.at(-1), started.at(-1));
+
+// 重なる非同期呼出も各自の token で終了する。
+const offset = started.length;
+await Promise.all([execute(fragment), execute(fragment)]);
+assert.notEqual(started[offset], started[offset + 1]);
+assert.notEqual(ended[offset], ended[offset + 1]);
+assert.ok(ended.slice(offset).every((token) => started.slice(offset).includes(token)));
+console.log("PASS: fragment boundary, duplicate lifecycle counterexample, cleanup, token pairing");
+```
+
+**期待結果**：一行の `PASS`。誤例では `start/post/end` が二回、fragment は各一回。例外経路でも `end` を行い元例外を伝播する。モデルの契約であり、非同期の重なりも JVM multi-thread 検証ではない。実際には下の行列の thread 隔離、lock 失効、同 key 再入を確認し、性能・本番安定性は約束しない。
+
 ## 適用範囲
 
 このページは公開 ResiCache `main` の固定コミット `75ed279a71b17f227c3170d738eb93e50d876c8a` に基づき、次に当てはまる：
@@ -145,10 +223,11 @@ observer は「今回のチェーン実行がどのライフサイクルイベ�
 このページは公開固定コミット内の挙動だけを約束し、未公開のローカル変更を証拠としない。ソース事実と固定コミットは [ResiCache 公開固定コミット](https://github.com/DavidHLP/ResiCache/tree/75ed279a71b17f227c3170d738eb93e50d876c8a) を参照。脱感済み raw スナップショットはリポジトリの `src/content/raw/zh-cn/resicache-observer-nested-execution-contract.md` にある。
 
 
-## Sources and related documents
+## 出典と関連文書
 
 - [resicache-observer-nested-execution-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-observer-nested-execution-contract.md)
-- [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
+- [ResiCache：キャッシュ保護を検証可能な並行性・一貫性の境界にする](/blog/legacy/note/ja/resicache/)
+- [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/ja/redis-jackson-java-time/)
 
 研究記録
 1. 元の文書: src/content/note/ja/resicache-observer-nested-execution.md
