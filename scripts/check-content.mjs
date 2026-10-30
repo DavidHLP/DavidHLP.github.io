@@ -434,7 +434,7 @@ test("large archives retain article identity through coordinate rebasing", async
   const previousDocument = globalThis.document;
   try {
     const records = [108, 9, 11, 7, 13].flatMap((count, lane) => Array.from({ length: count }, (_, index) => ({
-      ...published.records[0], id: `X-${lane * 1000 + index + 5000}`, category: published.columns[lane],
+      ...published.records[0], id: `X-${lane * 1000 + index + 5000}`, slug: `large/${lane}-${index}`, category: published.columns[lane],
     })));
     globalThis.document = { getElementById() { return { textContent: JSON.stringify({ ...published, records }) }; } };
     const { fileLocation, fileAtSlot } = await import("../src/data.ts");
