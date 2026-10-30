@@ -1,43 +1,21 @@
-# build output
-/backups/
-.wrangler
-.vercel/
-dist/
-
-# generated types
-.astro/
-.vscode/count
-/worker-configuration.d.ts
-
-# dependencies
 node_modules/
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# lock files
-package-lock.json
-yarn.lock
-
-# TODO files
-todo*
-
-# environment variables
+backups/
+dist/
+.tools/
+*.mp4
+*.blend1
+optix7cache.db
+.worktrees/
+release/
+video/
+__pycache__/
+*.pyc
 .env
 .env.*
 !.env.example
-wrangler.toml
 
-# macOS-specific files
-.DS_Store
-
-# jetbrains setting folder
-.idea/
-.playwright-mcp
-
-# local agent state
-.agent/
-.auto-flow/
+# Individually licensed MyFonts kit; install locally, never publish to Git.
+public/fonts/novecento/
+.vercel/
+.wrangler/
+/.astro/

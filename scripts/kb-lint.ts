@@ -4,13 +4,15 @@ import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { basename, join, relative } from "node:path";
+import { parse } from "yaml";
 
 const root = process.cwd();
 const contentRoot = join(root, "src", "content");
 const rawRoot = join(contentRoot, "raw");
-const noteRoot = join(contentRoot, "note");
-const indexPath = join(contentRoot, "information", "zh-cn", "kb-index.md");
-const logPath = join(contentRoot, "information", "zh-cn", "kb-log.md");
+const publishedRoot = join(root, "content", "blog", "legacy");
+const noteRoot = join(publishedRoot, "note");
+const indexPath = join(publishedRoot, "information", "zh-cn", "kb-index.md");
+const logPath = join(publishedRoot, "information", "zh-cn", "kb-log.md");
 const manifestPath = join(rawRoot, ".manifest.sha256");
 const errors: string[] = [];
 
@@ -22,25 +24,24 @@ function markdownFiles(directory: string): string[] {
 	});
 }
 
-function frontmatter(path: string): string {
+function frontmatter(path: string): Record<string, unknown> {
 	const text = readFileSync(path, "utf8");
-	if (!text.startsWith("---")) return "";
+	if (!text.startsWith("---")) return {};
 	const end = text.indexOf("\n---", 3);
-	return end === -1 ? "" : text.slice(4, end);
+	if (end === -1) return {};
+	const data = parse(text.slice(4, end));
+	if (!data || typeof data !== "object" || Array.isArray(data)) throw new Error(`invalid wiki frontmatter: ${path}`);
+	return data;
 }
 
-function field(block: string, name: string): string | undefined {
-	return block
-		.split("\n")
-		.find(line => line.startsWith(`${name}:`))
-		?.slice(name.length + 1)
-		.trim();
+function field(block: Record<string, unknown>, name: string): string | undefined {
+	const value = block[name];
+	return typeof value === "string" ? value.trim() : undefined;
 }
 
-function listField(block: string, name: string): string[] {
-	const value = field(block, name);
-	if (!value) return [];
-	return [...value.matchAll(/["']([^"']+)["']/g)].map(match => match[1]);
+function listField(block: Record<string, unknown>, name: string): string[] {
+	const value = block[name];
+	return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
 }
 
 function sha256(path: string): string {

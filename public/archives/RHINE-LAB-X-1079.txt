@@ -1,0 +1,83 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-1079 / UltiCode: Modular Architecture and Domain Boundaries of an Online Judge Platform
+ENGINEERING NOTES
+
+科室：工程笔记
+编目范围：2026-08-20
+相关人物：DavidHLPL
+访问范围：PUBLIC
+
+> **Graduation conditions (3 verifiable checks)**:
+> 1. A minimal E2E experiment for the judging transaction (port/projection transaction rollback);
+> 2. Counterexamples and refactoring evidence when module owner boundaries are violated;
+> 3. Explicit statements and tests for Redis Streams consumption and concurrency boundaries.
+
+`UltiCode` is a full-stack online judge platform covering a problem bank, contests, community, achievements, and an administration console. The backend is a Java 17 + Spring Boot 3.2.5 Maven reactor with multiple modules (auth/admin/app/notification/judge/submission); the frontend consists of strict-mode Vue 3 + TypeScript Console and Management applications. This page describes the declared state of the public repository's fixed main commit `3f14ac89`; the repository is still converging architecturally, so the page is marked `provisional`.
+
+## Core Mechanism
+
+### Owner Split and Gateway
+
+- Each API gateway route has one owner: Auth :9101, Admin :9102, App :9103, Notification :9105, authenticated with JWT + Redis Session.
+- Submission is a compatibility owner seam (:9106 / Dubbo 20886 internally), in transition and without business HTTP; an independent Judge worker consumes Redis Streams.
+- Infrastructure: MySQL 9.1 (Flyway migrations), Redis 7, and Nacos 2.3.2 as the registry/configuration center (the runtime registration boundary is covered in [Dubbo + Nacos](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)).
+
+### Deep Port / Projection Module Pattern
+
+- **Port**: an interface owned by the consuming module and adapted by the providing module (dependency inversion), such as `ContestSubmissionPort`, `TokenBlacklistPort`, and `CurrentUserProvider`. `TokenBlacklistPort` exposes only the read side and fails closed: a Redis failure must not let a revoked token through.
+- **Projection**: each domain is a deep module that owns entity-to-VO projection and read-side aggregation (`ProblemProjection`, the `AdminXxxProjection` family), moving VO shaping out of orchestration services.
+- **Realtime push seam**: six consuming modules own push ports that invert the WebSocket path, removing the old `RealtimeService` god service.
+
+### Judging Transaction Invariants
+
+- Submission and ContestSubmission are recorded synchronously in the **same transaction** (D-04); post-contest scoring is event-driven through AFTER_COMMIT.
+- ContestSubmission is recorded only when the contest is RUNNING and the participant is STARTED (D-05/D-06); Accepted in a virtual contest does not trigger achievements (R6.3/F-08).
+- The contents of HIDDEN test cases must never be exposed to users (P0-1).
+
+## Applicability
+
+- Practice, contest, community, and administration scenarios that need a complete online-judge loop.
+- Teams willing to collaborate in a multi-module monorepo with private domain modules (`modules/`) and explicit port boundaries.
+
+## Inapplicability and Risks
+
+- The architecture documentation describes an ongoing convergence: the Submission compatibility seam and the Admin read-model seam still have “future phases”, so their interfaces may continue to change.
+- The original `wiki/concepts/` ADR layer was retired on 2026-07-09; the design rationale is scattered across commit messages and source Javadocs, increasing traceability cost.
+- README ports and versions describe development state and have not been validated in production deployment.
+
+## Minimal Verification
+
+1. Start the infrastructure with Docker Compose and run the `scripts/dev` initialization flow; confirm Nacos registration and gateway-route health (see the multi-service readiness gate in [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)).
+2. Submit one piece of code to validate the Submission → Judge outbox → verdict → AFTER_COMMIT scoring chain.
+3. Compare local schema with Flyway migration history to detect drift (method: [Database Schema Drift](/blog/legacy/note/zh-cn/database-schema-drift/)).
+
+## Evidence and Uncertainty
+
+- **Source facts**: The architecture diagram, owner split, domain vocabulary, and design invariants come from the README and CONTEXT.md at fixed commit `3f14ac89` (`ulticode-project-context`).
+- **Synthesis in this page**: The vocabulary is organized into three layers: “owner — seam — invariant”.
+- **Unconfirmed**: Unpublished refactoring in the local workspace, which is 25 commits ahead of `origin/main`, is excluded; sandbox D-form isolation strength, judging throughput, and leaderboard-rule correctness have not been independently reproduced.
+
+## Related Pages
+
+- [microservice-data-ownership](/blog/legacy/note/zh-cn/microservice-data-ownership/)
+- [dubbo-nacos-runtime](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
+- [jjwt-013-security-api](/blog/legacy/note/zh-cn/jjwt-013-security-api/)
+- [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
+- [database-schema-drift](/blog/legacy/note/zh-cn/database-schema-drift/)
+
+
+## Sources and related documents
+
+- [ulticode-project-context](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-project-context.md)
+- [Microservice Data Ownership: Establish the Domain Owner First, Then Talk About Database Splitting and Migration](/blog/legacy/note/zh-cn/microservice-data-ownership/)
+- [Dubbo + Nacos: Verify the Registration Name and group/version First, Then Run a Real Smoke Test](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
+- [JJWT 0.13.0: Explicitly Fixing the Signature Algorithm, Verifying by Key Type](/blog/legacy/note/zh-cn/jjwt-013-security-api/)
+- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/zh-cn/multi-service-readiness/)
+- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/zh-cn/database-schema-drift/)
+
+研究记录
+1. Original document: src/content/note/en/ulticode.md
+2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. Evidence status: provisional
+
+原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/ulticode.md
