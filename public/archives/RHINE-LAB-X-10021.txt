@@ -1,0 +1,18 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-10021 / R-SERIES PLATFORM
+R-SERIES PLATFORM
+
+Department: Engineering Section
+Collection: Collected records across periods
+Related people: Engineering Section
+Access: Reference material
+
+R-series powered armor appears in experimental facilities associated with Rhine Lab, where engineering equipment meets armed use directly. Starting from maintenance and operating conditions, this volume examines how complex equipment depends on cooperation and what new roles research results acquire after leaving the workbench.
+
+Research notes
+1. Distinguish equipment states during standby, maintenance and use.
+2. Observe operators, maintenance personnel and the device as an interconnected system.
+3. Record changes in use rather than explaining every later action through the original development goal.
+
+Reference: https://prts.wiki/w/R-31重型动力装甲
+This archive adaptation is based on publicly available setting material, not the game's original text.

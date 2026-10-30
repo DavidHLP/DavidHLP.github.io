@@ -1,0 +1,18 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-10007 / INSTRUMENT CALIBRATION
+INSTRUMENT CALIBRATION
+
+Department: Engineering Section
+Collection: Collected records across periods
+Related people: Mayer
+Access: Reference material
+
+Mayer prepared and tuned experimental equipment for a project involving Silence, and continues mechanical design at Lutra Workshop. Instruments turn researchers' ideas into measurable signals; errors in that process can be amplified by every calculation that follows.
+
+Research notes
+1. Preserve the correspondence between measurement references, equipment condition and raw readings.
+2. When handing over equipment, also explain its applicable conditions and maintenance.
+3. Local experience held by the people tuning equipment should become part of the project record.
+
+Reference: https://prts.wiki/w/梅尔
+This archive adaptation is based on publicly available setting material, not the game's original text.

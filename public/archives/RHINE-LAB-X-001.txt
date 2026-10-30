@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-001 / 莱茵生命
-RHINE LAB, LLC.
+﻿RHINE LAB · 内部数据库
+档案 X-001 / 莱茵生命
+莱茵生命
 
-科室：总辖构件科
-编目范围：跨期资料汇编
-相关人物：Kristen Wright / Saria
-访问范围：REFERENCE AREA
+科室: 总辖构件科
+编目范围: 跨期资料汇编
+相关人物: Kristen Wright / Saria
+访问范围: 参考资料
 
 莱茵生命从克丽斯腾与塞雷娅共同创办的研究室发展而来。这里聚集着研究生命、能源与未知技术的人，也承受着资金、权力和成果应用的压力。理解这家机构，需要同时阅读它的实验记录与研究者的选择。
 
@@ -14,5 +14,5 @@ RHINE LAB, LLC.
 2. 一项成果的技术价值，与它最终被怎样使用，需要分别讨论。
 3. 机构沿革与个人履历交叉编目，保留不同阶段的立场变化。
 
-设定参考：https://arknights.wiki.gg/wiki/Rhine_Lab
+设定参考: https://arknights.wiki.gg/wiki/Rhine_Lab
 本文为基于公开设定的档案式改写，非游戏原文。
