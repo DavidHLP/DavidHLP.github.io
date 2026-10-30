@@ -16,3 +16,5 @@ jobs:
       - run: npm run build:cloudflare
       - run: npm run check:content
       - run: npm run check:viewport
+      - run: npm run kb:lint
+      - run: npm run test:kb
