@@ -461,7 +461,8 @@ export function initUiLanguage() {
     if (!(select instanceof HTMLSelectElement) || !select.matches("[data-ui-language]")) return;
     language = normalizeUiLanguage(select.value);
     try { localStorage.setItem("rhine-language", language); } catch {}
-    const target = languageUrl(articles, location.href, language);
-    location.assign(target);
+    const target = new URL(languageUrl(articles, location.href, language), location.href);
+    if (document.documentElement.classList.contains("interactive")) target.searchParams.set("scene", "archive");
+    location.assign(target.href);
   });
 }
