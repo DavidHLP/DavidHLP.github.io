@@ -1,0 +1,26 @@
+docs/I18N.md
+  s_1f9e8743677ef7::t_95a62aaa4fc156 15-16
+content/blog/legacy/information/en/introduction.md
+  s_1f9e8743677ef7::t_d9cc2620da4aad 35,38,41,43,53,56,58-63,75-76,78,80-81,83-87,94-95,97,99-100,102-107,120,122-124,132,134-136,148,153,155-157,162,166,168,172-176
+content/blog/legacy/information/ja/introduction.md
+  s_1f9e8743677ef7::t_201f91a42c5d80 34-35,38-41,43,47,53,56,58-63,68,75-76,78,80-81,83-87,94-95,97,99-100,102-107,112,120,122-124,132,134-136,141,148,153,155-157,162,166,168,172-176
+scripts/check-content.mjs
+  s_1f9e8743677ef7::t_95a62aaa4fc156 64-65
+  s_1f9e8743677ef7::t_c955d244087afe 2,62-63,66-70,73,77-81,88-91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9e5a1f93305abcbf3bfcb6e9a80811e6f0852d1e",
+  "prompts": {},
+  "sessions": {
+    "s_1f9e8743677ef7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c39-1e1b-7d73-9bf2-5a0fc3f2b65d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
