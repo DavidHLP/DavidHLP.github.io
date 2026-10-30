@@ -53,6 +53,7 @@ test("interface language selection validates stored values and preserves source 
 const published = await loadContent();
 const content = published;
 test("translations retain canonical sections, examples, tables, references and evidence metadata", async () => {
+  // Migrated source URLs identify each language's immutable original snapshot.
   const sourceReference = record => record.legacy ? translationKey({ slug: record.source }) : record.source;
   const structure = async body => {
     const result = { heading: 0, code: 0, tableRow: 0, prose: "", references: new Set(), articles: new Set(), contracts: new Set(), codeTokens: new Set() };
@@ -99,7 +100,8 @@ test("translations retain canonical sections, examples, tables, references and e
   const startsProcess = await structure("~~~bash\nnode bridge.mjs\n~~~");
   assert.ok(syntaxCheck.contracts.has("check") && !startsProcess.codeTokens.has("check"));
   const indentedCheck = await structure("    node --check bridge.mjs\n");
-  assert.ok(indentedCheck.contracts.has("check") && !startsProcess.codeTokens.has("check"));
+  const unlabeledCheck = await structure("~~~\nnode --check bridge.mjs\n~~~");
+  assert.ok([indentedCheck, unlabeledCheck].every(example => example.contracts.has("check") && !startsProcess.codeTokens.has("check")));
   assert.equal(sourceReference({ legacy: {}, source: "https://example.com/v1/en/note.md" }), sourceReference({ legacy: {}, source: "https://example.com/v1/zh-cn/note.md" }));
   assert.notEqual(sourceReference({ legacy: {}, source: "https://example.com/v2/en/note.md" }), sourceReference({ legacy: {}, source: "https://example.com/v1/zh-cn/note.md" }));
   const failures = [];
