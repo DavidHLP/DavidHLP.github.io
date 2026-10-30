@@ -56,6 +56,7 @@ import { ArchivePlayground } from "./archive-playground";
 import { ARRAY_OPENING_END, openingShowsDetail } from "./wallpaper-opening";
 import { paintTheme, themeSettingsMarkup } from "./theme-ui";
 import { initUiLanguage, normalizeUiLanguage, translateUiText } from "./ui-language";
+import { restoredArchiveNavigation, translationKey } from "./content-language";
 let playground: ArchivePlayground | undefined;
 import { WallpaperEffects } from "./wallpaper-effects";
 import { WallpaperBackground } from "./wallpaper-background";
@@ -277,6 +278,24 @@ let resumeSelection = -1;
 let viewer: ModelViewer | undefined;
 const accessLog: { id: string; time: string }[] = [];
 const columnMemory = archiveColumns.map((_, lane) => columnFiles(lane)[0]);
+const languageNavigation = restoredArchiveNavigation(records, archiveColumns, reviewParams.get("navigation"));
+if (languageNavigation) {
+  selected = languageNavigation.selected;
+  columnMemory.splice(0, columnMemory.length, ...languageNavigation.columns);
+}
+if (reviewParams.has("navigation")) {
+  const url = new URL(location.href);
+  url.searchParams.delete("navigation");
+  history.replaceState(null, "", url.href);
+}
+document.addEventListener("rhine:languagechange", event => {
+  const { url } = (event as CustomEvent<{ url: URL }>).detail;
+  const lane = fileLocation(selected).lane;
+  url.searchParams.set("navigation", JSON.stringify({
+    selected: translationKey(records[selected]),
+    columns: columnMemory.map((index, column) => translationKey(records[column === lane ? selected : index])),
+  }));
+});
 function recordAccess() {
   accessLog.unshift({
     id: records[selected].id,
@@ -1323,7 +1342,8 @@ async function start() {
     if (scene) bindScene(scene);
     savePrefs();
     ready = true;
-    select(Math.max(0, records.findIndex(record => record.slug && postPath(record.slug) === location.pathname)));
+    const linked = records.findIndex(record => record.slug && postPath(record.slug) === location.pathname);
+    select(linked >= 0 ? linked : selected);
     if (entry) entry.ready();
     else {
       if (isWallpaper) {
