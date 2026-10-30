@@ -1,0 +1,31 @@
+content/blog/legacy/note/ja/hindsight-troubleshooting.md
+  s_1f9e8743677ef7::t_dc91b81f9efeda 155-156,165-166
+content/blog/legacy/note/en/omp-config-and-rules-guide.md
+  s_1f9e8743677ef7::t_228278d9762375 165
+scripts/check-content.mjs
+  s_1f9e8743677ef7::t_d0a6a5f5abd96c 59,62-68,99-101,108-110
+content/blog/legacy/note/ja/java-internship-interview-blog-polished.md
+  s_1f9e8743677ef7::t_695a75a34249ca 116
+content/blog/legacy/note/en/java-internship-interview-blog-polished.md
+  s_1f9e8743677ef7::t_514db3ec727d78 116
+content/blog/legacy/note/en/hindsight-troubleshooting.md
+  s_1f9e8743677ef7::t_edab874c3eb5b4 153-154,163-164
+content/blog/legacy/note/ja/omp-config-and-rules-guide.md
+  s_1f9e8743677ef7::t_f7fa279f36138f 86
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8b50a69d92fe6de9b0a82ccfd8775acaa58ad255",
+  "prompts": {},
+  "sessions": {
+    "s_1f9e8743677ef7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c39-1e1b-7d73-9bf2-5a0fc3f2b65d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
