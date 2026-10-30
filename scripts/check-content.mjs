@@ -54,8 +54,9 @@ const published = await loadContent();
 const content = published;
 test("translations retain canonical sections, examples, tables, references and evidence metadata", async () => {
   const structure = async body => {
-    const result = { heading: 0, code: 0, tableRow: 0, references: new Set(), articles: new Set() };
+    const result = { heading: 0, code: 0, tableRow: 0, prose: "", references: new Set(), articles: new Set() };
     const visit = node => {
+      if (node.type === "text") result.prose += node.value;
       if (node.type in result && typeof result[node.type] === "number") result[node.type]++;
       if (node.type === "link" || node.type === "image") {
         if (/^https?:/.test(node.url)) result.references.add(node.url);
@@ -76,6 +77,9 @@ test("translations retain canonical sections, examples, tables, references and e
     for (const lang of ["en", "ja"]) {
       const target = published.records.find(record => record.lang === lang && translationKey(record) === translationKey(canonical));
       const translated = await structure(target.body);
+      const visibleText = target.title + " " + target.abstract + " " + translated.prose;
+      if (lang === "en" && /\p{Script=Han}/u.test(visibleText)) failures.push(`${target.slug}: untranslated Chinese prose`);
+      if (lang === "ja" && !/[\u3040-\u30ff]/.test(visibleText)) failures.push(`${target.slug}: missing Japanese prose`);
       for (const key of ["heading", "code", "tableRow"]) {
         if (translated[key] < source[key]) failures.push(`${target.slug}: ${key} ${translated[key]} < canonical ${source[key]}`);
       }
