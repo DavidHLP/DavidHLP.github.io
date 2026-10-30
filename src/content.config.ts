@@ -1,85 +1,33 @@
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
 import { glob } from "astro/loaders";
-import { defineCollection, z } from "astro:content";
+import site from "../content/site.json";
 
-/**
- * Note collection configuration
- * Represents main blog articles with comprehensive metadata
- */
-const note = defineCollection({
-	// Load all markdown files except those starting with underscore (private/draft files)
-	loader: glob({ pattern: ["**/*.md", "!**/_*.md", "!**/_*/*.md"], base: "./src/content/note" }),
-	schema: z.object({
-		title: z.string(), // Post title (required)
-		timestamp: z.date(), // Publication date (required)
-		series: z.string().optional(), // Series name for grouped posts
-		kind: z.enum(["concept", "entity", "synthesis"]),
-		status: z.enum(["active", "provisional", "deprecated"]).default("provisional"),
-		sources: z.array(z.string()).min(1),
-		related: z.array(z.string()).default([]),
-		tags: z.array(z.string()).optional(), // Array of topic tags
-		description: z.string().optional(), // Post description/excerpt
-		sensitive: z.boolean().default(false), // Marks content as sensitive
-		toc: z.boolean().default(false), // Whether to show table of contents
-		top: z.number().int().nonnegative().default(0), // Top priority for sorting (higher is more important)
-		draft: z.boolean().default(false) // Draft status (excludes from public listing)
-	})
+const text = z.string().trim().min(1);
+const blog = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./content/blog", generateId: ({ entry }) => entry.replace(/\.md$/, "") }),
+  schema: z.object({
+    archiveId: text.regex(/^X-\d{3,}$/),
+    title: text,
+    en: text,
+    category: text.refine(value => site.columns.includes(value), "请选择配置中的五列分类"),
+    department: text,
+    date: text,
+    lead: text,
+    clearance: text,
+    abstract: text,
+    findings: z.array(text).min(1),
+    source: z.url().refine(value => /^https?:\/\//.test(value), "仅支持 HTTP(S)"),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    tags: z.array(text).default([]),
+    draft: z.boolean().default(false),
+    lang: z.enum(["zh-CN", "en", "ja"]).default("zh-CN"),
+    kind: z.enum(["concept", "entity", "synthesis"]).optional(),
+    status: z.enum(["active", "provisional", "deprecated"]).optional(),
+    sources: z.array(text).optional(),
+    related: z.array(text).optional(),
+    legacy: z.object({ path: text, revision: text, metadata: z.record(z.string(), z.unknown()) }).optional(),
+  }),
 });
-
-/**
- * Raw source collection
- * Represents immutable source snapshots used as evidence for wiki pages.
- */
-const raw = defineCollection({
-	loader: glob({ pattern: ["**/*.md", "!**/_*.md", "!**/_*/*.md"], base: "./src/content/raw" }),
-	schema: z.object({
-		title: z.string(),
-		capturedAt: z.date(),
-		sourceType: z.string(),
-		sourceUrl: z.string().url(),
-		immutable: z.literal(true).default(true),
-		tags: z.array(z.string()).optional(),
-		description: z.string().optional()
-	})
-});
-
-/**
- * Jotting collection configuration
- * Represents shorter posts, quick thoughts, or micro-blog entries
- */
-const jotting = defineCollection({
-	// Load all markdown files except those starting with underscore
-	loader: glob({ pattern: ["**/*.md", "!**/_*.md", "!**/_*/*.md"], base: "./src/content/jotting" }),
-	schema: z.object({
-		title: z.string(), // Jotting title (required)
-		timestamp: z.date(), // Publication date (required)
-		tags: z.array(z.string()).optional(), // Array of topic tags
-		description: z.string().optional(), // Brief description
-		sensitive: z.boolean().default(false), // Marks content as sensitive
-		top: z.number().int().nonnegative().default(0), // Top priority for sorting (higher is more important)
-		draft: z.boolean().default(false) // Draft status
-	})
-});
-
-/**
- * Preface collection configuration
- * Represents introductory content, site announcements, or special pages
- */
-const preface = defineCollection({
-	// Load all markdown files
-	loader: glob({ pattern: "**/*.md", base: "./src/content/preface" }),
-	schema: z.object({
-		timestamp: z.date(), // Creation timestamp
-		author: z.string().optional() // Quote author
-	})
-});
-
-/**
- * Information collection configuration
- * Represents static content like about pages, policies, or site information
- */
-const information = defineCollection({
-	// Load both markdown and YAML files for mixed content types
-	loader: glob({ pattern: "**/*.{md,mdx,yaml}", base: "./src/content/information" })
-});
-
-export const collections = { note, jotting, preface, information, raw };
+export const collections = { blog };

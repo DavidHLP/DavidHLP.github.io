@@ -1,0 +1,93 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import site from "../../content/site.json";
+import { getPosts, postPath } from "../lib/blog";
+import "../blog.css";
+
+interface Props { post?: CollectionEntry<"blog"> }
+const { post } = Astro.props;
+const posts = await getPosts();
+const rendered = post ? [{ entry: post, ...await render(post) }] : [];
+const records = posts.map(entry => ({ ...entry.data, id: entry.data.archiveId, slug: entry.id }));
+const payload = JSON.stringify({ records, categories: site.categories, columns: site.columns })
+  .replace(/</g, "\\u003c");
+const title = post ? `${post.data.title} · ${site.title}` : site.title;
+const description = post?.data.abstract ?? site.description;
+const canonical = new URL(post ? postPath(post.id) : "/", Astro.site);
+---
+<!doctype html>
+<html lang={post?.data.lang ?? "zh-CN"}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#e8e5e1" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content={site.title} />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="description" content={description} />
+    <meta name="author" content={post?.data.lead ?? site.author} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={post ? "article" : "website"} />
+    <meta property="og:url" content={canonical} />
+    {post && <meta property="article:published_time" content={post.data.pubDate.toISOString()} />}
+    {post?.data.updatedDate && <meta property="article:modified_time" content={post.data.updatedDate.toISOString()} />}
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body data-post={post?.id} data-site-title={site.title} data-site-description={site.description} data-site-author={site.author} data-site-url={Astro.site}>
+    <main id="viewport"><div id="stage"></div></main>
+    <div id="blog-static" class="blog-static">
+      <header><a href="/">{site.title}</a> <a id="blog-interactive-link" hidden>返回交互界面 ↗</a> <a href="/rss.xml">RSS ↗</a></header>
+      {post ? <article>
+        <div class="detail-kicker">FILE {post.data.archiveId} / {post.data.category}</div>
+        <h1>{post.data.title}</h1>
+        <p>{post.data.en}</p>
+        <p>发布 <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10)}</time>{post.data.updatedDate && <> / 更新 <time datetime={post.data.updatedDate.toISOString()}>{post.data.updatedDate.toISOString().slice(0, 10)}</time></>} / {post.data.lead}</p>
+        {rendered.map(({ Content }) => <Content />)}
+        <h2>研究记录</h2><ol>{post.data.findings.map(finding => <li>{finding}</li>)}</ol>
+        <p><a href={post.data.source} rel="noopener">{post.data.legacy ? "原文来源" : "设定参考"} ↗</a></p>
+      </article> : <section>
+        <h1>{site.title}</h1><p>{site.description}</p>
+        {site.columns.map(column => <section><h2>{column}</h2><ul>
+          {posts.filter(entry => entry.data.category === column).map(entry => <li>
+            <a href={postPath(entry.id)}>{entry.data.title}</a> — {entry.data.abstract}
+          </li>)}
+        </ul></section>)}
+      </section>}
+    </div>
+    {rendered.map(({ entry, Content }) => <template data-blog-body={entry.id}><Content /></template>)}
+    <script id="blog-data" type="application/json" is:inline set:html={payload}></script>
+    <script>
+      import { renderDiagrams } from "../diagrams";
+      const staticRoot = document.querySelector<HTMLElement>("#blog-static")!;
+      const interactiveLink = document.querySelector<HTMLAnchorElement>("#blog-interactive-link")!;
+      const staticIds = [...staticRoot.querySelectorAll<HTMLElement>("[id]")].map(node => ({ node, id: node.id }));
+      function showStatic() {
+        void renderDiagrams(staticRoot).catch(console.error);
+        document.documentElement.classList.remove("interactive");
+        staticRoot.removeAttribute("aria-hidden");
+        staticIds.forEach(({ node, id }) => { node.id = id; });
+        const interactiveUrl = new URL(location.href);
+        interactiveUrl.searchParams.delete("view");
+        interactiveLink.href = interactiveUrl.href;
+        interactiveLink.hidden = false;
+        staticRoot.querySelectorAll<HTMLAnchorElement>("a[href]").forEach(link => {
+          if (link === interactiveLink) return;
+          const url = new URL(link.href);
+          if (url.origin === location.origin && (url.pathname === "/" || url.pathname.startsWith("/blog/"))) {
+            url.searchParams.set("view", "static");
+            link.href = url.href;
+          }
+        });
+      }
+      if (new URLSearchParams(location.search).get("view") === "static") showStatic();
+      else void import("../main").catch(error => { console.error(error); showStatic(); });
+    </script>
+  </body>
+</html>

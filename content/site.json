@@ -1,0 +1,20 @@
+{
+  "title": "DavidHLPL · RHINE LAB",
+  "description": "DavidHLPL 的个人 AI 知识库，使用 LLM 持续整理可追溯的技术与工程知识",
+  "site": "https://davidhlp.github.io",
+  "author": "DavidHLPL",
+  "categories": [
+    "后端工程",
+    "系统运维",
+    "AI 工具",
+    "项目实践",
+    "站点随笔"
+  ],
+  "columns": [
+    "后端工程",
+    "系统运维",
+    "AI 工具",
+    "项目实践",
+    "站点随笔"
+  ]
+}

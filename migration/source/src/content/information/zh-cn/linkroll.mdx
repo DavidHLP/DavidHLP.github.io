@@ -1,0 +1,49 @@
+import Linkroll from "$components/Linkroll.astro";
+
+export const links = [
+	{
+		title: "Astro",
+		url: "https://astro.build/",
+		image: "https://astro.build/favicon.svg",
+		description: "面向内容驱动型网站的现代 Web 框架。",
+		type: "resources"
+	},
+	{
+		title: "Svelte",
+		url: "https://svelte.dev/",
+		image: "https://svelte.dev/favicon.png",
+		description: "编译时框架，写更少的代码做更多的事。",
+		type: "technology"
+	},
+	{
+		title: "TypeScript",
+		url: "https://www.typescriptlang.org/",
+		image: "https://www.typescriptlang.org/favicon-32x32.png",
+		description: "带类型语法的 JavaScript 超集。",
+		type: "technology"
+	},
+	{
+		title: "MDN Web Docs",
+		url: "https://developer.mozilla.org/",
+		image: "https://developer.mozilla.org/favicon-48x48.png",
+		description: "Web 平台权威文档与学习资源。",
+		type: "expertise"
+	},
+	{
+		title: "GitHub",
+		url: "https://github.com",
+		image: "https://github.githubassets.com/favicons/favicon.svg",
+		description: "全球最大的开源协作平台。",
+		type: "insights"
+	}
+];
+
+主题**未提供**外站链接展示的在线申请接口，建议各位站长手动管理自己的链接列表。
+
+笔者鼓励每位站长将外站链接视为一种真实而有价值的推荐，收录自己**真正欣赏、常读或愿意分享**的站点。
+
+<Linkroll locale={props.locale} links={links} />
+
+比起出于交换或纯 SEO 目的随意堆砌互链，笔者更希望每一个链接都是**内容共鸣**与**价值认同**的体现，并能以此构建起一个充满个性与温度的站点网络。
+
+如果您决定展示外站链接，不妨将其作为站点风格的延伸，使其与内容融为一体，成为值得信赖的一部分。

@@ -1,0 +1,16 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-1200 / Donald Knuth · 2026-01-01-00-00-00
+PREFACE
+
+科室：序文
+编目范围：2026-01-01
+相关人物：Donald Knuth
+访问范围：PUBLIC
+
+"过早优化是万恶之源。"
+
+研究记录
+1. Original document: src/content/preface/zh-cn/2026-01-01-00-00-00.md
+2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+
+原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/preface/zh-cn/2026-01-01-00-00-00.md

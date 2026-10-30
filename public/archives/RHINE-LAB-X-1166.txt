@@ -1,0 +1,55 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-1166 / MySQL 存储引擎与死锁检测
+ENGINEERING NOTES
+
+科室：工程笔记
+编目范围：2026-08-20
+相关人物：DavidHLPL
+访问范围：PUBLIC
+
+MySQL 3 篇原文以存储引擎与死锁为主：`存储引擎.md`、`基础面试题.md` 与 `checkmysqldeadlock.md`。本页区分引擎能力与排障路径。
+
+## 核心机制
+
+- **存储引擎**：InnoDB（行锁、MVCC、崩溃恢复）vs MyISAM（表锁、无事务）；原文含存储引擎对比图。
+- **死锁检测**：`checkmysqldeadlock.md` 给出 `SHOW ENGINE INNODB STATUS`、`information_schema` 与 `performance_schema` 的排查步骤。
+
+## 适用条件
+
+- 事务与并发写用 InnoDB；只读归档可评估 MyISAM/Archive。
+
+## 不适用与风险
+
+- MySQL 版本（5.7 vs 8.0）差异大，死锁日志格式与参数有漂移。
+
+## 最小验证
+
+1. 建表指定引擎，对比锁与事务行为。
+2. 造交叉加锁死锁，取 `INNODB STATUS` 复盘。
+
+## 证据与不确定性
+
+- **来源事实**：`ingest-mysql-storage` 收录 3 篇原文。
+- **本页综合**：把引擎选型与死锁收敛为最小判断。
+- **未确认项**：MySQL 版本、参数与线上配置需复核。
+
+## 相关页面
+
+- [mysql-performance-troubleshooting](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
+- [database-schema-drift](/blog/legacy/note/zh-cn/database-schema-drift/)
+- [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
+
+
+## 来源与关联文档
+
+- [ingest-mysql-storage](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-mysql-storage.md)
+- [MySQL 性能排查：现象→指标→定位层→安全缓解](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
+- [数据库 Schema 漂移：用 history、schema 与 query 三视图定位](/blog/legacy/note/zh-cn/database-schema-drift/)
+- [多服务启动就绪：running、ready 与依赖/失败/重启传播](/blog/legacy/note/zh-cn/multi-service-readiness/)
+
+研究记录
+1. Original document: src/content/note/zh-cn/mysql-storage-and-deadlock.md
+2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. Evidence status: active
+
+原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/mysql-storage-and-deadlock.md
