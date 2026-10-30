@@ -12,7 +12,6 @@ export interface ArchiveRecord {
   abstract: string;
   findings: string[];
   source: string;
-  legacy?: { path: string };
   slug?: string;
   body?: string;
   tags?: string[];
