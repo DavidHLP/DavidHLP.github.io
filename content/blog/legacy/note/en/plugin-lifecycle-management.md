@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-06-01",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "A control-plane model for making plugin install, upgrade, uninstall, and rule delivery converge safely through a desired/current/ack/failure state machine, merged heartbeats, idempotent dispatch, canary circuit breakers, and explicit source assumptions about scale and endpoint capabilities.",
   "findings": [
     "Original document: src/content/note/en/plugin-lifecycle-management.md",
@@ -25,7 +25,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/plugin-lifecycle-management.md",

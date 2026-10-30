@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "提炼 UltiCode 如何将 zero-infra static contract、分层验证、Trivy、SBOM、provenance 与 Cosign 组织成可追溯的交付门禁。",
   "findings": [
-    "Original document: src/content/note/zh-cn/ulticode-ci-supply-chain.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/ulticode-ci-supply-chain.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode-ci-supply-chain.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

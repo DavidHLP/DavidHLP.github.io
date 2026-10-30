@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-20",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Condenses 200+ pages of course material into a checklist, flagging version and experimental gaps.",
   "findings": [
     "Original document: src/content/note/en/redis-heima-practice.md",
@@ -25,7 +25,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/redis-heima-practice.md",

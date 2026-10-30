@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-08-20",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "サービス検出を起点に呼び出しチェーンの契約を蒸留。",
   "findings": [
-    "Original document: src/content/note/ja/spring-cloud-and-boot.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/spring-cloud-and-boot.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/spring-cloud-and-boot.md",
   "pubDate": "2026-08-20T16:00:00.000Z",
@@ -26,7 +26,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/spring-cloud-and-boot.md",

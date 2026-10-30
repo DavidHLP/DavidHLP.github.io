@@ -10,8 +10,8 @@
   "clearance": "PUBLIC",
   "abstract": "賀恋棚 (が れんほう) · src/content/information/ja/introduction.md",
   "findings": [
-    "Original document: src/content/information/ja/introduction.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64"
+    "元の文書: src/content/information/ja/introduction.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/ja/introduction.md",
   "pubDate": "2026-10-05T05:34:00.000Z",

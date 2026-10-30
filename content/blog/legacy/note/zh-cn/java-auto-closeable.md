@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "从资源所有权出发解释 AutoCloseable 与 try-with-resources 的关闭顺序、主异常和 suppressed 异常语义，并划定 close 幂等与失败处理边界。",
   "findings": [
-    "Original document: src/content/note/zh-cn/java-auto-closeable.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/java-auto-closeable.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-auto-closeable.md",
   "pubDate": "2025-10-07T12:25:00.000Z",

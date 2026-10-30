@@ -1,6 +1,7 @@
 import artwork from "./boot-lettering-art.json";
 import "./boot-lettering.css";
 import { assetUrl } from "./asset-url";
+import { currentUiLanguage, translatedBootText } from "./ui-language";
 
 declare const __RHINE_NOVECENTO__: boolean;
 const letterings = new Set<BootLettering>();
@@ -94,8 +95,10 @@ export class BootLettering {
   setText(value: string) {
     if (this.value === value) return;
     this.value = value;
-    this.label.textContent = value;
-    const active = value ? this.phrases.find((p) => p.text.startsWith(value)) : undefined;
+    const source = value ? this.phrases.find(p => p.text.startsWith(value)) : undefined;
+    const rendered = source ? translatedBootText(value, source.text, currentUiLanguage()) : value;
+    this.label.textContent = rendered;
+    const active = rendered === value ? source : undefined;
     // A new, unauthored phrase remains readable until its artwork is exported.
     this.host.classList.toggle("boot-lettering-fallback", Boolean(value && !active));
     for (const phrase of this.phrases) {

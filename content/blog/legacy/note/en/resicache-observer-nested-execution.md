@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Distills from a public ResiCache fixed commit the boundaries of the observer lifecycle, lock-held fragments, per-call scope tokens, and ThreadLocal snapshot isolation, to avoid nested execution re-firing hooks or polluting concurrent state.",
   "findings": [
     "Original document: src/content/note/en/resicache-observer-nested-execution.md",
@@ -27,7 +27,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/resicache-observer-nested-execution.md",

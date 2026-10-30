@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2025-10-07",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Explains when an atomic boolean state is needed, how compareAndSet combines checking with transition, and where CAS stops helping with multi-field invariants, contention, and coordination.",
   "findings": [
     "Original document: src/content/note/en/java-atomic-boolean.md",
@@ -25,7 +25,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/java-atomic-boolean.md",

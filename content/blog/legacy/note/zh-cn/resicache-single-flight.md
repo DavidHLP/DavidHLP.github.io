@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "从 ResiCache 的加载路径分析 single-flight、分布式锁、double-check 和失败结果建模分别解决什么问题，以及它们不能保证什么。",
   "findings": [
-    "Original document: src/content/note/zh-cn/resicache-single-flight.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/resicache-single-flight.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/resicache-single-flight.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

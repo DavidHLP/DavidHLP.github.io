@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-06-01",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "desired/current/ack/failure 状態機械を中心に、マージハートビート、冪等ディスパッチ、カナリアとサーキットブレーカ、障害復旧を一つの制御プレーンとして捉える。百万級の規模と端末能力の差はソースにある設計仮定として扱う。",
   "findings": [
-    "Original document: src/content/note/ja/plugin-lifecycle-management.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/plugin-lifecycle-management.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/plugin-lifecycle-management.md",
   "pubDate": "2026-06-01T16:00:00.000Z",
@@ -25,7 +25,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/plugin-lifecycle-management.md",

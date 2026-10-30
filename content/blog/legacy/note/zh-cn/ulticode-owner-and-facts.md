@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "从 UltiCode 的 owner 划分和 SubmissionFactsSnapshot 出发，说明跨服务写入如何把事实来源、捕获时间和 schema 版本变成显式契约。",
   "findings": [
-    "Original document: src/content/note/zh-cn/ulticode-owner-and-facts.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/ulticode-owner-and-facts.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode-owner-and-facts.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

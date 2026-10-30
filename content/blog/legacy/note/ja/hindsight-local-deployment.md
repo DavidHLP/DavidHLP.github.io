@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "Vectorize Hindsight 記憶ハブのローカル計算資源分担（AMD GPU 推論 + CPU Embedding）、UID 1000 の権限モデル、Docker Compose によるコンテナオーケストレーションを記録する。",
   "findings": [
-    "Original document: src/content/note/ja/hindsight-local-deployment.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/hindsight-local-deployment.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/hindsight-local-deployment.md",
   "pubDate": "2026-08-22T16:00:00.000Z",

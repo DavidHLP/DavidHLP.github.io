@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "MCP 2026-07-28 modern 逐请求 _meta 与 legacy initialize 握手的边界及错误码，以及 codebase-memory-mcp v0.10.2 的图搜索工作流：图结果不等于完整性证明，负面结论必须回到 coverage 与源码。",
   "findings": [
-    "Original document: src/content/note/zh-cn/mcp-codebase-memory-workflow.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/mcp-codebase-memory-workflow.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/mcp-codebase-memory-workflow.md",
   "pubDate": "2026-08-12T16:00:00.000Z",

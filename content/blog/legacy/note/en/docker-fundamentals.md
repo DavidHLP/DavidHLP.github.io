@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-20",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Distills Docker image layers, common commands, volumes, networking, and Compose suitability and boundaries.",
   "findings": [
     "Original document: src/content/note/en/docker-fundamentals.md",
@@ -26,7 +26,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/docker-fundamentals.md",

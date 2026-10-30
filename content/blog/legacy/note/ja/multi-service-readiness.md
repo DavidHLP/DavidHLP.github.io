@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "一つの決定表でマルチサービスオーケストレーションにおけるプロセス起動、業務レディネス、順序付け、依存確立、失敗と再起動の伝播という六つの概念を区別し、Compose の healthcheck/depends_on と systemd の After/Wants/Requires の最小組み合わせと検証経路を示す。",
   "findings": [
-    "Original document: src/content/note/ja/multi-service-readiness.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/multi-service-readiness.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/multi-service-readiness.md",
   "pubDate": "2026-08-12T16:00:00.000Z",
@@ -26,7 +26,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/multi-service-readiness.md",

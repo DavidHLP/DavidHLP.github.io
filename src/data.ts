@@ -1,3 +1,7 @@
+import labels from "../content/locales.json" with { type: "json" };
+import { contentLabel, localizedArticles, translationKey } from "./content-language.ts";
+import { currentUiLanguage } from "./ui-language.ts";
+
 export interface ArchiveRecord {
   id: string;
   title: string;
@@ -17,13 +21,23 @@ export interface ArchiveRecord {
   body?: string;
   tags?: string[];
   lang?: string;
+  translationKey?: string;
 }
 
 // Astro supplies the published Markdown collection before the client starts.
 const content = JSON.parse(document.getElementById("blog-data")!.textContent!);
-export const records: ArchiveRecord[] = content.records;
-export const categories: string[] = ["全部档案", ...content.categories];
-export const archiveColumns: string[] = content.columns;
+const language = currentUiLanguage();
+export const localizedContentLabel = (value: string) => contentLabel(value, language, labels);
+const localize = localizedContentLabel;
+export const records: ArchiveRecord[] = localizedArticles<ArchiveRecord>(content.records, language).map(record => ({
+  ...record, category: localize(record.category), department: localize(record.department), date: localize(record.date), en: localize(record.en), tags: record.tags?.map(localize),
+}));
+export const categories: string[] = ["全部档案", ...content.categories.map(localize)];
+export const archiveColumns: string[] = content.columns.map(localize);
+export function savedIdForLanguage(id: string) {
+  const original = (content.records as ArchiveRecord[]).find(record => record.id === id);
+  return original ? records.find(record => translationKey(record) === translationKey(original))?.id ?? id : id;
+}
 // Article identity must not overflow into the next lane when a column grows.
 const slotStride = Math.max(32, ...archiveColumns.map((_, lane) => columnFiles(lane).length + 12));
 

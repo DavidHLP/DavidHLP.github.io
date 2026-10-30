@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "从 UltiCode 的 D-form 执行路径提炼 Docker 资源/安全参数、seccomp fail-closed 和用户错误与基础设施错误分类。",
   "findings": [
-    "Original document: src/content/note/zh-cn/ulticode-docker-sandbox.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/ulticode-docker-sandbox.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode-docker-sandbox.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

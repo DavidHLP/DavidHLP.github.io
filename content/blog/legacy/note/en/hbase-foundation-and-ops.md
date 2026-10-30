@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-20",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Converges logical/physical models, architecture, table design, and operational tooling; clarifies trade-offs vs RDBMS.",
   "findings": [
     "Original document: src/content/note/en/hbase-foundation-and-ops.md",
@@ -26,7 +26,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/hbase-foundation-and-ops.md",

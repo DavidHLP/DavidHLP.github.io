@@ -18,7 +18,8 @@ import { escapeHtml } from "../src/html.ts";
 import { postPath } from "../src/blog-path.ts";
 import { archiveTickWindow, recentRecords, visibleSavedCount, persistSaved, syncArticleMetadata, restoreArticleHash } from "../src/blog-client.ts";
 import { StartupGate } from "../src/startup.ts";
-import { normalizeUiLanguage, translateUiText } from "../src/ui-language.ts";
+import { normalizeUiLanguage, translateUiText, translatedBootText } from "../src/ui-language.ts";
+import { localizedArticles, languageUrl, translationKey, validateTranslations } from "../src/content-language.ts";
 import { MOTION_LABELS } from "../src/motion-preferences.ts";
 
 test("interface language selection validates stored values and preserves source content", () => {
@@ -78,6 +79,28 @@ test("knowledge validation checks editable wiki sources and index rather than ar
   } finally {
     await rm(root, { recursive: true, force: true });
   }
+});
+test("every article has all three languages and switching keeps the same logical article", () => {
+  validateTranslations(published.records);
+  const chinese = localizedArticles(published.records, "zh-CN");
+  for (const language of ["en", "ja"]) {
+    const localized = localizedArticles(published.records, language);
+    assert.equal(localized.length, chinese.length);
+    assert.deepEqual(localized.map(translationKey), chinese.map(translationKey));
+    assert.ok(localized.every(record => record.lang === language));
+    for (const record of chinese) {
+      const url = languageUrl(published.records, `https://example.com/blog/${record.slug}/?view=static&scene=archive#chapter`, language);
+      const target = localized.find(item => translationKey(item) === translationKey(record));
+      assert.ok(url.startsWith(postPath(target.slug)));
+      assert.ok(url.includes("view=static") && url.includes("scene=archive") && url.includes(`lang=${language}`));
+      assert.ok(!url.includes("#chapter"));
+    }
+  }
+  assert.throws(() => validateTranslations(published.records.filter(record => record.lang !== "en")), /Missing/);
+  assert.throws(() => validateTranslations([...published.records, published.records[0]]), /Duplicate/);
+  assert.equal(translatedBootText("REQUEST RECEIVED", "REQUEST RECEIVED", "ja"), "リクエスト受信済み");
+  const partial = translatedBootText("REQUEST", "REQUEST RECEIVED", "ja");
+  assert.ok("リクエスト受信済み".startsWith(partial) && partial.length > 0 && partial.length < 9);
 });
 test("all migrated downloads match the Markdown content, including the UTF-8 BOM", async () => {
   for (const record of published.records) {
@@ -440,7 +463,7 @@ test("large archives retain article identity through coordinate rebasing", async
   const previousDocument = globalThis.document;
   try {
     const records = [108, 9, 11, 7, 13].flatMap((count, lane) => Array.from({ length: count }, (_, index) => ({
-      ...published.records[0], id: `X-${lane * 1000 + index + 5000}`, category: published.columns[lane],
+      ...published.records[0], id: `X-${lane * 1000 + index + 5000}`, slug: `large/${lane}-${index}`, category: published.columns[lane],
     })));
     globalThis.document = { getElementById() { return { textContent: JSON.stringify({ ...published, records }) }; } };
     const { fileLocation, fileAtSlot } = await import("../src/data.ts");

@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "公開 ResiCache の固定コミットから、observer ライフサイクル、ロック内 fragment、per-call scope token、ThreadLocal スナップショット分離の境界を抽出し、ネスト実行での hook の二重発火や並行状態の汚染を避ける。",
   "findings": [
-    "Original document: src/content/note/ja/resicache-observer-nested-execution.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/resicache-observer-nested-execution.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/resicache-observer-nested-execution.md",
   "pubDate": "2026-08-12T16:00:00.000Z",
@@ -27,7 +27,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/resicache-observer-nested-execution.md",

@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "The boundary and error codes between the MCP 2026-07-28 modern per-request _meta and the legacy initialize handshake, plus the codebase-memory-mcp v0.10.2 graph-search workflow: graph results are not a completeness proof, and negative conclusions must return to coverage and source code.",
   "findings": [
     "Original document: src/content/note/en/mcp-codebase-memory-workflow.md",
@@ -26,7 +26,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/mcp-codebase-memory-workflow.md",

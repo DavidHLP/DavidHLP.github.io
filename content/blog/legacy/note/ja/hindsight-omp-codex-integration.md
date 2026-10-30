@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "OMP と Codex が Hindsight メモリへ統合アクセスするための FastMCP stdio ブリッジ状態機械、Git ルート適応型の動的 Bank ルーティング、両クライアントの設定規約を解説する。",
   "findings": [
-    "Original document: src/content/note/ja/hindsight-omp-codex-integration.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/hindsight-omp-codex-integration.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/hindsight-omp-codex-integration.md",
   "pubDate": "2026-08-22T16:00:00.000Z",

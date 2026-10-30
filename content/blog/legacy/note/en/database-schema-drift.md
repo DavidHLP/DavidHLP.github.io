@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Explains why Flyway validate cannot replace an actual Schema check, and uses the three views of migration history, actual schema, and application query to distinguish checksum drift, external DDL, Unknown column, and residue from a failed migration.",
   "findings": [
     "Original document: src/content/note/en/database-schema-drift.md",
@@ -26,7 +26,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/database-schema-drift.md",

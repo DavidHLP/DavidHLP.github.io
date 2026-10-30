@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "把一套数据库笔试题复盘为可验证的判断链：先分清 SQL 语义与方言，再处理 NULL、重复与空结果，最后把 Kettle 和超大表操作落到分片、恢复、对账与风险控制。",
   "findings": [
-    "Original document: src/content/note/zh-cn/database-written-test-review.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/database-written-test-review.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/database-written-test-review.md",
   "pubDate": "2026-09-12T16:00:00.000Z",

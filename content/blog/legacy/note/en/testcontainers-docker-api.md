@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Explains how Testcontainers 1.20.6 falls back to 1.32 for an unknown Docker API version, why DOCKER_API_VERSION should not borrow Docker CLI experience, and how to distinguish version incompatibility from a missing Docker environment starting from the earliest 400 error.",
   "findings": [
     "Original document: src/content/note/en/testcontainers-docker-api.md",
@@ -26,7 +26,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/testcontainers-docker-api.md",

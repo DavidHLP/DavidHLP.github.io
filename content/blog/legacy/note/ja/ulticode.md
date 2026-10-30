@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "固定コミットの README/CONTEXT を証拠として、UltiCode の owner 分割、port/projection による深いモジュール構造、ジャッジトランザクション不変条件、移行期の互換 seam を整理し、アーキテクチャ収束中の不確実性を明示する。",
   "findings": [
-    "Original document: src/content/note/ja/ulticode.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "元の文書: src/content/note/ja/ulticode.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode.md",
   "pubDate": "2026-08-20T16:00:00.000Z",

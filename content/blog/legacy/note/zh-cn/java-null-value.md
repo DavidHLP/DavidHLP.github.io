@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "说明缓存层为什么需要区分 key 不存在与业务 null，NullValue 如何作为占位对象防御缓存穿透，以及单例和序列化在边界上的限制。",
   "findings": [
-    "Original document: src/content/note/zh-cn/java-null-value.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/java-null-value.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-null-value.md",
   "pubDate": "2025-10-07T13:43:00.000Z",

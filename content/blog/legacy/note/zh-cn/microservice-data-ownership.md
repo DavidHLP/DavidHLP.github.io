@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "用服务私有数据、bounded context、saga、transactional outbox 和 expand-migrate-contract 建立数据所有权判定顺序，避免把共享物理数据库、共享 schema 和服务自治混为一谈。",
   "findings": [
-    "Original document: src/content/note/zh-cn/microservice-data-ownership.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/microservice-data-ownership.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/microservice-data-ownership.md",
   "pubDate": "2026-08-12T16:00:00.000Z",

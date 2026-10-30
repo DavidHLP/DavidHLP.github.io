@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import { parse } from "yaml";
+const labels = JSON.parse(await fs.readFile(new URL("../content/locales.json", import.meta.url), "utf8"));
 
 const requiredFields = [
   "id",
@@ -88,12 +89,18 @@ export async function loadContent() {
     if (!match) throw new Error(`文章缺少 YAML frontmatter：${path}`);
     const data = parse(match[1]);
     const body = match[2];
-    if (!data.draft) records.push({ ...data, id: data.archiveId, body: body.trim() });
+    if (!data.draft) records.push({ ...data, id: data.archiveId, slug: path.replace(/\.md$/, ""), lang: data.lang ?? "zh-CN", body: body.trim() });
   }
   records.sort((a, b) => Number(a.id?.slice(2)) - Number(b.id?.slice(2)));
   return validateContent({ categories: site.categories, columns: site.columns, records });
 }
 
 export function archiveText(r) {
-  return `\uFEFFRHINE LAB · INTERNAL DATABASE\nFILE ${r.id} / ${r.title}\n${r.en}\n\n科室：${r.department}\n编目范围：${r.date}\n相关人物：${r.lead}\n访问范围：${r.clearance}\n\n${r.body?.trim() || r.abstract}\n\n研究记录\n${r.findings.map((f, i) => `${i + 1}. ${f}`).join("\n")}\n\n${r.legacy ? "原文来源" : "设定参考"}：${r.source}\n${r.legacy ? "" : "本文为基于公开设定的档案式改写，非游戏原文。\n"}`;
+  const language = r.lang ?? "zh-CN";
+  const localize = text => labels[language]?.[text] ?? text;
+  const headings = language === "en" ? ["INTERNAL DATABASE", "FILE", "Department", "Collection", "Related people", "Access", "Research notes", "Reference", "This archive adaptation is based on publicly available setting material, not the game's original text."]
+    : language === "ja" ? ["内部データベース", "資料", "部門", "収録範囲", "関連人物", "アクセス", "研究記録", "参考資料", "公開設定資料を基にした資料形式の再構成であり、ゲームの原文ではありません。"]
+    : ["内部数据库", "档案", "科室", "编目范围", "相关人物", "访问范围", "研究记录", "设定参考", "本文为基于公开设定的档案式改写，非游戏原文。"];
+  const sourceLabel = r.legacy ? language === "en" ? "Original source" : language === "ja" ? "原文の出典" : "原文来源" : headings[7];
+  return `\uFEFFRHINE LAB · ${headings[0]}\n${headings[1]} ${r.id} / ${r.title}\n${localize(r.en)}\n\n${headings[2]}: ${localize(r.department)}\n${headings[3]}: ${localize(r.date)}\n${headings[4]}: ${r.lead}\n${headings[5]}: ${localize(r.clearance)}\n\n${r.body?.trim() || r.abstract}\n\n${headings[6]}\n${r.findings.map((f, i) => `${i + 1}. ${f}`).join("\n")}\n\n${sourceLabel}: ${r.source}\n${r.legacy ? "" : headings[8] + "\n"}`;
 }

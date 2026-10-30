@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "把终端插件管理建模为一个可收敛的控制面：用 desired/current/ack/failure 状态机连接合并心跳、幂等调度、灰度熔断与故障恢复，并标出来源中的规模与能力假设。",
   "findings": [
-    "Original document: src/content/note/zh-cn/plugin-lifecycle-management.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/plugin-lifecycle-management.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/plugin-lifecycle-management.md",
   "pubDate": "2026-06-01T16:00:00.000Z",

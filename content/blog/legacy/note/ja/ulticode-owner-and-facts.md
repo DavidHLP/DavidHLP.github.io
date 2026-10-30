@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "UltiCode の owner 分割と SubmissionFactsSnapshot から、サービス間 submit に必要な事実の出所・取得時刻・schema version を明示的なコントラクトにする方法を説明する。",
   "findings": [
-    "Original document: src/content/note/ja/ulticode-owner-and-facts.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "元の文書: src/content/note/ja/ulticode-owner-and-facts.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode-owner-and-facts.md",
   "pubDate": "2026-09-08T16:00:00.000Z",
