@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1132 / database lease だけでは足りない：UltiCode の fence token で期限切れ singleton task を止める
-ENGINEERING NOTES
+﻿RHINE LAB · 内部データベース
+資料 X-1132 / database lease だけでは足りない：UltiCode の fence token で期限切れ singleton task を止める
+技術ノート
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: 技術ノート
+収録範囲: 2026-09-08
+関連人物: DavidHLPL
+アクセス: 公開
 
 > **証拠の状態**：この記事は固定コミット時点の UltiCode FencedJobLeaseMapper、FencedJobLeaseService、OwnerReconciler、ReconciliationRunMapper、ADR、MySQL migration に基づく。source と boundary test は stale completion が拒否されることを示すが、すべての external side effect に fencing があることや singleton task の exactly-once を意味しない。
 
@@ -124,9 +124,9 @@ UltiCode 分析段階では、この fenced lease の MySQL 8 Testcontainers int
 - [UltiCode：オンラインジャッジプラットフォームのモジュール型アーキテクチャとドメイン境界](/blog/legacy/note/ja/ulticode/)
 - [UltiCode の generation と attemptId：条件付き更新で古い判定結果を遮断する](/blog/legacy/note/ja/ulticode-generation-attempt-fence/)
 
-研究记录
-1. Original document: src/content/note/ja/ulticode-fenced-singleton-lease.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+研究記録
+1. 元の文書: src/content/note/ja/ulticode-fenced-singleton-lease.md
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 証拠の状態: 暫定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode-fenced-singleton-lease.md
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode-fenced-singleton-lease.md

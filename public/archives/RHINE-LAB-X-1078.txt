@@ -2,10 +2,10 @@
 FILE X-1078 / Do Not Audit Across Owners by Writing Across Databases: UltiCode's Local Outbox and Consumer Inbox
 ENGINEERING NOTES
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+Department: Engineering notes
+Collection: 2026-09-08
+Related people: DavidHLPL
+Access: Public
 
 > **Evidence status**: This article is based on the audit adapters, dispatchers, Admin inbox bridge, consumer inbox, and database migrations in UltiCode's fixed main commit f801a1076. The repository contains these mechanisms; it does not prove cross-service exactly-once processing or zero-loss production auditing.
 
@@ -168,9 +168,9 @@ The repository contains Auth/App audit-dispatcher tests and Admin audit/inbox te
 - [UltiCode Data Owners and Fact Snapshots: Keeping Cross-Service Submissions Bounded](/blog/legacy/note/en/ulticode-owner-and-facts/)
 - [UltiCode Outbox and Redis Streams: Making Judge Delivery Recoverable](/blog/legacy/note/en/ulticode-outbox-redis-streams/)
 
-研究记录
+Research notes
 1. Original document: src/content/note/en/ulticode-owner-local-audit-inbox.md
 2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 3. Evidence status: provisional
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/ulticode-owner-local-audit-inbox.md
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/ulticode-owner-local-audit-inbox.md

@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1154 / AutoCloseable：资源所有权与关闭异常语义
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1154 / AutoCloseable：资源所有权与关闭异常语义
+工程笔记
 
-科室：工程笔记
-编目范围：2025-10-07
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2025-10-07
+相关人物: DavidHLPL
+访问范围: 公开
 
 `AutoCloseable` 是资源释放协议：拥有资源的代码把生命周期交给 `try-with-resources`，在离开作用域时自动调用 `close()`。本页关注所有权、关闭顺序和异常传播，而不是罗列流、连接或 JDBC 教程。
 
@@ -95,8 +95,8 @@ final class Handle implements AutoCloseable {
 - [Java 后端面试复盘：项目真实性、工程机制与生产证据](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/java-auto-closeable.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/java-auto-closeable.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-auto-closeable.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-auto-closeable.md

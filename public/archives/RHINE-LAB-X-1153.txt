@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1153 / AtomicBoolean：原子布尔状态与 CAS 边界
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1153 / AtomicBoolean：原子布尔状态与 CAS 边界
+工程笔记
 
-科室：工程笔记
-编目范围：2025-10-07
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2025-10-07
+相关人物: DavidHLPL
+访问范围: 公开
 
 `AtomicBoolean` 用于在多个线程之间表达一个可见、可原子切换的二值状态。本页回答两个问题：普通 `boolean` 或 `volatile` 何时不够，以及 CAS 能解决什么、不能解决什么。它不是“无锁替代一切锁”的规则。
 
@@ -84,8 +84,8 @@ CAS 只在当前值等于 `expected` 时写入 `newValue`，并返回是否成�
 - [Java 后端面试复盘：项目真实性、工程机制与生产证据](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/java-atomic-boolean.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/java-atomic-boolean.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-atomic-boolean.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-atomic-boolean.md

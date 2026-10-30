@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1133 / UltiCode の generation と attemptId：条件付き更新で古い判定結果を遮断する
-ENGINEERING NOTES
+﻿RHINE LAB · 内部データベース
+資料 X-1133 / UltiCode の generation と attemptId：条件付き更新で古い判定結果を遮断する
+技術ノート
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: 技術ノート
+収録範囲: 2026-09-08
+関連人物: DavidHLPL
+アクセス: 公開
 
 > **証拠の状態**：この記事は UltiCode の Submission mapper、再判定サービス、lease 回収器、Judge attempt executor に基づく。リポジトリが実装する結果フェンスを説明するものであり、システム間の exactly-once や本番並行性の証明へ拡張するものではない。
 
@@ -63,9 +63,9 @@ Agent のタスクも retry、キャンセル後の再開、model の切り替�
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
 - [UltiCode：オンラインジャッジプラットフォームのモジュール型アーキテクチャとドメイン境界](/blog/legacy/note/ja/ulticode/)
 
-研究记录
-1. Original document: src/content/note/ja/ulticode-generation-attempt-fence.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+研究記録
+1. 元の文書: src/content/note/ja/ulticode-generation-attempt-fence.md
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 証拠の状態: 暫定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode-generation-attempt-fence.md
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode-generation-attempt-fence.md

@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1093 / Hindsight ランタイムトラブルシューティングマトリクスと失敗モード
-ENGINEERING NOTES
+﻿RHINE LAB · 内部データベース
+資料 X-1093 / Hindsight ランタイムトラブルシューティングマトリクスと失敗モード
+技術ノート
 
-科室：工程笔记
-编目范围：2026-08-22
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: 技術ノート
+収録範囲: 2026-08-22
+関連人物: DavidHLPL
+アクセス: 公開
 
 このページでは、Vectorize Hindsight のローカルデプロイと Agent 統合における **7 つの主要な失敗モード、根本原因、解決策、予防策**を体系的にまとめる。さらに、本番を意識した高速巡回 SOP と段階的な判断フローも示す。
 
@@ -134,9 +134,9 @@ node ~/.hindsight/hindsight-bridge.mjs
 - [Hindsight 統合メモリアクセス：FastMCP ブリッジと動的マルチプロジェクトルーティング](/blog/legacy/note/ja/hindsight-omp-codex-integration/)
 - [OMP Hook 拡張の概念：意思決定ポイントのヒント、ハードブロック、ステータス橋渡し](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
 
-研究记录
-1. Original document: src/content/note/ja/hindsight-troubleshooting.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+研究記録
+1. 元の文書: src/content/note/ja/hindsight-troubleshooting.md
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 証拠の状態: 有効
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/hindsight-troubleshooting.md
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/hindsight-troubleshooting.md

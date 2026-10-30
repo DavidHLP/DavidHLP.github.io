@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1150 / Hindsight 统一记忆接入：FastMCP 桥接与多项目动态路由
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1150 / Hindsight 统一记忆接入：FastMCP 桥接与多项目动态路由
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-22
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-22
+相关人物: DavidHLPL
+访问范围: 公开
 
 本篇详细记录 Vectorize Hindsight 记忆引擎接入终端智能体 **OMP (Oh-My-Pi)** 与 **Codex CLI** 的桥接实现与配置规范。核心突破在于设计了**多项目自适应隔离路由（Dynamic Workspace Routing）**与带会话状态保持的 **FastMCP stdio 桥接器**。
 
@@ -239,8 +239,8 @@ HINDSIGHT_API_BASE_URL = "http://127.0.0.1:8888"
 - [OMP 配置分层：模型角色、Agent 覆盖与降级链](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/hindsight-omp-codex-integration.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/hindsight-omp-codex-integration.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/hindsight-omp-codex-integration.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/hindsight-omp-codex-integration.md

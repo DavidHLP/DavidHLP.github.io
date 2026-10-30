@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1194 / 跨 Owner 审计别靠跨库写入：UltiCode 的 Local Outbox 与 Consumer Inbox
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1194 / 跨 Owner 审计别靠跨库写入：UltiCode 的 Local Outbox 与 Consumer Inbox
+工程笔记
 
-科室：工程笔记
-编目范围：2026-09-08
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-09-08
+相关人物: DavidHLPL
+访问范围: 公开
 
 > **证据状态**：本文依据 UltiCode `main` 的固定提交 [`f801a1076`](https://github.com/DavidHLP/UltiCode/tree/f801a1076b2fa9aa06ce3d63821f0778b477042c) 中的审计 adapter、dispatcher、Admin inbox bridge、consumer inbox 和数据库迁移整理。仓库存在这些机制，不等于已经证明跨服务 exactly-once 或生产级审计零丢失。
 
@@ -168,8 +168,8 @@ Agent 的工具调用同样可能出现“任务已经接受，但审计事件�
 - [UltiCode Outbox 与 Redis Streams：把判题投递做成可恢复状态](/blog/legacy/note/zh-cn/ulticode-outbox-redis-streams/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/ulticode-owner-local-audit-inbox.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: provisional
+1. 原始文档: src/content/note/zh-cn/ulticode-owner-local-audit-inbox.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 暂定
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode-owner-local-audit-inbox.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode-owner-local-audit-inbox.md

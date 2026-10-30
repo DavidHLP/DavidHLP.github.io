@@ -1,0 +1,55 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-1027 / Frontend and Miscellaneous Essays: Vue, MyBatis, UniApp, Cache Annotations, and Environment Troubleshooting (archived)
+ENGINEERING NOTES
+
+Department: Engineering notes
+Collection: 2026-08-20
+Related people: DavidHLPL
+Access: Public
+
+> This collection of miscellaneous notes was archived on 2026-08-23. The immutable source remains available; this historical page is no longer maintained as a canonical synthesis.
+
+
+This page is **provisional synthesis**, archiving 10 scattered essays: Vue, MyBatis, UniApp, cache annotations, and environment troubleshooting. They are mostly study notes and issue logs, not stable concepts, so they are not used as `sources` for other knowledge pages.
+
+## Core Mechanism (Excerpts)
+
+- **Vue**: `vue.md` is a Vue basics note; `Uniapp融合VantWeapp开发.md` (UniApp + Vant Weapp) records UniApp integration with Vant.
+- **MyBatis**: `mybatis.md` covers mappings, dynamic SQL, and caching.
+- **Cache annotations**: `CacheableAndCacheEvict.md` and `springbootcache.md` explain Spring Cache behavior.
+- **Essays**: Sogou input method, Ubuntu version conflicts, Visual Studio, FRP security alerts, and premium content records are all environment-troubleshooting in nature.
+
+## Applicability
+
+- For personal review and retrieval only, not as reusable decision basis.
+
+## Not Applicable and Risks
+
+- Essays are time-sensitive, versions and environments have drifted, and should not be extrapolated as best practices.
+
+## Evidence and Uncertainty
+
+- **Source facts**: `ingest-frontend-essays` contains 10 scattered source notes.
+- **Synthesis**: This page only archives and indexes, without synthesis validation.
+- **Unconfirmed**: All entries are provisional and need to be split into independent concepts before promotion.
+
+## Related Pages
+
+- [java-concurrency-deepdive](/blog/legacy/note/zh-cn/java-concurrency-deepdive/)
+- [spring-cloud-and-boot](/blog/legacy/note/zh-cn/spring-cloud-and-boot/)
+- [intranet-penetration-ssh-guide](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+
+
+## Sources and related documents
+
+- [ingest-frontend-essays](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-frontend-essays.md)
+- [Java Concurrency Deep Dive: JUC, CAS, Atomics, Locks, and Threading](/blog/legacy/note/zh-cn/java-concurrency-deepdive/)
+- [Spring Boot and Spring Cloud: Auto-Configuration, Transactions, Service Discovery, Gateway, and Observability](/blog/legacy/note/zh-cn/spring-cloud-and-boot/)
+- [SSH Intranet Access: Connection Direction, Exposure, and Recovery](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+
+Research notes
+1. Original document: src/content/note/en/frontend-mybatis-essays.md
+2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. Evidence status: deprecated
+
+Original source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/frontend-mybatis-essays.md

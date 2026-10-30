@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1159 / JJWT 0.13.0：显式固定签名算法，按 key 类型验签
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1159 / JJWT 0.13.0：显式固定签名算法，按 key 类型验签
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-12
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-12
+相关人物: DavidHLPL
+访问范围: 公开
 
 **结论优先**：JJWT 0.13.0 的 `signWith(Key)` 会根据 key 的算法名和强度选择推荐算法；如果协议要求固定 `HS256`、`RS256` 或 `PS*`，应使用 `signWith(key, Jwts.SIG.*)`。验签不要用私钥或已弃用的通用 `setSigningKey(Key)`：使用 `verifyWith(SecretKey)` 或 `verifyWith(PublicKey)`，并把 token header 的 `alg` 与服务端允许的算法策略分开审计。
 
@@ -154,8 +154,8 @@ String token = Jwts.builder()
 - [Java 线上性能排障：从症状到证据的最小决策树](/blog/legacy/note/zh-cn/java-online-performance-debug/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/jjwt-013-security-api.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/jjwt-013-security-api.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/jjwt-013-security-api.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/jjwt-013-security-api.md

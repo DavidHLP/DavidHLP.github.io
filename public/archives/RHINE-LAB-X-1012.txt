@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1012 / プライバシーポリシー
-SITE INFORMATION
+﻿RHINE LAB · 内部データベース
+資料 X-1012 / プライバシーポリシー
+サイト情報
 
-科室：站点信息
-编目范围：2026-10-05
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: サイト情報
+収録範囲: 2026-10-05
+関連人物: DavidHLPL
+アクセス: 公開
 
 ## プライバシーポリシー
 
@@ -112,8 +112,8 @@ SITE INFORMATION
 - データ損失、業務中断、またはその他の経済的損失。
 - 第三者の侵害行為または契約違反行為。
 
-研究记录
-1. Original document: src/content/information/ja/policy.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+研究記録
+1. 元の文書: src/content/information/ja/policy.md
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/ja/policy.md
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/ja/policy.md

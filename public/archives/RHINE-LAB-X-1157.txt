@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1157 / NullValue：缓存 null 的占位对象与序列化边界
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1157 / NullValue：缓存 null 的占位对象与序列化边界
+工程笔记
 
-科室：工程笔记
-编目范围：2025-10-07
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2025-10-07
+相关人物: DavidHLPL
+访问范围: 公开
 
 `NullValue` 是缓存抽象层用来表示“key 存在、业务结果却是 null”的占位对象。本页回答如何避免不存在数据反复回源造成缓存穿透，以及为什么占位对象的单例与序列化语义必须停留在缓存边界内。
 
@@ -87,8 +87,8 @@ value = store == NullValue.INSTANCE ? null : store;
 - [Redis 业务模式：缓存、分布式锁、消息队列、Feed 流与秒杀](/blog/legacy/note/zh-cn/redis-business-patterns/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/java-null-value.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/java-null-value.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-null-value.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/java-null-value.md

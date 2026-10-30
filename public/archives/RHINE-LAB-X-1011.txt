@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1011 / linkroll.mdx
-SITE INFORMATION
+﻿RHINE LAB · 内部データベース
+資料 X-1011 / linkroll.mdx
+サイト情報
 
-科室：站点信息
-编目范围：2026-10-05
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: サイト情報
+収録範囲: 2026-10-05
+関連人物: DavidHLPL
+アクセス: 公開
 
 テーマは外部リンクのオンライン申請インターフェースを**提供していません**。各ウェブマスターには自分のリンクリストを手動で管理することをお勧めします。
 
@@ -21,8 +21,8 @@ SITE INFORMATION
 
 外部リンクの表示を決定する場合は、それをサイトスタイルの延長として考え、コンテンツと一体化させ、信頼できる一部分にすることをお勧めします。
 
-研究记录
-1. Original document: src/content/information/ja/linkroll.mdx
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+研究記録
+1. 元の文書: src/content/information/ja/linkroll.mdx
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/ja/linkroll.mdx
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/ja/linkroll.mdx

@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1165 / MySQL 性能排查：现象→指标→定位层→安全缓解
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1165 / MySQL 性能排查：现象→指标→定位层→安全缓解
+工程笔记
 
-科室：工程笔记
-编目范围：2026-06-30
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-06-30
+相关人物: DavidHLPL
+访问范围: 公开
 
 本页回答一个排查问题：看到 MySQL 变慢或卡住时，先观察什么指标，应该把证据归到应用/连接、Server/SQL、InnoDB，还是 OS/硬件层，随后采取什么不会扩大事故的缓解。它保留可复用的因果模型，不把完整命令清单或单次事故过程当作知识本体。
 
@@ -124,8 +124,8 @@ SHOW STATUS LIKE 'Created_tmp%';
 - [多服务启动就绪：running、ready 与依赖/失败/重启传播](/blog/legacy/note/zh-cn/multi-service-readiness/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/mysql-performance-troubleshooting.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/mysql-performance-troubleshooting.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/mysql-performance-troubleshooting.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/mysql-performance-troubleshooting.md

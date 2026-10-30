@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1088 / Headroom 0.34 圧縮・取得契約：フィールド、モード、実エンドポイント検証
-ENGINEERING NOTES
+﻿RHINE LAB · 内部データベース
+資料 X-1088 / Headroom 0.34 圧縮・取得契約：フィールド、モード、実エンドポイント検証
+技術ノート
 
-科室：工程笔记
-编目范围：2026-08-11
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: 技術ノート
+収録範囲: 2026-08-11
+関連人物: DavidHLPL
+アクセス: 公開
 
 Headroom 0.34.0 の API は、dashboard、型名、mock から推測せず、バージョン付き契約として扱う。`/v1/compress` には `model` と `messages` が必要で、圧縮統計は response のトップレベルにあり、`/v1/retrieve` は `original_content` を返す。この三点を誤っていても、実装と mock が同じ誤りを共有すればテストは成功してしまう。
 
@@ -120,9 +120,9 @@ recent message の保護とは方向が逆である。
 - [headroom-0-34-compress-retrieve-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/headroom-0-34-compress-retrieve-contract.md)
 - [LLM-Wiki パターン：LLM で蓄積する個人 AI ナレッジベース](/blog/legacy/note/ja/llm-wiki-pattern/)
 
-研究记录
-1. Original document: src/content/note/ja/headroom-compress-retrieve-contract.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+研究記録
+1. 元の文書: src/content/note/ja/headroom-compress-retrieve-contract.md
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 証拠の状態: 有効
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/headroom-compress-retrieve-contract.md
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/headroom-compress-retrieve-contract.md
