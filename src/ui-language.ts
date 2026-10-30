@@ -9,6 +9,7 @@ const labels: Record<string, readonly [string, string, string?]> = {
   "ACCESS": ["ACCESS", "アクセス", "访问权限"],
   "CONNECTED": ["CONNECTED", "接続済み", "已连接"],
   "INTERNAL DATABASE / READY": ["INTERNAL DATABASE / READY", "内部データベース / 準備完了", "内部数据库 / 就绪"],
+  "CONNECTING TO INTERNAL DATABASE": ["CONNECTING TO INTERNAL DATABASE", "内部データベースに接続中", "正在连接内部数据库"],
   "SELECTING FILES...": ["SELECTING FILES...", "資料を選択中…", "正在选择档案…"],
   "CONFIDENTIALITY:": ["CONFIDENTIALITY:", "機密区分:", "保密级别:"],
   "GENERAL BUSINESS USE": ["GENERAL BUSINESS USE", "一般業務用", "一般业务使用"],
