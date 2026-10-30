@@ -2,6 +2,8 @@
 
 基于 [LBEILC/RhineLabUI](https://github.com/LBEILC/RhineLabUI) 的网页视觉与交互，迁移为 Astro 静态博客。保留原生 Three.js 档案阵列、开场、玻璃材质、解密、360° 查看器、检索、收藏、声音与响应式布局。本文档对应网页模板；壁纸独立工程不在维护范围。
 
+提供 40 组三语示例，切换语言时标题、正文、分类与搜索同步切换。见[全内容 i18n 说明](docs/I18N.md)。
+
 ## 开始使用
 
 要求 Node.js 22.12 或更新的受支持版本。先修改 `content/site.json` 的 `site` 为自己的 HTTPS 站点地址，再安装运行：
