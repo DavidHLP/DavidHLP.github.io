@@ -57,7 +57,17 @@
       "description": "Flyway validate が実際の Schema チェックの代わりにならない理由と、migration history、実際の schema、アプリ query の三ビューで checksum ドリフト、外部 DDL、Unknown column、失敗した migration の残骸を区別する方法を説明する。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "database-schema-drift-contract"
+  ],
+  "related": [
+    "mysql-performance-troubleshooting",
+    "multi-service-readiness",
+    "microservice-data-ownership"
+  ]
 }
 ---
 

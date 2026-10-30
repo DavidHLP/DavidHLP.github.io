@@ -56,7 +56,17 @@
       "description": "记录 Vectorize Hindsight 记忆中枢的本地算力分工（AMD GPU 推理 + CPU Embedding）、UID 1000 权限模型与 Docker Compose 容器化编排。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "hindsight-local-deployment-and-agent-integration"
+  ],
+  "related": [
+    "hindsight-omp-codex-integration",
+    "hindsight-troubleshooting",
+    "mcp-codebase-memory-workflow"
+  ]
 }
 ---
 

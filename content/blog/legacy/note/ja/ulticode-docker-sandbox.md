@@ -58,7 +58,15 @@
       "description": "UltiCode の D-form 実行経路から、Docker のリソース・安全パラメータ、seccomp の fail-closed、ユーザーエラーとインフラエラーの分類を整理する。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

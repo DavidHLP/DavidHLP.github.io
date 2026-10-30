@@ -72,7 +72,20 @@
       "description": "Headroom 単一ポートルーティングのモデルを総合する。明示的に設定した custom provider と動的上流を一つの loopback 入口で扱いながらプロトコル差を保持し、OMP のロール選択、model_cache、リクエストルート、wrapper ライフサイクルを分離して検証する。過去のルートは provisional である。",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "legacy-headroom-single-port-evolution",
+    "legacy-omp-config-and-rules-guide",
+    "legacy-omp-headroom-persistence"
+  ],
+  "related": [
+    "omp-config-and-rules-guide",
+    "omp-headroom-persistence",
+    "omp-hook-extension-guide",
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

@@ -57,7 +57,17 @@
       "description": "Distinguishes snapshot vs append-only recovery and performance boundaries.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-redis-persistence"
+  ],
+  "related": [
+    "redis-business-patterns",
+    "redis-heima-practice",
+    "database-schema-drift"
+  ]
 }
 ---
 

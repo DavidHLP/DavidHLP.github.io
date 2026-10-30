@@ -56,7 +56,16 @@
       "description": "MySQL の遅延、停止、接続滞留、レプリケーション警告を、接続・ロック・インデックス・トランザクション・Buffer Pool・I/O の現象、指標、層、安全な緩和へ対応付ける。完全な SOP は複製しない。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-mysql-performance-troubleshooting"
+  ],
+  "related": [
+    "containerd-tls-troubleshooting",
+    "intranet-penetration-ssh-guide"
+  ]
 }
 ---
 

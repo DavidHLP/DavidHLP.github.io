@@ -55,7 +55,15 @@
       "description": "固定コミット c0ae74e における KB セッション摂取パイプラインの最小契約を固定する。ID/コンテンツハッシュ駆動のインクリメンタル再利用、失敗記録の再利用不可、redaction v19、内部コントロールプレーンフィルタ、partial checkpoint からの再開、raw manifest の不変検証を定め、プレースホルダの意味論と脱感境界を明確にする。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "kb-ingest-pipeline-v19"
+  ],
+  "related": [
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

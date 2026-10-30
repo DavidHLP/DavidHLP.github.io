@@ -60,7 +60,17 @@
       "description": "How UltiCode Core's owner-context manager uses opt-in, an allowlist, bounded startup, and close-once handoff to keep a modular monolith a reversible topology testbed.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-reliability-core-f801a1076"
+  ],
+  "related": [
+    "ulticode",
+    "ulticode-owner-and-facts",
+    "ulticode-generation-attempt-fence"
+  ]
 }
 ---
 

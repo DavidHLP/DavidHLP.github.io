@@ -61,7 +61,18 @@
       "description": "データベース筆記試験を検証可能な判断の連鎖として復盤する。SQL の意味と方言を分け、NULL・重複・空結果を扱い、最後に Kettle と巨大テーブルの操作を分割・復旧・照合・リスク管理へ落とし込む。",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "database-written-test-review"
+  ],
+  "related": [
+    "mysql-performance-troubleshooting",
+    "mysql-storage-and-deadlock",
+    "database-schema-drift",
+    "spark-bigdata-ecosystem"
+  ]
 }
 ---
 

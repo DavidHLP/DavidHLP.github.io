@@ -60,7 +60,16 @@
       "description": "Cloudflare Tunnel、Tailscale、FRP を接続方向・公開面・コントロールプレーン・データプレーン・復旧の 5 軸で比較し、モバイルクライアント、ポート、systemd/linger の根拠付き境界を整理する。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-intranet-penetration-ssh-guide"
+  ],
+  "related": [
+    "containerd-tls-troubleshooting",
+    "mysql-performance-troubleshooting"
+  ]
 }
 ---
 

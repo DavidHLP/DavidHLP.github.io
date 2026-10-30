@@ -53,7 +53,15 @@
       "description": "desired/current/ack/failure 状態機械を中心に、マージハートビート、冪等ディスパッチ、カナリアとサーキットブレーカ、障害復旧を一つの制御プレーンとして捉える。百万級の規模と端末能力の差はソースにある設計仮定として扱う。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-plugin-lifecycle-management"
+  ],
+  "related": [
+    "uisa-architecture-design"
+  ]
 }
 ---
 

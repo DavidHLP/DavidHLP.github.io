@@ -58,7 +58,16 @@
       "description": "JJWT 0.13.0 における signWith(Key) の推奨アルゴリズムのヒューリスティック、二引数の明示アルゴリズム API、verifyWith の SecretKey/PublicKey 型境界、audience builder の移行方法を説明する。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "jjwt-013-security-api-contract",
+    "jjwt-013-security-api-contract-correction"
+  ],
+  "related": [
+    "java-online-performance-debug"
+  ]
 }
 ---
 

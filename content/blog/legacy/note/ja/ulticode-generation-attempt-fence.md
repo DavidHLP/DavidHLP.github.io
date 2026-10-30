@@ -58,7 +58,15 @@
       "description": "generation、attemptId、lease、条件付き更新によって、再判定・タイムアウト・古い Worker の結果が新しい状態を上書きしないようにする UltiCode の方法。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

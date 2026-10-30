@@ -54,7 +54,17 @@
       "description": "How ResiCache uses cache-value versions, Redis Lua CAS, and the normal miss path to prevent an old asynchronous job from modifying a newer cache value.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "resicache-engineering-highlights-2954fff",
+    "resicache-project-overview"
+  ],
+  "related": [
+    "resicache",
+    "redis-business-patterns"
+  ]
 }
 ---
 

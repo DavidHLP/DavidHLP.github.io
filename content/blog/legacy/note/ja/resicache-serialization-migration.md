@@ -54,7 +54,17 @@
       "description": "ResiCache の安全な deserialization と migration engine から、wire format、type trust、既存データ migration を一緒に設計すべき理由を説明する。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "resicache-engineering-highlights-2954fff",
+    "resicache-project-overview"
+  ],
+  "related": [
+    "resicache",
+    "redis-jackson-java-time"
+  ]
 }
 ---
 

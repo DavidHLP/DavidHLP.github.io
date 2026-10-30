@@ -58,7 +58,15 @@
       "description": "What UltiCode's D-form execution path says about Docker resource and security parameters, fail-closed seccomp handling, and the distinction between user and infrastructure errors.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

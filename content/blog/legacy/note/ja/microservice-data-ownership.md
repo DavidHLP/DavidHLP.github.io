@@ -60,7 +60,18 @@
       "description": "サービス私有データ、bounded context、saga、transactional outbox、expand-migrate-contract でデータ所有権の判定順序を確立し、共有物理データベース、共有 schema、サービス自律を混同しないようにする。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "microservice-domain-data-ownership",
+    "microservice-domain-data-ownership-correction"
+  ],
+  "related": [
+    "database-schema-drift",
+    "multi-service-readiness",
+    "dubbo-nacos-runtime"
+  ]
 }
 ---
 

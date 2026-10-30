@@ -58,7 +58,18 @@
       "description": "サービス検出を起点に呼び出しチェーンの契約を蒸留。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-spring-cloud"
+  ],
+  "related": [
+    "dubbo-nacos-runtime",
+    "multi-service-readiness",
+    "microservice-data-ownership",
+    "containerd-tls-troubleshooting"
+  ]
 }
 ---
 

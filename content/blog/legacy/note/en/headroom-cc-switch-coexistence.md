@@ -66,7 +66,18 @@
       "description": "Synthesizes pinned project commits and runtime evidence: how Headroom 8787 receives Claude Code Messages before cc-switch 15721, keeping the OMP path isolated, a single synthesis responsibility, and a rollback-safe systemd security boundary.",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "headroom-cc-switch-coexistence-runtime"
+  ],
+  "related": [
+    "headroom-single-port-evolution",
+    "omp-headroom-persistence",
+    "omp-headroom-provider-proxy",
+    "headroom-compress-retrieve-contract"
+  ]
 }
 ---
 

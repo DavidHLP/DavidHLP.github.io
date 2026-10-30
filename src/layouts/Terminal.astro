@@ -64,10 +64,12 @@ const canonical = new URL(post ? postPath(post.id) : "/", Astro.site);
     {rendered.map(({ entry, Content }) => <template data-blog-body={entry.id}><Content /></template>)}
     <script id="blog-data" type="application/json" is:inline set:html={payload}></script>
     <script>
+      import { renderDiagrams } from "../diagrams";
       const staticRoot = document.querySelector<HTMLElement>("#blog-static")!;
       const interactiveLink = document.querySelector<HTMLAnchorElement>("#blog-interactive-link")!;
       const staticIds = [...staticRoot.querySelectorAll<HTMLElement>("[id]")].map(node => ({ node, id: node.id }));
       function showStatic() {
+        void renderDiagrams(staticRoot).catch(console.error);
         document.documentElement.classList.remove("interactive");
         staticRoot.removeAttribute("aria-hidden");
         staticIds.forEach(({ node, id }) => { node.id = id; });

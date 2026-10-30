@@ -64,7 +64,21 @@
       "description": "把 OMP Hook 抽象为位于工具决策点的事件扩展：soft hook 用 sendMessage 提醒但不阻断，hard result 才能拒绝调用；setStatus 通过事件桥接到 UI。页面给出 API 边界、mock 与真实会话验证，并明确软提示不是安全强制边界。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-omp-hook-extension-guide",
+    "omp-17-2-15-runtime-contract",
+    "omp-17-2-15-runtime-contract-correction"
+  ],
+  "related": [
+    "headroom-single-port-evolution",
+    "omp-config-and-rules-guide",
+    "omp-headroom-persistence",
+    "llm-wiki-pattern",
+    "headroom-compress-retrieve-contract"
+  ]
 }
 ---
 

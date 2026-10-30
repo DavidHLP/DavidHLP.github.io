@@ -59,7 +59,16 @@
       "description": "期限時刻だけでは不十分な理由と、UltiCode の fenced_job_leases と reconciliation run の write path が database 境界で古い executor を無効にする方法。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-reliability-core-f801a1076"
+  ],
+  "related": [
+    "ulticode",
+    "ulticode-generation-attempt-fence"
+  ]
 }
 ---
 

@@ -56,7 +56,16 @@
       "description": "Map MySQL slowness, stalls, connection piles, and replication alerts to symptoms, metrics, layers, and safe mitigations across connections, locks, indexes, transactions, Buffer Pool, and I/O—without copying a full SOP.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-mysql-performance-troubleshooting"
+  ],
+  "related": [
+    "containerd-tls-troubleshooting",
+    "intranet-penetration-ssh-guide"
+  ]
 }
 ---
 

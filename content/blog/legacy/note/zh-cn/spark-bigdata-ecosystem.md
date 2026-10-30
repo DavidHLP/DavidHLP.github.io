@@ -54,7 +54,17 @@
       "description": "对比分布式计算引擎，收敛 Spark 概述、运行模式与 Hadoop/HBase 集群搭建的最小验证。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-spark-ecosystem"
+  ],
+  "related": [
+    "hbase-foundation-and-ops",
+    "multi-service-readiness",
+    "containerd-tls-troubleshooting"
+  ]
 }
 ---
 

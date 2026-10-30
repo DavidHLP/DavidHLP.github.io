@@ -54,7 +54,17 @@
       "description": "把黑马 Redis 实战提炼为分布式缓存、多级缓存与最佳实践的最小可用清单，标注版本与实验缺口。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-redis-heima"
+  ],
+  "related": [
+    "redis-business-patterns",
+    "redis-persistence-principle",
+    "plugin-lifecycle-management"
+  ]
 }
 ---
 

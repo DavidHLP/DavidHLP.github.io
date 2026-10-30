@@ -66,7 +66,20 @@
       "description": "プロジェクトの ownership の証明、cache/非同期の機構、本番での診断・止血・復旧の証拠を一つの能力モデルに統合します。",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "legacy-java-internship-interview-blog-polished",
+    "legacy-java-null-value",
+    "legacy-java-online-performance-debug"
+  ],
+  "related": [
+    "java-null-value",
+    "java-online-performance-debug",
+    "java-atomic-boolean",
+    "java-auto-closeable"
+  ]
 }
 ---
 

@@ -58,7 +58,19 @@
       "description": "固定コミットの README を証拠として、ResiCache の位置付け、責任チェーンの handler 順序、保護機能のデフォルト設定、シリアライズエンベロープ移行コストを整理し、宣言された機能と未検証の機能を区別する。",
       "toc": true
     }
-  }
+  },
+  "kind": "entity",
+  "status": "active",
+  "sources": [
+    "resicache-project-overview",
+    "resicache-observer-nested-execution-contract"
+  ],
+  "related": [
+    "resicache-observer-nested-execution",
+    "java-null-value",
+    "redis-business-patterns",
+    "redis-jackson-java-time"
+  ]
 }
 ---
 

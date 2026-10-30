@@ -53,7 +53,17 @@
       "description": "エンジン能力とデッドロックログの経路を最小検証で区別。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-mysql-storage"
+  ],
+  "related": [
+    "mysql-performance-troubleshooting",
+    "database-schema-drift",
+    "multi-service-readiness"
+  ]
 }
 ---
 

@@ -58,7 +58,15 @@
       "description": "UltiCode の owner 分割と SubmissionFactsSnapshot から、サービス間 submit に必要な事実の出所・取得時刻・schema version を明示的なコントラクトにする方法を説明する。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

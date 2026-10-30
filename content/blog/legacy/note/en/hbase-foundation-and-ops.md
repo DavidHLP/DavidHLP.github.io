@@ -57,7 +57,17 @@
       "description": "Converges logical/physical models, architecture, table design, and operational tooling; clarifies trade-offs vs RDBMS.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-hbase-foundation"
+  ],
+  "related": [
+    "spark-bigdata-ecosystem",
+    "database-schema-drift",
+    "mysql-storage-and-deadlock"
+  ]
 }
 ---
 

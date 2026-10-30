@@ -66,7 +66,20 @@
       "description": "Synthesizes a capability model that moves from proving project ownership, through cache and asynchronous mechanisms, to production evidence for diagnosis, mitigation, and recovery.",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "legacy-java-internship-interview-blog-polished",
+    "legacy-java-null-value",
+    "legacy-java-online-performance-debug"
+  ],
+  "related": [
+    "java-null-value",
+    "java-online-performance-debug",
+    "java-atomic-boolean",
+    "java-auto-closeable"
+  ]
 }
 ---
 

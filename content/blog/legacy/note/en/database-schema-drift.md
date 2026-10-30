@@ -57,7 +57,17 @@
       "description": "Explains why Flyway validate cannot replace an actual Schema check, and uses the three views of migration history, actual schema, and application query to distinguish checksum drift, external DDL, Unknown column, and residue from a failed migration.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "database-schema-drift-contract"
+  ],
+  "related": [
+    "mysql-performance-troubleshooting",
+    "multi-service-readiness",
+    "microservice-data-ownership"
+  ]
 }
 ---
 

@@ -66,7 +66,18 @@
       "description": "OMP 設定を再利用可能な階層モデルとして整理する。modelRoles はロールのデフォルトを選び、agentModelOverrides は局所的な例外を指定し、fallbackChains は障害後に復旧する。Headroom、ルール検出、モデル選択の境界と、順序付き検証方法も示す。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-omp-config-and-rules-guide"
+  ],
+  "related": [
+    "headroom-single-port-evolution",
+    "omp-headroom-persistence",
+    "omp-hook-extension-guide",
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

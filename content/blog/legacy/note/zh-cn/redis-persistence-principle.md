@@ -56,7 +56,17 @@
       "description": "区分 RDB/AOF 持久化、底层数据结构与过期淘汰，明确持久化选择的可用性与性能边界。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-redis-persistence"
+  ],
+  "related": [
+    "redis-business-patterns",
+    "redis-heima-practice",
+    "database-schema-drift"
+  ]
 }
 ---
 

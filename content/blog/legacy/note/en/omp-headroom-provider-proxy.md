@@ -64,7 +64,18 @@
       "description": "Documents how OMP Headroom Bridge uses an external controller to maintain the coexistence boundaries between a loopback Headroom, OMP provider routes, the native Codex CLI/Desktop Responses provider, and Claude Code/cc-switch.",
       "toc": true
     }
-  }
+  },
+  "kind": "entity",
+  "status": "provisional",
+  "sources": [
+    "omp-headroom-provider-proxy-codex-routing-runtime"
+  ],
+  "related": [
+    "headroom-single-port-evolution",
+    "omp-headroom-persistence",
+    "headroom-cc-switch-coexistence",
+    "headroom-compress-retrieve-contract"
+  ]
 }
 ---
 

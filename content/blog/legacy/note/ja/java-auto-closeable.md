@@ -55,7 +55,17 @@
       "description": "リソース所有権を起点に、AutoCloseable と try-with-resources の逆順 close、主例外と suppressed 例外、冪等な後片付けの境界を説明します。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-java-auto-closeable"
+  ],
+  "related": [
+    "java-atomic-boolean",
+    "java-null-value",
+    "java-internship-interview-blog-polished"
+  ]
 }
 ---
 

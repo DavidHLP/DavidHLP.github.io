@@ -57,7 +57,17 @@
       "description": "Distills Docker image layers, common commands, volumes, networking, and Compose suitability and boundaries.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-docker-fundamentals"
+  ],
+  "related": [
+    "containerd-tls-troubleshooting",
+    "multi-service-readiness",
+    "intranet-penetration-ssh-guide"
+  ]
 }
 ---
 

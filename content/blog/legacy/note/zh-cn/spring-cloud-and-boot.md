@@ -57,7 +57,18 @@
       "description": "以服务注册发现为起点，归纳自动装配、事务、熔断限流与可观测性的配置与运行边界。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-spring-cloud"
+  ],
+  "related": [
+    "dubbo-nacos-runtime",
+    "multi-service-readiness",
+    "microservice-data-ownership",
+    "containerd-tls-troubleshooting"
+  ]
 }
 ---
 

@@ -58,7 +58,15 @@
       "description": "How UltiCode's owner boundaries and SubmissionFactsSnapshot turn the source, capture time, and schema version of cross-service facts into an explicit contract.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

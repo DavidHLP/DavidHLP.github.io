@@ -62,7 +62,17 @@
       "description": "Auth/App の local audit outbox、owner-specific Redis Stream、Admin consumer inbox から、owner 間 audit の double write、重複 delivery、lease 回復、eventual consistency を説明する。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-reliability-core-f801a1076"
+  ],
+  "related": [
+    "ulticode",
+    "ulticode-owner-and-facts",
+    "ulticode-outbox-redis-streams"
+  ]
 }
 ---
 

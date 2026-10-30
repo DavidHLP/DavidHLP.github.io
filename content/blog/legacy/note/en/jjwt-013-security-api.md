@@ -58,7 +58,16 @@
       "description": "Explains the recommended algorithm heuristic of signWith(Key), the two-argument explicit-algorithm API, the SecretKey/PublicKey type boundaries of verifyWith, and the migration path for the audience builder in JJWT 0.13.0.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "jjwt-013-security-api-contract",
+    "jjwt-013-security-api-contract-correction"
+  ],
+  "related": [
+    "java-online-performance-debug"
+  ]
 }
 ---
 

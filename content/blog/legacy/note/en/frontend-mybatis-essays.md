@@ -55,7 +55,17 @@
       "description": "Archives scattered notes as a provisional synthesis, not a stable concept.",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "ingest-frontend-essays"
+  ],
+  "related": [
+    "java-concurrency-deepdive",
+    "spring-cloud-and-boot",
+    "intranet-penetration-ssh-guide"
+  ]
 }
 ---
 

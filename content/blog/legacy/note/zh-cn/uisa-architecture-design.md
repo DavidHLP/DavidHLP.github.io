@@ -55,7 +55,16 @@
       "description": "综合 Enhanced UISA 与插件生命周期来源，按 owner/boundary、同步协议、可靠性与幂等、异构节点、失败恢复和权衡重组一套可验证的控制面模型；不把来源中的规模与阈值当作生产承诺。",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "legacy-uisa-architecture-design",
+    "legacy-plugin-lifecycle-management"
+  ],
+  "related": [
+    "plugin-lifecycle-management"
+  ]
 }
 ---
 

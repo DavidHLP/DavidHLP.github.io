@@ -57,7 +57,17 @@
       "description": "Based on Apache Dubbo 3.3.6 and official Nacos materials, describes the minimal boundaries of interface-level/application-level registration names, metadata, group/version matching, startup checks, and a real Nacos smoke test.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "dubbo-nacos-runtime-registration",
+    "dubbo-nacos-runtime-registration-correction"
+  ],
+  "related": [
+    "multi-service-readiness",
+    "microservice-data-ownership"
+  ]
 }
 ---
 

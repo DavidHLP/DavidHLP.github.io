@@ -62,7 +62,18 @@
       "description": "OMP Hook をツール意思決定ポイントのイベント拡張として整理する。sendMessage はブロックせずソフトヒントを渡し、ハード結果は呼び出しを拒否し、setStatus は状態を UI へ橋渡しする。API の境界、mock と実セッションの検証、提案機構をセキュリティ境界にしない原則を示す。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-omp-hook-extension-guide"
+  ],
+  "related": [
+    "headroom-single-port-evolution",
+    "omp-config-and-rules-guide",
+    "omp-headroom-persistence",
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

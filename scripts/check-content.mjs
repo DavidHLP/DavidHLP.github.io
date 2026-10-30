@@ -8,6 +8,8 @@ import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 import { parse } from "yaml";
 import { runInNewContext } from "node:vm";
+import { createHash } from "node:crypto";
+import remarkMermaid from "./remark-mermaid.mjs";
 import {
   loadContent,
   validateContent,
@@ -20,6 +22,40 @@ import { StartupGate } from "../src/startup.ts";
 
 const published = await loadContent();
 const content = published;
+test("Mermaid markup retains source text without injecting HTML", () => {
+  const source = 'graph LR\nA["<script>example</script>"] --> B';
+  const tree = { type: "root", children: [{ type: "code", lang: "mermaid", value: source }] };
+  remarkMermaid()(tree);
+  assert.equal(tree.children[0].type, "html");
+  assert.equal(tree.children[0].value, `<pre class="mermaid">${escapeHtml(source)}</pre>`);
+});
+test("knowledge validation checks editable wiki sources and index rather than archived copies", async () => {
+  const root = await mkdtemp(join(tmpdir(), "rhine-wiki-"));
+  const put = async (path, content) => {
+    await mkdir(dirname(join(root, path)), { recursive: true });
+    await writeFile(join(root, path), content);
+  };
+  const note = source => `---\n${JSON.stringify({ kind: "concept", status: "active", sources: [source] })}\n---\nWiki`;
+  try {
+    const raw = "Immutable evidence\n";
+    await put("src/content/raw/zh-cn/evidence.md", raw);
+    await put("src/content/raw/.manifest.sha256", `${createHash("sha256").update(raw).digest("hex")}  zh-cn/evidence.md\n`);
+    await put("src/content/note/zh-cn/example.md", note("evidence"));
+    await put("src/content/information/zh-cn/kb-index.md", "example evidence");
+    await put("content/blog/legacy/note/zh-cn/example.md", note("evidence"));
+    await put("content/blog/legacy/information/zh-cn/kb-index.md", "example evidence");
+    await put("content/blog/legacy/information/zh-cn/kb-log.md", "## [2026-10-30] migration\n");
+    const run = () => promisify(execFile)(process.execPath, ["--experimental-strip-types", fileURLToPath(new URL("./kb-lint.ts", import.meta.url))], { cwd: root });
+    assert.match((await run()).stdout, /KB lint passed/);
+    await put("content/blog/legacy/note/zh-cn/example.md", note("missing"));
+    await assert.rejects(run(), error => { assert.match(error.stderr, /references missing raw source: missing/); return true; });
+    await put("content/blog/legacy/note/zh-cn/example.md", note("evidence"));
+    await put("content/blog/legacy/information/zh-cn/kb-index.md", "evidence");
+    await assert.rejects(run(), error => { assert.match(error.stderr, /wiki page missing from index/); return true; });
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
 test("all migrated downloads match the Markdown content, including the UTF-8 BOM", async () => {
   for (const record of published.records) {
     assert.equal(
@@ -438,6 +474,14 @@ test("blog migration preserves original content, drafts and unpublished raw evid
     const metadata = original.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n/);
     assert.deepEqual(data.legacy.metadata, metadata ? parse(metadata[1]) : {});
     assert.equal(data.draft, entry.draft);
+    if (entry.path.includes("/note/")) {
+      for (const field of ["kind", "status", "sources", "related"])
+        assert.deepEqual(data[field], data.legacy.metadata[field] ?? [], `${entry.path}: ${field}`);
+    }
+    if (entry.path.endsWith("/introduction.md")) {
+      assert.ok(!/[<>]/.test(data.title));
+      assert.ok(!/[<>]/.test(data.abstract));
+    }
     assert.equal(live.has(entry.archiveId), !entry.draft);
   }
   const dist = new URL("../dist/", import.meta.url);

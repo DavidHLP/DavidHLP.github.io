@@ -63,7 +63,18 @@
       "description": "记录 OMP Headroom Bridge 如何用外部控制器维护 loopback Headroom、OMP provider route、原生 Codex CLI/Desktop Responses provider 和 Claude Code/cc-switch 共存边界。",
       "toc": true
     }
-  }
+  },
+  "kind": "entity",
+  "status": "provisional",
+  "sources": [
+    "omp-headroom-provider-proxy-codex-routing-runtime"
+  ],
+  "related": [
+    "headroom-single-port-evolution",
+    "omp-headroom-persistence",
+    "headroom-cc-switch-coexistence",
+    "headroom-compress-retrieve-contract"
+  ]
 }
 ---
 

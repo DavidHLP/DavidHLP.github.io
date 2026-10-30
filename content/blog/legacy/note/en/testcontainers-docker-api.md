@@ -57,7 +57,17 @@
       "description": "Explains how Testcontainers 1.20.6 falls back to 1.32 for an unknown Docker API version, why DOCKER_API_VERSION should not borrow Docker CLI experience, and how to distinguish version incompatibility from a missing Docker environment starting from the earliest 400 error.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "testcontainers-docker-api-negotiation",
+    "testcontainers-docker-api-negotiation-correction"
+  ],
+  "related": [
+    "containerd-tls-troubleshooting",
+    "multi-service-readiness"
+  ]
 }
 ---
 

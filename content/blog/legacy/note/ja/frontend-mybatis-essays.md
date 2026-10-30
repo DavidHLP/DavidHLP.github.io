@@ -55,7 +55,17 @@
       "description": "散在するメモを暫定的な統合としてアーカイブ、安定した概念ではない。",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "ingest-frontend-essays"
+  ],
+  "related": [
+    "java-concurrency-deepdive",
+    "spring-cloud-and-boot",
+    "intranet-penetration-ssh-guide"
+  ]
 }
 ---
 

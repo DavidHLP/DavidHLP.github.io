@@ -54,7 +54,17 @@
       "description": "Why wire format, type trust, and migration of existing data must be designed together, based on ResiCache's secure deserialization and migration engine.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "resicache-engineering-highlights-2954fff",
+    "resicache-project-overview"
+  ],
+  "related": [
+    "resicache",
+    "redis-jackson-java-time"
+  ]
 }
 ---
 

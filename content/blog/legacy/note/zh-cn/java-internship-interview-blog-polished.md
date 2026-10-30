@@ -65,7 +65,20 @@
       "description": "把项目真实性、缓存与异步机制、线上性能排障串成一套能力模型：先说明自己负责的事实，再解释工程取舍，最后用生产证据证明系统如何被验证和恢复。",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "legacy-java-internship-interview-blog-polished",
+    "legacy-java-null-value",
+    "legacy-java-online-performance-debug"
+  ],
+  "related": [
+    "java-null-value",
+    "java-online-performance-debug",
+    "java-atomic-boolean",
+    "java-auto-closeable"
+  ]
 }
 ---
 

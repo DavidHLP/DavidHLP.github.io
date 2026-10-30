@@ -55,7 +55,17 @@
       "description": "Compares batch/stream engines and Spark runtime modes.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-spark-ecosystem"
+  ],
+  "related": [
+    "hbase-foundation-and-ops",
+    "multi-service-readiness",
+    "containerd-tls-troubleshooting"
+  ]
 }
 ---
 

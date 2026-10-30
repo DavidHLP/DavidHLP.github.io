@@ -56,7 +56,17 @@
       "description": "收敛 HBase 数据模型（逻辑/物理）、架构组件、表设计与运维操作，明确与 Redis/传统 RDBMS 的取舍。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-hbase-foundation"
+  ],
+  "related": [
+    "spark-bigdata-ecosystem",
+    "database-schema-drift",
+    "mysql-storage-and-deadlock"
+  ]
 }
 ---
 

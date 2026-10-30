@@ -79,7 +79,30 @@
       "description": "以 UltiCode 当前 main 的固定提交为证据，解释 owner 边界、outbox 与 Streams、generation/attempt 围栏、Docker 沙箱和交付门禁如何组合成可验证的在线评测系统，并明确生产验证与性能结论的缺口。",
       "toc": true
     }
-  }
+  },
+  "kind": "entity",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076",
+    "ulticode-project-context",
+    "ulticode-reliability-core-f801a1076"
+  ],
+  "related": [
+    "microservice-data-ownership",
+    "dubbo-nacos-runtime",
+    "jjwt-013-security-api",
+    "multi-service-readiness",
+    "database-schema-drift",
+    "ulticode-owner-and-facts",
+    "ulticode-owner-local-audit-inbox",
+    "ulticode-outbox-redis-streams",
+    "ulticode-generation-attempt-fence",
+    "ulticode-fenced-singleton-lease",
+    "ulticode-docker-sandbox",
+    "ulticode-async-execution-contract",
+    "ulticode-core-bounded-testbed",
+    "ulticode-ci-supply-chain"
+  ]
 }
 ---
 

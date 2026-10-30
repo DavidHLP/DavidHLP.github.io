@@ -58,7 +58,18 @@
       "description": "Centers on CAS to connect atomics, locks, thread coordination, and reference types with cost boundaries.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-java-concurrency"
+  ],
+  "related": [
+    "java-atomic-boolean",
+    "java-auto-closeable",
+    "java-online-performance-debug",
+    "jjwt-013-security-api"
+  ]
 }
 ---
 

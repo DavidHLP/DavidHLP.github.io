@@ -62,7 +62,19 @@
       "description": "Uses the fixed README/CONTEXT as evidence to summarize UltiCode's owner split, deep port/projection modules, judging transaction invariants, and transitional compatibility seams, while marking uncertainty during architectural convergence.",
       "toc": true
     }
-  }
+  },
+  "kind": "entity",
+  "status": "provisional",
+  "sources": [
+    "ulticode-project-context"
+  ],
+  "related": [
+    "microservice-data-ownership",
+    "dubbo-nacos-runtime",
+    "jjwt-013-security-api",
+    "multi-service-readiness",
+    "database-schema-drift"
+  ]
 }
 ---
 

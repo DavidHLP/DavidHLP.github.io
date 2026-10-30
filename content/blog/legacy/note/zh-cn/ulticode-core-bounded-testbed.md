@@ -60,7 +60,17 @@
       "description": "从 UltiCode Core 的 owner context 管理器出发，解释如何用 opt-in、allowlist、有界启动和 close-once 交接，把模块化单体限制为可回滚的拓扑实验场。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-reliability-core-f801a1076"
+  ],
+  "related": [
+    "ulticode",
+    "ulticode-owner-and-facts",
+    "ulticode-generation-attempt-fence"
+  ]
 }
 ---
 

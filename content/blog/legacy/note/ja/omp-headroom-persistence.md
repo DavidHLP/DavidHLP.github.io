@@ -68,7 +68,20 @@
       "description": "OMP が runtime model cache を書き換える場合の Headroom ルート永続化を総合する。Named Profile は意図と資格情報を分離し、外部宣言はルート意図を保持し、model_cache は再生成可能な派生状態とする。旧 reconciler は隔離した移行復旧だけに限定し、現在の wrapper ライフサイクルとバージョン依存も明記する。",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "legacy-omp-headroom-persistence",
+    "legacy-headroom-single-port-evolution",
+    "legacy-omp-config-and-rules-guide"
+  ],
+  "related": [
+    "headroom-single-port-evolution",
+    "omp-config-and-rules-guide",
+    "omp-hook-extension-guide",
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

@@ -61,7 +61,21 @@
       "description": "一つの決定表でマルチサービスオーケストレーションにおけるプロセス起動、業務レディネス、順序付け、依存確立、失敗と再起動の伝播という六つの概念を区別し、Compose の healthcheck/depends_on と systemd の After/Wants/Requires の最小組み合わせと検証経路を示す。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "multi-service-readiness-contract",
+    "multi-service-readiness-contract-correction",
+    "multi-service-readiness-safety-correction"
+  ],
+  "related": [
+    "mysql-performance-troubleshooting",
+    "database-schema-drift",
+    "testcontainers-docker-api",
+    "dubbo-nacos-runtime",
+    "microservice-data-ownership"
+  ]
 }
 ---
 

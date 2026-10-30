@@ -59,7 +59,21 @@
       "toc": true,
       "top": 1
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "karpathy-llm-wiki"
+  ],
+  "related": [
+    "headroom-single-port-evolution",
+    "omp-config-and-rules-guide",
+    "omp-headroom-persistence",
+    "omp-hook-extension-guide",
+    "kb-session-ingest-contract",
+    "mcp-codebase-memory-workflow",
+    "headroom-compress-retrieve-contract"
+  ]
 }
 ---
 

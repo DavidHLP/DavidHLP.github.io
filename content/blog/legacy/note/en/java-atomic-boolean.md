@@ -55,7 +55,17 @@
       "description": "Explains when an atomic boolean state is needed, how compareAndSet combines checking with transition, and where CAS stops helping with multi-field invariants, contention, and coordination.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-java-atomic-boolean"
+  ],
+  "related": [
+    "java-auto-closeable",
+    "java-online-performance-debug",
+    "java-internship-interview-blog-polished"
+  ]
 }
 ---
 

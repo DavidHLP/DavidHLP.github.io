@@ -66,7 +66,19 @@
       "description": "把 Java 线上性能事故压缩为症状、证据、线程/GC/代码定位、止损与恢复的最小决策树，避免用重启或命令清单替代根因分析。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-java-online-performance-debug"
+  ],
+  "related": [
+    "java-null-value",
+    "java-atomic-boolean",
+    "java-internship-interview-blog-polished",
+    "redis-jackson-java-time",
+    "jjwt-013-security-api"
+  ]
 }
 ---
 

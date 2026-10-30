@@ -72,7 +72,20 @@
       "description": "Synthesizes the Headroom single-port routing model: one loopback entry can serve explicitly configured custom providers and dynamic upstreams while preserving protocol differences. It separates OMP role selection, model_cache, request routing, and wrapper lifecycle and verifies each layer independently. Historical routes remain provisional.",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "legacy-headroom-single-port-evolution",
+    "legacy-omp-config-and-rules-guide",
+    "legacy-omp-headroom-persistence"
+  ],
+  "related": [
+    "omp-config-and-rules-guide",
+    "omp-headroom-persistence",
+    "omp-hook-extension-guide",
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

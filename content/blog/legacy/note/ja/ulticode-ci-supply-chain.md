@@ -60,7 +60,15 @@
       "description": "zero-infra の static contract、段階的検証、Trivy、SBOM、provenance、Cosign を追跡可能な delivery gate として組み立てる UltiCode の方法。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

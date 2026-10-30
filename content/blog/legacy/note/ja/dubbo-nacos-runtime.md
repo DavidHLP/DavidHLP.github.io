@@ -57,7 +57,17 @@
       "description": "Apache Dubbo 3.3.6 と Nacos 公式資料に基づき、インターフェースレベル/アプリケーションレベルの登録名、metadata、group/version のマッチング、起動チェック、本物の Nacos smoke test の最小境界を説明する。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "dubbo-nacos-runtime-registration",
+    "dubbo-nacos-runtime-registration-correction"
+  ],
+  "related": [
+    "multi-service-readiness",
+    "microservice-data-ownership"
+  ]
 }
 ---
 

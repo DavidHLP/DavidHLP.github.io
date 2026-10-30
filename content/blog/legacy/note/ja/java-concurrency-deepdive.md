@@ -58,7 +58,18 @@
       "description": "CAS を核にアトミック・ロック・スレッド協調と参照型をコスト境界付きで接続。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-java-concurrency"
+  ],
+  "related": [
+    "java-atomic-boolean",
+    "java-auto-closeable",
+    "java-online-performance-debug",
+    "jjwt-013-security-api"
+  ]
 }
 ---
 

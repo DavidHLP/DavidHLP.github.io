@@ -55,7 +55,17 @@
       "description": "Explains AutoCloseable and try-with-resources through resource ownership, reverse close order, primary and suppressed exceptions, and the boundaries of idempotent cleanup.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-java-auto-closeable"
+  ],
+  "related": [
+    "java-atomic-boolean",
+    "java-null-value",
+    "java-internship-interview-blog-polished"
+  ]
 }
 ---
 

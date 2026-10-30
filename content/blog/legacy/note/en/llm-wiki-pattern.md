@@ -53,7 +53,15 @@
       "toc": true,
       "top": 1
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "karpathy-llm-wiki"
+  ],
+  "related": [
+    "headroom-compress-retrieve-contract"
+  ]
 }
 ---
 

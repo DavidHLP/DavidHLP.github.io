@@ -56,7 +56,17 @@
       "description": "Documents the local compute split for the Vectorize Hindsight memory hub (AMD GPU inference plus CPU embedding), the UID 1000 permission model, and Docker Compose container orchestration.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "hindsight-local-deployment-and-agent-integration"
+  ],
+  "related": [
+    "hindsight-omp-codex-integration",
+    "hindsight-troubleshooting",
+    "mcp-codebase-memory-workflow"
+  ]
 }
 ---
 

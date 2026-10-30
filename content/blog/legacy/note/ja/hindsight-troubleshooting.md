@@ -56,7 +56,17 @@
       "description": "Hindsight のローカルデプロイと Agent 統合における典型的な 7 つの失敗モード（誤パッケージ、権限、タイムアウト、ルーティング、Session 消失、ワークスペースドリフト）と調査マトリクスをまとめる。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "hindsight-local-deployment-and-agent-integration"
+  ],
+  "related": [
+    "hindsight-local-deployment",
+    "hindsight-omp-codex-integration",
+    "omp-hook-extension-guide"
+  ]
 }
 ---
 

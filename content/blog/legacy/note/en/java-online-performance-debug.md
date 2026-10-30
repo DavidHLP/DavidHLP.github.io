@@ -65,7 +65,17 @@
       "description": "Compresses Java production incidents into a minimal decision tree from symptom and evidence to thread, GC, or code localization, followed by reversible mitigation and recovery.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-java-online-performance-debug"
+  ],
+  "related": [
+    "java-null-value",
+    "java-atomic-boolean",
+    "java-internship-interview-blog-polished"
+  ]
 }
 ---
 

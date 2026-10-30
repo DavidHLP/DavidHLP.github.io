@@ -56,7 +56,16 @@
       "description": "A layer-by-layer decision model for private-registry pull failures: separate certificate trust, containerd configuration, Kubernetes credentials, and node cache, then choose a production CA or a temporary skip_verify probe.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-containerd-tls-troubleshooting"
+  ],
+  "related": [
+    "intranet-penetration-ssh-guide",
+    "mysql-performance-troubleshooting"
+  ]
 }
 ---
 

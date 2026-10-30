@@ -54,7 +54,15 @@
       "description": "Pins the Headroom 0.34.0 /v1/compress and /v1/retrieve request, response, and mode boundaries, and explains why mocks and real loopback contract tests must share one schema.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "headroom-0-34-compress-retrieve-contract"
+  ],
+  "related": [
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

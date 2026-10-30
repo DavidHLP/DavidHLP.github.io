@@ -57,7 +57,18 @@
       "description": "把 MySQL 慢、卡、连接堆积和复制告警映射为现象、指标、定位层与安全缓解，覆盖连接、锁、索引、事务、Buffer Pool 和 IO，但不替代现场 SOP。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-mysql-performance-troubleshooting"
+  ],
+  "related": [
+    "containerd-tls-troubleshooting",
+    "intranet-penetration-ssh-guide",
+    "database-schema-drift",
+    "multi-service-readiness"
+  ]
 }
 ---
 

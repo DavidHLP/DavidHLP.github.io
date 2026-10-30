@@ -54,7 +54,17 @@
       "description": "ResiCache の load path で single-flight、distributed lock、double-check、failure result model がそれぞれ解決する問題と、保証しないことを整理する。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "resicache-engineering-highlights-2954fff",
+    "resicache-project-overview"
+  ],
+  "related": [
+    "resicache",
+    "redis-business-patterns"
+  ]
 }
 ---
 

@@ -57,7 +57,18 @@
       "description": "HandlerResult、handler snapshot、lock 内 fragment、observer scope token を使い、cache responsibility chain の control flow と lifecycle 境界を保つ ResiCache の現在の実装を分析する。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "resicache-engineering-highlights-2954fff",
+    "resicache-observer-nested-execution-contract",
+    "resicache-project-overview"
+  ],
+  "related": [
+    "resicache",
+    "resicache-observer-nested-execution"
+  ]
 }
 ---
 

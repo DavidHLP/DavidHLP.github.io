@@ -57,7 +57,18 @@
       "description": "以 CAS 为内核，串联原子类、锁、线程协作与引用类型，明确无锁与有锁的适用成本。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-java-concurrency"
+  ],
+  "related": [
+    "java-atomic-boolean",
+    "java-auto-closeable",
+    "java-online-performance-debug",
+    "jjwt-013-security-api"
+  ]
 }
 ---
 

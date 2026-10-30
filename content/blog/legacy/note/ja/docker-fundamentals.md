@@ -57,7 +57,17 @@
       "description": "Docker のイメージレイヤー、常用コマンド、ボリューム、ネットワークと Compose の適用条件と境界を整理。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-docker-fundamentals"
+  ],
+  "related": [
+    "containerd-tls-troubleshooting",
+    "multi-service-readiness",
+    "intranet-penetration-ssh-guide"
+  ]
 }
 ---
 

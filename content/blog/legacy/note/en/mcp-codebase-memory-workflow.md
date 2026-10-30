@@ -55,7 +55,15 @@
       "description": "The boundary and error codes between the MCP 2026-07-28 modern per-request _meta and the legacy initialize handshake, plus the codebase-memory-mcp v0.10.2 graph-search workflow: graph results are not a completeness proof, and negative conclusions must return to coverage and source code.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "mcp-codebase-memory-workflow"
+  ],
+  "related": [
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

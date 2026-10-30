@@ -61,7 +61,18 @@
       "description": "把一套数据库笔试题复盘为可验证的判断链：先分清 SQL 语义与方言，再处理 NULL、重复与空结果，最后把 Kettle 和超大表操作落到分片、恢复、对账与风险控制。",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "database-written-test-review"
+  ],
+  "related": [
+    "mysql-performance-troubleshooting",
+    "mysql-storage-and-deadlock",
+    "database-schema-drift",
+    "spark-bigdata-ecosystem"
+  ]
 }
 ---
 

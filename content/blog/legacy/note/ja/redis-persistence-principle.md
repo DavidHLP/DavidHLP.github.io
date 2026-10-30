@@ -57,7 +57,17 @@
       "description": "スナップショットと追記ログの回復と性能境界を区別。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-redis-persistence"
+  ],
+  "related": [
+    "redis-business-patterns",
+    "redis-heima-practice",
+    "database-schema-drift"
+  ]
 }
 ---
 

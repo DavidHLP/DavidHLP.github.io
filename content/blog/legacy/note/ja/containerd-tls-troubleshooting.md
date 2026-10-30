@@ -56,7 +56,16 @@
       "description": "プライベートレジストリの pull 失敗を、証明書信頼・containerd 設定・Kubernetes の認証情報・ノードキャッシュに分解し、本番 CA と一時的な skip_verify の境界を判断するためのモデル。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-containerd-tls-troubleshooting"
+  ],
+  "related": [
+    "intranet-penetration-ssh-guide",
+    "mysql-performance-troubleshooting"
+  ]
 }
 ---
 

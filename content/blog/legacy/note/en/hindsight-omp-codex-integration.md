@@ -56,7 +56,17 @@
       "description": "Explains the FastMCP stdio bridge state machine, Git-root-adaptive dynamic Bank routing, and dual-client configuration used to give OMP and Codex unified access to Hindsight memory.",
       "toc": true
     }
-  }
+  },
+  "kind": "entity",
+  "status": "active",
+  "sources": [
+    "hindsight-local-deployment-and-agent-integration"
+  ],
+  "related": [
+    "hindsight-local-deployment",
+    "hindsight-troubleshooting",
+    "omp-config-and-rules-guide"
+  ]
 }
 ---
 

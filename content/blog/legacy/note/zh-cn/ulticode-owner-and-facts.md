@@ -58,7 +58,15 @@
       "description": "从 UltiCode 的 owner 划分和 SubmissionFactsSnapshot 出发，说明跨服务写入如何把事实来源、捕获时间和 schema 版本变成显式契约。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ulticode-engineering-highlights-f801a1076"
+  ],
+  "related": [
+    "ulticode"
+  ]
 }
 ---
 

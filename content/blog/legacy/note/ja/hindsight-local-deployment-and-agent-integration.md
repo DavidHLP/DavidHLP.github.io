@@ -65,7 +65,17 @@
       "description": "Vectorize Hindsight 記憶エンジンの完全ローカルデプロイ（AMD ROCm GPU LLM + CPU Embedding）と、OMP と Codex 向けに適応型マルチプロジェクト動的ルーティング記憶を構成するための完全な実装・深度トラブルシューティング・根本原因調査ガイドを記録する。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "hindsight-local-deployment-and-agent-integration"
+  ],
+  "related": [
+    "omp-config-and-rules-guide",
+    "mcp-codebase-memory-workflow",
+    "llm-wiki-pattern"
+  ]
 }
 ---
 

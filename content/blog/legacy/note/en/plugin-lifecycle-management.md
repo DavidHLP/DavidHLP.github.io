@@ -53,7 +53,15 @@
       "description": "A control-plane model for making plugin install, upgrade, uninstall, and rule delivery converge safely through a desired/current/ack/failure state machine, merged heartbeats, idempotent dispatch, canary circuit breakers, and explicit source assumptions about scale and endpoint capabilities.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "legacy-plugin-lifecycle-management"
+  ],
+  "related": [
+    "uisa-architecture-design"
+  ]
 }
 ---
 

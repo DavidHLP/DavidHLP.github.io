@@ -55,7 +55,17 @@
       "description": "200ページ超の教材をチェックリストに圧縮し、バージョンと検証の欠落を明示。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "ingest-redis-heima"
+  ],
+  "related": [
+    "redis-business-patterns",
+    "redis-persistence-principle",
+    "plugin-lifecycle-management"
+  ]
 }
 ---
 

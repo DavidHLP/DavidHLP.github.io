@@ -56,7 +56,17 @@
       "description": "Summarizes seven typical failure modes in Hindsight local deployment and Agent integration (wrong package, permissions, timeout, routing, lost Session, and workspace drift) with a troubleshooting matrix.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "hindsight-local-deployment-and-agent-integration"
+  ],
+  "related": [
+    "hindsight-local-deployment",
+    "hindsight-omp-codex-integration",
+    "omp-hook-extension-guide"
+  ]
 }
 ---
 

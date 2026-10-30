@@ -59,7 +59,17 @@
       "description": "Explains why the default JsonJacksonCodec and GenericJackson2JsonRedisSerializer fail at write time for LocalDateTime, that the Redisson default codec is actually Kryo5Codec, and the three-layer decision path for troubleshooting write-read asymmetry.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "redis-jackson-java-time-contract"
+  ],
+  "related": [
+    "java-null-value",
+    "java-online-performance-debug",
+    "resicache-observer-nested-execution"
+  ]
 }
 ---
 

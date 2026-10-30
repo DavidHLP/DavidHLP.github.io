@@ -61,7 +61,21 @@
       "description": "Uses a decision table to distinguish six concepts in multi-service orchestration — process startup, business readiness, ordering, dependency establishment, and failure/restart propagation — and gives the minimal combinations and verification paths for Compose healthcheck/depends_on and systemd After/Wants/Requires.",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "multi-service-readiness-contract",
+    "multi-service-readiness-contract-correction",
+    "multi-service-readiness-safety-correction"
+  ],
+  "related": [
+    "mysql-performance-troubleshooting",
+    "database-schema-drift",
+    "testcontainers-docker-api",
+    "dubbo-nacos-runtime",
+    "microservice-data-ownership"
+  ]
 }
 ---
 

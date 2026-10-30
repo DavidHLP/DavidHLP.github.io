@@ -61,7 +61,18 @@
       "description": "A database written-test review as a verifiable chain of judgments: separate SQL semantics from dialects, handle NULLs, duplicates, and empty results, then bring Kettle and very large table operations down to sharding, recovery, reconciliation, and risk control.",
       "toc": true
     }
-  }
+  },
+  "kind": "synthesis",
+  "status": "provisional",
+  "sources": [
+    "database-written-test-review"
+  ],
+  "related": [
+    "mysql-performance-troubleshooting",
+    "mysql-storage-and-deadlock",
+    "database-schema-drift",
+    "spark-bigdata-ecosystem"
+  ]
 }
 ---
 

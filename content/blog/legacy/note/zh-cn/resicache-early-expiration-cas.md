@@ -54,7 +54,17 @@
       "description": "分析 ResiCache 如何用缓存值版本、Redis Lua CAS 和正常 miss 路径，避免旧异步任务误修改新缓存值。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "resicache-engineering-highlights-2954fff",
+    "resicache-project-overview"
+  ],
+  "related": [
+    "resicache",
+    "redis-business-patterns"
+  ]
 }
 ---
 

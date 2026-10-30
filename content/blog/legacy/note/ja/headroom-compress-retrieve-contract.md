@@ -54,7 +54,15 @@
       "description": "Headroom 0.34.0 の /v1/compress と /v1/retrieve の request、response、mode の境界を固定し、mock と実 loopback contract test が同じ schema を使う必要性を説明する。",
       "toc": true
     }
-  }
+  },
+  "kind": "concept",
+  "status": "active",
+  "sources": [
+    "headroom-0-34-compress-retrieve-contract"
+  ],
+  "related": [
+    "llm-wiki-pattern"
+  ]
 }
 ---
 
