@@ -1,0 +1,52 @@
+content/blog/legacy/information/en/kb-log.md
+  s_1f9e8743677ef7::t_5705168e2d1f28 79,97,101,121,135,139,141,149,152,159,161,167,171,179,183,185,189
+docs/I18N.md
+  s_1f9e8743677ef7::t_65d69d5599ea49 7
+  s_1f9e8743677ef7::t_812d276bcb36cf 13-16
+content/blog/legacy/information/ja/kb-index.md
+  s_1f9e8743677ef7::t_5c1f4a8d1c6eb5 233
+content/blog/legacy/information/ja/kb-log.md
+  s_1f9e8743677ef7::t_468902b272ee91 97,113,121,135,139,141,152,159,161,167,171,179,183,185,189,199
+content/blog/legacy/note/en/resicache-serialization-migration.md
+  s_1f9e8743677ef7::t_b8e54209673887 132-134
+content/blog/legacy/information/en/kb-index.md
+  s_1f9e8743677ef7::t_6e97ef9de62c76 233
+package.json
+  s_1f9e8743677ef7::t_50c4afe2debf45 37
+content/blog/legacy/note/en/resicache-early-expiration-cas.md
+  s_1f9e8743677ef7::t_9f442ce8d3d6f3 97-99,157-159,163-165
+content/blog/legacy/note/ja/resicache-early-expiration-cas.md
+  s_1f9e8743677ef7::t_3ccc4612d6af8a 97-99,157-159,163-165
+content/blog/legacy/note/ja/resicache-serialization-migration.md
+  s_1f9e8743677ef7::t_c66163c108d84b 132-134
+content/blog/legacy/note/zh-cn/ulticode-fenced-singleton-lease.md
+  s_1f9e8743677ef7::t_6f9926483619a1 180
+scripts/check-content.mjs
+  s_1f9e8743677ef7::t_4adfdc95152652 59,61,82-84
+package-lock.json
+  s_3d48479db66f62::t_bee06338f43b66 22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "95c7284eac0e6c178586d7a9c62752e1a3c3bd31",
+  "prompts": {},
+  "sessions": {
+    "s_1f9e8743677ef7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c39-1e1b-7d73-9bf2-5a0fc3f2b65d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    },
+    "s_3d48479db66f62": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c3d-f594-7422-a3f3-c59b5d34fd3b",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
