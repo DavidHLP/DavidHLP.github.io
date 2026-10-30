@@ -53,6 +53,7 @@ test("interface language selection validates stored values and preserves source 
 const published = await loadContent();
 const content = published;
 test("translations retain canonical sections, examples, tables, references and evidence metadata", async () => {
+  const sourceReference = record => record.legacy ? translationKey({ slug: record.source }) : record.source;
   const structure = async body => {
     const result = { heading: 0, code: 0, tableRow: 0, prose: "", references: new Set(), articles: new Set(), contracts: new Set(), codeTokens: new Set() };
     const visit = node => {
@@ -61,7 +62,7 @@ test("translations retain canonical sections, examples, tables, references and e
         const tokens = node.value.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*(\/\/|#|--).*$/gm, "").toLowerCase().match(/[a-z_][a-z0-9_.:-]*|\d+(?:\.\d+)*/g) ?? [];
         for (const token of tokens) {
           result.codeTokens.add(token);
-          if (node.lang && !["text", "mermaid", "plaintext"].includes(node.lang)) result.contracts.add(token);
+          if (!["text", "mermaid", "plaintext"].includes(node.lang)) result.contracts.add(token);
         }
       }
       if (node.type === "html") visit(htmlToHast(node.value));
@@ -97,12 +98,17 @@ test("translations retain canonical sections, examples, tables, references and e
   const syntaxCheck = await structure("~~~bash\nnode --check bridge.mjs\n~~~");
   const startsProcess = await structure("~~~bash\nnode bridge.mjs\n~~~");
   assert.ok(syntaxCheck.contracts.has("check") && !startsProcess.codeTokens.has("check"));
+  const indentedCheck = await structure("    node --check bridge.mjs\n");
+  assert.ok(indentedCheck.contracts.has("check") && !startsProcess.codeTokens.has("check"));
+  assert.equal(sourceReference({ legacy: {}, source: "https://example.com/v1/en/note.md" }), sourceReference({ legacy: {}, source: "https://example.com/v1/zh-cn/note.md" }));
+  assert.notEqual(sourceReference({ legacy: {}, source: "https://example.com/v2/en/note.md" }), sourceReference({ legacy: {}, source: "https://example.com/v1/zh-cn/note.md" }));
   const failures = [];
   for (const canonical of localizedArticles(published.records, "zh-CN")) {
     const source = await structure(canonical.body);
     for (const lang of ["en", "ja"]) {
       const target = published.records.find(record => record.lang === lang && translationKey(record) === translationKey(canonical));
       const translated = await structure(target.body);
+      if (sourceReference(target) !== sourceReference(canonical)) failures.push(`${target.slug}: stale source`);
       for (const token of source.contracts) {
         if (!translated.codeTokens.has(token)) failures.push(`${target.slug}: missing example token ${token}`);
       }
