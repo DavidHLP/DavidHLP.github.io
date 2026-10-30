@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "固定 Headroom 0.34.0 的 /v1/compress 与 /v1/retrieve 请求、响应和模式边界，并说明为何真实 loopback contract test 必须与 mock 使用同一 schema。",
   "findings": [
-    "Original document: src/content/note/zh-cn/headroom-compress-retrieve-contract.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/headroom-compress-retrieve-contract.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/headroom-compress-retrieve-contract.md",
   "pubDate": "2026-08-11T16:00:00.000Z",

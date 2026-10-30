@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-02-24",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Compresses Java production incidents into a minimal decision tree from symptom and evidence to thread, GC, or code localization, followed by reversible mitigation and recovery.",
   "findings": [
     "Original document: src/content/note/en/java-online-performance-debug.md",
@@ -30,7 +30,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/java-online-performance-debug.md",

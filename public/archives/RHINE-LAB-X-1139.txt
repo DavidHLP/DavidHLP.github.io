@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1139 / 数据库 Schema 漂移：用 history、schema 与 query 三视图定位
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1139 / 数据库 Schema 漂移：用 history、schema 与 query 三视图定位
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-12
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-12
+相关人物: DavidHLPL
+访问范围: 公开
 
 **结论优先**：Flyway Community 的 `validate` 比较的是“已应用 migration history”和“本地可解析 migration”，不是“实际数据库 schema”和“期望 schema”。遇到 `Unknown column`、重复加列或迁移失败时，必须同时检查 history、schema、query 三个视图；只运行 `repair` 可能让历史表恢复一致，却不会回放、撤销或清理 DDL。
 
@@ -124,8 +124,8 @@ docker rm -f schema-drift-mysql
 - [微服务数据所有权：先定领域 owner，再谈拆库与迁移](/blog/legacy/note/zh-cn/microservice-data-ownership/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/database-schema-drift.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/database-schema-drift.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/database-schema-drift.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/database-schema-drift.md

@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "解释 UltiCode 如何用数据库 outbox、Redis Streams 原子投递、重试/死信和 PEL 回收，把判题消息从一次调用变成可恢复状态。",
   "findings": [
-    "Original document: src/content/note/zh-cn/ulticode-outbox-redis-streams.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/ulticode-outbox-redis-streams.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode-outbox-redis-streams.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

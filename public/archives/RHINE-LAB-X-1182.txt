@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1182 / Spark 与大数据生态：Hadoop、HBase、Spark 运行模式与集群
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1182 / Spark 与大数据生态：Hadoop、HBase、Spark 运行模式与集群
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-20
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-20
+相关人物: DavidHLPL
+访问范围: 公开
 
 Personal 4 篇与 Fuwari 3 篇 Spark/大数据原文互为镜像，另含 `hadoop-hbase-spark/README` 的本地集群脚本。本页以引擎选型与运行模式为核心。
 
@@ -50,8 +50,8 @@ Personal 4 篇与 Fuwari 3 篇 Spark/大数据原文互为镜像，另含 `hadoo
 - [containerd TLS：证书信任链与临时跳过验证的决策](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/spark-bigdata-ecosystem.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/spark-bigdata-ecosystem.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/spark-bigdata-ecosystem.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/spark-bigdata-ecosystem.md

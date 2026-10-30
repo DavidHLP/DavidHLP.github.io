@@ -2,7 +2,9 @@
 
 Personal blog and engineering knowledge base at [davidhlp.github.io](https://davidhlp.github.io), built with the [RhineLabUI-Astro upstream template](https://github.com/DavidHLP/RhineLabUI-Astro).
 
-The blog repository, original documents, licenses and Git history are preserved. Drafts stay unpublished, immutable raw evidence is archived separately, and the template's sample posts are excluded. See [migration notes and inventory](migration/README.md).
+The blog repository, original documents, licenses and Git history are preserved. The owner approved publishing the 74 existing English/Japanese translations; the explicit changes are recorded in [publication overrides](migration/publication-overrides.json), while source snapshots and original draft metadata remain unchanged. All 67 article groups now have three published language versions. Template sample posts remain excluded. See [migration notes and inventory](migration/README.md).
+
+See [full-content language switching](docs/I18N.md) for language routing, catalogs, downloads and validation.
 
 ## Development
 

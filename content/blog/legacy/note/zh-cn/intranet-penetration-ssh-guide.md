@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "以连接方向、暴露面、控制平面、数据平面和故障恢复比较 Cloudflare Tunnel、Tailscale 与 FRP，并提炼移动端限制、端口语义和 systemd/linger 的可验证边界。",
   "findings": [
-    "Original document: src/content/note/zh-cn/intranet-penetration-ssh-guide.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/intranet-penetration-ssh-guide.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/intranet-penetration-ssh-guide.md",
   "pubDate": "2026-07-31T16:00:00.000Z",

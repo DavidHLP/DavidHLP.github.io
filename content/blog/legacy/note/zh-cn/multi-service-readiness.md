@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "用一张决策表区分多服务编排中的进程启动、业务就绪、排序、依赖建立、失败与重启传播六个概念，给出 Compose healthcheck/depends_on 与 systemd After/Wants/Requires 的最小组合和验证路径。",
   "findings": [
-    "Original document: src/content/note/zh-cn/multi-service-readiness.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/multi-service-readiness.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/multi-service-readiness.md",
   "pubDate": "2026-08-12T16:00:00.000Z",

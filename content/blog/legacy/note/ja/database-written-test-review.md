@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "データベース筆記試験を検証可能な判断の連鎖として復盤する。SQL の意味と方言を分け、NULL・重複・空結果を扱い、最後に Kettle と巨大テーブルの操作を分割・復旧・照合・リスク管理へ落とし込む。",
   "findings": [
-    "Original document: src/content/note/ja/database-written-test-review.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "元の文書: src/content/note/ja/database-written-test-review.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/database-written-test-review.md",
   "pubDate": "2026-09-12T16:00:00.000Z",

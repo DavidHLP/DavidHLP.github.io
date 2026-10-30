@@ -28,6 +28,7 @@ const blog = defineCollection({
     sources: z.array(text).optional(),
     related: z.array(text).optional(),
     legacy: z.object({ path: text, revision: text, metadata: z.record(z.string(), z.unknown()) }).optional(),
+    translationKey: text.optional(),
   }),
 });
 export const collections = { blog };

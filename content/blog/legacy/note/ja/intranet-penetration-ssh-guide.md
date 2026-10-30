@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-07-31",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Cloudflare Tunnel、Tailscale、FRP を接続方向・公開面・コントロールプレーン・データプレーン・復旧の 5 軸で比較し、モバイルクライアント、ポート、systemd/linger の根拠付き境界を整理する。",
   "findings": [
-    "Original document: src/content/note/ja/intranet-penetration-ssh-guide.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/intranet-penetration-ssh-guide.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/intranet-penetration-ssh-guide.md",
   "pubDate": "2026-07-31T16:00:00.000Z",
@@ -28,7 +28,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/intranet-penetration-ssh-guide.md",

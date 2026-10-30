@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "generation、attemptId、lease、条件付き更新によって、再判定・タイムアウト・古い Worker の結果が新しい状態を上書きしないようにする UltiCode の方法。",
   "findings": [
-    "Original document: src/content/note/ja/ulticode-generation-attempt-fence.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "元の文書: src/content/note/ja/ulticode-generation-attempt-fence.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode-generation-attempt-fence.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

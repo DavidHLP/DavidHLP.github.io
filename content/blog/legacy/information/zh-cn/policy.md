@@ -10,8 +10,8 @@
   "clearance": "PUBLIC",
   "abstract": "隐私政策 · src/content/information/zh-cn/policy.md",
   "findings": [
-    "Original document: src/content/information/zh-cn/policy.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64"
+    "原始文档: src/content/information/zh-cn/policy.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/zh-cn/policy.md",
   "pubDate": "2026-10-05T05:34:00.000Z",

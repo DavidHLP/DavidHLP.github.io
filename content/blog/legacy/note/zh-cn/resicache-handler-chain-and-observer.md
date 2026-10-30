@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "从 ResiCache 当前主线分析 HandlerResult、handler snapshot、锁内 fragment 与 observer scope token 如何共同保持缓存责任链的控制流和生命周期边界。",
   "findings": [
-    "Original document: src/content/note/zh-cn/resicache-handler-chain-and-observer.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/resicache-handler-chain-and-observer.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/resicache-handler-chain-and-observer.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

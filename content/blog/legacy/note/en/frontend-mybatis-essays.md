@@ -1,18 +1,18 @@
 ---
 {
   "archiveId": "X-1027",
-  "title": "Frontend and Miscellaneous Essays: Vue, MyBatis, UniApp, Cache Annotations, and Environment Troubleshooting",
+  "title": "Frontend and Miscellaneous Essays: Vue, MyBatis, UniApp, Cache Annotations, and Environment Troubleshooting (archived)",
   "en": "ENGINEERING NOTES",
   "category": "后端工程",
   "department": "工程笔记",
   "date": "2026-08-20",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
-  "abstract": "Archives scattered notes as a provisional synthesis, not a stable concept.",
+  "clearance": "PUBLIC",
+  "abstract": "Archived collection of frontend, MyBatis and environment troubleshooting notes. Original evidence remains in immutable raw snapshots.",
   "findings": [
     "Original document: src/content/note/en/frontend-mybatis-essays.md",
     "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "Evidence status: deprecated"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/en/frontend-mybatis-essays.md",
   "pubDate": "2026-08-20T16:00:00.000Z",
@@ -25,7 +25,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/frontend-mybatis-essays.md",
@@ -57,7 +57,7 @@
     }
   },
   "kind": "synthesis",
-  "status": "provisional",
+  "status": "deprecated",
   "sources": [
     "ingest-frontend-essays"
   ],
@@ -68,6 +68,8 @@
   ]
 }
 ---
+
+> This collection of miscellaneous notes was archived on 2026-08-23. The immutable source remains available; this historical page is no longer maintained as a canonical synthesis.
 
 
 This page is **provisional synthesis**, archiving 10 scattered essays: Vue, MyBatis, UniApp, cache annotations, and environment troubleshooting. They are mostly study notes and issue logs, not stable concepts, so they are not used as `sources` for other knowledge pages.

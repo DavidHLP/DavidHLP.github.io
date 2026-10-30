@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1172 / Redis 业务模式：缓存、分布式锁、消息队列、Feed 流与秒杀
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1172 / Redis 业务模式：缓存、分布式锁、消息队列、Feed 流与秒杀
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-20
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-20
+相关人物: DavidHLPL
+访问范围: 公开
 
 两仓库 20 篇 Redis 业务笔记互为镜像（同一主题在 Personal 与 Fuwari 各出现一次，中英文对照）。本页以缓存一致性、锁正确性、消息语义为锚，收敛为可复用模式，而非课程流水账。
 
@@ -68,8 +68,8 @@ ENGINEERING NOTES
 - [ResiCache：observer 嵌套执行必须区分生命周期、fragment 与 scope token](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/redis-business-patterns.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/redis-business-patterns.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/redis-business-patterns.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/redis-business-patterns.md

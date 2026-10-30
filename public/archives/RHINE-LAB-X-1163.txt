@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1163 / 微服务数据所有权：先定领域 owner，再谈拆库与迁移
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1163 / 微服务数据所有权：先定领域 owner，再谈拆库与迁移
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-12
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-12
+相关人物: DavidHLPL
+访问范围: 公开
 
 **结论优先**：微服务拆分的第一步不是把数据库拆成多台，而是确定 bounded context、最终写入 owner 和数据访问契约。服务数据应通过 API/消息访问；共享物理数据库服务器可以是过渡部署，多个服务共同读写同一业务 schema/表才是主要耦合。迁移按 `expand → migrate → contract` 推进，`contract` 删除旧对象前必须关闭回滚窗口。
 
@@ -100,8 +100,8 @@ revision-pinned 文档与 live 页面分层见仓库 `src/content/raw/zh-cn/micr
 - [Dubbo + Nacos：先核对注册名、group/version，再做真实 smoke test](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/microservice-data-ownership.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/microservice-data-ownership.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/microservice-data-ownership.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/microservice-data-ownership.md

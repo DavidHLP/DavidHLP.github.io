@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-02-24",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Java 本番性能障害を、症状・証拠・スレッド/GC/コード特定・可逆的な止血と復旧の最小判断木に圧縮し、再起動やコマンド一覧を根因分析の代わりにしない方法を示します。",
   "findings": [
-    "Original document: src/content/note/ja/java-online-performance-debug.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/java-online-performance-debug.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/java-online-performance-debug.md",
   "pubDate": "2026-02-24T16:00:00.000Z",
@@ -30,7 +30,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/java-online-performance-debug.md",

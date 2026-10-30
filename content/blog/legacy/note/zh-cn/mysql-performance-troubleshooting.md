@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "把 MySQL 慢、卡、连接堆积和复制告警映射为现象、指标、定位层与安全缓解，覆盖连接、锁、索引、事务、Buffer Pool 和 IO，但不替代现场 SOP。",
   "findings": [
-    "Original document: src/content/note/zh-cn/mysql-performance-troubleshooting.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/mysql-performance-troubleshooting.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/mysql-performance-troubleshooting.md",
   "pubDate": "2026-06-30T16:00:00.000Z",

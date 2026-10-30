@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "固定コミットの README を証拠として、ResiCache の位置付け、責任チェーンの handler 順序、保護機能のデフォルト設定、シリアライズエンベロープ移行コストを整理し、宣言された機能と未検証の機能を区別する。",
   "findings": [
-    "Original document: src/content/note/ja/resicache.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/resicache.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/resicache.md",
   "pubDate": "2026-08-20T16:00:00.000Z",
@@ -60,7 +60,7 @@
     }
   },
   "kind": "entity",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "resicache-project-overview",
     "resicache-observer-nested-execution-contract"
@@ -73,6 +73,8 @@
   ]
 }
 ---
+
+> 証拠の状態：暫定。この既存訳は元の証拠範囲を保持しています。中国語の正典は現在、`main@2954fff217257e9cf7c906450a75070d5e092637`のソースとリポジトリ内テストを参照しています。対象はJava 21、Spring Boot 4.0.0、Spring Data Redis 4.0、任意のRedisson 3.50.0で、pre-1.0段階です。テストが存在することは、今回の再実行や本番性能、P99、高可用性、損失ゼロ、完全なセキュリティ監査を証明しません。
 
 
 `ResiCache` は Spring Cache の保護を強化するアノテーションエコシステムである。`@Cacheable` の外側で `@RedisCacheable` を一行追加するだけで、Redis キャッシュに対するキャッシュ貫通、キャッシュブレークダウン、キャッシュアバランシェ、ホットキー早期リフレッシュへの対策を補い、再度 AOP を作り直すことなくオーケストレーション可能な責任チェーンを注入する。本ページは公開リポジトリ main の固定コミット `75ed279a`（v0.0.2）の宣言状態を扱う。observer のネスト実行契約は [ResiCache observer のネスト実行](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/) を参照。

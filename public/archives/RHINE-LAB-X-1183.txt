@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1183 / Spring Boot 与 Spring Cloud：自动装配、事务、注册发现、网关与可观测性
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1183 / Spring Boot 与 Spring Cloud：自动装配、事务、注册发现、网关与可观测性
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-20
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-20
+相关人物: DavidHLPL
+访问范围: 公开
 
 Fuwari 13 篇 Spring Boot/Cloud 原文构成微服务笔记的主体：自动装配、启动流程、事务、注册发现、网关与可观测性。本页以注册发现为锚，收敛为可复用契约。
 
@@ -54,8 +54,8 @@ Fuwari 13 篇 Spring Boot/Cloud 原文构成微服务笔记的主体：自动装
 - [containerd TLS：证书信任链与临时跳过验证的决策](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/spring-cloud-and-boot.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/spring-cloud-and-boot.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/spring-cloud-and-boot.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/spring-cloud-and-boot.md

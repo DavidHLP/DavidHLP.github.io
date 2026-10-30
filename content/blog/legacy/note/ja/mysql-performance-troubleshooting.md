@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-06-30",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "MySQL の遅延、停止、接続滞留、レプリケーション警告を、接続・ロック・インデックス・トランザクション・Buffer Pool・I/O の現象、指標、層、安全な緩和へ対応付ける。完全な SOP は複製しない。",
   "findings": [
-    "Original document: src/content/note/ja/mysql-performance-troubleshooting.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/mysql-performance-troubleshooting.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/mysql-performance-troubleshooting.md",
   "pubDate": "2026-06-30T16:00:00.000Z",
@@ -26,7 +26,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/mysql-performance-troubleshooting.md",

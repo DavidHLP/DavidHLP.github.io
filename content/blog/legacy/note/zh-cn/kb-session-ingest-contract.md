@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "固定提交 c0ae74e 中 KB 会话摄入管道的最小契约：身份/内容哈希驱动增量复用、失败记录不复用、redaction v19、内部控制面过滤、partial checkpoint 断点续跑与 raw manifest 不可变校验，并澄清占位符语义与脱敏边界。",
   "findings": [
-    "Original document: src/content/note/zh-cn/kb-session-ingest-contract.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/kb-session-ingest-contract.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/kb-session-ingest-contract.md",
   "pubDate": "2026-08-12T16:00:00.000Z",

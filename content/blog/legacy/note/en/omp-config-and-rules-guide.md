@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-07-31",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "A reusable model for OMP configuration layers: modelRoles selects a role default, agentModelOverrides supplies a local exception, and fallbackChains recovers after failure; the page also separates Headroom, rule discovery, and model selection and gives an ordered validation method.",
   "findings": [
     "Original document: src/content/note/en/omp-config-and-rules-guide.md",
@@ -30,7 +30,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/omp-config-and-rules-guide.md",

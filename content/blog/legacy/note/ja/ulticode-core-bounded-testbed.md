@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "UltiCode Core の owner-context manager が opt-in、allowlist、起動上限、close-once handoff を使い、modular monolith を可逆な topology testbed に限定する方法。",
   "findings": [
-    "Original document: src/content/note/ja/ulticode-core-bounded-testbed.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "元の文書: src/content/note/ja/ulticode-core-bounded-testbed.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode-core-bounded-testbed.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

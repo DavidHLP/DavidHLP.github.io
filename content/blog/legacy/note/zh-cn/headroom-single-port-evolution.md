@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "综合 Headroom 单端口路由的演进模型：一个 loopback 入口如何承接显式 custom provider、动态上游和不同协议，并把 OMP 角色选择、model_cache、请求级路由与 wrapper 生命周期分开验证。历史路由均标为 provisional。",
   "findings": [
-    "Original document: src/content/note/zh-cn/headroom-single-port-evolution.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/headroom-single-port-evolution.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/headroom-single-port-evolution.md",
   "pubDate": "2026-07-31T16:00:00.000Z",

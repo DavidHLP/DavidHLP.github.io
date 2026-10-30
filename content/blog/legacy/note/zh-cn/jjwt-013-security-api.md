@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "说明 JJWT 0.13.0 中 signWith(Key) 的推荐算法启发式、双参数显式算法 API、verifyWith 的 SecretKey/PublicKey 类型边界，以及 audience builder 的迁移方式。",
   "findings": [
-    "Original document: src/content/note/zh-cn/jjwt-013-security-api.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/jjwt-013-security-api.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/jjwt-013-security-api.md",
   "pubDate": "2026-08-12T16:00:00.000Z",

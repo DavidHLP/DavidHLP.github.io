@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-08-13",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "固定プロジェクトコミットとランタイム証拠を総合する。Headroom 8787 が cc-switch 15721 の前で Claude Code Messages を受け、OMP パスを分離し、単一の整理責任とロールバック可能な systemd セキュリティ境界を保つ方法を記録する。",
   "findings": [
-    "Original document: src/content/note/ja/headroom-cc-switch-coexistence.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "元の文書: src/content/note/ja/headroom-cc-switch-coexistence.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/headroom-cc-switch-coexistence.md",
   "pubDate": "2026-08-13T07:31:11.000Z",
@@ -30,7 +30,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/headroom-cc-switch-coexistence.md",

@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "综合固定项目提交与运行时证据：Headroom 8787 如何在 cc-switch 15721 前承接 Claude Code Messages，保持 OMP 路径隔离、单一整理责任和可回滚的 systemd 安全边界。",
   "findings": [
-    "Original document: src/content/note/zh-cn/headroom-cc-switch-coexistence.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/headroom-cc-switch-coexistence.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/headroom-cc-switch-coexistence.md",
   "pubDate": "2026-08-13T07:31:11.000Z",

@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-03-25",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Enhanced UISA とプラグインライフサイクルの raw を、owner/boundary、同期プロトコル、信頼性と冪等性、異種ノード、障害復旧、trade-offs の順に総合する。規模と閾値は本番保証ではなく、ソースの仮定として扱う。",
   "findings": [
-    "Original document: src/content/note/ja/uisa-architecture-design.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "元の文書: src/content/note/ja/uisa-architecture-design.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/uisa-architecture-design.md",
   "pubDate": "2026-03-25T00:00:00.000Z",
@@ -26,7 +26,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/uisa-architecture-design.md",

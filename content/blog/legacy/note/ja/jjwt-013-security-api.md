@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "JJWT 0.13.0 における signWith(Key) の推奨アルゴリズムのヒューリスティック、二引数の明示アルゴリズム API、verifyWith の SecretKey/PublicKey 型境界、audience builder の移行方法を説明する。",
   "findings": [
-    "Original document: src/content/note/ja/jjwt-013-security-api.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/jjwt-013-security-api.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/jjwt-013-security-api.md",
   "pubDate": "2026-08-12T16:00:00.000Z",
@@ -27,7 +27,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/jjwt-013-security-api.md",

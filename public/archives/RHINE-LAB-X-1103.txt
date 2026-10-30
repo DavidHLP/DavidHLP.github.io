@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1103 / LLM-Wiki パターン：LLM で蓄積する個人 AI ナレッジベース
-ENGINEERING NOTES
+﻿RHINE LAB · 内部データベース
+資料 X-1103 / LLM-Wiki パターン：LLM で蓄積する個人 AI ナレッジベース
+技術ノート
 
-科室：工程笔记
-编目范围：2026-08-07
-相关人物：DavidHLPL
-访问范围：PUBLIC
+部門: 技術ノート
+収録範囲: 2026-08-07
+関連人物: DavidHLPL
+アクセス: 公開
 
 > このページはナレッジベース自身の運用方法を説明します。一次資料は [`karpathy-llm-wiki`](https://gist.githubusercontent.com/karpathy/442a6bf555914893e9891c11519de94f/raw/ac46de1ad27f92b28ac95459c782c07f6b8c964a/llm-wiki.md)、保守契約は [KB.md](https://github.com/DavidHLP/DavidHLP.github.io/blob/main/KB.md) と [knowledge-base skill](https://github.com/DavidHLP/DavidHLP.github.io/blob/main/.claude/skills/knowledge-base.md) です。
 
@@ -77,9 +77,9 @@ RAG は必ずしも不正確なのではなく、知識が十分に蓄積され�
 - [karpathy-llm-wiki](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/karpathy-llm-wiki.md)
 - [Headroom 0.34 圧縮・取得契約：フィールド、モード、実エンドポイント検証](/blog/legacy/note/ja/headroom-compress-retrieve-contract/)
 
-研究记录
-1. Original document: src/content/note/ja/llm-wiki-pattern.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+研究記録
+1. 元の文書: src/content/note/ja/llm-wiki-pattern.md
+2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 証拠の状態: 有効
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/llm-wiki-pattern.md
+原文の出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/llm-wiki-pattern.md

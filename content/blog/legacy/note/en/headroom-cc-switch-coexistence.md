@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-13",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Synthesizes pinned project commits and runtime evidence: how Headroom 8787 receives Claude Code Messages before cc-switch 15721, keeping the OMP path isolated, a single synthesis responsibility, and a rollback-safe systemd security boundary.",
   "findings": [
     "Original document: src/content/note/en/headroom-cc-switch-coexistence.md",
@@ -30,7 +30,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/headroom-cc-switch-coexistence.md",

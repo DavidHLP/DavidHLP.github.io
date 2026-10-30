@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "Explains the recommended algorithm heuristic of signWith(Key), the two-argument explicit-algorithm API, the SecretKey/PublicKey type boundaries of verifyWith, and the migration path for the audience builder in JJWT 0.13.0.",
   "findings": [
     "Original document: src/content/note/en/jjwt-013-security-api.md",
@@ -27,7 +27,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/jjwt-013-security-api.md",

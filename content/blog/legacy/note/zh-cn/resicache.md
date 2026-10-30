@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "以 ResiCache 当前 main 的源码与边界测试为证据，提炼责任链、single-flight、版本化提前过期、白名单序列化和 observer 生命周期五个工程亮点，并明确与生产性能结论的距离。",
   "findings": [
-    "Original document: src/content/note/zh-cn/resicache.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/resicache.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/resicache.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "从 UltiCode 的 fenced_job_leases 和 reconciliation run 写入路径出发，说明为什么只有租约过期时间还不够，以及 fence token 如何让旧执行者在数据库门口失效。",
   "findings": [
-    "Original document: src/content/note/zh-cn/ulticode-fenced-singleton-lease.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "原始文档: src/content/note/zh-cn/ulticode-fenced-singleton-lease.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 暂定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/ulticode-fenced-singleton-lease.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

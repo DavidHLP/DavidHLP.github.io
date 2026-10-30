@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1146 / Headroom 0.34 压缩与检索契约：字段、模式与真实端点验证
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1146 / Headroom 0.34 压缩与检索契约：字段、模式与真实端点验证
+工程笔记
 
-科室：工程笔记
-编目范围：2026-08-11
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-08-11
+相关人物: DavidHLPL
+访问范围: 公开
 
 集成 Headroom 0.34.0 时，先把 API 当成版本化契约，而不是根据 dashboard、类型名或 mock 猜字段。`/v1/compress` 需要 `model` 和 `messages`，压缩统计位于响应顶层；`/v1/retrieve` 返回 `original_content`。这三个细节足以让“测试全绿”的适配器在真实代理上失败。
 
@@ -129,8 +129,8 @@ retrieval_count
 - [LLM-Wiki 模式：用 LLM 增量维护一个持久的个人知识库](/blog/legacy/note/zh-cn/llm-wiki-pattern/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/headroom-compress-retrieve-contract.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/headroom-compress-retrieve-contract.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/headroom-compress-retrieve-contract.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/headroom-compress-retrieve-contract.md

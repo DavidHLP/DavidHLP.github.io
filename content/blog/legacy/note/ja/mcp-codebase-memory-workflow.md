@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "MCP 2026-07-28 modern の request 単位 _meta と legacy initialize ハンドシェイクの境界とエラーコード、および codebase-memory-mcp v0.10.2 のグラフ検索ワークフロー。グラフ結果は完全性の証明ではなく、否定的結論は coverage とソースに立ち戻らなければならない。",
   "findings": [
-    "Original document: src/content/note/ja/mcp-codebase-memory-workflow.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/mcp-codebase-memory-workflow.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/mcp-codebase-memory-workflow.md",
   "pubDate": "2026-08-12T16:00:00.000Z",
@@ -26,7 +26,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/mcp-codebase-memory-workflow.md",

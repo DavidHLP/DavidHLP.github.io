@@ -7,12 +7,12 @@
   "department": "工程笔记",
   "date": "2026-08-12",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "固定コミット c0ae74e における KB セッション摂取パイプラインの最小契約を固定する。ID/コンテンツハッシュ駆動のインクリメンタル再利用、失敗記録の再利用不可、redaction v19、内部コントロールプレーンフィルタ、partial checkpoint からの再開、raw manifest の不変検証を定め、プレースホルダの意味論と脱感境界を明確にする。",
   "findings": [
-    "Original document: src/content/note/ja/kb-session-ingest-contract.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "元の文書: src/content/note/ja/kb-session-ingest-contract.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 有効"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/kb-session-ingest-contract.md",
   "pubDate": "2026-08-12T16:00:00.000Z",
@@ -26,7 +26,7 @@
     "ja",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "ja",
   "legacy": {
     "path": "src/content/note/ja/kb-session-ingest-contract.md",

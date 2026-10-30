@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "期限時刻だけでは不十分な理由と、UltiCode の fenced_job_leases と reconciliation run の write path が database 境界で古い executor を無効にする方法。",
   "findings": [
-    "Original document: src/content/note/ja/ulticode-fenced-singleton-lease.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: provisional"
+    "元の文書: src/content/note/ja/ulticode-fenced-singleton-lease.md",
+    "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "証拠の状態: 暫定"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/ja/ulticode-fenced-singleton-lease.md",
   "pubDate": "2026-09-08T16:00:00.000Z",

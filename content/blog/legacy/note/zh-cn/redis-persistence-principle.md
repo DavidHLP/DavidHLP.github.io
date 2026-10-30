@@ -10,9 +10,9 @@
   "clearance": "PUBLIC",
   "abstract": "区分 RDB/AOF 持久化、底层数据结构与过期淘汰，明确持久化选择的可用性与性能边界。",
   "findings": [
-    "Original document: src/content/note/zh-cn/redis-persistence-principle.md",
-    "Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
-    "Evidence status: active"
+    "原始文档: src/content/note/zh-cn/redis-persistence-principle.md",
+    "来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
+    "证据状态: 有效"
   ],
   "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/redis-persistence-principle.md",
   "pubDate": "2026-08-20T16:00:00.000Z",

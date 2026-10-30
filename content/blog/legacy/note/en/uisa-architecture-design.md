@@ -7,7 +7,7 @@
   "department": "工程笔记",
   "date": "2026-03-25",
   "lead": "DavidHLPL",
-  "clearance": "DRAFT",
+  "clearance": "PUBLIC",
   "abstract": "A synthesis of Enhanced UISA and the plugin-lifecycle source, reorganized around owner/boundary, sync protocol, reliability and idempotency, heterogeneous nodes, failure recovery, and trade-offs rather than an architecture-blog sequence. Scale and thresholds remain source assumptions, not production promises.",
   "findings": [
     "Original document: src/content/note/en/uisa-architecture-design.md",
@@ -26,7 +26,7 @@
     "en",
     "note"
   ],
-  "draft": true,
+  "draft": false,
   "lang": "en",
   "legacy": {
     "path": "src/content/note/en/uisa-architecture-design.md",

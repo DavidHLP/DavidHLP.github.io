@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1170 / OMP Hook 扩展概念：决策点提示、硬阻断与状态桥接
-ENGINEERING NOTES
+﻿RHINE LAB · 内部数据库
+档案 X-1170 / OMP Hook 扩展概念：决策点提示、硬阻断与状态桥接
+工程笔记
 
-科室：工程笔记
-编目范围：2026-07-24
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 工程笔记
+编目范围: 2026-07-24
+相关人物: DavidHLPL
+访问范围: 公开
 
 这页回答 Hook 应该放在哪里、应该改变什么，以及怎样证明它真的生效。核心定位是“在工具调用即将发生的决策点观察并干预”：`sendMessage` 适合低风险的软提示，返回 `{ block, reason }` 才是阻断通道；`ctx.ui.setStatus` 只是把状态送到可见 UI，不能把提示升级为安全控制。
 
@@ -112,8 +112,8 @@ mock 探针至少断言：非目标工具静默、目标工具只提示一次或
 - [Headroom 0.34 压缩与检索契约：字段、模式与真实端点验证](/blog/legacy/note/zh-cn/headroom-compress-retrieve-contract/)
 
 研究记录
-1. Original document: src/content/note/zh-cn/omp-hook-extension-guide.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
-3. Evidence status: active
+1. 原始文档: src/content/note/zh-cn/omp-hook-extension-guide.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+3. 证据状态: 有效
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/omp-hook-extension-guide.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/note/zh-cn/omp-hook-extension-guide.md

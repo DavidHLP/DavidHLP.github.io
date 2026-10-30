@@ -1,11 +1,11 @@
-﻿RHINE LAB · INTERNAL DATABASE
-FILE X-1015 / 知识库目录
-SITE INFORMATION
+﻿RHINE LAB · 内部数据库
+档案 X-1015 / 知识库目录
+站点信息
 
-科室：站点信息
-编目范围：2026-10-05
-相关人物：DavidHLPL
-访问范围：PUBLIC
+科室: 站点信息
+编目范围: 2026-10-05
+相关人物: DavidHLPL
+访问范围: 公开
 
 # 知识库目录
 
@@ -219,7 +219,7 @@ raw 文件位于 `src/content/raw/zh-cn/`，只供 LLM 阅读，不生成公开�
 - 呈现层 6 域为视图聚合，不改 `series` 枚举；毕业观察板季度审视，未达标则 `deprecated`。
 
 研究记录
-1. Original document: src/content/information/zh-cn/kb-index.md
-2. Source revision: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
+1. 原始文档: src/content/information/zh-cn/kb-index.md
+2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64
 
-原文来源：https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/zh-cn/kb-index.md
+原文来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/information/zh-cn/kb-index.md
