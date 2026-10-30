@@ -19,7 +19,10 @@
     "build": "astro check && astro build && node scripts/build-pwa.mjs",
     "build:cloudflare": "npm run build && node scripts/package-cloudflare.mjs",
     "format": "prettier --write src scripts content astro.config.ts package.json tsconfig.json",
-    "preview": "astro preview --host 127.0.0.1"
+    "preview": "astro preview --host 127.0.0.1",
+    "kb:lint": "node --experimental-strip-types scripts/kb-lint.ts",
+    "kb:ingest": "node --experimental-strip-types scripts/kb-ingest-sessions.ts",
+    "test:kb": "vitest run scripts/kb-ingest-sessions.test.ts"
   },
   "dependencies": {
     "astro": "7.3.6",
@@ -34,7 +37,8 @@
     "@astrojs/check": "0.9.10",
     "@types/three": "^0.183.0",
     "prettier": "^3.9.6",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "3.2.4"
   },
   "repository": {
     "type": "git",
