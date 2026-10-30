@@ -75,7 +75,7 @@ $("#stage").innerHTML = `
     <button data-action="search"><span class="nav-glyph">⌕</span> ARCHIVE INDEX <span class="key">/</span></button>
     <button data-action="saved" aria-label="查看收藏档案" title="收藏档案">＋ <span class="nav-saved-label">SAVED</span> <span id="saved-count">00</span></button>
     <select class="nav-language" data-ui-language aria-label="界面语言"><option value="zh-CN" lang="zh-CN">中文</option><option value="en" lang="en">English</option><option value="ja" lang="ja">日本語</option></select>
-    <button data-action="toggle-theme" aria-pressed="false" aria-label="切换为暗色模式"><span aria-hidden="true">◐</span><span class="nav-theme-label">亮色</span></button>
+    <button data-action="toggle-theme" aria-pressed="false" aria-label="切换为暗色模式"><svg class="theme-glyph" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor"/></svg><span class="nav-theme-label">亮色</span></button>
     <button class="settings-button" data-action="settings" aria-label="系统设置" title="系统设置"><span class="settings-glyph" aria-hidden="true">◷</span><span class="settings-label">设置</span></button>
   </nav>
   <button id="skip" class="skip" data-action="skip">ENTER SYSTEM <span>↗</span></button>
