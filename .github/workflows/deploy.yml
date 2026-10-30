@@ -12,8 +12,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -21,7 +21,9 @@ jobs:
       - run: npm run build
       - run: npm run check:content
       - run: npm run check:viewport
-      - uses: actions/upload-pages-artifact@v3
+      - run: npm run kb:lint
+      - run: npm run test:kb
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
   deploy:
@@ -36,4 +38,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
