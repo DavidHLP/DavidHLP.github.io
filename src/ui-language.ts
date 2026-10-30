@@ -1,5 +1,5 @@
 import { languageUrl } from "./content-language.ts";
-import contentLabels from "../content/locales.json";
+import contentLabels from "../content/locales.json" with { type: "json" };
 
 export const uiLanguages = ["zh-CN", "en", "ja"] as const;
 export type UiLanguage = typeof uiLanguages[number];
@@ -375,6 +375,7 @@ export function translateUiText(value: string, language: UiLanguage): string {
 
 let initialized = false;
 export function currentUiLanguage(): UiLanguage {
+  if (typeof location === "undefined") return "zh-CN";
   const requested = new URLSearchParams(location.search).get("lang");
   if (uiLanguages.includes(requested as UiLanguage)) return requested as UiLanguage;
   try {

@@ -1,6 +1,6 @@
-import labels from "../content/locales.json";
-import { contentLabel, localizedArticles, translationKey } from "./content-language";
-import { currentUiLanguage } from "./ui-language";
+import labels from "../content/locales.json" with { type: "json" };
+import { contentLabel, localizedArticles, translationKey } from "./content-language.ts";
+import { currentUiLanguage } from "./ui-language.ts";
 
 export interface ArchiveRecord {
   id: string;
