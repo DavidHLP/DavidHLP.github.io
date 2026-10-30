@@ -1,21 +1,17 @@
 {
-	"extends": "astro/tsconfigs/strict",
-	"include": [".astro/types.d.ts", "**/*"],
-	"exclude": ["dist"],
-	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"$config": ["site.config.ts"],
-			"$public/*": ["public/*"],
-			"$assets/*": ["src/assets/*"],
-			"$icons/*": ["src/icons/*"],
-			"$graph/*": ["src/graph/*"],
-			"$utils/*": ["src/utils/*"],
-			"$components/*": ["src/components/*"],
-			"$i18n": ["src/i18n/index"],
-			"$layouts/*": ["src/layouts/*"],
-			"$scripts/*": ["src/scripts/*"],
-			"$styles/*": ["src/styles/*"]
-		}
-	}
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "useDefineForClassFields": true
+  },
+  "include": [".astro/types.d.ts", "src", "astro.config.ts"],
+  "exclude": ["dist", "release"]
 }

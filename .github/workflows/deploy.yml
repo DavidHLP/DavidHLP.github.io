@@ -1,59 +1,29 @@
-name: Deploy to GitHub Pages
-
+name: Deploy blog to GitHub Pages
 on:
   push:
     branches: [main]
   workflow_dispatch:
-
-permissions: {}
-
+permissions:
+  contents: read
 concurrency:
   group: pages
   cancel-in-progress: true
-
 jobs:
-  validate:
-    name: Validate before deploy
-    uses: ./.github/workflows/site-validation.yaml
-    permissions:
-      contents: read
-
   build:
-    needs: validate
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          persist-credentials: false
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
-        with:
-          version: 10.30.0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build Astro site
-        run: pnpm build
-
-      - name: Add .nojekyll file
-        run: touch ./dist/.nojekyll
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v5
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run check:content
+      - run: npm run check:viewport
+      - uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
-
+          path: dist
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -66,4 +36,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@v4
