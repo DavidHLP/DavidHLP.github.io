@@ -408,6 +408,7 @@ export function initUiLanguage() {
       return;
     }
     if (url.origin !== location.origin || !(url.pathname === "/" || url.pathname.startsWith("/blog/"))) return;
+    if (node.target.toLowerCase() === "_blank") node.removeAttribute("target");
     const target = languageUrl(articles, url.href, language);
     if (target !== url.pathname + url.search + url.hash) node.href = target;
   }
