@@ -17,9 +17,41 @@ import { escapeHtml } from "../src/html.ts";
 import { postPath } from "../src/blog-path.ts";
 import { archiveTickWindow, articleNavigationUrl, recentRecords, visibleSavedCount, persistSaved, syncArticleMetadata, restoreArticleHash } from "../src/blog-client.ts";
 import { StartupGate } from "../src/startup.ts";
+import { ArticleReader } from "../src/article-reader.ts";
 import { normalizeUiLanguage, translateUiText, translatedBootText } from "../src/ui-language.ts";
 import { contentLabel, localizedArticles, languageUrl, translationKey, validateTranslations, restoredArchiveNavigation } from "../src/content-language.ts";
 import { MOTION_LABELS } from "../src/motion-preferences.ts";
+
+test("full-window reading moves one article, restores its place and isolates keyboard shortcuts", () => {
+  const events = {};
+  let focused = false, stopped = false, cancelled = false;
+  const panel = { scrollTop: 0, getBoundingClientRect: () => ({ top: 0 }) };
+  const sibling = {};
+  const parent = { insertBefore(node, next) { assert.equal(node, article); assert.equal(next, sibling); node.parentElement = parent; } };
+  const article = { parentElement: parent, nextSibling: sibling, scrollTop: 20, inert: true,
+    querySelector: () => panel, querySelectorAll: () => [] };
+  const dialog = { open: false, scrollTop: 0,
+    addEventListener: (type, fn) => { events[type] = fn; },
+    append(node) { assert.equal(node, article); node.parentElement = dialog; },
+    showModal() { this.open = true; },
+    close() { this.open = false; events.close(); },
+    getBoundingClientRect: () => ({ top: 0 }) };
+  const reader = new ArticleReader(dialog, article);
+  reader.open({ isConnected: true, focus: () => { focused = true; } });
+  assert.equal(reader.isOpen, true);
+  assert.equal(article.parentElement, dialog);
+  assert.equal(article.inert, false);
+  events.keydown({ stopPropagation: () => { stopped = true; } });
+  assert.equal(stopped, true);
+  events.cancel({ preventDefault: () => { cancelled = true; } });
+  assert.equal(cancelled, true);
+  assert.equal(reader.isOpen, false);
+  assert.equal(article.parentElement, parent);
+  assert.equal(article.scrollTop, 20);
+  assert.equal(focused, true);
+  assert.equal(translateUiText("全窗口阅读 ↗", "en"), "Read full window ↗");
+  assert.equal(translateUiText("全窗口阅读 ↗", "ja"), "全画面で読む ↗");
+});
 
 test("interface language selection validates stored values and preserves source content", () => {
   assert.equal(normalizeUiLanguage("ja"), "ja");
