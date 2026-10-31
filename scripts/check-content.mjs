@@ -58,14 +58,15 @@ test("full-window reading moves one article, restores its place and handles nati
   article.getBoundingClientRect = () => ({ top: 100, height: 500 });
   panel.offsetHeight = 100;
   panel.getBoundingClientRect = () => ({ top: 200, height: 100 });
+  dialog.firstElementChild = { offsetHeight: 80 };
   for (const overflowY of ["auto", "visible"]) {
     globalThis.getComputedStyle = () => ({ overflowY });
     article.scrollTop = 20;
     panel.scrollTop = 0;
     reader.open({ isConnected: true, focus() {} });
     reader.close();
-    assert.equal(article.scrollTop, overflowY === "visible" ? 320 : 20);
-    assert.equal(panel.scrollTop, overflowY === "visible" ? 0 : 200);
+    assert.equal(article.scrollTop, overflowY === "visible" ? 400 : 20);
+    assert.equal(panel.scrollTop, overflowY === "visible" ? 0 : 280);
   }
   assert.equal(translateUiText("全窗口阅读 ↗", "en"), "Read full window ↗");
   assert.equal(translateUiText("全窗口阅读 ↗", "ja"), "全画面で読む ↗");
