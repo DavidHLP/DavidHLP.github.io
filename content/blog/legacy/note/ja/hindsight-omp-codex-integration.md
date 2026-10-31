@@ -83,8 +83,8 @@
 Git root のディレクトリ名から `ulticode`、`resicache`、`davidhlp_github_io` 等の Bank ID を作る。これはアプリ層の論理分割で、独立 DB・process・アクセス制御としての物理隔離ではない。basename と文字置換だけなので、異なるパスの同名 repo や `a.b` と `a_b` は衝突する。必要なら client ごとに異なる `HINDSIGHT_BANK_ID` を明示し、OMP の実 Bank も照合する。
 
 ```
-プロジェクトワークスペース (/path/to/project-a)  ──> Git ルート検出 ──> Bank: project_a ──> Hindsight /mcp/project_a/
-プロジェクトワークスペース (/path/to/project-b)  ──> Git ルート検出 ──> Bank: project_b ──> Hindsight /mcp/project_b/
+プロジェクトワークスペース (/path/to/project-a)  ──> Git ルート検出 ──> Bank: project-a ──> Hindsight /mcp/project-a/
+プロジェクトワークスペース (/path/to/project-b)  ──> Git ルート検出 ──> Bank: project-b ──> Hindsight /mcp/project-b/
 ```
 
 ---

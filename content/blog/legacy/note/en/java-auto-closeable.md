@@ -127,7 +127,7 @@ final class Handle implements AutoCloseable {
 - The exception type from `close()` still follows the implementation and JDK API contract; not every resource closes silently.
 - Idempotence is a recommended production property, not a guarantee that every library implementation makes repeated close calls harmless; check the specific API.
 - Reverse ordering solves resource dependency, not transaction commit, message acknowledgement, or business compensation. Those semantics need explicit design.
-- Pools, JDBC drivers, and third-party clients can change close behavior across versions; compiler expansion is not a public API contract.
+- Versions, connection pools, and serialization clients may change implementation details; compiler expansion is not a public API contract.
 
 ## Minimum verification
 

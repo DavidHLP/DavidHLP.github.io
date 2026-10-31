@@ -109,7 +109,7 @@ Negative caching blocks only an absent key that has already been observed. It st
 
 ## Applicability
 
-- “Absent” is a cacheable business result, and repeated source lookups would harm the database or downstream service.
+- “Absent” is a stable, cacheable business result, and repeated source lookups would overwhelm the database or downstream service.
 - The adapter converts `null` to a marker before storage and converts it back after reads, without exposing the marker to business code.
 - Negative-cache TTL, invalidation, and serialization behavior are defined; a short period of staleness is acceptable after creation.
 - The implementation needs to distinguish a cache miss, negative hit, and real object; an empty string is not used as a substitute for null.
