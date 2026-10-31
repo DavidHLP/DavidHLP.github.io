@@ -22,9 +22,9 @@ import { normalizeUiLanguage, translateUiText, translatedBootText } from "../src
 import { contentLabel, localizedArticles, languageUrl, translationKey, validateTranslations, restoredArchiveNavigation } from "../src/content-language.ts";
 import { MOTION_LABELS } from "../src/motion-preferences.ts";
 
-test("full-window reading moves one article, restores its place and isolates keyboard shortcuts", () => {
+test("full-window reading moves one article, restores its place and handles native Escape", () => {
   const events = {};
-  let focused = false, stopped = false, cancelled = false;
+  let focused = false, cancelled = false;
   const panel = { scrollTop: 0, getBoundingClientRect: () => ({ top: 0 }) };
   const sibling = {};
   const parent = { insertBefore(node, next) { assert.equal(node, article); assert.equal(next, sibling); node.parentElement = parent; } };
@@ -41,8 +41,6 @@ test("full-window reading moves one article, restores its place and isolates key
   assert.equal(reader.isOpen, true);
   assert.equal(article.parentElement, dialog);
   assert.equal(article.inert, false);
-  events.keydown({ stopPropagation: () => { stopped = true; } });
-  assert.equal(stopped, true);
   events.cancel({ preventDefault: () => { cancelled = true; } });
   assert.equal(cancelled, true);
   assert.equal(reader.isOpen, false);
