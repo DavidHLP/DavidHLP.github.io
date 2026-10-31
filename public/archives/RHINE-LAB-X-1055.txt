@@ -24,7 +24,7 @@ For each endpoint–plugin key, retain at least four dimensions instead of colla
 | `ack`     | Whether a particular install/upgrade/uninstall operation was executed and acknowledged | Operation receipt             |
 | `failure` | Latest error, consecutive failures, and blocking reason                                | Receipts and failure counters |
 
-The minimum loop is: `desired != current` creates a candidate action; capability and safety checks run first; dispatch waits for an `ack`; only success advances `current`; failure updates `failure` and selects retry or blocking. A heartbeat timeout marks the observation logically offline; it does not prove an uninstall succeeded.
+The minimum loop is: `desired != current` creates a candidate action; capability and safety checks run first; after dispatch, wait for an `ack`; only success advances `current`; failure updates `failure` and selects retry or blocking. A heartbeat timeout marks the observation logically offline; it does not prove an uninstall succeeded.
 
 ```text
 desired <- policy
@@ -64,7 +64,7 @@ The source's `5-minute sample >= 100`, failure rate `>= 20%`, and `>= 30` consec
 
 Accept heartbeat delay, lost receipts, duplicate reports, and lagging versions; converge through repeated observation rather than forcing every request to be strongly synchronous:
 
-1. On a receipt, update the operation log and plugin state; failures enter retry and failure statistics.
+1. On a successful receipt, update the operation log and plugin state; failures enter retry and failure statistics.
 2. On heartbeat timeout, mark `Offline` first and retain the record for recovery; clean it in batches only after the retention window.
 3. When heartbeat returns, compare `desired/current` and dispatch only still-needed work.
 4. Put OS-incompatible combinations on a TTL-backed blacklist so every heartbeat does not repeat the same failure.

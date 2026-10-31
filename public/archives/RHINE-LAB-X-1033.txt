@@ -41,7 +41,7 @@ flowchart TD
   API --> FastMCP_EP
   API --> PG0
   API -->|LLM fact extraction and reflection| OLLAMA
-  API -->|vector embedding and reranking| EMBED
+  API -->|vector embedding| EMBED
 ```
 
 ### Core design principles
@@ -63,7 +63,7 @@ The source records a container process using UID 1000, which needs writable moun
 ```bash
 mkdir -p ~/.hindsight/data ~/.hindsight/models ~/.hindsight/ollama
 
-# 安全权限配置：将数据与模型目录所属权赋予容器 UID 1000
+# Permissions: assign data and model directories to container UID 1000
 sudo chown -R 1000:1000 ~/.hindsight/data ~/.hindsight/models
 chmod -R u+rwX,g+rwX ~/.hindsight/data ~/.hindsight/models
 ```
@@ -74,7 +74,7 @@ Use `${HOME}` or absolute host paths instead of depending on shell `~` expansion
 
 ```yaml
 services:
-    # GPU LLM 服务：通过 Ollama ROCm 加载模型
+    # GPU LLM service: load the model through Ollama ROCm
     ollama-gpu:
         image: ollama/ollama:rocm
         container_name: hindsight-ollama-gpu
@@ -92,24 +92,24 @@ services:
             - ${HOME}/.hindsight/ollama:/root/.ollama
             - ${HOME}/.hindsight/models:/models:ro
 
-    # Hindsight 核心服务端 (Vectorize.io 固定版本)
+    # Hindsight core server (pinned Vectorize.io version)
     hindsight:
         image: ghcr.io/vectorize-io/hindsight:v0.9.1
         container_name: hindsight-server
         restart: unless-stopped
         ports:
-            - "127.0.0.1:8888:8888" # API & MCP 端点
-            - "127.0.0.1:9999:9999" # Web UI 控制台
+            - "127.0.0.1:8888:8888" # API & MCP endpoints
+            - "127.0.0.1:9999:9999" # Web UI console
         environment:
-            # --- LLM 驱动 (GPU) ---
+            # --- LLM provider (GPU) ---
             - HINDSIGHT_API_LLM_PROVIDER=ollama
             - HINDSIGHT_API_LLM_BASE_URL=http://ollama-gpu:11434/v1
             - HINDSIGHT_API_LLM_MODEL=gemma4:12b
-            # --- Embedding 驱动 (CPU) ---
+            # --- Embedding provider (CPU) ---
             - HINDSIGHT_API_EMBEDDINGS_PROVIDER=local
             - HINDSIGHT_API_EMBEDDINGS_LOCAL_MODEL=BAAI/bge-m3
             - HINDSIGHT_API_EMBEDDINGS_LOCAL_FORCE_CPU=true
-            # --- 模型权重下载配置（首发拉取需连网，预缓存后可脱网） ---
+            # --- Model weight downloads (initial fetch needs networking; precached weights permit offline use) ---
             - HF_ENDPOINT=https://huggingface.co
             - HINDSIGHT_API_LOG_LEVEL=info
         volumes:
