@@ -89,7 +89,7 @@
 
 ## C. 保存とキャッシュ
 
-- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/ja/redis-business-patterns/) — 一貫性・排他・意味からキャッシュと業務を整理。 出典：ingest-redis-business`.
+- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と数量限定・時間限定販売](/blog/legacy/note/ja/redis-business-patterns/) — 一貫性・排他・意味からキャッシュと業務を整理。 出典：ingest-redis-business`.
 - [Redis 永続化と原理：RDB/AOF、データ構造と高度な仕組み](/blog/legacy/note/ja/redis-persistence-principle/) — snapshot と追記ログの復旧・性能。 出典：ingest-redis-persistence`.
 - [Redis 黒馬実践：分散キャッシュ、マルチレベルキャッシュとベストプラクティス](/blog/legacy/note/ja/redis-heima-practice/) — 200 頁以上から抽出した一覧と版の不足。 出典：ingest-redis-heima`.
 - [MySQL ストレージエンジンとデッドロック検出](/blog/legacy/note/ja/mysql-storage-and-deadlock/) — engine の能力と deadlock log の経路。 出典：ingest-mysql-storage`.
