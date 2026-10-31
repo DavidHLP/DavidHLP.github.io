@@ -11,10 +11,12 @@ import "@kitlangton/rolling-number/styles.css";
 import "./style.css";
 import "./quality-settings.css";
 import "./responsive.css";
+import "./article-reader.css";
+import { ArticleReader } from "./article-reader";
 import { viewportLayout, openingLayout } from "./viewport-layout";
 import { assetUrl } from "./asset-url";
 import { postPath } from "./blog-path";
-import { archiveTickWindow, persistSaved, recentRecords, restoreArticleHash, syncArticleMetadata, visibleSavedCount } from "./blog-client";
+import { archiveTickWindow, articleNavigationUrl, persistSaved, recentRecords, restoreArticleHash, syncArticleMetadata, visibleSavedCount } from "./blog-client";
 import { initPwa, pwaSettingsMarkup } from "./pwa";
 import { createRollingNumber, createRollingText } from "@kitlangton/rolling-number";
 import { ArchiveScene } from "./scene";
@@ -128,6 +130,12 @@ let modal: "search" | "saved" | "settings" | null = null,
   searchQuery = "",
   filter = "全部档案";
 let activeTab = "overview";
+const readerDialog = document.createElement("dialog");
+readerDialog.id = "article-reader";
+readerDialog.setAttribute("aria-label", "全窗口阅读");
+readerDialog.innerHTML = '<header><button data-action="close-reader" autofocus>退出全窗口阅读 · Esc</button></header>';
+$("#stage").append(readerDialog);
+const articleReader = new ArticleReader(readerDialog, $("#detail-content"));
 let pendingArticleHash = false;
 let searchOrder: "archive" | "recent" = "archive";
 let searchState: "idle" | "loading" | "ready" | "failed" = "idle";
@@ -164,6 +172,7 @@ let modalClosing = false;
 let pendingModalAction: (() => void) | undefined;
 let modalSiblings: { node: HTMLElement; inert: boolean }[] = [];
 let pendingDetailFocus = false;
+readerDialog.addEventListener("close", () => { pendingDetailFocus = false; });
 let bookmarkFeedback: Animation | undefined;
 function readLocal<T>(key: string, fallback: T): T {
   try {
@@ -564,18 +573,22 @@ function syncBlogRoute(next: "archive" | "detail") {
   document.querySelector<HTMLMetaElement>('meta[property="og:type"]')!.content = record ? "article" : "website";
   syncArticleMetadata(document.head, record, document.body.dataset.siteAuthor!);
 }
-window.addEventListener("popstate", () => {
+function restoreBlogRoute() {
   if (!ready || !started || !document.getElementById("blog-data")) return;
   const index = records.findIndex(record => record.slug && postPath(record.slug) === location.pathname);
   restoringBlogRoute = true;
   closeModal(() => {
     viewer?.close();
     if (index >= 0) { select(index); setMode("detail"); }
-    else setMode("archive");
+    else {
+      if (articleReader.isOpen) articleReader.close();
+      setMode("archive");
+    }
     restoringBlogRoute = false;
     syncBlogRoute(index >= 0 ? "detail" : "archive");
   });
-});
+}
+window.addEventListener("popstate", restoreBlogRoute);
 window.addEventListener("hashchange", () => {
   if (started && mode === "detail") setTab("overview", false);
 });
@@ -610,7 +623,7 @@ function renderDetail() {
   const r = records[selected];
   $("#object-id").textContent = "NO." + String(selected + 1).padStart(3, "0");
   $("#detail-content").innerHTML = `
-  <div class="detail-kicker"><span>FILE ${r.id}</span><span>${escapeHtml(localizedContentLabel(r.clearance))}</span></div>
+  <div class="detail-kicker"><span>FILE ${r.id}</span><button class="read-full" data-action="read-full">全窗口阅读 ↗</button><span>${escapeHtml(localizedContentLabel(r.clearance))}</span></div>
   <h2>${escapeHtml(r.en)}</h2><div class="detail-title-cn">${escapeHtml(r.title)}<span>${escapeHtml(r.category)}</span></div>
   <div class="detail-rule"></div>
   <dl class="metadata"><div><dt>DEPARTMENT / 科室</dt><dd>${escapeHtml(r.department)}</dd></div><div><dt>COLLECTION / 编目范围</dt><dd>${escapeHtml(r.date)}</dd></div><div><dt>RELATED / 相关人物</dt><dd>${escapeHtml(r.lead)}</dd></div><div><dt>STATUS / 状态</dt><dd><i></i>${r.clearance === "RESTRICTED" ? "目录访问" : "已归档 · 可读取"}</dd></div></dl>
@@ -621,9 +634,13 @@ function renderDetail() {
   <div class="detail-footnote"><a href="${escapeHtml(r.source)}" target="_blank" rel="noopener">设定参考 ↗</a><span>${String(selected + 1).padStart(3, "0")} / ${String(records.length).padStart(3, "0")}</span></div>`;
   $("#detail-content").setAttribute("tabindex", "-1");
   $('[data-action="bookmark"]').setAttribute("aria-pressed", String(saved.has(r.id)));
-  documentDecryption.reset($("#detail-content"), !motionActive("documentReveal") || !scene || scene.decryptionFrame.phase === "clear");
+  documentDecryption.reset($("#detail-content"), articleReader.isOpen || !motionActive("documentReveal") || !scene || scene.decryptionFrame.phase === "clear");
   setTab(activeTab, false);
   void ensureArticleBody(r);
+  if (articleReader.isOpen) {
+    readerDialog.scrollTop = 0;
+    readerDialog.querySelector<HTMLButtonElement>("button")!.focus({ preventScroll: true });
+  }
 }
 function overview() {
   const record = records[selected];
@@ -890,6 +907,13 @@ document.addEventListener("change", (e) => {
   }
 });
 document.addEventListener("click", (e) => {
+  const url = ready && started && articleNavigationUrl(records, (e.target as Element).closest<HTMLAnchorElement>("a[href]"), e, location.href);
+  if (url) {
+    e.preventDefault();
+    history.pushState(null, "", url);
+    restoreBlogRoute();
+    return;
+  }
   if ((e.target as Element).closest('[data-action="toggle-theme"]')) {
     prefs.colorTheme = prefs.colorTheme === "dark" ? "light" : "dark";
     savePrefs();
@@ -952,6 +976,12 @@ document.addEventListener("click", (e) => {
     return;
   }
   const action = el.dataset.action;
+  if (action === "read-full") {
+    documentDecryption.reset($("#detail-content"), true);
+    articleReader.open(el);
+    return;
+  }
+  if (action === "close-reader") { articleReader.close(); return; }
   if (action === "retry-search") { void ensureSearchText(); return; }
   if (action === "retry-article") {
     const record = records[selected];
@@ -1025,6 +1055,22 @@ document.addEventListener("click", (e) => {
 });
 document.addEventListener("keydown", (e) => {
   if (!started) return;
+  if (
+    ready && !modal && !modalClosing && !viewer?.isOpen && (e.target as HTMLElement).dataset.tab &&
+    ["ArrowLeft", "ArrowRight"].includes(e.key)
+  ) {
+    e.preventDefault();
+    const tabs = ["overview", "notes", "history"];
+    setTab(
+      tabs[(tabs.indexOf(activeTab) + (e.key === "ArrowRight" ? 1 : 2)) % 3],
+    );
+    $<HTMLButtonElement>(`[data-tab="${activeTab}"]`).focus();
+    return;
+  }
+  if (articleReader.isOpen) {
+    if (e.key === "Escape") { e.preventDefault(); articleReader.close(); }
+    return;
+  }
   if (viewer?.isOpen) return;
   if (playground?.active && !modal) {
     if (e.key === "Escape") { e.preventDefault(); playground.stop(); }
@@ -1060,18 +1106,6 @@ document.addEventListener("keydown", (e) => {
     return;
   }
   if (typing || modal || !ready || e.target instanceof HTMLSelectElement) return;
-  if (
-    (e.target as HTMLElement).dataset.tab &&
-    ["ArrowLeft", "ArrowRight"].includes(e.key)
-  ) {
-    e.preventDefault();
-    const tabs = ["overview", "notes", "history"];
-    setTab(
-      tabs[(tabs.indexOf(activeTab) + (e.key === "ArrowRight" ? 1 : 2)) % 3],
-    );
-    $<HTMLButtonElement>(`[data-tab="${activeTab}"]`).focus();
-    return;
-  }
   if (e.key === "/") {
     e.preventDefault();
     if (mode === "boot") setMode("archive");
@@ -1186,7 +1220,7 @@ function frame(ms: number) {
   viewer?.update(time);
   if (threeState === "closing" && scene?.presentationHidden) releaseThree();
   playground?.position();
-  if (scene && mode === "detail") {
+  if (scene && mode === "detail" && !articleReader.isOpen) {
     documentDecryption.update(time, scene.decryptionFrame, !motionActive("documentReveal"));
     $("#detail-content").style.opacity = String(scene.detailVisibility);
     $("#detail-content").style.translate =

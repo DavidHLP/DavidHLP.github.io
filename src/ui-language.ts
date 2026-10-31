@@ -6,6 +6,9 @@ export type UiLanguage = typeof uiLanguages[number];
 
 // Keys are the terminal's original labels; article content never enters this table.
 const labels: Record<string, readonly [string, string, string?]> = {
+  "全窗口阅读": ["Full-window reading", "全画面で読む"],
+  "全窗口阅读 ↗": ["Read full window ↗", "全画面で読む ↗"],
+  "退出全窗口阅读 · Esc": ["Exit full-window reading · Esc", "全画面表示を終了 · Esc"],
   "RHINE LAB / SYSTEM PREFERENCES": ["RHINE LAB / SYSTEM PREFERENCES", "RHINE LAB / システム設定", "RHINE LAB / 系统偏好"],
   "RHINE LAB / ARCHIVE DIRECTORY": ["RHINE LAB / ARCHIVE DIRECTORY", "RHINE LAB / 資料目録", "RHINE LAB / 档案目录"],
   "SAVED ARCHIVES": ["SAVED ARCHIVES", "保存した資料", "收藏档案"],
