@@ -16,7 +16,7 @@
 | 症状/証拠                                             | 最初の仮説                                     | 次の手順                                              |
 | ----------------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------- |
 | `user` が高く、Java プロセス/スレッドが RUNNABLE 継続 | 計算 hot spot、loop、シリアライズ、retry storm | thread stack、Arthas `thread`/flame graph、コード特定 |
-| `system` または `softirq` が高い                      | kernel、network interrupt、packet storm        | 業務コードを変える前に system/network を調べる        |
+| `system` または `softirq` が高い                      | kernel、network interrupt、小さいパケットの storm        | 業務コードを変える前に system/network を調べる        |
 | `iowait` が高い                                       | disk、logging、DB、下流 I/O 待ち               | I/O latency、connection、依存先メトリクスを確認       |
 | 高 CPU、GC 頻発、heap が上限に近い                    | allocation 圧力、メモリ不足、collection storm  | `jstat`、GC log、heap/allocation 証拠                 |
 | CPU は中程度なのに load が高く `BLOCKED/WAITING`      | lock 競合、pool 枯渇、依存先ブロック           | stack、pool queue、lock、下流 timeout                 |
@@ -56,11 +56,11 @@ Arthas は実行中 JVM に接続して thread/method を観測します。`watc
 
 ## 最小検証
 
-1. alert または再現時に、時刻、影響 endpoint、traffic、load、高 CPU PID を記録してから、何も kill しない。
+1. alert または再現時には、先に時刻、影響 endpoint、traffic、load、高 CPU PID を記録し、最初の対応でプロセスを kill しない。
 2. 同一 PID について二回 sample を取る。hot TID を探し、hex 化して `jstack` の `nid` に対応付け、状態が継続するかを見る。
 3. stack が GC を示すなら GC 統計/log を複数回取り、latency、allocation、heap 変化と相関させる。method を示すなら一度だけ bounded `trace` または flame graph で検証する。
 4. rate limit、degrade、異常 job の pause、scale、controlled restart など可逆 action を一つ実行し、CPU、latency、error、queue、GC の前後を観測して証拠を保存する。
-5. 直接原因、寄与要因、証拠、action、follow-up monitoring を記録する。「復旧した」は「根因を確認した」と同じではない。
+5. 直接原因、根底にある原因、証拠、action、follow-up monitoring を記録する。「復旧した」は「根因を確認した」と同じではない。
 
 ## 証拠と不確実性
 
