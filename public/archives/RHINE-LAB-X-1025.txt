@@ -48,7 +48,7 @@ The source notes `Layer和BaseImage概念.md` (Layer and Base Image) shows layer
 
 1. After `docker build`, run `docker history` to confirm layer count and cache hits.
 2. Mount with `volume` and `bind` respectively, restart containers, and verify data persistence.
-3. Validate `docker-compose config`, then `up -d` and confirm `ps` and `logs` are reachable.
+3. Validate `docker-compose config`, then run `up -d`, inspect `ps` and `logs`, and confirm the services are reachable.
 
 ## Evidence and Uncertainty
 

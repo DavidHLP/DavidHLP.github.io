@@ -1,5 +1,5 @@
 ﻿RHINE LAB · 内部データベース
-資料 X-1134 / UltiCode Outbox と Redis Streams：判定投递を復旧可能な状態にする
+資料 X-1134 / UltiCode Outbox と Redis Streams：判定タスクの配送を復旧可能な状態にする
 技術ノート
 
 部門: 技術ノート
