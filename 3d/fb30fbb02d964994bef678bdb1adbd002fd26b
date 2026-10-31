@@ -1,0 +1,68 @@
+content/blog/legacy/note/en/java-online-performance-debug.md
+  s_1f9e8743677ef7::t_088c01bb0e5215 93,137
+content/blog/legacy/note/en/plugin-lifecycle-management.md
+  s_1f9e8743677ef7::t_0f14d1dff78ab8 85,125
+content/blog/legacy/note/en/resicache-early-expiration-cas.md
+  s_1f9e8743677ef7::t_f24d5f0063ca20 240
+content/blog/legacy/note/en/java-null-value.md
+  s_1f9e8743677ef7::t_8fc5b84c16c9b8 112
+content/blog/legacy/information/ja/policy.md
+  s_1f9e8743677ef7::t_3a31ba5543269c 105
+content/blog/legacy/note/ja/hindsight-local-deployment.md
+  s_1f9e8743677ef7::t_5842ef61570b9e 107,116,129,140,158,164-165,167,171,175
+content/blog/legacy/note/ja/hindsight-omp-codex-integration.md
+  s_1f9e8743677ef7::t_3dd31b9430a611 86-87
+content/blog/legacy/note/en/llm-wiki-pattern.md
+  s_1f9e8743677ef7::t_022ee09cf90871 93,117,130
+content/blog/legacy/note/en/headroom-compress-retrieve-contract.md
+  s_1f9e8743677ef7::t_4da1908bff098f 179-181
+content/blog/legacy/note/ja/java-online-performance-debug.md
+  s_1f9e8743677ef7::t_cf22e0d9b2034e 93,133,137
+content/blog/legacy/note/en/hindsight-local-deployment.md
+  s_1f9e8743677ef7::t_c08fd14ce49dee 107,129,140,158,164-165,167,171,175
+content/blog/legacy/note/en/java-auto-closeable.md
+  s_1f9e8743677ef7::t_c557b0f7b2879a 130
+content/blog/legacy/note/ja/java-null-value.md
+  s_1f9e8743677ef7::t_97d895426bd86e 112
+docs/I18N-SEMANTIC-AUDIT.md
+  s_1f9e8743677ef7::t_1714922300ef72 144-196
+content/blog/legacy/note/ja/llm-wiki-pattern.md
+  s_1f9e8743677ef7::t_7b94ee8686b1bc 93,109,117,130
+content/blog/legacy/note/ja/resicache-early-expiration-cas.md
+  s_1f9e8743677ef7::t_1686737cd4ce42 240,284
+content/blog/legacy/note/ja/java-auto-closeable.md
+  s_1f9e8743677ef7::t_8f734d907962c2 130
+content/blog/legacy/note/en/hbase-foundation-and-ops.md
+  s_1f9e8743677ef7::t_e4fbc36ae26df3 90
+content/blog/legacy/note/ja/hbase-foundation-and-ops.md
+  s_1f9e8743677ef7::t_98937ff8fb0a64 90
+content/blog/legacy/information/ja/linkroll.md
+  s_1f9e8743677ef7::t_c20fae274e8a67 34,42
+content/blog/legacy/note/en/hindsight-omp-codex-integration.md
+  s_1f9e8743677ef7::t_ff3ff052d85d1d 86-87
+content/blog/legacy/information/ja/chronicle.md
+  s_1f9e8743677ef7::t_e739a042f405d4 56
+content/blog/legacy/note/ja/java-atomic-boolean.md
+  s_1f9e8743677ef7::t_7fa1ea891bc9d5 72
+content/blog/legacy/note/ja/plugin-lifecycle-management.md
+  s_1f9e8743677ef7::t_29e19a2b44b410 81
+  s_1f9e8743677ef7::t_4a4c677e05656a 82-83,108,117,123,125,134,145,151
+content/blog/legacy/note/ja/headroom-compress-retrieve-contract.md
+  s_1f9e8743677ef7::t_10314d9c5e6283 179-181
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3dfb30fbb02d964994bef678bdb1adbd002fd26b",
+  "prompts": {},
+  "sessions": {
+    "s_1f9e8743677ef7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c39-1e1b-7d73-9bf2-5a0fc3f2b65d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
