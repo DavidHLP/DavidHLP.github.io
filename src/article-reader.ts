@@ -53,7 +53,7 @@ export class ArticleReader {
   }
 
   private readingAnchor(root: HTMLElement) {
-    const top = root.getBoundingClientRect().top;
+    const top = this.readingTop(root);
     const node = [...this.article.querySelectorAll<HTMLElement>(".blog-body :is(h1,h2,h3,h4,p,pre,li,tr)")]
       .find(node => node.getBoundingClientRect().bottom > top);
     return node ? { node, offset: node.getBoundingClientRect().top - top } : null;
@@ -63,6 +63,10 @@ export class ArticleReader {
     if (!anchor?.node.isConnected) return;
     const bounds = root.getBoundingClientRect();
     const scale = root.offsetHeight ? bounds.height / root.offsetHeight : 1;
-    root.scrollTop += (anchor.node.getBoundingClientRect().top - bounds.top - anchor.offset) / (scale || 1);
+    root.scrollTop += (anchor.node.getBoundingClientRect().top - this.readingTop(root) - anchor.offset) / (scale || 1);
+  }
+
+  private readingTop(root: HTMLElement) {
+    return root.getBoundingClientRect().top + (root === this.dialog ? (this.dialog.firstElementChild as HTMLElement)?.offsetHeight ?? 0 : 0);
   }
 }
