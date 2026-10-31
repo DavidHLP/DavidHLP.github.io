@@ -176,7 +176,7 @@ version 1 != version 2
 return 0, do not shorten the TTL
 ```
 
-If JSON decoding fails, the script also returns 0. The current implementation treats “cannot prove that the value still matches” as “do not modify,” rather than writing optimistically.
+If JSON decoding fails, the script also returns 0. The current implementation treats “cannot prove that the value still matches” as “do not modify,” rather than risking a write.
 
 See [EarlyExpirationHandler.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/EarlyExpirationHandler.java#L209-L260) and [EarlyExpirationScripts.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/EarlyExpirationScripts.java#L47-L66).
 

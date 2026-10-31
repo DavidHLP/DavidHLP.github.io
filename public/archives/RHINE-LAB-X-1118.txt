@@ -176,7 +176,7 @@ version 1 != version 2
 0 を返し、TTL を短縮しない
 ```
 
-JSON decode に失敗した場合も script は 0 を返す。現在の実装は「value がまだ一致すると証明できない」を「変更しない」と扱い、楽観的に書き込まない。
+JSON decode に失敗した場合も script は 0 を返す。現在の実装は「value がまだ一致すると証明できない」を「変更しない」と扱い、危険を冒して書き込まない。
 
 [EarlyExpirationHandler.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/EarlyExpirationHandler.java#L209-L260) と [EarlyExpirationScripts.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/EarlyExpirationScripts.java#L47-L66) を参照。
 
@@ -220,7 +220,7 @@ ConcurrentHashMap<String, CompletableFuture<Void>> inFlight;
 earlyExpirationExecutor.cancel(context.getRedisKey());
 ```
 
-これにより明示的な write が古い async early-expiration task より優先される。
+これにより明示的な write と古い async early-expiration task の優先関係がより明確になる。
 
 ただし executor の deduplication は Redis 層の CAS ではない。同一 JVM 内の重複 task を減らすだけで、thread や instance をまたぐ value identity check の代わりにはならない。
 

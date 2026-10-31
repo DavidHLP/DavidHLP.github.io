@@ -26,7 +26,7 @@ Cross-references remain available, contradictions are made explicit, and synthes
 | Contradictions  | Rediscovered repeatedly               | Recorded explicitly in pages            |
 | Compounding     | Usually starts from zero              | Each ingest expands the network         |
 
-RAG is not necessarily inaccurate; it simply does not accumulate enough. LLM-Wiki moves the bookkeeping and synthesis work into the ingest step.
+RAG's problem is not that retrieval is necessarily inaccurate, but that it lacks accumulation: questions requiring synthesis across multiple sources need the relevant fragments to be found and assembled again each time. LLM-Wiki does that bookkeeping in advance.
 
 ## Three layers
 
@@ -50,7 +50,7 @@ Read the index first, then the relevant wiki pages and their raw evidence. Disti
 
 ### Lint
 
-Look for contradictions, stale claims, orphan pages, broken links, unsupported conclusions, unindexed pages, and concepts that should be split or merged. Turn lint findings into the next ingest or query instead of polishing the surface only.
+Look for contradictions, stale claims, orphan pages, broken links, unsupported conclusions, unindexed pages, and concepts that should be split. Turn lint findings into the next ingest or query instead of polishing the surface only.
 
 ## Navigation files
 
@@ -63,7 +63,7 @@ Look for contradictions, stale claims, orphan pages, broken links, unsupported c
 
 `zh-cn` is the canonical language of this knowledge base. `en` and `ja` keep the site entry points and this explanatory page translated; they are not independent sources of truth.
 
-The old operations, Java, and architecture blog posts were removed from the public wiki list. Whether they deserve re-ingestion requires source ownership, deduplication, and evidence review; previous publication is not enough to make a claim stable.
+The old operations, Java, and architecture blog posts were removed from the public wiki list. Whether they deserve re-ingestion requires source verification, deduplication, and evidence review; previous publication is not enough to make a claim stable.
 
 Future pages should grow three connected networks:
 
