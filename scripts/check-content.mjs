@@ -17,11 +17,64 @@ import {
 } from "./archive-content.mjs";
 import { escapeHtml } from "../src/html.ts";
 import { postPath } from "../src/blog-path.ts";
-import { archiveTickWindow, recentRecords, visibleSavedCount, persistSaved, syncArticleMetadata, restoreArticleHash } from "../src/blog-client.ts";
+import { archiveTickWindow, articleNavigationUrl, recentRecords, visibleSavedCount, persistSaved, syncArticleMetadata, restoreArticleHash } from "../src/blog-client.ts";
 import { StartupGate } from "../src/startup.ts";
+import { ArticleReader } from "../src/article-reader.ts";
 import { normalizeUiLanguage, translateUiText, translatedBootText } from "../src/ui-language.ts";
 import { contentLabel, localizedArticles, languageUrl, translationKey, validateTranslations, restoredArchiveNavigation } from "../src/content-language.ts";
 import { MOTION_LABELS } from "../src/motion-preferences.ts";
+
+test("full-window reading moves one article, restores its place and handles native Escape", () => {
+  const previousComputedStyle = globalThis.getComputedStyle;
+  globalThis.getComputedStyle = () => ({ overflowY: "auto" });
+  try {
+  const events = {};
+  let focused = false, cancelled = false;
+  const panel = { scrollTop: 0, getBoundingClientRect: () => ({ top: 0 }) };
+  const sibling = {};
+  const parent = { insertBefore(node, next) { assert.equal(node, article); assert.equal(next, sibling); node.parentElement = parent; } };
+  const article = { parentElement: parent, nextSibling: sibling, scrollTop: 20, inert: true,
+    querySelector: () => panel, querySelectorAll: () => [] };
+  const dialog = { open: false, scrollTop: 0,
+    addEventListener: (type, fn) => { events[type] = fn; },
+    append(node) { assert.equal(node, article); node.parentElement = dialog; },
+    showModal() { this.open = true; },
+    close() { this.open = false; events.close(); },
+    getBoundingClientRect: () => ({ top: 0 }) };
+  const reader = new ArticleReader(dialog, article);
+  reader.open({ isConnected: true, focus: () => { focused = true; } });
+  assert.equal(reader.isOpen, true);
+  assert.equal(article.parentElement, dialog);
+  assert.equal(article.inert, false);
+  events.cancel({ preventDefault: () => { cancelled = true; } });
+  assert.equal(cancelled, true);
+  assert.equal(reader.isOpen, false);
+  assert.equal(article.parentElement, parent);
+  assert.equal(article.scrollTop, 20);
+  assert.equal(focused, true);
+  const paragraph = { isConnected: true, getBoundingClientRect: () => ({ top: article.parentElement === dialog ? 100 : 500, bottom: 520 }) };
+  article.querySelectorAll = () => [paragraph];
+  article.offsetHeight = 500;
+  article.getBoundingClientRect = () => ({ top: 100, height: 500 });
+  panel.offsetHeight = 100;
+  panel.getBoundingClientRect = () => ({ top: 200, height: 100 });
+  dialog.firstElementChild = { offsetHeight: 80 };
+  for (const overflowY of ["auto", "visible"]) {
+    globalThis.getComputedStyle = () => ({ overflowY });
+    article.scrollTop = 20;
+    panel.scrollTop = 0;
+    reader.open({ isConnected: true, focus() {} });
+    reader.close();
+    assert.equal(article.scrollTop, overflowY === "visible" ? 400 : 20);
+    assert.equal(panel.scrollTop, overflowY === "visible" ? 0 : 280);
+  }
+  assert.equal(translateUiText("全窗口阅读 ↗", "en"), "Read full window ↗");
+  assert.equal(translateUiText("全窗口阅读 ↗", "ja"), "全画面で読む ↗");
+  } finally {
+    if (previousComputedStyle === undefined) delete globalThis.getComputedStyle;
+    else globalThis.getComputedStyle = previousComputedStyle;
+  }
+});
 
 test("interface language selection validates stored values and preserves source content", () => {
   assert.equal(normalizeUiLanguage("ja"), "ja");
@@ -276,6 +329,24 @@ test("switching article metadata replaces authors and dates and clears article f
   assert.equal(head.querySelector('meta[name="author"]').content, "Site author");
   assert.equal(meta("article:published_time"), undefined);
   assert.equal(meta("article:modified_time"), undefined);
+});
+test("related articles reuse the scene while explicit browser navigation stays native", () => {
+  const records = [{ slug: "first" }, { slug: "second" }];
+  const current = "https://blog.example/blog/first/?lang=zh-CN";
+  const click = { button: 0, ctrlKey: false, metaKey: false, shiftKey: false, altKey: false, defaultPrevented: false };
+  const link = { href: "/blog/second/?lang=zh-CN#chapter", target: "", hasAttribute: () => false };
+  const resolve = (anchor = link, event = click) => articleNavigationUrl(records, anchor, event, current);
+  assert.equal(resolve(), "/blog/second/?lang=zh-CN#chapter");
+  assert.equal(resolve({ ...link, target: "_SELF" }), resolve());
+  for (const key of ["ctrlKey", "metaKey", "shiftKey", "altKey", "defaultPrevented"])
+    assert.equal(resolve(link, { ...click, [key]: true }), undefined);
+  for (const button of [1, 2]) assert.equal(resolve(link, { ...click, button }), undefined);
+  for (const target of ["_blank", "named-frame"]) assert.equal(resolve({ ...link, target }), undefined);
+  assert.equal(resolve({ ...link, hasAttribute: name => name === "download" }), undefined);
+  assert.equal(resolve(null), undefined);
+  for (const href of ["https://external.example/blog/second/", "/blog/missing/", "#chapter", "/blog/second/?view=static", "/blog/second/?lang=en", "/blog/second/?review=1", "https://["])
+    assert.equal(resolve({ ...link, href }), undefined, href);
+  assert.equal(articleNavigationUrl([{ slug: "en/second", lang: "en" }], { ...link, href: "/blog/en/second/?lang=en" }, click, current), "/blog/en/second/?lang=en");
 });
 test("chapter restoration decodes safely and targets only the visible article container", () => {
   let scrolled;
