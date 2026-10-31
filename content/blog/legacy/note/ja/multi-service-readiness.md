@@ -150,7 +150,7 @@ Wants=db.service
 
 ```bash
 fixture="$(pwd)/compose.yaml"           # 現在のディレクトリにはこの匿名 fixture だけを置く
-project="readiness-contract-$$"         # このシェル内で一意。以降のコマンドでも同じ値を使う
+project="readiness-contract-$$"         # この shell 内で一意。以降のコマンドでも同じ値を使う
 printf 'Copy these values to the scenario terminal: fixture=%q project=%q\n' "$fixture" "$project"
 
 docker compose -f "$fixture" -p "$project" config -q
