@@ -81,7 +81,7 @@ Hindsight のローカル配置・Agent 接続の**七つの過去障害、診�
 ```mermaid
 graph TD
   P1[落とし穴 1: 同名の第三者 npm hindsight-mcp] --> S1[アンインストールして Hindsight ネイティブ FastMCP を使う]
-  P2[落とし穴 2: Ollama 公式に 12B タグがない] --> S2[HuggingFace GGUF をダウンロードし Modelfile でローカルインポート]
+  P2[落とし穴 2: 出典ではモデルが見つからないと報告] --> S2[ローカル別名とモデルの出所を確認してからインポートを判断]
   P3[落とし穴 3: Docker UID 1000 の権限失敗] --> S3[~/.hindsight/data の所有権を UID 1000 に付与]
   P4[落とし穴 4: 6.63GB モデル同期ダウンロードのタイムアウト] --> S4[Range 再開対応の Python 分割ダウンロード + nohup]
   P5[落とし穴 5: Ollama API の /v1 不足による 404] --> S5[BASE_URL を http://ollama-gpu:11434/v1 に明示設定]
@@ -104,8 +104,6 @@ graph TD
 - **再現条件**：model card、出典 revision、license、checksum、chat template を確認して import を選ぶ。その修訂では実体と現在の URL を確認せず、新しいダウンロード手順は提供しない。
 
 ### 3. non-root コンテナの mount 権限（UID 1000）
-
-表は出典の叙述を保持する。tag 不在、取得成功、仮 Bank 削除、検査成功は当時の報告で、その修訂で再証明していない。
 
 - **現象**：`[FAIL] The embedded database directory /home/hindsight/.pg0 is not writable by this container (UID 1000).` で終了。
 - **原因**：image は non-root `hindsight`（UID 1000）で動く。host 作成ディレクトリが container の pg0 から書けない場合がある。
@@ -171,6 +169,8 @@ node --check ~/.hindsight/hindsight-bridge.mjs
 `ollama list` はローカル、`ollama ps` は実行中の一覧（[CLI](https://docs.ollama.com/cli)）。stdio の入力待ちは検証成功ではない。initialize、通知、tools/list、対象 Bank への制御された書き込み・検索を確認する。その修訂では未実行。
 
 ## 3. 6 段階の進化と技術判断のまとめ
+
+表は出典の叙述を保持する。tag 不在、取得成功、仮 Bank 削除、検査成功は当時の報告で、その修訂で再証明していない。
 
 | 段階 | 中心タスク | 発見した違反・障害 | 最終解決と成果 |
 | :--- | :--- | :--- | :--- |

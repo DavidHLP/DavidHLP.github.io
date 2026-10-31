@@ -60,7 +60,7 @@ Prefer `toolName`, input path scope, and project root to fragile natural-languag
 
 - An Agent repeatedly chooses a weaker default tool at a specific decision point and needs an immediate alternative.
 - You need to project gate, compression, indexing, or runtime state into the UI for observation rather than fabricate a business result.
-- You need to register event logic for a project or session without changing the host program.
+- You need to register event handlers for project or global sessions without changing the host program.
 - You need to prove logic with synthetic events first, then prove loading and delivery in a fresh session.
 
 ## Not applicable and risks
@@ -84,7 +84,7 @@ Type/contract check
   → tmux or real terminal: observe setStatus and the intended statusline path
 ```
 
-The mock probe should assert at least: non-target tools stay silent, a target tool is nudged once or according to throttling, errors do not escape, and the hard branch returns a rejection. Runtime evidence must include both message/status delivery and the actual tool or UI result; inspecting an exported function is insufficient.
+The mock probe should assert at least: non-target tools stay silent, a target tool is nudged once or according to throttling, errors do not escape, and the hard branch returns a rejection. Runtime evidence must include both message/status delivery and the actual tool or UI result; inspecting source exports or function return values alone is insufficient.
 
 ## Evidence and uncertainty
 

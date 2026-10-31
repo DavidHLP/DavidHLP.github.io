@@ -40,7 +40,7 @@ flowchart LR
 - オーバーライドは本当に例外が必要なサブ Agent だけに使う。現行リリースがキーやスコープを認識しない場合、親ロールまたはデフォルトへ戻る可能性があるため、実行結果で確認する。
 - フォールバックチェーンは順序付き候補グラフであり、ヘルスチェッカーではない。すべての候補が現在のモデルカタログに存在し、認証を通る必要がある。
 - `fallbackRevertPolicy`、usage-aware fallback、retry 回数は復旧タイミングを変えるが、直接接続の provider を Headroom provider に変えるものではない。
-- `globs`、条件、`alwaysApply` はルール注入の意味である。設定ファイルの `rules` スイッチがルール検出を置き換えるわけではない。
+- `globs`、条件、`alwaysApply` はルール注入の意味である。設定ファイルには、ルール検出を置き換えるような `rules` 全体スイッチは存在しない。
 
 ### 3. OMP 17.2.15 の compaction、snapcompact、TTSR の境界
 

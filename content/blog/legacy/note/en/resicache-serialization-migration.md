@@ -106,7 +106,7 @@ The current SecureJacksonRedisSerializer has three related mechanisms.
 
 ### Versioned envelope
 
-Every non-empty cached value is wrapped as:
+Every non-null cached value is wrapped as:
 
 ```json
 {
