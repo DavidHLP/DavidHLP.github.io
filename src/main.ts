@@ -581,7 +581,10 @@ function restoreBlogRoute() {
   closeModal(() => {
     viewer?.close();
     if (index >= 0) { select(index); setMode("detail"); }
-    else setMode("archive");
+    else {
+      if (articleReader.isOpen) articleReader.close();
+      setMode("archive");
+    }
     restoringBlogRoute = false;
     syncBlogRoute(index >= 0 ? "detail" : "archive");
   });
@@ -635,7 +638,10 @@ function renderDetail() {
   documentDecryption.reset($("#detail-content"), articleReader.isOpen || !motionActive("documentReveal") || !scene || scene.decryptionFrame.phase === "clear");
   setTab(activeTab, false);
   void ensureArticleBody(r);
-  if (articleReader.isOpen) readerDialog.querySelector<HTMLButtonElement>("button")!.focus({ preventScroll: true });
+  if (articleReader.isOpen) {
+    readerDialog.scrollTop = 0;
+    readerDialog.querySelector<HTMLButtonElement>("button")!.focus({ preventScroll: true });
+  }
 }
 function overview() {
   const record = records[selected];
