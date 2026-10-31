@@ -13,7 +13,7 @@ This is an append-only record of knowledge-base maintenance. Historical entries 
 
 ## [2026-08-07] init | Personal AI knowledge base established
 
-Restructured the site around Karpathy's LLM-Wiki pattern with three layers: immutable `raw` sources, LLM-maintained `note` pages, and the Schema in `KB.md` and the `knowledge-base` skill. The homepage, resume, and multilingual shell remain protected.
+Restructured the site around Karpathy's LLM-Wiki pattern with three layers: immutable `raw` sources, LLM-maintained `note` pages, and the Schema in `KB.md` and the `knowledge-base` skill. The homepage and personal resume were retained, the old blog content's public wiki semantics were removed, and the three-language site shell was preserved.
 
 ## [2026-08-07] ingest | @karpathy-llm-wiki
 

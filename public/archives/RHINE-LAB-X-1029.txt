@@ -9,7 +9,7 @@ Access: Public
 
 > **Graduation requirements (three verifiable checks)**:
 > 1. Redacted captures and end-to-end log-audit evidence for `8787 → 15721`.
-> 2. Negative tests for single-owner synthesis, demonstrating the double-compression/format-conflict failure.
+> 2. Negative tests for single-owner synthesis, reproducibly demonstrating the double-compression/format-conflict failure.
 > 3. Finalized documentation of systemd `BindPaths` permissions and security boundaries.
 
 This page records the coexistence contract of one specific Headroom provider proxy deployment: Claude Code does not hand requests directly to cc-switch; they pass through Headroom first. OMP's Responses path still enters the same Headroom entry and is routed by request-level upstream selection. The conclusion is that **a request can have only one synthesis owner**: Headroom owns compression and synthesis, while cc-switch only performs Anthropic↔OpenAI protocol conversion and credential injection. This page is a version-dependent `provisional` synthesis, not the default behavior of every Headroom or cc-switch release.
@@ -81,7 +81,7 @@ Seeing only `/health` or a single HTTP 200 is not enough to prove the request re
 
 ## Evidence and uncertainty
 
-- **Source facts**: pinned project commits and same-day deidentified runtime observations confirm the two paths, the reconciler's rewrite direction, the security cost of `BindPaths`, and the successful `/v1/messages → 127.0.0.1:15721` request chain.
+- **Source facts**: pinned project commits and same-day redacted runtime observations confirm the two paths, the reconciler's rewrite direction, the security cost of `BindPaths`, and the successful `/v1/messages → 127.0.0.1:15721` request chain.
 - **This page's synthesis**: reduces the coexistence problem to "Headroom single synthesis + cc-switch protocol/credential conversion", and verifies static configuration, runtime upstream, actual requests, and systemd isolation separately.
 - **Uncertainty**: ports, environment variables, settings schema, log fields, and the rewrite timing of Headroom/cc-switch may change across versions; this page claims no cross-version compatibility and does not generalize a single deployment's evidence into an official default contract.
 

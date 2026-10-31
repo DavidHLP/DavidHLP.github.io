@@ -54,7 +54,7 @@ remotePort = <REMOTE_PORT>
 ```
 
 - 一部のカスタムクライアントは `-f <token>:<id>` を受け付けるが、raw では標準オープンソース `frpc`（例 v0.61.0）が `-f` を未知の shorthand flag として扱う。`/path/to/frpc -c ~/frpc.toml` を使い、先に `verify -c` を実行する。
-- `ssh user@frp.example.com` は通常、マッピングポートではなく中継サーバーの 22 番へ接続する。`ssh -p <REMOTE_PORT> user@frp.example.com` を使わないと、トンネル障害と中継機への未許可ログインが同じように見える。
+- `ssh user@frp.example.com` は通常、マッピングポートではなく中継サーバーの 22 番へ接続する。`ssh -p <REMOTE_PORT> user@frp.example.com` を使わないと、「トンネルが利用できない」と「内部ホストではなく中継機にログインした」を混同しやすい。
 
 ### 4. systemd と linger は別々の復旧条件
 

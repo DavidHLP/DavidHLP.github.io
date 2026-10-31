@@ -68,7 +68,7 @@ RedisSerializer<Object> serializer = new GenericJackson2JsonRedisSerializer(mapp
 
 ### 配列形式 vs ISO 形式
 
-- デフォルトは `WRITE_DATES_AS_TIMESTAMPS=true`（ObjectMapper のデフォルト）→ `LocalDateTime` は配列 `[年,月,日,时,分,秒]` に直列化される。
+- デフォルトは `WRITE_DATES_AS_TIMESTAMPS=true`（ObjectMapper のデフォルト）→ `LocalDateTime` は配列 `[年,月,日,時,分,秒]` に直列化される。
 - この feature を無効化すると ISO 文字列、例：`"2026-08-13T10:30:45"`。
 - jsr310 のデシリアライザは**配列と ISO 文字列の両方の入力を受け付ける**。同じ codec 内の round-trip は等価で、保存形式自体は読み出し失敗を引き起こさない。
 - ただし `WRITE_DATES_AS_TIMESTAMPS` は出力形式に影響する設定項目なので、書き込み側と読み出し側を揃え、暗黙の差異に依存しないようにする。
