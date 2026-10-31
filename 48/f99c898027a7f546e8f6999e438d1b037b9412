@@ -1,0 +1,107 @@
+content/blog/legacy/note/ja/uisa-architecture-design.md
+  s_1f9e8743677ef7::t_805076dacc0ee2 72-76
+content/blog/legacy/note/en/redis-business-patterns.md
+  s_1f9e8743677ef7::t_15143863908c10 4,90,93,106,110,118
+content/blog/legacy/note/ja/hindsight-local-deployment.md
+  s_1f9e8743677ef7::t_4aca03e279076a 226
+content/blog/legacy/note/ja/hindsight-omp-codex-integration.md
+  s_1f9e8743677ef7::t_4aca03e279076a 266
+content/blog/legacy/note/ja/plugin-lifecycle-management.md
+  s_1f9e8743677ef7::t_4aca03e279076a 150,157
+content/blog/legacy/information/zh-cn/kb-index.md
+  s_1f9e8743677ef7::t_6fe5dc14dd2405 56,233
+content/blog/legacy/note/ja/ulticode-owner-local-audit-inbox.md
+  s_1f9e8743677ef7::t_4aca03e279076a 238
+content/blog/legacy/information/en/linkroll.md
+  s_1f9e8743677ef7::t_97982a4923ccef 37-38,40
+content/blog/legacy/note/ja/headroom-cc-switch-coexistence.md
+  s_1f9e8743677ef7::t_094a1b61834435 84-88
+content/blog/legacy/note/en/omp-headroom-persistence.md
+  s_1f9e8743677ef7::t_021985ff043aae 93-97
+scripts/check-content.mjs
+  s_1f9e8743677ef7::t_9bde12fa70613b 61-64,73,86,99-102,128
+content/blog/legacy/note/en/redis-heima-practice.md
+  s_1f9e8743677ef7::t_97982a4923ccef 79,83
+content/blog/legacy/note/ja/microservice-data-ownership.md
+  s_1f9e8743677ef7::t_da0ce7643d3d3f 132
+content/blog/legacy/note/ja/hindsight-troubleshooting.md
+  s_1f9e8743677ef7::t_4aca03e279076a 171
+content/blog/legacy/note/en/omp-headroom-provider-proxy.md
+  s_1f9e8743677ef7::t_3c534dddb4774a 82-86
+content/blog/legacy/information/ja/kb-log.md
+  s_1f9e8743677ef7::t_4aca03e279076a 71,79,93,97,101,151
+content/blog/legacy/note/en/docker-fundamentals.md
+  s_1f9e8743677ef7::t_62695ceca89560 115
+content/blog/legacy/note/ja/java-concurrency-deepdive.md
+  s_1f9e8743677ef7::t_15143863908c10 84
+content/blog/legacy/information/en/kb-index.md
+  s_1f9e8743677ef7::t_d5c7e4a428038b 56,233
+content/blog/legacy/note/en/java-internship-interview-blog-polished.md
+  s_1f9e8743677ef7::t_e7c718cd32db4f 86-90
+content/blog/legacy/note/ja/redis-business-patterns.md
+  s_1f9e8743677ef7::t_15143863908c10 4,83,90,93,106,110,118
+content/blog/legacy/note/ja/omp-headroom-persistence.md
+  s_1f9e8743677ef7::t_c9310fe1e66045 93-97
+docs/I18N-SEMANTIC-AUDIT.md
+  s_1f9e8743677ef7::t_78f45150704ea3 17-25
+  s_1f9e8743677ef7::t_4b36e8abaed232 26-32
+  s_1f9e8743677ef7::t_da0ce7643d3d3f 10-12
+  s_1f9e8743677ef7::t_75e7fdd1fc6479 41-47
+  s_1f9e8743677ef7::t_6d12c9c62cdd59 3,63-73,75,82-88
+  s_1f9e8743677ef7::t_62695ceca89560 33-40
+  s_1f9e8743677ef7::t_62cdf5f380b2e9 1-2,4-9,74,76-81
+  s_1f9e8743677ef7::t_a1cb58555d099d 48-62
+  s_1f9e8743677ef7::t_97ca81e0bc4d34 13-16
+content/blog/legacy/note/ja/llm-wiki-pattern.md
+  s_1f9e8743677ef7::t_62695ceca89560 113
+content/blog/legacy/note/en/uisa-architecture-design.md
+  s_1f9e8743677ef7::t_cd7fed30b3c1a8 72-76
+content/blog/legacy/note/ja/ulticode-outbox-redis-streams.md
+  s_1f9e8743677ef7::t_62695ceca89560 4
+content/blog/legacy/note/ja/kb-session-ingest-contract.md
+  s_1f9e8743677ef7::t_4aca03e279076a 11,70,76,103,145,178,186
+content/blog/legacy/information/ja/chronicle.md
+  s_1f9e8743677ef7::t_97982a4923ccef 81
+content/blog/legacy/note/ja/ulticode.md
+  s_1f9e8743677ef7::t_4aca03e279076a 352
+content/blog/legacy/note/ja/java-null-value.md
+  s_1f9e8743677ef7::t_b00e4367dda9da 11,85-86,108,112,119,127,130
+content/blog/legacy/note/ja/resicache-observer-nested-execution.md
+  s_1f9e8743677ef7::t_376596b4f398ac 158,286
+content/blog/legacy/note/ja/java-internship-interview-blog-polished.md
+  s_1f9e8743677ef7::t_4aca03e279076a 109,114,156
+  s_1f9e8743677ef7::t_cca8cbafe3ba37 86-90
+content/blog/legacy/jotting/en/kb-ingest-todo.md
+  s_1f9e8743677ef7::t_62695ceca89560 55
+content/blog/legacy/note/ja/redis-persistence-principle.md
+  s_1f9e8743677ef7::t_97982a4923ccef 80
+content/blog/legacy/information/ja/kb-index.md
+  s_1f9e8743677ef7::t_4aca03e279076a 60,74,138,208-209,220
+  s_1f9e8743677ef7::t_51798039c91369 56,233
+content/blog/legacy/note/ja/omp-headroom-provider-proxy.md
+  s_1f9e8743677ef7::t_8d2144e9ad5523 82-86
+content/blog/legacy/note/en/headroom-cc-switch-coexistence.md
+  s_1f9e8743677ef7::t_094a1b61834435 84-88
+content/blog/legacy/note/ja/redis-heima-practice.md
+  s_1f9e8743677ef7::t_97982a4923ccef 79,83,102
+content/blog/legacy/jotting/ja/kb-ingest-todo.md
+  s_1f9e8743677ef7::t_62695ceca89560 72-73
+content/blog/legacy/note/en/llm-wiki-pattern.md
+  s_1f9e8743677ef7::t_62695ceca89560 113
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "48f99c898027a7f546e8f6999e438d1b037b9412",
+  "prompts": {},
+  "sessions": {
+    "s_1f9e8743677ef7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c39-1e1b-7d73-9bf2-5a0fc3f2b65d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
