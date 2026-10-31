@@ -83,7 +83,7 @@
       <li><strong>transactional Outbox 配送</strong>：提出と判定 Outbox を一つの local transaction に保存し、背景で Redis Streams に配送して状態更新、失敗時は backoff。Lua で重複印と enqueue を統合し、印だけ保存された障害窓を扱う。</li>
       <li><strong>task 回収と dead-letter</strong>： <code>XPENDING</code> / <code>XCLAIM</code> で timeout 未確認 task を回収し、容量・再試行回数で再配送を制御。予算切れは dead-letter にし、無効 task の資源占有を防ぐ。</li>
       <li><strong>再判定結果の競合制御</strong>： <code>generation</code> + <code>attemptId</code> で有効実行を識別し lease と heartbeat 更新を併用。二条件 SQL CAS により期限切れ実行が新しい判定を上書きするのを拒む。</li>
-      <li><strong>不信コードの実行制約</strong>：Docker の禁網、non-root、read-only root、Capabilities 削減、Seccomp と CPU・memory・PID・file handle 制限で権限・資源を拘束。</li>
+      <li><strong>不信コードの実行制約</strong>：Docker のネットワーク無効化、non-root、read-only root、Capabilities 削減、Seccomp と CPU・memory・PID・file handle 制限で権限・資源を拘束。</li>
       <li><strong>refresh token 再利用防止</strong>：SHA-256 hash のみ DB 保存。用途・所有・期限を検査し、条件更新で旧 token を一回だけ消費して同 transaction で新 token を発行し、並行 refresh を扱う。</li>
     </ul>
   </div>

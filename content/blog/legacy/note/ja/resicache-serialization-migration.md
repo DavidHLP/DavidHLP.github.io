@@ -106,7 +106,7 @@ bytes を読む
 
 ### versioned envelope
 
-空でない cache value は次のように包まれる。
+null ではない cache value は次のように包まれる。
 
 ```json
 {

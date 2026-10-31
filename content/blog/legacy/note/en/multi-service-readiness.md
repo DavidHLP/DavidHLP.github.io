@@ -149,8 +149,8 @@ Wants=db.service
 First save the anonymous fixture above into a `compose.yaml` in a dedicated temporary directory. Do not copy the following commands into an existing development or production Compose project directory; `restart` interrupts services, `--abort-on-container-failure` stops all containers of that isolated project, and `down` stops and removes its containers and networks.
 
 ```bash
-fixture="$(pwd)/compose.yaml"           # 当前目录必须只包含此匿名 fixture
-project="readiness-contract-$$"         # 当前 shell 内唯一；后续命令保持一致
+fixture="$(pwd)/compose.yaml"           # The current directory must contain only this anonymous fixture
+project="readiness-contract-$$"         # Unique within this shell; use the same value in subsequent commands
 printf 'Copy these values to the scenario terminal: fixture=%q project=%q\n' "$fixture" "$project"
 
 docker compose -f "$fixture" -p "$project" config -q
@@ -181,8 +181,8 @@ docker compose -f "$fixture" -p "$project" up --abort-on-container-failure
 ```
 
 ```bash
-systemctl show <unit> -p After -p Before -p Requires -p Wants   # After= 与 Requires= 是正交字段
-systemd-analyze verify <unit>.service          # 单元文件校验
+systemctl show <unit> -p After -p Before -p Requires -p Wants   # After= and Requires= are orthogonal fields
+systemd-analyze verify <unit>.service          # Validate the unit file
 ```
 
 Interpret the results against the decision table: `ps`'s healthy column only proves the probe passed, not business readiness; the `health_status` sequence in `events` confirms dependency order; if `systemctl show` has only `After=` while `Requires=`/`Wants=` are empty, there is only ordering, no dependency.
