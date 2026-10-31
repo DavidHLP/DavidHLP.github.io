@@ -23,6 +23,9 @@ import { contentLabel, localizedArticles, languageUrl, translationKey, validateT
 import { MOTION_LABELS } from "../src/motion-preferences.ts";
 
 test("full-window reading moves one article, restores its place and handles native Escape", () => {
+  const previousComputedStyle = globalThis.getComputedStyle;
+  globalThis.getComputedStyle = () => ({ overflowY: "auto" });
+  try {
   const events = {};
   let focused = false, cancelled = false;
   const panel = { scrollTop: 0, getBoundingClientRect: () => ({ top: 0 }) };
@@ -47,8 +50,27 @@ test("full-window reading moves one article, restores its place and handles nati
   assert.equal(article.parentElement, parent);
   assert.equal(article.scrollTop, 20);
   assert.equal(focused, true);
+  const paragraph = { isConnected: true, getBoundingClientRect: () => ({ top: article.parentElement === dialog ? 100 : 500, bottom: 520 }) };
+  article.querySelectorAll = () => [paragraph];
+  article.offsetHeight = 500;
+  article.getBoundingClientRect = () => ({ top: 100, height: 500 });
+  panel.offsetHeight = 100;
+  panel.getBoundingClientRect = () => ({ top: 200, height: 100 });
+  for (const overflowY of ["auto", "visible"]) {
+    globalThis.getComputedStyle = () => ({ overflowY });
+    article.scrollTop = 20;
+    panel.scrollTop = 0;
+    reader.open({ isConnected: true, focus() {} });
+    reader.close();
+    assert.equal(article.scrollTop, overflowY === "visible" ? 320 : 20);
+    assert.equal(panel.scrollTop, overflowY === "visible" ? 0 : 200);
+  }
   assert.equal(translateUiText("全窗口阅读 ↗", "en"), "Read full window ↗");
   assert.equal(translateUiText("全窗口阅读 ↗", "ja"), "全画面で読む ↗");
+  } finally {
+    if (previousComputedStyle === undefined) delete globalThis.getComputedStyle;
+    else globalThis.getComputedStyle = previousComputedStyle;
+  }
 });
 
 test("interface language selection validates stored values and preserves source content", () => {

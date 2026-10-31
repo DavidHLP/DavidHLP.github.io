@@ -20,7 +20,7 @@ export class ArticleReader {
       article.scrollTop = this.scroll;
       const panel = article.querySelector<HTMLElement>("#tab-panel")!;
       panel.scrollTop = this.panelScroll;
-      this.restoreAnchor(panel, this.anchor);
+      this.restoreAnchor(this.scrollRoot(), this.anchor);
       const opener = this.opener?.isConnected ? this.opener : article.querySelector<HTMLElement>('[data-action="read-full"]');
       opener?.focus({ preventScroll: true });
     });
@@ -34,7 +34,7 @@ export class ArticleReader {
     this.scroll = this.article.scrollTop;
     const panel = this.article.querySelector<HTMLElement>("#tab-panel")!;
     this.panelScroll = panel.scrollTop;
-    const anchor = panel.scrollTop || this.scroll ? this.readingAnchor(panel) : null;
+    const anchor = panel.scrollTop || this.scroll ? this.readingAnchor(this.scrollRoot()) : null;
     this.dialog.append(this.article);
     this.article.inert = false;
     this.dialog.showModal();
@@ -45,6 +45,11 @@ export class ArticleReader {
   close() {
     this.anchor = this.readingAnchor(this.dialog);
     this.dialog.close();
+  }
+
+  private scrollRoot() {
+    const panel = this.article.querySelector<HTMLElement>("#tab-panel")!;
+    return getComputedStyle(panel).overflowY === "visible" ? this.article : panel;
   }
 
   private readingAnchor(root: HTMLElement) {
