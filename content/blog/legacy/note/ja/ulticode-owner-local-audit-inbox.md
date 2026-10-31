@@ -235,4 +235,4 @@ repository には Auth/App audit dispatcher test と Admin audit/inbox test が�
 - [ulticode-reliability-core-[f801a1076](https://github.com/DavidHLP/UltiCode/tree/f801a1076b2fa9aa06ce3d63821f0778b477042c)](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-reliability-core-f801a1076.md)
 - [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/)
 - [UltiCode の Data Owner と fact snapshot：サービス間 submit の境界を保つ](/blog/legacy/note/ja/ulticode-owner-and-facts/)
-- [UltiCode Outbox と Redis Streams：判定投递を復旧可能な状態にする](/blog/legacy/note/ja/ulticode-outbox-redis-streams/)
+- [UltiCode Outbox と Redis Streams：判定タスクの配送を復旧可能な状態にする](/blog/legacy/note/ja/ulticode-outbox-redis-streams/)

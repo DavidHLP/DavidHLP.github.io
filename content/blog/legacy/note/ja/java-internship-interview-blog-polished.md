@@ -83,6 +83,11 @@
 }
 ---
 
+> **昇格条件（三つの検証可能な確認）**：
+> 1. 機密情報を除去した本番対処事例を一件追加する：症状 → 特定 → 復旧指標。
+> 2. cache・非同期機構の固定バージョンと契約境界の証拠を補う。
+> 3. 面接の能力モデルと客観的な技術事実を厳密に分離する。
+
 これは個人の物語や質問リストではなく、面接で確認できる能力の統合ページです。「プロジェクトを作った」を、担当範囲を示し、機構とトレードオフを説明し、障害・メトリクス・復旧の証拠で検証できる判断へ変換する方法を扱います。目的は技術名を並べることではなく、プロジェクトの真正性、機構の正しさ、実運用の可観測性を結び付けることです。
 
 ## 核心メカニズム
@@ -101,12 +106,12 @@
 
 「Redis を使った」で終わらず、不在オブジェクトについて次を説明します。
 
-1. 回源できるのは cache miss だけ。DB が不在を確認したら短 TTL の `NullValue` marker を保存する。
+1. 取得元へ問い合わせるのは cache miss だけ。DB が不在を確認したら短 TTL の `NullValue` marker を保存する。
 2. 読み出し時に marker を業務 `null` へ戻し、key 不在、negative hit、実オブジェクトを区別する。
 3. validation/Bloom filter で不正 key、lock/single-flight で hot reload、TTL と明示 invalidation で stale 窓を制限する。
 4. serializer が marker を認識するか実測する。Spring 内部の `readResolve` は異言語プロトコルではない。
 
-「穿透、击穿、雪崩」という語を暗記するより、境界を説明できることが重要です。
+「cache penetration、cache breakdown、cache avalanche」という語を暗記するより、境界を説明できることが重要です。
 
 ### 3. 性能排障で「証拠 + 復旧」を示す
 
@@ -148,7 +153,7 @@ CPU または latency 障害は次へ圧縮できます。
 ## 最小検証
 
 1. 各 project highlight について entry → state/data → side effect → failure path を描き、「実装」「呼び出し」「観測」を区別する。
-2. cache highlight を三状態でテストする。miss は回源、`NullValue` negative hit は回源せず、実値は hit する。その後 TTL または invalidation で新データを確認する。
+2. cache highlight を三状態でテストする。miss は取得元へ問い合わせ、`NullValue` negative hit は取得元へ問い合わせず、実値は hit する。その後 TTL または invalidation で新データを確認する。
 3. 非破壊の排障演習を行う。load、PID/TID、stack、GC を保存し、RUNNABLE/BLOCKED/GC を分類して可逆止血の前後を検証する。
 4. async/isolation component の失敗経路を検証する。重複 message、container timeout、disconnect、期限切れ token が retry、alert、recover 可能か記録する。
 5. 回答の最後に未確認項目と次の実験を一つ示す。未検証の本番証拠を断言するより信頼できます。
