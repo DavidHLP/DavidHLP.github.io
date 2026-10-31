@@ -1,0 +1,35 @@
+src/article-reader.ts
+  s_1f9e8743677ef7::t_9d79055e478394 6,23,37
+  s_1f9e8743677ef7::t_75f7241c7c8d29 7,18,24,46-49
+  s_1f9e8743677ef7::t_709f1455964622 9-14
+  s_1f9e8743677ef7::t_a857099bd1543c 1-5,8,15-17,19-22,25-36,38-45,50-58,63-64
+  s_1f9e8743677ef7::t_1098ebe3373770 59-62
+src/article-reader.css
+  s_1f9e8743677ef7::t_27066bccf90649 49-50
+  s_1f9e8743677ef7::t_a857099bd1543c 1-48,51-56
+scripts/check-content.mjs
+  s_1f9e8743677ef7::t_88b6509fd4a5d5 22,27-56
+  s_1f9e8743677ef7::t_65454e437d2c9f 57
+src/main.ts
+  s_1f9e8743677ef7::t_3ba0ca901b1f37 176
+  s_1f9e8743677ef7::t_962a4ae237a07b 638,1054-1057
+  s_1f9e8743677ef7::t_a857099bd1543c 14-15,134-139,624,635,975-980,1219
+src/ui-language.ts
+  s_1f9e8743677ef7::t_a857099bd1543c 9-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f4ab45bbb15363691d0eba86dfcbdea166d0f73b",
+  "prompts": {},
+  "sessions": {
+    "s_1f9e8743677ef7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c39-1e1b-7d73-9bf2-5a0fc3f2b65d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
