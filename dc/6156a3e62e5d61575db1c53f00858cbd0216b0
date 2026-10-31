@@ -1,0 +1,111 @@
+content/blog/legacy/note/en/redis-jackson-java-time.md
+  s_1f9e8743677ef7::t_a5b1c9acae04a5 137
+content/blog/legacy/note/ja/omp-config-and-rules-guide.md
+  s_1f9e8743677ef7::t_cd09faa7cc9770 119
+content/blog/legacy/note/en/ulticode-core-bounded-testbed.md
+  s_1f9e8743677ef7::t_c1a3f332ba21b3 104,198
+content/blog/legacy/note/en/headroom-cc-switch-coexistence.md
+  s_1f9e8743677ef7::t_37b6f01d099e22 86,158
+docs/I18N-SEMANTIC-AUDIT.md
+  s_1f9e8743677ef7::t_badb8db690776d 90,92,96-133
+  s_1f9e8743677ef7::t_05eae593daee02 89,91,93-95
+  s_1f9e8743677ef7::t_a82393f684778c 134-143
+content/blog/legacy/note/ja/ulticode.md
+  s_1f9e8743677ef7::t_d0a9d8f3b2acb1 317
+content/blog/legacy/note/ja/testcontainers-docker-api.md
+  s_1f9e8743677ef7::t_c706bbcfc2b6cf 115
+content/blog/legacy/note/ja/headroom-cc-switch-coexistence.md
+  s_1f9e8743677ef7::t_37b6f01d099e22 86,158
+content/blog/legacy/note/en/hindsight-troubleshooting.md
+  s_1f9e8743677ef7::t_74f383e513e522 84
+  s_1f9e8743677ef7::t_2c47b868509fa1 171
+  s_1f9e8743677ef7::t_673832c5b49694 172
+content/blog/legacy/note/zh-cn/kb-session-ingest-contract.md
+  s_1f9e8743677ef7::t_a4afe3a9c1ee6a 109
+  s_1f9e8743677ef7::t_c0f811ba84b1d3 117
+content/blog/legacy/note/ja/omp-headroom-persistence.md
+  s_1f9e8743677ef7::t_afe28ddac07e26 151
+content/blog/legacy/note/ja/resicache-observer-nested-execution.md
+  s_1f9e8743677ef7::t_51d5b8b25afe78 75
+content/blog/legacy/note/ja/uisa-architecture-design.md
+  s_1f9e8743677ef7::t_87a9ccec0de89e 101,184
+  s_1f9e8743677ef7::t_0b7832a476fcd5 89,95,119,189,191
+content/blog/legacy/information/en/kb-log.md
+  s_1f9e8743677ef7::t_3dcd5973f872d1 38
+content/blog/legacy/note/ja/hindsight-local-deployment-and-agent-integration.md
+  s_1f9e8743677ef7::t_d7076b0f88f321 345,394,403,435-436,486,509,513,516
+content/blog/legacy/information/ja/kb-log.md
+  s_1f9e8743677ef7::t_d964146faed455 38
+content/blog/legacy/note/ja/hindsight-troubleshooting.md
+  s_1f9e8743677ef7::t_74f383e513e522 84
+  s_1f9e8743677ef7::t_2c47b868509fa1 173
+  s_1f9e8743677ef7::t_ef0e4556d114e4 174
+content/blog/legacy/note/en/omp-hook-extension-guide.md
+  s_1f9e8743677ef7::t_6933a07f646e46 136,160
+content/blog/legacy/note/en/intranet-penetration-ssh-guide.md
+  s_1f9e8743677ef7::t_7c1a9f1bc98479 123
+content/blog/legacy/note/en/database-written-test-review.md
+  s_1f9e8743677ef7::t_6518ccd7c14eed 158,343,405
+content/blog/legacy/note/en/resicache-serialization-migration.md
+  s_1f9e8743677ef7::t_370237f059d6d1 109
+content/blog/legacy/information/ja/kb-index.md
+  s_1f9e8743677ef7::t_3096ef4c64e6fd 61,73-78,82-88,92-99,103-108,112-116,123-125,136-144,148-155,198
+content/blog/legacy/information/en/kb-index.md
+  s_1f9e8743677ef7::t_f4a2a645d490dc 61,73-78,82-88,92-99,103-108,112-116,123-125,136-144,148-155
+content/blog/legacy/note/en/multi-service-readiness.md
+  s_1f9e8743677ef7::t_156e3054839917 152-153,184-185
+content/blog/legacy/note/ja/resicache-handler-chain-and-observer.md
+  s_1f9e8743677ef7::t_e4fc8b4e6fe1e2 273
+  s_1f9e8743677ef7::t_51d5b8b25afe78 283
+content/blog/legacy/information/ja/introduction.md
+  s_1f9e8743677ef7::t_6518ccd7c14eed 86
+content/blog/legacy/note/en/java-internship-interview-blog-polished.md
+  s_1f9e8743677ef7::t_41ec29e5d4dcb7 100,111,125
+content/blog/legacy/note/ja/resicache-serialization-migration.md
+  s_1f9e8743677ef7::t_370237f059d6d1 109
+content/blog/legacy/note/en/hindsight-local-deployment-and-agent-integration.md
+  s_1f9e8743677ef7::t_d7076b0f88f321 345,516
+content/blog/legacy/note/ja/database-written-test-review.md
+  s_1f9e8743677ef7::t_6518ccd7c14eed 83,158,377,405,411
+  s_1f9e8743677ef7::t_87a9ccec0de89e 11,79
+content/blog/legacy/note/en/kb-session-ingest-contract.md
+  s_1f9e8743677ef7::t_c0f811ba84b1d3 117
+  s_1f9e8743677ef7::t_a4afe3a9c1ee6a 109
+content/blog/legacy/note/ja/ulticode-owner-local-audit-inbox.md
+  s_1f9e8743677ef7::t_c1a3f332ba21b3 79,235
+content/blog/legacy/note/ja/redis-jackson-java-time.md
+  s_1f9e8743677ef7::t_a5b1c9acae04a5 137
+content/blog/legacy/note/ja/intranet-penetration-ssh-guide.md
+  s_1f9e8743677ef7::t_7c1a9f1bc98479 123
+content/blog/legacy/note/en/uisa-architecture-design.md
+  s_1f9e8743677ef7::t_0b7832a476fcd5 101
+content/blog/legacy/note/ja/ulticode-core-bounded-testbed.md
+  s_1f9e8743677ef7::t_c1a3f332ba21b3 104
+content/blog/legacy/note/ja/java-internship-interview-blog-polished.md
+  s_1f9e8743677ef7::t_41ec29e5d4dcb7 100,103,111,116,125,157,163
+content/blog/legacy/note/ja/kb-session-ingest-contract.md
+  s_1f9e8743677ef7::t_a4afe3a9c1ee6a 82,109,113-114,127,135
+  s_1f9e8743677ef7::t_c0f811ba84b1d3 117
+content/blog/legacy/note/ja/multi-service-readiness.md
+  s_1f9e8743677ef7::t_156e3054839917 152-153,183-184
+content/blog/legacy/note/ja/omp-hook-extension-guide.md
+  s_1f9e8743677ef7::t_6933a07f646e46 136,160
+content/blog/legacy/note/en/resicache-handler-chain-and-observer.md
+  s_1f9e8743677ef7::t_e4fc8b4e6fe1e2 273
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "dc6156a3e62e5d61575db1c53f00858cbd0216b0",
+  "prompts": {},
+  "sessions": {
+    "s_1f9e8743677ef7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c39-1e1b-7d73-9bf2-5a0fc3f2b65d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
