@@ -14,7 +14,7 @@ import "./responsive.css";
 import { viewportLayout, openingLayout } from "./viewport-layout";
 import { assetUrl } from "./asset-url";
 import { postPath } from "./blog-path";
-import { archiveTickWindow, persistSaved, recentRecords, restoreArticleHash, syncArticleMetadata, visibleSavedCount } from "./blog-client";
+import { archiveTickWindow, articleNavigationUrl, persistSaved, recentRecords, restoreArticleHash, syncArticleMetadata, visibleSavedCount } from "./blog-client";
 import { initPwa, pwaSettingsMarkup } from "./pwa";
 import { createRollingNumber, createRollingText } from "@kitlangton/rolling-number";
 import { ArchiveScene } from "./scene";
@@ -564,7 +564,7 @@ function syncBlogRoute(next: "archive" | "detail") {
   document.querySelector<HTMLMetaElement>('meta[property="og:type"]')!.content = record ? "article" : "website";
   syncArticleMetadata(document.head, record, document.body.dataset.siteAuthor!);
 }
-window.addEventListener("popstate", () => {
+function restoreBlogRoute() {
   if (!ready || !started || !document.getElementById("blog-data")) return;
   const index = records.findIndex(record => record.slug && postPath(record.slug) === location.pathname);
   restoringBlogRoute = true;
@@ -575,7 +575,8 @@ window.addEventListener("popstate", () => {
     restoringBlogRoute = false;
     syncBlogRoute(index >= 0 ? "detail" : "archive");
   });
-});
+}
+window.addEventListener("popstate", restoreBlogRoute);
 window.addEventListener("hashchange", () => {
   if (started && mode === "detail") setTab("overview", false);
 });
@@ -890,6 +891,13 @@ document.addEventListener("change", (e) => {
   }
 });
 document.addEventListener("click", (e) => {
+  const url = ready && started && articleNavigationUrl(records, (e.target as Element).closest<HTMLAnchorElement>("a[href]"), e, location.href);
+  if (url) {
+    e.preventDefault();
+    history.pushState(null, "", url);
+    restoreBlogRoute();
+    return;
+  }
   if ((e.target as Element).closest('[data-action="toggle-theme"]')) {
     prefs.colorTheme = prefs.colorTheme === "dark" ? "light" : "dark";
     savePrefs();
