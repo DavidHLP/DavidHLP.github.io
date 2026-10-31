@@ -349,7 +349,7 @@ OOM、OCI、fork 制限、コンパイル失敗を一律に扱うと監視・再
 - [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/ja/database-schema-drift/)
 - [UltiCode の Data Owner と fact snapshot：サービス間 submit の境界を保つ](/blog/legacy/note/ja/ulticode-owner-and-facts/)
 - [Owner 間 audit を cross-database write にしない：UltiCode の Local Outbox と Consumer Inbox](/blog/legacy/note/ja/ulticode-owner-local-audit-inbox/)
-- [UltiCode Outbox と Redis Streams：判定投递を復旧可能な状態にする](/blog/legacy/note/ja/ulticode-outbox-redis-streams/)
+- [UltiCode Outbox と Redis Streams：判定タスクの配送を復旧可能な状態にする](/blog/legacy/note/ja/ulticode-outbox-redis-streams/)
 - [UltiCode の generation と attemptId：条件付き更新で古い判定結果を遮断する](/blog/legacy/note/ja/ulticode-generation-attempt-fence/)
 - [database lease だけでは足りない：UltiCode の fence token で期限切れ singleton task を止める](/blog/legacy/note/ja/ulticode-fenced-singleton-lease/)
 - [UltiCode Docker sandbox：リソース隔離とインフラエラーの分類](/blog/legacy/note/ja/ulticode-docker-sandbox/)

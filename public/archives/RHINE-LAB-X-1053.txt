@@ -7,6 +7,11 @@ Collection: 2026-08-13
 Related people: DavidHLPL
 Access: Public
 
+> **Graduation requirements (three verifiable checks)**:
+> 1. A coexistence smoke test for the loopback proxy, OMP provider routes, and the shared Codex provider.
+> 2. The atomic-restore state machines and mode decisions in `bin/omp-routes` and `bin/codex-routes`.
+> 3. Repeatable rollback ordering and failure-recovery procedures.
+
 `omp-headroom-provider-proxy` is an external routing controller and Headroom deployment project: it preserves the ownership boundaries of OMP, Codex, and client authentication, does not modify OMP/Headroom source, does not copy credentials or `models.db`, and connects multiple clients to the same loopback Headroom entry through explicit configuration, a systemd user service, state validation, and rollback-safe operations. This page is a `provisional` entity page for the current Headroom 0.34/OMP/Codex environment; implementation sources and runtime evidence are in `sources`.
 
 ## What problem it solves

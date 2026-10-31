@@ -7,6 +7,11 @@
 関連人物: DavidHLPL
 アクセス: 公開
 
+> **昇格条件（三つの検証可能な確認）**：
+> 1. loopback proxy、OMP provider route、Codex 共有 provider の三者共存 smoke test。
+> 2. `bin/omp-routes` と `bin/codex-routes` の atomic restore 状態機械と mode 判定。
+> 3. rollback の順序と障害復旧の再現可能な操作手順。
+
 `omp-headroom-provider-proxy` は外部ルーティングコントローラと Headroom デプロイプロジェクトだ。OMP、Codex、クライアント認証の owner 境界を保持し、OMP/Headroom のソースを変更せず、credential や `models.db` をコピーせず、明示的な設定、systemd user service、状態検証、ロールバック可能な操作で複数のクライアントを同じ loopback Headroom 入口に接続する。本ページは現在の Headroom 0.34/OMP/Codex 環境向けの `provisional` entity ページであり、実装ソースとランタイム証拠は `sources` にある。
 
 ## 何を解決するか

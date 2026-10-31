@@ -81,6 +81,11 @@
 }
 ---
 
+> **Graduation requirements (three verifiable checks)**:
+> 1. Redacted captures and end-to-end log-audit evidence for `8787 → 15721`.
+> 2. Negative tests for single-owner synthesis, demonstrating the double-compression/format-conflict failure.
+> 3. Finalized documentation of systemd `BindPaths` permissions and security boundaries.
+
 This page records the coexistence contract of one specific Headroom provider proxy deployment: Claude Code does not hand requests directly to cc-switch; they pass through Headroom first. OMP's Responses path still enters the same Headroom entry and is routed by request-level upstream selection. The conclusion is that **a request can have only one synthesis owner**: Headroom owns compression and synthesis, while cc-switch only performs Anthropic↔OpenAI protocol conversion and credential injection. This page is a version-dependent `provisional` synthesis, not the default behavior of every Headroom or cc-switch release.
 
 ## Chain and responsibility boundary

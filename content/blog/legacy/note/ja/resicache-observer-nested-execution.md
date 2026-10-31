@@ -155,7 +155,7 @@ console.log("PASS: fragment boundary, duplicate lifecycle counterexample, cleanu
 このページは公開 ResiCache `main` の固定コミット `75ed279a71b17f227c3170d738eb93e50d876c8a` に基づき、次に当てはまる：
 
 - キャッシュ handler chain に MDC、Timer、tracing observer を追加する；
-- 分散ロックや単発（single-flight）ロードの中で同じ handler chain に再入する；
+- 分散ロックや、同じ key の並行ロードを一つに集約する single-flight の中で同じ handler chain に再入する；
 - ネスト実行による重複計時、MDC リーク、future の自己待ちを調査する；
 - 並行再利用に安全な observer API を設計する。
 
@@ -283,7 +283,7 @@ observer は「今回のチェーン実行がどのライフサイクルイベ�
 
 ## 証拠の境界
 
-このページは公開固定コミット内の挙動だけを約束し、未公開のローカル変更を証拠としない。ソース事実と固定コミットは [ResiCache 公開固定コミット](https://github.com/DavidHLP/ResiCache/tree/75ed279a71b17f227c3170d738eb93e50d876c8a) を参照。脱感済み raw スナップショットはリポジトリの `src/content/raw/zh-cn/resicache-observer-nested-execution-contract.md` にある。
+このページは公開固定コミット内の挙動だけを約束し、未公開のローカル変更を証拠としない。ソース事実と固定コミットは [ResiCache 公開固定コミット](https://github.com/DavidHLP/ResiCache/tree/75ed279a71b17f227c3170d738eb93e50d876c8a) を参照。機密情報を除去した raw スナップショットはリポジトリの `src/content/raw/zh-cn/resicache-observer-nested-execution-contract.md` にある。
 
 
 ## 出典と関連文書

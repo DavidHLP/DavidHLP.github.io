@@ -8,7 +8,7 @@
   "date": "2025-10-07",
   "lead": "DavidHLPL",
   "clearance": "PUBLIC",
-  "abstract": "キャッシュで key 不在と業務上の null を区別する理由、NullValue が負の結果を保持してキャッシュ穿透を抑える仕組み、singleton とシリアライズの境界を整理します。",
+  "abstract": "キャッシュで key 不在と業務上の null を区別する理由、NullValue が負の結果を保持して存在しないデータへの反復問い合わせを抑える仕組み、singleton とシリアライズの境界を整理します。",
   "findings": [
     "元の文書: src/content/note/ja/java-null-value.md",
     "出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
@@ -82,8 +82,8 @@
 
 | キャッシュの観測           | 業務上の意味           | 次の動作                       |
 | -------------------------- | ---------------------- | ------------------------------ |
-| key がない                 | 未検索、または期限切れ | 回源して保存可否を決める       |
-| key があり値が `NullValue` | 不在を確認済み         | 回源せず業務上の `null` を返す |
+| key がない                 | 未検索、または期限切れ | 取得元に問い合わせて保存可否を決める |
+| key があり値が `NullValue` | 不在を確認済み         | 取得元に問い合わせず業務上の `null` を返す |
 | key がありオブジェクト     | 実値の hit             | オブジェクトを返す             |
 
 Spring Cache の抽象は次のように縮約できます。
@@ -105,18 +105,18 @@ value = store == NullValue.INSTANCE ? null : store;
 
 ### 3. プレースホルダーは整合性戦略ではない
 
-負のキャッシュが遮断できるのは、すでに観測した不在 key だけです。短い TTL、作成/更新時の明示的な invalidation が必要です。パラメータ検証、Bloom filter、rate limit、single-flight は別の段階を守るため、トラフィックとデータ特性に応じて組み合わせます。
+負のキャッシュが遮断できるのは、すでに観測した不在 key だけです。短い TTL、または作成/更新時の明示的な invalidation が必要です。そうしないと、新しいオブジェクトが作成されても古いプレースホルダーが null を返し続けます。パラメータ検証、Bloom filter、rate limit、single-flight は別の段階を守るため、トラフィックとデータ特性に応じて組み合わせます。
 
 ## 適用条件
 
-- 「不在」がキャッシュ可能な業務結果で、繰り返しの回源が DB や下流に負荷を与える。
+- 「不在」が安定したキャッシュ可能な業務結果で、取得元への繰り返し問い合わせが DB や下流に負荷を与える。
 - adapter が保存前に `null` を marker へ変換し、読み出し後に戻し、業務層へ marker を漏らさない。
 - 負キャッシュの TTL、invalidation、シリアライザの挙動を定義し、作成直後の短い stale を許容できる。
 - cache miss、negative hit、実オブジェクトを区別する必要があり、空文字を null の代用にしない。
 
 ## 不適用とリスク
 
-- `NullValue` は万能の穿透対策ではありません。ランダム/不正 key には検証、Bloom filter、rate limit などの入口制御が必要です。
+- `NullValue` だけで、存在しないデータへの問い合わせをすべて防げるわけではありません。ランダム/不正 key には検証、Bloom filter、rate limit などの入口制御が必要です。
 - TTL が長いと新規作成データを隠します。強整合の経路では負キャッシュを無効にするか同期 invalidation を行います。
 - シリアライズは実装境界です。プロセス、言語、Spring、cache serializer が異なると `NullValue` を認識できない可能性があります。`readResolve()` だけで遠隔互換性は証明できません。
 - null、空文字、空コレクション、key 不在は別の意味です。文字列 marker は業務データを汚染します。
@@ -124,10 +124,10 @@ value = store == NullValue.INSTANCE ? null : store;
 
 ## 最小検証
 
-1. 実際に不在の key を選び、初回だけ回源して負 marker を保存し、二回目は DB にアクセスせず marker hit になることを確認する。
+1. 実際に不在の key を選び、初回だけ取得元に問い合わせて負 marker を保存し、二回目は DB にアクセスせず marker hit になることを確認する。
 2. メモリキャッシュと実際のシリアライズキャッシュで同じテストを行い、adapter の業務結果が `null` のまま、miss とは区別できることを確認する。
 3. marker をシリアライズ/反シリアライズする。Java 標準シリアライズでは `INSTANCE` と identity を比較し、本番 serializer は別途互換性を検証する。
-4. 実オブジェクトを保存した後、invalidation または TTL 期限切れで見えることを確認し、回源回数、負 hit 率、stale 窓を記録する。
+4. 実オブジェクトを保存した後、invalidation または TTL 期限切れで見えることを確認し、取得元への問い合わせ回数、負 hit 率、stale 窓を記録する。
 
 ## 証拠と不確実性
 
@@ -149,4 +149,4 @@ value = store == NullValue.INSTANCE ? null : store;
 - [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/ja/java-auto-closeable/)
 - [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/ja/java-internship-interview-blog-polished/)
 - [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/ja/redis-jackson-java-time/)
-- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/ja/redis-business-patterns/)
+- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と数量限定・時間限定販売](/blog/legacy/note/ja/redis-business-patterns/)

@@ -223,7 +223,7 @@ docker exec hindsight-ollama-gpu ollama list
 2. `docker exec hindsight-ollama-gpu ollama ps` で `gemma4:12b` が GPU VRAM に全て載ることを確認。
 3. `curl -I http://127.0.0.1:8888/health` が HTTP 200。
 
-これは実施候補で、その修訂の結果ではない。Up は稼働のみ。`ollama list` はローカル一覧、`ollama ps` は実行中一覧（[CLI 文書](https://docs.ollama.com/cli)）。HTTP 健康は推論・書き込み・召回の代用ではない。短い `depends_on` は ready を待たない（[Compose 起動順](https://docs.docker.com/compose/how-tos/startup-order/)）。登録・準備後に E2E を行う。
+これは実施候補で、その修訂の結果ではない。Up は稼働のみ。`ollama list` はローカル一覧、`ollama ps` は実行中一覧（[CLI 文書](https://docs.ollama.com/cli)）。HTTP 健康は推論・書き込み・検索の代用ではない。短い `depends_on` は ready を待たない（[Compose 起動順](https://docs.docker.com/compose/how-tos/startup-order/)）。登録・準備後に E2E を行う。
 
 ---
 

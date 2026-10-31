@@ -34,10 +34,10 @@ The theme **does not provide** an online application interface for external link
 The author encourages every webmaster to view external links as genuine and valuable recommendations, including only sites they **truly appreciate, regularly read, or are willing to share**.
 
 - [Astro](https://astro.build/) — The web framework for content-driven websites.
-- [Svelte](https://svelte.dev/) — Web development for the rest of us.
-- [TypeScript](https://www.typescriptlang.org/) — JavaScript with syntax for types.
+- [Svelte](https://svelte.dev/) — A compile-time framework for doing more with less code.
+- [TypeScript](https://www.typescriptlang.org/) — A superset of JavaScript with type syntax.
 - [MDN Web Docs](https://developer.mozilla.org/) — Authoritative documentation and learning resources for the web platform.
-- [GitHub](https://github.com) — The future of building happens together.
+- [GitHub](https://github.com) — The world's largest open-source collaboration platform.
 
 Rather than randomly adding mutual links for exchange or pure SEO purposes, the author hopes that every link represents **content resonance** and **value recognition**, building a site network full of personality and warmth.
 

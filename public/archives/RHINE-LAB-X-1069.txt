@@ -7,6 +7,11 @@ Collection: 2026-03-25
 Related people: DavidHLPL
 Access: Public
 
+> **Graduation requirements (three verifiable checks)**:
+> 1. Replace implicit scale/threshold promises with reproducible retry/idempotency constraints.
+> 2. Add a minimal owner → boundary → recovery decision tree.
+> 3. Add a failure-mode matrix for five heterogeneous node classes, supported by concrete tests.
+
 ## Definition
 
 This page does not retell UISA as a four-layer diagram. It synthesizes two raw sources to answer: when a general information-sync substrate meets a plugin lifecycle control plane, who owns each state, how messages synchronize, how failure is retried and audited, and which performance and safety trade-offs must be explicit. The result is provisional: it is a design model, not proof that a deployment meets the source's scale claims.

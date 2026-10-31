@@ -83,6 +83,11 @@
 }
 ---
 
+> **Graduation requirements (three verifiable checks)**:
+> 1. Add one redacted production-mitigation case: symptom → diagnosis → recovery metrics.
+> 2. Add version-pinned evidence for cache/asynchronous mechanisms and their contract boundaries.
+> 3. Strictly separate the interview capability model from objective technical facts.
+
 This is a synthesis of interview capabilities, not a personal story or a question list. It answers how to turn “I built a project” into an engineering judgment that can be checked: state what you owned, explain mechanisms and trade-offs, and show incident, metric, and recovery evidence. The goal is not to stack technology names, but to make project truth, mechanism correctness, and production observability reinforce one another.
 
 ## Core mechanism
