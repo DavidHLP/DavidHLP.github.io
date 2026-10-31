@@ -18,7 +18,7 @@ This page summarizes **seven historical failures, diagnostic approaches, and res
 ```mermaid
 graph TD
   P1[Pitfall 1: Wrong third-party npm hindsight-mcp] --> S1[Uninstall it and use Hindsight's native FastMCP]
-  P2[Pitfall 2: Ollama official registry lacks the 12B tag] --> S2[Download the HuggingFace GGUF and import it locally with a Modelfile]
+  P2[Pitfall 2: Source reports model not found] --> S2[Check the local alias and model provenance before choosing an import]
   P3[Pitfall 3: Docker UID 1000 permission failure] --> S3[Grant UID 1000 ownership of ~/.hindsight/data]
   P4[Pitfall 4: 6.63GB model sync download timeout] --> S4[Use Python chunked download with Range resume and nohup]
   P5[Pitfall 5: Ollama API missing /v1 returns 404] --> S5[Set BASE_URL explicitly to http://ollama-gpu:11434/v1]
@@ -41,8 +41,6 @@ graph TD
 - **Prerequisites**: Check the model card, source revision, license, checksum, and chat template before choosing an import method. The revision did not verify the weights' identity or current download URL, and supplies no new download instructions.
 
 ### 3. Non-root container volume permissions (UID 1000)
-
-The table preserves the source narrative. Missing model tags, successful downloads, temporary-Bank cleanup, and passing checks were reported then, not reverified in that revision.
 
 - **Symptom**: Hindsight exits with `[FAIL] The embedded database directory /home/hindsight/.pg0 is not writable by this container (UID 1000).`
 - **Cause**: The image uses non-root user `hindsight` (UID 1000); a host-created directory may not be writable by its embedded pg0 process.
@@ -106,6 +104,8 @@ node --check ~/.hindsight/hindsight-bridge.mjs
 `ollama list` lists local models; `ollama ps` lists running models ([CLI](https://docs.ollama.com/cli)). Starting a stdio script and waiting for input is not validation: check initialize, notifications, tools/list, and controlled write/recall to the intended Bank. Those checks were not executed in that revision.
 
 ## 3. Six-Stage Evolution and Technical Decisions
+
+The table preserves the source narrative. Missing model tags, successful downloads, temporary-Bank cleanup, and passing checks were reported then, not reverified in that revision.
 
 | Stage | Core task | Violation or failure found | Final resolution and output |
 | :--- | :--- | :--- | :--- |

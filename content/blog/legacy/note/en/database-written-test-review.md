@@ -155,7 +155,7 @@ Here is a self-contained PL/SQL example:
     END;
     /
 
-By explicit-cursor semantics, the output is **0**, not 1. ROWCOUNT is the number of rows already fetched, not the total number of rows in the result set. Immediately after OPEN, before the first FETCH, it is 0; it increases after a successful fetch.[^11]
+By explicit-cursor semantics, the output is **0**, not 1. `%ROWCOUNT` is the number of rows already fetched, not the total number of rows in the result set. Immediately after OPEN, before the first FETCH, it is 0; it increases after a successful fetch.[^11]
 
 The point is not to infer a runtime result from the number of rows in the source table. Follow the actual OPEN → FETCH → CLOSE state transitions. The 0 here is a result derived from official semantics, not a production log.
 
@@ -340,7 +340,7 @@ For Kettle / Pentaho Data Integration performance issues, split the pipeline int
 
 **Transformation: measure per-row cost.** Repeated database queries, unnecessary type conversion, complex scripts, and large sorts deserve separate measurement. Caches, lazy conversion, and step copies are candidates, but first ensure that extra copies do not break ordering, grouping, or deduplication.[^30]
 
-**Output: distinguish batch commits from transaction commits.** Table Output's Commit size controls how many inserts accumulate before a transaction is committed; Use batch update for inserts controls batched insert statements. They are not the same switch. Batch behavior also depends on driver support and other step settings, so verify that it actually takes effect.[^31]
+**Output: distinguish batched statement submission from transaction commits.** Table Output's Commit size controls how many inserts accumulate before a transaction is committed; Use batch update for inserts controls batched insert statements. They are not the same switch. Batch behavior also depends on driver support and other step settings, so verify that it actually takes effect.[^31]
 
 A larger commit batch is not automatically better. Compare throughput, memory, redo work after failure, and target-database pressure rather than recording only the fastest single run.
 
@@ -402,7 +402,7 @@ The execution rule is: verify correctness on a controlled range, then adjust bat
 1. **Lock down the engine and version**: put functions, date formats, and DDL/DML restrictions back into a specific dialect.
 2. **Draw the result boundary**: mark rows that must survive a join before writing the match condition.
 3. **Construct counterexamples**: test at least one non-match, NULL, empty result, duplicate row, and year boundary.
-4. **Separate missing from unknown**: no row, an existing row with an empty field, and a missing average are not the same case.
+4. **Separate missing from unknown**: no row, an existing row with a null field, and a missing average are not the same case.
 5. **Verify reads, updates, and inserts separately**: confirm the target table, subquery, temporary table, transaction boundary, and idempotency.
 6. **Require evidence for performance claims**: cover the corresponding layer with plans, selectivity, throughput, waits, memory, and write cost.
 7. **Design bulk-operation boundaries first**: no overlaps or gaps, recorded progress, pause, retry, idempotency, and reconciliation.

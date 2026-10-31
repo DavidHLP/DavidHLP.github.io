@@ -97,7 +97,7 @@ This is a synthesis of interview capabilities, not a personal story or a questio
 | Layer                 | Must be clear                                                               | Evidence that can be checked                                           | Common distortion                                |
 | --------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------ |
 | Project truth         | Entry point, owned module, data flow, and one concrete change               | Code path, endpoint/table/message, commit or test boundary             | Listing a stack without explaining failure paths |
-| Engineering mechanism | Why cache, queue, isolation, or a long connection was chosen; what it costs | State transitions, limits, TTL, retry, idempotency, exception contract | Treating “used it” as “understood it”            |
+| Engineering mechanism | Why cache, queue, isolation, or a long connection was chosen; what would happen without it | State transitions, limits, TTL, retry, idempotency, exception contract | Treating “used it” as “understood it”            |
 | Production evidence   | How to observe, locate, mitigate, roll back, and review                     | Metrics, logs, stacks, GC/error rates, timeline                        | Saying only “restart” or “check logs”            |
 
 The layers form one causal chain: **facts and ownership → mechanism and cost → observable result → failure action**. Mark participation, inference, or open verification explicitly rather than expanding an unsupported ownership claim.
@@ -108,7 +108,7 @@ A cache answer should not stop at “we used Redis.” For an absent object, a c
 
 1. Only a cache miss may load the source. After the database confirms absence, store a short-TTL `NullValue` marker.
 2. Convert the marker back to business `null` on reads, distinguishing a missing key, a negative hit, and a real object.
-3. Use validation/Bloom filters for random invalid keys; use a lock or single-flight for hot reloads; use TTL and active invalidation to bound staleness.
+3. Use validation/Bloom filters for random invalid keys; use a lock or single-flight for source loads of hot keys; use TTL and active invalidation to bound staleness.
 4. Test whether the serializer understands the marker. Spring’s internal `readResolve` is not a cross-language protocol.
 
 This demonstrates boundary understanding better than reciting “penetration, breakdown, and avalanche.”
@@ -122,7 +122,7 @@ symptom → preserve timeline and snapshots → PID/TID → jstack/GC/method evi
         → code, lock, GC, or dependency hypothesis → reversible mitigation → verify and review
 ```
 
-A strong explanation says that `RUNNABLE` leads to hot-code inspection, `BLOCKED` to lock chains, `WAITING` to queue or dependency analysis, and GC clues must align with allocation, pauses, and latency. It does not treat `kill -9` as the first move or a single stack sample as proof of cause.
+A strong explanation says that `RUNNABLE` leads to hot-code inspection, `BLOCKED` to lock chains, `WAITING` to distinguishing normal waiting from a backlog, and GC clues must align with allocation, pauses, and latency. It does not treat `kill -9` as the first move or a single stack sample as proof of cause.
 
 ### 4. Translate infrastructure choices into observable mechanisms
 

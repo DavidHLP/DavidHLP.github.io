@@ -101,7 +101,7 @@ This pseudocode hides several races:
 - when timeout occurs, the background task may not yet have decided whether it created a context;
 - the timeout thread and startup thread may both believe they own cleanup;
 - after the parent returns, a late context may still become READY;
-- stopping a thread does not mean the Spring context, classloader, or executor is closed;
+- a stop operation that only interrupts a thread does not mean the Spring context, classloader, or executor is closed;
 - package-name isolation alone cannot prevent reuse of a class from the parent classpath.
 
 The Core problem is therefore not “start several Spring Boots.” It is ownership of every resource created by one startup attempt: who creates it, who closes it, and when its result has become stale.
@@ -195,7 +195,7 @@ It does not solve parent-classpath dependency conflicts, true security isolation
 
 This bounded testbed is useful when a team needs to verify the assembly of a few modules quickly without starting the full distributed environment. The prerequisites are explicit opt-in, a finite allowlist, a timeout for every child context, and acceptance that parent-first classloading is not a security boundary.
 
-The costs include a state machine, thread pool, resource handoff, race tests, and a configuration matrix. When there are many modules, severe dependency-version conflicts, or tests that must cover real network/isolation behavior, putting everything in one JVM may increase rather than reduce understanding.
+The costs include a state machine, thread pool, resource handoff, race tests, and a configuration matrix. When there are many modules, severe dependency-version conflicts, or tests that must cover real network/isolation behavior, putting everything in one JVM may increase the effort needed to understand the system.
 
 Three failure patterns are especially easy to miss:
 

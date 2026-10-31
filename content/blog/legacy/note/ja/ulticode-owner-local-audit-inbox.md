@@ -76,7 +76,7 @@
 }
 ---
 
-> **証拠の状態**：この記事は固定コミット時点の UltiCode audit adapter、dispatcher、Admin inbox bridge、consumer inbox、database migration に基づく。repository に mechanism があることは、service 間 exactly-once や本番で audit が一件も失われないことの証明ではない。
+> **証拠の状態**：この記事は UltiCode `main` の固定コミット [`f801a1076`](https://github.com/DavidHLP/UltiCode/tree/f801a1076b2fa9aa06ce3d63821f0778b477042c) の audit adapter、dispatcher、Admin inbox bridge、consumer inbox、database migration に基づく。repository に mechanism があることは、service 間 exactly-once や本番で audit が一件も失われないことの証明ではない。
 
 audit log には見落としやすい制約がある。audit event を生む action と audit log を保存する module は、異なる Data Owner であることが多い。
 
@@ -232,7 +232,7 @@ repository には Auth/App audit dispatcher test と Admin audit/inbox test が�
 
 ## 出典と関連文書
 
-- [ulticode-reliability-core-[f801a1076](https://github.com/DavidHLP/UltiCode/tree/f801a1076b2fa9aa06ce3d63821f0778b477042c)](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-reliability-core-f801a1076.md)
+- [ulticode-reliability-core-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-reliability-core-f801a1076.md)
 - [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/)
 - [UltiCode の Data Owner と fact snapshot：サービス間 submit の境界を保つ](/blog/legacy/note/ja/ulticode-owner-and-facts/)
 - [UltiCode Outbox と Redis Streams：判定タスクの配送を復旧可能な状態にする](/blog/legacy/note/ja/ulticode-outbox-redis-streams/)

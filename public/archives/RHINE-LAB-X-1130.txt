@@ -34,7 +34,7 @@ if (!future.get(timeout, MILLISECONDS)) {
 - timeout 時点で background task が context を作ったか決めていない可能性。
 - timeout thread と startup thread が両方 cleanup の owner だと思う可能性。
 - parent が return した後、遅れてきた context が READY になる可能性。
-- thread を stop しても Spring context、classloader、executor が close したとは限らない。
+- stop 操作で thread に interrupt を送っても、Spring context、classloader、executor が close したとは限らない。
 - package name isolation だけでは parent classpath の class 再利用を止められない。
 
 したがって Core の難しさは「Spring Boot を複数起動する」ことではない。一つの startup attempt が作る全 resource の ownership、つまり誰が作り、誰が close し、いつ result が stale になるかを管理することである。

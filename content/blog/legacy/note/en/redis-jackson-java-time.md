@@ -134,7 +134,7 @@ Both the write and read sides (different RedisTemplate instances, key and value 
 
 ### Array form vs ISO form
 
-- The default `WRITE_DATES_AS_TIMESTAMPS=true` (ObjectMapper default) → `LocalDateTime` serializes to the array `[年,月,日,时,分,秒]`.
+- The default `WRITE_DATES_AS_TIMESTAMPS=true` (ObjectMapper default) → `LocalDateTime` serializes to the array `[year,month,day,hour,minute,second]`.
 - Disabling that feature → ISO string, e.g. `"2026-08-13T10:30:45"`.
 - The jsr310 deserializer **accepts both array and ISO string inputs**; round-trip within the same codec is equal; the stored form itself does not constitute a read failure.
 - But `WRITE_DATES_AS_TIMESTAMPS` is a configuration item that affects the output form; the writer and reader should stay consistent to avoid relying on implicit differences.

@@ -98,7 +98,7 @@ The minimum sequence is below; concrete HTTP/RPC fields remain an implementation
 
 1. Initial registration binds a `Business ID`; the center creates a long-lived `System UUID` and issues a short-lived `Session Token`.
 2. Ordinary requests carry UUID, token, timestamp, nonce, signature, and Payload Hash. The Gateway validates them before core processing to resist forgery, tampering, and replay.
-3. The Agent sends metrics, plugin/asset summaries, and running task IDs in a merged heartbeat. The Gateway validates and rate-limits; normal load can forward directly, while high load writes to MQ for batch consumption.
+3. The Agent sends metrics, plugin/asset summaries, and running tasks in a merged heartbeat. The Gateway validates and rate-limits; normal load can forward directly, while high load writes to MQ for batch consumption.
 4. Any outbound task is persisted in `Task DB` with a global `task_id` before dispatch; it is sent directly when online or placed in an offline queue when not.
 5. The Agent returns `NoChange`, Diff data, or failure. The engine verifies Hash/signature, updates the asset with a version condition, and writes audit plus queue cleanup only after success.
 

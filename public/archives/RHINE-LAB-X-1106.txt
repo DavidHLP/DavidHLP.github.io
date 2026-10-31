@@ -77,8 +77,8 @@ Wants=db.service
 まず上の匿名 fixture を専用の一時ディレクトリの `compose.yaml` に保存する。既存の開発・本番 Compose プロジェクトのディレクトリに以下のコマンドをコピーしないこと。`restart` はサービスを中断し、`--abort-on-container-failure` はその隔離 project の全コンテナを停止し、`down` はそのコンテナとネットワークを停止・削除する。
 
 ```bash
-fixture="$(pwd)/compose.yaml"           # 当前目录必须只包含此匿名 fixture
-project="readiness-contract-$$"         # 当前 shell 内唯一；后续命令保持一致
+fixture="$(pwd)/compose.yaml"           # 現在のディレクトリにはこの匿名 fixture だけを置く
+project="readiness-contract-$$"         # この shell 内で一意。以降のコマンドでも同じ値を使う
 printf 'Copy these values to the scenario terminal: fixture=%q project=%q\n' "$fixture" "$project"
 
 docker compose -f "$fixture" -p "$project" config -q
@@ -108,8 +108,8 @@ docker compose -f "$fixture" -p "$project" up --abort-on-container-failure
 ```
 
 ```bash
-systemctl show <unit> -p After -p Before -p Requires -p Wants   # After= 与 Requires= 是正交字段
-systemd-analyze verify <unit>.service          # 单元文件校验
+systemctl show <unit> -p After -p Before -p Requires -p Wants   # After= と Requires= は直交するフィールド
+systemd-analyze verify <unit>.service          # ユニットファイルを検証する
 ```
 
 決定表に照らして検証結果を解釈する：`ps` の healthy 列はプローブが通ったことだけを証明し、業務レディネスは証明しない。`events` の `health_status` シーケンスで依存順を確認する。`systemctl show` で `After=` だけがあり `Requires=`/`Wants=` が空なら、順序だけがあって依存はない。

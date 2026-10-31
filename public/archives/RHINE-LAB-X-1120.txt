@@ -9,7 +9,7 @@
 
 **結論優先**：キャッシュチェーン、同期ロック、single-flight を持つ Java システムでは、完全な `execute`、ロック内の `executeChainFragment`、observer の per-call scope token は三つの異なる概念だ。around hook の状態は今回の呼び出しが返した token とペアにして復元しなければならない。fragment はノードを進めるだけで外側のライフサイクルを開き直さない。`ThreadLocal` は現在の実行スナップショットを分離するのにだけ適し、observer の状態機械にしてはならない。
 
-## 復盤案内：lock 内の続行で全チェーンを再実行してはいけない理由
+## 設計レビューの案内：lock 内の続行で全チェーンを再実行してはいけない理由
 
 [ResiCache](/blog/legacy/note/ja/resicache/) の同期 lock handler は実行権を得て後続 node を続ける。外側の寿命が続く中で完全 `execute` を使うと、計時・context 復元をもう一組開き、後処理も重複し得る。
 

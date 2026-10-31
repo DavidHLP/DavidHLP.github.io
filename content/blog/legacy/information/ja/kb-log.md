@@ -35,7 +35,7 @@
 
 ## [2026-08-07] init | 個人 AI ナレッジベースの確立
 
-Karpathy の LLM-Wiki パターンに沿って、変更しない `raw` ソース、LLM が保守する `note` ページ、`KB.md` と `knowledge-base` skill の Schema という三層に再構成しました。ホーム、履歴書、多言語の外側は保護しています。
+Karpathy の LLM-Wiki パターンに沿って、変更しない `raw` ソース、LLM が保守する `note` ページ、`KB.md` と `knowledge-base` skill の Schema という三層に再構成しました。ホームと個人履歴書を残し、旧ブログ内容の公開 wiki としての扱いを取り除き、三言語のサイト外枠を保持しました。
 
 ## [2026-08-07] ingest | @karpathy-llm-wiki
 

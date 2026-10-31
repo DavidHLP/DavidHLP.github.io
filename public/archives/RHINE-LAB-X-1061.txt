@@ -205,7 +205,7 @@ This design does not make a responsibility chain naturally extensible.
 
 When designing a composable processing chain, decide first:
 
-1. Is control flow expressed by explicit state rather than by whether a result is empty?
+1. Is control flow expressed by explicit state rather than by whether a result is null?
 2. Is node order a stable, testable protocol?
 3. Does one execution use an immutable snapshot?
 4. Is nested execution a new external call or a fragment of the current call?
