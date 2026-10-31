@@ -168,7 +168,7 @@ node --check ~/.hindsight/hindsight-bridge.mjs
 
 ---
 
-`ollama list` はローカル、`ollama ps` は実行中の一覧（[CLI](https://docs.ollama.com/cli)）。stdio の入力待ちは検証成功ではない。initialize、通知、tools/list、対象 Bank への制御された書き込み・召回を確認する。その修訂では未実行。
+`ollama list` はローカル、`ollama ps` は実行中の一覧（[CLI](https://docs.ollama.com/cli)）。stdio の入力待ちは検証成功ではない。initialize、通知、tools/list、対象 Bank への制御された書き込み・検索を確認する。その修訂では未実行。
 
 ## 3. 6 段階の進化と技術判断のまとめ
 

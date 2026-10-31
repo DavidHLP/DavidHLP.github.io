@@ -35,8 +35,8 @@
 ## 2026-08-12 会話候補の振り分け
 
 - [x] Headroom 0.34 `/v1/compress`・`/v1/retrieve` の field、mode、実 endpoint 検証を upstream ソースで補強し正式知識頁へ。
-- [ ] Hindsight と派生結論を service snapshot、upstream、反復実験で項目ごとに確認。現時点は ignore 対象の脱敏台帳のみ。
-- [ ] 未分類 OMP/OpenCode/Codex はテーマ別にする。workflow prompt、内部 Agent 消息、tool trace は公開知識ではなく一括転記しない。
+- [ ] Hindsight と派生結論を service snapshot、upstream、反復実験で項目ごとに確認。現時点では機密情報を除去した、Git の追跡対象外の台帳だけに保持する。
+- [ ] 未分類 OMP/OpenCode/Codex はテーマ別にする。workflow prompt、Agent 内部メッセージ、tool trace は公開知識ではなく一括転記しない。
 
 ## 未回答の問い
 

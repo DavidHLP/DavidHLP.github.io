@@ -53,7 +53,7 @@ The canonical maintenance language is `zh-cn`. The knowledge base follows the [T
 |---|---|
 | [Headroom Single-Port Synthesis: Entry, Dynamic Upstreams, and Verification Boundaries](/blog/legacy/note/en/headroom-single-port-evolution/) | Pinned Headroom contract tests for explicit `/v1/messages` and `/v1/responses` routing; `model_cache` rebuild; `BindPaths` rollback. |
 | [Headroom Route Persistence Synthesis: Named Profiles, model_cache, and Recovery](/blog/legacy/note/en/omp-headroom-persistence/) | Independent Named Profile isolation reproduction; derived `model_cache` deletion/rebuild; migration-only conditions for the old reconciler. |
-| [Headroom with cc-switch / Claude Code Coexistence: Single Synthesis and Security Boundaries](/blog/legacy/note/en/headroom-cc-switch-coexistence/) | Redacted logs/capture of `879...→15721`; dual-write conflict counterexample; finalized `BindPaths` security boundary. |
+| [Headroom with cc-switch / Claude Code Coexistence: Single Synthesis and Security Boundaries](/blog/legacy/note/en/headroom-cc-switch-coexistence/) | Redacted logs/capture of `8787→15721`; dual-write conflict counterexample; finalized `BindPaths` security boundary. |
 | [OMP Headroom Bridge: External Routing Controller and Native Codex/OMP Proxy Boundaries](/blog/legacy/note/en/omp-headroom-provider-proxy/) | Coexisting loopback proxy, OMP provider route, and shared Codex provider smoke test; atomic restore/mode detection; repeatable rollback order. |
 | [UltiCode: Verifiable Boundaries for Online Judging and Agent Engineering](/blog/legacy/note/en/ulticode/) | Owner boundaries, outbox/Streams delivery, generation/attempt fences, Docker sandbox, traceable release gates. |
 | [Enhanced UISA: Owners, Boundaries, and Recovery for Heterogeneous-Node Sync](/blog/legacy/note/en/uisa-architecture-design/) | Replace implicit scale/threshold promises with reproducible retry/idempotency constraints; owner → boundary → recovery decision tree; failure matrix. |
@@ -89,7 +89,7 @@ The canonical maintenance language is `zh-cn`. The knowledge base follows the [T
 
 ## C. Storage and caching
 
-- [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Seckill](/blog/legacy/note/en/redis-business-patterns/) — Align caching and business semantics through consistency and exclusion. Sources: ingest-redis-business`.
+- [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Flash Sales](/blog/legacy/note/en/redis-business-patterns/) — Align caching and business semantics through consistency and exclusion. Sources: ingest-redis-business`.
 - [Redis Persistence and Internals: RDB/AOF, Data Structures, and Advanced Mechanisms](/blog/legacy/note/en/redis-persistence-principle/) — Recovery and performance of snapshots versus append logs. Sources: ingest-redis-persistence`.
 - [Redis Heima Practice: Distributed Cache, Multi-Level Cache, and Best Practices](/blog/legacy/note/en/redis-heima-practice/) — A checklist distilled from 200+ pages, with version gaps identified. Sources: ingest-redis-heima`.
 - [MySQL Storage Engines and Deadlock Detection](/blog/legacy/note/en/mysql-storage-and-deadlock/) — Engine capabilities and deadlock-log paths. Sources: ingest-mysql-storage`.
@@ -230,7 +230,7 @@ Raw files reside in `src/content/raw/zh-cn/` for LLM reading, without public rou
 
 ## Capture inbox
 
-- [Knowledge-base Ingest Inbox](/blog/legacy/jotting/en/kb-ingest-todo/) — Upcoming personal-project sources and questions. Historical articles, all 107 originals from Personal-markdown-notes/Fuwari, and ResiCache/UltiCode README/CONTEXT have been ingested. Phase 2 split Hindsight and dissolved miscellaneous frontend notes. Next: Phase 3 quarterly review of 11 provisional pages and incremental new topics.
+- [Knowledge-base Ingest Inbox](/blog/legacy/jotting/en/kb-ingest-todo/) — Upcoming personal-project sources and questions. Historical articles, all 107 originals from Personal-markdown-notes/Fuwari, and ResiCache/UltiCode README/CONTEXT have been ingested. Phase 2 split Hindsight and dissolved miscellaneous frontend notes. Next: Phase 3 quarterly review of 12 provisional pages and incremental new topics.
 
 ## Maintenance rules
 

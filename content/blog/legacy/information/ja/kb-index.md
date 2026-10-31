@@ -53,11 +53,11 @@
 |---|---|
 | [Headroom 単一ポートの総合：入口、動的上流、検証の境界](/blog/legacy/note/ja/headroom-single-port-evolution/) | 固定 Headroom で `/v1/messages`・`/v1/responses` 明示経路の最小 contract test、`model_cache` 再構築、`BindPaths` rollback。 |
 | [Headroom ルート永続化の総合：Named Profile、model_cache、復旧](/blog/legacy/note/ja/omp-headroom-persistence/) | Named Profile 隔離の独立再現、派生 `model_cache` 削除・再構築、旧 reconciler の移行時限定条件。 |
-| [Headroom と cc-switch / Claude Code の共存：単一の整理責任とセキュリティ境界](/blog/legacy/note/ja/headroom-cc-switch-coexistence/) | `879...→15721` の脱敏 capture/log、二重書き込み衝突の反例、`BindPaths` 安全境界の確定。 |
+| [Headroom と cc-switch / Claude Code の共存：単一の整理責任とセキュリティ境界](/blog/legacy/note/ja/headroom-cc-switch-coexistence/) | `8787→15721` の機密情報を除去した capture/log、二重書き込み衝突の反例、`BindPaths` 安全境界の確定。 |
 | [OMP Headroom Bridge：外部ルーティングコントローラとネイティブ Codex/OMP プロキシ境界](/blog/legacy/note/ja/omp-headroom-provider-proxy/) | loopback proxy・OMP route・Codex 共通 provider の共存 smoke test、atomic restore/mode、再現可能な rollback 順。 |
 | [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/) | owner 境界、outbox/Streams 配送、generation/attempt fence、Docker sandbox、追跡可能な release gate。 |
 | [Enhanced UISA：異種ノード同期の owner・boundary・復旧モデル](/blog/legacy/note/ja/uisa-architecture-design/) | 規模・閾値の暗黙保証を再現可能な retry/冪等制約に置換、owner → 境界 → 復旧の判断木、障害行列。 |
-| [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/ja/java-internship-interview-blog-polished/) | 本番止血 → 特定 → 復旧の脱敏一例、cache/非同期の固定証拠、能力モデルと証拠の分離。 |
+| [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/ja/java-internship-interview-blog-polished/) | 本番止血 → 特定 → 復旧の機密情報を除去した一例、cache/非同期の固定証拠、能力モデルと証拠の分離。 |
 | [データベース筆記試験の復盤：SQL セマンティクスからバッチ処理まで](/blog/legacy/note/ja/database-written-test-review/) | 固定 Oracle/MySQL/Spark/PDI の再現、`NULL`・年越し・同表読み書き test、Kettle/巨大表分割の復旧・照合。 |
 | [ResiCache の cache responsibility chain：control flow、nested fragment、observer lifecycle](/blog/legacy/note/ja/resicache-handler-chain-and-observer/) | 現主線 `HandlerResult`、snapshot/fragment 境界、token 対応、例外終了。 |
 | [cache stampede に Future、distributed lock、double-check が同時に必要な理由](/blog/legacy/note/ja/resicache-single-flight/) | 十並行、leader/follower/reentrant、lock 内 double-check、書き戻し失敗、instance 間境界。 |
@@ -71,7 +71,7 @@
 ## A. 知識庫と AI 工学
 
 - [LLM-Wiki パターン：LLM で蓄積する個人 AI ナレッジベース](/blog/legacy/note/ja/llm-wiki-pattern/) — raw/wiki/schema の三層と ingest/query/lint の三操作。 出典：karpathy-llm-wiki`.
-- [KB セッション摂取パイプライン契約：インクリメンタル再利用、redaction v19、不変 raw](/blog/legacy/note/ja/kb-session-ingest-contract/) — 出典 ID・内容 hash、失敗の再処理、制御面フィルター、中断台帳、脱敏監査。 出典：kb-ingest-pipeline-v19`.
+- [KB セッション摂取パイプライン契約：インクリメンタル再利用、redaction v19、不変 raw](/blog/legacy/note/ja/kb-session-ingest-contract/) — 出典 ID・内容 hash、失敗の再処理、制御面フィルター、中断台帳、機密情報を除去した監査。 出典：kb-ingest-pipeline-v19`.
 - [MCP プロトコル時代の境界と codebase-memory-mcp v0.10.2 のグラフワークフロー](/blog/legacy/note/ja/mcp-codebase-memory-workflow/) — 固定した modern MCP 契約と、グラフ・ソース・coverage の証拠規律。 出典：mcp-codebase-memory-workflow`.
 - [Hindsight のローカル計算資源分担と Docker コンテナ化デプロイ](/blog/legacy/note/ja/hindsight-local-deployment/) — v0.9.1 当時の GPU/CPU 分担、コンテナ網、UID 境界。モデル provenance と現在の再現は未確認。 出典：hindsight-local-deployment-and-agent-integration`.
 - [Hindsight 統合メモリアクセス：FastMCP ブリッジと動的マルチプロジェクトルーティング](/blog/legacy/note/ja/hindsight-omp-codex-integration/) — 当時のブリッジ、Bank の論理分割・名前衝突、MCP の不足、単回検索記録。 出典：hindsight-local-deployment-and-agent-integration`.
@@ -89,7 +89,7 @@
 
 ## C. 保存とキャッシュ
 
-- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/ja/redis-business-patterns/) — 一貫性・排他・意味からキャッシュと業務を整理。 出典：ingest-redis-business`.
+- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と数量限定・時間限定販売](/blog/legacy/note/ja/redis-business-patterns/) — 一貫性・排他・意味からキャッシュと業務を整理。 出典：ingest-redis-business`.
 - [Redis 永続化と原理：RDB/AOF、データ構造と高度な仕組み](/blog/legacy/note/ja/redis-persistence-principle/) — snapshot と追記ログの復旧・性能。 出典：ingest-redis-persistence`.
 - [Redis 黒馬実践：分散キャッシュ、マルチレベルキャッシュとベストプラクティス](/blog/legacy/note/ja/redis-heima-practice/) — 200 頁以上から抽出した一覧と版の不足。 出典：ingest-redis-heima`.
 - [MySQL ストレージエンジンとデッドロック検出](/blog/legacy/note/ja/mysql-storage-and-deadlock/) — engine の能力と deadlock log の経路。 出典：ingest-mysql-storage`.
@@ -135,7 +135,7 @@
 
 - [UltiCode の Data Owner と fact snapshot：サービス間 submit の境界を保つ](/blog/legacy/note/ja/ulticode-owner-and-facts/) — **provisional** owner、`SubmissionFactsSnapshot`、事実の出所、schema version。 出典：ulticode-engineering-highlights-f801a1076`.
 - [Owner 間 audit を cross-database write にしない：UltiCode の Local Outbox と Consumer Inbox](/blog/legacy/note/ja/ulticode-owner-local-audit-inbox/) — **provisional** owner-local 監査 outbox、Redis Stream、Admin inbox、重複配送、lease 回復。 出典：ulticode-reliability-core-f801a1076`.
-- [UltiCode Outbox と Redis Streams：判定投递を復旧可能な状態にする](/blog/legacy/note/ja/ulticode-outbox-redis-streams/) — **provisional** outbox 状態、原子重複排除、retry/dead-letter、PEL 回収。 出典：ulticode-engineering-highlights-f801a1076`.
+- [UltiCode Outbox と Redis Streams：判定タスクの配送を復旧可能な状態にする](/blog/legacy/note/ja/ulticode-outbox-redis-streams/) — **provisional** outbox 状態、原子重複排除、retry/dead-letter、PEL 回収。 出典：ulticode-engineering-highlights-f801a1076`.
 - [UltiCode の generation と attemptId：条件付き更新で古い判定結果を遮断する](/blog/legacy/note/ja/ulticode-generation-attempt-fence/) — **provisional** 再判定、lease、generation epoch、古い結果の fence。 出典：ulticode-engineering-highlights-f801a1076`.
 - [database lease だけでは足りない：UltiCode の fence token で期限切れ singleton task を止める](/blog/legacy/note/ja/ulticode-fenced-singleton-lease/) — **provisional** DB 時刻、単調増加 token、reconciliation 完了書き込み、古い完了の拒否。 出典：ulticode-reliability-core-f801a1076`.
 - [UltiCode Docker sandbox：リソース隔離とインフラエラーの分類](/blog/legacy/note/ja/ulticode-docker-sandbox/) — **provisional** Docker/seccomp/resource limit とユーザー・基盤障害の分類。 出典：ulticode-engineering-highlights-f801a1076`.
@@ -205,8 +205,8 @@
 | `testcontainers-docker-api-negotiation-correction` | upstream-source-fixed-commits-correction | [Testcontainers 1.20.6](https://github.com/testcontainers/testcontainers-java/tree/1.20.6) | TestEnvironment パスと `999.999` daemon-too-new 行列を修正。元 raw は不変。 | — |
 | `dubbo-nacos-runtime-registration-correction` | upstream-source-fixed-tag-correction | [Dubbo 3.3.6](https://github.com/apache/dubbo/tree/dubbo-3.3.6) | Nacos registry URL パラメーター読取範囲を修正。元 raw は不変。 | — |
 | `microservice-domain-data-ownership-correction` | upstream-patterns-fixed-docs-correction | [Microsoft pinned data considerations](https://github.com/MicrosoftDocs/architecture-center/blob/02b64c27c3a9eb6f49054297ceb6cec0fa0c68ef/docs/microservices/design/data-considerations.md) | revision 固定 URL を補足。live パターン頁は取得時 snapshot として利用。 | — |
-| `headroom-cc-switch-coexistence-runtime` | repository-and-runtime-observation | [出典](https://github.com/DavidHLP/omp-headroom-provider-proxy/tree/a9349b762657a28ad8b45a672b9996e831e1eedc) | Claude Code → Headroom → cc-switch、単一整理、`BindPaths` の取捨選択の脱敏証拠。 | — |
-| `omp-headroom-provider-proxy-codex-routing-runtime` | repository-and-runtime-observation | [出典](https://github.com/DavidHLP/omp-headroom-provider-proxy/tree/a9349b762657a28ad8b45a672b9996e831e1eedc) | loopback proxy、OMP/Codex 経路制御、Claude Code 共存の脱敏 CLI/Desktop 証拠。 | — |
+| `headroom-cc-switch-coexistence-runtime` | repository-and-runtime-observation | [出典](https://github.com/DavidHLP/omp-headroom-provider-proxy/tree/a9349b762657a28ad8b45a672b9996e831e1eedc) | Claude Code → Headroom → cc-switch、単一整理、`BindPaths` の取捨選択の機密情報を除去した証拠。 | — |
+| `omp-headroom-provider-proxy-codex-routing-runtime` | repository-and-runtime-observation | [出典](https://github.com/DavidHLP/omp-headroom-provider-proxy/tree/a9349b762657a28ad8b45a672b9996e831e1eedc) | loopback proxy、OMP/Codex 経路制御、Claude Code 共存の機密情報を除去した CLI/Desktop 証拠。 | — |
 | `ingest-docker-fundamentals` | personal-notes-and-fuwari | [Personal-markdown-notes bbb2126](https://github.com/DavidHLP/Personal-markdown-notes/tree/bbb21260029584d41d1c667f88c5c8e2b761aad9) | Docker 七原文：階層、volume、network、Compose。 | legacy-aggregate |
 | `ingest-hbase-foundation` | personal-notes-and-fuwari-overlap | [Personal bbb2126](https://github.com/DavidHLP/Personal-markdown-notes/tree/bbb21260029584d41d1c667f88c5c8e2b761aad9) + [Fuwari 07cee2b](https://github.com/DavidHLP/Fuwari/tree/07cee2baf9cee227807dcd68004c5f2493e5ac52) | HBase 十八原文：モデル、構成、表設計、Shell、Java API。 | legacy-aggregate |
 | `ingest-redis-business` | personal-notes-and-fuwari | [Personal bbb2126](https://github.com/DavidHLP/Personal-markdown-notes/tree/bbb21260029584d41d1c667f88c5c8e2b761aad9) + [Fuwari 07cee2b](https://github.com/DavidHLP/Fuwari/tree/07cee2baf9cee227807dcd68004c5f2493e5ac52) | Redis 業務二十原文：cache、分散 lock、queue、feed、秒殺。 | legacy-aggregate |
@@ -217,7 +217,7 @@
 | `ingest-spark-ecosystem` | personal-notes-and-fuwari | [Personal bbb2126](https://github.com/DavidHLP/Personal-markdown-notes/tree/bbb21260029584d41d1c667f88c5c8e2b761aad9) + [Fuwari 07cee2b](https://github.com/DavidHLP/Fuwari/tree/07cee2baf9cee227807dcd68004c5f2493e5ac52) | Spark/大規模データ七原文：engine、実行 mode、cluster script。 | legacy-aggregate |
 | `ingest-mysql-storage` | personal-notes-and-fuwari | [Personal bbb2126](https://github.com/DavidHLP/Personal-markdown-notes/tree/bbb21260029584d41d1c667f88c5c8e2b761aad9) + [Fuwari 07cee2b](https://github.com/DavidHLP/Fuwari/tree/07cee2baf9cee227807dcd68004c5f2493e5ac52) | MySQL 三原文：storage engine と deadlock。 | legacy-aggregate |
 | `ingest-frontend-essays` | personal-notes-and-fuwari | [Personal bbb2126](https://github.com/DavidHLP/Personal-markdown-notes/tree/bbb21260029584d41d1c667f88c5c8e2b761aad9) + [Fuwari 07cee2b](https://github.com/DavidHLP/Fuwari/tree/07cee2baf9cee227807dcd68004c5f2493e5ac52) | Vue/MyBatis/UniApp/cache/環境の十随筆。分解して archive 済み。 | legacy-aggregate |
-| `hindsight-local-deployment-and-agent-integration` | upstream-source-and-minimal-experiment | [固定版ソース](https://github.com/vectorize-io/hindsight/tree/v0.9.1) | Hindsight v0.9.1 配置、Ollama ROCm、CPU BGE-M3、FastMCP、OMP/Codex の脱敏証拠。 | — |
+| `hindsight-local-deployment-and-agent-integration` | upstream-source-and-minimal-experiment | [固定版ソース](https://github.com/vectorize-io/hindsight/tree/v0.9.1) | Hindsight v0.9.1 配置、Ollama ROCm、CPU BGE-M3、FastMCP、OMP/Codex の機密情報を除去した証拠。 | — |
 | `resicache-project-overview` | repository-readme-fixed-commit | [ResiCache 公開 commit](https://github.com/DavidHLP/ResiCache/tree/75ed279a71b17f227c3170d738eb93e50d876c8a) | ResiCache v0.0.2 二言語 README：位置付け、順序、設定境界、制限。 | — |
 | `resicache-engineering-highlights-2954fff` | repository-source-and-test-selected-excerpts-fixed-commit | [ResiCache main 固定 commit](https://github.com/DavidHLP/ResiCache/tree/2954fff217257e9cf7c906450a75070d5e092637) | 現在のソース、値 version CAS、single-flight、serializer、observer、境界 test の抜粋。 | — |
 | `ulticode-project-context` | repository-readme-and-context-fixed-commit | [UltiCode 固定 commit](https://github.com/DavidHLP/UltiCode/tree/3f14ac8947ef0124739bf02259deb9f567eb092e) | UltiCode README + CONTEXT 用語：owner、port/projection、不変条件。 | — |
@@ -230,7 +230,7 @@ raw は `src/content/raw/zh-cn/` にあり LLM 用で公開ルートを作らな
 
 ## 取り込み受信箱
 
-- [知識庫 ingest 受信箱](/blog/legacy/jotting/ja/kb-ingest-todo/) — 次の個人案件と問い。過去記事、Personal-markdown-notes/Fuwari の 107 原文、ResiCache/UltiCode README/CONTEXT は取り込み済み。Phase 2 で Hindsight 分割・随筆分解。次は Phase 3 の provisional 11 件の四半期審査と新テーマ。
+- [知識庫 ingest 受信箱](/blog/legacy/jotting/ja/kb-ingest-todo/) — 次の個人案件と問い。過去記事、Personal-markdown-notes/Fuwari の 107 原文、ResiCache/UltiCode README/CONTEXT は取り込み済み。Phase 2 で Hindsight 分割・随筆分解。次は Phase 3 の provisional 12 件の四半期審査と新テーマ。
 
 ## 保守規則
 

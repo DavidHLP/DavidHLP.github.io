@@ -76,11 +76,11 @@ Heima Redis practice consists of 5 notes (6 files with duplicates): quick start,
 ### 1. Quick start and practice
 
 - Data types, common commands, and client usage in `01.快速入门.md` (Quick Start) / `Redis.md` are mutual duplicates (the latter is the full basic version, the former the quick version).
-- The practice article strings business together via coupon seckill, distributed locks, and message queues.
+- The practice article connects business scenarios through coupon flash sales, distributed locks, and message queues.
 
 ### 2. Distributed cache and multi-level cache
 
-- Distributed cache: cache consistency, penetration/breakdown/avalanche and solutions;
+- Distributed cache: cache consistency, repeated lookups for nonexistent data (cache penetration), concurrent misses for a hot key (cache breakdown), widespread simultaneous expiry or failure (cache avalanche), and their solutions;
 - Multi-level cache: JVM local cache + Redis + Nginx/OpenResty layers, `Caffeine` coordinated with Redis.
 
 ### 3. Best practices
@@ -118,6 +118,6 @@ Heima Redis practice consists of 5 notes (6 files with duplicates): quick start,
 ## Sources and related documents
 
 - [ingest-redis-heima](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-redis-heima.md)
-- [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Seckill](/blog/legacy/note/en/redis-business-patterns/)
+- [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Flash Sales](/blog/legacy/note/en/redis-business-patterns/)
 - [Redis Persistence and Internals: RDB/AOF, Data Structures, and Advanced Mechanisms](/blog/legacy/note/en/redis-persistence-principle/)
 - [Plugin Lifecycle Management at Million-Endpoint Scale: State, Heartbeats, and Controlled Release](/blog/legacy/note/en/plugin-lifecycle-management/)

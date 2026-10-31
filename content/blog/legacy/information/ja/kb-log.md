@@ -68,7 +68,7 @@ Git commit `6f3d114a6ef9eb08b730f5f4740afe5b7d22d426` から 14 件の旧記事�
 
 ## [2026-08-13] ingest | 会話の工学知識を第二次取り込み
 
-脱敏候補から六テーマを選び、固定公開ソース・規格・commit または一時最小実験で再取得した。ingest/redaction v19、MCP/codebase-memory、Redis/Jackson `LocalDateTime`、Flyway/MySQL drift、複数サービス readiness、OMP 17.2.15 Hook/Compaction。中文 concept 五件を追加、OMP 三頁を更新。`KB.md` に従い正典は zh-cn とし、明示翻訳なしに en/ja を複製しなかった。
+機密情報を除去した候補から六テーマを選び、固定公開ソース・規格・commit または一時最小実験で再取得した。ingest/redaction v19、MCP/codebase-memory、Redis/Jackson `LocalDateTime`、Flyway/MySQL drift、複数サービス readiness、OMP 17.2.15 Hook/Compaction。中文 concept 五件を追加、OMP 三頁を更新。`KB.md` に従い正典は zh-cn とし、明示翻訳なしに en/ja を複製しなかった。
 
 復審中に二つの新 raw が拡張証拠で上書きされていたため初期版へ戻し、追加証拠を `omp-17-2-15-runtime-contract-correction` と `multi-service-readiness-contract-correction` に分離。wiki は両方を引用し、取得済み証拠を削除・改変しない。
 
@@ -76,7 +76,7 @@ Compose project 未限定の検証を発見。`multi-service-readiness-safety-co
 
 ## [2026-08-13] ingest | 五テーマの公開証拠を追加
 
-JJWT 0.13.0 署名・検証、Testcontainers 1.20.6 API fallback、Dubbo 3.3.6 + Nacos 登録、ResiCache observer 入れ子、microservice 所有権を固定証拠へ結び直した。脱敏 raw 五件と中文 concept 五件を追加し索引・ログ更新。翻訳依頼がないため en/ja は作らなかった。
+JJWT 0.13.0 署名・検証、Testcontainers 1.20.6 API fallback、Dubbo 3.3.6 + Nacos 登録、ResiCache observer 入れ子、microservice 所有権を固定証拠へ結び直した。機密情報を除去した raw 五件と中文 concept 五件を追加し索引・ログ更新。翻訳依頼がないため en/ja は作らなかった。
 
 Dubbo/Nacos smoke、Testcontainers 実行行列、JJWT compile/runtime、任意深度 observer は実施済みと偽らない。`nacos.check`・`retry.period` の registry URL を固定ソースで修正。私有会話、内部 address、認証、未公開実装は公開しない。
 
@@ -90,15 +90,15 @@ JJWT `PrivateKey`/`verifyWith`、Testcontainers `TestEnvironment` と `999.999` 
 
 ## [2026-08-13] ingest | Headroom と cc-switch / Claude Code の共存
 
-固定 `omp-headroom-provider-proxy` と当日の脱敏観測から、Claude Code `/v1/messages` → Headroom 8787 → cc-switch 15721 の変換・認証注入を記録。OMP `/v1/responses` は別の要求単位 upstream を維持する。`HEADROOM_CC_SWITCH_RECONCILE=1` の書き戻し、単一整理、`ProtectHome=tmpfs` 下の `BindPaths=%h/.claude`、`/admin/upstream` と `/v1/messages → 127.0.0.1:15721` の実測を保存。認証、会話 ID、本文、host 絶対パスは除外。
+固定 `omp-headroom-provider-proxy` と当日の機密情報を除去した観測から、Claude Code `/v1/messages` → Headroom 8787 → cc-switch 15721 の変換・認証注入を記録。OMP `/v1/responses` は別の要求単位 upstream を維持する。`HEADROOM_CC_SWITCH_RECONCILE=1` の書き戻し、単一整理、`ProtectHome=tmpfs` 下の `BindPaths=%h/.claude`、`/admin/upstream` と `/v1/messages → 127.0.0.1:15721` の実測を保存。認証、会話 ID、本文、host 絶対パスは除外。
 
 ## [2026-08-13] ingest | OMP Headroom Bridge と native Codex 経路
 
-固定 commit と現 worktree の脱敏配送証拠から entity/raw 各一件を追加。`systemd --user` 管理 loopback 8787、OMP 二 provider route、Codex CLI/Desktop 共通 user Responses provider、Claude Code 共存、`bin/codex-routes` の marker/lock/hash/mode/atomic restore、static/lifecycle/fresh-client 検証、rollback 順を記録。認証・利用者設定本文・`models.db`・要求本文・host 絶対パス・未 commit コードの架空固定 URL は含めない。現 worktree は新しい公開 commit ではないと明示。
+固定 commit と現 worktree の機密情報を除去した配送証拠から entity/raw 各一件を追加。`systemd --user` 管理 loopback 8787、OMP 二 provider route、Codex CLI/Desktop 共通 user Responses provider、Claude Code 共存、`bin/codex-routes` の marker/lock/hash/mode/atomic restore、static/lifecycle/fresh-client 検証、rollback 順を記録。認証・利用者設定本文・`models.db`・要求本文・host 絶対パス・未 commit コードの架空固定 URL は含めない。現 worktree は新しい公開 commit ではないと明示。
 
 ## [2026-08-17] ingest | Hindsight 配置と OMP / Codex 記憶接続
 
-Vectorize Hindsight v0.9.1 固定ソースと loopback 実測から配置・接続を記録。AMD ROCm `gemma4:12b` Q4_K_M、CPU Local `BAAI/bge-m3`、FastMCP stdio 状態、Git root 検出、出典の Rootless/UID 1000 設定、OMP `scoping: per-project` と Codex の対応を保存。脱敏 raw と中文 concept 各一件、索引・ログを更新。実会話 ID、本文、秘密認証、host 絶対パスは除外。
+Vectorize Hindsight v0.9.1 固定ソースと loopback 実測から配置・接続を記録。AMD ROCm `gemma4:12b` Q4_K_M、CPU Local `BAAI/bge-m3`、FastMCP stdio 状態、Git root 検出、出典の Rootless/UID 1000 設定、OMP `scoping: per-project` と Codex の対応を保存。機密情報を除去した raw と中文 concept 各一件、索引・ログを更新。実会話 ID、本文、秘密認証、host 絶対パスは除外。
 
 ## [2026-08-21] ingest | Personal-markdown-notes と Fuwari の全量集約
 
@@ -148,7 +148,7 @@ Java 安全・並行・試験、LLM/Agent の六つの単頁 series と、`sprin
 
 - **成功**：`node --import tsx scripts/kb-lint.ts`（49 raw/132 wiki）、最終 `node node_modules/astro/astro.js build`（84 頁）、diff。pnpm は起動時 `unable to open database file`、直接 tsx は IPC `listen EPERM` で未完了。同じ script の Node loader で成功し規則は変えない。
 - **成功**：HTML の note/anchor 78、旧互換 anchor 三、元案内を確認。frontmatter・bridge JS は同一、fence 数不変、raw diff なし、log 旧 prefix 不変、backup 公開なし。
-- **手動**：全文を原文/raw と照合し、設定・code・七障害・六段階・単回召回を保持。削除は根拠のない一般化だけ。独立入口を保持し索引は歴史的範囲へ修正。
+- **手動**：全文を原文/raw と照合し、設定・code・七障害・六段階・単回検索を保持。削除は根拠のない一般化だけ。独立入口を保持し索引は歴史的範囲へ修正。
 - **build 通知**：両回 duplicate-id、二回目は `kb-index.md`/`kb-log.md` も含む。build/link 成功でも原因は未確定。同名追加・ID 変更なし。Node `module.register()`、PhotoSwipe 静的/動的 import、大 chunk も通知。未変更 baseline がなく新旧を断定せず、program 修正へ拡大しない。
 - **未実施**：独立 Astro 型、全 unit、browser visual、live site、配置/model/Agent 実行。内容 lint/build は公開や service 再現ではない。commit/push/公開なし。
 

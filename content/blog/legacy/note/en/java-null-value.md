@@ -149,4 +149,4 @@ Negative caching blocks only an absent key that has already been observed. It st
 - [AutoCloseable: Resource Ownership and Close-Exception Semantics](/blog/legacy/note/en/java-auto-closeable/)
 - [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/en/java-internship-interview-blog-polished/)
 - [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/en/redis-jackson-java-time/)
-- [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Seckill](/blog/legacy/note/en/redis-business-patterns/)
+- [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Flash Sales](/blog/legacy/note/en/redis-business-patterns/)

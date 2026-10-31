@@ -77,7 +77,7 @@
 
 - **RDB**：定期的なスナップショット、回復が速い、大規模データでは fork コストが高く、最新の書き込みを失う可能性がある。
 - **AOF**：コマンドの追記、3 つの `fsync` モード `everysec/always/no`、`rewrite` による圧縮；安全性は高いがリプレイは遅い。
-- 内部構造の記事ではさらに SDS、Dict、ZipList/ListPack、QuickList などの基盤構造、期限切れ、退避（LRU/LFU）、マスター・レプリカのレプリケーションを展開します。
+- 内部構造の記事ではさらに SDS、Dict、ZipList/ListPack、QuickList などの基盤構造、期限切れ、キャッシュからの追い出し（LRU/LFU）、マスター・レプリカのレプリケーションを展開します。
 
 ## 適用条件
 
@@ -110,6 +110,6 @@
 ## 出典と関連文書
 
 - [ingest-redis-persistence](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-redis-persistence.md)
-- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/ja/redis-business-patterns/)
+- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と数量限定・時間限定販売](/blog/legacy/note/ja/redis-business-patterns/)
 - [Redis 黒馬実践：分散キャッシュ、マルチレベルキャッシュとベストプラクティス](/blog/legacy/note/ja/redis-heima-practice/)
 - [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/ja/database-schema-drift/)

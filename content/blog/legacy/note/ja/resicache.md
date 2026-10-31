@@ -355,5 +355,5 @@ prompt/schema の形式 version は、会話、タスク、ツール呼び出し
 - [resicache-observer-nested-execution-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-observer-nested-execution-contract.md)
 - [ResiCache：observer のネスト実行はライフサイクル、fragment、scope token を区別しなければならない](/blog/legacy/note/ja/resicache-observer-nested-execution/)
 - [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/ja/java-null-value/)
-- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/ja/redis-business-patterns/)
+- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と数量限定・時間限定販売](/blog/legacy/note/ja/redis-business-patterns/)
 - [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/ja/redis-jackson-java-time/)

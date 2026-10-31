@@ -76,11 +76,11 @@
 ### 1. クイックスタートと実践
 
 - データ型、常用コマンド、クライアント使用法は `01.快速入门.md` / `Redis.md` で相互に重複しています（後者は完全な基礎版、前者はクイック版）。
-- 実践記事はクーポン秒殺、分散ロック、メッセージキューなどでビジネスを串刺しにします。
+- 実践記事はクーポンの数量限定・時間限定販売、分散ロック、メッセージキューなどの総合演習を通じて業務シナリオをつなぎます。
 
 ### 2. 分散キャッシュとマルチレベルキャッシュ
 
-- 分散キャッシュ：キャッシュ一貫性、透過/ブレークダウン/アバランチと解決策；
+- 分散キャッシュ：キャッシュ整合性、存在しないデータへの反復問い合わせ（cache penetration）、単一 hot key への同時 miss（cache breakdown）、広範囲の同時失効・障害（cache avalanche）と解決策；
 - マルチレベルキャッシュ：JVM ローカルキャッシュ + Redis + Nginx/OpenResty の階層、`Caffeine` と Redis の協調。
 
 ### 3. ベストプラクティス
@@ -99,7 +99,7 @@
 
 ## 最小検証
 
-1. 分散キャッシュの章に従い透過/アバランチを再現し、緩和効果を記録。
+1. 分散キャッシュの章に従い、存在しないデータへの反復問い合わせと広範囲の同時失効・障害を再現し、緩和効果を記録。
 2. マルチレベルでの階層ごとのヒット率を負荷試験。
 
 ## 証拠と不確実性
@@ -118,6 +118,6 @@
 ## 出典と関連文書
 
 - [ingest-redis-heima](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-redis-heima.md)
-- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/ja/redis-business-patterns/)
+- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と数量限定・時間限定販売](/blog/legacy/note/ja/redis-business-patterns/)
 - [Redis 永続化と原理：RDB/AOF、データ構造と高度な仕組み](/blog/legacy/note/ja/redis-persistence-principle/)
 - [百万端末のプラグインライフサイクル管理：状態・ハートビート・制御されたリリース](/blog/legacy/note/ja/plugin-lifecycle-management/)

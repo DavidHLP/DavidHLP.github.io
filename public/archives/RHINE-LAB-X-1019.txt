@@ -18,7 +18,7 @@ These historical articles have completed raw → wiki → index → log:
 - Java basics/backend tuning: AtomicBoolean, AutoCloseable, NullValue, Java performance diagnosis, backend internship interview review.
 - Operations/infrastructure: containerd TLS, SSH intranet access, MySQL performance.
 - OMP/Agent engineering: configuration/rules, Hooks, Headroom single-port evolution and persistence recovery.
-- Architecture/engineering: endpoint plugin lifecycles and UISA reliable information synchronization.
+- Architecture/engineering: terminal plugin lifecycles and UISA reliable information synchronization.
 
 ### 2026-08-21 complete aggregation
 

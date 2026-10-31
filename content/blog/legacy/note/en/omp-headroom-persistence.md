@@ -90,6 +90,11 @@
 }
 ---
 
+> **Graduation requirements (three verifiable checks)**:
+> 1. Reproducible steps for Named Profile intent and credential isolation.
+> 2. Experiments deleting/rebuilding derived `model_cache` state and updating it transactionally.
+> 3. Explicit trigger and exit conditions restricting the old reconciler to one-time migrations.
+
 This page answers how route intent, user state, and runtime model cache can avoid contaminating one another after an OMP update, and how a damaged legacy route can be recovered safely. The model is: isolate configuration and authentication with a Named Profile, keep route intent in an external declaration when needed, treat `models.db` `model_cache` as rebuildable derived state, and keep the reconciler as migration evidence rather than a normal `headroom wrap omp` startup step.
 
 ## Core mechanism
