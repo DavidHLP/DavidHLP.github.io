@@ -19,6 +19,7 @@ const labels: Record<string, readonly [string, string, string?]> = {
   "PERMISSION AUTHORIZED": ["PERMISSION AUTHORIZED", "アクセス許可済み", "权限验证通过"],
   "WELCOME TO": ["WELCOME TO", "ようこそ", "欢迎访问"],
   "POWERED BY": ["POWERED BY", "提供", "技术支持"],
+  "POWERED BY RHINE LAB": ["POWERED BY RHINE LAB", "提供 RHINE LAB", "技术支持 RHINE LAB"],
   "INTERNAL DATABASE / READY": ["INTERNAL DATABASE / READY", "内部データベース / 準備完了", "内部数据库 / 就绪"],
   "CONNECTING TO INTERNAL DATABASE": ["CONNECTING TO INTERNAL DATABASE", "内部データベースに接続中", "正在连接内部数据库"],
   "SELECTING FILES...": ["SELECTING FILES...", "資料を選択中…", "正在选择档案…"],
@@ -133,10 +134,10 @@ const labels: Record<string, readonly [string, string, string?]> = {
   "读取": ["Read", "開く"],
   "360° 查看文档模型": ["360° document viewer", "文書モデルを360°表示"],
   "重播启动流程": ["Replay startup", "起動演出を再生"],
-  "DEPARTMENT / 科室": ["DEPARTMENT", "部門"],
-  "COLLECTION / 编目范围": ["COLLECTION", "収録範囲"],
-  "RELATED / 相关人物": ["RELATED PEOPLE", "関連人物"],
-  "STATUS / 状态": ["STATUS", "状態"],
+  "DEPARTMENT / 科室": ["DEPARTMENT", "部門", "科室"],
+  "COLLECTION / 编目范围": ["COLLECTION", "収録範囲", "编目范围"],
+  "RELATED / 相关人物": ["RELATED PEOPLE", "関連人物", "相关人物"],
+  "STATUS / 状态": ["STATUS", "状態", "状态"],
   "目录访问": ["Catalog access", "目録のみ"],
   "已归档 · 可读取": ["Archived · Readable", "収録済み · 閲覧可能"],
   "发布": ["Published", "公開"],
@@ -144,9 +145,9 @@ const labels: Record<string, readonly [string, string, string?]> = {
   "概述": ["Overview", "概要"],
   "研究记录": ["Research notes", "研究記録"],
   "访问日志": ["Access log", "閲覧履歴"],
-  "ARTICLE / 正文": ["ARTICLE", "本文"],
-  "RESEARCH NOTES / 研究记录": ["RESEARCH NOTES", "研究記録"],
-  "ACCESS LOG / 本次访问": ["ACCESS LOG / THIS SESSION", "閲覧履歴 / このセッション"],
+  "ARTICLE / 正文": ["ARTICLE", "本文", "正文"],
+  "RESEARCH NOTES / 研究记录": ["RESEARCH NOTES", "研究記録", "研究记录"],
+  "ACCESS LOG / 本次访问": ["ACCESS LOG / THIS SESSION", "閲覧履歴 / このセッション", "访问日志 / 本次访问"],
   "本次会话已通过身份验证。档案内容以当前终端可访问范围展示。": ["This session is authorized. Archives are shown within this terminal's access scope.", "このセッションは認証済みです。端末のアクセス範囲内で資料を表示します。"],
   "正文暂未加载，请重试或直接阅读静态文章。": ["The article could not load. Retry or open the static article.", "本文を読み込めませんでした。再試行するか、静的ページを開いてください。"],
   "正在加载正文…": ["Loading article…", "本文を読み込み中…"],
@@ -167,7 +168,7 @@ const labels: Record<string, readonly [string, string, string?]> = {
   "输入档案编号、名称或科室": ["Search by archive ID, title or department", "資料番号・名称・部門で検索"],
   "检索档案": ["Search archives", "資料を検索"],
   "全部档案": ["All archives", "すべての資料"],
-  "FILE / 档案": ["FILE", "資料"],
+  "FILE / 档案": ["FILE", "資料", "档案"],
   "文章排序": ["Article order", "記事の並び順"],
   "档案编号": ["Archive ID", "資料番号"],
   "最近发布": ["Recently published", "公開日の新しい順"],
@@ -218,7 +219,7 @@ const labels: Record<string, readonly [string, string, string?]> = {
   "序号、列编号与档案编码滚动": ["Rolling counters and archive IDs", "番号・列番号・資料番号のスクロール"],
   "详情、检索、收藏与设置窗口过渡": ["Transitions for detail, search, saved and settings", "詳細・検索・保存・設定の切り替え"],
   "360° 旋转、平移、缩放与复位阻尼": ["360° rotation, pan, zoom and reset damping", "360°回転・移動・ズーム・復帰の減衰"],
-  "拆解、重组与清晰度变化": ["Explode, assemble and clarity changes", "分解・組み立て・透明度の変化"],
+  "拆解、重组与清晰度变化": ["Explode, assemble and clarity changes", "分解・組み立て・鮮明さの変化"],
   "当前使用完整动画。": ["Full animation is enabled.", "すべてのアニメーションが有効です。"],
   "当前已减少动画。": ["Reduced animation is enabled.", "アニメーションを控えめにしています。"],
   "开场已跳过": ["Startup skipped", "起動演出を省略"],
@@ -348,8 +349,8 @@ export function translateUiText(value: string, language: UiLanguage): string {
   if (count) return value.replace(text, language === "zh-CN" ? `找到 ${count[1]} 份档案` : language === "en" ? `${count[1]} RECORDS FOUND` : `${count[1]} 件の資料`);
   const prefixed = /^([/／]\s+)(.+)$/.exec(text);
   if (prefixed) return value.replace(text, prefixed[1] + translateUiText(prefixed[2], language));
-  const modelFile = /^FILE (X-\d+) \/ INTERNAL DATABASE$/.exec(text);
-  if (modelFile) return value.replace(text, language === "zh-CN" ? `档案 ${modelFile[1]} / 内部数据库` : language === "ja" ? `資料 ${modelFile[1]} / 内部データベース` : text);
+  const modelFile = /^FILE (X-\d+)( \/ INTERNAL DATABASE)?$/.exec(text);
+  if (modelFile) return value.replace(text, language === "zh-CN" ? `档案 ${modelFile[1]}${modelFile[2] ? " / 内部数据库" : ""}` : language === "ja" ? `資料 ${modelFile[1]}${modelFile[2] ? " / 内部データベース" : ""}` : text);
   if (language === "zh-CN") return value;
   if (text.startsWith("点击切换")) return value.replace(text, language === "en" ? `Click to change ${translateUiText(text.slice(4), language)}` : `${translateUiText(text.slice(4), language)}をクリックして切り替え`);
   const wallpaperQuality = "即时生效，仅限当前运行；长期设置请在 Wallpaper Engine 中调整。";
