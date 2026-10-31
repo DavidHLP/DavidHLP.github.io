@@ -56,8 +56,10 @@ test("translations retain canonical sections, examples, tables, references and e
   // Migrated source URLs identify each language's immutable original snapshot.
   const sourceReference = record => record.legacy ? translationKey({ slug: record.source }) : record.source;
   const structure = async body => {
-    const result = { heading: 0, code: 0, tableRow: 0, prose: "", references: new Set(), articles: new Set(), contracts: new Set(), codeTokens: new Set() };
-    const visit = node => {
+    const result = { heading: 0, code: 0, tableRow: 0, quotedListItem: 0, prose: "", references: new Set(), articles: new Set(), contracts: new Set(), codeTokens: new Set() };
+    const visit = (node, inQuote = false) => {
+      inQuote ||= node.type === "blockquote" || (node.type === "element" && node.tagName === "blockquote");
+      if (inQuote && (node.type === "listItem" || (node.type === "element" && node.tagName === "li"))) result.quotedListItem++;
       if (node.type === "text") result.prose += node.value;
       if (node.type === "code") {
         const tokens = node.value.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*(\/\/|#|--).*$/gm, "").toLowerCase().match(/[a-z_][a-z0-9_.:-]*|\d+(?:\.\d+)*/g) ?? [];
@@ -66,7 +68,7 @@ test("translations retain canonical sections, examples, tables, references and e
           if (!["text", "mermaid", "plaintext"].includes(node.lang)) result.contracts.add(token);
         }
       }
-      if (node.type === "html") visit(htmlToHast(node.value));
+      if (node.type === "html") visit(htmlToHast(node.value), inQuote);
       if (node.type === "element") {
         if (node.tagName === "pre") { result.code++; return; }
         if (node.tagName === "code") return;
@@ -79,7 +81,7 @@ test("translations retain canonical sections, examples, tables, references and e
       if (node.type === "link" || node.type === "image") {
         collectLink(node.url);
       }
-      for (const child of node.children ?? []) visit(child);
+      for (const child of node.children ?? []) visit(child, inQuote);
     };
     const collectLink = url => {
       if (/^https?:/.test(url)) result.references.add(url);
@@ -92,6 +94,10 @@ test("translations retain canonical sections, examples, tables, references and e
   const sample = await structure("# Real heading\n\n~~~sql\nSELECT 1;\n~~~\n\n    # code, not a heading\n");
   assert.equal(sample.heading, 1);
   assert.equal(sample.code, 2);
+  const qualifications = await structure("> **Requirements**\n> 1. Capture evidence\n> 2. Reproduce failure\n> 3. Verify rollback\n\n1. Ordinary step\n\n~~~text\n> 1. Example output\n~~~\n");
+  assert.equal(qualifications.quotedListItem, 3);
+  assert.equal((await structure("**Requirements**")).quotedListItem, 0);
+  assert.equal((await structure("<blockquote><ol><li>Evidence</li></ol></blockquote>")).quotedListItem, 1);
   const richText = await structure('<h2>Heading</h2><p>中文</p><a href="https://example.com/source">Source</a>');
   assert.equal(richText.heading, 1);
   assert.ok(richText.prose.includes("中文"));
@@ -117,7 +123,7 @@ test("translations retain canonical sections, examples, tables, references and e
       const visibleText = target.title + " " + target.abstract + " " + translated.prose;
       if (lang === "en" && /\p{Script=Han}/u.test(visibleText)) failures.push(`${target.slug}: untranslated Chinese prose`);
       if (lang === "ja" && !/[\u3040-\u30ff]/.test(visibleText)) failures.push(`${target.slug}: missing Japanese prose`);
-      for (const key of ["heading", "code", "tableRow"]) {
+      for (const key of ["heading", "code", "tableRow", "quotedListItem"]) {
         if (translated[key] < source[key]) failures.push(`${target.slug}: ${key} ${translated[key]} < canonical ${source[key]}`);
       }
       for (const key of ["references", "articles"]) {
