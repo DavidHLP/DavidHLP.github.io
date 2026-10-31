@@ -1049,6 +1049,18 @@ document.addEventListener("click", (e) => {
 });
 document.addEventListener("keydown", (e) => {
   if (!started) return;
+  if (
+    ready && !modal && !modalClosing && !viewer?.isOpen && (e.target as HTMLElement).dataset.tab &&
+    ["ArrowLeft", "ArrowRight"].includes(e.key)
+  ) {
+    e.preventDefault();
+    const tabs = ["overview", "notes", "history"];
+    setTab(
+      tabs[(tabs.indexOf(activeTab) + (e.key === "ArrowRight" ? 1 : 2)) % 3],
+    );
+    $<HTMLButtonElement>(`[data-tab="${activeTab}"]`).focus();
+    return;
+  }
   if (articleReader.isOpen) {
     if (e.key === "Escape") { e.preventDefault(); articleReader.close(); }
     return;
@@ -1088,18 +1100,6 @@ document.addEventListener("keydown", (e) => {
     return;
   }
   if (typing || modal || !ready || e.target instanceof HTMLSelectElement) return;
-  if (
-    (e.target as HTMLElement).dataset.tab &&
-    ["ArrowLeft", "ArrowRight"].includes(e.key)
-  ) {
-    e.preventDefault();
-    const tabs = ["overview", "notes", "history"];
-    setTab(
-      tabs[(tabs.indexOf(activeTab) + (e.key === "ArrowRight" ? 1 : 2)) % 3],
-    );
-    $<HTMLButtonElement>(`[data-tab="${activeTab}"]`).focus();
-    return;
-  }
   if (e.key === "/") {
     e.preventDefault();
     if (mode === "boot") setMode("archive");
