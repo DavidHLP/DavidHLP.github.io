@@ -40,6 +40,15 @@ test("interface language selection validates stored values and preserves source 
   assert.equal(translateUiText("返回交互界面 ↗", "en"), "Back to interactive view ↗");
   assert.equal(translateUiText(" / 更新 ", "en"), " / Updated ");
   assert.equal(translateUiText("FILE X-1149 / INTERNAL DATABASE", "ja"), "資料 X-1149 / 内部データベース");
+  assert.equal(translateUiText("FILE X-1149", "zh-CN"), "档案 X-1149");
+  assert.equal(translateUiText("FILE X-1149", "ja"), "資料 X-1149");
+  assert.equal(translateUiText("FILE X-1149", "en"), "FILE X-1149");
+  for (const label of ["DEPARTMENT / 科室", "COLLECTION / 编目范围", "RELATED / 相关人物", "STATUS / 状态", "ARTICLE / 正文", "RESEARCH NOTES / 研究记录", "ACCESS LOG / 本次访问", "FILE / 档案"]) {
+    assert.doesNotMatch(translateUiText(label, "zh-CN"), /[A-Z]/);
+  }
+  assert.equal(translateUiText("POWERED BY RHINE LAB", "zh-CN"), "技术支持 RHINE LAB");
+  assert.equal(translateUiText("POWERED BY RHINE LAB", "ja"), "提供 RHINE LAB");
+  assert.equal(translateUiText("拆解、重组与清晰度变化", "ja"), "分解・組み立て・鮮明さの変化");
   assert.equal(translateUiText("CONNECTING TO INTERNAL DATABASE", "zh-CN"), "正在连接内部数据库");
   assert.equal(translateUiText("CONNECTING TO INTERNAL DATABASE", "ja"), "内部データベースに接続中");
   for (const item of Object.values(MOTION_LABELS)) {
