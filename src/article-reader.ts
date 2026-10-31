@@ -14,7 +14,6 @@ export class ArticleReader {
     this.article = article;
     this.parent = article.parentElement!;
     this.next = article.nextSibling;
-    dialog.addEventListener("keydown", event => event.stopPropagation());
     dialog.addEventListener("cancel", event => { event.preventDefault(); this.close(); });
     dialog.addEventListener("close", () => {
       this.parent.insertBefore(article, this.next);
