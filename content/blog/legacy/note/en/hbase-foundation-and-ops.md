@@ -87,7 +87,7 @@ The 18 HBase notes across the two repositories are highly homologous (9 in Perso
 | ------------ | ---------------------------- | ------------------------------------ |
 | HMaster      | Region assignment, DDL       | Not on the write/read path           |
 | RegionServer | Region hosting, reads/writes | Hotspots depend on RowKey design     |
-| ZooKeeper    | Leader election, metadata    | Gradually weakened in newer versions |
+| ZooKeeper    | Leader election, metadata    | Role gradually reduced in newer versions |
 | HDFS         | HFile/WAL storage            | Depends on HDFS availability         |
 
 ### 3. Table design and operations

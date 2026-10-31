@@ -109,7 +109,7 @@ value = store == NullValue.INSTANCE ? null : store;
 
 ## 適用条件
 
-- 「不在」が安定したキャッシュ可能な業務結果で、取得元への繰り返し問い合わせが DB や下流に負荷を与える。
+- 「不在」が安定したキャッシュ可能な業務結果で、取得元への繰り返し問い合わせが DB や下流を過負荷にする。
 - adapter が保存前に `null` を marker へ変換し、読み出し後に戻し、業務層へ marker を漏らさない。
 - 負キャッシュの TTL、invalidation、シリアライザの挙動を定義し、作成直後の短い stale を許容できる。
 - cache miss、negative hit、実オブジェクトを区別する必要があり、空文字を null の代用にしない。

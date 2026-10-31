@@ -176,6 +176,9 @@ Rollback does not require deleting data: restore new requests to the default mar
 
 ## Related pages
 
+- [Headroom single-port routing](/blog/legacy/note/en/headroom-single-port-evolution/)
+- [Headroom route persistence](/blog/legacy/note/en/omp-headroom-persistence/)
+- [OMP Hook extensions](/blog/legacy/note/en/omp-hook-extension-guide/)
 - [LLM-Wiki pattern](/blog/legacy/note/en/llm-wiki-pattern/)
 
 
