@@ -205,7 +205,7 @@ observer hook 自体の exception は記録して隔離する。業務 handler �
 
 composable な processing chain を設計するとき、まず決める。
 
-1. control flow は result が空かどうかではなく明示的な state で表されているか。
+1. control flow は result が null かどうかではなく明示的な state で表されているか。
 2. node order は安定した test 可能な protocol か。
 3. 一回の execution は immutable snapshot を使うか。
 4. nested execution は新しい外部 call か、現在の call の fragment か。
@@ -215,7 +215,7 @@ composable な processing chain を設計するとき、まず決める。
 
 答えがなければ、handler を増やすほど暗黙の coupling が多くの file に分散する。
 
-関連专项：[ResiCache：observer の nested execution は lifecycle、fragment、scope token を区別する](/blog/legacy/note/ja/resicache-observer-nested-execution/)。
+関連する詳細記事：[ResiCache：observer の nested execution は lifecycle、fragment、scope token を区別する](/blog/legacy/note/ja/resicache-observer-nested-execution/)。
 
 
 

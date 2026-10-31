@@ -270,7 +270,7 @@ hindsight:
     apiUrl: http://127.0.0.1:8888
     scoping: per-project # auto-assign an independent Bank per project, aligned with the Codex mirror
     autoRecall: true # auto-query and inject memory in the first turn of a session
-    autoRetain: true # auto-distill and sediment at the end of a session
+    autoRetain: true # automatically extract and retain knowledge at the end of a session
     mentalModelsEnabled: true # enable mental models
     mentalModelAutoSeed: true # auto-generate seed mental models
     recallBudget: mid
@@ -441,7 +441,7 @@ End-to-end measurement was performed in a multi-module subdirectory:
 | **Stage 3: base container and model preparation**                    | Start the Docker containers and pull the models.                                                                                        | 1. The container reports UID 1000 has no write permission; 2. official Ollama lacks the `gemma4:12b` tag; 3. the 6.63GB model synchronous download times out. | 1. Granted the directories UID 1000 read/write permission; 2. wrote a background Python downloader with Range resume; 3. successfully imported the GGUF into Ollama via Modelfile. |
 | **Stage 4: protocol stack and communication fixes**                  | Establish Hindsight-Ollama communication and the Codex bridge.                                                                          | 1. Hindsight's LLM check reports 404; 2. the FastMCP bridge reports `Missing session ID (-32600)` on the second packet.                                       | 1. Explicitly appended `/v1` to BASE_URL; 2. added a state machine to the bridge that auto-extracts and forwards the `mcp-session-id` header.                                      |
 | **Stage 5: memory isolation and routing architecture evolution**     | Handle OMP and Codex memory sharing and isolation.                                                                                      | Hardcoding `ulticode` causes cross-project contamination, while using `process.cwd()` directly causes Bank-name drift under the `services/app/` subdirectory. | 1. Set OMP `scoping: per-project`; 2. the bridge prefers `git rev-parse --show-toplevel` to trace the root.                                                                        |
-| **Stage 6: cleanup of discarded temp space and canonical archiving** | Clean up leftover test Banks and perform full deposition.                                                                               | Cleaned the `codex` and `omp` temporary Banks; per the KB constitution, supplemented raw snapshots, updated the Index/Log, and passed all static checks.      | Knowledge base fully verified (`pnpm kb:lint`, `pnpm check`, `pnpm build` all passed).                                                                                             |
+| **Stage 6: cleanup of discarded temp space and canonical archiving** | Clean up leftover test Banks and perform consolidation of accumulated knowledge.                                                                               | Cleaned the `codex` and `omp` temporary Banks; per the KB constitution, supplemented raw snapshots, updated the Index/Log, and passed all static checks.      | Knowledge base fully verified (`pnpm kb:lint`, `pnpm check`, `pnpm build` all passed).                                                                                             |
 
 
 ## Sources and related documents

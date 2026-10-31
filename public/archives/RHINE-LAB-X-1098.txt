@@ -21,10 +21,10 @@
 | 層                   | 明確にすること                                        | 検証できる証拠                                                       | よくある歪み                                  |
 | -------------------- | ----------------------------------------------------- | -------------------------------------------------------------------- | --------------------------------------------- |
 | プロジェクトの真正性 | entry point、担当 module、data flow、具体的な変更     | code path、endpoint/table/message、commit/test の境界                | 技術 stack だけを挙げ、失敗経路を説明できない |
-| 設計機構             | なぜ cache、queue、隔離、長接続を選び、何を負担したか | state transition、limit、TTL、retry、idempotency、exception contract | 「使った」を「理解した」と扱う                |
+| 設計機構             | なぜ cache、queue、隔離、長接続を選び、使わなければどうなるか | state transition、limit、TTL、retry、idempotency、exception contract | 「使った」を「理解した」と扱う                |
 | 実運用の証拠         | 観測、特定、止血、rollback、review の方法             | metrics、log、stack、GC/error rate、timeline                         | 「restart」「log を見る」だけで終わる         |
 
-三層は **事実と ownership → 機構とコスト → 観測結果 → 障害 action** の因果鎖になります。担当した、推測した、未検証を明示し、根拠のない ownership を広げません。
+三層は **事実と ownership → 機構とコスト → 観測結果 → 障害 action** の因果鎖になります。関与のみ・推論・要検証である部分を明示し、根拠のない ownership を広げません。
 
 ### 2. 負キャッシュで「機構 + 境界」を示す
 
@@ -32,12 +32,12 @@
 
 1. 取得元へ問い合わせるのは cache miss だけ。DB が不在を確認したら短 TTL の `NullValue` marker を保存する。
 2. 読み出し時に marker を業務 `null` へ戻し、key 不在、negative hit、実オブジェクトを区別する。
-3. validation/Bloom filter で不正 key、lock/single-flight で hot reload、TTL と明示 invalidation で stale 窓を制限する。
+3. validation/Bloom filter で不正 key、lock/single-flight で hot key の取得元アクセス、TTL と明示 invalidation で stale 窓を制限する。
 4. serializer が marker を認識するか実測する。Spring 内部の `readResolve` は異言語プロトコルではない。
 
 「cache penetration、cache breakdown、cache avalanche」という語を暗記するより、境界を説明できることが重要です。
 
-### 3. 性能排障で「証拠 + 復旧」を示す
+### 3. 性能トラブルシューティングで「証拠 + 復旧」を示す
 
 CPU または latency 障害は次へ圧縮できます。
 
@@ -46,7 +46,7 @@ CPU または latency 障害は次へ圧縮できます。
      → code、lock、GC、dependency の仮説 → 可逆止血 → 指標を再確認して review
 ```
 
-良い説明は、`RUNNABLE` なら hot code、`BLOCKED` なら lock chain、`WAITING` なら queue/dependency、GC なら allocation・pause・latency の相関を見ると述べます。`kill -9` を第一手段にせず、一つの stack sample を根因の証明にもしてはいけません。
+良い説明は、`RUNNABLE` なら hot code、`BLOCKED` なら lock chain、`WAITING` なら正常な待機か滞留かを判断し、GC なら allocation・pause・latency の相関を見ると述べます。`kill -9` を第一手段にせず、一つの stack sample を根因の証明にもしてはいけません。
 
 ### 4. インフラ選択を観測可能な機構へ翻訳する
 
@@ -78,13 +78,13 @@ CPU または latency 障害は次へ圧縮できます。
 
 1. 各 project highlight について entry → state/data → side effect → failure path を描き、「実装」「呼び出し」「観測」を区別する。
 2. cache highlight を三状態でテストする。miss は取得元へ問い合わせ、`NullValue` negative hit は取得元へ問い合わせず、実値は hit する。その後 TTL または invalidation で新データを確認する。
-3. 非破壊の排障演習を行う。load、PID/TID、stack、GC を保存し、RUNNABLE/BLOCKED/GC を分類して可逆止血の前後を検証する。
+3. 非破壊のトラブルシューティング演習を行う。load、PID/TID、stack、GC を保存し、RUNNABLE/BLOCKED/GC を分類して可逆止血の前後を検証する。
 4. async/isolation component の失敗経路を検証する。重複 message、container timeout、disconnect、期限切れ token が retry、alert、recover 可能か記録する。
 5. 回答の最後に未確認項目と次の実験を一つ示す。未検証の本番証拠を断言するより信頼できます。
 
 ## 証拠と不確実性
 
-- **出典事実**：`legacy-java-internship-interview-blog-polished` は project truth から engineering への追問線と、cache、Docker、Kafka、WebSocket、JWT、CPU 排障のテーマを提供します。
+- **出典事実**：`legacy-java-internship-interview-blog-polished` は project truth から engineering への追問線と、cache、Docker、Kafka、WebSocket、JWT、CPU トラブルシューティングのテーマを提供します。
 - **出典事実**：`legacy-java-null-value` は負キャッシュ、placeholder object、TTL、シリアライズ、cache 抽象境界を支えます。
 - **出典事実**：`legacy-java-online-performance-debug` は現場保存、PID/TID と stack、GC/Arthas 特定、制御された復旧を支えます。
 - **本ページの統合**：三つの出典を「project truth → engineering mechanism → production evidence」に抽象化し、各層を観測可能な検証へ対応付けました。

@@ -46,7 +46,7 @@ Therefore a source that failed parsing is re-parsed and re-extracted for candida
 Field-level replacement categories:
 
 | Category                | Form                                                                                                                                                |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | --- | ------------------------- |
+| --- | --- |
 | PEM private key         | `PRIVATE KEY` block → `<REDACTED_TOKEN>`                                                                                                            |
 | DSN password            | `scheme://user:pass@` → `<REDACTED_PASSWORD>`                                                                                                       |
 | Private repository      | `git@host:path` → `<PRIVATE_REPOSITORY>`                                                                                                            |
@@ -54,7 +54,7 @@ Field-level replacement categories:
 | Token                   | credentials ≥12 characters after `Bearer`/`Basic` → `<REDACTED_TOKEN>`; `gh[pousr]_…` / `xox[baprs]-…` (≥16 characters) → `<REDACTED_TOKEN>`        |
 | Common sensitive fields | `token`/`authorization`/`cookie`/`secret(?:key)? = value` → `token=<REDACTED_TOKEN>`; `password`/`passwd… = value` → `password=<REDACTED_PASSWORD>` |
 | Identity                | email (including local forms like `user@host`) → `<PRIVATE_EMAIL>`                                                                                  |
-| Host                    | private/loopback addresses (10/127/192.168/172.16–31, `::1`, `fc`/`fd`, `fe8`–`feb`, `localhost`, `\*.internal                                      | local | lan | corp`) → `<PRIVATE_HOST>` |
+| Host                    | private/loopback addresses (10/127/192.168/172.16–31, `::1`, `fc`/`fd`, `fe8`–`feb`, `localhost`, `\*.internal                                      \| local \| lan \| corp`) → `<PRIVATE_HOST>` |
 | Path                    | UNC `\\…`, Windows drive `C:\…`, `/home/…`, `/Users/…`, `~/…`, `file:…`, other absolute paths → `<PRIVATE_PATH>`                                    |
 
 Test anchor: "redacts credentials, identity, hosts, paths, and private repositories": asserts that all 7 placeholder categories appear, and asserts that a batch of concrete secret values (usernames, private hosts, loopback/IPv6 addresses, Windows/UNC/`~`/absolute paths, DSN and Redis passwords, password/cookie/api_key inside JSON, quoted-escape suffixes) do not appear in the result; non-sensitive fields (such as `tokens_saved=42 token_count=10`) are preserved.
