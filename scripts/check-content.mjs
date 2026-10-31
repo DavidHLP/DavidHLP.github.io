@@ -17,7 +17,7 @@ import {
 } from "./archive-content.mjs";
 import { escapeHtml } from "../src/html.ts";
 import { postPath } from "../src/blog-path.ts";
-import { archiveTickWindow, recentRecords, visibleSavedCount, persistSaved, syncArticleMetadata, restoreArticleHash } from "../src/blog-client.ts";
+import { archiveTickWindow, articleNavigationUrl, recentRecords, visibleSavedCount, persistSaved, syncArticleMetadata, restoreArticleHash } from "../src/blog-client.ts";
 import { StartupGate } from "../src/startup.ts";
 import { normalizeUiLanguage, translateUiText, translatedBootText } from "../src/ui-language.ts";
 import { contentLabel, localizedArticles, languageUrl, translationKey, validateTranslations, restoredArchiveNavigation } from "../src/content-language.ts";
@@ -276,6 +276,24 @@ test("switching article metadata replaces authors and dates and clears article f
   assert.equal(head.querySelector('meta[name="author"]').content, "Site author");
   assert.equal(meta("article:published_time"), undefined);
   assert.equal(meta("article:modified_time"), undefined);
+});
+test("related articles reuse the scene while explicit browser navigation stays native", () => {
+  const records = [{ slug: "first" }, { slug: "second" }];
+  const current = "https://blog.example/blog/first/?lang=zh-CN";
+  const click = { button: 0, ctrlKey: false, metaKey: false, shiftKey: false, altKey: false, defaultPrevented: false };
+  const link = { href: "/blog/second/?lang=zh-CN#chapter", target: "", hasAttribute: () => false };
+  const resolve = (anchor = link, event = click) => articleNavigationUrl(records, anchor, event, current);
+  assert.equal(resolve(), "/blog/second/?lang=zh-CN#chapter");
+  assert.equal(resolve({ ...link, target: "_SELF" }), resolve());
+  for (const key of ["ctrlKey", "metaKey", "shiftKey", "altKey", "defaultPrevented"])
+    assert.equal(resolve(link, { ...click, [key]: true }), undefined);
+  for (const button of [1, 2]) assert.equal(resolve(link, { ...click, button }), undefined);
+  for (const target of ["_blank", "named-frame"]) assert.equal(resolve({ ...link, target }), undefined);
+  assert.equal(resolve({ ...link, hasAttribute: name => name === "download" }), undefined);
+  assert.equal(resolve(null), undefined);
+  for (const href of ["https://external.example/blog/second/", "/blog/missing/", "#chapter", "/blog/second/?view=static", "/blog/second/?lang=en", "/blog/second/?review=1", "https://["])
+    assert.equal(resolve({ ...link, href }), undefined, href);
+  assert.equal(articleNavigationUrl([{ slug: "en/second", lang: "en" }], { ...link, href: "/blog/en/second/?lang=en" }, click, current), "/blog/en/second/?lang=en");
 });
 test("chapter restoration decodes safely and targets only the visible article container", () => {
   let scrolled;
