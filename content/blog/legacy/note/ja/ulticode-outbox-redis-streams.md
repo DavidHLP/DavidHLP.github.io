@@ -1,7 +1,7 @@
 ---
 {
   "archiveId": "X-1134",
-  "title": "UltiCode Outbox と Redis Streams：判定投递を復旧可能な状態にする",
+  "title": "UltiCode Outbox と Redis Streams：判定タスクの配送を復旧可能な状態にする",
   "en": "ENGINEERING NOTES",
   "category": "项目实践",
   "department": "工程笔记",

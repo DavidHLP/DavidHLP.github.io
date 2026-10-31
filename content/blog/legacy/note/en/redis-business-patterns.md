@@ -1,7 +1,7 @@
 ---
 {
   "archiveId": "X-1056",
-  "title": "Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Seckill",
+  "title": "Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Flash Sales",
   "en": "ENGINEERING NOTES",
   "category": "后端工程",
   "department": "工程笔记",
@@ -87,10 +87,10 @@ The 20 Redis business notes across the two repositories mirror each other (each 
 - Optimistic locks (CAS/version) suit read-heavy, retryable conflicts; pessimistic/Redisson distributed locks suit mutual exclusion of critical sections.
 - `分布式锁.md` (Distributed Lock) and `Distributed-Locks-with-Redis.md` use `SET NX EX` atomicity; the Redisson article introduces watchdog renewal, but holding time, renewal, and reentrancy boundaries must be checked against the version.
 
-### 3. Message queues, Feed streams, and seckill
+### 3. Message queues, Feed streams, and flash sales
 
 - `Redis消息队列.md` (Redis Message Queue) compares List/Stream/PubSub; only Stream consumer groups with ACK provide reliable semantics.
-- Feed streams (push/pull/push-pull hybrid) and seckill (stock deduction, rate limiting, async queues) are dissected by scenario in `Feed流设计模型.md` (Feed Design) and `Seckill-System.md`, but capacity parameters were not measured.
+- Feed streams (push/pull/push-pull hybrid) and flash sales (stock deduction, rate limiting, async queues) are dissected by scenario in `Feed流设计模型.md` (Feed Design) and `Seckill-System.md`, but capacity parameters were not measured.
 - Helper classes and Session replacement in `Redis工具类实现.md` (Redis Helper) and `Replacing-Traditional-Sessions-with-Redis.md` give encapsulation examples.
 
 ## Applicability
@@ -103,11 +103,11 @@ The 20 Redis business notes across the two repositories mirror each other (each 
 
 - Strong transactions, exactly-once semantics, and complex queries are not suited to pure Redis.
 - If a distributed lock expires before business logic completes, it can cause dual activity; watchdog renewal, network partitions, and clock drift must be evaluated explicitly (see `resicache` related pages).
-- Capacity designs for seckill and Feed were not load-tested; thresholds must not be copied verbatim.
+- Capacity designs for flash sales and Feed were not load-tested; thresholds must not be copied verbatim.
 
 ## Minimum Verification
 
-1. Cache: load-test hit/penetration/breakdown scenarios separately, recording TTL and fallback.
+1. Cache: load-test cache hits, repeated lookups for nonexistent data, and concurrent misses for a hot key separately, recording TTL and source-load counts.
 2. Locks: two processes contend for `SET NX`, verifying timeout release and `Lua` unlock atomicity.
 3. Queues: Stream consumer-group ACK/NACK, verify replay after disconnect.
 
@@ -115,7 +115,7 @@ The 20 Redis business notes across the two repositories mirror each other (each 
 
 - **Source facts**: `ingest-redis-business` contains 20 source notes with Chinese-English duplicates.
 - **Synthesis**: This page converges business transcripts into consistency—mutual exclusion—semantics axes.
-- **Unconfirmed**: Redisson version, Stream consumer-group parameters, and seckill thresholds were not pinned to a version; verify against the current environment.
+- **Unconfirmed**: Redisson version, Stream consumer-group parameters, and flash sales thresholds were not pinned to a version; verify against the current environment.
 
 ## Related Pages
 
