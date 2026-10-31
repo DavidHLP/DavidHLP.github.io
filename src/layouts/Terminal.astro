@@ -51,7 +51,7 @@ const t = (value: string) => translateUiText(value, language);
     <div id="blog-static" class="blog-static">
       <header><a href="/" translate="no">{site.title}</a> <a id="blog-interactive-link" hidden>{t("返回交互界面 ↗")}</a> <a href={language === "zh-CN" ? "/rss.xml" : `/${language}/rss.xml`}>RSS ↗</a><select data-ui-language aria-label={t("界面语言")}><option value="zh-CN" selected={language === "zh-CN"}>中文</option><option value="en" selected={language === "en"}>English</option><option value="ja" selected={language === "ja"}>日本語</option></select></header>
       {post ? <article>
-        <div class="detail-kicker" translate="no">FILE {post.data.archiveId} / {localize(post.data.category)}</div>
+        <div class="detail-kicker" translate="no">{t(`FILE ${post.data.archiveId}`)} / {localize(post.data.category)}</div>
         <h1 translate="no">{post.data.title}</h1>
         <p translate="no">{localize(post.data.en)}</p>
         <p>{t("发布")} <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10)}</time>{post.data.updatedDate && <> / {t("更新")} <time datetime={post.data.updatedDate.toISOString()}>{post.data.updatedDate.toISOString().slice(0, 10)}</time></>} / <span translate="no">{post.data.lead}</span></p>
