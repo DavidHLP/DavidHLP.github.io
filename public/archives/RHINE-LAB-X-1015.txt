@@ -31,7 +31,7 @@
 |---|---|
 | [Headroom 单端口路由综合](/blog/legacy/note/zh-cn/headroom-single-port-evolution/) | 固定 Headroom 版本下 `/v1/messages` 与 `/v1/responses` 显式路由的最小 contract test；`model_cache` 重建路径；`BindPaths` 回滚验证 |
 | [Headroom 路由持久化综合](/blog/legacy/note/zh-cn/omp-headroom-persistence/) | Named Profile 隔离的独立复现；`model_cache` 作为派生状态的删除重建实验；旧 reconciler 仅在迁移场景的触发条件 |
-| [Headroom 与 cc-switch 共存](/blog/legacy/note/zh-cn/headroom-cc-switch-coexistence/) | `879...→15721` 链路的脱敏抓包/日志证据；单一整理责任的负例（双写冲突）；`BindPaths` 安全边界说明的定版 |
+| [Headroom 与 cc-switch 共存](/blog/legacy/note/zh-cn/headroom-cc-switch-coexistence/) | `8787→15721` 链路的脱敏抓包/日志证据；单一整理责任的负例（双写冲突）；`BindPaths` 安全边界说明的定版 |
 | [OMP Headroom Bridge](/blog/legacy/note/zh-cn/omp-headroom-provider-proxy/) | loopback proxy、OMP provider route、Codex 共享 provider 的三者共存 smoke test；atomic restore 与 mode 判定；rollback 顺序的可重复步骤 |
 | [UltiCode 架构](/blog/legacy/note/zh-cn/ulticode/) | owner 边界、outbox/Streams 投递、generation/attempt 围栏、Docker 沙箱与可追溯交付门禁 |
 | [Enhanced UISA 架构](/blog/legacy/note/zh-cn/uisa-architecture-design/) | 去除“规模/阈值”隐含承诺，改为可复现的重试/幂等约束描述；owner→边界→恢复的最小决策树；失败模式矩阵 |
@@ -208,7 +208,7 @@ raw 文件位于 `src/content/raw/zh-cn/`，只供 LLM 阅读，不生成公开�
 
 ## 捕获收件箱
 
-- [知识库摄入收件箱](/blog/legacy/jotting/zh-cn/kb-ingest-todo/) — 记录下一批个人项目来源和待回答问题；历史文章、Personal-markdown-notes / Fuwari 两仓库 107 篇原文与 ResiCache / UltiCode 项目 README/CONTEXT 均已完成摄入。Hindsight 拆分与前端随笔溶解已在 Phase 2 完成收敛。下一步：Phase 3 季度审视 11 个 provisional 页面毕业进展与新主题增量摄入。
+- [知识库摄入收件箱](/blog/legacy/jotting/zh-cn/kb-ingest-todo/) — 记录下一批个人项目来源和待回答问题；历史文章、Personal-markdown-notes / Fuwari 两仓库 107 篇原文与 ResiCache / UltiCode 项目 README/CONTEXT 均已完成摄入。Hindsight 拆分与前端随笔溶解已在 Phase 2 完成收敛。下一步：Phase 3 季度审视 12 个 provisional 页面毕业进展与新主题增量摄入。
 
 ## 维护规则
 

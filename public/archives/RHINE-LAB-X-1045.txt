@@ -46,7 +46,7 @@ Save a source in raw, confirm the important facts, create or update wiki pages, 
 
 ### Query
 
-Read the index first, then the relevant wiki pages and their raw evidence. Distinguish source facts, existing synthesis, and current inference. Comparisons, decisions, and analyses that remain useful should become `synthesis` pages.
+Read the index first, then the relevant wiki pages and their raw evidence. Distinguish source facts, existing synthesis, and current inference, and cite the relevant pages or sources. Comparisons, decisions, and analyses that remain useful should become `synthesis` pages.
 
 ### Lint
 

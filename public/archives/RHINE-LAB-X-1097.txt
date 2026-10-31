@@ -15,7 +15,7 @@ Fuwari の 15 の JUC/Java ノートは本知識ベースで最も体系的な�
 - **アトミック**：`JavaAtomicClasses.md` は `AtomicInteger/Long/Reference` と `LongAdder`（ストライプ集計、`LongAdderVSAtomicLong.md` 参照）を区別します。
 - **ロック**：`synchronized`/`Monitor.md` はオブジェクトヘッダとモニタを、`ReentrantLock.md`/`Reentrancy.md` は再入可能性と AQS を、`LockSupport.md` は `park/unpark` をカバーします。
 - **協調**：`CompletableFutureAction`/`FutureTaskAction` と `ThreadLocal.md` は非同期とスレッド束縛を、`JavaInterruptMechanism` とデッドロック診断は割り込みとトラブルシューティングをカバーします。
-- **参照**：JDK8/17 の 2 つの記事は強/軟/弱/幽霊参照の回収意味をカバーします。
+- **参照**：JDK8/17 の 2 つの記事は強参照・ソフト参照・弱参照・ファントム参照の回収意味をカバーします。
 
 ## 適用条件
 
