@@ -149,4 +149,4 @@ value = store == NullValue.INSTANCE ? null : store;
 - [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/ja/java-auto-closeable/)
 - [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/ja/java-internship-interview-blog-polished/)
 - [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/ja/redis-jackson-java-time/)
-- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と秒殺](/blog/legacy/note/ja/redis-business-patterns/)
+- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と数量限定・時間限定販売](/blog/legacy/note/ja/redis-business-patterns/)

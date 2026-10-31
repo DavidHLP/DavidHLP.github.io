@@ -89,7 +89,7 @@ The canonical maintenance language is `zh-cn`. The knowledge base follows the [T
 
 ## C. Storage and caching
 
-- [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Seckill](/blog/legacy/note/en/redis-business-patterns/) — Align caching and business semantics through consistency and exclusion. Sources: ingest-redis-business`.
+- [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Flash Sales](/blog/legacy/note/en/redis-business-patterns/) — Align caching and business semantics through consistency and exclusion. Sources: ingest-redis-business`.
 - [Redis Persistence and Internals: RDB/AOF, Data Structures, and Advanced Mechanisms](/blog/legacy/note/en/redis-persistence-principle/) — Recovery and performance of snapshots versus append logs. Sources: ingest-redis-persistence`.
 - [Redis Heima Practice: Distributed Cache, Multi-Level Cache, and Best Practices](/blog/legacy/note/en/redis-heima-practice/) — A checklist distilled from 200+ pages, with version gaps identified. Sources: ingest-redis-heima`.
 - [MySQL Storage Engines and Deadlock Detection](/blog/legacy/note/en/mysql-storage-and-deadlock/) — Engine capabilities and deadlock-log paths. Sources: ingest-mysql-storage`.
