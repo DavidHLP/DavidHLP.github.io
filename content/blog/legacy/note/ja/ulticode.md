@@ -314,7 +314,7 @@ OOM、OCI、fork 制限、コンパイル失敗を一律に扱うと監視・再
 | `Repository Implemented` | 固定コミットに owner/worker 文書、事実契約、DB outbox、Streams 重複排除・PEL 回収、generation/attempt CAS、Docker 安全設定、分類、CI ゲートがある。 |
 | `Repository Evidence` | 対応するソース、設定、境界テストがある。テスト名は追跡可能な証拠で、今回の実行成功ではない。 |
 | `Locally Validated` | ブログの KB lint とビルドを検証する予定であり、UltiCode の Maven、Docker、Redis、Testcontainers 検証とはしない。 |
-| `BLOCKED_EXTERNAL` | 本番配置・流量、外部 Judge0、実際の複数 replica・再起動 receipt、認証情報、イメージ実行環境、公開認証は対象外。 |
+| `BLOCKED_EXTERNAL` | 本番配置・流量、外部 Judge0、実際の複数 replica・再起動 receipt、認証情報、イメージ実行環境、リリース用の認証情報は対象外。 |
 | `OUT_OF_SCOPE` | 高スループット、本番 HA、ゼロ損失、完全な脱出防止、任意 Core profile の本番品質は主張しない。 |
 
 状態は `provisional` のまま。強い結論には static/unit/integration の再現可能な記録、Docker/Redis/MySQL の実結果、再起動・複数 replica の receipt 検証、別個のサンドボックス監査が必要である。

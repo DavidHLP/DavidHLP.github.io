@@ -120,7 +120,7 @@ remotePort = <REMOTE_PORT>
 ```
 
 - Some customized clients accept `-f <token>:<id>`, but the raw record says the standard open-source `frpc` binary (for example v0.61.0) reports `-f` as an unknown shorthand flag. Use `/path/to/frpc -c ~/frpc.toml` and run `verify -c` first.
-- `ssh user@frp.example.com` targets the relay's port 22 by default, not the mapped port. Use `ssh -p <REMOTE_PORT> user@frp.example.com`; otherwise “the tunnel is broken” and “the relay received an unauthorized login” look identical.
+- `ssh user@frp.example.com` targets the relay's port 22 by default, not the mapped port. Use `ssh -p <REMOTE_PORT> user@frp.example.com`; otherwise it is easy to confuse “the tunnel is unavailable” with “I logged into the relay instead of the internal host.”
 
 ### 4. systemd and linger are separate recovery conditions
 

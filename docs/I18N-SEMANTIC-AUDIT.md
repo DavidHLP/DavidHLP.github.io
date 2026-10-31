@@ -86,3 +86,58 @@
 ## 回归防护
 
 两个仓库的现有 `check:content` 在原章节/示例/来源检查上增加引用块清单项计数。它能发现这次整段丢失的毕业条件；自检区分普通列表、代码中的引用示例和 HTML 引用列表。计数仍不证明翻译语义。
+
+## 逐段复核补充（2026-10-31）
+
+本轮从 `fb23f4c` 继续，逐段阅读中文、英文、日文正文，连同表格、列表、代码注释、图表文字和证据限制。阅读输出仅压缩空格及链接 URL，不删正文段落；历史桥接器的长代码块先确认三语逐字相同，再共读原代码。长文清单按中文正文去除围栏代码块和链接 URL 后不少于 3000 字符筛选，共 34 组，以下全部完成；这是中文正典的翻译一致性复核，不是历史实验复跑或独立事实考据。
+
+| 文章 | 已读章节块（含导语、参考） | 逐段结果 |
+| --- | --- | --- |
+| ulticode | 13 | 日文发布凭据术语修正。 |
+| resicache | 13 | 完整对照，未发现新的语义差异。 |
+| kb-session-ingest-contract | 15 | 日文落盘、字符长度、台账及私网术语修正；三语脱敏表的分隔列和主机正则竖线修复。 |
+| mcp-codebase-memory-workflow | 10 | 协议表、伪调用和完整性限定一致。 |
+| mysql-performance-troubleshooting | 8 | 全部 SQL、阈值、风险和证据限定一致。 |
+| containerd-tls-troubleshooting | 8 | 信任、认证、缓存及版本前提一致。 |
+| database-schema-drift | 10 | 诊断视图、命令及证据表一致，保留中文原有历史措辞。 |
+| multi-service-readiness | 10 | 补译英日文四处安全与诊断注释，命令不变。 |
+| intranet-penetration-ssh-guide | 8 | 去除英日文擅加的未授权登录含义，恢复登录中转机而非内网机。 |
+| omp-config-and-rules-guide | 8 | 日文补回不存在 rules 总开关的明确限定。 |
+| omp-hook-extension-guide | 8 | 英日文补回全局会话作用域和仅返回函数值不够的限定。 |
+| headroom-cc-switch-coexistence | 8 | 恢复负例可重复验证要求和脱敏术语。 |
+| headroom-single-port-evolution | 8 | 全文、图表、命令和历史假设一致。 |
+| omp-headroom-persistence | 8 | 日文恢复重启重建状态会丢失手工修改的含义。 |
+| omp-headroom-provider-proxy | 10 | 路由拓扑、配置字段、控制器契约和回滚顺序一致。 |
+| jjwt-013-security-api | 10 | 算法位长、签名/验签类型、audience 和编译/运行证据一致。 |
+| dubbo-nacos-runtime | 11 | 注册名、分组、参数、心跳和 RPC 验证限定一致。 |
+| testcontainers-docker-api | 10 | 修正日文把排错误写成排他的术语。 |
+| redis-jackson-java-time | 10 | 补译数组年月日时分秒标签，编解码边界一致。 |
+| resicache-single-flight | 11 | 全文、角色、轨迹、代码和历史测试记录一致。 |
+| resicache-serialization-migration | 14 | 英日文恢复非 null，避免与非空字符串混淆。 |
+| resicache-handler-chain-and-observer | 11 | null 与空值区分，日文关联专题标签修正。 |
+| resicache-observer-nested-execution | 12 | 全文及可执行模型对照，日文复盘导读标题修正。 |
+| ulticode-fenced-singleton-lease | 10 | SQL 围栏、失效场景、成本及证据边界一致。 |
+| ulticode-owner-local-audit-inbox | 11 | 修复日文嵌套来源链接，并恢复导语中的固定提交。 |
+| ulticode-core-bounded-testbed | 12 | 英文增加理解成本的方向、英日文 interrupt 与 stop 区分修正。 |
+| java-internship-interview-blog-polished | 8 | 恢复热点回源、正常 WAITING/积压和无机制时的反事实；日文职责和排障术语修正。 |
+| uisa-architecture-design | 9 | 去除擅加的运行任务 ID 字段；日文执行响应、闭环和协议版本协商修正。 |
+| hindsight-troubleshooting | 7 | 英日流程图恢复别名/来源核对条件，历史表免责声明移至对应表前。 |
+| hindsight-local-deployment-and-agent-integration | 8 | 历史记录按中文保留；修正日文断点续传、记忆搜索及英日知识蓄积术语 |
+| database-written-test-review | 14 | 恢复 %ROWCOUNT 术语，区分批量发送与事务提交及 null/空值；SQL 及独立练习前提保留 |
+| introduction | 6 | 逐条核对经历、权限、技术栈和日期；日文禁网改为网络禁用，未新增经历或量化成绩 |
+| kb-index | 12 | 核对全部导航、12 组毕业条件、53 行 raw 摘要与维护规则；补齐英日来源代码标记 |
+| kb-log | 30 | 核对 29 条历史记录及详细修订表、验证结果和未验边界；补回最初重构移除旧公开 wiki 语义的说明 |
+
+原始 `src/content/`、`migration/source/` 与 `legacy.metadata` 保留。只修订站点适配副本；中文仅修复脱敏表的 Markdown 列结构，没有改写中文结论。
+
+缓存过期后的 NullValue 三语文件已以 `Accept-Encoding: identity` 实际下载、保存并回读：中文 6147、英文 7045、日文 7798 字节，均含 UTF-8 BOM，分别与对应仓库导出文件逐字节一致。内置浏览器的点击产生下载事件，但随后为 canceled / 0 bytes，不能记作浏览器下载管理器通过。发布本轮修改后另行核验更新文件。
+
+## 长文逐段复核与下载验收
+
+1. 对照正文每段、表格每行、流程图和代码注释，核对否定、条件、对象、数量和证据限制；章节数量只能保护结构。
+2. 保留精确技术标记：例如 `%ROWCOUNT`、`null`、非空、线程 interrupt/stop、热点回源/热重载不能混用。可执行命令不因本地化而改变。
+3. 流程图与正文同时更新；历史表的限定放在对应表前。来源链接避免嵌套损坏，Markdown 表格中的正则竖线需要转义。
+4. 历史记录按中文当时的结论翻译，不将历史测试数或部署数据写成本次实测。原始快照及来源元数据保留；个人技术译文只在博客维护。
+5. 发布后等待缓存有效期结束，再通过界面观察每种语言的导出地址；实际保存文件并回读，与对应构建产物逐字节比较，同时检查 UTF-8 BOM、标题和正文。记录缓存头与下载结果，区分 HTTP 文件验证和浏览器下载管理器验证。
+
+这些方法复用既有内容检查与导出流程，无新增运行时功能或依赖。博客的逐篇结果见其同名审计文档。
