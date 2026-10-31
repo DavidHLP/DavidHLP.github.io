@@ -20,8 +20,8 @@ In multi-project development, hard-coding one global Bank (for example, always u
 The Git-root probe derives Bank IDs from repository directory names, such as `ulticode`, `resicache`, and `davidhlp_github_io`. This is logical application partitioning, not physical database/process isolation or access control. The code uses only basename and character replacement: repositories with the same basename in different paths, and `a.b` versus `a_b`, can collide. Set distinct `HINDSIGHT_BANK_ID` values explicitly when needed and check the Bank OMP actually uses.
 
 ```
-Project workspace (/path/to/project-a)  ──> Git root detection ──> Bank: project_a ──> Hindsight /mcp/project_a/
-Project workspace (/path/to/project-b)  ──> Git root detection ──> Bank: project_b ──> Hindsight /mcp/project_b/
+Project workspace (/path/to/project-a)  ──> Git root detection ──> Bank: project-a ──> Hindsight /mcp/project-a/
+Project workspace (/path/to/project-b)  ──> Git root detection ──> Bank: project-b ──> Hindsight /mcp/project-b/
 ```
 
 ---

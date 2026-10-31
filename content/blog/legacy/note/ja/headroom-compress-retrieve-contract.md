@@ -176,6 +176,9 @@ recent message の保護とは方向が逆である。
 
 ## 関連ページ
 
+- [Headroom 単一ポートのルーティング](/blog/legacy/note/ja/headroom-single-port-evolution/)
+- [Headroom ルート永続化](/blog/legacy/note/ja/omp-headroom-persistence/)
+- [OMP Hook 拡張](/blog/legacy/note/ja/omp-hook-extension-guide/)
 - [LLM-Wiki パターン](/blog/legacy/note/ja/llm-wiki-pattern/)
 
 

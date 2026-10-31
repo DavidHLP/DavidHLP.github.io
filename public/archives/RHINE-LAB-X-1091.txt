@@ -41,7 +41,7 @@ flowchart TD
   API --> FastMCP_EP
   API --> PG0
   API -->|LLM による事実抽出とリフレクション| OLLAMA
-  API -->|ベクトル埋め込みとリランク| EMBED
+  API -->|ベクトル埋め込み| EMBED
 ```
 
 ### 設計原則
@@ -50,7 +50,7 @@ flowchart TD
     - **GPU LLM**：出典はローカル別名 `gemma4:12b` を 12B Q4_K_M とし Fact Extraction/Reflection に使用。モデルの実体と VRAM は別途確認する。
     - **CPU Embedding**：`BAAI/bge-m3` を CPU に置いて VRAM 競合を減らす意図。任意の文脈長での安定動作の保証ではない。
 2. **データのローカル化**：
-    - DB、Hugging Face cache、Ollama data を `$HOME/.hindsight/` に mount。client 転記や Docker log は一括管理されない。reranker と実行場所も Compose では明確に固定していない。
+    - DB、Hugging Face cache、Ollama data を `$HOME/.hindsight/` に mount。クライアントの会話記録や Docker log は一括管理されない。reranker と実行場所も Compose では明確に固定していない。
 
 ---
 
@@ -63,7 +63,7 @@ flowchart TD
 ```bash
 mkdir -p ~/.hindsight/data ~/.hindsight/models ~/.hindsight/ollama
 
-# 安全权限配置：将数据与模型目录所属权赋予容器 UID 1000
+# 権限設定：データとモデルのディレクトリをコンテナ UID 1000 の所有にする
 sudo chown -R 1000:1000 ~/.hindsight/data ~/.hindsight/models
 chmod -R u+rwX,g+rwX ~/.hindsight/data ~/.hindsight/models
 ```
@@ -74,7 +74,7 @@ chmod -R u+rwX,g+rwX ~/.hindsight/data ~/.hindsight/models
 
 ```yaml
 services:
-    # GPU LLM 服务：通过 Ollama ROCm 加载模型
+    # GPU LLM サービス：Ollama ROCm 経由でモデルをロード
     ollama-gpu:
         image: ollama/ollama:rocm
         container_name: hindsight-ollama-gpu
@@ -92,24 +92,24 @@ services:
             - ${HOME}/.hindsight/ollama:/root/.ollama
             - ${HOME}/.hindsight/models:/models:ro
 
-    # Hindsight 核心服务端 (Vectorize.io 固定版本)
+    # Hindsight コアサーバー（Vectorize.io の固定バージョン）
     hindsight:
         image: ghcr.io/vectorize-io/hindsight:v0.9.1
         container_name: hindsight-server
         restart: unless-stopped
         ports:
-            - "127.0.0.1:8888:8888" # API & MCP 端点
-            - "127.0.0.1:9999:9999" # Web UI 控制台
+            - "127.0.0.1:8888:8888" # API & MCP エンドポイント
+            - "127.0.0.1:9999:9999" # Web UI コンソール
         environment:
-            # --- LLM 驱动 (GPU) ---
+            # --- LLM プロバイダー (GPU) ---
             - HINDSIGHT_API_LLM_PROVIDER=ollama
             - HINDSIGHT_API_LLM_BASE_URL=http://ollama-gpu:11434/v1
             - HINDSIGHT_API_LLM_MODEL=gemma4:12b
-            # --- Embedding 驱动 (CPU) ---
+            # --- Embedding プロバイダー (CPU) ---
             - HINDSIGHT_API_EMBEDDINGS_PROVIDER=local
             - HINDSIGHT_API_EMBEDDINGS_LOCAL_MODEL=BAAI/bge-m3
             - HINDSIGHT_API_EMBEDDINGS_LOCAL_FORCE_CPU=true
-            # --- 模型权重下载配置（首发拉取需连网，预缓存后可脱网） ---
+            # --- モデル重みの取得設定（初回取得は通信が必要、事前キャッシュ後はオフライン利用可能） ---
             - HF_ENDPOINT=https://huggingface.co
             - HINDSIGHT_API_LOG_LEVEL=info
         volumes:

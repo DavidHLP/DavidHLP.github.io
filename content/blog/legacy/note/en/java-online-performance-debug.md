@@ -90,7 +90,7 @@ This page is a decision tree for Java production performance incidents, not a 1,
 | Symptom / evidence                                      | First hypothesis                                          | Next step                                                       |
 | ------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------------- |
 | High `user`, one Java process and thread stay RUNNABLE  | Hot computation, loop, serialization, or retry storm      | Thread stacks, Arthas `thread`/flame graph, code localization   |
-| High `system` or `softirq`                              | Kernel, network interrupt, or packet storm                | Inspect system and network actors before changing business code |
+| High `system` or `softirq`                              | Kernel, network interrupt, or small-packet storm                | Inspect system and network actors before changing business code |
 | High `iowait`                                           | Disk, logging, database, or downstream I/O wait           | Check I/O latency, connections, and dependency metrics          |
 | High CPU with frequent GC and a near-full heap          | Allocation pressure, memory shortage, or collection storm | `jstat`, GC logs, heap/allocation evidence                      |
 | High load with modest CPU and `BLOCKED/WAITING` threads | Lock contention, exhausted pool, or blocked dependency    | Stacks, pool queues, locks, and downstream timeouts             |
@@ -134,7 +134,7 @@ Arthas connects to a running JVM and observes threads or methods. `watch`, `trac
 2. Collect two samples for the same PID: find hot TIDs, convert one to hex, and locate its `nid` in `jstack`; check whether the state persists.
 3. If the stack suggests GC, correlate repeated GC statistics/logs with latency, allocation, and heap movement. If it points to a method, use one bounded `trace` or flame graph to validate the hotspot.
 4. Apply one reversible action—rate limit, degrade, pause a bad job, scale, or controlled restart—and observe CPU, latency, errors, queues, and GC before and after. Preserve both sets of evidence.
-5. Record direct cause, contributing cause, evidence, action, and follow-up monitoring. “Service recovered” is not the same as “root cause confirmed.”
+5. Record direct cause, underlying cause, evidence, action, and follow-up monitoring. “Service recovered” is not the same as “root cause confirmed.”
 
 ## Evidence and uncertainty
 
