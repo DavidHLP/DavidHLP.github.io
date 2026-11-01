@@ -1,0 +1,74 @@
+src/ui-language.ts
+  s_717cfd5dbdee4b::t_01a63093042ded 9,422
+src/about-path.ts
+  s_717cfd5dbdee4b::t_01a63093042ded 1-5
+scripts/check-content.mjs
+  s_717cfd5dbdee4b::t_01a63093042ded 27-60
+docs/ABOUT-ACCEPTANCE.md
+  s_717cfd5dbdee4b::t_01a63093042ded 1-21
+src/about.css
+  s_717cfd5dbdee4b::t_01a63093042ded 1-110
+src/content.config.ts
+  s_717cfd5dbdee4b::t_01a63093042ded 6-7,34,37-41
+src/pages/[lang]/about.astro
+  s_717cfd5dbdee4b::t_01a63093042ded 1-8
+content/about/zh-cn.md
+  s_717cfd5dbdee4b::t_01a63093042ded 1-31
+README.md
+  s_717cfd5dbdee4b::t_bff916850b481e 33-36
+src/main.ts
+  s_717cfd5dbdee4b::t_01a63093042ded 83
+src/pages/about.astro
+  s_717cfd5dbdee4b::t_01a63093042ded 1-4
+content/site.json
+  s_717cfd5dbdee4b::t_bff916850b481e 21-22
+  s_717cfd5dbdee4b::t_01a63093042ded 19-20,23
+src/profile-schema.ts
+  s_717cfd5dbdee4b::t_01a63093042ded 1-15
+src/layouts/About.astro
+  s_717cfd5dbdee4b::t_01a63093042ded 1-99
+src/lib/about.ts
+  s_717cfd5dbdee4b::t_01a63093042ded 1-11
+src/content-language.ts
+  s_717cfd5dbdee4b::t_01a63093042ded 1,30-33
+src/layouts/Terminal.astro
+  s_717cfd5dbdee4b::t_01a63093042ded 2-3,54,60,73,94
+src/public-file.ts
+  s_717cfd5dbdee4b::t_01a63093042ded 1-8
+src/style.css
+  s_717cfd5dbdee4b::t_01a63093042ded 2239-2241
+src/components/Profile.astro
+  s_717cfd5dbdee4b::t_01a63093042ded 1-14
+docs/ABOUT.md
+  s_717cfd5dbdee4b::t_01a63093042ded 1-56
+content/about/en.md
+  s_717cfd5dbdee4b::t_01a63093042ded 1-31
+src/blog.css
+  s_717cfd5dbdee4b::t_01a63093042ded 19-22
+content/about/ja.md
+  s_717cfd5dbdee4b::t_01a63093042ded 1-31
+content/blog/legacy/information/en/introduction.md
+  s_717cfd5dbdee4b::t_2dcb60b95cb2d2 28-53,58-145
+content/blog/legacy/information/ja/introduction.md
+  s_717cfd5dbdee4b::t_b5087f868653ee 28-53,58-145
+content/blog/legacy/information/zh-cn/introduction.md
+  s_717cfd5dbdee4b::t_8bdbe4d512c77d 28-53,58-145
+docs/ABOUT-CONTENT-AUDIT.md
+  s_717cfd5dbdee4b::t_8822c31ddc8455 1-45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2f936f631a3a28c9a461d916b8f5d9ea3022d356",
+  "prompts": {},
+  "sessions": {
+    "s_717cfd5dbdee4b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19792-0dff-7a90-a968-9314d80a1798",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
