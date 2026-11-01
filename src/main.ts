@@ -923,7 +923,7 @@ document.addEventListener("click", (e) => {
   const url = ready && started && articleNavigationUrl(records, (e.target as Element).closest<HTMLAnchorElement>("a[href]"), e, location.href);
   if (url) {
     e.preventDefault();
-    history.pushState(null, "", url);
+    if (location.pathname + location.search + location.hash !== url) history.pushState(null, "", url);
     restoreBlogRoute();
     return;
   }
