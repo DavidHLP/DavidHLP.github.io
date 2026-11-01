@@ -366,27 +366,36 @@ test("related articles reuse the scene while explicit browser navigation stays n
   const resolve = (anchor = link, event = click) => articleNavigationUrl(records, anchor, event, current);
   assert.equal(resolve(), "/blog/second/?lang=zh-CN#chapter");
   assert.equal(resolve({ ...link, target: "_SELF" }), resolve());
+  assert.equal(resolve({ ...link, href: "#chapter" }), "/blog/first/?lang=zh-CN#chapter");
+  assert.equal(resolve({ ...link, href: "#chapter" }, { ...click, ctrlKey: true }), undefined);
+  assert.equal(resolve({ ...link, href: "/blog/first/?view=static#chapter" }), undefined);
   for (const key of ["ctrlKey", "metaKey", "shiftKey", "altKey", "defaultPrevented"])
     assert.equal(resolve(link, { ...click, [key]: true }), undefined);
   for (const button of [1, 2]) assert.equal(resolve(link, { ...click, button }), undefined);
   for (const target of ["_blank", "named-frame"]) assert.equal(resolve({ ...link, target }), undefined);
   assert.equal(resolve({ ...link, hasAttribute: name => name === "download" }), undefined);
   assert.equal(resolve(null), undefined);
-  for (const href of ["https://external.example/blog/second/", "/blog/missing/", "#chapter", "/blog/second/?view=static", "/blog/second/?lang=en", "/blog/second/?review=1", "https://["])
+  for (const href of ["https://external.example/blog/second/", "/blog/missing/", "/blog/second/?view=static", "/blog/second/?lang=en", "/blog/second/?review=1", "https://["])
     assert.equal(resolve({ ...link, href }), undefined, href);
   assert.equal(articleNavigationUrl([{ slug: "en/second", lang: "en" }], { ...link, href: "/blog/en/second/?lang=en" }, click, current), "/blog/en/second/?lang=en");
 });
 test("chapter restoration decodes safely and targets only the visible article container", () => {
-  let scrolled;
-  const container = { querySelectorAll() { return [
-    { id: "章节 [一]", scrollIntoView(options) { scrolled = options; } },
-  ]; } };
+  const previousComputedStyle = globalThis.getComputedStyle;
+  globalThis.getComputedStyle = () => ({ scrollMarginTop: "40px" });
+  try {
+  const container = { scrollTop: 0, offsetHeight: 100, closest: () => null,
+    getBoundingClientRect: () => ({ top: 100, height: 200 }),
+    querySelectorAll() { return [{ id: "章节 [一]", getBoundingClientRect: () => ({ top: 340 }),
+      scrollIntoView() { assert.fail("Scrolling hidden ancestors moves the 3D scene"); } }]; } };
   assert.equal(restoreArticleHash(container, `#${encodeURIComponent("章节 [一]")}`), true);
-  assert.deepEqual(scrolled, { block: "start" });
-  scrolled = undefined;
+  assert.equal(container.scrollTop, 80, "Scale and sticky margin are applied within the selected scroll container");
   for (const hash of ["", "#missing", "#%E0%A4%A"])
     assert.equal(restoreArticleHash(container, hash), false);
-  assert.equal(scrolled, undefined);
+  assert.equal(container.scrollTop, 80);
+  } finally {
+    if (previousComputedStyle === undefined) delete globalThis.getComputedStyle;
+    else globalThis.getComputedStyle = previousComputedStyle;
+  }
 });
 test("startup keyboard focus follows replacement failure controls", () => {
   const ownerDocument = { activeElement: null };
