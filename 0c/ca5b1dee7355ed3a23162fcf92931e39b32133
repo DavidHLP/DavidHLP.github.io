@@ -1,0 +1,23 @@
+content/blog/legacy/information/en/introduction.md
+  s_717cfd5dbdee4b::t_1e2f2d524aa56d 31
+content/blog/legacy/information/ja/introduction.md
+  s_717cfd5dbdee4b::t_ff962e81abdb8a 31
+content/blog/legacy/information/zh-cn/introduction.md
+  s_717cfd5dbdee4b::t_ae218ddf781842 31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0cca5b1dee7355ed3a23162fcf92931e39b32133",
+  "prompts": {},
+  "sessions": {
+    "s_717cfd5dbdee4b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19792-0dff-7a90-a968-9314d80a1798",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
