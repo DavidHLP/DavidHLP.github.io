@@ -1,0 +1,23 @@
+public/archives/RHINE-LAB-X-1002.txt
+  s_717cfd5dbdee4b::t_e89ff09d7033a2 10-106
+public/archives/RHINE-LAB-X-1008.txt
+  s_717cfd5dbdee4b::t_04082bec5adf53 10-106
+public/archives/RHINE-LAB-X-1014.txt
+  s_717cfd5dbdee4b::t_d7b7481376b0fe 10-106
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "da9a0f5697bfc1d09657a2f6df5f282a81717460",
+  "prompts": {},
+  "sessions": {
+    "s_717cfd5dbdee4b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19792-0dff-7a90-a968-9314d80a1798",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
