@@ -1,0 +1,102 @@
+---
+import { render } from "astro:content";
+import { publicFile } from "../public-file";
+import site from "../../content/site.json";
+import { getAbout } from "../lib/about";
+import { aboutPath } from "../about-path";
+import { translateUiText, type UiLanguage } from "../ui-language";
+import Profile from "../components/Profile.astro";
+import "../about.css";
+
+interface Props { language: UiLanguage }
+const { language } = Astro.props;
+const entry = await getAbout(language);
+const { Content, headings } = await render(entry);
+const { title: name, profile } = entry.data;
+const copy = {
+  "zh-CN": { about: "关于", home: "档案首页", contents: "履历目录", print: "打印 / 保存 PDF", download: "下载简历", skip: "跳至正文", theme: "暗色", note: "个人介绍与实践记录", top: "回到顶部" },
+  en: { about: "About", home: "Archives", contents: "On this page", print: "Print / Save PDF", download: "Download résumé", skip: "Skip to content", theme: "Dark", note: "Profile & selected practice", top: "Back to top" },
+  ja: { about: "プロフィール", home: "アーカイブ", contents: "目次", print: "印刷 / PDF 保存", download: "履歴書をダウンロード", skip: "本文へ", theme: "ダーク", note: "自己紹介と実践の記録", top: "先頭へ戻る" },
+}[language];
+const sections = headings.filter(heading => heading.depth === 2);
+const title = `${name} · ${copy.about} · ${site.title}`;
+const description = profile.summary ?? profile.role ?? name;
+const canonical = new URL(aboutPath(language), Astro.site);
+const avatar = publicFile(profile.avatar);
+const resume = publicFile(profile.resume);
+---
+<!doctype html>
+<html lang={language}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="author" content={name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content={canonical} />
+    <link rel="canonical" href={canonical} />
+    {(["zh-CN", "en", "ja"] as const).map(lang => <link rel="alternate" hreflang={lang} href={new URL(aboutPath(lang), Astro.site)} />)}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <script is:inline>
+      try { document.documentElement.dataset.darkSurface = String(JSON.parse(localStorage.getItem("rhine-settings") || "{}").colorTheme === "dark"); } catch {}
+    </script>
+  </head>
+  <body class="about-page" id="rhine:about:top">
+    <a class="about-skip" href="#rhine:about:content">{copy.skip}</a>
+    <header class="about-nav">
+      <a class="about-home" href={`/?lang=${language}`}><span aria-hidden="true">↖</span> {copy.home}</a>
+      <nav aria-label={translateUiText("界面语言", language)}>
+        {(["zh-CN", "en", "ja"] as const).map(lang => <a href={aboutPath(lang)} lang={lang} hreflang={lang} aria-current={lang === language ? "page" : undefined}>{({ "zh-CN": "中文", en: "EN", ja: "日本語" })[lang]}</a>)}
+        <button id="about-theme" aria-pressed="false" hidden>{copy.theme}</button>
+      </nav>
+    </header>
+    <main class="about-sheet">
+      <aside class="about-identity">
+        <p class="about-eyebrow">{copy.about}<span aria-hidden="true"> / 01</span></p>
+        {avatar && <img class="about-avatar" src={avatar} alt="" width="112" height="112" />}
+        <h1>{name}</h1>
+        <Profile profile={profile} />
+        <div class="about-actions">
+          <button id="about-print" hidden>{copy.print}<span aria-hidden="true"> ↗</span></button>
+          {resume && <a href={resume} download>{copy.download} ↓</a>}
+        </div>
+        {sections.length > 0 && <nav class="about-contents" aria-label={copy.contents}>
+          <p>{copy.contents}</p>
+          <ol>{sections.map(heading => <li><a href={`#${heading.slug}`}>{heading.text.replace(/\[ SEC \d+ \]\s*/, "")}</a></li>)}</ol>
+        </nav>}
+      </aside>
+      <article class="resume-body" id="rhine:about:content" tabindex="-1">
+        <div class="about-document-label" aria-hidden="true"><span>{copy.note}</span><span>RHINE LAB / ARCHIVE</span></div>
+        <Content />
+      </article>
+    </main>
+    <footer class="about-footer"><span>{site.title}</span><a href="#rhine:about:top">{copy.top} ↑</a></footer>
+    <script>
+      const root = document.documentElement;
+      const theme = document.querySelector<HTMLButtonElement>("#about-theme")!;
+      theme.hidden = false;
+      theme.setAttribute("aria-pressed", String(root.dataset.darkSurface === "true"));
+      theme.addEventListener("click", () => {
+        const dark = root.dataset.darkSurface !== "true";
+        root.dataset.darkSurface = String(dark);
+        theme.setAttribute("aria-pressed", String(dark));
+        try {
+          const prefs = JSON.parse(localStorage.getItem("rhine-settings") || "{}");
+          localStorage.setItem("rhine-settings", JSON.stringify({ ...prefs, colorTheme: dark ? "dark" : "light" }));
+        } catch {}
+      });
+      const print = document.querySelector<HTMLButtonElement>("#about-print")!;
+      print.hidden = false;
+      print.addEventListener("click", () => window.print());
+      try { localStorage.setItem("rhine-language", root.lang); } catch {}
+      const home = document.querySelector<HTMLAnchorElement>(".about-home")!;
+      if (new URLSearchParams(location.search).get("view") === "static") {
+        home.href += "&view=static";
+        document.querySelectorAll<HTMLAnchorElement>(".about-nav [hreflang]").forEach(link => { link.href += "?view=static"; });
+      }
+    </script>
+  </body>
+</html>

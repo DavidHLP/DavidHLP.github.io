@@ -1,0 +1,8 @@
+---
+import About from "../../layouts/About.astro";
+export function getStaticPaths() {
+  return ["en", "ja"].map(lang => ({ params: { lang }, props: { language: lang as "en" | "ja" } }));
+}
+const { language } = Astro.props;
+---
+<About language={language} />

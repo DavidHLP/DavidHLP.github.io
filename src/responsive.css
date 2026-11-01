@@ -226,3 +226,5 @@
   [data-layout="compact"] .system-nav [data-action="search"] { font-size: 0; gap: 0; }
   [data-layout="compact"] .viewer-help { max-width: 110px; }
 }
+
+[data-layout="portrait"] .system-nav .nav-about { font-size: 11px; padding-inline: 0; }

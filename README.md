@@ -30,3 +30,7 @@ git fetch upstream
 The template's history is included in this repository so future upstream changes can be merged on a task branch and reviewed alongside blog-specific configuration. The GitHub repository itself is retained rather than deleted and recreated.
 
 The original blog GPL license, content policies and third-party asset attribution remain applicable. The upstream template's MIT notice is included under `public/licenses/`.
+
+## About and résumé
+
+Read `/about/`, `/en/about/`, or `/ja/about/`. Edit the existing `content/blog/legacy/information/{zh-cn,en,ja}/introduction.md`: identity lives in its `profile` frontmatter and the résumé remains in the same body. No second résumé copy is maintained. See [About configuration](docs/ABOUT.md) and [content review](docs/ABOUT-CONTENT-AUDIT.md).
