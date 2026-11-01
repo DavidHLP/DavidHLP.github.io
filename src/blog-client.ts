@@ -1,5 +1,6 @@
 import type { ArchiveRecord } from "./data";
 import { postPath } from "./blog-path.ts";
+import { articleScrollRoot } from "./article-reader.ts";
 
 export function articleNavigationUrl(
   records: readonly Pick<ArchiveRecord, "slug" | "lang">[],
@@ -11,7 +12,11 @@ export function articleNavigationUrl(
     || link.hasAttribute("download") || link.target && link.target.toLowerCase() !== "_self") return;
   let url: URL, current: URL;
   try { current = new URL(currentHref); url = new URL(link.href, current); } catch { return; }
-  if (url.origin !== current.origin || url.pathname === current.pathname) return;
+  if (url.origin !== current.origin) return;
+  if (url.pathname === current.pathname) {
+    if (!url.hash || url.search !== current.search || !records.some(record => record.slug && postPath(record.slug) === current.pathname)) return;
+    return url.pathname + url.search + url.hash;
+  }
   const record = records.find(record => record.slug && postPath(record.slug) === url.pathname);
   if (!record || [...url.searchParams].some(([key, value]) => key !== "lang" || value !== (record.lang ?? "zh-CN"))) return;
   return url.pathname + url.search + url.hash;
@@ -64,6 +69,12 @@ export function restoreArticleHash(container: HTMLElement, hash: string) {
   try { id = decodeURIComponent(hash.slice(1)); } catch { return false; }
   const target = [...container.querySelectorAll<HTMLElement>("[id]")].find(node => node.id === id);
   if (!target) return false;
-  target.scrollIntoView({ block: "start" });
+  const article = container.closest<HTMLElement>("#detail-content");
+  const root = article ? articleScrollRoot(article) : container;
+  const bounds = root.getBoundingClientRect();
+  const scale = root.offsetHeight ? bounds.height / root.offsetHeight : 1;
+  const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+  // Scroll only the article, so hidden 3D ancestors keep their calibrated position.
+  root.scrollTop += (target.getBoundingClientRect().top - bounds.top) / (scale || 1) - margin;
   return true;
 }

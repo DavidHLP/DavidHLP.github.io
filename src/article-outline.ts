@@ -125,8 +125,9 @@ export class ArticleOutline {
       root.addEventListener("scroll", this.schedule, { passive: true });
     }
     const toolbar = root instanceof HTMLDialogElement ? (root.firstElementChild as HTMLElement)?.offsetHeight ?? 0 : 0;
+    const padding = parseFloat(getComputedStyle(root).paddingTop) || 0;
     this.article.style.setProperty("--article-outline-top", `${toolbar}px`);
-    this.article.style.setProperty("--article-heading-offset", `${toolbar + this.outline.offsetHeight + 8}px`);
+    this.article.style.setProperty("--article-heading-offset", `${toolbar + padding + this.outline.offsetHeight + 8}px`);
     this.schedule();
   }
 
