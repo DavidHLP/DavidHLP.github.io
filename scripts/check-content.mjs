@@ -19,10 +19,27 @@ import { escapeHtml } from "../src/html.ts";
 import { postPath } from "../src/blog-path.ts";
 import { archiveTickWindow, articleNavigationUrl, recentRecords, visibleSavedCount, persistSaved, syncArticleMetadata, restoreArticleHash } from "../src/blog-client.ts";
 import { StartupGate } from "../src/startup.ts";
-import { ArticleReader } from "../src/article-reader.ts";
+import { ArticleReader, articleScrollRoot } from "../src/article-reader.ts";
+import { collectArticleHeadings } from "../src/article-outline.ts";
 import { normalizeUiLanguage, translateUiText, translatedBootText } from "../src/ui-language.ts";
 import { contentLabel, localizedArticles, languageUrl, translationKey, validateTranslations, restoredArchiveNavigation } from "../src/content-language.ts";
 import { MOTION_LABELS } from "../src/motion-preferences.ts";
+
+test("article contents retains source anchors and gives missing or duplicate anchors collision-free stable IDs", () => {
+  const heading = (tagName, textContent, id = "", hidden = false) => ({ tagName, textContent, id, closest: () => hidden ? {} : null });
+  const headings = [heading("H2", "章节 [一]", "existing"), heading("H3", "Long 日本語 title ".repeat(20)), heading("H6", "Repeated heading", "existing"), heading("H2", "Footnotes", "footnote-label", true), heading("H4", "  ")];
+  const outside = { id: "rhine-heading-2" };
+  const body = { querySelectorAll: () => headings, ownerDocument: { querySelectorAll: () => [outside, ...headings.filter(h => h.id)] } };
+  assert.deepEqual(collectArticleHeadings(body), headings.slice(0, 3));
+  assert.deepEqual(headings.slice(0, 3).map(h => h.id), ["existing", "rhine-heading-3", "rhine-heading-4"]);
+  assert.equal(headings[1].textContent, "Long 日本語 title ".repeat(20));
+  collectArticleHeadings(body);
+  assert.deepEqual(headings.slice(0, 3).map(h => h.id), ["existing", "rhine-heading-3", "rhine-heading-4"]);
+  assert.equal(headings[3].id, "footnote-label");
+  assert.deepEqual(collectArticleHeadings({ ...body, querySelectorAll: () => [] }), []);
+  assert.equal(translateUiText("章节目录", "en"), "Article contents");
+  assert.equal(translateUiText("章节目录", "ja"), "記事の目次");
+});
 
 test("full-window reading moves one article, restores its place and handles native Escape", () => {
   const previousComputedStyle = globalThis.getComputedStyle;
@@ -34,7 +51,8 @@ test("full-window reading moves one article, restores its place and handles nati
   const sibling = {};
   const parent = { insertBefore(node, next) { assert.equal(node, article); assert.equal(next, sibling); node.parentElement = parent; } };
   const article = { parentElement: parent, nextSibling: sibling, scrollTop: 20, inert: true,
-    querySelector: () => panel, querySelectorAll: () => [] };
+    closest: () => article.parentElement === dialog && dialog.open ? dialog : null,
+    querySelector: selector => selector === "#tab-panel" ? panel : null, querySelectorAll: () => [] };
   const dialog = { open: false, scrollTop: 0,
     addEventListener: (type, fn) => { events[type] = fn; },
     append(node) { assert.equal(node, article); node.parentElement = dialog; },
@@ -45,11 +63,13 @@ test("full-window reading moves one article, restores its place and handles nati
   reader.open({ isConnected: true, focus: () => { focused = true; } });
   assert.equal(reader.isOpen, true);
   assert.equal(article.parentElement, dialog);
+  assert.equal(articleScrollRoot(article), dialog);
   assert.equal(article.inert, false);
   events.cancel({ preventDefault: () => { cancelled = true; } });
   assert.equal(cancelled, true);
   assert.equal(reader.isOpen, false);
   assert.equal(article.parentElement, parent);
+  assert.equal(articleScrollRoot(article), panel);
   assert.equal(article.scrollTop, 20);
   assert.equal(focused, true);
   const paragraph = { isConnected: true, getBoundingClientRect: () => ({ top: article.parentElement === dialog ? 100 : 500, bottom: 520 }) };
@@ -346,27 +366,49 @@ test("related articles reuse the scene while explicit browser navigation stays n
   const resolve = (anchor = link, event = click) => articleNavigationUrl(records, anchor, event, current);
   assert.equal(resolve(), "/blog/second/?lang=zh-CN#chapter");
   assert.equal(resolve({ ...link, target: "_SELF" }), resolve());
+  assert.equal(resolve({ ...link, href: "#chapter" }), "/blog/first/?lang=zh-CN#chapter");
+  assert.equal(resolve({ ...link, href: "#chapter" }, { ...click, ctrlKey: true }), undefined);
+  assert.equal(resolve({ ...link, href: "/blog/first/?view=static#chapter" }), undefined);
   for (const key of ["ctrlKey", "metaKey", "shiftKey", "altKey", "defaultPrevented"])
     assert.equal(resolve(link, { ...click, [key]: true }), undefined);
   for (const button of [1, 2]) assert.equal(resolve(link, { ...click, button }), undefined);
   for (const target of ["_blank", "named-frame"]) assert.equal(resolve({ ...link, target }), undefined);
   assert.equal(resolve({ ...link, hasAttribute: name => name === "download" }), undefined);
   assert.equal(resolve(null), undefined);
-  for (const href of ["https://external.example/blog/second/", "/blog/missing/", "#chapter", "/blog/second/?view=static", "/blog/second/?lang=en", "/blog/second/?review=1", "https://["])
+  for (const href of ["https://external.example/blog/second/", "/blog/missing/", "/blog/second/?view=static", "/blog/second/?lang=en", "/blog/second/?review=1", "https://["])
     assert.equal(resolve({ ...link, href }), undefined, href);
   assert.equal(articleNavigationUrl([{ slug: "en/second", lang: "en" }], { ...link, href: "/blog/en/second/?lang=en" }, click, current), "/blog/en/second/?lang=en");
 });
 test("chapter restoration decodes safely and targets only the visible article container", () => {
-  let scrolled;
-  const container = { querySelectorAll() { return [
-    { id: "章节 [一]", scrollIntoView(options) { scrolled = options; } },
-  ]; } };
+  const previousComputedStyle = globalThis.getComputedStyle;
+  globalThis.getComputedStyle = () => ({ scrollMarginTop: "40px" });
+  try {
+  let focused;
+  const target = { id: "章节 [一]", tabIndex: -1, getBoundingClientRect: () => ({ top: 340 - container.scrollTop * 2 }),
+    hasAttribute: () => false, focus: options => { focused = options; },
+    scrollIntoView() { assert.fail("Scrolling hidden ancestors moves the 3D scene"); } };
+  const container = { scrollTop: 0, offsetHeight: 100, closest: () => null,
+    getBoundingClientRect: () => ({ top: 100, height: 200 }),
+    querySelectorAll: () => [target] };
   assert.equal(restoreArticleHash(container, `#${encodeURIComponent("章节 [一]")}`), true);
-  assert.deepEqual(scrolled, { block: "start" });
-  scrolled = undefined;
+  assert.equal(container.scrollTop, 80, "Scale and sticky margin are applied within the selected scroll container");
+  assert.equal(focused, undefined, "Initial/history restoration does not steal focus");
+  restoreArticleHash(container, `#${encodeURIComponent("章节 [一]")}`, true);
+  assert.deepEqual(focused, { preventScroll: true });
+  assert.equal(target.tabIndex, -1);
+  target.tabIndex = 0;
+  restoreArticleHash(container, `#${encodeURIComponent("章节 [一]")}`, true);
+  assert.equal(target.tabIndex, 0, "Native links remain in the tab order after footnote navigation");
+  assert.equal(container.scrollTop, 80);
+  focused = undefined;
   for (const hash of ["", "#missing", "#%E0%A4%A"])
     assert.equal(restoreArticleHash(container, hash), false);
-  assert.equal(scrolled, undefined);
+  assert.equal(container.scrollTop, 80);
+  assert.equal(focused, undefined);
+  } finally {
+    if (previousComputedStyle === undefined) delete globalThis.getComputedStyle;
+    else globalThis.getComputedStyle = previousComputedStyle;
+  }
 });
 test("startup keyboard focus follows replacement failure controls", () => {
   const ownerDocument = { activeElement: null };
