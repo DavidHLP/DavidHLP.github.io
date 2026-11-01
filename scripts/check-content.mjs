@@ -384,7 +384,7 @@ test("chapter restoration decodes safely and targets only the visible article co
   globalThis.getComputedStyle = () => ({ scrollMarginTop: "40px" });
   try {
   let focused;
-  const target = { id: "章节 [一]", getBoundingClientRect: () => ({ top: 340 - container.scrollTop * 2 }),
+  const target = { id: "章节 [一]", tabIndex: -1, getBoundingClientRect: () => ({ top: 340 - container.scrollTop * 2 }),
     hasAttribute: () => false, focus: options => { focused = options; },
     scrollIntoView() { assert.fail("Scrolling hidden ancestors moves the 3D scene"); } };
   const container = { scrollTop: 0, offsetHeight: 100, closest: () => null,
@@ -396,6 +396,9 @@ test("chapter restoration decodes safely and targets only the visible article co
   restoreArticleHash(container, `#${encodeURIComponent("章节 [一]")}`, true);
   assert.deepEqual(focused, { preventScroll: true });
   assert.equal(target.tabIndex, -1);
+  target.tabIndex = 0;
+  restoreArticleHash(container, `#${encodeURIComponent("章节 [一]")}`, true);
+  assert.equal(target.tabIndex, 0, "Native links remain in the tab order after footnote navigation");
   assert.equal(container.scrollTop, 80);
   focused = undefined;
   for (const hash of ["", "#missing", "#%E0%A4%A"])
