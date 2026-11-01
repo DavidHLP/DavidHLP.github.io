@@ -98,7 +98,7 @@ export class ArticleOutline {
     nav.append(list);
     outline.append(summary, nav);
     outline.addEventListener("toggle", () => {
-      if (outline.open) this.revealCurrent();
+      if (outline.open) { this.refresh(); this.revealCurrent(); }
     });
     outline.addEventListener("keydown", event => {
       if (event.key !== "Escape" || !outline.open) return;
@@ -127,7 +127,6 @@ export class ArticleOutline {
     const toolbar = root instanceof HTMLDialogElement ? (root.firstElementChild as HTMLElement)?.offsetHeight ?? 0 : 0;
     this.article.style.setProperty("--article-outline-top", `${toolbar}px`);
     this.article.style.setProperty("--article-heading-offset", `${toolbar + this.outline.offsetHeight + 8}px`);
-    this.article.style.setProperty("--article-outline-max-height", `${Math.max(44, root.clientHeight - toolbar - this.outline.offsetHeight - 16)}px`);
     this.schedule();
   }
 
@@ -138,6 +137,8 @@ export class ArticleOutline {
       if (!this.root || !this.outline) return;
       const bounds = this.root.getBoundingClientRect();
       const scale = this.root.offsetHeight ? bounds.height / this.root.offsetHeight : 1;
+      const available = `${Math.max(44, (bounds.bottom - this.outline.getBoundingClientRect().bottom) / (scale || 1) - 8)}px`;
+      if (this.article.style.getPropertyValue("--article-outline-max-height") !== available) this.article.style.setProperty("--article-outline-max-height", available);
       const offset = parseFloat(this.article.style.getPropertyValue("--article-heading-offset")) || 0;
       const top = bounds.top + offset * scale;
       let current = 0;
@@ -148,7 +149,10 @@ export class ArticleOutline {
         if (heading.getBoundingClientRect().top <= top + 1) current = index;
       });
       if (this.root.scrollTop > 0 && this.root.scrollTop + this.root.clientHeight >= this.root.scrollHeight - 2) current = lastVisible;
-      if (current === this.current) return;
+      if (current === this.current) {
+        if (this.outline.open) this.revealCurrent();
+        return;
+      }
       this.links[this.current]?.removeAttribute("aria-current");
       this.current = current;
       this.links[current].setAttribute("aria-current", "location");
