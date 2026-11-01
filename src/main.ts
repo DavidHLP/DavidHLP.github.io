@@ -171,8 +171,8 @@ let modalTransition: SurfaceTransition | undefined;
 let modalClosing = false;
 let pendingModalAction: (() => void) | undefined;
 let modalSiblings: { node: HTMLElement; inert: boolean }[] = [];
-let pendingDetailFocus = false;
-readerDialog.addEventListener("close", () => { pendingDetailFocus = false; });
+let pendingDetailFocus: boolean | "reader" = false;
+readerDialog.addEventListener("close", () => { pendingDetailFocus = scene && mode === "detail" ? "reader" : false; });
 let bookmarkFeedback: Animation | undefined;
 function readLocal<T>(key: string, fallback: T): T {
   try {
@@ -1227,7 +1227,7 @@ function frame(ms: number) {
       `0 ${(1 - scene.detailVisibility) * 18}px`;
     $("#detail-content").inert = scene.detailVisibility < 0.1;
     if (pendingDetailFocus && scene.detailVisibility >= 0.1 && !modal && !viewer?.isOpen) {
-      $("#detail-content").focus({ preventScroll: true });
+      $(pendingDetailFocus === "reader" ? '.read-full' : "#detail-content").focus({ preventScroll: true });
       pendingDetailFocus = false;
     }
   }
