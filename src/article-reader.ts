@@ -4,6 +4,7 @@ export class ArticleReader {
   private opener: HTMLElement | null = null;
   private scroll = 0;
   private panelScroll = 0;
+  private restoredScroll = NaN;
   private anchor: { node: HTMLElement; offset: number } | null = null;
 
   private dialog: HTMLDialogElement;
@@ -21,6 +22,7 @@ export class ArticleReader {
       const panel = article.querySelector<HTMLElement>("#tab-panel")!;
       panel.scrollTop = this.panelScroll;
       this.restoreAnchor(this.scrollRoot(), this.anchor);
+      this.restoredScroll = this.scrollRoot().scrollTop;
       const opener = this.opener?.isConnected ? this.opener : article.querySelector<HTMLElement>('[data-action="read-full"]');
       opener?.focus({ preventScroll: true });
     });
@@ -34,7 +36,10 @@ export class ArticleReader {
     this.scroll = this.article.scrollTop;
     const panel = this.article.querySelector<HTMLElement>("#tab-panel")!;
     this.panelScroll = panel.scrollTop;
-    const anchor = panel.scrollTop || this.scroll ? this.readingAnchor(this.scrollRoot()) : null;
+    const root = this.scrollRoot();
+    const anchor = root.scrollTop === this.restoredScroll && this.anchor?.node.isConnected
+      ? this.anchor
+      : panel.scrollTop || this.scroll ? this.readingAnchor(root) : null;
     this.dialog.append(this.article);
     this.article.inert = false;
     this.dialog.showModal();
