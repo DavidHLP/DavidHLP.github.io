@@ -77,7 +77,7 @@ export function restoreArticleHash(container: HTMLElement, hash: string, focus =
   // Scroll only the article, so hidden 3D ancestors keep their calibrated position.
   root.scrollTop += (target.getBoundingClientRect().top - bounds.top) / (scale || 1) - margin;
   if (focus) {
-    if (!target.hasAttribute("tabindex")) target.tabIndex = -1;
+    if (target.tabIndex < 0 && !target.hasAttribute("tabindex")) target.tabIndex = -1;
     target.focus({ preventScroll: true });
   }
   return true;
