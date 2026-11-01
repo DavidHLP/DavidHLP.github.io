@@ -10,6 +10,13 @@ export const profileSchema = z.object({
   resume: localFile.optional(),
   contacts: z.array(z.object({
     label: text,
-    href: text.refine(value => /^(https?:\/\/|mailto:|tel:|\/(?!\/))/.test(value), "Use HTTP(S), mailto, tel or a site path").optional(),
+    href: text.refine(value => {
+      if (/\s|\\/.test(value)) return false;
+      try {
+        const url = new URL(value, "https://local.invalid");
+        return (/^\/(?!\/)/.test(value) || /^https?:\/\//.test(value)) && ["http:", "https:"].includes(url.protocol)
+          || ["mailto:", "tel:"].includes(url.protocol) && url.pathname.length > 0;
+      } catch { return false; }
+    }, "Use a valid HTTP(S), mailto, tel or site URL").optional(),
   })).default([]),
 }).default({ contacts: [] });
