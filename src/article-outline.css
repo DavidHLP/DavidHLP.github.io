@@ -1,0 +1,53 @@
+.article-outline {
+  position: sticky;
+  top: var(--article-outline-top, 0px);
+  z-index: 1;
+  margin-bottom: 14px;
+  background: var(--theme-paper, #eae5e1);
+  color: var(--theme-ink, #080a08);
+  border-block: 1px solid var(--theme-line, #aaa59a);
+}
+.article-outline > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  list-style: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+.article-outline > summary::-webkit-details-marker { display: none; }
+.article-outline > summary > :not(.article-outline-title) { flex-shrink: 0; }
+.article-outline-count { font-variant-numeric: tabular-nums; color: var(--theme-muted, #67645c); }
+.article-outline-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.article-outline-chevron { margin-left: auto; }
+.article-outline[open] .article-outline-chevron { rotate: 180deg; }
+.article-outline > nav {
+  position: absolute;
+  inset: 100% 0 auto;
+  max-height: min(60dvh, 420px, var(--article-outline-max-height, 420px));
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  background: var(--theme-paper, #eae5e1);
+  border: 1px solid var(--theme-line, #aaa59a);
+}
+#detail-content .article-outline ol { list-style: none; padding: 6px; margin: 0; }
+#detail-content .article-outline li { padding: 0; margin: 0; }
+#detail-content .article-outline a {
+  display: block;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 10px 10px 10px calc(10px + var(--outline-depth, 0) * 12px);
+  border-left: 2px solid transparent;
+  color: inherit;
+  font-size: 13px;
+  line-height: 1.6;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+#detail-content .article-outline a[aria-current="location"] { border-left-color: currentColor; font-weight: 600; }
+.article-outline :is(summary, a):focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
+#detail-content .blog-body [id] { scroll-margin-top: var(--article-heading-offset, 8px); }
