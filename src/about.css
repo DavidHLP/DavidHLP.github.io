@@ -95,8 +95,8 @@ button { font: inherit; color: inherit; background: transparent; cursor: pointer
   .profile-contacts li { margin-block: 10px; }
   .resume-body h2 { font-size: 24px; }
   .resume-body h3 { font-size: 20px; }
-  .resume-body :is(h2, h3, h4, .resume-meta, .resume-stack) { break-after: avoid; }
-  .resume-body :is(.resume-meta, .resume-stack) { break-before: avoid; }
+  .resume-body :is(h2, h3, h4, .resume-stack), .resume-body .resume-meta:has(+ p) { break-after: avoid; }
+  .resume-body :is(.resume-meta, .resume-stack), .resume-body p:has(+ .resume-meta) { break-before: avoid; }
   .resume-body :is(p, li, blockquote, tr), .profile-contacts li { break-inside: avoid; orphans: 3; widows: 3; }
   .resume-body pre { white-space: pre-wrap; overflow: visible; overflow-wrap: anywhere; }
   .resume-body table { width: 100%; table-layout: fixed; }
