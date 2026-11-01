@@ -16,6 +16,9 @@
     "机构档案",
     "能量研究",
     "特别项目"
-  ]
+  ],
+  "about": {
+    "base": "./content/about",
+    "pattern": "*.md"
+  }
 }
-

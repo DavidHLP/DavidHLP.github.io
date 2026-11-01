@@ -14,3 +14,7 @@ html:not(.interactive) body { overflow: auto; margin: 0; background: #e8e5e1; }
 .blog-body blockquote { border-left: 2px solid currentColor; margin-left: 0; padding-left: 18px; }
 .blog-body table { border-collapse: collapse; width: 100%; }
 .blog-body th, .blog-body td { padding: 8px; border-bottom: 1px solid #aaa69e; }
+
+.profile-contacts { list-style: none; padding-left: 0; overflow-wrap: anywhere; }
+.profile-contacts li { margin-block: 8px; }
+.profile-role { font-weight: 600; }

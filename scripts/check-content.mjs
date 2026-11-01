@@ -22,6 +22,40 @@ import { collectArticleHeadings } from "../src/article-outline.ts";
 import { normalizeUiLanguage, translateUiText, translatedBootText } from "../src/ui-language.ts";
 import { contentLabel, localizedArticles, languageUrl, translationKey, validateTranslations, restoredArchiveNavigation } from "../src/content-language.ts";
 import { MOTION_LABELS } from "../src/motion-preferences.ts";
+import { aboutPath } from "../src/about-path.ts";
+import { publicFile } from "../src/public-file.ts";
+import { profileSchema } from "../src/profile-schema.ts";
+
+test("About accepts a minimal profile and only exposes real public attachments", async () => {
+  assert.deepEqual(profileSchema.parse(undefined), { contacts: [] });
+  assert.deepEqual(profileSchema.parse({}), { contacts: [] });
+  assert.throws(() => profileSchema.parse({ contacts: [{ label: "Invalid", href: "javascript:alert(1)" }] }));
+  assert.throws(() => profileSchema.parse({ resume: "/../private.pdf" }));
+  const root = await mkdtemp(join(tmpdir(), "rhine-about-"));
+  try {
+    await writeFile(join(root, "resume.pdf"), "%PDF-1.4 test fixture");
+    assert.equal(publicFile("/resume.pdf", root), "/resume.pdf");
+    for (const path of [undefined, "/missing.pdf", "/../resume.pdf", "//example.com/a.pdf", "/", "/resume.pdf?x=1"])
+      assert.equal(publicFile(path, root), undefined);
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
+
+test("About language routes preserve static mode and generated documents are independent of the stage", async () => {
+  const site = JSON.parse(await readFile(new URL("../content/site.json", import.meta.url), "utf8"));
+  const sitemap = await readFile(new URL("../dist/sitemap-0.xml", import.meta.url), "utf8");
+  for (const lang of ["zh-CN", "en", "ja"]) {
+    const path = aboutPath(lang);
+    assert.equal(languageUrl([], "/en/about/?view=static#old", lang), `${path}?view=static&lang=${lang}`);
+    const html = await readFile(new URL(`../dist${path}index.html`, import.meta.url), "utf8");
+    assert.ok(html.includes(`<html lang="${lang}"`));
+    assert.ok(html.includes(`rel="canonical" href="${new URL(path, site.site)}"`));
+    assert.ok(html.includes('id="resume"'));
+    assert.ok(!html.includes('id="stage"') && !html.includes('id="boot"'));
+    assert.ok(!html.includes('http-equiv="refresh"'));
+    for (const other of ["zh-CN", "en", "ja"]) assert.ok(html.includes(`hreflang="${other}"`));
+    assert.ok(sitemap.includes(new URL(path, site.site).href));
+  }
+});
 
 test("article contents retains source anchors and gives missing or duplicate anchors collision-free stable IDs", () => {
   const heading = (tagName, textContent, id = "", hidden = false) => ({ tagName, textContent, id, closest: () => hidden ? {} : null });

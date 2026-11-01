@@ -6,6 +6,7 @@ export type UiLanguage = typeof uiLanguages[number];
 
 // Keys are the terminal's original labels; article content never enters this table.
 const labels: Record<string, readonly [string, string, string?]> = {
+  "关于": ["About", "プロフィール"],
   "章节目录": ["Article contents", "記事の目次"],
   "Footnotes": ["Footnotes", "脚注", "脚注"],
   "全窗口阅读": ["Full-window reading", "全画面で読む"],
@@ -418,7 +419,7 @@ export function initUiLanguage() {
       node.href = language === "zh-CN" ? "/rss.xml" : `/${language}/rss.xml`;
       return;
     }
-    if (url.origin !== location.origin || !(url.pathname === "/" || url.pathname.startsWith("/blog/"))) return;
+    if (url.origin !== location.origin || !(url.pathname === "/" || url.pathname.startsWith("/blog/") || /^\/(en\/|ja\/)?about\/?$/.test(url.pathname))) return;
     if (node.target.toLowerCase() === "_blank") node.removeAttribute("target");
     const target = languageUrl(articles, url.href, language);
     if (target !== url.pathname + url.search + url.hash) node.href = target;

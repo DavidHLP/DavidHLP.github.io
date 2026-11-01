@@ -3,6 +3,8 @@ import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 import site from "../content/site.json";
 
+import { profileSchema } from "./profile-schema";
+
 const text = z.string().trim().min(1);
 const blog = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./content/blog", generateId: ({ entry }) => entry.replace(/\.md$/, "") }),
@@ -24,6 +26,11 @@ const blog = defineCollection({
     draft: z.boolean().default(false),
     lang: z.enum(["zh-CN", "en", "ja"]).default("zh-CN"),
     translationKey: text.optional(),
+    profile: profileSchema.optional(),
   }),
 });
-export const collections = { blog };
+const about = defineCollection({
+  loader: glob(site.about),
+  schema: z.object({ title: text, lang: z.enum(["zh-CN", "en", "ja"]), profile: profileSchema }),
+});
+export const collections = { blog, about };
