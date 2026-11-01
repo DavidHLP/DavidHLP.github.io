@@ -1,4 +1,6 @@
 ---
+import Profile from "../components/Profile.astro";
+import { aboutPath } from "../about-path";
 import { render, type CollectionEntry } from "astro:content";
 import site from "../../content/site.json";
 import { getPosts, postPath } from "../lib/blog";
@@ -49,12 +51,13 @@ const t = (value: string) => translateUiText(value, language);
   <body data-post={post?.id} data-content-language={language} data-site-title={site.title} data-site-description={site.description} data-site-author={site.author} data-site-url={Astro.site}>
     <main id="viewport"><div id="stage"></div></main>
     <div id="blog-static" class="blog-static">
-      <header><a href="/" translate="no">{site.title}</a> <a id="blog-interactive-link" hidden>{t("返回交互界面 ↗")}</a> <a href={language === "zh-CN" ? "/rss.xml" : `/${language}/rss.xml`}>RSS ↗</a><select data-ui-language aria-label={t("界面语言")}><option value="zh-CN" selected={language === "zh-CN"}>中文</option><option value="en" selected={language === "en"}>English</option><option value="ja" selected={language === "ja"}>日本語</option></select></header>
+      <header><a href={aboutPath(language)}>{t("关于")}</a> <a href="/" translate="no">{site.title}</a> <a id="blog-interactive-link" hidden>{t("返回交互界面 ↗")}</a> <a href={language === "zh-CN" ? "/rss.xml" : `/${language}/rss.xml`}>RSS ↗</a><select data-ui-language aria-label={t("界面语言")}><option value="zh-CN" selected={language === "zh-CN"}>中文</option><option value="en" selected={language === "en"}>English</option><option value="ja" selected={language === "ja"}>日本語</option></select></header>
       {post ? <article>
         <div class="detail-kicker" translate="no">{t(`FILE ${post.data.archiveId}`)} / {localize(post.data.category)}</div>
         <h1 translate="no">{post.data.title}</h1>
         <p translate="no">{localize(post.data.en)}</p>
         <p>{t("发布")} <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toISOString().slice(0, 10)}</time>{post.data.updatedDate && <> / {t("更新")} <time datetime={post.data.updatedDate.toISOString()}>{post.data.updatedDate.toISOString().slice(0, 10)}</time></>} / <span translate="no">{post.data.lead}</span></p>
+        {post.data.profile && <Profile profile={post.data.profile} />}
         <div class="blog-body" lang={post.data.lang} translate="no">{rendered.map(({ Content }) => <Content />)}</div>
         <h2>{t("研究记录")}</h2><ol translate="no">{post.data.findings.map(finding => <li>{finding}</li>)}</ol>
         <p><a href={post.data.source} rel="noopener">{t("设定参考 ↗")}</a></p>
@@ -67,7 +70,7 @@ const t = (value: string) => translateUiText(value, language);
         </ul></section>)}
       </section>}
     </div>
-    {rendered.map(({ entry, Content }) => <template data-blog-body={entry.id}><Content /></template>)}
+    {rendered.map(({ entry, Content }) => <template data-blog-body={entry.id}>{entry.data.profile && <Profile profile={entry.data.profile} />}<Content /></template>)}
     <script id="blog-data" type="application/json" is:inline set:html={payload}></script>
     <script>
       import { initUiLanguage, restoreContentLanguage } from "../ui-language";
@@ -86,7 +89,7 @@ const t = (value: string) => translateUiText(value, language);
         staticRoot.querySelectorAll<HTMLAnchorElement>("a[href]").forEach(link => {
           if (link === interactiveLink) return;
           const url = new URL(link.href);
-          if (url.origin === location.origin && (url.pathname === "/" || url.pathname.startsWith("/blog/"))) {
+          if (url.origin === location.origin && (url.pathname === "/" || url.pathname.startsWith("/blog/") || /^\/(en\/|ja\/)?about\/?$/.test(url.pathname))) {
             url.searchParams.set("view", "static");
             link.href = url.href;
           }
