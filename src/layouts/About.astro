@@ -44,8 +44,8 @@ const resume = publicFile(profile.resume);
       try { document.documentElement.dataset.darkSurface = String(JSON.parse(localStorage.getItem("rhine-settings") || "{}").colorTheme === "dark"); } catch {}
     </script>
   </head>
-  <body class="about-page" id="top">
-    <a class="about-skip" href="#resume">{copy.skip}</a>
+  <body class="about-page" id="rhine:about:top">
+    <a class="about-skip" href="#rhine:about:content">{copy.skip}</a>
     <header class="about-nav">
       <a class="about-home" href={`/?lang=${language}`}><span aria-hidden="true">↖</span> {copy.home}</a>
       <nav aria-label={translateUiText("界面语言", language)}>
@@ -68,12 +68,12 @@ const resume = publicFile(profile.resume);
           <ol>{sections.map(heading => <li><a href={`#${heading.slug}`}>{heading.text.replace(/\[ SEC \d+ \]\s*/, "")}</a></li>)}</ol>
         </nav>}
       </aside>
-      <article class="resume-body" id="resume" tabindex="-1">
+      <article class="resume-body" id="rhine:about:content" tabindex="-1">
         <div class="about-document-label" aria-hidden="true"><span>{copy.note}</span><span>RHINE LAB / ARCHIVE</span></div>
         <Content />
       </article>
     </main>
-    <footer class="about-footer"><span>{site.title}</span><a href="#top">{copy.top} ↑</a></footer>
+    <footer class="about-footer"><span>{site.title}</span><a href="#rhine:about:top">{copy.top} ↑</a></footer>
     <script>
       const root = document.documentElement;
       const theme = document.querySelector<HTMLButtonElement>("#about-theme")!;
@@ -93,7 +93,10 @@ const resume = publicFile(profile.resume);
       print.addEventListener("click", () => window.print());
       try { localStorage.setItem("rhine-language", root.lang); } catch {}
       const home = document.querySelector<HTMLAnchorElement>(".about-home")!;
-      if (new URLSearchParams(location.search).get("view") === "static") home.href += "&view=static";
+      if (new URLSearchParams(location.search).get("view") === "static") {
+        home.href += "&view=static";
+        document.querySelectorAll<HTMLAnchorElement>(".about-nav [hreflang]").forEach(link => { link.href += "?view=static"; });
+      }
     </script>
   </body>
 </html>
