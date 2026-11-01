@@ -25,154 +25,121 @@
     "path": "src/content/information/ja/introduction.md",
     "revision": "f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
     "metadata": {}
+  },
+  "profile": {
+    "role": "Java バックエンド開発エンジニア",
+    "summary": "Java バックエンド開発を中心に、UltiCode と ResiCache で信頼性の高いタスク配信、キャッシュ保護、障害調査に取り組んでいます。",
+    "location": "重慶 / 23 歳",
+    "contacts": [
+      {
+        "label": "メール · lysf15520112973@163.com",
+        "href": "mailto:lysf15520112973@163.com"
+      },
+      {
+        "label": "GitHub · DavidHLP",
+        "href": "https://github.com/DavidHLP"
+      },
+      {
+        "label": "電話 · 15520112973",
+        "href": "tel:15520112973"
+      },
+      {
+        "label": "WeChat · B1372998589"
+      },
+      {
+        "label": "知識庫",
+        "href": "/blog/legacy/information/ja/kb-index/"
+      }
+    ]
   }
 }
 ---
 
-<div class="not-prose flex flex-col md:flex-row justify-between items-start border-b border-weak/20 pb-6 mb-8 gap-4 select-text">
-  <div>
-    <h1 class="text-3xl font-serif font-light mb-1">賀恋棚（David）</h1>
-    <p class="text-xs font-mono text-weak uppercase tracking-wider">// Java バックエンド開発エンジニア</p>
-  </div>
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-xs font-mono text-secondary">
-    <div>都市：重慶 / 23 歳</div>
-    <div>WeChat：B1372998589</div>
-    <div>メール： <a href="mailto:lysf15520112973@163.com" class="hover:underline">lysf15520112973@163.com</a></div>
-    <div>電話：15520112973</div>
-    <div>GitHub: <a href="https://github.com/DavidHLP" target="_blank" class="hover:underline">github.com/DavidHLP</a></div>
-    <div>知識庫： <a href="/blog/legacy/information/ja/kb-index/" target="_blank" class="hover:underline">davidhlp.github.io/kb</a></div>
-  </div>
-</div>
+## <span class="resume-section-number">[ SEC 01 ]</span> 実習経験
 
-## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 01 ]</span> 実習経験
+### 博彦科技（Beyondsoft）
 
-<div class="relative pl-6 border-l border-weak/10 my-4 flex flex-col gap-6">
-  <div class="relative select-text">
-    <span class="absolute -left-[29px] top-2 w-2.5 h-2.5 rounded-full bg-background border-2 border-primary"></span>
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-      <div class="font-serif font-medium text-lg text-primary">博彦科技（Beyondsoft）</div>
-      <div class="text-xs font-mono text-weak">// 2026.01 - 2026.06</div>
-    </div>
-    <div class="text-xs font-mono text-remark mb-3 uppercase tracking-wider">バックエンド開発実習｜Alibaba Cloud 専有クラウド・Aegis ホスト安全</div>
-    <ul class="list-disc pl-4 text-sm text-secondary space-y-2">
-      <li><strong>業務背景</strong>：Aegis ホスト安全製品のサーバー開発に参加し、cluster 資源取り込み、AI 資産識別、検索最適化、実環境の障害診断を担当。</li>
-      <li><strong>GPU 資源取り込み</strong>：platform、ECS、BMS、BMCP 等と連携し、cluster 側 GPU 情報の取り込み・集約を独力で実装。統計、条件 filter、関連検索を支援。</li>
-      <li><strong>AI 資産識別</strong>：機能開発に参加し OpenClaw/Ollama テスト container を独力構築。container 状態、GPU 関係、脆弱性データから資産状態判断、GPU 関連、risk 表示を実装。</li>
-      <li><strong>複雑な検索の最適化</strong>：SQL 実行計画を分析し、index、条件、cover 対象を調整して資源一覧・統計 API の時間を短縮。</li>
-      <li><strong>実環境の問題特定</strong>：Arthas <code>watch</code> / <code>trace</code> / <code>stack</code> で経路、時間、例外 stack、重要引数を調べ、欠陥特定・修正・回帰検証を独力で実施。</li>
-      <li><strong>container image 障害診断</strong>：containerd による Harbor 私有 image 取得時の TLS・trust chain を特定。CA、<code>certs.d</code>、<code>hosts.toml</code>、<code>imagePullSecrets</code> と node cache を調べ、診断 script と checklist に整理。</li>
-    </ul>
-  </div>
-</div>
+<p class="resume-meta">2026.01 - 2026.06</p>
 
-## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 02 ]</span> プロジェクト経験
+<p class="resume-meta">バックエンド開発インターン｜Alibaba Cloud 専有クラウド・Aegis ホストセキュリティ</p>
 
-<div class="relative pl-6 border-l border-weak/10 my-4 flex flex-col gap-8">
-  <div class="relative select-text">
-    <span class="absolute -left-[29px] top-2 w-2.5 h-2.5 rounded-full bg-background border-2 border-primary"></span>
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-      <div class="font-serif font-medium text-lg text-primary flex items-center gap-2">
-        <span>オンラインプログラミング評価システム UltiCode</span>
-        <a href="https://github.com/DavidHLP/UltiCode" target="_blank" class="text-xs font-mono text-weak hover:text-primary">[GITHUB]</a>
-      </div>
-      <div class="text-xs font-mono text-weak">// 2025.10 - 現在</div>
-    </div>
-    <div class="text-xs font-mono text-remark mb-3 uppercase">技術：Java 17 / Spring Boot 3 / Spring Security / MyBatis-Plus / MySQL / Redis Streams / Dubbo / Flyway / Docker</div>
-    <p class="text-sm text-secondary leading-relaxed mb-3">練習、競技、提出、sandbox 判定、管理を含む個人 OSS。Submission が提出データを所有し、独立 Judge Worker が実行。配送失敗、重複実行、再判定結果の競合を重点的に扱う。</p>
-    <ul class="list-disc pl-4 text-sm text-secondary space-y-2">
-      <li><strong>transactional Outbox 配送</strong>：提出と判定 Outbox を一つの local transaction に保存し、背景で Redis Streams に配送して状態更新、失敗時は backoff。Lua で重複印と enqueue を統合し、印だけ保存された障害窓を扱う。</li>
-      <li><strong>task 回収と dead-letter</strong>： <code>XPENDING</code> / <code>XCLAIM</code> で timeout 未確認 task を回収し、容量・再試行回数で再配送を制御。予算切れは dead-letter にし、無効 task の資源占有を防ぐ。</li>
-      <li><strong>再判定結果の競合制御</strong>： <code>generation</code> + <code>attemptId</code> で有効実行を識別し lease と heartbeat 更新を併用。二条件 SQL CAS により期限切れ実行が新しい判定を上書きするのを拒む。</li>
-      <li><strong>不信コードの実行制約</strong>：Docker のネットワーク無効化、non-root、read-only root、Capabilities 削減、Seccomp と CPU・memory・PID・file handle 制限で権限・資源を拘束。</li>
-      <li><strong>refresh token 再利用防止</strong>：SHA-256 hash のみ DB 保存。用途・所有・期限を検査し、条件更新で旧 token を一回だけ消費して同 transaction で新 token を発行し、並行 refresh を扱う。</li>
-    </ul>
-  </div>
-  <div class="relative select-text">
-    <span class="absolute -left-[29px] top-2 w-2.5 h-2.5 rounded-full bg-background border-2 border-primary"></span>
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-      <div class="font-serif font-medium text-lg text-primary flex items-center gap-2">
-        <span>ResiCache キャッシュ保護 middleware</span>
-        <a href="https://github.com/DavidHLP/ResiCache" target="_blank" class="text-xs font-mono text-weak hover:text-primary">[GITHUB]</a>
-      </div>
-      <div class="text-xs font-mono text-weak">// 2025.01 - 現在</div>
-    </div>
-    <div class="text-xs font-mono text-remark mb-3 uppercase">技術（現開発系列）：Java 21 / Spring Boot 4 / Spring Cache / Redis / Redisson / Micrometer / Testcontainers</div>
-    <p class="text-sm text-secondary leading-relaxed mb-3">拡張 annotation と責任 chain を組み合わせた個人 Spring Cache OSS。同 key 要求統合、分散ロード、version 付き早期期限切れ、安全な復元を重点実装。</p>
-    <ul class="list-disc pl-4 text-sm text-secondary space-y-2">
-      <li><strong>同 key 要求の統合</strong>： <code>ConcurrentHashMap</code> + <code>CompletableFuture</code> による JVM Single-flight。Leader が分散 lock とロードを担当し Follower が共有。lock 内二重確認で重複取得・競合を減らす。</li>
-      <li><strong>階層 Bloom filter</strong>：local と Redis を組み合わせ、local hit は遠隔検査を省き、miss は遠隔確認後に補充。local miss だけで有効ロードを拒まない。</li>
-      <li><strong>version 付き早期期限切れ</strong>：Redis Lua で値 version を原子的に照合して TTL 短縮。古い task が新値の寿命を変更しない。期限後の要求がロードし、更新・削除との競合を扱う。</li>
-      <li><strong>deserialization の境界保護</strong>：Jackson streaming で型 whitelist を検査してから version envelope を解析。悪性 type marker・metadata 往復を回帰検査し、検査時に全 JSON tree は作らない。</li>
-      <li><strong>非同期 task 重複排除</strong>：key ごとの in-flight Future と有界 queue、 <code>CallerRunsPolicy</code> で滞留を制御。完了と Future 登録の交錯による cleanup 競合を処理。</li>
-      <li><strong>失敗の意味と検証</strong>：業務ロード例外と cache 書込失敗を分け、ロード済みなら書込失敗でも値を返す。並行・実 Redis 統合 test で共有、例外伝播、新値 TTL 保護、削除後の非復活を確認。</li>
-    </ul>
-  </div>
-</div>
+- **業務背景**：Aegis ホストセキュリティ製品のサーバー開発に参加し、クラスターリソースの取り込み、AI 資産識別、検索最適化、本番環境の障害診断を担当。
+- **GPU 資源取り込み**：プラットフォーム、ECS、BMS、BMCP などのチームと連携し、クラスター側 GPU 情報の取り込み・集約を独力で実装。統計、条件による絞り込み、関連検索を支援。
+- **AI 資産識別**：機能開発に参加し、OpenClaw・Ollama のテスト用コンテナー環境を独力で構築。コンテナーの状態、GPU の関連情報、脆弱性データから、資産状態の判定、GPU との関連付け、リスク表示を実装。
+- **複雑な検索の最適化**：SQL 実行計画を分析し、インデックス、検索条件、カバーするフィールドを調整して、リソース一覧・統計 API のクエリ時間を短縮。
+- **本番環境の問題特定**：Arthas `watch` / `trace` / `stack` で呼び出し経路、処理時間、例外スタック、重要な引数を調べ、不具合の特定・修正・回帰検証を独力で実施。
+- **コンテナーイメージの障害診断**：containerd による Harbor プライベートイメージ取得時の TLS 証明書検証・信頼チェーンの問題を特定。CA、`certs.d`、`hosts.toml`、`imagePullSecrets` とノードのキャッシュを調べ、診断スクリプトとチェックリストに整理。
 
-## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 03 ]</span> 専門スキル
+## <span class="resume-section-number">[ SEC 02 ]</span> プロジェクト経験
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-4 select-text">
-  <div class="border border-weak/10 p-5 bg-background/50 relative">
-    <span class="absolute -top-1 -left-1 text-[8px] font-mono text-weak/50">+</span>
-    <span class="absolute -top-1 -right-1 text-[8px] font-mono text-weak/50">+</span>
-    <span class="absolute -bottom-1 -left-1 text-[8px] font-mono text-weak/50">+</span>
-    <span class="absolute -bottom-1 -right-1 text-[8px] font-mono text-weak/50">+</span>
-    <h3 class="text-xs font-mono text-primary uppercase mb-2">// Java バックエンドとデータ処理</h3>
-    <ul class="list-disc pl-4 text-xs text-secondary space-y-1.5">
-      <li>Java、Spring Boot、Spring MVC、Spring Security、MyBatis-Plus に習熟し、API 設計、認証・認可、例外処理の実践を持つ。</li>
-      <li>MySQL index 設計、実行計画、slow SQL 最適化に習熟。Redis 保護、分散 lock、並行ロードの経験。</li>
-      <li>Dubbo、Redis Streams、Outbox の実装経験があり、transaction 境界、重複消費、再試行、結果整合性を理解。</li>
-    </ul>
-  </div>
-  <div class="border border-weak/10 p-5 bg-background/50 relative">
-    <span class="absolute -top-1 -left-1 text-[8px] font-mono text-weak/50">+</span>
-    <span class="absolute -top-1 -right-1 text-[8px] font-mono text-weak/50">+</span>
-    <span class="absolute -bottom-1 -left-1 text-[8px] font-mono text-weak/50">+</span>
-    <span class="absolute -bottom-1 -right-1 text-[8px] font-mono text-weak/50">+</span>
-    <h3 class="text-xs font-mono text-primary uppercase mb-2">// 障害診断と工学検証</h3>
-    <ul class="list-disc pl-4 text-xs text-secondary space-y-1.5">
-      <li>Arthas、Linux process、container log、SQL plan を組み合わせ特定・修正・回帰検証できる。</li>
-      <li>Docker image、network、資源制限、基本隔離に習熟。containerd、Harbor、私有 image TLS の診断経験。</li>
-      <li>Git、Maven、Docker Compose、Flyway、Micrometer に習熟。Testcontainers・並行 test で障害と競合を確認。</li>
-    </ul>
-  </div>
-</div>
+### オンラインプログラミング評価システム UltiCode [GitHub](https://github.com/DavidHLP/UltiCode)
 
-## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 04 ]</span> 学歴・受賞
+<p class="resume-meta">2025.10 - 現在</p>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-4 select-text">
-  <div class="flex flex-col gap-2">
-    <h3 class="text-xs font-mono text-weak uppercase tracking-wider">// 学歴</h3>
-    <div class="border-l border-weak/20 pl-4 py-1">
-      <div class="font-serif font-medium text-base text-primary">洛陽師範学院</div>
-      <div class="text-xs text-secondary">データ科学とビッグデータ技術・学士課程</div>
-      <div class="text-xs font-mono text-remark mt-1">GPA: 3.6 / 4.0 (2021.09 - 2026.07)</div>
-    </div>
-  </div>
-  <div class="flex flex-col gap-2">
-    <h3 class="text-xs font-mono text-weak uppercase tracking-wider">// 受賞</h3>
-    <div class="border-l border-weak/20 pl-4 py-1 text-xs text-secondary space-y-1.5">
-      <div>🏆 2025 藍橋杯 Java ソフトウェア設計 B 組・ <strong>全国三等賞</strong></div>
-      <div>🏆 2024 テディ杯データ分析技能競技・ <strong>全国三等賞</strong></div>
-      <div>🏆 2023 全国大学コンピューター能力挑戦・ <strong>全国三等賞</strong></div>
-    </div>
-  </div>
-</div>
+<p class="resume-stack">技術：Java 17 / Spring Boot 3 / Spring Security / MyBatis-Plus / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
 
-## <span class="font-mono text-xs text-weak uppercase tracking-widest mr-2">[ SEC 05 ]</span> OSS 貢献と技術記録
+練習、コンテスト、コード提出、サンドボックスでの判定、管理機能を備えた個人開発の OSS。Submission サービスが提出データを保持し、独立した Judge Worker が判定を実行。タスク配信の失敗、重複実行、再判定結果の競合を重点的に扱う。
 
-<div class="border-t border-weak/10 pt-6 mt-8 flex flex-col gap-6 select-text">
-  <div>
-    <h3 class="text-xs font-mono text-weak uppercase tracking-wider mb-2">// OSS 貢献</h3>
-    <p class="text-sm text-secondary leading-relaxed">
-      <strong>codebase-memory-mcp</strong>：<a href="https://github.com/DeusData/codebase-memory-mcp/pull/1229" target="_blank" rel="noopener noreferrer" class="hover:underline">PR #1229</a> <strong>マージ済み</strong>。Oh My Pi（OMP）接続を追加し、設定ディレクトリ検出、MCP 登録、Skill 配置、install/uninstall、設定隔離・利用者内容保持の test に対応。
-    </p>
-  </div>
-  <div>
-    <h3 class="text-xs font-mono text-weak uppercase tracking-wider mb-2">// 代表的な技術知識頁</h3>
-    <ul class="list-disc pl-4 text-sm text-secondary space-y-2">
-      <li><a href="/blog/legacy/note/ja/java-online-performance-debug/" class="hover:underline">Java 性能障害：現象から証拠への最小判断木</a>：process、thread stack、GC、Arthas をつなぎ、止血・保存・特定・復旧を整理。</li>
-      <li><a href="/blog/legacy/note/ja/containerd-tls-troubleshooting/" class="hover:underline">containerd TLS：証明書信頼と一時検証省略の判断</a>：runtime CA、node trust、Registry 認証、image cache を分け、階層的診断を整理。</li>
-    </ul>
-  </div>
-</div>
+- **トランザクショナル Outbox による配信**：提出記録と判定 Outbox を同一のローカルトランザクションに保存。バックグラウンドで Redis Streams に配信して送信状態を更新し、失敗時はバックオフして再試行する。Lua で重複排除マーカーの記録とキューへの追加をまとめ、マーカーだけが保存される障害区間に対応。
+- **タスクの回収とデッドレター**：`XPENDING` / `XCLAIM` でタイムアウトした未確認タスクを回収し、処理容量と再試行回数で再配信を制御。再試行の上限に達したタスクはデッドレターへ移し、無効なタスクが判定リソースを繰り返し占有するのを防ぐ。
+- **再判定結果の競合制御**： `generation` + `attemptId` で有効な実行を識別し、リースとハートビートによる延長を併用。結果の書き戻しでは両条件を検査する SQL CAS により、期限切れの実行が新しい判定結果を上書きするのを防ぐ。
+- **信頼できないコードの実行制約**：Docker のネットワーク無効化、非 root 実行、読み取り専用のルートファイルシステム、Capabilities の削減、Seccomp を設定。CPU・メモリー・PID・ファイルハンドルの上限と組み合わせ、コードの権限とリソース使用量を制限。
+- **リフレッシュトークンの再利用防止**：SHA-256 ハッシュのみを DB に保存。用途・所有者・有効期限を検査し、条件付き更新で旧トークンの消費を一度に制限。同一トランザクション内で新トークンを発行し、同時更新の競合に対応。
+
+### ResiCache キャッシュ保護ミドルウェア [GitHub](https://github.com/DavidHLP/ResiCache)
+
+<p class="resume-meta">2025.01 - 現在</p>
+
+<p class="resume-stack">技術（現開発系列）：Java 21 / Spring Boot 4 / Spring Cache / Redis / Redisson / Micrometer / Testcontainers</p>
+
+拡張アノテーションと責任の連鎖を組み合わせた、個人開発の Spring Cache 保護拡張。同一キーのリクエスト集約、分散環境でのロード調整、バージョン付き早期失効、安全なデシリアライズを重点的に実装。
+
+- **同一キーのリクエスト集約**：`ConcurrentHashMap` + `CompletableFuture` により JVM 内の Single-flight を実装。Leader が分散ロックの取得とロードを担当し、Follower は結果を共有。ロック内でキャッシュを再確認し、重複取得とロック競合を減らす。
+- **階層型 Bloom フィルター**：ローカルと Redis のフィルターを組み合わせ、ローカルでヒットした場合はリモート検査を省略。ミスした場合はリモートを確認して結果を反映し、ローカルのミスだけを理由に有効な業務ロードを拒否しない。
+- **バージョン付き早期失効**：Redis Lua でキャッシュ値のバージョンを原子的に照合して TTL を短縮し、古い非同期タスクが新しい値の有効期限を変更するのを防ぐ。失効後のリクエストがロードを開始し、更新・削除との競合に対応。
+- **デシリアライズの境界保護**：Jackson のストリーミング走査で型の許可リストを検査した後、バージョン付きキャッシュ形式を解析。悪意のある型マーカーとキャッシュメタデータの往復を回帰テストで確認し、検査段階では JSON ツリー全体を構築しない。
+- **非同期タスクの重複排除**：キーごとに in-flight Future を管理して重複スケジューリングを防止。有界スレッドプールキューと `CallerRunsPolicy` で滞留を制御し、タスク完了と Future 登録の交錯による後処理の競合に対応。
+- **失敗時の挙動と検証**：業務ロードの例外とキャッシュ書き戻しの失敗を区別し、ロード済みなら書き戻しに失敗しても業務値を返す。並行テストと実 Redis の統合テストで、結果共有、例外伝播、新しい値の TTL 保護、削除後に値が復活しないことを確認。
+
+## <span class="resume-section-number">[ SEC 03 ]</span> 専門スキル
+
+### Java バックエンドとデータ処理
+
+- Java、Spring Boot、Spring MVC、Spring Security、MyBatis-Plus に習熟し、API 設計、認証・認可、例外処理の実践を持つ。
+- MySQL のインデックス設計、実行計画分析、スロークエリの最適化に習熟。Redis のキャッシュ保護、分散ロック、並行ロードの実践経験。
+- Dubbo、Redis Streams、Outbox の実装経験があり、トランザクション境界、重複消費、再試行、結果整合性を理解。
+
+### 障害診断とエンジニアリング検証
+
+- Arthas、Linux のプロセス情報、コンテナーログ、SQL 実行計画を組み合わせ、問題の特定・修正・回帰検証ができる。
+- Docker イメージ、ネットワーク、リソース制限、基本的な隔離機構に習熟。containerd、Harbor、プライベートイメージの TLS 障害診断経験。
+- Git、Maven、Docker Compose、Flyway、Micrometer に習熟。Testcontainers と並行テストで障害と競合を検証。
+
+## <span class="resume-section-number">[ SEC 04 ]</span> 学歴・受賞
+
+### 学歴
+
+**洛陽師範学院**
+
+データ科学とビッグデータ技術・学士課程
+
+<p class="resume-meta">GPA: 3.6 / 4.0 (2021.09 - 2026.07)</p>
+
+### 受賞
+
+- 2025 藍橋杯 Java ソフトウェア設計 B 組・ **全国三等賞**
+
+- 2024 テディ杯データ分析技能競技・ **全国三等賞**
+
+- 2023 全国大学コンピューター能力挑戦・ **全国三等賞**
+
+## <span class="resume-section-number">[ SEC 05 ]</span> OSS 貢献と技術記録
+
+### OSS 貢献
+
+**codebase-memory-mcp**：[PR #1229](https://github.com/DeusData/codebase-memory-mcp/pull/1229) **マージ済み**。Oh My Pi（OMP）接続を追加し、設定ディレクトリ検出、MCP 登録、Skill の配置、インストール・アンインストールに対応し、設定の隔離と利用者コンテンツ保持のテストを追加。
+
+### 代表的な技術知識頁
+
+- [Java 性能障害：現象から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)：プロセス、スレッドスタック、GC、Arthas の観測をつなぎ、影響の抑制・証拠保全・問題特定・復旧の手順を整理。
+- [containerd TLS：証明書信頼と一時検証省略の判断](/blog/legacy/note/ja/containerd-tls-troubleshooting/)：ランタイムの CA、ノードの信頼設定、Registry 認証、イメージキャッシュを区別し、段階的な診断手順を整理。

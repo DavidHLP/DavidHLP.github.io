@@ -1,0 +1,14 @@
+---
+import type { z } from "astro/zod";
+import type { profileSchema } from "../profile-schema";
+interface Props { profile: z.infer<typeof profileSchema> }
+const { profile } = Astro.props;
+---
+<div class="profile-details" translate="no">
+  {profile.role && <p class="profile-role">{profile.role}</p>}
+  {profile.summary && <p class="profile-summary">{profile.summary}</p>}
+  {profile.location && <p class="profile-location">{profile.location}</p>}
+  {profile.contacts.length > 0 && <ul class="profile-contacts">{profile.contacts.map(contact =>
+    <li>{contact.href ? <a href={contact.href}>{contact.label}<span aria-hidden="true"> ↗</span></a> : contact.label}</li>
+  )}</ul>}
+</div>
