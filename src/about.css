@@ -84,27 +84,22 @@ button { font: inherit; color: inherit; background: transparent; cursor: pointer
   .resume-body h3 { font-size: 19px; }
 }
 @media print {
-  @page { size: A4; margin: 15mm; }
-  :root, :root[data-dark-surface="true"] { color-scheme: light; --paper: #fff; --ink: #111; --muted: #444; --line: #bbb; --accent: #111; }
+  @page { size: 1440px 900px; margin: 48px 120px; }
+  :root, :root[data-dark-surface="true"] { color-scheme: light; --paper: #eae5e1; --ink: #20231f; --muted: #60635b; --line: #bdbbb1; --accent: #77532f; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   .about-nav, .about-actions, .about-contents, .about-footer, .about-skip, .about-document-label { display: none !important; }
-  .about-sheet { display: block; width: 100%; padding: 0; }
-  .about-page { font-size: 10pt; line-height: 1.55; }
-  .about-identity { margin-bottom: 7mm; padding-bottom: 4mm; border-bottom: 1px solid var(--line); }
-  .about-identity h1 { font-size: 25pt; margin-bottom: 3mm; }
-  .profile-role { font-size: 12pt; margin-bottom: 2mm; }
-  .profile-summary, .profile-location { margin-block: 2mm; font-size: 10pt; }
-  .profile-contacts { display: flex; flex-wrap: wrap; gap: 1mm 5mm; border: 0; padding: 0; margin: 3mm 0 0; font-size: 9pt; }
-  .profile-contacts li { margin: 0; }
-  .about-avatar { float: right; width: 22mm; height: 22mm; }
-  .resume-body { line-height: 1.65; }
-  .resume-body h2 { font-size: 14pt; padding-top: 4mm; margin: 7mm 0 3mm; }
-  .resume-body h3 { font-size: 11pt; margin: 4mm 0 2mm; }
-  .resume-body h2, .resume-body h3, .resume-body h4, .resume-meta, .resume-stack { break-after: avoid; }
-  .resume-body p { margin: 2mm 0; orphans: 3; widows: 3; }
-  .resume-body ul, .resume-body ol { margin: 2mm 0 4mm; }
-  .resume-body li { margin: 1.5mm 0; break-inside: avoid; }
-  .resume-body :is(.resume-meta, .resume-stack) { font-size: 9pt; margin: 2mm 0; }
-  a { text-decoration: none; }
+  .about-sheet { display: grid; grid-template-columns: minmax(0, 280px) minmax(0, 1fr); gap: 80px; width: 1200px; margin: 0; padding: 0; }
+  .about-page { font-size: 16px; line-height: 1.8; }
+  .about-identity { margin: 0; }
+  .about-identity h1 { font-size: 46px; }
+  .profile-contacts { display: block; }
+  .profile-contacts li { margin-block: 10px; }
+  .resume-body h2 { font-size: 24px; }
+  .resume-body h3 { font-size: 20px; }
+  .resume-body :is(h2, h3, h4, .resume-meta, .resume-stack) { break-after: avoid; }
+  .resume-body :is(p, li, blockquote, tr), .profile-contacts li { break-inside: avoid; orphans: 3; widows: 3; }
+  .resume-body pre { white-space: pre-wrap; overflow: visible; overflow-wrap: anywhere; }
+  .resume-body table { width: 100%; table-layout: fixed; }
+  .resume-body thead { display: table-header-group; }
 }
 
 .resume-body .resume-section-number { display: none; }
