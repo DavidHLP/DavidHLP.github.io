@@ -138,10 +138,10 @@ export class ArticleOutline {
       if (!this.root || !this.outline) return;
       const bounds = this.root.getBoundingClientRect();
       const scale = this.root.offsetHeight ? bounds.height / this.root.offsetHeight : 1;
-      const available = `${Math.max(44, (bounds.bottom - this.outline.getBoundingClientRect().bottom) / (scale || 1) - 8)}px`;
+      const outlineBounds = this.outline.getBoundingClientRect();
+      const available = `${Math.max(44, (bounds.bottom - outlineBounds.bottom) / (scale || 1) - 8)}px`;
       if (this.article.style.getPropertyValue("--article-outline-max-height") !== available) this.article.style.setProperty("--article-outline-max-height", available);
-      const offset = parseFloat(this.article.style.getPropertyValue("--article-heading-offset")) || 0;
-      const top = bounds.top + offset * scale;
+      const top = Math.max(bounds.top, outlineBounds.bottom) + 8 * (scale || 1);
       let current = 0;
       let lastVisible = 0;
       this.headings.forEach((heading, index) => {
