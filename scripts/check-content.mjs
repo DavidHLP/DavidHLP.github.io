@@ -354,15 +354,25 @@ test("chapter restoration decodes safely and targets only the visible article co
   const previousComputedStyle = globalThis.getComputedStyle;
   globalThis.getComputedStyle = () => ({ scrollMarginTop: "40px" });
   try {
+  let focused;
+  const target = { id: "章节 [一]", getBoundingClientRect: () => ({ top: 340 - container.scrollTop * 2 }),
+    hasAttribute: () => false, focus: options => { focused = options; },
+    scrollIntoView() { assert.fail("Scrolling hidden ancestors moves the 3D scene"); } };
   const container = { scrollTop: 0, offsetHeight: 100, closest: () => null,
     getBoundingClientRect: () => ({ top: 100, height: 200 }),
-    querySelectorAll() { return [{ id: "章节 [一]", getBoundingClientRect: () => ({ top: 340 }),
-      scrollIntoView() { assert.fail("Scrolling hidden ancestors moves the 3D scene"); } }]; } };
+    querySelectorAll: () => [target] };
   assert.equal(restoreArticleHash(container, `#${encodeURIComponent("章节 [一]")}`), true);
   assert.equal(container.scrollTop, 80, "Scale and sticky margin are applied within the selected scroll container");
+  assert.equal(focused, undefined, "Initial/history restoration does not steal focus");
+  restoreArticleHash(container, `#${encodeURIComponent("章节 [一]")}`, true);
+  assert.deepEqual(focused, { preventScroll: true });
+  assert.equal(target.tabIndex, -1);
+  assert.equal(container.scrollTop, 80);
+  focused = undefined;
   for (const hash of ["", "#missing", "#%E0%A4%A"])
     assert.equal(restoreArticleHash(container, hash), false);
   assert.equal(container.scrollTop, 80);
+  assert.equal(focused, undefined);
   } finally {
     if (previousComputedStyle === undefined) delete globalThis.getComputedStyle;
     else globalThis.getComputedStyle = previousComputedStyle;

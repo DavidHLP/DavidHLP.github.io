@@ -923,8 +923,13 @@ document.addEventListener("click", (e) => {
   const url = ready && started && articleNavigationUrl(records, (e.target as Element).closest<HTMLAnchorElement>("a[href]"), e, location.href);
   if (url) {
     e.preventDefault();
+    const target = new URL(url, location.href);
+    const sameArticle = target.pathname === location.pathname;
     if (location.pathname + location.search + location.hash !== url) history.pushState(null, "", url);
-    restoreBlogRoute();
+    if (sameArticle) {
+      restoreArticleHash($("#tab-panel"), target.hash, true);
+      pendingArticleHash = false;
+    } else restoreBlogRoute();
     return;
   }
   if ((e.target as Element).closest('[data-action="toggle-theme"]')) {
