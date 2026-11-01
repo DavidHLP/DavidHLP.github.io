@@ -6,6 +6,7 @@ export type UiLanguage = typeof uiLanguages[number];
 
 // Keys are the terminal's original labels; article content never enters this table.
 const labels: Record<string, readonly [string, string, string?]> = {
+  "Footnotes": ["Footnotes", "脚注", "脚注"],
   "全窗口阅读": ["Full-window reading", "全画面で読む"],
   "全窗口阅读 ↗": ["Read full window ↗", "全画面で読む ↗"],
   "退出全窗口阅读 · Esc": ["Exit full-window reading · Esc", "全画面表示を終了 · Esc"],
@@ -354,6 +355,8 @@ export function translateUiText(value: string, language: UiLanguage): string {
   if (prefixed) return value.replace(text, prefixed[1] + translateUiText(prefixed[2], language));
   const modelFile = /^FILE (X-\d+)( \/ INTERNAL DATABASE)?$/.exec(text);
   if (modelFile) return value.replace(text, language === "zh-CN" ? `档案 ${modelFile[1]}${modelFile[2] ? " / 内部数据库" : ""}` : language === "ja" ? `資料 ${modelFile[1]}${modelFile[2] ? " / 内部データベース" : ""}` : text);
+  const footnote = /^Back to reference (\d+(?:-\d+)?)$/.exec(text);
+  if (footnote) return value.replace(text, language === "zh-CN" ? `返回引用 ${footnote[1]}` : language === "ja" ? `参照 ${footnote[1]} に戻る` : text);
   if (language === "zh-CN") return value;
   if (text.startsWith("点击切换")) return value.replace(text, language === "en" ? `Click to change ${translateUiText(text.slice(4), language)}` : `${translateUiText(text.slice(4), language)}をクリックして切り替え`);
   const wallpaperQuality = "即时生效，仅限当前运行；长期设置请在 Wallpaper Engine 中调整。";
@@ -405,6 +408,10 @@ export function initUiLanguage() {
   const articles = JSON.parse(document.getElementById("blog-data")?.textContent ?? '{"records":[]}').records;
   function translateLink(node: Node) {
     if (!(node instanceof HTMLAnchorElement) || !node.hasAttribute("href") || node.hasAttribute("download")) return;
+    if (node.hasAttribute("data-footnote-backref")) {
+      const label = node.getAttribute("aria-label");
+      if (label) value(node, "aria-label", label, translated => node.setAttribute("aria-label", translated));
+    }
     const url = new URL(node.href, location.href);
     if (url.origin === location.origin && /^\/(en\/|ja\/)?rss\.xml$/.test(url.pathname)) {
       node.href = language === "zh-CN" ? "/rss.xml" : `/${language}/rss.xml`;
@@ -429,7 +436,11 @@ export function initUiLanguage() {
   function translate(node: Node) {
     translateLink(node);
     if (node.parentElement?.closest(excluded) || node instanceof Element && node.matches(excluded)) {
-      if (node instanceof Element) node.querySelectorAll("a[href]").forEach(translateLink);
+      if (node instanceof Element) {
+        node.querySelectorAll("a[href]").forEach(translateLink);
+        const labels = node.matches("[data-footnotes] > .sr-only") ? [node] : node.querySelectorAll("[data-footnotes] > .sr-only");
+        labels.forEach(label => value(label, "footnote-label", label.textContent ?? "", translated => { label.textContent = translated; }));
+      }
       return;
     }
     if (node.nodeType === Node.TEXT_NODE) {

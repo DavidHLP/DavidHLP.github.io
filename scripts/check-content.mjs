@@ -84,6 +84,11 @@ test("interface language selection validates stored values and preserves source 
   assert.equal(translateUiText("  系统设置 ", "en"), "  System settings ");
   assert.equal(translateUiText("系统设置", "ja"), "システム設定");
   assert.equal(translateUiText("系统设置", "zh-CN"), "系统设置");
+  assert.equal(translateUiText("Footnotes", "zh-CN"), "脚注");
+  assert.equal(translateUiText("Footnotes", "ja"), "脚注");
+  assert.equal(translateUiText("Back to reference 12-2", "zh-CN"), "返回引用 12-2");
+  assert.equal(translateUiText("Back to reference 12-2", "ja"), "参照 12-2 に戻る");
+  assert.equal(translateUiText("Back to reference 12-2", "en"), "Back to reference 12-2");
   assert.equal(translateUiText("127 RECORDS FOUND", "ja"), "127 件の資料");
   assert.equal(translateUiText("实际渲染 1280 × 720 · 原始抗锯齿 · 纹理 16×", "en"), "Rendered 1280 × 720 · Original antialiasing · Textures 16×");
   assert.equal(translateUiText("当前使用自定义动画（开场已跳过、文字滚动已关闭）。", "en"), "Custom animation (Startup skipped, Rolling text disabled).");
