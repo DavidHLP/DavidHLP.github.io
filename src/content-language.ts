@@ -1,3 +1,4 @@
+import { aboutPath } from "./about-path.ts";
 import { postPath } from "./blog-path.ts";
 import type { UiLanguage } from "./ui-language.ts";
 
@@ -26,6 +27,10 @@ export function contentLabel(text: string, language: UiLanguage, labels: Content
 
 export function languageUrl(articles: readonly Article[], href: string, language: UiLanguage) {
   const url = new URL(href, "https://local.invalid");
+  if (/^\/(en\/|ja\/)?about\/?$/.test(url.pathname)) {
+    url.pathname = aboutPath(language);
+    url.hash = "";
+  }
   const current = articles.find(article => article.slug && postPath(article.slug) === url.pathname);
   if (current) {
     const translated = articles.find(article => translationKey(article) === translationKey(current) && (article.lang ?? "zh-CN") === language);

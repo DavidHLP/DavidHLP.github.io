@@ -16,5 +16,9 @@
     "AI 工具",
     "项目实践",
     "站点随笔"
-  ]
+  ],
+  "about": {
+    "base": "./content/blog/legacy/information",
+    "pattern": "*/introduction.md"
+  }
 }
