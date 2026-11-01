@@ -48,7 +48,7 @@
 #article-reader .tab-panel { height: auto; max-height: none; overflow: visible; }
 #article-reader .blog-body { font-size: 17px; line-height: 1.9; overflow-wrap: anywhere; }
 #article-reader .blog-body table { display: block; max-width: 100%; overflow-x: auto; }
-#article-reader .blog-body [id] { scroll-margin-top: 84px; }
+#article-reader .blog-body [id] { scroll-margin-top: var(--article-heading-offset, 84px); }
 @media (max-width: 600px) {
   #article-reader .detail-title-cn { font-size: 21px; flex-wrap: wrap; }
   #article-reader .detail-content h2 { font-size: 30px; }
