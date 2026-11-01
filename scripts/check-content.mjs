@@ -17,10 +17,27 @@ import { escapeHtml } from "../src/html.ts";
 import { postPath } from "../src/blog-path.ts";
 import { archiveTickWindow, articleNavigationUrl, recentRecords, visibleSavedCount, persistSaved, syncArticleMetadata, restoreArticleHash } from "../src/blog-client.ts";
 import { StartupGate } from "../src/startup.ts";
-import { ArticleReader } from "../src/article-reader.ts";
+import { ArticleReader, articleScrollRoot } from "../src/article-reader.ts";
+import { collectArticleHeadings } from "../src/article-outline.ts";
 import { normalizeUiLanguage, translateUiText, translatedBootText } from "../src/ui-language.ts";
 import { contentLabel, localizedArticles, languageUrl, translationKey, validateTranslations, restoredArchiveNavigation } from "../src/content-language.ts";
 import { MOTION_LABELS } from "../src/motion-preferences.ts";
+
+test("article contents retains source anchors and gives missing or duplicate anchors collision-free stable IDs", () => {
+  const heading = (tagName, textContent, id = "", hidden = false) => ({ tagName, textContent, id, closest: () => hidden ? {} : null });
+  const headings = [heading("H2", "章节 [一]", "existing"), heading("H3", "Long 日本語 title ".repeat(20)), heading("H6", "Repeated heading", "existing"), heading("H2", "Footnotes", "footnote-label", true), heading("H4", "  ")];
+  const outside = { id: "rhine-heading-2" };
+  const body = { querySelectorAll: () => headings, ownerDocument: { querySelectorAll: () => [outside, ...headings.filter(h => h.id)] } };
+  assert.deepEqual(collectArticleHeadings(body), headings.slice(0, 3));
+  assert.deepEqual(headings.slice(0, 3).map(h => h.id), ["existing", "rhine-heading-3", "rhine-heading-4"]);
+  assert.equal(headings[1].textContent, "Long 日本語 title ".repeat(20));
+  collectArticleHeadings(body);
+  assert.deepEqual(headings.slice(0, 3).map(h => h.id), ["existing", "rhine-heading-3", "rhine-heading-4"]);
+  assert.equal(headings[3].id, "footnote-label");
+  assert.deepEqual(collectArticleHeadings({ ...body, querySelectorAll: () => [] }), []);
+  assert.equal(translateUiText("章节目录", "en"), "Article contents");
+  assert.equal(translateUiText("章节目录", "ja"), "記事の目次");
+});
 
 test("full-window reading moves one article, restores its place and handles native Escape", () => {
   const previousComputedStyle = globalThis.getComputedStyle;
@@ -32,7 +49,8 @@ test("full-window reading moves one article, restores its place and handles nati
   const sibling = {};
   const parent = { insertBefore(node, next) { assert.equal(node, article); assert.equal(next, sibling); node.parentElement = parent; } };
   const article = { parentElement: parent, nextSibling: sibling, scrollTop: 20, inert: true,
-    querySelector: () => panel, querySelectorAll: () => [] };
+    closest: () => article.parentElement === dialog && dialog.open ? dialog : null,
+    querySelector: selector => selector === "#tab-panel" ? panel : null, querySelectorAll: () => [] };
   const dialog = { open: false, scrollTop: 0,
     addEventListener: (type, fn) => { events[type] = fn; },
     append(node) { assert.equal(node, article); node.parentElement = dialog; },
@@ -43,11 +61,13 @@ test("full-window reading moves one article, restores its place and handles nati
   reader.open({ isConnected: true, focus: () => { focused = true; } });
   assert.equal(reader.isOpen, true);
   assert.equal(article.parentElement, dialog);
+  assert.equal(articleScrollRoot(article), dialog);
   assert.equal(article.inert, false);
   events.cancel({ preventDefault: () => { cancelled = true; } });
   assert.equal(cancelled, true);
   assert.equal(reader.isOpen, false);
   assert.equal(article.parentElement, parent);
+  assert.equal(articleScrollRoot(article), panel);
   assert.equal(article.scrollTop, 20);
   assert.equal(focused, true);
   const paragraph = { isConnected: true, getBoundingClientRect: () => ({ top: article.parentElement === dialog ? 100 : 500, bottom: 520 }) };
