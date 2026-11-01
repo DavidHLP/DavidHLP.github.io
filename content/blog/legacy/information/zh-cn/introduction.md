@@ -28,7 +28,7 @@
   },
   "profile": {
     "role": "Java 后端开发工程师",
-    "summary": "围绕 Java 后端、缓存与任务处理的可靠性开展项目实践，关注问题诊断与工程验证。",
+    "summary": "以 Java 后端开发为主，围绕 UltiCode、ResiCache 实践可靠任务投递、缓存防护与问题诊断。",
     "location": "重庆 / 23岁",
     "contacts": [
       {

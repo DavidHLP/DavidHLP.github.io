@@ -28,7 +28,7 @@
   },
   "profile": {
     "role": "Java Backend Engineer",
-    "summary": "Building Java backend projects with a focus on cache and task-processing reliability, diagnosis, and engineering validation.",
+    "summary": "Java backend developer building UltiCode and ResiCache, with a focus on reliable task delivery, cache protection, and troubleshooting.",
     "location": "Chongqing / Age: 23",
     "contacts": [
       {
