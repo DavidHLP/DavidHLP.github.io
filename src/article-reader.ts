@@ -1,3 +1,10 @@
+export function articleScrollRoot(article: HTMLElement) {
+  const dialog = article.closest<HTMLDialogElement>("dialog[open]");
+  if (dialog) return dialog;
+  const panel = article.querySelector<HTMLElement>("#tab-panel")!;
+  return getComputedStyle(panel).overflowY === "visible" ? article : panel;
+}
+
 export class ArticleReader {
   private readonly parent: HTMLElement;
   private readonly next: ChildNode | null;
@@ -53,8 +60,7 @@ export class ArticleReader {
   }
 
   private scrollRoot() {
-    const panel = this.article.querySelector<HTMLElement>("#tab-panel")!;
-    return getComputedStyle(panel).overflowY === "visible" ? this.article : panel;
+    return articleScrollRoot(this.article);
   }
 
   private readingAnchor(root: HTMLElement) {
@@ -72,6 +78,10 @@ export class ArticleReader {
   }
 
   private readingTop(root: HTMLElement) {
-    return root.getBoundingClientRect().top + (root === this.dialog ? (this.dialog.firstElementChild as HTMLElement)?.offsetHeight ?? 0 : 0);
+    const bounds = root.getBoundingClientRect();
+    const scale = root.offsetHeight ? bounds.height / root.offsetHeight : 1;
+    const toolbar = root === this.dialog ? (this.dialog.firstElementChild as HTMLElement)?.offsetHeight ?? 0 : 0;
+    const outline = this.article.querySelector<HTMLElement>(".article-outline")?.offsetHeight ?? 0;
+    return bounds.top + (toolbar + outline) * (scale || 1);
   }
 }
