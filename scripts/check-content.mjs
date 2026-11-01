@@ -67,6 +67,9 @@ test("full-window reading moves one article, restores its place and handles nati
     reader.close();
     assert.equal(article.scrollTop, overflowY === "visible" ? 400 : 20);
     assert.equal(panel.scrollTop, overflowY === "visible" ? 0 : 280);
+    reader.open({ isConnected: true, focus() {} });
+    assert.equal(dialog.scrollTop, 0, "Reopening without scrolling retains the full-window anchor across reflow");
+    reader.close();
   }
   assert.equal(translateUiText("全窗口阅读 ↗", "en"), "Read full window ↗");
   assert.equal(translateUiText("全窗口阅读 ↗", "ja"), "全画面で読む ↗");
