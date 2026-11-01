@@ -12,7 +12,9 @@ import "./style.css";
 import "./quality-settings.css";
 import "./responsive.css";
 import "./article-reader.css";
-import { ArticleReader } from "./article-reader";
+import { ArticleReader, articleScrollRoot } from "./article-reader";
+import { ArticleOutline } from "./article-outline";
+import "./article-outline.css";
 import { viewportLayout, openingLayout } from "./viewport-layout";
 import { assetUrl } from "./asset-url";
 import { postPath } from "./blog-path";
@@ -136,6 +138,8 @@ readerDialog.setAttribute("aria-label", "全窗口阅读");
 readerDialog.innerHTML = '<header><button data-action="close-reader" autofocus>退出全窗口阅读 · Esc</button></header>';
 $("#stage").append(readerDialog);
 const articleReader = new ArticleReader(readerDialog, $("#detail-content"));
+const articleOutline = new ArticleOutline($("#detail-content"));
+readerDialog.addEventListener("close", () => { articleOutline.collapse(); articleOutline.refresh(); });
 let pendingArticleHash = false;
 let searchOrder: "archive" | "recent" = "archive";
 let searchState: "idle" | "loading" | "ready" | "failed" = "idle";
@@ -576,6 +580,11 @@ function syncBlogRoute(next: "archive" | "detail") {
 function restoreBlogRoute() {
   if (!ready || !started || !document.getElementById("blog-data")) return;
   const index = records.findIndex(record => record.slug && postPath(record.slug) === location.pathname);
+  if (index === selected && mode === "detail" && activeTab === "overview") {
+    pendingArticleHash = Boolean(location.hash);
+    if (!location.hash) articleScrollRoot($("#detail-content")).scrollTop = 0;
+    return;
+  }
   restoringBlogRoute = true;
   closeModal(() => {
     viewer?.close();
@@ -590,7 +599,10 @@ function restoreBlogRoute() {
 }
 window.addEventListener("popstate", restoreBlogRoute);
 window.addEventListener("hashchange", () => {
-  if (started && mode === "detail") setTab("overview", false);
+  if (started && mode === "detail") {
+    if (activeTab !== "overview") setTab("overview", false);
+    else pendingArticleHash = Boolean(location.hash);
+  }
 });
 function openFile() {
   if (!ready) return;
@@ -705,6 +717,7 @@ function setTab(tab: string, sound = true) {
               "",
             )}<p class="log-note">本次会话已通过身份验证。档案内容以当前终端可访问范围展示。</p>`;
   $("#tab-panel").scrollTop = 0;
+  articleOutline.render();
   pendingArticleHash = tab === "overview" && Boolean(location.hash);
   documentDecryption.refresh();
   if (sound) {
@@ -910,8 +923,13 @@ document.addEventListener("click", (e) => {
   const url = ready && started && articleNavigationUrl(records, (e.target as Element).closest<HTMLAnchorElement>("a[href]"), e, location.href);
   if (url) {
     e.preventDefault();
-    history.pushState(null, "", url);
-    restoreBlogRoute();
+    const target = new URL(url, location.href);
+    const sameArticle = target.pathname === location.pathname;
+    if (location.pathname + location.search + location.hash !== url) history.pushState(null, "", url);
+    if (sameArticle) {
+      restoreArticleHash($("#tab-panel"), target.hash, true);
+      pendingArticleHash = false;
+    } else restoreBlogRoute();
     return;
   }
   if ((e.target as Element).closest('[data-action="toggle-theme"]')) {
@@ -977,8 +995,10 @@ document.addEventListener("click", (e) => {
   }
   const action = el.dataset.action;
   if (action === "read-full") {
+    articleOutline.collapse();
     documentDecryption.reset($("#detail-content"), true);
     articleReader.open(el);
+    articleOutline.refresh();
     return;
   }
   if (action === "close-reader") { articleReader.close(); return; }
@@ -1105,7 +1125,7 @@ document.addEventListener("keydown", (e) => {
     }
     return;
   }
-  if (typing || modal || !ready || e.target instanceof HTMLSelectElement) return;
+  if (typing || modal || !ready || e.target instanceof HTMLSelectElement || (e.target as Element).closest(".article-outline, .blog-body")) return;
   if (e.key === "/") {
     e.preventDefault();
     if (mode === "boot") setMode("archive");
