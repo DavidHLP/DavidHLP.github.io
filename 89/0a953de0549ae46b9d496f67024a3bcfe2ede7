@@ -1,0 +1,21 @@
+docs/ABOUT-ACCEPTANCE.md
+  s_717cfd5dbdee4b::t_8939eb74942cbd 9-19,22-31
+docs/ABOUT-CONTENT-AUDIT.md
+  s_717cfd5dbdee4b::t_57ee3c92b73c93 40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "890a953de0549ae46b9d496f67024a3bcfe2ede7",
+  "prompts": {},
+  "sessions": {
+    "s_717cfd5dbdee4b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19792-0dff-7a90-a968-9314d80a1798",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
