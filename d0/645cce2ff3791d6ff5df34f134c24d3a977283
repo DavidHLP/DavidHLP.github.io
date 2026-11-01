@@ -1,0 +1,31 @@
+src/main.ts
+  s_1f9e8743677ef7::t_b0244ecdb34a85 15-17,142-143,584-588,603-606,721,995,998,1125
+src/article-reader.ts
+  s_1f9e8743677ef7::t_b0244ecdb34a85 1-7,63,81-85
+src/article-reader.css
+  s_1f9e8743677ef7::t_b0244ecdb34a85 51
+src/article-outline.ts
+  s_1f9e8743677ef7::t_b0244ecdb34a85 1-169
+src/article-outline.css
+  s_1f9e8743677ef7::t_b0244ecdb34a85 1-53
+src/ui-language.ts
+  s_1f9e8743677ef7::t_b0244ecdb34a85 9
+scripts/check-content.mjs
+  s_1f9e8743677ef7::t_b0244ecdb34a85 22-23,28-43,54-55,66,72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d0645cce2ff3791d6ff5df34f134c24d3a977283",
+  "prompts": {},
+  "sessions": {
+    "s_1f9e8743677ef7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c39-1e1b-7d73-9bf2-5a0fc3f2b65d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
