@@ -32,7 +32,7 @@ export class ArticleOutline {
 
   constructor(article: HTMLElement) {
     this.article = article;
-    window.addEventListener("resize", () => this.refresh());
+    window.addEventListener("resize", () => requestAnimationFrame(() => this.refresh()));
   }
 
   render() {
