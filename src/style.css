@@ -56,7 +56,7 @@ button {
   top: 50%;
   width: 1920px;
   height: 1080px;
-  overflow: hidden;
+  overflow: clip;
   transform-origin: center;
   isolation: isolate;
   background: #e8e5e1;
