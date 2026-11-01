@@ -63,7 +63,7 @@ export function syncArticleMetadata(head: HTMLHeadElement, record: ArchiveRecord
   }
 }
 
-export function restoreArticleHash(container: HTMLElement, hash: string) {
+export function restoreArticleHash(container: HTMLElement, hash: string, focus = false) {
   if (!hash) return false;
   let id: string;
   try { id = decodeURIComponent(hash.slice(1)); } catch { return false; }
@@ -76,5 +76,9 @@ export function restoreArticleHash(container: HTMLElement, hash: string) {
   const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
   // Scroll only the article, so hidden 3D ancestors keep their calibrated position.
   root.scrollTop += (target.getBoundingClientRect().top - bounds.top) / (scale || 1) - margin;
+  if (focus) {
+    if (!target.hasAttribute("tabindex")) target.tabIndex = -1;
+    target.focus({ preventScroll: true });
+  }
   return true;
 }
