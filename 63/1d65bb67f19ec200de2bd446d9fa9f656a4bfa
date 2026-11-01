@@ -1,0 +1,32 @@
+src/profile-schema.ts
+  s_717cfd5dbdee4b::t_11b5ba04928672 13-20
+src/pages/blog-search.json.ts
+  s_717cfd5dbdee4b::t_11b5ba04928672 1,7
+scripts/check-content.mjs
+  s_717cfd5dbdee4b::t_11b5ba04928672 17,35-40,61,575
+scripts/archive-content.mjs
+  s_717cfd5dbdee4b::t_11b5ba04928672 1-2
+  s_717cfd5dbdee4b::t_61875a3caa094d 107
+src/layouts/About.astro
+  s_717cfd5dbdee4b::t_11b5ba04928672 47-48,71,76,96-99
+src/profile-text.mjs
+  s_717cfd5dbdee4b::t_11b5ba04928672 1-5
+src/responsive.css
+  s_717cfd5dbdee4b::t_11b5ba04928672 229-230
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "631d65bb67f19ec200de2bd446d9fa9f656a4bfa",
+  "prompts": {},
+  "sessions": {
+    "s_717cfd5dbdee4b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a19792-0dff-7a90-a968-9314d80a1798",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
