@@ -77,7 +77,6 @@ WeChat · B1372998589
 - Arthas、Linux のプロセス情報、コンテナーログ、SQL 実行計画を組み合わせ、問題の特定・修正・回帰検証ができる。
 - Docker イメージ、ネットワーク、リソース制限、基本的な隔離機構に習熟。containerd、Harbor、プライベートイメージの TLS 障害診断経験。
 - Git、Maven、Docker Compose、Flyway、Micrometer に習熟。Testcontainers と並行テストで障害と競合を検証。
-- GitHub Actions の業務受け入れ検証、イメージスキャン、署名・来歴検証の実践経験。対象リビジョンごとに、制御されたテスト、実サービスの検証、本番への提供を区別。
 
 ## <span class="resume-section-number">[ SEC 04 ]</span> 学歴・受賞
 

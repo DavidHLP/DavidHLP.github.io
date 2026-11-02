@@ -77,7 +77,6 @@ GitHub · DavidHLP: https://github.com/DavidHLP
 - 能够结合 Arthas、Linux 进程信息、容器日志与 SQL 执行计划定位问题，并完成修复及回归验证。
 - 熟悉 Docker 镜像、网络、资源限制与基本隔离机制；具有 containerd、Harbor 及私有镜像 TLS 排障经验。
 - 熟悉 Git、Maven、Docker Compose、Flyway、Micrometer；使用 Testcontainers 及并发测试验证故障与竞态场景。
-- 具有 GitHub Actions 业务验收、镜像扫描、签名与来源校验实践；按精确候选版本区分受控测试、真实服务验证与生产交付。
 
 ## <span class="resume-section-number">[ SEC 04 ]</span> 教育背景 & 荣誉
 
