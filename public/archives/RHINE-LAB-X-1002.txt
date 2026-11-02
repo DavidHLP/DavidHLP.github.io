@@ -39,10 +39,10 @@ Knowledge base: /blog/legacy/information/en/kb-index/
 
 <p class="resume-stack">Tech stack: Java 17 / Spring Boot 3 / Spring Security / MyBatis-Plus / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
 
-Personal open-source online judge for practice, contests, submissions, sandbox judging, and administration. Submission owns submission data; a separate Judge Worker executes tasks, focusing on delivery failures, duplicate execution, and rejudge-result races.
+Personal open-source judge covering practice, contests, submissions, sandbox judging and administration. Submission owns submission data; a separate Judge Worker handles delivery failures, duplicates and rejudge-result races.
 
-- **Transactional Outbox delivery**: Writes submission and judge Outbox records in one local transaction; background delivery to Redis Streams updates send state and retries with backoff. Lua combines deduplication marking and enqueueing to close the mark-written/message-not-enqueued failure window.
-- **Task recovery and dead letters**: Uses `XPENDING` / `XCLAIM` to reclaim timed-out unacknowledged tasks, limiting redelivery by capacity and retry count; exhausted budgets go to dead letters to stop invalid tasks repeatedly consuming judging resources.
+- **Transactional Outbox delivery**: Writes submission and judge Outbox records in one local transaction; background Redis Streams delivery updates send state and retries with backoff. Lua combines deduplication marking and enqueueing, closing the mark-written/message-not-enqueued failure window.
+- **Task recovery and dead letters**: Uses `XPENDING` / `XCLAIM` to reclaim timed-out unacknowledged tasks, bounding redelivery by capacity and retry count. Exhausted budgets route tasks to dead letters, preventing repeated invalid work.
 - **Rejudge-result race control**: Uses `generation` + `attemptId` to identify valid execution, with leases and heartbeat renewal. Verdict SQL CAS checks both conditions to prevent expired attempts overwriting a newer judging round.
 - **Untrusted-code constraints**: Uses Docker network isolation, non-root execution, a read-only root filesystem, capability removal, and Seccomp, plus CPU, memory, PID, and file-descriptor limits to constrain code permissions and resources.
 - **Refresh-token replay protection**: Stores only SHA-256 refresh-token hashes. Rotation checks purpose, ownership, and expiry; conditional updates consume an old token only once and issue its replacement in the same transaction to handle concurrent refreshes.
@@ -54,9 +54,9 @@ Personal open-source online judge for practice, contests, submissions, sandbox j
 
 <p class="resume-stack">Tech stack (current development line): Java 21 / Spring Boot 4 / Spring Cache / Redis / Redisson / Micrometer / Testcontainers</p>
 
-Personal open-source Spring Cache protection extension combining enhanced annotations and a handler chain, focused on same-key request coalescing, distributed loading coordination, versioned early expiration, and secure deserialization.
+Personal open-source Spring Cache extension combining enhanced annotations and a handler chain for same-key request coalescing, distributed loading coordination, versioned early expiration and secure deserialization.
 
-- **Same-key request coalescing**: Uses `ConcurrentHashMap` + `CompletableFuture` for JVM-local Single-flight: the Leader obtains the distributed lock and loads data, Followers share the result, and a locked double-check reduces repeated source loads and lock contention.
+- **Same-key request coalescing**: Uses `ConcurrentHashMap` + `CompletableFuture` for JVM-local Single-flight. The Leader locks and loads; Followers share results. A locked cache double-check reduces repeated source loads and distributed-lock contention.
 - **Layered Bloom filtering**: Combines local and Redis filters. A local hit skips the remote check; a local miss checks Redis and backfills according to the result, without rejecting valid business loads merely because the local filter missed.
 - **Versioned early expiration**: Redis Lua atomically checks cache-value version before shortening TTL, so stale async tasks cannot alter a new value's lifetime. Later requests load after expiry, handling races with updates and deletion.
 - **Deserialization boundary**: Jackson streaming scans validate type whitelists before parsing the versioned envelope. Regression tests cover malicious type markers and metadata round trips without building a full JSON tree during validation.
