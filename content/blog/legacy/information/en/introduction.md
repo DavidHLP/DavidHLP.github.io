@@ -85,6 +85,7 @@ Personal open-source online judge for practice, contests, submissions, sandbox j
 - **Rejudge-result race control**: Uses `generation` + `attemptId` to identify valid execution, with leases and heartbeat renewal. Verdict SQL CAS checks both conditions to prevent expired attempts overwriting a newer judging round.
 - **Untrusted-code constraints**: Uses Docker network isolation, non-root execution, a read-only root filesystem, capability removal, and Seccomp, plus CPU, memory, PID, and file-descriptor limits to constrain code permissions and resources.
 - **Refresh-token replay protection**: Stores only SHA-256 refresh-token hashes. Rotation checks purpose, ownership, and expiry; conditional updates consume an old token only once and issue its replacement in the same transaction to handle concurrent refreshes.
+- **Automated acceptance and release verification**: Integrated real-MySQL fresh/upgrade migration checks and browser/Judge acceptance into CI, covering login, AC/WA, rejudging, and contest rankings. Verifies signatures, SBOMs, SLSA provenance, and tag digests for a nine-image release set, rejecting incomplete or conflicting artifacts; acceptance remains separate from production deployment.
 
 ### ResiCache Cache Protection Middleware [GitHub](https://github.com/DavidHLP/ResiCache)
 
@@ -100,6 +101,7 @@ Personal open-source Spring Cache protection extension combining enhanced annota
 - **Deserialization boundary**: Jackson streaming scans validate type whitelists before parsing the versioned envelope. Regression tests cover malicious type markers and metadata round trips without building a full JSON tree during validation.
 - **Async task deduplication**: Maintains a per-key in-flight Future to avoid duplicate scheduling; bounded executor queues and `CallerRunsPolicy` control backlog and handle cleanup races between completion and Future registration.
 - **Failure semantics and validation**: Separates business-load exceptions from cache-write failures, returning a successfully loaded value even if write-back fails. Concurrent and real-Redis integration tests cover shared results, exception propagation, new-value TTL protection, and no resurrection after deletion.
+- **Cluster and migration safety**: Verified cache-key/lock-key slot co-location on a real three-master Redis Cluster. Implemented serialization shadow reads, dual writes, cutover, and rollback with TTL preservation, CAS rejection of concurrent-value overwrites, and resumption after partial failure.
 
 ## <span class="resume-section-number">[ SEC 03 ]</span> Professional Skills
 
@@ -114,6 +116,7 @@ Personal open-source Spring Cache protection extension combining enhanced annota
 - Combines Arthas, Linux process information, container logs, and SQL plans to diagnose issues, implement fixes, and verify regressions.
 - Familiar with Docker images, networking, resource limits, and basic isolation, with containerd/Harbor/private-image TLS troubleshooting experience.
 - Familiar with Git, Maven, Docker Compose, Flyway, and Micrometer; uses Testcontainers and concurrent tests for failure/race scenarios.
+- Practical experience with GitHub Actions business acceptance, image scanning, signatures, and provenance verification; distinguishes controlled tests, real-service validation, and production delivery for the exact candidate revision.
 
 ## <span class="resume-section-number">[ SEC 04 ]</span> Education & Honors
 
@@ -138,6 +141,8 @@ Data Science and Big Data Technology · Bachelor's degree
 ### Open-source contributions
 
 **codebase-memory-mcp**：[PR #1229](https://github.com/DeusData/codebase-memory-mcp/pull/1229) **Merged**. Added Oh My Pi (OMP) client integration with configuration-directory discovery, MCP registration, Skill installation, and install/uninstall workflows, plus configuration-isolation and user-content-preservation tests.
+
+[PR #2203](https://github.com/DeusData/codebase-memory-mcp/pull/2203) **Merged**. Fixed installation staging failures caused by Linux system-path aliases. Allows only trusted root-owned system aliases while retaining rejection of arbitrary user-owned symlinks, with checks for both accepted and rejected paths.
 
 ### Selected technical knowledge pages
 
