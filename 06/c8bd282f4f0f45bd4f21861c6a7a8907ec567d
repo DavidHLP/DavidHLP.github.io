@@ -1,0 +1,21 @@
+docs/ABOUT.md
+  s_1f9e8743677ef7::t_55bbff2a1e3a27 34,36
+src/about.css
+  s_1f9e8743677ef7::t_55bbff2a1e3a27 103
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "06c8bd282f4f0f45bd4f21861c6a7a8907ec567d",
+  "prompts": {},
+  "sessions": {
+    "s_1f9e8743677ef7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c39-1e1b-7d73-9bf2-5a0fc3f2b65d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
