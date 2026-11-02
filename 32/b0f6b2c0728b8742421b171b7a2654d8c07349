@@ -1,0 +1,76 @@
+docs/ABOUT.md
+  s_1f9e8743677ef7::t_41644094649787 61-62
+content/about/variants/java-vue/zh-cn.md
+  s_1f9e8743677ef7::t_d4f795c7d9c0f0 54
+  s_1f9e8743677ef7::t_71c162584bb658 7
+  s_1f9e8743677ef7::t_f065591892d4d9 34
+  s_1f9e8743677ef7::t_bc657a0f525bb6 25-28
+  s_1f9e8743677ef7::t_08f3819d95adb1 49
+  s_1f9e8743677ef7::t_21ef348a025bc1 11-16
+content/blog/legacy/information/zh-cn/introduction.md
+  s_1f9e8743677ef7::t_06816e0ef98d05 32
+  s_1f9e8743677ef7::t_27de60d7766dca 59-64
+  s_1f9e8743677ef7::t_b87fd5a4ebaaae 73-76
+  s_1f9e8743677ef7::t_286603bdf6fb29 84
+content/about/variants/java-agent/zh-cn.md
+  s_1f9e8743677ef7::t_41644094649787 15
+  s_1f9e8743677ef7::t_fab9c54f9d20fa 11-14,16
+  s_1f9e8743677ef7::t_67be4492308b57 25-28
+  s_1f9e8743677ef7::t_9e4f2359fa22c4 34
+  s_1f9e8743677ef7::t_63c10cc567522a 54
+  s_1f9e8743677ef7::t_3909647cfb9fb9 7
+content/blog/legacy/information/en/introduction.md
+  s_1f9e8743677ef7::t_0570aacc679274 59-64
+  s_1f9e8743677ef7::t_072a5fac4ec734 32
+  s_1f9e8743677ef7::t_64bcac70f40d3f 73-76
+  s_1f9e8743677ef7::t_57ddabc4e0a851 84
+content/about/variants/java-agent/ja.md
+  s_1f9e8743677ef7::t_41644094649787 15
+  s_1f9e8743677ef7::t_6f4cf8f6a76586 25-28
+  s_1f9e8743677ef7::t_696c7f7a3ecbec 54
+  s_1f9e8743677ef7::t_f08c803f943be0 11-14,16
+  s_1f9e8743677ef7::t_a9b5f27a2adc11 7
+  s_1f9e8743677ef7::t_7f4bf3daf13093 34
+content/about/variants/java-vue/ja.md
+  s_1f9e8743677ef7::t_f73de2fe5a9c43 25-28
+  s_1f9e8743677ef7::t_b2c4b5d1c8d703 34
+  s_1f9e8743677ef7::t_47a877da82b80c 49
+  s_1f9e8743677ef7::t_ee9163964b2e62 54
+  s_1f9e8743677ef7::t_4844c588fdb6ac 11-16
+  s_1f9e8743677ef7::t_adacdf6ecfb878 7
+content/blog/legacy/information/ja/introduction.md
+  s_1f9e8743677ef7::t_3a9fa6cd62292d 32
+  s_1f9e8743677ef7::t_d84005f2186fa6 59-64
+  s_1f9e8743677ef7::t_0417ace9a9062c 84
+  s_1f9e8743677ef7::t_51e88b69b7b7d0 73-76
+content/about/variants/java-agent/en.md
+  s_1f9e8743677ef7::t_a9ad32c28a6f13 54
+  s_1f9e8743677ef7::t_26f5cc355dea68 7
+  s_1f9e8743677ef7::t_c4fef558742b35 25-28
+  s_1f9e8743677ef7::t_b2f2dda40a1f70 11-14,16
+  s_1f9e8743677ef7::t_41644094649787 15
+  s_1f9e8743677ef7::t_9d0ac211b73520 34
+content/about/variants/java-vue/en.md
+  s_1f9e8743677ef7::t_7301548c876913 25-28
+  s_1f9e8743677ef7::t_9049384a2817e9 54
+  s_1f9e8743677ef7::t_ffdb0da3945579 49
+  s_1f9e8743677ef7::t_61228cb74d5ac5 34
+  s_1f9e8743677ef7::t_12f3c53b9d48fc 7
+  s_1f9e8743677ef7::t_3b5176ae008109 11-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "32b0f6b2c0728b8742421b171b7a2654d8c07349",
+  "prompts": {},
+  "sessions": {
+    "s_1f9e8743677ef7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c39-1e1b-7d73-9bf2-5a0fc3f2b65d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
