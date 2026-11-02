@@ -2,28 +2,42 @@
 import { render } from "astro:content";
 import { publicFile } from "../public-file";
 import site from "../../content/site.json";
-import { getAbout } from "../lib/about";
+import { getAbout, getAboutVariants } from "../lib/about";
 import { aboutPath } from "../about-path";
 import { translateUiText, type UiLanguage } from "../ui-language";
 import Profile from "../components/Profile.astro";
 import "../about.css";
 
-interface Props { language: UiLanguage }
-const { language } = Astro.props;
-const entry = await getAbout(language);
+interface Props { language: UiLanguage; variant?: string }
+const { language, variant } = Astro.props;
+const base = await getAbout(language);
+const variants = await getAboutVariants(language);
+const selected = variants.find(entry => entry.data.variant === variant);
+if (variant && !selected) throw new Error(`Unknown About variant: ${variant}`);
+const entry = selected ?? base;
 const { Content, headings } = await render(entry);
-const { title: name, profile } = entry.data;
+const name = base.data.title;
+const profile = {
+  ...base.data.profile,
+  role: selected?.data.role ?? base.data.profile.role,
+  summary: selected?.data.summary ?? base.data.profile.summary,
+};
 const copy = {
   "zh-CN": { about: "关于", home: "档案首页", contents: "履历目录", print: "打印 / 保存 PDF", download: "下载简历", skip: "跳至正文", theme: "暗色", note: "个人介绍与实践记录", top: "回到顶部" },
   en: { about: "About", home: "Archives", contents: "On this page", print: "Print / Save PDF", download: "Download résumé", skip: "Skip to content", theme: "Dark", note: "Profile & selected practice", top: "Back to top" },
   ja: { about: "プロフィール", home: "アーカイブ", contents: "目次", print: "印刷 / PDF 保存", download: "履歴書をダウンロード", skip: "本文へ", theme: "ダーク", note: "自己紹介と実践の記録", top: "先頭へ戻る" },
 }[language];
 const sections = headings.filter(heading => heading.depth === 2);
-const title = `${name} · ${copy.about} · ${site.title}`;
+const variantCopy = {
+  "zh-CN": { heading: "简历方向", standard: "标准版" },
+  en: { heading: "Résumé focus", standard: "Standard" },
+  ja: { heading: "応募分野", standard: "標準" },
+}[language];
+const title = `${name} · ${selected?.data.title ?? base.data.resumeLabel ?? copy.about} · ${site.title}`;
 const description = profile.summary ?? profile.role ?? name;
-const canonical = new URL(aboutPath(language), Astro.site);
+const canonical = new URL(aboutPath(language, variant), Astro.site);
 const avatar = publicFile(profile.avatar);
-const resume = publicFile(profile.resume);
+const resume = variant ? undefined : publicFile(profile.resume);
 ---
 <!doctype html>
 <html lang={language}>
@@ -37,7 +51,7 @@ const resume = publicFile(profile.resume);
     <meta property="og:type" content="profile" />
     <meta property="og:url" content={canonical} />
     <link rel="canonical" href={canonical} />
-    {(["zh-CN", "en", "ja"] as const).map(lang => <link rel="alternate" hreflang={lang} href={new URL(aboutPath(lang), Astro.site)} />)}
+    {(["zh-CN", "en", "ja"] as const).map(lang => <link rel="alternate" hreflang={lang} href={new URL(aboutPath(lang, variant), Astro.site)} />)}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <script is:inline>
@@ -49,7 +63,7 @@ const resume = publicFile(profile.resume);
     <header class="about-nav">
       <a class="about-home" href={`/?lang=${language}`}><span aria-hidden="true">↖</span> {copy.home}</a>
       <nav aria-label={translateUiText("界面语言", language)}>
-        {(["zh-CN", "en", "ja"] as const).map(lang => <a href={aboutPath(lang)} lang={lang} hreflang={lang} aria-current={lang === language ? "page" : undefined}>{({ "zh-CN": "中文", en: "EN", ja: "日本語" })[lang]}</a>)}
+        {(["zh-CN", "en", "ja"] as const).map(lang => <a href={aboutPath(lang, variant)} lang={lang} hreflang={lang} aria-current={lang === language ? "page" : undefined}>{({ "zh-CN": "中文", en: "EN", ja: "日本語" })[lang]}</a>)}
         <button id="about-theme" aria-pressed="false" hidden>{copy.theme}</button>
       </nav>
     </header>
@@ -59,6 +73,13 @@ const resume = publicFile(profile.resume);
         {avatar && <img class="about-avatar" src={avatar} alt="" width="112" height="112" />}
         <h1>{name}</h1>
         <Profile profile={profile} />
+        {variants.length > 0 && <nav class="about-variants" aria-label={variantCopy.heading}>
+          <p>{variantCopy.heading}</p>
+          <ul>
+            <li><a href={aboutPath(language)} data-about-variant="" aria-current={!variant ? "page" : undefined}>{base.data.resumeLabel ?? variantCopy.standard}</a></li>
+            {variants.map(item => <li><a href={aboutPath(language, item.data.variant)} data-about-variant={item.data.variant} aria-current={item.data.variant === variant ? "page" : undefined}>{item.data.title}</a></li>)}
+          </ul>
+        </nav>}
         <div class="about-actions">
           <button id="about-print" hidden>{copy.print}<span aria-hidden="true"> ↗</span></button>
           {resume && <a href={resume} download>{copy.download} ↓</a>}
@@ -95,7 +116,7 @@ const resume = publicFile(profile.resume);
       const home = document.querySelector<HTMLAnchorElement>(".about-home")!;
       if (new URLSearchParams(location.search).get("view") === "static") {
         home.href += "&view=static";
-        document.querySelectorAll<HTMLAnchorElement>(".about-nav [hreflang]").forEach(link => { link.href += "?view=static"; });
+        document.querySelectorAll<HTMLAnchorElement>(".about-nav [hreflang], .about-variants a").forEach(link => { link.href += "?view=static"; });
       }
     </script>
   </body>
