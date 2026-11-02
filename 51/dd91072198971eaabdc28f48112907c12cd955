@@ -1,0 +1,59 @@
+src/layouts/About.astro
+  s_1f9e8743677ef7::t_9c469b450253da 5,11-17,19-24,31-36,38,40,54,66,76-82,119
+src/content.config.ts
+  s_1f9e8743677ef7::t_9c469b450253da 7,40,42-46
+docs/ABOUT.md
+  s_1f9e8743677ef7::t_be10d467600244 32-52
+content/blog/legacy/information/ja/introduction.md
+  s_1f9e8743677ef7::t_7776f0ffaa7c2c 29
+src/about-variants.ts
+  s_1f9e8743677ef7::t_9c469b450253da 1-20
+content/about/variants/java-vue/zh-cn.md
+  s_1f9e8743677ef7::t_7776f0ffaa7c2c 1-95
+content/about/variants/java-vue/en.md
+  s_1f9e8743677ef7::t_7776f0ffaa7c2c 1-95
+scripts/check-content.mjs
+  s_1f9e8743677ef7::t_be10d467600244 31,70-107
+  s_1f9e8743677ef7::t_a99d4f8c79201d 108
+src/content-language.ts
+  s_1f9e8743677ef7::t_9c469b450253da 30-32
+content/about/variants/java-agent/en.md
+  s_1f9e8743677ef7::t_7776f0ffaa7c2c 1-96
+content/about/variants/java-agent/zh-cn.md
+  s_1f9e8743677ef7::t_7776f0ffaa7c2c 1-96
+content/blog/legacy/information/en/introduction.md
+  s_1f9e8743677ef7::t_7776f0ffaa7c2c 29
+src/pages/[lang]/about/[variant].astro
+  s_1f9e8743677ef7::t_9c469b450253da 1-16
+src/lib/about.ts
+  s_1f9e8743677ef7::t_9c469b450253da 3,13-18
+  s_1f9e8743677ef7::t_534f3786415231 19
+src/about.css
+  s_1f9e8743677ef7::t_9c469b450253da 35-39,94
+content/about/variants/java-vue/ja.md
+  s_1f9e8743677ef7::t_7776f0ffaa7c2c 1-95
+src/pages/about/[variant].astro
+  s_1f9e8743677ef7::t_9c469b450253da 1-12
+content/blog/legacy/information/zh-cn/introduction.md
+  s_1f9e8743677ef7::t_7776f0ffaa7c2c 29
+content/about/variants/java-agent/ja.md
+  s_1f9e8743677ef7::t_7776f0ffaa7c2c 1-96
+src/about-path.ts
+  s_1f9e8743677ef7::t_9c469b450253da 3-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "51dd91072198971eaabdc28f48112907c12cd955",
+  "prompts": {},
+  "sessions": {
+    "s_1f9e8743677ef7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c39-1e1b-7d73-9bf2-5a0fc3f2b65d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
