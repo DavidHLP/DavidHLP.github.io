@@ -26,6 +26,7 @@
     "revision": "f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
     "metadata": {}
   },
+  "resumeLabel": "Java",
   "profile": {
     "role": "Java バックエンド開発エンジニア",
     "summary": "Java バックエンド開発を中心に、UltiCode と ResiCache で信頼性の高いタスク配信、キャッシュ保護、障害調査に取り組んでいます。",

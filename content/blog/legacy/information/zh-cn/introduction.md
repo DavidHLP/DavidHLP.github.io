@@ -26,6 +26,7 @@
     "revision": "f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
     "metadata": {}
   },
+  "resumeLabel": "Java",
   "profile": {
     "role": "Java 后端开发工程师",
     "summary": "以 Java 后端开发为主，围绕 UltiCode、ResiCache 实践可靠任务投递、缓存防护与问题诊断。",

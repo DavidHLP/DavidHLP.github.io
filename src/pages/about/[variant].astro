@@ -1,0 +1,11 @@
+---
+import About from "../../layouts/About.astro";
+import { getAboutVariants } from "../../lib/about";
+export async function getStaticPaths() {
+  return (await getAboutVariants("zh-CN")).map(entry => ({
+    params: { variant: entry.data.variant },
+  }));
+}
+const { variant } = Astro.params;
+---
+<About language="zh-CN" variant={variant} />

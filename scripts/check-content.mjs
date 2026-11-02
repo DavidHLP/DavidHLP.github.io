@@ -28,6 +28,7 @@ import { MOTION_LABELS } from "../src/motion-preferences.ts";
 import { aboutPath } from "../src/about-path.ts";
 import { publicFile } from "../src/public-file.ts";
 import { profileSchema } from "../src/profile-schema.ts";
+import { aboutVariantSchema, validateAboutVariants } from "../src/about-variants.ts";
 
 test("About accepts a minimal profile and only exposes real public attachments", async () => {
   assert.deepEqual(profileSchema.parse(undefined), { contacts: [] });
@@ -63,6 +64,45 @@ test("About language routes preserve static mode and generated documents are ind
     assert.ok(!html.includes('http-equiv="refresh"'));
     for (const other of ["zh-CN", "en", "ja"]) assert.ok(html.includes(`hreflang="${other}"`));
     assert.ok(sitemap.includes(new URL(path, site.site).href));
+  }
+});
+
+test("About variants reject incomplete translations and unsafe path segments", () => {
+  validateAboutVariants([]);
+  const entries = ["zh-CN", "en", "ja"].map(lang => ({ data: aboutVariantSchema.parse({ variant: "research", title: "Research", lang }) }));
+  validateAboutVariants(entries);
+  assert.throws(() => validateAboutVariants(entries.slice(0, 2)), /exactly one ja/);
+  assert.throws(() => validateAboutVariants([...entries, entries[0]]), /exactly one zh-CN/);
+  for (const variant of ["../private", "a/b", "Research", "name?x=1", "%2f", ""])
+    assert.throws(() => aboutVariantSchema.parse({ variant, title: "Research", lang: "en" }));
+  for (const lang of ["zh-CN", "en", "ja"]) {
+    const path = aboutPath(lang, "research");
+    assert.equal(languageUrl([], "/en/about/research/?view=static#old", lang), `${path}?view=static&lang=${lang}`);
+  }
+});
+
+test("built About variants retain focus across language links and have independent printable content", async () => {
+  const site = JSON.parse(await readFile(new URL("../content/site.json", import.meta.url), "utf8"));
+  const base = await readFile(new URL("../dist/about/index.html", import.meta.url), "utf8");
+  const variants = [...base.matchAll(/data-about-variant="([^"]+)"/g)].map(match => match[1]);
+  const sitemap = await readFile(new URL("../dist/sitemap-0.xml", import.meta.url), "utf8");
+  for (const variant of ["", ...variants]) for (const lang of ["zh-CN", "en", "ja"]) {
+    const path = aboutPath(lang, variant);
+    const html = await readFile(new URL(`../dist${path}index.html`, import.meta.url), "utf8");
+    assert.ok(html.includes(`<html lang="${lang}"`));
+    assert.ok(html.includes(`rel="canonical" href="${new URL(path, site.site)}"`));
+    for (const other of ["zh-CN", "en", "ja"])
+      assert.ok(html.includes(`hreflang="${other}" href="${new URL(aboutPath(other, variant), site.site)}"`));
+    assert.ok(html.includes('class="resume-body"') && html.includes('id="about-print"'));
+    assert.ok(!html.includes('id="stage"') && !html.includes('id="boot"'));
+    assert.ok(sitemap.includes(new URL(path, site.site).href));
+    const directions = html.match(/<nav class="about-variants"[^>]*>[\s\S]*?<\/nav>/)?.[0];
+    if (variants.length) {
+      assert.ok(directions);
+      const active = [...directions.matchAll(/<a\b[^>]*>/g)].filter(match => match[0].includes('aria-current="page"'));
+      assert.equal(active.length, 1);
+      assert.ok(active[0][0].includes(`href="${path}"`));
+    } else assert.equal(directions, undefined);
   }
 });
 
