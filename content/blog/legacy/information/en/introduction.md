@@ -116,7 +116,6 @@ Personal open-source Spring Cache extension combining enhanced annotations and a
 - Combines Arthas, Linux process information, container logs, and SQL plans to diagnose issues, implement fixes, and verify regressions.
 - Familiar with Docker images, networking, resource limits, and basic isolation, with containerd/Harbor/private-image TLS troubleshooting experience.
 - Familiar with Git, Maven, Docker Compose, Flyway, and Micrometer; uses Testcontainers and concurrent tests for failure/race scenarios.
-- Experience with GitHub Actions business acceptance, image scanning and signature/provenance verification; separates controlled tests, real-service checks and production delivery by exact revision.
 
 ## <span class="resume-section-number">[ SEC 04 ]</span> Education & Honors
 
