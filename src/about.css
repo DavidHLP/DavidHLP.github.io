@@ -32,6 +32,11 @@ button { font: inherit; color: inherit; background: transparent; cursor: pointer
 .profile-contacts a { display: inline-block; padding-block: 3px; }
 .about-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-top: 16px; font-size: 13px; }
 .about-actions button { border: 1px solid var(--line); padding: 10px 16px; text-align: left; min-height: 44px; }
+.about-variants { margin-top: 20px; }
+.about-variants > p { font-size: 11px; letter-spacing: .1em; color: var(--muted); margin: 0 0 8px; }
+.about-variants ul { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
+.about-variants a { display: inline-flex; align-items: center; min-height: 40px; padding: 6px 10px; border: 1px solid var(--line); font-size: 12px; text-decoration: none; }
+.about-variants a[aria-current] { background: var(--ink); color: var(--paper); }
 .about-contents { margin-top: 24px; padding-top: 12px; border-top: 1px solid var(--line); }
 .about-contents ol { padding: 0; list-style: none; counter-reset: section; }
 .about-contents li { counter-increment: section; display: flex; gap: 12px; font-size: 13px; margin-block: 12px; }
@@ -86,7 +91,7 @@ button { font: inherit; color: inherit; background: transparent; cursor: pointer
 @media print {
   @page { size: A4 portrait; margin: 11mm; background: #eae5e1; }
   :root, :root[data-dark-surface="true"] { color-scheme: light; --paper: #eae5e1; --ink: #20231f; --muted: #60635b; --line: #bdbbb1; --accent: #77532f; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-  .about-nav, .about-actions, .about-contents, .about-footer, .about-skip, .about-document-label { display: none !important; }
+  .about-nav, .about-actions, .about-variants, .about-contents, .about-footer, .about-skip, .about-document-label { display: none !important; }
   .about-sheet { display: block; width: auto; margin: 0; padding: 0; }
   .about-page { font-size: 16px; line-height: 1.8; }
   .about-identity { margin: 0 0 10pt; padding: 0 0 8pt; border-bottom: 1px solid var(--line); break-inside: avoid; }

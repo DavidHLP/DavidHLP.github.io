@@ -27,8 +27,9 @@ export function contentLabel(text: string, language: UiLanguage, labels: Content
 
 export function languageUrl(articles: readonly Article[], href: string, language: UiLanguage) {
   const url = new URL(href, "https://local.invalid");
-  if (/^\/(en\/|ja\/)?about\/?$/.test(url.pathname)) {
-    url.pathname = aboutPath(language);
+  const about = url.pathname.match(/^\/(?:(?:en|ja)\/)?about(?:\/([a-z][a-z0-9-]*))?\/?$/);
+  if (about) {
+    url.pathname = aboutPath(language, about[1]);
     url.hash = "";
   }
   const current = articles.find(article => article.slug && postPath(article.slug) === url.pathname);

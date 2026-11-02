@@ -4,6 +4,7 @@ import { glob } from "astro/loaders";
 import site from "../content/site.json";
 
 import { profileSchema } from "./profile-schema";
+import { aboutVariantSchema } from "./about-variants";
 
 const text = z.string().trim().min(1);
 const blog = defineCollection({
@@ -36,6 +37,10 @@ const blog = defineCollection({
 });
 const about = defineCollection({
   loader: glob(site.about),
-  schema: z.object({ title: text, lang: z.enum(["zh-CN", "en", "ja"]), profile: profileSchema }),
+  schema: z.object({ title: text, lang: z.enum(["zh-CN", "en", "ja"]), profile: profileSchema, resumeLabel: text.optional() }),
 });
-export const collections = { blog, about };
+const aboutVariants = defineCollection({
+  loader: glob({ base: "./content/about", pattern: "variants/**/*.md" }),
+  schema: aboutVariantSchema,
+});
+export const collections = { blog, about, aboutVariants };
