@@ -29,7 +29,7 @@
   "resumeLabel": "Java",
   "profile": {
     "role": "Java 后端开发工程师",
-    "summary": "以 Java 后端开发为主，围绕 UltiCode、ResiCache 实践可靠任务投递、缓存防护与问题诊断。",
+    "summary": "2026 届本科，具备阿里云专有云安全产品实习经历；聚焦 Java 业务开发、任务可靠性、Redis 并发与线上排障。",
     "location": "重庆 / 23岁",
     "contacts": [
       {
@@ -56,6 +56,12 @@
 }
 ---
 
+## <span class="resume-section-number">[ SEC 00 ]</span> 核心优势
+
+- **任务可靠性**：用事务 Outbox、Redis Streams 与 SQL CAS 处理 UltiCode 的漏投、重复执行及重判竞争；真实 MySQL 与浏览器/Judge 业务验收接入 CI。
+- **缓存与并发**：在 ResiCache 实现同 Key 请求合并、分布式加载协调、版本校验和可回滚迁移，用真实 Redis/Cluster 与并发测试验证故障语义。
+- **开源协作**：codebase-memory-mcp 两项贡献已合并，涵盖客户端接入、Linux 安装兼容性、安装回归与用户内容保留。
+
 ## <span class="resume-section-number">[ SEC 01 ]</span> 实习经历
 
 ### 博彦科技
@@ -64,12 +70,10 @@
 
 <p class="resume-meta">后端开发实习生｜阿里云专有云 · 安骑士主机安全项目</p>
 
-- **业务背景**：参与安骑士主机安全产品服务端研发，负责集群资源数据接入、AI 资产识别、资源查询优化与线上问题排查。
-- **GPU 资源接入**：对接平台侧、ECS、BMS、BMCP 等团队，独立完成集群侧 GPU 信息接入与聚合，支撑资源统计、条件筛选与关联查询。
-- **AI 资产识别**：参与功能建设，独立搭建 OpenClaw、Ollama 测试容器环境；结合容器状态、GPU 关系与漏洞数据，实现资产状态判断、GPU 关联及风险展示逻辑。
-- **复杂查询优化**：针对资源查询接口延迟，分析 SQL 执行计划，调整索引、查询条件与覆盖字段，降低资源列表及统计接口的查询耗时。
-- **线上问题定位**：使用 Arthas `watch` / `trace` / `stack` 分析调用链、耗时、异常堆栈与关键参数，独立完成缺陷定位、修复及回归验证。
-- **容器镜像排障**：定位 containerd 拉取 Harbor 私有镜像时的 TLS 证书校验与信任链问题，排查 CA、`certs.d`、`hosts.toml`、`imagePullSecrets` 与节点缓存，沉淀诊断脚本和排查清单。
+- **资源接入与业务交付**：参与阿里云专有云安骑士主机安全后端研发；对接平台侧、ECS、BMS、BMCP，独立实现集群侧 GPU 信息接入与聚合，支撑统计、条件筛选和关联查询。
+- **AI 资产识别**：参与功能建设，独立搭建 OpenClaw/Ollama 测试容器；结合容器状态、GPU 关系和漏洞数据，实现资产状态判断、关联与风险展示。
+- **查询优化与线上修复**：分析 SQL 执行计划，调整索引、查询条件及覆盖字段，降低列表/统计查询耗时；使用 Arthas `watch` / `trace` / `stack` 定位调用链、耗时、异常及关键参数，独立完成修复与回归。
+- **镜像信任链排障**：定位 containerd 拉取 Harbor 私有镜像的 TLS 校验问题，排查 CA、`certs.d`、`hosts.toml`、`imagePullSecrets` 与节点缓存，形成诊断脚本和排查清单。
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> 项目经历
 
@@ -77,7 +81,7 @@
 
 <p class="resume-meta">2025.10 - 至今</p>
 
-<p class="resume-stack">技术栈: Java 17 / Spring Boot 3 / Spring Security / MyBatis-Plus / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
+<p class="resume-stack">技术栈: Java 17 / Spring Boot 4 / Spring Security / MyBatis-Plus / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
 
 个人开源在线编程评测平台，覆盖练习、竞赛、代码提交、沙箱评测与后台管理。Submission 服务持有提交数据，独立 Judge Worker 执行判题，重点处理任务投递故障、重复执行与重判结果竞争。
 

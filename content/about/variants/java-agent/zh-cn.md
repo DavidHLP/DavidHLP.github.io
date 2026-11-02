@@ -4,9 +4,15 @@
   "title": "Java + Agent",
   "lang": "zh-CN",
   "role": "Java 后端 / Agent 应用开发",
-  "summary": "以 Java 后端为基础，实践 Python Agent 与业务 API 集成，重点关注工具调用、身份隔离、持久化和可恢复业务操作。"
+  "summary": "2026 届本科，以 Java 后端为主，结合 Python / LangGraph 将 Agent 接入既有业务，重点处理身份隔离、来源约束与确认后保存。"
 }
 ---
+
+## <span class="resume-section-number">[ SEC 00 ]</span> 核心优势
+
+- **Java 业务 + Agent**：沿用 Java 身份与数据授权，用 Python/FastAPI、LangGraph 实现受控工具调用、带来源分析和多轮会话。
+- **可恢复操作**：以 owner 校验、草稿版本、显式确认及同一幂等键读回处理取消、过期确认和写入结果不明，区分实现与正式验收。
+- **边界验证**：以双普通账号 HTTP 对照、真实模型对抗和引用核对验证隔离，覆盖身份替换、跨账号请求与资料注入场景。
 
 ## <span class="resume-section-number">[ SEC 01 ]</span> 实习经历
 
@@ -16,18 +22,16 @@
 
 <p class="resume-meta">后端开发实习生｜阿里云专有云 · 安骑士主机安全项目</p>
 
-- **业务背景**：参与安骑士主机安全产品服务端研发，负责集群资源数据接入、AI 资产识别、资源查询优化与线上问题排查。
-- **GPU 资源接入**：对接平台侧、ECS、BMS、BMCP 等团队，独立完成集群侧 GPU 信息接入与聚合，支撑资源统计、条件筛选与关联查询。
-- **AI 资产识别**：参与功能建设，独立搭建 OpenClaw、Ollama 测试容器环境；结合容器状态、GPU 关系与漏洞数据，实现资产状态判断、GPU 关联及风险展示逻辑。
-- **复杂查询优化**：针对资源查询接口延迟，分析 SQL 执行计划，调整索引、查询条件与覆盖字段，降低资源列表及统计接口的查询耗时。
-- **线上问题定位**：使用 Arthas `watch` / `trace` / `stack` 分析调用链、耗时、异常堆栈与关键参数，独立完成缺陷定位、修复及回归验证。
-- **容器镜像排障**：定位 containerd 拉取 Harbor 私有镜像时的 TLS 证书校验与信任链问题，排查 CA、`certs.d`、`hosts.toml`、`imagePullSecrets` 与节点缓存，沉淀诊断脚本和排查清单。
+- **资源接入与业务交付**：参与阿里云专有云安骑士主机安全后端研发；对接平台侧、ECS、BMS、BMCP，独立实现集群侧 GPU 信息接入与聚合，支撑统计、条件筛选和关联查询。
+- **AI 资产识别**：参与功能建设，独立搭建 OpenClaw/Ollama 测试容器；结合容器状态、GPU 关系和漏洞数据，实现资产状态判断、关联与风险展示。
+- **查询优化与线上修复**：分析 SQL 执行计划，调整索引、查询条件及覆盖字段，降低列表/统计查询耗时；使用 Arthas `watch` / `trace` / `stack` 定位调用链、耗时、异常及关键参数，独立完成修复与回归。
+- **镜像信任链排障**：定位 containerd 拉取 Harbor 私有镜像的 TLS 校验问题，排查 CA、`certs.d`、`hosts.toml`、`imagePullSecrets` 与节点缓存，形成诊断脚本和排查清单。
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> 项目经历
 
 ### 在线编程评测系统 UltiCode [GitHub](https://github.com/DavidHLP/UltiCode)
 
-<p class="resume-stack">Java 17 / Spring Boot 3 / Spring Security / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
+<p class="resume-stack">Java 17 / Spring Boot 4 / Spring Security / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
 
 个人开源在线评测平台，Java 服务持有身份、题目、提交与业务记录，独立 Judge Worker 执行判题；Agent 通过既有 HTTP 契约接入业务。
 
@@ -47,7 +51,7 @@
 - **显式确认与结果核对**：编辑草稿后使旧确认失效；保存需单独确认并绑定当前版本及摘要。Java 写入结果不明时保留未决状态，以同一幂等键读回核对，不换新键盲目重试。
 - **资料与 MCP 投影**：保留来源范围、版本与位置；源码按既有授权仅在请求期使用，不写入对话、事件或检查点。可选 stdio MCP 仅暴露本人提交列表，沿用认证客户端及严格字段投影。
 
-<p class="resume-meta">实时分析与持久化分别显式启用；这是可复现的工程实践，不代表已完成生产部署或真实用户试点。</p>
+<p class="resume-meta">已核对双账号 HTTP/模型隔离与带来源分析的阶段验收记录；学习计划写入和故障恢复不宣称正式验收完成。实时分析与持久化分别显式启用，未宣称生产部署或真实用户试点。</p>
 
 ## <span class="resume-section-number">[ SEC 03 ]</span> 专业技能
 

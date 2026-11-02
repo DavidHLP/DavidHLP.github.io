@@ -4,9 +4,15 @@
   "title": "Java + Agent",
   "lang": "en",
   "role": "Java Backend / Agent Application Developer",
-  "summary": "Java backend developer integrating Python Agents with business APIs, focused on tool calls, identity isolation, persistence and recoverable business operations."
+  "summary": "2026 graduate combining Java backend development with Python/LangGraph Agents, focused on business integration, identity isolation, source boundaries and explicitly confirmed writes."
 }
 ---
+
+## <span class="resume-section-number">[ SEC 00 ]</span> Selected Strengths
+
+- **Java APIs + Agents**: Built controlled tool calls, sourced analysis and multi-turn conversations with Python/FastAPI and LangGraph over existing Java identity and data authorization.
+- **Recoverable operations**: Used owner checks, draft versions, explicit confirmation and same-key reconciliation for cancellation, stale confirmation and unknown write results; separates implementation from formal acceptance.
+- **Boundary verification**: Used two-account HTTP controls, real-model adversarial isolation and citation checks, covering identity replacement, cross-account requests and source injection.
 
 ## <span class="resume-section-number">[ SEC 01 ]</span> Internship Experience
 
@@ -16,18 +22,16 @@
 
 <p class="resume-meta">Backend Developer Intern | Alibaba Cloud Private Cloud · Aegis Host Security</p>
 
-- **Business context**: Contributed to Aegis host-security backend development, covering cluster resource ingestion, AI asset identification, resource-query optimization, and production troubleshooting.
-- **GPU resource integration**: Coordinated with platform, ECS, BMS, and BMCP teams and independently implemented cluster-side GPU ingestion and aggregation for statistics, filtering, and related queries.
-- **AI asset identification**: Contributed to the feature and independently built OpenClaw/Ollama test containers; used container state, GPU relationships, and vulnerability data to implement asset-state assessment, GPU associations, and risk displays.
-- **Complex query optimization**: Analyzed SQL execution plans and adjusted indexes, predicates, and covered fields to reduce latency in resource-list and statistics APIs.
-- **Production diagnosis**: Used Arthas `watch` / `trace` / `stack` to inspect call paths, timings, exception stacks, and key parameters, independently locating defects, implementing fixes, and verifying regressions.
-- **Container-image troubleshooting**: Diagnosed containerd TLS verification and trust-chain failures while pulling Harbor private images, checking CA,`certs.d`, `hosts.toml`, `imagePullSecrets` and node caches, and documented diagnostic scripts and checklists.
+- **Resource integration**: Contributed to Alibaba Cloud private-cloud Aegis security backend development; coordinated with platform/ECS/BMS/BMCP teams and independently built cluster GPU ingestion and aggregation for statistics, filtering and related queries.
+- **AI asset identification**: Contributed to the feature and independently built OpenClaw/Ollama test containers; combined container state, GPU relationships and vulnerability data for asset-state assessment, associations and risk displays.
+- **Query optimization and fixes**: Adjusted SQL plans, indexes, predicates and covered fields to reduce list/statistics query latency; used Arthas `watch` / `trace` / `stack` for call paths, timings, exceptions and parameters, independently fixing defects and verifying regressions.
+- **Image trust-chain diagnosis**: Located containerd TLS failures pulling Harbor private images; checked CA, `certs.d`, `hosts.toml`, `imagePullSecrets` and node caches, then documented diagnostic scripts and checklists.
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> Project Experience
 
 ### UltiCode Online Programming Judge [GitHub](https://github.com/DavidHLP/UltiCode)
 
-<p class="resume-stack">Java 17 / Spring Boot 3 / Spring Security / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
+<p class="resume-stack">Java 17 / Spring Boot 4 / Spring Security / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
 
 Personal open-source judge: Java services own identity, problems, submissions and business records; an independent Judge Worker executes judging. The Agent integrates through existing HTTP contracts.
 
@@ -47,7 +51,7 @@ Controlled analysis, multi-turn conversations and optional learning plans for th
 - **Explicit confirmation and reconciliation**: Editing invalidates old confirmation; saving requires separate confirmation bound to the current version and digest. Unknown Java write outcomes remain unresolved and are reconciled by same-key readback, never blind retries with a new key.
 - **Sources and MCP projection**: Preserves source scope, version and position. Authorized source code stays request-scoped, outside conversations, events and checkpoints. Optional stdio MCP exposes only the owner's submission list through the authenticated client and strict field projection.
 
-<p class="resume-meta">Live analysis and persistence are enabled separately. This is reproducible engineering practice, not a claim of production deployment or a completed real-user pilot.</p>
+<p class="resume-meta">Reviewed stage-acceptance records for two-account HTTP/model isolation and sourced analysis. LearningPlan writes and failure recovery are not claimed as formally accepted. Live analysis and persistence require separate opt-ins; no production deployment or real-user pilot is claimed.</p>
 
 ## <span class="resume-section-number">[ SEC 03 ]</span> Professional Skills
 
