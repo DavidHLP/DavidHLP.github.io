@@ -4,9 +4,15 @@
   "title": "Java + Vue",
   "lang": "en",
   "role": "Java + Vue Full-stack Engineer",
-  "summary": "Java backend developer with Vue 3, TypeScript and Nuxt 4 UI/API integration experience, focused on complete business flows, authorization boundaries and failure handling."
+  "summary": "2026 graduate with a security-product backend internship; builds business interfaces and API integrations with Java, Vue 3, TypeScript and Nuxt 4."
 }
 ---
+
+## <span class="resume-section-number">[ SEC 00 ]</span> Selected Strengths
+
+- **End-to-end flows**: Integrated UltiCode problem, submission, verdict and admin flows; real browser/Judge acceptance covers login, AC/WA, rejudging and rankings.
+- **Administration and analysis UI**: Built BossAnalyze user tables/forms, a role authorization tree and recruitment filters/charts/paging over existing Java/Spark APIs.
+- **Contracts and failures**: Fixed post-refresh CSRF replay, cached timestamps and profile-length contracts; distinguishes real API checks, browser fixtures and write-verification limits.
 
 ## <span class="resume-section-number">[ SEC 01 ]</span> Internship Experience
 
@@ -16,18 +22,16 @@
 
 <p class="resume-meta">Backend Developer Intern | Alibaba Cloud Private Cloud · Aegis Host Security</p>
 
-- **Business context**: Contributed to Aegis host-security backend development, covering cluster resource ingestion, AI asset identification, resource-query optimization, and production troubleshooting.
-- **GPU resource integration**: Coordinated with platform, ECS, BMS, and BMCP teams and independently implemented cluster-side GPU ingestion and aggregation for statistics, filtering, and related queries.
-- **AI asset identification**: Contributed to the feature and independently built OpenClaw/Ollama test containers; used container state, GPU relationships, and vulnerability data to implement asset-state assessment, GPU associations, and risk displays.
-- **Complex query optimization**: Analyzed SQL execution plans and adjusted indexes, predicates, and covered fields to reduce latency in resource-list and statistics APIs.
-- **Production diagnosis**: Used Arthas `watch` / `trace` / `stack` to inspect call paths, timings, exception stacks, and key parameters, independently locating defects, implementing fixes, and verifying regressions.
-- **Container-image troubleshooting**: Diagnosed containerd TLS verification and trust-chain failures while pulling Harbor private images, checking CA,`certs.d`, `hosts.toml`, `imagePullSecrets` and node caches, and documented diagnostic scripts and checklists.
+- **Resource integration**: Contributed to Alibaba Cloud private-cloud Aegis security backend development; coordinated with platform/ECS/BMS/BMCP teams and independently built cluster GPU ingestion and aggregation for statistics, filtering and related queries.
+- **AI asset identification**: Contributed to the feature and independently built OpenClaw/Ollama test containers; combined container state, GPU relationships and vulnerability data for asset-state assessment, associations and risk displays.
+- **Query optimization and fixes**: Adjusted SQL plans, indexes, predicates and covered fields to reduce list/statistics query latency; used Arthas `watch` / `trace` / `stack` for call paths, timings, exceptions and parameters, independently fixing defects and verifying regressions.
+- **Image trust-chain diagnosis**: Located containerd TLS failures pulling Harbor private images; checked CA, `certs.d`, `hosts.toml`, `imagePullSecrets` and node caches, then documented diagnostic scripts and checklists.
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> Project Experience
 
 ### UltiCode Online Programming Judge [GitHub](https://github.com/DavidHLP/UltiCode)
 
-<p class="resume-stack">Java 17 / Spring Boot 3 / Spring Security / MySQL / Redis Streams / Vue 3 / TypeScript / Docker</p>
+<p class="resume-stack">Java 17 / Spring Boot 4 / Spring Security / MySQL / Redis Streams / Vue 3 / TypeScript / Docker</p>
 
 Personal open-source judge connecting user-side problems, submissions and verdicts with administration of problems and contests. Backend business owners work with an independent Judge Worker.
 
@@ -42,11 +46,12 @@ Personal open-source judge connecting user-side problems, submissions and verdic
 
 Rebuilds management and recruitment-analytics pages around existing Java/Spark APIs, retaining contracts, authorization rules and stored data. Focuses on integration, data states and failure handling.
 
+- **Admin interactions**: Used existing user/role APIs for filtering/paging, detail/create/edit forms and a role authorization tree, with unsaved-change protection, grant read-back and deletion guards.
 - **Analytics pages and components**: Implements city/job filters, sample summaries, an SVG scatter plot, client pagination, read-only job details and separate salary rankings, reusing four existing Spark reads.
 - **Authentication and permissions**: Requires sign-in and resumes the requested route after login. Ordinary accounts may access analytics; ungranted management routes still return 403. Frontend entry points do not broaden server permissions.
 - **Data and interaction states**: Distinguishes empty data, unknown salaries and numeric zero, with loading, failure and retry states. External source links reject executable protocols and credential-bearing URLs.
 - **Contract fixes**: A shared parser accepts cached integer-millisecond timestamps and valid date strings. Create/edit introduction limits match existing `varchar(255)`; oversized input is rejected without silent truncation.
-- **Regression and responsive checks**: Frontend tests, Nuxt type-check and build pass; filters, pagination, details and narrow layouts were checked. Real APIs were verified with an empty database; populated plots and pagination were separately tested with browser fixtures.
+- **Regression and responsive checks**: Frontend tests, Nuxt type-check and build pass; filters, pagination, details and narrow layouts were checked. Real APIs were verified with an empty database; populated plots and pagination were separately tested with browser fixtures. Admin mutations were tested with browser interception only, not executed against real accounts.
 
 ## <span class="resume-section-number">[ SEC 03 ]</span> Professional Skills
 

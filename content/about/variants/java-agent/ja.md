@@ -4,9 +4,15 @@
   "title": "Java + Agent",
   "lang": "ja",
   "role": "Java バックエンド / Agent アプリケーション開発",
-  "summary": "Java バックエンドを基盤に Python Agent と業務 API を連携し、ツール呼び出し、認証の隔離、永続化、復元可能な業務操作に取り組みます。"
+  "summary": "2026 年卒。Java を軸に Python/LangGraph Agent を業務 API と連携し、認証の隔離、出典の境界、明示的確認後の保存を実装。"
 }
 ---
+
+## <span class="resume-section-number">[ SEC 00 ]</span> 主な強み
+
+- **Java API と Agent**：既存 Java の認証・データ認可を維持し、Python/FastAPI・LangGraph で制御されたツール呼び出し、出典付き分析、複数ターン会話を実装。
+- **復元可能な操作**：owner 検査、草稿バージョン、明示的確認、同一冪等キーでの照合により、取消・古い確認・書込結果不明に対応。実装と正式受入検証は区別。
+- **境界の検証**：一般ユーザー 2 アカウントの HTTP 対照、実モデルへの攻撃入力、引用検査で隔離を確認。なりすまし、他アカウントへの要求、出典への指示注入を検証。
 
 ## <span class="resume-section-number">[ SEC 01 ]</span> 実習経験
 
@@ -16,18 +22,16 @@
 
 <p class="resume-meta">バックエンド開発インターン｜Alibaba Cloud 専有クラウド・Aegis ホストセキュリティ</p>
 
-- **業務背景**：Aegis ホストセキュリティ製品のサーバー開発に参加し、クラスターリソースの取り込み、AI 資産識別、検索最適化、本番環境の障害診断を担当。
-- **GPU 資源取り込み**：プラットフォーム、ECS、BMS、BMCP などのチームと連携し、クラスター側 GPU 情報の取り込み・集約を独力で実装。統計、条件による絞り込み、関連検索を支援。
-- **AI 資産識別**：機能開発に参加し、OpenClaw・Ollama のテスト用コンテナー環境を独力で構築。コンテナーの状態、GPU の関連情報、脆弱性データから、資産状態の判定、GPU との関連付け、リスク表示を実装。
-- **複雑な検索の最適化**：SQL 実行計画を分析し、インデックス、検索条件、カバーするフィールドを調整して、リソース一覧・統計 API のクエリ時間を短縮。
-- **本番環境の問題特定**：Arthas `watch` / `trace` / `stack` で呼び出し経路、処理時間、例外スタック、重要な引数を調べ、不具合の特定・修正・回帰検証を独力で実施。
-- **コンテナーイメージの障害診断**：containerd による Harbor プライベートイメージ取得時の TLS 証明書検証・信頼チェーンの問題を特定。CA、`certs.d`、`hosts.toml`、`imagePullSecrets` とノードのキャッシュを調べ、診断スクリプトとチェックリストに整理。
+- **リソース連携**：Alibaba Cloud 専有クラウドの Aegis セキュリティ製品のバックエンド開発に参加。プラットフォーム/ECS/BMS/BMCP と連携し、GPU 情報の取り込み・集約を独力で実装して統計・絞り込み・関連検索を支援。
+- **AI 資産識別**：機能開発に参加し、OpenClaw/Ollama のテスト用コンテナーを独力で構築。コンテナー状態、GPU 関連、脆弱性データから資産状態・関連付け・リスク表示を実装。
+- **検索最適化と障害修正**：SQL 実行計画、インデックス、条件、対象フィールドを調整し、一覧/統計検索の時間を短縮。Arthas `watch` / `trace` / `stack` で経路・時間・例外・引数を調べ、不具合修正と回帰検証を独力で実施。
+- **イメージ信頼チェーン調査**：containerd による Harbor プライベートイメージ取得時の TLS 障害を特定。CA、`certs.d`、`hosts.toml`、`imagePullSecrets`、ノードキャッシュを調べ、診断スクリプトとチェックリストを整備。
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> プロジェクト経験
 
 ### オンラインプログラミング評価システム UltiCode [GitHub](https://github.com/DavidHLP/UltiCode)
 
-<p class="resume-stack">Java 17 / Spring Boot 3 / Spring Security / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
+<p class="resume-stack">Java 17 / Spring Boot 4 / Spring Security / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
 
 個人開発の OSS 評価システム。Java サービスが認証・問題・提出・業務記録を保持し、独立した Judge Worker が判定を実行。Agent は既存 HTTP 契約から業務に接続する。
 
@@ -47,7 +51,7 @@
 - **明示確認と結果照合**：編集後は古い確認を無効化し、保存前に現行バージョンとダイジェストへ結び付けた確認を別途要求。Java の書き込み結果が不明なら未確定状態を保ち、同じ冪等キーで読み戻す。新しいキーで盲目的に再試行しない。
 - **資料と MCP 投影**：出典の範囲・バージョン・位置を保持。許可済みソースコードはリクエスト内だけで利用し、会話・イベント・チェックポイントへ保存しない。任意の stdio MCP は認証済みクライアントと厳密な投影を再利用し、本人の提出一覧だけを公開。
 
-<p class="resume-meta">ライブ分析と永続化は個別に明示的に有効化。再現可能な実装経験であり、本番配備や実ユーザーによる試行の完了を意味しない。</p>
+<p class="resume-meta">2 アカウントの HTTP/モデル隔離と出典付き分析の段階検証記録を確認。学習計画の書込・障害復旧の正式受入完了は主張しない。ライブ分析と永続化は個別に明示的に有効化し、本番配備・実ユーザー試行は主張しない。</p>
 
 ## <span class="resume-section-number">[ SEC 03 ]</span> 専門スキル
 

@@ -29,7 +29,7 @@
   "resumeLabel": "Java",
   "profile": {
     "role": "Java Backend Engineer",
-    "summary": "Java backend developer building UltiCode and ResiCache, with a focus on reliable task delivery, cache protection, and troubleshooting.",
+    "summary": "2026 graduate with an Alibaba Cloud private-cloud security backend internship; focused on Java services, reliable tasks, Redis concurrency and production diagnosis.",
     "location": "Chongqing / Age: 23",
     "contacts": [
       {
@@ -56,6 +56,12 @@
 }
 ---
 
+## <span class="resume-section-number">[ SEC 00 ]</span> Selected Strengths
+
+- **Reliable tasks**: Used Outbox, Redis Streams and SQL CAS for UltiCode delivery gaps, duplicates and rejudge races; added real-MySQL and browser/Judge acceptance to CI.
+- **Caching and concurrency**: Built same-key request coalescing, distributed loading coordination, version checks and reversible migration in ResiCache; verified failure semantics with real Redis/Cluster and concurrency tests.
+- **Open-source collaboration**: Two merged codebase-memory-mcp contributions cover client integration, Linux installer compatibility, installation regressions and user-content preservation.
+
 ## <span class="resume-section-number">[ SEC 01 ]</span> Internship Experience
 
 ### Beyondsoft
@@ -64,12 +70,10 @@
 
 <p class="resume-meta">Backend Developer Intern | Alibaba Cloud Private Cloud · Aegis Host Security</p>
 
-- **Business context**: Contributed to Aegis host-security backend development, covering cluster resource ingestion, AI asset identification, resource-query optimization, and production troubleshooting.
-- **GPU resource integration**: Coordinated with platform, ECS, BMS, and BMCP teams and independently implemented cluster-side GPU ingestion and aggregation for statistics, filtering, and related queries.
-- **AI asset identification**: Contributed to the feature and independently built OpenClaw/Ollama test containers; used container state, GPU relationships, and vulnerability data to implement asset-state assessment, GPU associations, and risk displays.
-- **Complex query optimization**: Analyzed SQL execution plans and adjusted indexes, predicates, and covered fields to reduce latency in resource-list and statistics APIs.
-- **Production diagnosis**: Used Arthas `watch` / `trace` / `stack` to inspect call paths, timings, exception stacks, and key parameters, independently locating defects, implementing fixes, and verifying regressions.
-- **Container-image troubleshooting**: Diagnosed containerd TLS verification and trust-chain failures while pulling Harbor private images, checking CA,`certs.d`, `hosts.toml`, `imagePullSecrets` and node caches, and documented diagnostic scripts and checklists.
+- **Resource integration**: Contributed to Alibaba Cloud private-cloud Aegis security backend development; coordinated with platform/ECS/BMS/BMCP teams and independently built cluster GPU ingestion and aggregation for statistics, filtering and related queries.
+- **AI asset identification**: Contributed to the feature and independently built OpenClaw/Ollama test containers; combined container state, GPU relationships and vulnerability data for asset-state assessment, associations and risk displays.
+- **Query optimization and fixes**: Adjusted SQL plans, indexes, predicates and covered fields to reduce list/statistics query latency; used Arthas `watch` / `trace` / `stack` for call paths, timings, exceptions and parameters, independently fixing defects and verifying regressions.
+- **Image trust-chain diagnosis**: Located containerd TLS failures pulling Harbor private images; checked CA, `certs.d`, `hosts.toml`, `imagePullSecrets` and node caches, then documented diagnostic scripts and checklists.
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> Project Experience
 
@@ -77,12 +81,11 @@
 
 <p class="resume-meta">2025.10 - Present</p>
 
-<p class="resume-stack">Tech stack: Java 17 / Spring Boot 3 / Spring Security / MyBatis-Plus / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
+<p class="resume-stack">Tech stack: Java 17 / Spring Boot 4 / Spring Security / MyBatis-Plus / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
 
 Personal open-source judge covering practice, contests, submissions, sandbox judging and administration. Submission owns submission data; a separate Judge Worker handles delivery failures, duplicates and rejudge-result races.
 
-- **Transactional Outbox delivery**: Writes submission and judge Outbox records in one local transaction; background Redis Streams delivery updates send state and retries with backoff. Lua combines deduplication marking and enqueueing, closing the mark-written/message-not-enqueued failure window.
-- **Task recovery and dead letters**: Uses `XPENDING` / `XCLAIM` to reclaim timed-out unacknowledged tasks, bounding redelivery by capacity and retry count. Exhausted budgets route tasks to dead letters, preventing repeated invalid work.
+- **Reliable delivery and recovery**: Commits submissions and Outbox records together; updates delivery state with backoff retries. Lua atomically combines deduplication and Redis Streams enqueueing to avoid mark-only failures. `XPENDING` / `XCLAIM` reclaim timed-out unacknowledged work; capacity/retry limits and dead letters bound invalid redelivery.
 - **Rejudge-result race control**: Uses `generation` + `attemptId` to identify valid execution, with leases and heartbeat renewal. Verdict SQL CAS checks both conditions to prevent expired attempts overwriting a newer judging round.
 - **Untrusted-code constraints**: Uses Docker network isolation, non-root execution, a read-only root filesystem, capability removal, and Seccomp, plus CPU, memory, PID, and file-descriptor limits to constrain code permissions and resources.
 - **Refresh-token replay protection**: Stores only SHA-256 refresh-token hashes. Rotation checks purpose, ownership, and expiry; conditional updates consume an old token only once and issue its replacement in the same transaction to handle concurrent refreshes.
@@ -96,11 +99,10 @@ Personal open-source judge covering practice, contests, submissions, sandbox jud
 
 Personal open-source Spring Cache extension combining enhanced annotations and a handler chain for same-key request coalescing, distributed loading coordination, versioned early expiration and secure deserialization.
 
-- **Same-key request coalescing**: Uses `ConcurrentHashMap` + `CompletableFuture` for JVM-local Single-flight. The Leader locks and loads; Followers share results. A locked cache double-check reduces repeated source loads and distributed-lock contention.
-- **Layered Bloom filtering**: Combines local and Redis filters. A local hit skips the remote check; a local miss checks Redis and backfills according to the result, without rejecting valid business loads merely because the local filter missed.
+- **Same-key concurrency and async deduplication**: `ConcurrentHashMap` + `CompletableFuture` coalesce JVM requests. A distributed-lock Leader double-checks and loads; Followers share results. Per-key in-flight Futures, bounded queues and `CallerRunsPolicy` control backlog and completion/registration cleanup races.
+- **Layered Bloom filtering**: Local hits skip remote checks; misses query Redis and backfill accordingly, without rejecting valid loads solely on a local miss.
 - **Versioned early expiration**: Redis Lua atomically checks cache-value version before shortening TTL, so stale async tasks cannot alter a new value's lifetime. Later requests load after expiry, handling races with updates and deletion.
-- **Deserialization boundary**: Jackson streaming scans validate type whitelists before parsing the versioned envelope. Regression tests cover malicious type markers and metadata round trips without building a full JSON tree during validation.
-- **Async task deduplication**: Maintains a per-key in-flight Future to avoid duplicate scheduling; bounded executor queues and `CallerRunsPolicy` control backlog and handle cleanup races between completion and Future registration.
+- **Deserialization protection**: Jackson streaming validates the type allowlist before parsing versioned envelopes. Regressions cover malicious types and metadata round trips without building a full JSON tree during validation.
 - **Failure semantics and validation**: Separates business-load exceptions from cache-write failures, returning a successfully loaded value even if write-back fails. Concurrent and real-Redis integration tests cover shared results, exception propagation, new-value TTL protection, and no resurrection after deletion.
 - **Cluster and migration safety**: Verified cache/lock-key slot co-location on a real three-master Redis Cluster. Serialization migration supports shadow reads, dual writes, cutover, rollback, TTL preservation, CAS protection against concurrent-value overwrites and partial-failure resumption.
 
