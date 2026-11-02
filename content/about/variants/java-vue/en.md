@@ -92,4 +92,3 @@ Data Science and Big Data Technology · Bachelor's degree
 
 - [Java production performance diagnosis: a minimal symptom-to-evidence decision tree](/blog/legacy/note/en/java-online-performance-debug/): Connects process/thread stacks, GC, and Arthas observations into containment, evidence preservation, diagnosis, and recovery.
 - [containerd TLS: certificate trust and temporary verification bypass](/blog/legacy/note/en/containerd-tls-troubleshooting/): Separates runtime CA, node trust, registry authentication, and image caches into a layered diagnostic path.
-

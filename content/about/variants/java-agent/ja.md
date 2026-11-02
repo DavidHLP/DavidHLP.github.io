@@ -93,4 +93,3 @@
 
 - [Java 性能障害：現象から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)：プロセス、スレッドスタック、GC、Arthas の観測をつなぎ、影響の抑制・証拠保全・問題特定・復旧の手順を整理。
 - [containerd TLS：証明書信頼と一時検証省略の判断](/blog/legacy/note/ja/containerd-tls-troubleshooting/)：ランタイムの CA、ノードの信頼設定、Registry 認証、イメージキャッシュを区別し、段階的な診断手順を整理。
-

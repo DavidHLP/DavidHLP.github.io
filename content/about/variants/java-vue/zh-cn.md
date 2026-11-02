@@ -92,4 +92,3 @@
 
 - [Java 线上性能排障：从症状到证据的最小决策树](https://davidhlp.github.io/blog/legacy/note/zh-cn/java-online-performance-debug/)：串联进程、线程栈、GC 与 Arthas 观测，整理止损、存证、定位及恢复流程。
 - [containerd TLS：证书信任链与临时跳过验证的决策](https://davidhlp.github.io/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)：区分运行时 CA、节点信任、Registry 认证与镜像缓存，整理分层诊断路径。
-
