@@ -17,4 +17,3 @@ export function validateAboutVariants(entries: readonly { data: Pick<z.infer<typ
     }
   }
 }
-
