@@ -26,6 +26,7 @@
     "revision": "f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64",
     "metadata": {}
   },
+  "resumeLabel": "Java",
   "profile": {
     "role": "Java Backend Engineer",
     "summary": "Java backend developer building UltiCode and ResiCache, with a focus on reliable task delivery, cache protection, and troubleshooting.",

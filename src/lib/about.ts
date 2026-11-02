@@ -1,5 +1,6 @@
 import { getCollection } from "astro:content";
 import type { UiLanguage } from "../ui-language";
+import { validateAboutVariants } from "../about-variants";
 
 export async function getAbout(language: UiLanguage) {
   const entries = await getCollection("about");
@@ -8,4 +9,11 @@ export async function getAbout(language: UiLanguage) {
       throw new Error(`About requires exactly one ${lang} document`);
   }
   return entries.find(entry => entry.data.lang === language)!;
+}
+
+export async function getAboutVariants(language: UiLanguage) {
+  const entries = await getCollection("aboutVariants");
+  validateAboutVariants(entries);
+  return entries.filter(entry => entry.data.lang === language)
+    .sort((a, b) => a.data.variant.localeCompare(b.data.variant));
 }

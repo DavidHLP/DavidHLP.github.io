@@ -1,0 +1,15 @@
+---
+import About from "../../../layouts/About.astro";
+import { getAboutVariants } from "../../../lib/about";
+export async function getStaticPaths() {
+  return (await Promise.all((["en", "ja"] as const).map(async language =>
+    (await getAboutVariants(language)).map(entry => ({
+      params: { lang: language, variant: entry.data.variant },
+      props: { language },
+    })),
+  ))).flat();
+}
+const { language } = Astro.props;
+const { variant } = Astro.params;
+---
+<About language={language} variant={variant} />
