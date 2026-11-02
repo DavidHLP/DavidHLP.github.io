@@ -8,13 +8,19 @@ Related people: DavidHLPL
 Access: Public
 
 Java Backend Engineer
-Java backend developer building UltiCode and ResiCache, with a focus on reliable task delivery, cache protection, and troubleshooting.
+2026 graduate with an Alibaba Cloud private-cloud security backend internship; focused on Java services, reliable tasks, Redis concurrency and production diagnosis.
 Chongqing / Age: 23
 Email · lysf15520112973@163.com: mailto:lysf15520112973@163.com
 GitHub · DavidHLP: https://github.com/DavidHLP
 Phone · 15520112973: tel:15520112973
 WeChat · B1372998589
 Knowledge base: /blog/legacy/information/en/kb-index/
+
+## <span class="resume-section-number">[ SEC 00 ]</span> Selected Strengths
+
+- **Reliable tasks**: Used Outbox, Redis Streams and SQL CAS for UltiCode delivery gaps, duplicates and rejudge races; added real-MySQL and browser/Judge acceptance to CI.
+- **Caching and concurrency**: Built same-key request coalescing, distributed loading coordination, version checks and reversible migration in ResiCache; verified failure semantics with real Redis/Cluster and concurrency tests.
+- **Open-source collaboration**: Two merged codebase-memory-mcp contributions cover client integration, Linux installer compatibility, installation regressions and user-content preservation.
 
 ## <span class="resume-section-number">[ SEC 01 ]</span> Internship Experience
 
@@ -24,12 +30,10 @@ Knowledge base: /blog/legacy/information/en/kb-index/
 
 <p class="resume-meta">Backend Developer Intern | Alibaba Cloud Private Cloud · Aegis Host Security</p>
 
-- **Business context**: Contributed to Aegis host-security backend development, covering cluster resource ingestion, AI asset identification, resource-query optimization, and production troubleshooting.
-- **GPU resource integration**: Coordinated with platform, ECS, BMS, and BMCP teams and independently implemented cluster-side GPU ingestion and aggregation for statistics, filtering, and related queries.
-- **AI asset identification**: Contributed to the feature and independently built OpenClaw/Ollama test containers; used container state, GPU relationships, and vulnerability data to implement asset-state assessment, GPU associations, and risk displays.
-- **Complex query optimization**: Analyzed SQL execution plans and adjusted indexes, predicates, and covered fields to reduce latency in resource-list and statistics APIs.
-- **Production diagnosis**: Used Arthas `watch` / `trace` / `stack` to inspect call paths, timings, exception stacks, and key parameters, independently locating defects, implementing fixes, and verifying regressions.
-- **Container-image troubleshooting**: Diagnosed containerd TLS verification and trust-chain failures while pulling Harbor private images, checking CA,`certs.d`, `hosts.toml`, `imagePullSecrets` and node caches, and documented diagnostic scripts and checklists.
+- **Resource integration**: Contributed to Alibaba Cloud private-cloud Aegis security backend development; coordinated with platform/ECS/BMS/BMCP teams and independently built cluster GPU ingestion and aggregation for statistics, filtering and related queries.
+- **AI asset identification**: Contributed to the feature and independently built OpenClaw/Ollama test containers; combined container state, GPU relationships and vulnerability data for asset-state assessment, associations and risk displays.
+- **Query optimization and fixes**: Adjusted SQL plans, indexes, predicates and covered fields to reduce list/statistics query latency; used Arthas `watch` / `trace` / `stack` for call paths, timings, exceptions and parameters, independently fixing defects and verifying regressions.
+- **Image trust-chain diagnosis**: Located containerd TLS failures pulling Harbor private images; checked CA, `certs.d`, `hosts.toml`, `imagePullSecrets` and node caches, then documented diagnostic scripts and checklists.
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> Project Experience
 
@@ -37,7 +41,7 @@ Knowledge base: /blog/legacy/information/en/kb-index/
 
 <p class="resume-meta">2025.10 - Present</p>
 
-<p class="resume-stack">Tech stack: Java 17 / Spring Boot 3 / Spring Security / MyBatis-Plus / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
+<p class="resume-stack">Tech stack: Java 17 / Spring Boot 4 / Spring Security / MyBatis-Plus / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
 
 Personal open-source judge covering practice, contests, submissions, sandbox judging and administration. Submission owns submission data; a separate Judge Worker handles delivery failures, duplicates and rejudge-result races.
 

@@ -8,13 +8,19 @@
 アクセス: 公開
 
 Java バックエンド開発エンジニア
-Java バックエンド開発を中心に、UltiCode と ResiCache で信頼性の高いタスク配信、キャッシュ保護、障害調査に取り組んでいます。
+2026 年卒。Alibaba Cloud 専有クラウドのセキュリティ製品でバックエンド実習を経験。Java 業務開発、タスク配信、Redis 並行処理と本番障害調査を重視。
 重慶 / 23 歳
 メール · lysf15520112973@163.com: mailto:lysf15520112973@163.com
 GitHub · DavidHLP: https://github.com/DavidHLP
 電話 · 15520112973: tel:15520112973
 WeChat · B1372998589
 知識庫: /blog/legacy/information/ja/kb-index/
+
+## <span class="resume-section-number">[ SEC 00 ]</span> 主な強み
+
+- **タスクの信頼性**：UltiCode で Outbox、Redis Streams、SQL CAS により配信漏れ・重複実行・再判定競合に対応。実 MySQL とブラウザー/Judge の業務検証を CI に組み込む。
+- **キャッシュと並行処理**：ResiCache で同一キーの要求集約、分散ロード調整、バージョン検査、ロールバック可能な移行を実装。実 Redis/Cluster と並行テストで障害時の動作を検証。
+- **OSS への貢献**：codebase-memory-mcp のクライアント連携と Linux インストーラー互換性修正の 2 件がマージ済み。インストール回帰とユーザーデータ保持も検証。
 
 ## <span class="resume-section-number">[ SEC 01 ]</span> 実習経験
 
@@ -24,12 +30,10 @@ WeChat · B1372998589
 
 <p class="resume-meta">バックエンド開発インターン｜Alibaba Cloud 専有クラウド・Aegis ホストセキュリティ</p>
 
-- **業務背景**：Aegis ホストセキュリティ製品のサーバー開発に参加し、クラスターリソースの取り込み、AI 資産識別、検索最適化、本番環境の障害診断を担当。
-- **GPU 資源取り込み**：プラットフォーム、ECS、BMS、BMCP などのチームと連携し、クラスター側 GPU 情報の取り込み・集約を独力で実装。統計、条件による絞り込み、関連検索を支援。
-- **AI 資産識別**：機能開発に参加し、OpenClaw・Ollama のテスト用コンテナー環境を独力で構築。コンテナーの状態、GPU の関連情報、脆弱性データから、資産状態の判定、GPU との関連付け、リスク表示を実装。
-- **複雑な検索の最適化**：SQL 実行計画を分析し、インデックス、検索条件、カバーするフィールドを調整して、リソース一覧・統計 API のクエリ時間を短縮。
-- **本番環境の問題特定**：Arthas `watch` / `trace` / `stack` で呼び出し経路、処理時間、例外スタック、重要な引数を調べ、不具合の特定・修正・回帰検証を独力で実施。
-- **コンテナーイメージの障害診断**：containerd による Harbor プライベートイメージ取得時の TLS 証明書検証・信頼チェーンの問題を特定。CA、`certs.d`、`hosts.toml`、`imagePullSecrets` とノードのキャッシュを調べ、診断スクリプトとチェックリストに整理。
+- **リソース連携**：Alibaba Cloud 専有クラウドの Aegis セキュリティ製品のバックエンド開発に参加。プラットフォーム/ECS/BMS/BMCP と連携し、GPU 情報の取り込み・集約を独力で実装して統計・絞り込み・関連検索を支援。
+- **AI 資産識別**：機能開発に参加し、OpenClaw/Ollama のテスト用コンテナーを独力で構築。コンテナー状態、GPU 関連、脆弱性データから資産状態・関連付け・リスク表示を実装。
+- **検索最適化と障害修正**：SQL 実行計画、インデックス、条件、対象フィールドを調整し、一覧/統計検索の時間を短縮。Arthas `watch` / `trace` / `stack` で経路・時間・例外・引数を調べ、不具合修正と回帰検証を独力で実施。
+- **イメージ信頼チェーン調査**：containerd による Harbor プライベートイメージ取得時の TLS 障害を特定。CA、`certs.d`、`hosts.toml`、`imagePullSecrets`、ノードキャッシュを調べ、診断スクリプトとチェックリストを整備。
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> プロジェクト経験
 
@@ -37,7 +41,7 @@ WeChat · B1372998589
 
 <p class="resume-meta">2025.10 - 現在</p>
 
-<p class="resume-stack">技術：Java 17 / Spring Boot 3 / Spring Security / MyBatis-Plus / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
+<p class="resume-stack">技術：Java 17 / Spring Boot 4 / Spring Security / MyBatis-Plus / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
 
 練習、コンテスト、コード提出、サンドボックスでの判定、管理機能を備えた個人開発の OSS。Submission サービスが提出データを保持し、独立した Judge Worker が判定を実行。タスク配信の失敗、重複実行、再判定結果の競合を重点的に扱う。
 
