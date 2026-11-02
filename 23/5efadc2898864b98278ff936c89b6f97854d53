@@ -1,0 +1,32 @@
+content/blog/legacy/information/zh-cn/introduction.md
+  s_1f9e8743677ef7::t_7bee4a1b62c36d 88
+  s_1f9e8743677ef7::t_2fc10c0485334c 102
+  s_1f9e8743677ef7::t_418d6f4f10f50a 103
+  s_1f9e8743677ef7::t_c35ac15f7f7502 105
+content/blog/legacy/information/en/introduction.md
+  s_1f9e8743677ef7::t_800b735e21ba1a 88
+  s_1f9e8743677ef7::t_cb43ba96da1401 102
+  s_1f9e8743677ef7::t_4a440fd2ba7315 105
+  s_1f9e8743677ef7::t_40b3a7eebf2e69 103
+content/blog/legacy/information/ja/introduction.md
+  s_1f9e8743677ef7::t_c837b7e33670ca 88
+  s_1f9e8743677ef7::t_5b7ca3ee4303df 105
+  s_1f9e8743677ef7::t_ff1af568611879 102
+  s_1f9e8743677ef7::t_8fd48c15979c02 103
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "235efadc2898864b98278ff936c89b6f97854d53",
+  "prompts": {},
+  "sessions": {
+    "s_1f9e8743677ef7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a18c39-1e1b-7d73-9bf2-5a0fc3f2b65d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
