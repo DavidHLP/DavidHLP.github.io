@@ -85,6 +85,7 @@
 - **重判结果竞争控制**：以 `generation` + `attemptId` 标识有效执行，配合租约与心跳续租；结果写回使用带双条件的 SQL CAS，拒绝过期执行结果覆盖新一轮判题。
 - **不可信代码执行约束**：通过 Docker 配置禁网、非 root、只读根文件系统、Capabilities 裁剪及 Seccomp，结合 CPU、内存、PID 与文件句柄限额，限制用户代码权限和资源占用。
 - **刷新令牌防重放**：Refresh Token 仅以 SHA-256 哈希入库；轮换时校验用途、归属与有效期，通过条件更新限制旧令牌仅成功消费一次，并在同一事务内签发新令牌，处理并发刷新竞争。
+- **自动化验收与发布校验**：将真实 MySQL 新装/升级迁移及浏览器、Judge 业务验收接入 CI，覆盖登录、AC/WA、重判和比赛排名；对九镜像发布集合校验签名、SBOM、SLSA 来源及标签摘要，拒绝不完整或冲突的制品。验收与生产部署分开。
 
 ### ResiCache 缓存防护中间件 [GitHub](https://github.com/DavidHLP/ResiCache)
 
@@ -100,6 +101,7 @@
 - **反序列化边界防护**：使用 Jackson 流式扫描校验类型白名单，再解析版本化缓存封装；通过回归测试覆盖恶意类型标记与缓存元数据往返，校验阶段不构建完整 JSON 树。
 - **异步任务去重**：按 Key 维护 in-flight Future，避免重复调度；使用有界线程池队列与 `CallerRunsPolicy` 控制积压，处理任务完成与 Future 登记交错产生的清理竞态。
 - **故障语义与验证**：区分业务加载异常与缓存写回失败，加载成功后写回失败仍返回业务值；通过并发测试及真实 Redis 集成测试覆盖结果共享、异常传播、新值 TTL 保护与删除后不复活。
+- **集群与迁移安全**：在真实三主 Redis Cluster 验证缓存键和锁键槽位共置；实现序列化格式的影子读、双写、切换与回滚，保留 TTL，并以 CAS 拒绝覆盖并发新值，支持部分失败后续跑。
 
 ## <span class="resume-section-number">[ SEC 03 ]</span> 专业技能
 
@@ -114,6 +116,7 @@
 - 能够结合 Arthas、Linux 进程信息、容器日志与 SQL 执行计划定位问题，并完成修复及回归验证。
 - 熟悉 Docker 镜像、网络、资源限制与基本隔离机制；具有 containerd、Harbor 及私有镜像 TLS 排障经验。
 - 熟悉 Git、Maven、Docker Compose、Flyway、Micrometer；使用 Testcontainers 及并发测试验证故障与竞态场景。
+- 具有 GitHub Actions 业务验收、镜像扫描、签名与来源校验实践；按精确候选版本区分受控测试、真实服务验证与生产交付。
 
 ## <span class="resume-section-number">[ SEC 04 ]</span> 教育背景 & 荣誉
 
@@ -138,6 +141,8 @@
 ### 开源贡献
 
 **codebase-memory-mcp**：[PR #1229](https://github.com/DeusData/codebase-memory-mcp/pull/1229) **已合并**。新增 Oh My Pi（OMP）客户端接入，支持配置目录识别、MCP 注册、Skill 安装及安装/卸载流程，补充配置隔离与用户内容保留测试。
+
+[PR #2203](https://github.com/DeusData/codebase-memory-mcp/pull/2203) **已合并**。修复 Linux 系统路径别名导致安装暂存失败的问题，仅允许 root 所有的受信任系统别名，保留对任意用户符号链接的拒绝规则，并补充成功与拒绝路径验证。
 
 ### 代表性技术知识页
 
