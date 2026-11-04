@@ -1,0 +1,19 @@
+scripts/resume/layout.tex
+  s_2cd885c7a1035f::t_b54b3f20727bc6 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5ee2d3fba208867bdb4fc35479911fb64d637c59",
+  "prompts": {},
+  "sessions": {
+    "s_2cd885c7a1035f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a5e7-8861-7250-814a-166ff1c9f1c1",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
