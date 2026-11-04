@@ -1,0 +1,23 @@
+scripts/resume/about.lua
+  s_2cd885c7a1035f::t_0d6c9910b44899 5
+src/about.css
+  s_2cd885c7a1035f::t_1b0f2c4ef42e9d 23
+src/layouts/About.astro
+  s_2cd885c7a1035f::t_0c8b34acc15aea 77-80
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "eb3959ba33a7b6bb1209f3eaaac31b2a811fb960",
+  "prompts": {},
+  "sessions": {
+    "s_2cd885c7a1035f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a5e7-8861-7250-814a-166ff1c9f1c1",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
