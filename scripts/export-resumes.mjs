@@ -24,7 +24,7 @@ if (process.env.RHINE_RESUME_PDF === "1") {
           `--metadata=resume-url:${new URL(aboutPath(language, variant), site.site)}`,
           "--lua-filter=scripts/resume/about.lua",
           "--include-in-header=scripts/resume/layout.tex",
-          "--variable=papersize:a4", "--variable=geometry:margin=14mm",
+          "--variable=papersize:a4", "--variable=geometry:margin=11mm",
           "--variable=mainfont:Noto Serif", "--variable=sansfont:Noto Sans",
           `--variable=CJKmainfont:Noto Serif CJK ${region}`, `--variable=CJKsansfont:Noto Sans CJK ${region}`,
           "--variable=colorlinks",
