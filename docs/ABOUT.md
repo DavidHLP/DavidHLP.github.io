@@ -52,7 +52,7 @@ summary: 当前方向的一句话介绍。
 
 ## LaTeX 简历
 
-安装 Pandoc、XeLaTeX（含 XeCJK 和 titlesec）以及 Noto Serif、Noto Sans 和 Noto CJK 字体后，执行 `RHINE_RESUME_PDF=1 npm run build`。Ubuntu 可用 `apt install pandoc texlive-xetex texlive-lang-chinese fonts-noto-core fonts-noto-cjk` 安装所需工具。部署工作流也可用相同的环境变量启用生成。
+安装 Pandoc、XeLaTeX（含 XeCJK 和 titlesec）以及 Noto Serif、Noto Sans 和 Noto CJK 字体后，执行 `RHINE_RESUME_PDF=1 npm run build`。Ubuntu 可用 `apt install pandoc texlive-xetex texlive-lang-chinese lmodern fonts-noto-core fonts-noto-cjk` 安装所需工具。部署工作流也可用相同的环境变量启用生成。
 
 每个语言与方向的 About 页面会提供自己的 `resume.pdf`。A4 单栏版式由 [layout.tex](../scripts/resume/layout.tex) 维护，正文、姓名和联系方式来自该页面渲染所用的 Markdown。修改内容后重新构建即可更新 PDF。LaTeX 导出隐藏网页导航和档案编号，保留章节、正文及可点击链接。浏览器打印和已有附件仍可使用。
 
