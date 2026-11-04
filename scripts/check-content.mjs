@@ -30,6 +30,12 @@ import { publicFile } from "../src/public-file.ts";
 import { profileSchema } from "../src/profile-schema.ts";
 import { aboutVariantSchema, validateAboutVariants } from "../src/about-variants.ts";
 
+test("résumé footer spacing remains a LaTeX command when PDF export is disabled", async () => {
+  const layout = await readFile(new URL("./resume/layout.tex", import.meta.url), "utf8");
+  assert.match(layout, /^\\setlength\{\\footskip\}\{[^}\n]+\}$/m,
+    "Footer spacing must be a LaTeX command, not text in the preamble");
+});
+
 test("About accepts a minimal profile and only exposes real public attachments", async () => {
   assert.deepEqual(profileSchema.parse(undefined), { contacts: [] });
   assert.deepEqual(profileSchema.parse({}), { contacts: [] });
