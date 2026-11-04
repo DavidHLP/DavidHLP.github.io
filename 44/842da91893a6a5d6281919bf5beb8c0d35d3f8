@@ -1,0 +1,23 @@
+.github/workflows/astro.yml
+  s_2cd885c7a1035f::t_246d5bb3888f97 18
+.github/workflows/deploy.yml
+  s_2cd885c7a1035f::t_5329fd98ecb07c 23
+docs/ABOUT.md
+  s_2cd885c7a1035f::t_36b3add9dc7f38 55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "44842da91893a6a5d6281919bf5beb8c0d35d3f8",
+  "prompts": {},
+  "sessions": {
+    "s_2cd885c7a1035f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a5e7-8861-7250-814a-166ff1c9f1c1",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
