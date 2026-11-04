@@ -16,7 +16,7 @@
     "check:viewport": "node --experimental-strip-types scripts/check-viewport.mjs",
     "export:archives": "node scripts/export-records.mjs",
     "check": "astro check",
-    "build": "astro check && astro build && node scripts/build-pwa.mjs",
+    "build": "astro check && astro build && node --experimental-strip-types scripts/export-resumes.mjs && node scripts/build-pwa.mjs",
     "build:cloudflare": "npm run build && node scripts/package-cloudflare.mjs",
     "format": "prettier --write src scripts content astro.config.ts package.json tsconfig.json",
     "preview": "astro preview --host 127.0.0.1",

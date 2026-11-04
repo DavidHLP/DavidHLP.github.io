@@ -50,6 +50,12 @@ summary: 当前方向的一句话介绍。
 
 方向文档只覆盖正文、职业和介绍，姓名、联系与头像继承默认文档，避免维护多套个人资料。没有方向文档时不生成切换区域。方向与语言链接可直接访问，静态模式会保留；canonical、hreflang、站点地图及离线页面均指向各自方向。打印导出当前方向，默认文档的静态PDF附件不会被误用于其他方向。正文和公开资料仅放在博客；模板的研究方向示例为虚构信息。
 
+## LaTeX 简历
+
+安装 Pandoc、XeLaTeX（含 XeCJK 和 titlesec）以及 Noto Serif、Noto Sans 和 Noto CJK 字体后，执行 `RHINE_RESUME_PDF=1 npm run build`。Ubuntu 可用 `apt install pandoc texlive-xetex texlive-lang-chinese fonts-noto-core fonts-noto-cjk` 安装所需工具。部署工作流也可用相同的环境变量启用生成。
+
+每个语言与方向的 About 页面会提供自己的 `resume.pdf`。A4 单栏版式由 [layout.tex](../scripts/resume/layout.tex) 维护，正文、姓名和联系方式来自该页面渲染所用的 Markdown。修改内容后重新构建即可更新 PDF。LaTeX 导出隐藏网页导航和档案编号，保留章节、正文及可点击链接。浏览器打印和已有附件仍可使用。
+
 ## 长简历
 
 “打印 / 保存 PDF”使用 A4 竖版纸张（210×297mm）、11mm 页边距，固定为暖灰亮色，不受当前屏幕宽度或暗色偏好影响。身份与联系方式置于紧凑页眉，完整履历按单列从上到下自然续页；正文 10pt、1.35 倍行高，不保留身份侧栏或正文分栏。现有三语长履历以两页为排版目标；模板不截断内容或强制限制页数，新增内容仍自然续页。
