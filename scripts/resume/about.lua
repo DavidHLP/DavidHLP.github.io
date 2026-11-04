@@ -2,7 +2,7 @@ function Pandoc(doc)
   local name, profile, body
   doc:walk({
     Div = function(block)
-      if block.classes:includes("about-identity") then
+      if block.classes:includes("resume-export-identity") then
         for _, child in ipairs(block.content) do
           if child.t == "Header" and child.level == 1 then name = child.content end
           if child.t == "Div" and child.classes:includes("profile-details") then
