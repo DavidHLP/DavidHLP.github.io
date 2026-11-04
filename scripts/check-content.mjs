@@ -94,6 +94,11 @@ test("built About variants retain focus across language links and have independe
     for (const other of ["zh-CN", "en", "ja"])
       assert.ok(html.includes(`hreflang="${other}" href="${new URL(aboutPath(other, variant), site.site)}"`));
     assert.ok(html.includes('class="resume-body"') && html.includes('id="about-print"'));
+    if (process.env.RHINE_RESUME_PDF === "1") {
+      assert.ok(html.includes(`href="${path}resume.pdf" download`));
+      const pdf = await readFile(new URL(`../dist${path}resume.pdf`, import.meta.url));
+      assert.equal(pdf.subarray(0, 5).toString(), "%PDF-");
+    }
     assert.ok(!html.includes('id="stage"') && !html.includes('id="boot"'));
     assert.ok(sitemap.includes(new URL(path, site.site).href));
     const directions = html.match(/<nav class="about-variants"[^>]*>[\s\S]*?<\/nav>/)?.[0];

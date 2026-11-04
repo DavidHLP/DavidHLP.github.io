@@ -27,6 +27,7 @@ const copy = {
   en: { about: "About", home: "Archives", contents: "On this page", print: "Print / Save PDF", download: "Download résumé", skip: "Skip to content", theme: "Dark", note: "Profile & selected practice", top: "Back to top" },
   ja: { about: "プロフィール", home: "アーカイブ", contents: "目次", print: "印刷 / PDF 保存", download: "履歴書をダウンロード", skip: "本文へ", theme: "ダーク", note: "自己紹介と実践の記録", top: "先頭へ戻る" },
 }[language];
+const latexDownload = { "zh-CN": "下载 LaTeX 简历", en: "Download LaTeX résumé", ja: "LaTeX 履歴書をダウンロード" }[language];
 const sections = headings.filter(heading => heading.depth === 2);
 const variantCopy = {
   "zh-CN": { heading: "简历方向", standard: "标准版" },
@@ -37,6 +38,8 @@ const title = `${name} · ${selected?.data.title ?? base.data.resumeLabel ?? cop
 const description = profile.summary ?? profile.role ?? name;
 const canonical = new URL(aboutPath(language, variant), Astro.site);
 const avatar = publicFile(profile.avatar);
+const latexResume = import.meta.env.PROD && process.env.RHINE_RESUME_PDF === "1"
+  ? `${aboutPath(language, variant)}resume.pdf` : undefined;
 const resume = variant ? undefined : publicFile(profile.resume);
 ---
 <!doctype html>
@@ -82,6 +85,7 @@ const resume = variant ? undefined : publicFile(profile.resume);
         </nav>}
         <div class="about-actions">
           <button id="about-print" hidden>{copy.print}<span aria-hidden="true"> ↗</span></button>
+          {latexResume && <a href={latexResume} download>{latexDownload} ↓</a>}
           {resume && <a href={resume} download>{copy.download} ↓</a>}
         </div>
         {sections.length > 0 && <nav class="about-contents" aria-label={copy.contents}>
@@ -91,7 +95,7 @@ const resume = variant ? undefined : publicFile(profile.resume);
       </aside>
       <article class="resume-body" id="rhine:about:content" tabindex="-1">
         <div class="about-document-label" aria-hidden="true"><span>{copy.note}</span><span>RHINE LAB / ARCHIVE</span></div>
-        <Content />
+        <div class="resume-export-body"><Content /></div>
       </article>
     </main>
     <footer class="about-footer"><span>{site.title}</span><a href="#rhine:about:top">{copy.top} ↑</a></footer>
