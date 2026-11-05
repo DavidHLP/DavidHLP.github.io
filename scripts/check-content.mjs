@@ -30,6 +30,12 @@ import { publicFile } from "../src/public-file.ts";
 import { profileSchema } from "../src/profile-schema.ts";
 import { aboutVariantSchema, validateAboutVariants } from "../src/about-variants.ts";
 
+test("résumé footer spacing remains a LaTeX command when PDF export is disabled", async () => {
+  const layout = await readFile(new URL("./resume/layout.tex", import.meta.url), "utf8");
+  assert.match(layout, /^\\setlength\{\\footskip\}\{[^}\n]+\}$/m,
+    "Footer spacing must be a LaTeX command, not text in the preamble");
+});
+
 test("About accepts a minimal profile and only exposes real public attachments", async () => {
   assert.deepEqual(profileSchema.parse(undefined), { contacts: [] });
   assert.deepEqual(profileSchema.parse({}), { contacts: [] });
@@ -94,6 +100,11 @@ test("built About variants retain focus across language links and have independe
     for (const other of ["zh-CN", "en", "ja"])
       assert.ok(html.includes(`hreflang="${other}" href="${new URL(aboutPath(other, variant), site.site)}"`));
     assert.ok(html.includes('class="resume-body"') && html.includes('id="about-print"'));
+    if (process.env.RHINE_RESUME_PDF === "1") {
+      assert.ok(html.includes(`href="${path}resume.pdf" download`));
+      const pdf = await readFile(new URL(`../dist${path}resume.pdf`, import.meta.url));
+      assert.equal(pdf.subarray(0, 5).toString(), "%PDF-");
+    }
     assert.ok(!html.includes('id="stage"') && !html.includes('id="boot"'));
     assert.ok(sitemap.includes(new URL(path, site.site).href));
     const directions = html.match(/<nav class="about-variants"[^>]*>[\s\S]*?<\/nav>/)?.[0];
