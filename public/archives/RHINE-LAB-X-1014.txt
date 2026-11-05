@@ -9,11 +9,10 @@
 
 Java 后端开发工程师
 2026 届本科，具备阿里云专有云安全产品实习经历；聚焦 Java 业务开发、任务可靠性、Redis 并发与线上排障。
-[redacted]
+重庆
+如招聘方对我的经历感兴趣，欢迎通过邮箱联系。
 邮箱 · [redacted-email]: mailto:[redacted-email]
 GitHub · DavidHLP: https://github.com/DavidHLP
-电话 · [redacted]: tel:[redacted]
-微信 · [redacted]
 知识库: /blog/legacy/information/zh-cn/kb-index/
 
 ## <span class="resume-section-number">[ SEC 00 ]</span> 核心优势
