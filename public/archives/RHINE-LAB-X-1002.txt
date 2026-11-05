@@ -9,11 +9,10 @@ Access: Public
 
 Java Backend Engineer
 2026 graduate with an Alibaba Cloud private-cloud security backend internship; focused on Java services, reliable tasks, Redis concurrency and production diagnosis.
-Chongqing / Age: 23
+Chongqing
+Recruiters interested in my experience are welcome to contact me by email.
 Email · lysf15520112973@163.com: mailto:lysf15520112973@163.com
 GitHub · DavidHLP: https://github.com/DavidHLP
-Phone · 15520112973: tel:15520112973
-WeChat · B1372998589
 Knowledge base: /blog/legacy/information/en/kb-index/
 
 ## <span class="resume-section-number">[ SEC 00 ]</span> Selected Strengths

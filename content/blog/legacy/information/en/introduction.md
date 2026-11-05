@@ -30,7 +30,7 @@
   "profile": {
     "role": "Java Backend Engineer",
     "summary": "2026 graduate with an Alibaba Cloud private-cloud security backend internship; focused on Java services, reliable tasks, Redis concurrency and production diagnosis.",
-    "location": "Chongqing / Age: 23",
+    "location": "Chongqing",
     "avatar": "/images/profile-avatar.png",
     "contacts": [
       {

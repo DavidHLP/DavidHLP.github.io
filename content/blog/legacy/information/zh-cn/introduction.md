@@ -30,7 +30,7 @@
   "profile": {
     "role": "Java 后端开发工程师",
     "summary": "2026 届本科，具备阿里云专有云安全产品实习经历；聚焦 Java 业务开发、任务可靠性、Redis 并发与线上排障。",
-    "location": "重庆 / 23岁",
+    "location": "重庆",
     "avatar": "/images/profile-avatar.png",
     "contacts": [
       {
