@@ -1,6 +1,9 @@
 function Pandoc(doc)
-  local name, profile, body
+  local name, profile, body, avatar
   doc:walk({
+    Image = function(image)
+      if image.classes:includes("about-avatar") then avatar = image end
+    end,
     Div = function(block)
       if block.classes:includes("resume-export-identity") then
         for _, child in ipairs(block.content) do
@@ -16,7 +19,14 @@ function Pandoc(doc)
   })
   assert(name and profile and body, "Missing About name, profile or résumé body")
 
-  local blocks = pandoc.List({pandoc.Header(1, name, pandoc.Attr("resume-name"))})
+  local blocks = pandoc.List()
+  if avatar then
+    assert(avatar.src:match("^/[%w%-%._/]+$") and not avatar.src:find("..", 1, true), "Invalid avatar path")
+    avatar.src = "dist" .. avatar.src
+    avatar.attributes.width = "22mm"
+    blocks:insert(pandoc.RawBlock("latex", "\\begin{minipage}[t]{0.80\\textwidth}"))
+  end
+  blocks:insert(pandoc.Header(1, name, pandoc.Attr("resume-name")))
   for _, block in ipairs(profile) do
     if block.t == "BulletList" then
       local contacts = pandoc.List()
@@ -28,6 +38,11 @@ function Pandoc(doc)
     else
       blocks:insert(block)
     end
+  end
+  if avatar then
+    blocks:insert(pandoc.RawBlock("latex", "\\end{minipage}\\hfill\\begin{minipage}[t]{0.16\\textwidth}\\vspace{0pt}"))
+    blocks:insert(pandoc.Para({avatar}))
+    blocks:insert(pandoc.RawBlock("latex", "\\end{minipage}\\par\\medskip"))
   end
   blocks:extend(body)
 

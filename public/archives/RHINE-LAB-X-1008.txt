@@ -9,11 +9,10 @@
 
 Java バックエンド開発エンジニア
 2026 年卒。Alibaba Cloud 専有クラウドのセキュリティ製品でバックエンド実習を経験。Java 業務開発、タスク配信、Redis 並行処理と本番障害調査を重視。
-重慶 / 23 歳
+重慶
+採用担当の方は、関心をお持ちいただけましたらメールでご連絡ください。
 メール · lysf15520112973@163.com: mailto:lysf15520112973@163.com
 GitHub · DavidHLP: https://github.com/DavidHLP
-電話 · 15520112973: tel:15520112973
-WeChat · B1372998589
 知識庫: /blog/legacy/information/ja/kb-index/
 
 ## <span class="resume-section-number">[ SEC 00 ]</span> 主な強み
