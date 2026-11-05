@@ -101,14 +101,12 @@ GitHub · DavidHLP: https://github.com/DavidHLP
 
 ### 开源贡献
 
-**codebase-memory-mcp**：[PR #1229](https://github.com/DeusData/codebase-memory-mcp/pull/1229) **已合并**。新增 Oh My Pi（OMP）客户端接入，支持配置目录识别、MCP 注册、Skill 安装及安装/卸载流程，补充配置隔离与用户内容保留测试。
-
-[PR #2203](https://github.com/DeusData/codebase-memory-mcp/pull/2203) **已合并**。修复 Linux 系统路径别名导致安装暂存失败的问题，仅允许 root 所有的受信任系统别名，保留对任意用户符号链接的拒绝规则，并补充成功与拒绝路径验证。
+**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：贡献 Oh My Pi 客户端接入，完善 MCP 注册、安装卸载与用户配置保护；修复 Linux 受信任系统路径兼容问题，并补充安装回归测试。
 
 ### 代表性技术知识页
 
 - [Java 线上性能排障：从症状到证据的最小决策树](/blog/legacy/note/zh-cn/java-online-performance-debug/)：串联进程、线程栈、GC 与 Arthas 观测，整理止损、存证、定位及恢复流程。
-- [containerd TLS：证书信任链与临时跳过验证的决策](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)：区分运行时 CA、节点信任、Registry 认证与镜像缓存，整理分层诊断路径。
+- [UltiCode Outbox 与 Redis Streams：把判题投递做成可恢复状态](/blog/legacy/note/zh-cn/ulticode-outbox-redis-streams/)：梳理事务 Outbox、原子投递、重试、死信与待确认消息回收。
 
 研究记录
 1. 原始文档: src/content/information/zh-cn/introduction.md

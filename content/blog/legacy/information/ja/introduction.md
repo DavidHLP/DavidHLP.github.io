@@ -139,11 +139,9 @@
 
 ### OSS 貢献
 
-**codebase-memory-mcp**：[PR #1229](https://github.com/DeusData/codebase-memory-mcp/pull/1229) **マージ済み**。Oh My Pi（OMP）接続を追加し、設定ディレクトリ検出、MCP 登録、Skill の配置、インストール・アンインストールに対応し、設定の隔離と利用者コンテンツ保持のテストを追加。
-
-[PR #2203](https://github.com/DeusData/codebase-memory-mcp/pull/2203) **マージ済み**。Linux のシステムパス別名によるインストール用ステージングの失敗を修正。root 所有の信頼できるシステム別名のみを許可し、任意のユーザー所有シンボリックリンクの拒否を維持。許可・拒否の両経路を検証。
+**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：Oh My Pi クライアント接続、MCP 登録、インストール・アンインストールと利用者設定の保護に貢献。Linux の信頼できるシステムパスとの互換性を修正し、回帰テストを追加。
 
 ### 代表的な技術知識頁
 
 - [Java 性能障害：現象から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)：プロセス、スレッドスタック、GC、Arthas の観測をつなぎ、影響の抑制・証拠保全・問題特定・復旧の手順を整理。
-- [containerd TLS：証明書信頼と一時検証省略の判断](/blog/legacy/note/ja/containerd-tls-troubleshooting/)：ランタイムの CA、ノードの信頼設定、Registry 認証、イメージキャッシュを区別し、段階的な診断手順を整理。
+- [UltiCode Outbox と Redis Streams：判定タスクの配送を復旧可能な状態にする](/blog/legacy/note/ja/ulticode-outbox-redis-streams/)：トランザクション Outbox、原子的な配送、再試行、デッドレターと未確認メッセージの回収を整理。
