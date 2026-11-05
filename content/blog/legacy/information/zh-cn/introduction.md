@@ -31,7 +31,11 @@
     "role": "Java 后端开发工程师",
     "summary": "2026 届本科，具备阿里云专有云安全产品实习经历；聚焦 Java 业务开发、任务可靠性、Redis 并发与线上排障。",
     "location": "[redacted]",
+    "avatar": "/images/[redacted].png",
     "contacts": [
+      {
+        "label": "如招聘方对我的经历感兴趣，欢迎通过邮箱联系。"
+      },
       {
         "label": "邮箱 · [redacted-email]",
         "href": "mailto:[redacted-email]"
@@ -39,13 +43,6 @@
       {
         "label": "GitHub · DavidHLP",
         "href": "https://github.com/DavidHLP"
-      },
-      {
-        "label": "电话 · [redacted]",
-        "href": "tel:[redacted]"
-      },
-      {
-        "label": "微信 · [redacted]"
       },
       {
         "label": "知识库",
