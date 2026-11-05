@@ -20,6 +20,7 @@ button { font: inherit; color: inherit; background: transparent; cursor: pointer
 .about-nav button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 .about-sheet { display: grid; grid-template-columns: minmax(0, 240px) minmax(0, 1fr); gap: 48px; padding-block: 40px 64px; align-items: start; }
 .about-identity { min-width: 0; }
+.resume-export-identity { display: contents; }
 .about-eyebrow, .about-document-label, .about-contents > p { font-size: 11px; letter-spacing: .1em; color: var(--muted); }
 .about-eyebrow { margin: 0 0 16px; display: flex; justify-content: space-between; }
 .about-identity h1 { font-size: clamp(32px, 3.3vw, 46px); font-weight: 500; letter-spacing: -.035em; line-height: 1.2; margin: 0 0 20px; text-wrap: balance; }
@@ -46,7 +47,7 @@ button { font: inherit; color: inherit; background: transparent; cursor: pointer
 .resume-body { min-width: 0; line-height: 1.75; }
 .resume-body:focus { outline: none; }
 .resume-body h2 { font-size: 23px; font-weight: 500; line-height: 1.5; border-top: 1px solid var(--line); padding-top: 20px; margin: 32px 0 20px; scroll-margin-top: 32px; }
-.resume-body > h2:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
+.resume-export-body > h2:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
 .resume-body h3 { font-size: 19px; font-weight: 600; line-height: 1.6; margin: 20px 0 10px; }
 .resume-body h4 { font-size: 17px; margin: 24px 0 10px; }
 .resume-body p { margin: 12px 0 18px; }
