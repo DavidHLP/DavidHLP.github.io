@@ -24,7 +24,7 @@ button { font: inherit; color: inherit; background: transparent; cursor: pointer
 .about-eyebrow, .about-document-label, .about-contents > p { font-size: 11px; letter-spacing: .1em; color: var(--muted); }
 .about-eyebrow { margin: 0 0 16px; display: flex; justify-content: space-between; }
 .about-identity h1 { font-size: clamp(32px, 3.3vw, 46px); font-weight: 500; letter-spacing: -.035em; line-height: 1.2; margin: 0 0 20px; text-wrap: balance; }
-.about-avatar { display: block; object-fit: cover; margin-block: 0 24px; border-radius: 50%; }
+.about-avatar { display: block; width: 112px; aspect-ratio: 3 / 4; height: auto; object-fit: cover; margin-block: 0 24px; }
 .profile-role { font-size: 17px; font-weight: 500; line-height: 1.6; margin: 0 0 18px; }
 .profile-summary { color: var(--muted); margin: 0 0 16px; line-height: 1.75; }
 .profile-location { font-size: 13px; color: var(--muted); }
@@ -97,7 +97,7 @@ button { font: inherit; color: inherit; background: transparent; cursor: pointer
   .about-page { font-size: 16px; line-height: 1.8; }
   .about-identity { margin: 0 0 10pt; padding: 0 0 8pt; border-bottom: 1px solid var(--line); break-inside: avoid; }
   .about-eyebrow { display: none; }
-  .about-avatar { float: right; width: 64px; height: 64px; margin: 0 0 8px 20px; }
+  .about-avatar { float: right; width: 64px; height: auto; margin: 0 0 8px 20px; }
   .about-identity h1 { display: inline-block; font-size: 21pt; line-height: 1.2; margin: 0 12pt 5pt 0; max-width: none; }
   .profile-details { display: contents; }
   .profile-role { display: inline-block; font-size: 10.5pt; line-height: 1.5; margin: 0 0 5pt; }
