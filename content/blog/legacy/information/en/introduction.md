@@ -139,11 +139,9 @@ Data Science and Big Data Technology · Bachelor's degree
 
 ### Open-source contributions
 
-**codebase-memory-mcp**：[PR #1229](https://github.com/DeusData/codebase-memory-mcp/pull/1229) **Merged**. Added Oh My Pi (OMP) client integration with configuration-directory discovery, MCP registration, Skill installation, and install/uninstall workflows, plus configuration-isolation and user-content-preservation tests.
-
-[PR #2203](https://github.com/DeusData/codebase-memory-mcp/pull/2203) **Merged**. Fixed Linux installation staging for trusted root-owned system-path aliases; retains rejection of arbitrary user-owned symlinks and verifies both accepted/rejected paths.
+**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**: Contributed Oh My Pi client integration, MCP registration, install/uninstall and user configuration protection; fixed Linux trusted system-path compatibility and added installer regression coverage.
 
 ### Selected technical knowledge pages
 
 - [Java production performance diagnosis: a minimal symptom-to-evidence decision tree](/blog/legacy/note/en/java-online-performance-debug/): Connects process/thread stacks, GC, and Arthas observations into containment, evidence preservation, diagnosis, and recovery.
-- [containerd TLS: certificate trust and temporary verification bypass](/blog/legacy/note/en/containerd-tls-troubleshooting/): Separates runtime CA, node trust, registry authentication, and image caches into a layered diagnostic path.
+- [UltiCode Outbox and Redis Streams: Making Judge Delivery Recoverable](/blog/legacy/note/en/ulticode-outbox-redis-streams/): Explains transactional outbox, atomic delivery, retries, dead letters and pending-message recovery.
