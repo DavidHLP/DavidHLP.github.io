@@ -123,3 +123,23 @@ button { font: inherit; color: inherit; background: transparent; cursor: pointer
 }
 
 .resume-body .resume-section-number { display: none; }
+
+/* The web preview uses pages rendered from the downloadable LaTeX PDF. */
+.about-latex { display: block; max-width: 960px; }
+.about-latex .about-identity { margin-bottom: 24px; }
+.about-latex .about-variants { margin: 0; }
+.about-latex .about-actions { flex-direction: row; flex-wrap: wrap; }
+.about-latex :is(.about-eyebrow, .about-avatar, .about-contents) { display: none; }
+.about-latex .resume-export-identity { display: block; position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); }
+.latex-pages { display: grid; gap: 24px; }
+.latex-pages a { display: block; background: white; box-shadow: 0 2px 16px #0002; }
+.resume-body .latex-pages img { display: block; width: 100%; height: auto; margin: 0; }
+.about-latex .about-text { margin-top: 24px; }
+.about-text > summary { cursor: pointer; padding: 12px 0; }
+@media (max-width: 600px) {
+  .about-latex { width: calc(100% - 24px); }
+}
+@media print {
+  .latex-pages { display: none; }
+  .about-latex .resume-export-identity { display: block; }
+}

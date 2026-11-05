@@ -15,7 +15,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends pandoc texlive-xetex texlive-lang-chinese texlive-fonts-recommended lmodern fonts-noto-core fonts-noto-cjk
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends poppler-utils pandoc texlive-xetex texlive-lang-chinese texlive-fonts-recommended lmodern fonts-noto-core fonts-noto-cjk
       - run: npm run build:cloudflare
       - run: npm run check:content
       - run: npm run check:viewport

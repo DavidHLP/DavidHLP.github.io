@@ -1,6 +1,6 @@
 import { execFile } from "node:child_process";
 import { existsSync } from "node:fs";
-import { readdir } from "node:fs/promises";
+import { readdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { promisify } from "node:util";
 import site from "../content/site.json" with { type: "json" };
@@ -33,6 +33,20 @@ if (process.env.RHINE_RESUME_PDF === "1") {
       } catch (error) {
         throw new Error(`Could not typeset ${aboutPath(language, variant)}\n${error.stderr || error.message}`, { cause: error });
       }
+      const pdf = join(path, "resume.pdf");
+      const { stdout: info } = await run("pdfinfo", [pdf]);
+      const pages = Number(info.match(/^Pages:\s+(\d+)$/m)?.[1]);
+      if (!Number.isInteger(pages) || pages < 1 || pages > 2)
+        throw new Error(`Résumé must contain 1–2 pages: ${pdf} (${pages})`);
+      const previews = [];
+      for (let page = 1; page <= pages; page++) {
+        const file = `resume-page-${page}.svg`;
+        await run("pdftocairo", ["-svg", "-f", String(page), "-l", String(page), pdf, join(path, file)]);
+        previews.push(`<a href="${aboutPath(language, variant)}resume.pdf#page=${page}" aria-label="PDF · ${page}/${pages}"><img src="${aboutPath(language, variant)}${file}" alt="${language} · ${page}/${pages}" width="794" height="1123" ${page > 1 ? 'loading="lazy"' : ''}></a>`);
+      }
+      const html = await readFile(source, "utf8");
+      if (!html.includes("<!-- LATEX_PAGES -->")) throw new Error(`Missing LaTeX preview slot: ${source}`);
+      await writeFile(source, html.replace("<!-- LATEX_PAGES -->", previews.join("")));
       console.log(`LaTeX résumé: ${aboutPath(language, variant)}resume.pdf`);
     }
   }

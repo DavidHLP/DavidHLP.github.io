@@ -52,7 +52,7 @@ summary: 当前方向的一句话介绍。
 
 ## LaTeX 简历
 
-安装 Pandoc、XeLaTeX（含 XeCJK 和 titlesec）以及 Noto Serif、Noto Sans 和 Noto CJK 字体后，执行 `RHINE_RESUME_PDF=1 npm run build`。Ubuntu 可用 `apt install pandoc texlive-xetex texlive-lang-chinese texlive-fonts-recommended lmodern fonts-noto-core fonts-noto-cjk` 安装所需工具。部署工作流也可用相同的环境变量启用生成。
+安装 Poppler（`pdfinfo`、`pdftocairo`）、Pandoc、XeLaTeX（含 XeCJK 和 titlesec）以及 Noto Serif、Noto Sans 和 Noto CJK 字体后，执行 `RHINE_RESUME_PDF=1 npm run build`。Ubuntu 可用 `apt install poppler-utils pandoc texlive-xetex texlive-lang-chinese texlive-fonts-recommended lmodern fonts-noto-core fonts-noto-cjk` 安装所需工具。部署工作流也可用相同的环境变量启用生成。
 
 每个语言与方向的 About 页面会提供自己的 `resume.pdf`。A4 单栏版式由 [layout.tex](../scripts/resume/layout.tex) 维护，正文、姓名和联系方式来自该页面渲染所用的 Markdown。修改内容后重新构建即可更新 PDF。LaTeX 导出隐藏网页导航和档案编号，保留章节、正文及可点击链接。浏览器打印和已有附件仍可使用。
 
@@ -87,3 +87,5 @@ summary: 当前方向的一句话介绍。
 上游同步使用 Git merge：通用组件、样式和字段来自模板，个人正文和 `site.json` 留在博客。如果已有迁移 catch-all，请将三个真实 About 地址从旧重定向生成列表中移除，保留旧介绍文章及其迁移入口。静态路由自动进入站点地图；页面包含 canonical、hreflang 和语言信息。
 
 验收清单见 [ABOUT-ACCEPTANCE.md](ABOUT-ACCEPTANCE.md)。`check:viewport` 仅验证档案布局计算，不能代替实际 About 截图、打印和浏览器操作。
+
+启用 LaTeX 后，网页直接展示同一份 PDF 生成的矢量 A4 页面，点击页面可打开 PDF；方向切换、语言切换和下载保留。文字版可展开阅读，保留无 JavaScript 与辅助技术访问。构建检查每份 PDF 为 1–2 页，超出时失败，不裁切或删减正文。

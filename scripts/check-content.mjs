@@ -107,6 +107,13 @@ test("built About variants retain focus across language links and have independe
       assert.ok(html.includes(`href="${path}resume.pdf" download`));
       const pdf = await readFile(new URL(`../dist${path}resume.pdf`, import.meta.url));
       assert.equal(pdf.subarray(0, 5).toString(), "%PDF-");
+      assert.ok(!html.includes("<!-- LATEX_PAGES -->"));
+      const previews = [...html.matchAll(/<img src="[^"]*resume-page-(\d+)\.svg"/g)];
+      assert.ok(previews.length >= 1 && previews.length <= 2);
+      for (const [, page] of previews) {
+        const svg = await readFile(new URL(`../dist${path}resume-page-${page}.svg`, import.meta.url), "utf8");
+        assert.ok(svg.includes("<svg"));
+      }
     }
     assert.ok(!html.includes('id="stage"') && !html.includes('id="boot"'));
     assert.ok(sitemap.includes(new URL(path, site.site).href));
