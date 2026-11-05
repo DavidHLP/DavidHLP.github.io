@@ -1,0 +1,23 @@
+content/blog/legacy/information/zh-cn/introduction.md
+  s_85b4e93097cc63::t_6154dcfea783f1 34,36-38
+content/blog/legacy/information/en/introduction.md
+  s_85b4e93097cc63::t_6154dcfea783f1 34,36-38
+content/blog/legacy/information/ja/introduction.md
+  s_85b4e93097cc63::t_6154dcfea783f1 34,36-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4da3a6469e11513b7c95a2bac33c54925137e764",
+  "prompts": {},
+  "sessions": {
+    "s_85b4e93097cc63": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1aaf8-cd9e-7713-9222-aac827b96185",
+        "model": "gpt-6.1-terra"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
