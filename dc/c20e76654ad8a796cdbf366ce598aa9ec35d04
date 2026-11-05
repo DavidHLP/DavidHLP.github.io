@@ -1,0 +1,29 @@
+.github/workflows/astro.yml
+  s_e79dc81f7ac99f::t_2c89fc1ae6166d 18
+docs/ABOUT.md
+  s_e79dc81f7ac99f::t_a8d3d025f9c3ac 55,90-91
+scripts/check-content.mjs
+  s_e79dc81f7ac99f::t_75a07bbcdc1833 110-116
+scripts/export-resumes.mjs
+  s_e79dc81f7ac99f::t_8ad1a7814b3a95 3,36-49
+src/about.css
+  s_e79dc81f7ac99f::t_07baf948d6f563 126-145
+src/layouts/About.astro
+  s_e79dc81f7ac99f::t_3070c8c26a20c3 31-32,75,91,101-103,106,125-128
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "dcc20e76654ad8a796cdbf366ce598aa9ec35d04",
+  "prompts": {},
+  "sessions": {
+    "s_e79dc81f7ac99f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1ac0d-ae96-7641-a6b1-422308477b43",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
