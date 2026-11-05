@@ -1,0 +1,26 @@
+src/layouts/About.astro
+  s_85b4e93097cc63::t_dd03c7b652270b 76
+scripts/resume/about.lua
+  s_85b4e93097cc63::t_dd03c7b652270b 44
+  s_85b4e93097cc63::t_0ddfb6626c0715 43
+scripts/resume/layout.tex
+  s_85b4e93097cc63::t_dd03c7b652270b 2
+src/about.css
+  s_85b4e93097cc63::t_dd03c7b652270b 27,100
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "311cdc190267580f8df36bb4ec6ba5ef752f36bd",
+  "prompts": {},
+  "sessions": {
+    "s_85b4e93097cc63": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1aaf8-cd9e-7713-9222-aac827b96185",
+        "model": "gpt-6.1-terra"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
