@@ -23,7 +23,6 @@ function Pandoc(doc)
   if avatar then
     assert(avatar.src:match("^/[%w%-%._/]+$") and not avatar.src:find("..", 1, true), "Invalid avatar path")
     avatar.src = "dist" .. avatar.src
-    avatar.attributes.width = "22mm"
     blocks:insert(pandoc.RawBlock("latex", "\\begin{minipage}[t]{0.80\\textwidth}"))
   end
   blocks:insert(pandoc.Header(1, name, pandoc.Attr("resume-name")))
@@ -41,7 +40,8 @@ function Pandoc(doc)
   end
   if avatar then
     blocks:insert(pandoc.RawBlock("latex", "\\end{minipage}\\hfill\\begin{minipage}[t]{0.16\\textwidth}\\vspace{0pt}"))
-    blocks:insert(pandoc.Para({avatar}))
+    -- shortcut: assumes an avatar wider than 3:4, use cover scaling for narrower photos.
+    blocks:insert(pandoc.RawBlock("latex", "\\begin{tikzpicture}[baseline=(current bounding box.north)]\\clip (0,0) rectangle (22mm,29.333mm);\\node[inner sep=0] at (11mm,14.6665mm) {\\includegraphics[height=29.333mm]{" .. avatar.src .. "}};\\end{tikzpicture}"))
     blocks:insert(pandoc.RawBlock("latex", "\\end{minipage}\\par\\medskip"))
   end
   blocks:extend(body)
