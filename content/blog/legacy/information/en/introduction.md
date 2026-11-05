@@ -30,8 +30,12 @@
   "profile": {
     "role": "Java Backend Engineer",
     "summary": "2026 graduate with an Alibaba Cloud private-cloud security backend internship; focused on Java services, reliable tasks, Redis concurrency and production diagnosis.",
-    "location": "Chongqing / Age: 23",
+    "location": "Chongqing",
+    "avatar": "/images/[redacted].png",
     "contacts": [
+      {
+        "label": "Recruiters interested in my experience are welcome to contact me by email."
+      },
       {
         "label": "Email · [redacted-email]",
         "href": "mailto:[redacted-email]"
@@ -39,13 +43,6 @@
       {
         "label": "GitHub · DavidHLP",
         "href": "https://github.com/DavidHLP"
-      },
-      {
-        "label": "Phone · [redacted]",
-        "href": "tel:[redacted]"
-      },
-      {
-        "label": "WeChat · [redacted]"
       },
       {
         "label": "Knowledge base",

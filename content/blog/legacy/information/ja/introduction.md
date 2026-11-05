@@ -30,8 +30,12 @@
   "profile": {
     "role": "Java バックエンド開発エンジニア",
     "summary": "2026 年卒。Alibaba Cloud 専有クラウドのセキュリティ製品でバックエンド実習を経験。Java 業務開発、タスク配信、Redis 並行処理と本番障害調査を重視。",
-    "location": "重慶 / 23 歳",
+    "location": "重慶",
+    "avatar": "/images/[redacted].png",
     "contacts": [
+      {
+        "label": "採用担当の方は、関心をお持ちいただけましたらメールでご連絡ください。"
+      },
       {
         "label": "メール · [redacted-email]",
         "href": "mailto:[redacted-email]"
@@ -39,13 +43,6 @@
       {
         "label": "GitHub · DavidHLP",
         "href": "https://github.com/DavidHLP"
-      },
-      {
-        "label": "電話 · [redacted]",
-        "href": "tel:[redacted]"
-      },
-      {
-        "label": "WeChat · [redacted]"
       },
       {
         "label": "知識庫",
