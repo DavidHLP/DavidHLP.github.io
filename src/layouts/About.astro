@@ -98,12 +98,12 @@ const resume = variant ? undefined : publicFile(profile.resume);
         </nav>}
       </aside>
       <article class="resume-body" id="rhine:about:content" tabindex="-1">
-        {latexResume && <div class="latex-pages" aria-label={latexDownload}><!-- LATEX_PAGES --></div>}
         <TextContainer class="about-text">
         {latexResume && <summary>{textVersion}</summary>}
         <div class="about-document-label" aria-hidden="true"><span>{copy.note}</span><span>RHINE LAB / ARCHIVE</span></div>
         <div class="resume-export-body"><Content /></div>
         </TextContainer>
+        {latexResume && <div class="latex-pages" aria-label={latexDownload}><!-- LATEX_PAGES --></div>}
       </article>
     </main>
     <footer class="about-footer"><span>{site.title}</span><a href="#rhine:about:top">{copy.top} ↑</a></footer>

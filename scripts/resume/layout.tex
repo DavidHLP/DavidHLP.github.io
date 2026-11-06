@@ -1,5 +1,6 @@
 \usepackage{titlesec}
 \usepackage{tikz}
+\usepackage{needspace}
 \definecolor{resumeink}{HTML}{23364A}
 \titleformat{\section}{\LARGE\sffamily\bfseries\color{resumeink}}{}{0pt}{}
 \titleformat{\subsection}{\large\sffamily\bfseries\color{resumeink}}{}{0pt}{}[\titlerule]
@@ -10,4 +11,10 @@
 \setlength{\parskip}{2pt plus 1pt}
 \setlength{\parindent}{0pt}
 \setlength{\footskip}{16pt}
+% Keep each short paragraph or bullet intact and leave room for a project
+% heading with its date/stack, without shrinking text or removing content.
+\interlinepenalty=10000
+\clubpenalty=10000
+\widowpenalty=10000
+\AddToHook{cmd/subsubsection/before}{\Needspace{7\baselineskip}}
 \raggedbottom

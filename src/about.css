@@ -135,7 +135,7 @@ button { font: inherit; color: inherit; background: transparent; cursor: pointer
 .latex-pages { display: grid; gap: 24px; }
 .latex-pages a { display: block; background: white; box-shadow: 0 2px 16px #0002; }
 .resume-body .latex-pages img { display: block; width: 100%; height: auto; margin: 0; }
-.about-latex .about-text { margin-top: 24px; }
+.about-latex .about-text { margin-bottom: 24px; }
 .about-text > summary { cursor: pointer; padding: 12px 0; }
 @media (max-width: 600px) {
   .about-latex { width: calc(100% - 24px); }
