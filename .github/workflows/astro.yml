@@ -15,9 +15,30 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends pandoc texlive-xetex texlive-lang-chinese texlive-fonts-recommended lmodern fonts-noto-core fonts-noto-cjk
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends poppler-utils pandoc texlive-xetex texlive-lang-chinese texlive-fonts-recommended lmodern fonts-noto-core fonts-noto-cjk
       - run: npm run build:cloudflare
+      - name: Preserve generated About documents
+        run: |
+          mkdir -p .reports/about-browser/build
+          find dist/about dist/en/about dist/ja/about -type f \( -name 'resume.pdf' -o -name 'resume-page-*.svg' -o -name 'index.html' \) -exec cp --parents {} .reports/about-browser/build/ \;
       - run: npm run check:content
       - run: npm run check:viewport
       - run: npm run kb:lint
       - run: npm run test:kb
+      - name: Install browser verification tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/about-browser-tools" --package-lock=false --no-audit --no-fund playwright@1.62.1
+          node "$RUNNER_TEMP/about-browser-tools/node_modules/playwright/cli.js" install --with-deps chromium
+      - name: Verify all About PDFs and browser views
+        run: node scripts/check-about-browser.mjs
+        env:
+          PLAYWRIGHT_MODULE: ${{ runner.temp }}/about-browser-tools/node_modules/playwright/index.mjs
+      - name: Save About verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: about-pdf-browser-evidence
+          path: .reports/about-browser/
+          if-no-files-found: warn
+          include-hidden-files: true
+          retention-days: 14
