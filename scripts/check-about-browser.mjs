@@ -34,9 +34,13 @@ try {
     const root = join(dist, path);
     const pdf = join(root, "resume.pdf");
     const pages = await pageCount(pdf);
-    assert.ok(pages >= 1 && pages <= 2, `${path}: PDF page limit`);
+    assert.equal(pages, 2, `${path}: two-page résumé`);
     const { stdout: text } = await run("pdftotext", ["-layout", pdf, "-"]);
     const pdfText = normalize(text.replace(/^\s*\d+\s*$/gm, ""));
+    const pageTexts = await Promise.all(Array.from({ length: pages }, async (_, index) => {
+      const { stdout } = await run("pdftotext", ["-f", String(index + 1), "-l", String(index + 1), "-layout", pdf, "-"]);
+      return normalize(stdout.replace(/^\s*\d+\s*$/gm, ""));
+    }));
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
     const page = await context.newPage();
     const errors = [];
@@ -63,6 +67,7 @@ try {
     for (const paragraph of paragraphs) {
       const expected = normalize(paragraph);
       if (expected) assert.ok(pdfText.includes(expected), `${path}: PDF omitted text: ${paragraph.slice(0, 160)}`);
+      if (expected) assert.ok(pageTexts.some(text => text.includes(expected)), `${path}: PDF splits a paragraph across pages: ${paragraph.slice(0, 160)}`);
     }
     // Print before scrolling or opening the text disclosure. This catches blank
     // native-print output and pages missing because of lazy-loaded previews.
@@ -88,14 +93,26 @@ try {
           await page.locator("#about-theme").click();
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
         assert.equal(overflow, false, `${path}: ${width}px overflow`);
-        await page.screenshot({ path: join(evidence, `${name}-${width}-${dark ? "dark" : "light"}.png`), fullPage: width === 1440 });
+        const textToggle = await page.locator(".about-text > summary").boundingBox();
+        const preview = await page.locator(".latex-pages").boundingBox();
+        assert.ok(textToggle && preview && textToggle.y + textToggle.height <= preview.y, `${path}: text entry must precede paper previews`);
+        assert.ok(textToggle.y < 1000, `${path}: text entry must be in the first viewport`);
+        await page.screenshot({ path: join(evidence, `${name}-${width}-${dark ? "dark" : "light"}.png`), fullPage: true });
         widths.push({ width, dark, overflow });
       }
     }
-    await page.locator(".about-text > summary").click();
-    assert.equal(await page.locator(".resume-export-body").isVisible(), true);
-    await page.locator(".about-text > summary").click();
-    assert.equal(await page.locator(".resume-export-body").isVisible(), false);
+    await page.setViewportSize({ width: 375, height: 1000 });
+    for (const dark of [false, true]) {
+      if ((await page.locator("#about-theme").getAttribute("aria-pressed") === "true") !== dark)
+        await page.locator("#about-theme").click();
+      await page.locator(".about-text > summary").click();
+      assert.equal(await page.locator(".resume-export-body").isVisible(), true);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `${path}: mobile text overflow`);
+      assert.ok(await page.locator(".resume-export-body").evaluate(node => parseFloat(getComputedStyle(node).fontSize) >= 16), `${path}: readable mobile text size`);
+      await page.screenshot({ path: join(evidence, `${name}-375-text-${dark ? "dark" : "light"}.png`) });
+      await page.locator(".about-text > summary").click();
+      assert.equal(await page.locator(".resume-export-body").isVisible(), false);
+    }
     await page.locator('.about-nav a[hreflang="en"]').click();
     assert.equal(new URL(page.url()).pathname, `/en/about/${focus ? `${focus}/` : ""}`);
     if (language !== "en") {
@@ -106,13 +123,13 @@ try {
     }
     assert.deepEqual(errors, [], `${path}: browser errors`);
     await context.close();
-    const noJs = await browser.newContext({ javaScriptEnabled: false });
+    const noJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 375, height: 1000 } });
     const reader = await noJs.newPage();
     await reader.goto(origin + path);
     await reader.locator(".about-text > summary").click();
     assert.equal(await reader.locator(".resume-export-body").isVisible(), true, `${path}: no-JavaScript text`);
     await noJs.close();
-    results.push({ path, pages, textBlocks: paragraphs.length, svgMatchesPdf: true, nativePrint: true, noJavaScript: true, widths });
+    results.push({ path, pages, textBlocks: paragraphs.length, unbrokenParagraphs: true, mobileTextEntry: true, svgMatchesPdf: true, nativePrint: true, noJavaScript: true, widths });
     await writeFile(join(evidence, "report.json"), JSON.stringify({ commit: process.env.GITHUB_SHA ?? "local", results }, null, 2));
     console.log(`${path}: ${pages} pages, ${paragraphs.length} text blocks, six viewport/theme cases, native print and no-JS passed`);
   }
