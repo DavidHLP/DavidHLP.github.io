@@ -4,7 +4,7 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { resolve, extname, join } from "node:path";
-import { chromium } from "playwright";
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? "playwright");
 
 const run = promisify(execFile);
 const dist = resolve("dist");
@@ -22,11 +22,12 @@ const server = createServer(async (request, response) => {
 });
 await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
 const origin = `http://127.0.0.1:${server.address().port}`;
-const browser = await chromium.launch();
+let browser;
 const results = [];
 const normalize = value => value.normalize("NFKC").replace(/[^\p{L}\p{N}]/gu, "");
 const pageCount = async file => Number((await run("pdfinfo", [file])).stdout.match(/^Pages:\s+(\d+)$/m)?.[1]);
 try {
+  browser = await chromium.launch();
   for (const language of ["zh-CN", "en", "ja"]) for (const focus of ["", "java-agent", "java-vue"]) {
     const path = `${language === "zh-CN" ? "" : `/${language}`}/about/${focus ? `${focus}/` : ""}`;
     const name = `${language}-${focus || "standard"}`;
@@ -117,6 +118,6 @@ try {
   }
   assert.equal(results.length, 9);
 } finally {
-  await browser.close();
+  await browser?.close();
   await new Promise(resolve => server.close(resolve));
 }
