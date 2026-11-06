@@ -62,12 +62,18 @@ try {
       const copy = document.createElement("div");
       copy.append(document.querySelector(".resume-export-identity").cloneNode(true), document.querySelector(".resume-export-body").cloneNode(true));
       copy.querySelectorAll('[aria-hidden="true"], .resume-section-number').forEach(node => node.remove());
-      return [...copy.querySelectorAll("h1, h2, h3, h4, p, li")].map(node => node.textContent);
+      return [...copy.querySelectorAll("h1, h2, h3, h4, p, li")].map(node => ({ text: node.textContent, heading: /^H[1-4]$/.test(node.tagName) }));
     });
-    for (const paragraph of paragraphs) {
+    for (const { text: paragraph } of paragraphs) {
       const expected = normalize(paragraph);
       if (expected) assert.ok(pdfText.includes(expected), `${path}: PDF omitted text: ${paragraph.slice(0, 160)}`);
       if (expected) assert.ok(pageTexts.some(text => text.includes(expected)), `${path}: PDF splits a paragraph across pages: ${paragraph.slice(0, 160)}`);
+    }
+    for (let index = 0; index + 1 < paragraphs.length; index++) {
+      if (!paragraphs[index].heading) continue;
+      const heading = normalize(paragraphs[index].text);
+      const following = normalize(paragraphs[index + 1].text);
+      assert.ok(pageTexts.some(text => text.includes(heading) && text.includes(following)), `${path}: PDF strands a heading: ${paragraphs[index].text}`);
     }
     // Print before scrolling or opening the text disclosure. This catches blank
     // native-print output and pages missing because of lazy-loaded previews.
@@ -129,7 +135,7 @@ try {
     await reader.locator(".about-text > summary").click();
     assert.equal(await reader.locator(".resume-export-body").isVisible(), true, `${path}: no-JavaScript text`);
     await noJs.close();
-    results.push({ path, pages, textBlocks: paragraphs.length, unbrokenParagraphs: true, mobileTextEntry: true, svgMatchesPdf: true, nativePrint: true, noJavaScript: true, widths });
+    results.push({ path, pages, textBlocks: paragraphs.length, unbrokenParagraphs: true, headingsWithContent: true, mobileTextEntry: true, svgMatchesPdf: true, nativePrint: true, noJavaScript: true, widths });
     await writeFile(join(evidence, "report.json"), JSON.stringify({ commit: process.env.GITHUB_SHA ?? "local", results }, null, 2));
     console.log(`${path}: ${pages} pages, ${paragraphs.length} text blocks, six viewport/theme cases, native print and no-JS passed`);
   }
