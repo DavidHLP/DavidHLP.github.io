@@ -131,6 +131,7 @@ button { font: inherit; color: inherit; background: transparent; cursor: pointer
 .about-latex .about-actions { flex-direction: row; flex-wrap: wrap; }
 .about-latex :is(.about-eyebrow, .about-avatar, .about-contents) { display: none; }
 .about-latex .resume-export-identity { display: block; position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); }
+.about-latex .resume-export-identity:focus-within { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
 .latex-pages { display: grid; gap: 24px; }
 .latex-pages a { display: block; background: white; box-shadow: 0 2px 16px #0002; }
 .resume-body .latex-pages img { display: block; width: 100%; height: auto; margin: 0; }
@@ -140,6 +141,11 @@ button { font: inherit; color: inherit; background: transparent; cursor: pointer
   .about-latex { width: calc(100% - 24px); }
 }
 @media print {
-  .latex-pages { display: none; }
-  .about-latex .resume-export-identity { display: block; }
+  @page latex-resume { size: A4 portrait; margin: 0; }
+  .about-sheet.about-latex { page: latex-resume; width: 210mm; max-width: none; margin: 0; padding: 0; }
+  .about-latex :is(.about-identity, .about-text) { display: none !important; }
+  .about-latex .latex-pages { display: block; }
+  .about-latex .latex-pages a { width: 210mm; height: 297mm; break-inside: avoid; break-after: page; box-shadow: none; }
+  .about-latex .latex-pages a:last-child { break-after: auto; }
+  .about-latex .latex-pages img { width: 210mm; height: 297mm; object-fit: contain; }
 }

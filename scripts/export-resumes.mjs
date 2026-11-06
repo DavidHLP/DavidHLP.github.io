@@ -42,7 +42,7 @@ if (process.env.RHINE_RESUME_PDF === "1") {
       for (let page = 1; page <= pages; page++) {
         const file = `resume-page-${page}.svg`;
         await run("pdftocairo", ["-svg", "-f", String(page), "-l", String(page), pdf, join(path, file)]);
-        previews.push(`<a href="${aboutPath(language, variant)}resume.pdf#page=${page}" aria-label="PDF · ${page}/${pages}"><img src="${aboutPath(language, variant)}${file}" alt="${language} · ${page}/${pages}" width="794" height="1123" ${page > 1 ? 'loading="lazy"' : ''}></a>`);
+        previews.push(`<a href="${aboutPath(language, variant)}resume.pdf#page=${page}" aria-label="PDF · ${page}/${pages}"><img src="${aboutPath(language, variant)}${file}" alt="${language} · ${page}/${pages}" width="794" height="1123"></a>`);
       }
       const html = await readFile(source, "utf8");
       if (!html.includes("<!-- LATEX_PAGES -->")) throw new Error(`Missing LaTeX preview slot: ${source}`);
