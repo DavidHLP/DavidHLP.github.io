@@ -29,7 +29,7 @@
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> Project Experience
 
-### UltiCode Online Programming Judge [GitHub](https://github.com/DavidHLP/UltiCode)
+### UltiCode Online Programming Judge [Project website](https://ulticode.davidhlp.dpdns.org/) · [GitHub](https://github.com/DavidHLP/UltiCode)
 
 <p class="resume-stack">Java 17 / Spring Boot 4 / Spring Security / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
 
@@ -43,7 +43,7 @@ Personal open-source judge: Java services own identity, problems, submissions an
 
 <p class="resume-stack">Python / FastAPI / httpx / LangGraph / SQLite / SSE / MCP / Java Auth & App API</p>
 
-Controlled analysis, multi-turn conversations and optional learning plans for the owner's ordinary practice submissions. Java retains identity and business-data authority; the Agent manages private conversations and local workflow state.
+Controlled analysis, multi-turn conversations and optional learning plans for the owner's practice submissions. A desktop workspace supports context selection, source consent and citation previews; Java retains identity and business-data authority.
 
 - **Trusted identity and tool boundaries**: Resolves identity through Java `/auth/me` with an isolated cookie client per request. Exposes only allowlisted read-only tools, validates arguments and projects returned fields; the model cannot choose or rewrite ownership.
 - **Bounded model/tool loop**: Orchestrates model, tool and result steps with LangGraph, limiting rounds and total duration. Separates tool failure, limit exhaustion and cancellation; tool results remain data, with no authority to issue privileged instructions.

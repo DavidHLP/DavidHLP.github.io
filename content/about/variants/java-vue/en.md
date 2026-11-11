@@ -29,7 +29,7 @@
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> Project Experience
 
-### UltiCode Online Programming Judge [GitHub](https://github.com/DavidHLP/UltiCode)
+### UltiCode Online Programming Judge [Project website](https://ulticode.davidhlp.dpdns.org/) · [GitHub](https://github.com/DavidHLP/UltiCode)
 
 <p class="resume-stack">Java 17 / Spring Boot 4 / Spring Security / MySQL / Redis Streams / Vue 3 / TypeScript / Docker</p>
 

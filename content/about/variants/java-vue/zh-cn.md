@@ -29,7 +29,7 @@
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> 项目经历
 
-### 在线编程评测系统 UltiCode [GitHub](https://github.com/DavidHLP/UltiCode)
+### 在线编程评测系统 UltiCode [项目官网](https://ulticode.davidhlp.dpdns.org/) · [GitHub](https://github.com/DavidHLP/UltiCode)
 
 <p class="resume-stack">Java 17 / Spring Boot 4 / Spring Security / MySQL / Redis Streams / Vue 3 / TypeScript / Docker</p>
 
