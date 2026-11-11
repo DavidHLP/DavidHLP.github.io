@@ -29,7 +29,7 @@
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> プロジェクト経験
 
-### オンラインプログラミング評価システム UltiCode [GitHub](https://github.com/DavidHLP/UltiCode)
+### オンラインプログラミング評価システム UltiCode [公式サイト](https://ulticode.davidhlp.dpdns.org/) · [GitHub](https://github.com/DavidHLP/UltiCode)
 
 <p class="resume-stack">Java 17 / Spring Boot 4 / Spring Security / MySQL / Redis Streams / Vue 3 / TypeScript / Docker</p>
 
@@ -89,7 +89,7 @@
 
 ### OSS 貢献
 
-**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：Oh My Pi クライアント接続、MCP 登録、インストール・アンインストールと利用者設定の保護に貢献。Linux の信頼できるシステムパスとの互換性を修正し、回帰テストを追加。
+**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：Oh My Pi 連携、Linux インストール互換性、[Swift のオーバーロードと呼出関係の解決](https://github.com/DeusData/codebase-memory-mcp/pull/2436)の 3 件がマージ済み。[Go 検証のタイムアウト修正](https://github.com/DeusData/codebase-memory-mcp/pull/2946)はレビュー待ちの草稿。
 
 ### 代表的な技術知識頁
 

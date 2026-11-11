@@ -57,7 +57,7 @@
 
 - **タスクの信頼性**：UltiCode で Outbox、Redis Streams、SQL CAS により配信漏れ・重複実行・再判定競合に対応。実 MySQL とブラウザー/Judge の業務検証を CI に組み込む。
 - **キャッシュと並行処理**：ResiCache で同一キーの要求集約、分散ロード調整、バージョン検査、ロールバック可能な移行を実装。実 Redis/Cluster と並行テストで障害時の動作を検証。
-- **OSS への貢献**：codebase-memory-mcp のクライアント連携と Linux インストーラー互換性修正の 2 件がマージ済み。インストール回帰とユーザーデータ保持も検証。
+- **OSS への貢献**：codebase-memory-mcp のクライアント連携、Linux インストール互換性、Swift コードグラフ解析の 3 件がマージ済み。
 
 ## <span class="resume-section-number">[ SEC 01 ]</span> 実習経験
 
@@ -74,7 +74,7 @@
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> プロジェクト経験
 
-### オンラインプログラミング評価システム UltiCode [GitHub](https://github.com/DavidHLP/UltiCode)
+### オンラインプログラミング評価システム UltiCode [公式サイト](https://ulticode.davidhlp.dpdns.org/) · [GitHub](https://github.com/DavidHLP/UltiCode)
 
 <p class="resume-meta">2025.10 - 現在</p>
 
@@ -96,11 +96,11 @@
 
 拡張アノテーションと責任の連鎖を組み合わせた、個人開発の Spring Cache 保護拡張。同一キーのリクエスト集約、分散環境でのロード調整、バージョン付き早期失効、安全なデシリアライズを重点的に実装。
 
-- **同一キーの並行処理と非同期重複排除**：`ConcurrentHashMap` + `CompletableFuture` で JVM 要求を集約。Leader が分散ロック内で再確認・ロードし、Follower は結果を共有。キー別 in-flight Future、有界キュー、`CallerRunsPolicy` で滞留と完了/登録時の後処理競合に対応。
+- **同一キーの並行処理と終了処理**：`ConcurrentHashMap` + `CompletableFuture` で要求を集約し、分散ロック内で再確認。異なるロード方式の結果共有を分離し物理ロックは共有。有界キューで滞留を抑え、終了時に受付済み更新を確定する。
 - **階層型 Bloom フィルター**：ローカルのヒット時はリモート検査を省略。ミス時は Redis を確認して反映し、ローカルのミスだけで有効なロードを拒否しない。
 - **バージョン付き早期失効**：Redis Lua でキャッシュ値のバージョンを原子的に照合して TTL を短縮し、古い非同期タスクが新しい値の有効期限を変更するのを防ぐ。失効後のリクエストがロードを開始し、更新・削除との競合に対応。
 - **デシリアライズ保護**：Jackson のストリーミングで型許可リストを検査してからバージョン付き形式を解析。悪意ある型・メタデータ往復を回帰検証し、検査時に JSON ツリー全体を構築しない。
-- **失敗時の挙動と検証**：業務ロードの例外とキャッシュ書き戻しの失敗を区別し、ロード済みなら書き戻しに失敗しても業務値を返す。並行テストと実 Redis の統合テストで、結果共有、例外伝播、新しい値の TTL 保護、削除後に値が復活しないことを確認。
+- **失敗時の挙動と検証**：ロード例外と書き戻し失敗を区別。ロード成功後、許容される書き戻し実行時例外では値を返し、引数エラーなどは失敗させる。並行・実 Redis テストで結果共有、例外伝播、TTL 保護、削除後の復活防止を確認。
 - **クラスターと移行の安全性**：実際の 3 マスター Redis Cluster でキャッシュキーとロックキーの同一スロット配置を検証。シリアライズ形式のシャドー読み取り、二重書き込み、切り替え、ロールバックを実装し、TTL を保持。CAS で並行更新された値の上書きを拒否し、部分失敗後の再開に対応。
 
 ## <span class="resume-section-number">[ SEC 03 ]</span> 専門スキル
@@ -139,7 +139,7 @@
 
 ### OSS 貢献
 
-**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：Oh My Pi クライアント接続、MCP 登録、インストール・アンインストールと利用者設定の保護に貢献。Linux の信頼できるシステムパスとの互換性を修正し、回帰テストを追加。
+**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：Oh My Pi 連携、Linux インストール互換性、[Swift のオーバーロードと呼出関係の解決](https://github.com/DeusData/codebase-memory-mcp/pull/2436)の 3 件がマージ済み。[Go 検証のタイムアウト修正](https://github.com/DeusData/codebase-memory-mcp/pull/2946)はレビュー待ちの草稿。
 
 ### 代表的な技術知識頁
 

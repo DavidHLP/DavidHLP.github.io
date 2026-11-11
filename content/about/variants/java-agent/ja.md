@@ -29,7 +29,7 @@
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> プロジェクト経験
 
-### オンラインプログラミング評価システム UltiCode [GitHub](https://github.com/DavidHLP/UltiCode)
+### オンラインプログラミング評価システム UltiCode [公式サイト](https://ulticode.davidhlp.dpdns.org/) · [GitHub](https://github.com/DavidHLP/UltiCode)
 
 <p class="resume-stack">Java 17 / Spring Boot 4 / Spring Security / MySQL / Redis Streams / Dubbo / Flyway / Docker</p>
 
@@ -43,7 +43,7 @@
 
 <p class="resume-stack">Python / FastAPI / httpx / LangGraph / SQLite / SSE / MCP / Java Auth & App API</p>
 
-本人の通常練習提出を対象に、制御された分析、複数ターンの会話、任意の学習計画を提供。認証と業務データの権限は Java が保持し、Agent は私有会話とローカルワークフロー状態を管理する。
+本人の練習提出を対象に分析、複数ターンの会話、任意の学習計画を提供。デスクトップ画面で資料選択、ソース利用の同意、引用プレビューに対応し、認証と業務データの権限は Java が保持する。
 
 - **信頼できる認証とツール境界**：Java `/auth/me` で本人を確認し、リクエストごとに Cookie クライアントを分離。許可リスト内の読み取り専用ツールだけを公開し、引数と返却フィールドを検査・投影。モデルによる所有者の指定や書き換えを許可しない。
 - **有界のモデル・ツールループ**：LangGraph でモデル、ツール、結果を編成し、ラウンド数と総時間を制限。ツール失敗、上限超過、キャンセルを区別し、ツール結果をデータとして扱って越権命令には従わない。
@@ -89,7 +89,7 @@
 
 ### OSS 貢献
 
-**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：Oh My Pi クライアント接続、MCP 登録、インストール・アンインストールと利用者設定の保護に貢献。Linux の信頼できるシステムパスとの互換性を修正し、回帰テストを追加。
+**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：Oh My Pi 連携、Linux インストール互換性、[Swift のオーバーロードと呼出関係の解決](https://github.com/DeusData/codebase-memory-mcp/pull/2436)の 3 件がマージ済み。[Go 検証のタイムアウト修正](https://github.com/DeusData/codebase-memory-mcp/pull/2946)はレビュー待ちの草稿。
 
 ### 代表的な技術知識頁
 

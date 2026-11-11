@@ -29,7 +29,7 @@
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> 项目经历
 
-### 在线编程评测系统 UltiCode [GitHub](https://github.com/DavidHLP/UltiCode)
+### 在线编程评测系统 UltiCode [项目官网](https://ulticode.davidhlp.dpdns.org/) · [GitHub](https://github.com/DavidHLP/UltiCode)
 
 <p class="resume-stack">Java 17 / Spring Boot 4 / Spring Security / MySQL / Redis Streams / Vue 3 / TypeScript / Docker</p>
 
@@ -89,7 +89,7 @@
 
 ### 开源贡献
 
-**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：贡献 Oh My Pi 客户端接入，完善 MCP 注册、安装卸载与用户配置保护；修复 Linux 受信任系统路径兼容问题，并补充安装回归测试。
+**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：三项贡献已合并，涵盖 Oh My Pi 接入、Linux 安装兼容与 [Swift 重载及调用关系解析](https://github.com/DeusData/codebase-memory-mcp/pull/2436)。[Go 包校验超时修复](https://github.com/DeusData/codebase-memory-mcp/pull/2946)为待审草案。
 
 ### 代表性技术知识页
 
