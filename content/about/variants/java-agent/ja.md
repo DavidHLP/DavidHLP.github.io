@@ -89,7 +89,7 @@
 
 ### OSS 貢献
 
-**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：[Oh My Pi 連携](https://github.com/DeusData/codebase-memory-mcp/pull/1229)、[Linux インストール互換性](https://github.com/DeusData/codebase-memory-mcp/pull/2203)、[Swift のオーバーロードと呼出関係の解決](https://github.com/DeusData/codebase-memory-mcp/pull/2436)の 3 件がマージ済み。
+**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：[Oh My Pi 連携](https://github.com/DeusData/codebase-memory-mcp/pull/1229)、[Linux インストール互換性](https://github.com/DeusData/codebase-memory-mcp/pull/2203)、[Swift のオーバーロードと呼出関係の解決](https://github.com/DeusData/codebase-memory-mcp/pull/2436)の 3 件がマージ済み。 Swift の変数シャドーイングによる誤った呼出関係を発見・追跡し、[メンテナーによる修正](https://github.com/DeusData/codebase-memory-mcp/pull/2947)につなげた。
 
 ### 代表的な技術知識頁
 
