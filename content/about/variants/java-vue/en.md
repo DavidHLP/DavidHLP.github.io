@@ -91,10 +91,6 @@ Data Science and Big Data Technology · Bachelor's degree
 
 **[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**: Three merged contributions: [Oh My Pi integration](https://github.com/DeusData/codebase-memory-mcp/pull/1229), [Linux installer compatibility](https://github.com/DeusData/codebase-memory-mcp/pull/2203) and [Swift overload/call resolution](https://github.com/DeusData/codebase-memory-mcp/pull/2436). Reported and traced a Swift shadowing error, leading to a [maintainer fix](https://github.com/DeusData/codebase-memory-mcp/pull/2947).
 
-**[b-end-design-system-skill](https://github.com/Ludi-Herry/b-end-design-system-skill)**: Improved client installation guides and overwrite protection; fixed Cursor resource integration and audit errors ([Codex](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/7) · [Claude Code](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/8) · [Cursor](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/9) · [Windsurf](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/10) · [Antigravity](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/11) · [Audit](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/12)).
-
-**[vue-dnd-kit](https://github.com/ZiZIGY/vue-dnd-kit)**: Corrected Dashboard installation-command capitalization ([PR #22](https://github.com/ZiZIGY/vue-dnd-kit/pull/22)).
-
 ### Selected technical knowledge pages
 
 - [Java production performance diagnosis: a minimal symptom-to-evidence decision tree](/blog/legacy/note/en/java-online-performance-debug/): Connects process/thread stacks, GC, and Arthas observations into containment, evidence preservation, diagnosis, and recovery.

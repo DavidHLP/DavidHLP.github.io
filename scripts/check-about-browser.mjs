@@ -27,7 +27,7 @@ const results = [];
 const normalize = value => value.normalize("NFKC").replace(/[^\p{L}\p{N}]/gu, "");
 const pageCount = async file => Number((await run("pdfinfo", [file])).stdout.match(/^Pages:\s+(\d+)$/m)?.[1]);
 try {
-  browser = await chromium.launch();
+  browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE });
   for (const language of ["zh-CN", "en", "ja"]) for (const focus of ["", "java-agent", "java-vue"]) {
     const path = `${language === "zh-CN" ? "" : `/${language}`}/about/${focus ? `${focus}/` : ""}`;
     const name = `${language}-${focus || "standard"}`;
@@ -46,18 +46,11 @@ try {
     const errors = [];
     page.on("pageerror", error => errors.push(error.message));
     await page.goto(origin + path, { waitUntil: "networkidle" });
-    await page.locator(".latex-pages img").evaluateAll(images => Promise.all(images.map(image => image.decode())));
-    assert.equal(await page.locator(".latex-pages img").count(), pages);
-    assert.equal(await page.locator(".about-text").getAttribute("open"), null);
-    assert.equal(await page.locator("#about-print").getAttribute("href"), `${path}resume.pdf`);
+    assert.equal(await page.locator(".resume-export-identity h1").isVisible(), true);
+    assert.equal(await page.locator(".resume-export-body").isVisible(), true);
+    assert.equal(await page.locator(".latex-pages").count(), 0);
+    assert.equal(await page.locator("#about-print").isVisible(), true);
     assert.equal(await page.locator('a[download][href$="resume.pdf"]').getAttribute("href"), `${path}resume.pdf`);
-    for (let number = 1; number <= pages; number++) {
-      const svg = join(root, `resume-page-${number}.svg`);
-      const regenerated = join(evidence, `${name}-${number}.svg`);
-      await run("pdftocairo", ["-svg", "-f", String(number), "-l", String(number), pdf, regenerated]);
-      assert.deepEqual(await readFile(svg), await readFile(regenerated), `${path}: SVG ${number} differs from PDF`);
-      assert.equal(await page.locator(".latex-pages a").nth(number - 1).getAttribute("href"), `${path}resume.pdf#page=${number}`);
-    }
     const paragraphs = await page.evaluate(() => {
       const copy = document.createElement("div");
       copy.append(document.querySelector(".resume-export-identity").cloneNode(true), document.querySelector(".resume-export-body").cloneNode(true));
@@ -75,12 +68,17 @@ try {
       const following = normalize(paragraphs[index + 1].text);
       assert.ok(pageTexts.some(text => text.includes(heading) && text.includes(following)), `${path}: PDF strands a heading: ${paragraphs[index].text}`);
     }
-    // Print before scrolling or opening the text disclosure. This catches blank
-    // native-print output and pages missing because of lazy-loaded previews.
+    // Print without scrolling to catch omitted or blank native-print pages.
     const printed = join(evidence, `${name}-browser-print.pdf`);
     await page.pdf({ path: printed, preferCSSPageSize: true, printBackground: true });
-    assert.equal(await pageCount(printed), pages, `${path}: browser print page count`);
-    for (let number = 1; number <= pages; number++) {
+    const printedPages = await pageCount(printed);
+    assert.ok(printedPages >= 1, `${path}: browser print page count`);
+    const printedText = normalize((await run("pdftotext", ["-layout", printed, "-"])).stdout);
+    for (const { text: paragraph } of paragraphs) {
+      const expected = normalize(paragraph);
+      if (expected) assert.ok(printedText.includes(expected), `${path}: browser print omitted text: ${paragraph.slice(0, 160)}`);
+    }
+    for (let number = 1; number <= printedPages; number++) {
       const output = join(evidence, `${name}-browser-print-${number}`);
       await run("pdftoppm", ["-f", String(number), "-l", String(number), "-singlefile", "-gray", "-r", "40", printed, output]);
       const raster = await readFile(`${output}.pgm`);
@@ -89,8 +87,9 @@ try {
       const pixels = raster.subarray(header[0].length);
       const ink = pixels.filter(value => value < 230).length / pixels.length;
       assert.ok(ink > 0.01, `${path}: printed page ${number} is blank (${ink})`);
-      await run("pdftoppm", ["-f", String(number), "-l", String(number), "-singlefile", "-png", "-r", "100", pdf, join(evidence, `${name}-pdf-${number}`)]);
     }
+    for (let number = 1; number <= pages; number++)
+      await run("pdftoppm", ["-f", String(number), "-l", String(number), "-singlefile", "-png", "-r", "100", pdf, join(evidence, `${name}-pdf-${number}`)]);
     const widths = [];
     for (const width of [375, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
@@ -99,25 +98,12 @@ try {
           await page.locator("#about-theme").click();
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
         assert.equal(overflow, false, `${path}: ${width}px overflow`);
-        const textToggle = await page.locator(".about-text > summary").boundingBox();
-        const preview = await page.locator(".latex-pages").boundingBox();
-        assert.ok(textToggle && preview && textToggle.y + textToggle.height <= preview.y, `${path}: text entry must precede paper previews`);
-        assert.ok(textToggle.y < 1000, `${path}: text entry must be in the first viewport`);
+        assert.equal(await page.locator(".resume-export-body").isVisible(), true, `${path}: text is visible by default`);
+        assert.equal(await page.locator(".resume-export-identity h1").isVisible(), true, `${path}: identity is visible`);
+        assert.ok(await page.locator(".resume-export-body").evaluate(node => parseFloat(getComputedStyle(node).fontSize) >= 16), `${path}: readable text size`);
         await page.screenshot({ path: join(evidence, `${name}-${width}-${dark ? "dark" : "light"}.png`), fullPage: true });
         widths.push({ width, dark, overflow });
       }
-    }
-    await page.setViewportSize({ width: 375, height: 1000 });
-    for (const dark of [false, true]) {
-      if ((await page.locator("#about-theme").getAttribute("aria-pressed") === "true") !== dark)
-        await page.locator("#about-theme").click();
-      await page.locator(".about-text > summary").click();
-      assert.equal(await page.locator(".resume-export-body").isVisible(), true);
-      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `${path}: mobile text overflow`);
-      assert.ok(await page.locator(".resume-export-body").evaluate(node => parseFloat(getComputedStyle(node).fontSize) >= 16), `${path}: readable mobile text size`);
-      await page.screenshot({ path: join(evidence, `${name}-375-text-${dark ? "dark" : "light"}.png`) });
-      await page.locator(".about-text > summary").click();
-      assert.equal(await page.locator(".resume-export-body").isVisible(), false);
     }
     await page.locator('.about-nav a[hreflang="en"]').click();
     assert.equal(new URL(page.url()).pathname, `/en/about/${focus ? `${focus}/` : ""}`);
@@ -132,10 +118,11 @@ try {
     const noJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 375, height: 1000 } });
     const reader = await noJs.newPage();
     await reader.goto(origin + path);
-    await reader.locator(".about-text > summary").click();
     assert.equal(await reader.locator(".resume-export-body").isVisible(), true, `${path}: no-JavaScript text`);
+    assert.equal(await reader.locator(".resume-export-identity h1").isVisible(), true, `${path}: no-JavaScript identity`);
+    assert.equal(await reader.locator('a[download][href$="resume.pdf"]').isVisible(), true, `${path}: no-JavaScript PDF download`);
     await noJs.close();
-    results.push({ path, pages, textBlocks: paragraphs.length, unbrokenParagraphs: true, headingsWithContent: true, mobileTextEntry: true, svgMatchesPdf: true, nativePrint: true, noJavaScript: true, widths });
+    results.push({ path, pages, printedPages, textBlocks: paragraphs.length, unbrokenParagraphs: true, headingsWithContent: true, defaultText: true, nativePrint: true, noJavaScript: true, widths });
     await writeFile(join(evidence, "report.json"), JSON.stringify({ commit: process.env.GITHUB_SHA ?? "local", results }, null, 2));
     console.log(`${path}: ${pages} pages, ${paragraphs.length} text blocks, six viewport/theme cases, native print and no-JS passed`);
   }
