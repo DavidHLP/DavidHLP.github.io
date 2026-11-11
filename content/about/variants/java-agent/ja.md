@@ -89,7 +89,7 @@
 
 ### OSS 貢献
 
-**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：Oh My Pi 連携、Linux インストール互換性、[Swift のオーバーロードと呼出関係の解決](https://github.com/DeusData/codebase-memory-mcp/pull/2436)の 3 件がマージ済み。[Go 検証のタイムアウト修正](https://github.com/DeusData/codebase-memory-mcp/pull/2946)はレビュー待ちの草稿。
+**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：Oh My Pi 連携、Linux インストール互換性、[Swift のオーバーロードと呼出関係の解決](https://github.com/DeusData/codebase-memory-mcp/pull/2436)の 3 件がマージ済み。
 
 ### 代表的な技術知識頁
 
