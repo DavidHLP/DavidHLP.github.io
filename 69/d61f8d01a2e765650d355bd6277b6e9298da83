@@ -1,0 +1,42 @@
+content/blog/legacy/information/zh-cn/introduction.md
+  s_731183c380d4bf::t_5cab368dad12c6 103
+  s_731183c380d4bf::t_30b015b2d55dcd 77
+  s_731183c380d4bf::t_c7614264c2d28c 99
+content/about/variants/java-vue/zh-cn.md
+  s_731183c380d4bf::t_30b015b2d55dcd 32
+content/blog/legacy/information/en/introduction.md
+  s_731183c380d4bf::t_9af868d29e938f 77,99,103,110-112,116-118
+content/about/variants/java-agent/en.md
+  s_731183c380d4bf::t_35f63a93a81288 46
+  s_731183c380d4bf::t_30b015b2d55dcd 32
+content/about/variants/java-agent/zh-cn.md
+  s_731183c380d4bf::t_30b015b2d55dcd 32
+  s_731183c380d4bf::t_35f63a93a81288 46
+content/about/variants/java-vue/ja.md
+  s_731183c380d4bf::t_30b015b2d55dcd 32
+content/blog/legacy/information/ja/introduction.md
+  s_731183c380d4bf::t_c7614264c2d28c 99
+  s_731183c380d4bf::t_5cab368dad12c6 103
+  s_731183c380d4bf::t_30b015b2d55dcd 77
+content/about/variants/java-agent/ja.md
+  s_731183c380d4bf::t_30b015b2d55dcd 32
+  s_731183c380d4bf::t_35f63a93a81288 46
+content/about/variants/java-vue/en.md
+  s_731183c380d4bf::t_30b015b2d55dcd 32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "69d61f8d01a2e765650d355bd6277b6e9298da83",
+  "prompts": {},
+  "sessions": {
+    "s_731183c380d4bf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1c882-4f6f-76f1-9beb-f9c03893543d",
+        "model": "gpt-6.1-terra"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
