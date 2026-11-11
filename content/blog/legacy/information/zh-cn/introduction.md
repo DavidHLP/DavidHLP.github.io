@@ -57,7 +57,7 @@
 
 - **任务可靠性**：用事务 Outbox、Redis Streams 与 SQL CAS 处理 UltiCode 的漏投、重复执行及重判竞争；真实 MySQL 与浏览器/Judge 业务验收接入 CI。
 - **缓存与并发**：在 ResiCache 实现同 Key 请求合并、分布式加载协调、版本校验和可回滚迁移，用真实 Redis/Cluster 与并发测试验证故障语义。
-- **开源协作**：codebase-memory-mcp 两项贡献已合并，涵盖客户端接入、Linux 安装兼容性、安装回归与用户内容保留。
+- **开源协作**：codebase-memory-mcp 三项贡献已合并，涵盖客户端接入、Linux 安装兼容与 Swift 代码图解析。
 
 ## <span class="resume-section-number">[ SEC 01 ]</span> 实习经历
 
@@ -139,7 +139,7 @@
 
 ### 开源贡献
 
-**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：贡献 Oh My Pi 客户端接入，完善 MCP 注册、安装卸载与用户配置保护；修复 Linux 受信任系统路径兼容问题，并补充安装回归测试。
+**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：三项贡献已合并，涵盖 Oh My Pi 接入、Linux 安装兼容与 [Swift 重载及调用关系解析](https://github.com/DeusData/codebase-memory-mcp/pull/2436)。[Go 包校验超时修复](https://github.com/DeusData/codebase-memory-mcp/pull/2946)为待审草案。
 
 ### 代表性技术知识页
 
