@@ -89,7 +89,7 @@
 
 ### 开源贡献
 
-**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：三项贡献已合并，涵盖 Oh My Pi 接入、Linux 安装兼容与 [Swift 重载及调用关系解析](https://github.com/DeusData/codebase-memory-mcp/pull/2436)。
+**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：三项贡献已合并，涵盖 [Oh My Pi 接入](https://github.com/DeusData/codebase-memory-mcp/pull/1229)、[Linux 安装兼容](https://github.com/DeusData/codebase-memory-mcp/pull/2203)与 [Swift 重载及调用关系解析](https://github.com/DeusData/codebase-memory-mcp/pull/2436)。
 
 ### 代表性技术知识页
 
