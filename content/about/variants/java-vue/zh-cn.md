@@ -91,10 +91,6 @@
 
 **[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：三项贡献已合并，涵盖 [Oh My Pi 接入](https://github.com/DeusData/codebase-memory-mcp/pull/1229)、[Linux 安装兼容](https://github.com/DeusData/codebase-memory-mcp/pull/2203)与 [Swift 重载及调用关系解析](https://github.com/DeusData/codebase-memory-mcp/pull/2436)。 发现并定位 Swift 变量遮蔽导致的错误调用关系，促成[维护者修复](https://github.com/DeusData/codebase-memory-mcp/pull/2947)。
 
-**[b-end-design-system-skill](https://github.com/Ludi-Herry/b-end-design-system-skill)**：完善多客户端安装文档与覆盖保护，修复 Cursor 资源接入及审计误报（[Codex](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/7) · [Claude Code](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/8) · [Cursor](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/9) · [Windsurf](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/10) · [Antigravity](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/11) · [Audit](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/12)）。
-
-**[vue-dnd-kit](https://github.com/ZiZIGY/vue-dnd-kit)**：修正 Dashboard 安装命令大小写（[PR #22](https://github.com/ZiZIGY/vue-dnd-kit/pull/22)）。
-
 ### 代表性技术知识页
 
 - [Java 线上性能排障：从症状到证据的最小决策树](https://davidhlp.github.io/blog/legacy/note/zh-cn/java-online-performance-debug/)：串联进程、线程栈、GC 与 Arthas 观测，整理止损、存证、定位及恢复流程。
