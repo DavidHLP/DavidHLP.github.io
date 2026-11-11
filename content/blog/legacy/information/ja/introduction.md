@@ -141,6 +141,10 @@
 
 **[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：[Oh My Pi 連携](https://github.com/DeusData/codebase-memory-mcp/pull/1229)、[Linux インストール互換性](https://github.com/DeusData/codebase-memory-mcp/pull/2203)、[Swift のオーバーロードと呼出関係の解決](https://github.com/DeusData/codebase-memory-mcp/pull/2436)の 3 件がマージ済み。 Swift の変数シャドーイングによる誤った呼出関係を発見・追跡し、[メンテナーによる修正](https://github.com/DeusData/codebase-memory-mcp/pull/2947)につなげた。
 
+**[b-end-design-system-skill](https://github.com/Ludi-Herry/b-end-design-system-skill)**：各クライアントの導入手順と上書き保護を改善し、Cursor のリソース連携と監査の誤判定を修正（[Codex](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/7) · [Claude Code](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/8) · [Cursor](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/9) · [Windsurf](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/10) · [Antigravity](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/11) · [Audit](https://github.com/Ludi-Herry/b-end-design-system-skill/pull/12)）。
+
+**[vue-dnd-kit](https://github.com/ZiZIGY/vue-dnd-kit)**：Dashboard 導入コマンドの大文字・小文字を修正（[PR #22](https://github.com/ZiZIGY/vue-dnd-kit/pull/22)）。
+
 ### 代表的な技術知識頁
 
 - [Java 性能障害：現象から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)：プロセス、スレッドスタック、GC、Arthas の観測をつなぎ、影響の抑制・証拠保全・問題特定・復旧の手順を整理。
