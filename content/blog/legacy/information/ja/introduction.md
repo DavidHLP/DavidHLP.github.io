@@ -57,7 +57,7 @@
 
 - **タスクの信頼性**：UltiCode で Outbox、Redis Streams、SQL CAS により配信漏れ・重複実行・再判定競合に対応。実 MySQL とブラウザー/Judge の業務検証を CI に組み込む。
 - **キャッシュと並行処理**：ResiCache で同一キーの要求集約、分散ロード調整、バージョン検査、ロールバック可能な移行を実装。実 Redis/Cluster と並行テストで障害時の動作を検証。
-- **OSS への貢献**：codebase-memory-mcp のクライアント連携と Linux インストーラー互換性修正の 2 件がマージ済み。インストール回帰とユーザーデータ保持も検証。
+- **OSS への貢献**：codebase-memory-mcp のクライアント連携、Linux インストール互換性、Swift コードグラフ解析の 3 件がマージ済み。
 
 ## <span class="resume-section-number">[ SEC 01 ]</span> 実習経験
 
@@ -139,7 +139,7 @@
 
 ### OSS 貢献
 
-**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：Oh My Pi クライアント接続、MCP 登録、インストール・アンインストールと利用者設定の保護に貢献。Linux の信頼できるシステムパスとの互換性を修正し、回帰テストを追加。
+**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：Oh My Pi 連携、Linux インストール互換性、[Swift のオーバーロードと呼出関係の解決](https://github.com/DeusData/codebase-memory-mcp/pull/2436)の 3 件がマージ済み。[Go 検証のタイムアウト修正](https://github.com/DeusData/codebase-memory-mcp/pull/2946)はレビュー待ちの草稿。
 
 ### 代表的な技術知識頁
 

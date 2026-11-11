@@ -89,7 +89,7 @@ Data Science and Big Data Technology · Bachelor's degree
 
 ### Open-source contributions
 
-**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**: Contributed Oh My Pi client integration, MCP registration, install/uninstall and user configuration protection; fixed Linux trusted system-path compatibility and added installer regression coverage.
+**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**: Three merged contributions: Oh My Pi integration, Linux installer compatibility and [Swift overload/call resolution](https://github.com/DeusData/codebase-memory-mcp/pull/2436). A [Go verifier timeout fix](https://github.com/DeusData/codebase-memory-mcp/pull/2946) is in draft review.
 
 ### Selected technical knowledge pages
 
