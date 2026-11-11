@@ -20,7 +20,7 @@ jobs:
       - name: Preserve generated About documents
         run: |
           mkdir -p .reports/about-browser/build
-          find dist/about dist/en/about dist/ja/about -type f \( -name 'resume.pdf' -o -name 'resume-page-*.svg' -o -name 'index.html' \) -exec cp --parents {} .reports/about-browser/build/ \;
+          find dist/about dist/en/about dist/ja/about -type f \( -name 'resume.pdf' -o -name 'index.html' \) -exec cp --parents {} .reports/about-browser/build/ \;
       - run: npm run check:content
       - run: npm run check:viewport
       - run: npm run kb:lint

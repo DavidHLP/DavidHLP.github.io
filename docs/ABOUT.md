@@ -88,6 +88,6 @@ summary: 当前方向的一句话介绍。
 
 验收清单见 [ABOUT-ACCEPTANCE.md](ABOUT-ACCEPTANCE.md)。`check:viewport` 仅验证档案布局计算，不能代替实际 About 截图、打印和浏览器操作。
 
-启用 LaTeX 后，网页直接展示同一份 PDF 生成的矢量 A4 页面，点击页面可打开 PDF；方向切换、语言切换和下载保留。文字版可展开阅读，保留无 JavaScript 与辅助技术访问。构建检查每份 PDF 为 1–2 页，超出时失败，不裁切或删减正文。
+网页默认直接显示文字履历及个人信息，保留方向、语言、目录导航和无 JavaScript 阅读。启用 LaTeX 后可下载对应 PDF；构建检查每份 PDF 为 1–2 页，超出时失败，不裁切或删减正文。
 
-浏览器原生打印也使用相同的 A4 矢量页面，不依赖文字版是否展开或第二页是否滚动到。CI 的 `scripts/check-about-browser.mjs` 检查九种语言/方向组合的 PDF 正文、页数、SVG 来源、原生打印、375/768/1440px 亮暗主题与无 JavaScript 阅读，并保存 PDF、截图及 JSON 报告；人工逐页视觉审查仍须另行记录。
+浏览器原生打印使用文字版的打印样式，下载的 PDF 使用 LaTeX 排版，两者分页可能不同。CI 的 `scripts/check-about-browser.mjs` 检查九种语言/方向组合的 PDF 正文、页数、原生打印、375/768/1440px 亮暗主题与无 JavaScript 阅读，并保存 PDF、截图及 JSON 报告；人工逐页视觉审查仍须另行记录。
