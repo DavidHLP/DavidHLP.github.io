@@ -1,0 +1,30 @@
+.github/workflows/astro.yml
+  s_731183c380d4bf::t_515e198b9df3e6 23
+src/layouts/About.astro
+  s_731183c380d4bf::t_6b1cc96f94ae0c 73,89,119-120
+scripts/export-resumes.mjs
+  s_731183c380d4bf::t_6b1cc96f94ae0c 3
+docs/ABOUT.md
+  s_731183c380d4bf::t_515e198b9df3e6 91,93
+scripts/check-about-browser.mjs
+  s_731183c380d4bf::t_6f4286abe58b5c 49-52,71,74-81,91-92,101-103,122-123,125
+  s_731183c380d4bf::t_0fc4df5277cd40 30
+scripts/check-content.mjs
+  s_731183c380d4bf::t_515e198b9df3e6 110-111
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "65caf84953e223cf831322f470191f9983b45b69",
+  "prompts": {},
+  "sessions": {
+    "s_731183c380d4bf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1c882-4f6f-76f1-9beb-f9c03893543d",
+        "model": "gpt-6.1-terra"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
