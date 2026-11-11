@@ -1,0 +1,35 @@
+content/blog/legacy/information/en/introduction.md
+  s_731183c380d4bf::t_1f08ab1660cdd1 60,142
+content/blog/legacy/information/ja/introduction.md
+  s_731183c380d4bf::t_1f08ab1660cdd1 60,142
+content/about/variants/java-agent/zh-cn.md
+  s_731183c380d4bf::t_1f08ab1660cdd1 92
+content/about/variants/java-vue/zh-cn.md
+  s_731183c380d4bf::t_1f08ab1660cdd1 92
+content/blog/legacy/information/zh-cn/introduction.md
+  s_731183c380d4bf::t_1f08ab1660cdd1 60,142
+content/about/variants/java-vue/ja.md
+  s_731183c380d4bf::t_1f08ab1660cdd1 92
+content/about/variants/java-agent/ja.md
+  s_731183c380d4bf::t_1f08ab1660cdd1 92
+content/about/variants/java-agent/en.md
+  s_731183c380d4bf::t_1f08ab1660cdd1 92
+content/about/variants/java-vue/en.md
+  s_731183c380d4bf::t_1f08ab1660cdd1 92
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ca05250dc59cc0282882a1c316aa68336897a7ec",
+  "prompts": {},
+  "sessions": {
+    "s_731183c380d4bf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1c882-4f6f-76f1-9beb-f9c03893543d",
+        "model": "gpt-6.1-terra"
+      },
+      "human_author": "DavidHLP <lysf15520112973@163.com>"
+    }
+  }
+}
