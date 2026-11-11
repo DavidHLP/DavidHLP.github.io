@@ -74,7 +74,7 @@
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> Project Experience
 
-### UltiCode Online Programming Judge [GitHub](https://github.com/DavidHLP/UltiCode)
+### UltiCode Online Judge [Website](https://ulticode.davidhlp.dpdns.org/) · [GitHub](https://github.com/DavidHLP/UltiCode)
 
 <p class="resume-meta">2025.10 - Present</p>
 
@@ -96,26 +96,26 @@ Personal open-source judge covering practice, contests, submissions, sandbox jud
 
 Personal open-source Spring Cache extension combining enhanced annotations and a handler chain for same-key request coalescing, distributed loading coordination, versioned early expiration and secure deserialization.
 
-- **Same-key concurrency and async deduplication**: `ConcurrentHashMap` + `CompletableFuture` coalesce JVM requests. A distributed-lock Leader double-checks and loads; Followers share results. Per-key in-flight Futures, bounded queues and `CallerRunsPolicy` control backlog and completion/registration cleanup races.
+- **Concurrency and lifecycle**: `ConcurrentHashMap` and `CompletableFuture` coalesce requests; a distributed lock protects loading. Separate futures isolate incompatible protocols while sharing the physical lock. A bounded queue limits backlog; shutdown settles accepted refreshes.
 - **Layered Bloom filtering**: Local hits skip remote checks; misses query Redis and backfill accordingly, without rejecting valid loads solely on a local miss.
 - **Versioned early expiration**: Redis Lua atomically checks cache-value version before shortening TTL, so stale async tasks cannot alter a new value's lifetime. Later requests load after expiry, handling races with updates and deletion.
 - **Deserialization protection**: Jackson streaming validates the type allowlist before parsing versioned envelopes. Regressions cover malicious types and metadata round trips without building a full JSON tree during validation.
-- **Failure semantics and validation**: Separates business-load exceptions from cache-write failures, returning a successfully loaded value even if write-back fails. Concurrent and real-Redis integration tests cover shared results, exception propagation, new-value TTL protection, and no resurrection after deletion.
+- **Failure semantics**: After a successful load, permitted write-back runtime exceptions return the value; argument errors still fail. Concurrent and real-Redis tests cover sharing, exception propagation, TTL protection and deletion races.
 - **Cluster and migration safety**: Verified cache/lock-key slot co-location on a real three-master Redis Cluster. Serialization migration supports shadow reads, dual writes, cutover, rollback, TTL preservation, CAS protection against concurrent-value overwrites and partial-failure resumption.
 
 ## <span class="resume-section-number">[ SEC 03 ]</span> Professional Skills
 
 ### Java backend and data processing
 
-- Familiar with Java, Spring Boot, Spring MVC, Spring Security, and MyBatis-Plus, with API design, authentication/authorization, and exception-handling experience.
-- Familiar with MySQL index design, execution-plan analysis, and slow-SQL tuning; experienced with Redis cache protection, distributed locks, and concurrent loading.
-- Project experience with Dubbo, Redis Streams, and Outbox; understands transaction boundaries, duplicate consumption, retries, and eventual consistency.
+- Java, Spring Boot, Spring MVC, Spring Security and MyBatis-Plus; API design, authorization and error handling.
+- MySQL indexes and query plans; Redis cache protection, distributed locks and concurrent loading.
+- Dubbo, Redis Streams and Outbox; transaction boundaries, duplicate consumption and retries.
 
 ### Diagnosis and engineering validation
 
-- Combines Arthas, Linux process information, container logs, and SQL plans to diagnose issues, implement fixes, and verify regressions.
-- Familiar with Docker images, networking, resource limits, and basic isolation, with containerd/Harbor/private-image TLS troubleshooting experience.
-- Familiar with Git, Maven, Docker Compose, Flyway, and Micrometer; uses Testcontainers and concurrent tests for failure/race scenarios.
+- Uses Arthas, Linux, container logs and SQL plans to diagnose and verify fixes.
+- Docker networking, resource limits and isolation; containerd/Harbor private-image TLS diagnosis.
+- Git, Maven, Docker Compose, Flyway, Micrometer and Testcontainers; concurrent failure/race tests.
 
 ## <span class="resume-section-number">[ SEC 04 ]</span> Education & Honors
 
