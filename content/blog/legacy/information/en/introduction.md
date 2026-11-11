@@ -139,7 +139,7 @@ Data Science and Big Data Technology · Bachelor's degree
 
 ### Open-source contributions
 
-**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**: Three merged contributions: [Oh My Pi integration](https://github.com/DeusData/codebase-memory-mcp/pull/1229), [Linux installer compatibility](https://github.com/DeusData/codebase-memory-mcp/pull/2203) and [Swift overload/call resolution](https://github.com/DeusData/codebase-memory-mcp/pull/2436).
+**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**: Three merged contributions: [Oh My Pi integration](https://github.com/DeusData/codebase-memory-mcp/pull/1229), [Linux installer compatibility](https://github.com/DeusData/codebase-memory-mcp/pull/2203) and [Swift overload/call resolution](https://github.com/DeusData/codebase-memory-mcp/pull/2436). Reported and traced a Swift shadowing error, leading to a [maintainer fix](https://github.com/DeusData/codebase-memory-mcp/pull/2947).
 
 ### Selected technical knowledge pages
 
