@@ -57,7 +57,7 @@
 
 - **任务可靠性**：用事务 Outbox、Redis Streams 与 SQL CAS 处理 UltiCode 的漏投、重复执行及重判竞争；真实 MySQL 与浏览器/Judge 业务验收接入 CI。
 - **缓存与并发**：在 ResiCache 实现同 Key 请求合并、分布式加载协调、版本校验和可回滚迁移，用真实 Redis/Cluster 与并发测试验证故障语义。
-- **开源协作**：codebase-memory-mcp 两项贡献已合并，涵盖客户端接入、Linux 安装兼容性、安装回归与用户内容保留。
+- **开源协作**：codebase-memory-mcp 三项贡献已合并，涵盖客户端接入、Linux 安装兼容与 Swift 代码图解析。
 
 ## <span class="resume-section-number">[ SEC 01 ]</span> 实习经历
 
@@ -74,7 +74,7 @@
 
 ## <span class="resume-section-number">[ SEC 02 ]</span> 项目经历
 
-### 在线编程评测系统 UltiCode [GitHub](https://github.com/DavidHLP/UltiCode)
+### 在线编程评测系统 UltiCode [项目官网](https://ulticode.davidhlp.dpdns.org/) · [GitHub](https://github.com/DavidHLP/UltiCode)
 
 <p class="resume-meta">2025.10 - 至今</p>
 
@@ -96,11 +96,11 @@
 
 个人开源 Spring Cache 防护扩展，通过增强注解与责任链组合缓存防护策略，重点实现同 Key 请求合并、分布式加载协调、版本化提前过期与安全反序列化。
 
-- **同 Key 并发与异步去重**：`ConcurrentHashMap` + `CompletableFuture` 合并 JVM 请求，Leader 获取分布式锁后再次检查缓存并加载，Follower 共享结果；按 Key 管理 in-flight Future，有界队列与 `CallerRunsPolicy` 控制积压，处理完成/登记交错的清理竞态。
+- **同 Key 并发与生命周期**：`ConcurrentHashMap` + `CompletableFuture` 合并请求，分布式锁内二次检查；隔离不同加载协议的结果共享，保留同一物理锁。有界队列控制积压，关闭时结算已接收的更新任务。
 - **分层布隆过滤**：本地命中跳过远端检查；本地未命中则查询 Redis 并按结果回填，避免误拒有效业务加载。
 - **版本化提前过期**：通过 Redis Lua 原子校验缓存值版本并缩短 TTL，避免旧异步任务修改新值有效期；缓存到期后由后续请求触发加载，处理提前过期与更新、删除交错的竞态。
 - **反序列化防护**：Jackson 流式校验类型白名单，再解析版本化封装；回归覆盖恶意类型和元数据往返，校验阶段不构建完整 JSON 树。
-- **故障语义与验证**：区分业务加载异常与缓存写回失败，加载成功后写回失败仍返回业务值；通过并发测试及真实 Redis 集成测试覆盖结果共享、异常传播、新值 TTL 保护与删除后不复活。
+- **故障语义与验证**：区分业务加载异常与缓存写回失败；加载成功后，仅对允许的写回运行时异常返回业务值，参数错误等仍失败。通过并发及真实 Redis 测试覆盖结果共享、异常传播、新值 TTL 保护与删除后不复活。
 - **集群与迁移安全**：在真实三主 Redis Cluster 验证缓存键和锁键槽位共置；实现序列化格式的影子读、双写、切换与回滚，保留 TTL，并以 CAS 拒绝覆盖并发新值，支持部分失败后续跑。
 
 ## <span class="resume-section-number">[ SEC 03 ]</span> 专业技能
@@ -139,7 +139,7 @@
 
 ### 开源贡献
 
-**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：贡献 Oh My Pi 客户端接入，完善 MCP 注册、安装卸载与用户配置保护；修复 Linux 受信任系统路径兼容问题，并补充安装回归测试。
+**[codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp)**：三项贡献已合并，涵盖 Oh My Pi 接入、Linux 安装兼容与 [Swift 重载及调用关系解析](https://github.com/DeusData/codebase-memory-mcp/pull/2436)。[Go 包校验超时修复](https://github.com/DeusData/codebase-memory-mcp/pull/2946)为待审草案。
 
 ### 代表性技术知识页
 
