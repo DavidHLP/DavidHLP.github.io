@@ -12,7 +12,7 @@
     "predev": "node scripts/patch-rolling-number.mjs && node scripts/export-records.mjs",
     "dev": "astro dev --host 127.0.0.1",
     "prebuild": "node scripts/patch-rolling-number.mjs && node scripts/export-records.mjs && node scripts/prepare-webfonts.mjs",
-    "check:content": "node --experimental-strip-types --test scripts/check-content.mjs",
+    "check:content": "node --experimental-strip-types --test scripts/check-content.mjs && node scripts/check-fuwari-archive.mjs",
     "check:viewport": "node --experimental-strip-types scripts/check-viewport.mjs",
     "export:archives": "node scripts/export-records.mjs",
     "check": "astro check",
