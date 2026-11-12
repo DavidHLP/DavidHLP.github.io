@@ -1,0 +1,1046 @@
+{
+  "sourceRepository": "DavidHLP/Fuwari",
+  "sourceCommit": "07cee2baf9cee227807dcd68004c5f2493e5ac52",
+  "publicationPolicy": "Sanitized public copy; original hashes record provenance, published hashes validate distributed bytes.",
+  "files": [
+    {
+      "path": "LICENSE",
+      "bytes": 1064,
+      "sha256": "6b8a446a639c963e76a03328a38b08b0b201f1c2b08a4fd6069cafcbb2d8bb34",
+      "gitBlob": "08fa51c1bf4ff798cb4d3a77c5a85b727f891a35"
+    },
+    {
+      "path": "src/content/posts/JUC/CASDeepDive.md",
+      "bytes": 40983,
+      "sha256": "428a19dc64b00920cbe6ef11f4fbc5161d826abd685a607ce3ef3816fd200adc",
+      "gitBlob": "14957ef75ee682a7aa63356f41ccf171dcfbca91"
+    },
+    {
+      "path": "src/content/posts/JUC/CompletableFutureAction.md",
+      "bytes": 7357,
+      "sha256": "f9ee9bbd4dab231bd2836464c12321defd8f85512f79fc20124f18ea9500735a",
+      "gitBlob": "3d8ac8e90f10070994391ae1a7283c6b6c9457ee"
+    },
+    {
+      "path": "src/content/posts/JUC/FutureTaskAction.md",
+      "bytes": 7902,
+      "sha256": "c5e1a79611af61b5504a62df084a3ceddd2e650e7deb66dcd009cf2a44c93ebd",
+      "gitBlob": "a7981306b0f495f71c31db1abb7c6eb299814008"
+    },
+    {
+      "path": "src/content/posts/JUC/JavaAtomicClasses.md",
+      "bytes": 19408,
+      "sha256": "94945f720ad180e0b0346412eb1f97df19dd23d9991fc1a83f9c8b6b9a9948a7",
+      "gitBlob": "821a61d666e314e45b8411e6856727454e9b9d8c"
+    },
+    {
+      "path": "src/content/posts/JUC/JavaDeadlockdiagnosis.md",
+      "bytes": 13276,
+      "sha256": "9407b89390e7753112bd391f95a883ce10ad889dd176a85b7e0be33cadc7a155",
+      "gitBlob": "470811ea09f3b3910dd23f965970acd13a78b1bf"
+    },
+    {
+      "path": "src/content/posts/JUC/JavaInterruptMechanism.md",
+      "bytes": 10609,
+      "sha256": "5519899e0e7ae42cfad3247a9e04b3ff309d43595c9a352d72835d15f26fa08f",
+      "gitBlob": "777891704cfbea63ebcc4fe41a99d51375ebef6b"
+    },
+    {
+      "path": "src/content/posts/JUC/LockSupport.md",
+      "bytes": 14120,
+      "sha256": "77fd13ce77b97780ba05e87119c5aaef933ffea1743cd66a8eab5ec1c2e55825",
+      "gitBlob": "62286b51af548a1eb50c668d4a79953d56587dda"
+    },
+    {
+      "path": "src/content/posts/JUC/LongAdderVSAtomicLong.md",
+      "bytes": 11228,
+      "sha256": "27b4a6f223d469e3be348ff05a0f3eae57100c94b6d60fef2120fcc88d05576c",
+      "gitBlob": "65efd2a1a98807a725a5b3b74e1146546d72acfc"
+    },
+    {
+      "path": "src/content/posts/JUC/Monitor.md",
+      "bytes": 8708,
+      "sha256": "10159c2acb9b1bcbd818313e841a77d4794763c3262ffb0ec0a20852682fd809",
+      "gitBlob": "bc1ffc99e055e9a59c7ff5f0196dfb093b9f3c20"
+    },
+    {
+      "path": "src/content/posts/JUC/Reentrancy.md",
+      "bytes": 8015,
+      "sha256": "04f9b9f71a25aa86207e4ff9bf47ba261245ba4d1c578d136214fc9b57fc9ae6",
+      "gitBlob": "79e5dbab3dc1f4c6e3523d77b6968c51d0287fd3"
+    },
+    {
+      "path": "src/content/posts/JUC/ReentrantLock.md",
+      "bytes": 6871,
+      "sha256": "a4727b859d20f5d9190cbea7650580fd31a640270fc9a2ce6f134578b2ed394e",
+      "gitBlob": "8927bed07062e8cb96e065afd8c346b6901c6da9"
+    },
+    {
+      "path": "src/content/posts/JUC/ThreadLocal.md",
+      "bytes": 28632,
+      "sha256": "288514315a88086ddd4941c4508acebbca7b7bf8f59d523a01c123fc331e45cd",
+      "gitBlob": "67c780e094dbb20bb52889693bcaa267b8788c6f"
+    },
+    {
+      "path": "src/content/posts/JUC/synchronized.md",
+      "bytes": 8071,
+      "sha256": "505af1d8e80316469bfd39a6757eb71c2d76e77ad4d0934d6d8cf57b474b494b",
+      "gitBlob": "79f95d62a92c471b1a88b2aaf915c9211ef618d2"
+    },
+    {
+      "path": "src/content/posts/Java/JDK17DetailedExplanationofJavaReferenceTypes.md",
+      "bytes": 24331,
+      "sha256": "537413624f86bb33061a45e0e0506415bc598e472d0f58aa6f8783032ec58000",
+      "gitBlob": "61f8baf1753d5d4d479c03df91b978c4e105f100"
+    },
+    {
+      "path": "src/content/posts/Java/JDK8DetailedExplanationofJavaReferenceTypes.md",
+      "bytes": 22957,
+      "sha256": "26b3d3ac9dfd36f2b37875a3276894a630b8b01ec0c3e18e8b100bba0a292443",
+      "gitBlob": "6d9d6ab4e391a71bbdca2f2953b0a80e06ac18f0"
+    },
+    {
+      "path": "src/content/posts/basic/FRPSecurityAlertAnalysis.md",
+      "bytes": 10519,
+      "sha256": "57529ffb1d715c994b8caed20adc1bcd29f016ebfab3523186078d0974a3ff4c",
+      "gitBlob": "0d0938c7039737e770eae2569303826714381a2a",
+      "sourceBytes": 14216,
+      "sourceSha256": "b8cd97c15cab29cba202fa07d7b3c22e2b9551db5e5c9cec7c886e38e4d47784",
+      "sourceGitBlob": "ddcf2797b9d602a3efc4d4ce1b2e5bd47b3d1350",
+      "redactions": [
+        "Network addresses replaced with documentation range",
+        "Credential assignments replaced",
+        "Connection IDs omitted",
+        "Timestamped connection logs omitted"
+      ]
+    },
+    {
+      "path": "src/content/posts/basic/PremiumContent.md",
+      "bytes": 14612,
+      "sha256": "9214bd28b7add4ee449fa030d2ff95a5435ee0e5be51fc5de045c68bdd06032e",
+      "gitBlob": "f58e696633dae187f75475f5484458bf7c2e2608"
+    },
+    {
+      "path": "src/content/posts/basic/img.png",
+      "bytes": 92926,
+      "sha256": "29a922d64e936bec5838bf0d96f1e74740c546a731006db9cc068b76cbd79708",
+      "gitBlob": "8b1ec52e5c218192dc1c633cba0af7710d8750d6"
+    },
+    {
+      "path": "src/content/posts/basic/img_1.png",
+      "bytes": 37736,
+      "sha256": "b55d2f78623c5aa17e87b2da54784fb3d1db6a43abb2d8db4d2bb176c2b9cbc9",
+      "gitBlob": "137908466622da295f302064f1b11459841c8a3e"
+    },
+    {
+      "path": "src/content/posts/basic/img_2.png",
+      "bytes": 25174,
+      "sha256": "4697ba2189cc20e954dd77ea98234ba23016afa09a00bd227441642731fc8ea7",
+      "gitBlob": "d9cb7c138fb9ec4b92389f661e787fac03568233"
+    },
+    {
+      "path": "src/content/posts/basic/img_3.png",
+      "bytes": 19009,
+      "sha256": "b4c793320a4db59942b7f8dd32c2429d267f63111eb453f8973480e3a6d7b070",
+      "gitBlob": "def6d83d0bd0404252ad979d4f11cbde9f53a6f5"
+    },
+    {
+      "path": "src/content/posts/basic/img_4.png",
+      "bytes": 47211,
+      "sha256": "bea0379259b25dc214b94fde8e21f871a94bd833101e674aac0249269100a9a5",
+      "gitBlob": "cb1355915f414cf69a6337aa84311ead3164a2f7"
+    },
+    {
+      "path": "src/content/posts/basic/img_5.png",
+      "bytes": 20886,
+      "sha256": "d43b29d47591d2b77c12c6a84fa72a02879a2824444a81e0ff0d3642553a2d20",
+      "gitBlob": "d181f438319edeecc690e90cbd0333f99797f315"
+    },
+    {
+      "path": "src/content/posts/basic/img_6.png",
+      "bytes": 55393,
+      "sha256": "ccb4a734d26731f2b4fc3b2493da51b5e36b6c4220072511af09248058d9f8fe",
+      "gitBlob": "307ea3efcc5d60cd62dde26d7e423a7e3a45b89f"
+    },
+    {
+      "path": "src/content/posts/cache/CacheableAndCacheEvict.md",
+      "bytes": 13228,
+      "sha256": "da4aa8d133ada94672b5876d0f08d0cfbe0a756b6265211d9de5d3a8eb8199a1",
+      "gitBlob": "1f2f10164250aad5bcc7704d7d4dfe822e515a75"
+    },
+    {
+      "path": "src/content/posts/cache/springbootcache.md",
+      "bytes": 1788,
+      "sha256": "6e38f336023b7f982fe8a73fd22eb9690e0a450fa749d531ea8bdb585384f712",
+      "gitBlob": "fc4c1cc2a02a84b18cd50b0fc64814ff66e70fb3"
+    },
+    {
+      "path": "src/content/posts/essays/sogou.md",
+      "bytes": 1835,
+      "sha256": "a7c68c6809710d0120765795f66cc909954bdfd714158b621da60720b82f05d0",
+      "gitBlob": "df5754ca71f723f7b5eab21899bb4713d8260f20"
+    },
+    {
+      "path": "src/content/posts/essays/ubunturesolvesversionconflicts.md",
+      "bytes": 2182,
+      "sha256": "fa417bf5ca7728051ae43d42c9910d7cc9e0aadd9c2792e621460c6880a0e725",
+      "gitBlob": "a210f9b895b1b02a82e25c747d62002bf5f75dc4",
+      "sourceBytes": 2179,
+      "sourceSha256": "54df2d9a6d4876affa743b8ad98427f190dc7f66088090818e9dbe6ad7ccbc91",
+      "sourceGitBlob": "7a60128fc6cbc06fd545e953e7bf31cb8052c8e4",
+      "redactions": [
+        "Email addresses replaced with example.com"
+      ]
+    },
+    {
+      "path": "src/content/posts/essays/visualstudio.md",
+      "bytes": 5717,
+      "sha256": "cc6f95d0d61eebd38867eaec521270958413bbd98592b9e536e9f74999812a05",
+      "gitBlob": "ddba74b1bf839b372e6b5114a7e20f038b50dbc4"
+    },
+    {
+      "path": "src/content/posts/hbase/HBase-Data-Model-Explained.md",
+      "bytes": 8809,
+      "sha256": "9bd8e83ddb1741819ce13a24aea6e0facbe567b5a1af2a53ea99d68b60075b0e",
+      "gitBlob": "5096de071ab1cdfc561615c6f7127afbd821da3c",
+      "sourceBytes": 8785,
+      "sourceSha256": "b03b7df0efda8b96385ca18342caa7dd32a8b228a6ce1af976ffb99b69839fdf",
+      "sourceGitBlob": "7ba29f9820315ee453ce206f796d0f65f39cedd7",
+      "redactions": [
+        "Email addresses replaced with example.com"
+      ]
+    },
+    {
+      "path": "src/content/posts/hbase/HBase-Java-API-Comprehensive-Guide-to-Table-Management.md",
+      "bytes": 28006,
+      "sha256": "5a2ee99c82c81f3b971d9a29753a8ff797c1892e9e33279d13396a9b90c9b055",
+      "gitBlob": "e1710c5cd4cb6d4cd6c8fdf80892af73d87667ef"
+    },
+    {
+      "path": "src/content/posts/hbase/HBase-Logical-Data-Model.md",
+      "bytes": 3019,
+      "sha256": "2f35b0523817c5f91249277763b398c863dfa07d864fcde3f8915e1589c24cbf",
+      "gitBlob": "763e9363541122bf8437e4cfc953953d0a58e982",
+      "sourceBytes": 2994,
+      "sourceSha256": "ff27f342a4fdaf12840d568c31c85c7ad473872bdb5fe80f4f5619c5de97e837",
+      "sourceGitBlob": "88869401e50babb348beb92b40ae8b5dc66d3763",
+      "redactions": [
+        "Internal screenshot reference removed"
+      ]
+    },
+    {
+      "path": "src/content/posts/hbase/HBase-Logical-vs-Physical-Data-Models-Deep-Dive.md",
+      "bytes": 9301,
+      "sha256": "e1d6369ca7a6a387a02857f837d6f48ea91a1a3655cd9531114f283e92904565",
+      "gitBlob": "eea9f8ebe6097f16e22b43e9dbd82c428793916f"
+    },
+    {
+      "path": "src/content/posts/hbase/HBase-Overview-and-Core-Concepts.md",
+      "bytes": 7401,
+      "sha256": "f308eb8a2c6807f19b7026756637fca644478ed93ca84a4ad7527e565cef99b5",
+      "gitBlob": "5f43e1eea4a55cf1525d45ee63da8e64431320d5"
+    },
+    {
+      "path": "src/content/posts/hbase/HBase-Shell-Administration-Guide.md",
+      "bytes": 13363,
+      "sha256": "64683d3dfecd282aac62870fae31610249d330f1d43ee1f9c6634b1a696193c6",
+      "gitBlob": "8345e869a8a9b538156b118d204a09ce1a04bbda"
+    },
+    {
+      "path": "src/content/posts/hbase/HBase-Shell-Commands-Quick-Reference.md",
+      "bytes": 14383,
+      "sha256": "54ef9abb856d356deff0c2ceb3a39637bbc7642a2e3b5fe204f652e1afe9c3cc",
+      "gitBlob": "39644aa99ed1ee6271804b340d992bcae00063ee"
+    },
+    {
+      "path": "src/content/posts/hbase/HBase-System-Architecture-Deep-Dive.md",
+      "bytes": 3288,
+      "sha256": "71bfb6d59ea0927924a4ee89fa37328f6e02dcbea144d11046c0ba79e9cede73",
+      "gitBlob": "62c7fc7dd3aa225430e3632c4858e126f0c90e8c",
+      "sourceBytes": 3260,
+      "sourceSha256": "ed07c4270b47d1ca67a34a849740e9b9bafcb9278d370124800fe4e0bb03952d",
+      "sourceGitBlob": "51797b37af7c32f9fc0c167a753b9917d8a2d06c",
+      "redactions": [
+        "Internal screenshot reference removed"
+      ]
+    },
+    {
+      "path": "src/content/posts/hbase/HBase-Table-Schema-Design-Best-Practices.md",
+      "bytes": 9976,
+      "sha256": "94230d7ae1dae13b37e67eb9df562eafa5004428aaa20b2410d6fc1dc1d13bd4",
+      "gitBlob": "ed7e9c8bb42a7a4d7a0a1bb60c1af924e50cc185",
+      "sourceBytes": 9897,
+      "sourceSha256": "b4a604652ffe70d378aec76ca96204c6b6bab98edd39c367dad748d1a7c3a24e",
+      "sourceGitBlob": "bdbf5c607fe5ee9467c61391830952ebc0019dbb",
+      "redactions": [
+        "Internal screenshot reference removed"
+      ]
+    },
+    {
+      "path": "src/content/posts/hbase/image/Region-is-split-vertically-by-column-family.png",
+      "bytes": 158512,
+      "sha256": "7e8895d6f1f993d931bf8ba2dc1680e03675beaf381c04f1b82db88251ef4dc7",
+      "gitBlob": "be49ed999d0f4f0320534f62172bb7e419309924"
+    },
+    {
+      "path": "src/content/posts/hbase/image/Region2.png",
+      "bytes": 123801,
+      "sha256": "673fb1f9a85588add12dff556da00da1ff0d0c32abc5130e1af25c2dea2565ac",
+      "gitBlob": "8d5bad51573cb55beb89b066355447d8dd66fbb9"
+    },
+    {
+      "path": "src/content/posts/hbase/image/RegionServer-structure.png",
+      "bytes": 127763,
+      "sha256": "d7639af47497d6d8c4d208d99901b0c8967e0b59c164ad73d24a93e452629fbb",
+      "gitBlob": "e9bfd31a2e3baaa88926103c367e0da957c883f6"
+    },
+    {
+      "path": "src/content/posts/hbase/image/hbase.png",
+      "bytes": 109787,
+      "sha256": "f5be3a68113592b448f7e8815780d2da13345201835389b83b1b448d672eeb6d",
+      "gitBlob": "f7dfae17cd694b298f24dad57eb90c890f46cf4a"
+    },
+    {
+      "path": "src/content/posts/hbase/image/namespace-default.png",
+      "bytes": 123840,
+      "sha256": "683e9a7b2d1d2a00e5c6af4d619cfbd2320dae2bd278482ab05e388f580254a3",
+      "gitBlob": "0a92aadee81dcb1ead6cac3fef8824054440e0fb"
+    },
+    {
+      "path": "src/content/posts/hbase/image/namespace-hbase.png",
+      "bytes": 33966,
+      "sha256": "a43c3f6a79cf913f5731e563b379e2d4298fc8bc536d77ad00d00dc7c39fd32f",
+      "gitBlob": "18126f064fbcbb52766e63460abe75b2cd724bb3"
+    },
+    {
+      "path": "src/content/posts/mybatis.md",
+      "bytes": 14909,
+      "sha256": "eba2d2724531ea6ebe4c18ed62e60841e2c8ae215bcd604bad00f74d46b59178",
+      "gitBlob": "c3f4ba6589e13e3ead6bdf81b36af9ab0484f2a0"
+    },
+    {
+      "path": "src/content/posts/mysql/checkmysqldeadlock.md",
+      "bytes": 8828,
+      "sha256": "703eade72fa7714366ec3202b652b0d0ab7c4008cff2e44fb1eb9fe3e1a311f7",
+      "gitBlob": "7f922e658d122083a293d5b601e15c19db11e622"
+    },
+    {
+      "path": "src/content/posts/redis/business/FeedFlowDesignModel.md",
+      "bytes": 12384,
+      "sha256": "90a9185cefcfebc07455bd7b1ba3bb725f63a5c926edb2191caa4b876ac4e7a3",
+      "gitBlob": "334a10b37f99cae117e6f3484c8bcdb587ce7189"
+    },
+    {
+      "path": "src/content/posts/redis/business/UserSignIn.md",
+      "bytes": 13859,
+      "sha256": "b5be832092803ba3d5e8ec697fac62c07ab9391a309903242ef008cea339ac04",
+      "gitBlob": "a30af86667b2db103dad72f3a60f3ec3d69d47c6"
+    },
+    {
+      "path": "src/content/posts/redis/business/image/Feed流设计模型/1653808641260.png",
+      "bytes": 19348,
+      "sha256": "3da179c7d45e17d8697ae226461e89ea3839b31a3de880bb15a7b383eac303fa",
+      "gitBlob": "8d4dbcc8e87556458d20028afc662860984c0db4"
+    },
+    {
+      "path": "src/content/posts/redis/business/image/Feed流设计模型/1653808993693.png",
+      "bytes": 19490,
+      "sha256": "c4eac65635c018989f5581bbddd7b5a7f0d36629fd9b0b50e23c739df49ba349",
+      "gitBlob": "145e5e6fbd58c9e09e795fa4bf34e24f819b83d1"
+    },
+    {
+      "path": "src/content/posts/redis/business/image/Feed流设计模型/1653809450816.png",
+      "bytes": 204719,
+      "sha256": "f6c56a40ee7541941328e55cbac93460ea4791d1f61c80ebc6f1fa4983eeef29",
+      "gitBlob": "00ac7ca608f925557248b1ab38abb23566d6e765"
+    },
+    {
+      "path": "src/content/posts/redis/business/image/Feed流设计模型/1653809875208.png",
+      "bytes": 162929,
+      "sha256": "6759fc0b0bae4505fccb863934e2bf75610fe1f97492656f266eef991e49e133",
+      "gitBlob": "7f4fa1ef6f65dc946b3a14e25ea72ea5abbbab0d"
+    },
+    {
+      "path": "src/content/posts/redis/business/image/Feed流设计模型/1653812346852.png",
+      "bytes": 252025,
+      "sha256": "b848ce863eed1df17fce57c71ca7ba9ebee3b8da108c959b4cdaa1de75796c50",
+      "gitBlob": "fb7ffae9b7fe6a2845b2d3bd7d8a4beb058dd7a5"
+    },
+    {
+      "path": "src/content/posts/redis/business/image/用户签到/1749639698630.png",
+      "bytes": 32675,
+      "sha256": "c9567d579bb71f8d310fcb8aa8f5c04f83243d8bec11f9dcc534e992e9848c53",
+      "gitBlob": "8781e490c7ff9fdbb595468c261cf4ae38150f8e"
+    },
+    {
+      "path": "src/content/posts/redis/business/image/用户签到/1749639742341.png",
+      "bytes": 32571,
+      "sha256": "aebd807fcf5977914131d1e85f7c7f095d717e674b96d0e046abe75c5910da77",
+      "gitBlob": "321b8fdb3260de8427c102d9345575eac3116996"
+    },
+    {
+      "path": "src/content/posts/redis/principle/Distributed-Locks-with-Redis.md",
+      "bytes": 11947,
+      "sha256": "957cc82781f854ebca536667928ef94a9516245c20eaac1364f9d5ad76d3d3b2",
+      "gitBlob": "ac2f3f92021bb01f94e10dabc5c9f2b348a635f1"
+    },
+    {
+      "path": "src/content/posts/redis/principle/Distributed-lock-redisson.md",
+      "bytes": 16305,
+      "sha256": "dac7b6bb4802800e4761fb7511494fd1a48dc5ea4dab2257ce58ecc39163d7ce",
+      "gitBlob": "7c8b844cdecde9b7fec5607ea3c2ce2df7507756",
+      "sourceBytes": 16285,
+      "sourceSha256": "0d87f772e14181fb5bb48854fb7776d05fedd2fad573b69c647958fa29d96c31",
+      "sourceGitBlob": "6ea54060ed4acc0efee2f876f6530bbd5a9cd19d",
+      "redactions": [
+        "Credential setter literal replaced"
+      ]
+    },
+    {
+      "path": "src/content/posts/redis/principle/OptimisticvsPessimisticLocking​.md",
+      "bytes": 4874,
+      "sha256": "a97be9801f09139a7284a8591c7a758f8c7ec9b433ca4c1405ad7aaddb8d15c3",
+      "gitBlob": "67e9b2d390c48d5496a08fad2de07aa3e220a044"
+    },
+    {
+      "path": "src/content/posts/redis/principle/Redis-Caching-Models.md",
+      "bytes": 10002,
+      "sha256": "ac9c507b2fceb10f3dff9f6fd4a264aa8a8874588a79f2470a1123768e54afb4",
+      "gitBlob": "c4b6f0eae476bc2a3a200383f0f798d0967b0988"
+    },
+    {
+      "path": "src/content/posts/redis/principle/Redis-Helper-Classes.md",
+      "bytes": 23897,
+      "sha256": "db2e4f50359e808b20c51e01e995f08700f74eaed7a0bf94f54200186dde20fa",
+      "gitBlob": "848451b0045c61e02ed5b7e6c5e9d5d1a0651dc0"
+    },
+    {
+      "path": "src/content/posts/redis/principle/Redis-as-a-Message-Broker.md",
+      "bytes": 7538,
+      "sha256": "780d2476ff805c2c5db7de7b89a8b7cc1ab3d4e4164b9dcb04479e2440c03623",
+      "gitBlob": "3f6c59b4851e083f7c3cdb92a5bb62f83a8b4189"
+    },
+    {
+      "path": "src/content/posts/redis/principle/RedisPersistence.md",
+      "bytes": 9444,
+      "sha256": "dd512b026a74143352737a4c5917226a4c2fa83b57d0f817d1009b6353c5aac0",
+      "gitBlob": "a4645e3a56a85ebab62e2434e1558cf3087cddac"
+    },
+    {
+      "path": "src/content/posts/redis/principle/Replacing-Traditional-Sessions-with-Redis.md",
+      "bytes": 13862,
+      "sha256": "167ee3b3f4c5ce9b65746cb270cbcc9d043e40cbfe8ecad9f101d8d759b22c85",
+      "gitBlob": "76b9a1d41ce16dc1ff0058ec6e428d98da633d32"
+    },
+    {
+      "path": "src/content/posts/redis/principle/Seckill-System.md",
+      "bytes": 20928,
+      "sha256": "b650606ae76b99759515d669f4629f71a763d1518efcf9fb36e5bd844d047ec5",
+      "gitBlob": "188d00dcd17b1f6a344781992a94800f7e147594"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis持久化/21fccd39-379f-4269-812f-1c2ae0871b50.png",
+      "bytes": 1748352,
+      "sha256": "1801b1dc069d22f39246afb7b85ba4648c66f3c12fd5ab22d0bba631952ef9e1",
+      "gitBlob": "da4383181a4cceff01deb9bbf2b6fe4ffdf5bc6b"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis持久化/image-20210725144536958.png",
+      "bytes": 63229,
+      "sha256": "981d82c0975d0711f261cd93a67e96d1beece2f04d1946624492d206a53cb203",
+      "gitBlob": "0707fe48dc519bea8a6d38db2f8e23432fce2b3a"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis持久化/image-20210725144725943.png",
+      "bytes": 21413,
+      "sha256": "25f555fcc03fdcd5d05e20da4d60b1925ee106426672b6e2354199edbab6a102",
+      "gitBlob": "5587095aaa1668b0ea6d0001f241362120782326"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis持久化/image-20210725151319695.png",
+      "bytes": 89999,
+      "sha256": "ac3eab79160b05a412a58d8512e1be9ac469509a73ee96cff9796016726290e7",
+      "gitBlob": "bd186a270db5774861c70a486c5d52c0cd768bcd"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis持久化/image-20210725151543640.png",
+      "bytes": 57761,
+      "sha256": "eeea19b77d4b534bc7100a039a11098686dfab777c814c67264d33b13fad67ee",
+      "gitBlob": "bf24078ad5ac44995b5dcdd5c122f51e4ebc70b2"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis持久化/image-20210725151654046.png",
+      "bytes": 31983,
+      "sha256": "f9697d10b9fbc57a8ac074e7d5df12dc3b166c5e8418b77cedeb03abee7b59df",
+      "gitBlob": "a531abb726721753144283cd8052414301da475d"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis持久化/image-20210725151729118.png",
+      "bytes": 17459,
+      "sha256": "d827d93a469158133762a626aafcaaf143ebd53614df29c811a03f5f242dc866",
+      "gitBlob": "cddb55396c729c4d1dd0a2cc1d93026053551081"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis持久化/image-20210725151940515.png",
+      "bytes": 80443,
+      "sha256": "33dd1befc0ee188bdbb50164271b4860250ce28eb1c474ee0d5b10a162ef4997",
+      "gitBlob": "3537db3b5a83132472736bb395379e398d11772c"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis消息队列/1653574849336.png",
+      "bytes": 90473,
+      "sha256": "c168fceed74872103da5a2dcb0e5b8818fd1b176e31416ec552755b88d9dce29",
+      "gitBlob": "9451599bb0891f5c00e4bf02428b503e6a945ee0"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis消息队列/1653575176451.png",
+      "bytes": 61540,
+      "sha256": "d29393185f2201b026c233d93ed4207d8c606969eefbc4a707de2a94404af66b",
+      "gitBlob": "d9f9aabad769a7cd63327096c952ebd7cd3d8e16"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis消息队列/1653575506373.png",
+      "bytes": 102450,
+      "sha256": "54d802b5ab8bcaba47a4df57681a249728de25837d705e7dbbd972cbc3effa6f",
+      "gitBlob": "56c64aa6915918d4c9c162b97bf34564793954ea"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis消息队列/1653577301737.png",
+      "bytes": 251118,
+      "sha256": "f82f8a2f494fd4c598abceb99c4b2356fbe745335efd60fb310105cde193571c",
+      "gitBlob": "d1d492555224f89cb3e828e5c07d02c126eeca5f"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis消息队列/1653577349691.png",
+      "bytes": 115440,
+      "sha256": "3ae82b2e3eed77727250f4f2db4ef39093bba647681d89a964572c90029ea323",
+      "gitBlob": "4bc8748ad53d3613b4aff68f09615bddc919e682"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis消息队列/1653577445413.png",
+      "bytes": 324972,
+      "sha256": "a7c2601a34f6d53cf41c0303d11bb581ab7a78bb822c332a1a1e7ac64537f2bb",
+      "gitBlob": "d4c52b37d16bced4ed73697b947c77c9d771296a"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis消息队列/1653577643629.png",
+      "bytes": 21482,
+      "sha256": "8a3f69efc4f46487fd7337b53da0d48b730fec89e1ea7bc31e07b4d779921f36",
+      "gitBlob": "dca749885a2a6d2e76447ed2de36fc3bae00238e"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis消息队列/1653577659166.png",
+      "bytes": 10980,
+      "sha256": "ba407c59eb2aa80c947998984d73a4b60c1a1cd507e6fcd62de06a76d95870d3",
+      "gitBlob": "f23a004055392ada29d4919ae84dc57321681f35"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis消息队列/1653577689129.png",
+      "bytes": 32763,
+      "sha256": "354b63254d306ee0797354e6c42325b2f716184c26d118a548442791e6af7c69",
+      "gitBlob": "37ed8bb3fc519d9d186bc9cbc8d048973b388fef"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis消息队列/1653577801668.png",
+      "bytes": 73868,
+      "sha256": "8053e85526c6ef627b0cac9aac9a7e8bf579530fa373640408f1a3fdba8ee2c1",
+      "gitBlob": "15b905aa4293561683d13559e18525fcab5fde99"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis消息队列/1653577984924.png",
+      "bytes": 3922,
+      "sha256": "5def64a5c9f37cfd05040f2fc06450225ce06633a83b0fa997099f4f04b8a734",
+      "gitBlob": "de7fcba0a1e59401bcc6c5355814c155bcb9bdd9"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis消息队列/1653578211854.png",
+      "bytes": 74193,
+      "sha256": "0f518769aa925bd7adac20a9842691335bcaee692802cfd0f45bb31b30e0d9f8",
+      "gitBlob": "93b0d75f3eb8b1420963e2d5d9f342e738d3ceb5"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redis消息队列/1653578560691.png",
+      "bytes": 59907,
+      "sha256": "66ca5abb53adcf453b75133aa6f4bd6dc8d856c0148f03cf6346a5523298460d",
+      "gitBlob": "fc4d5a04469a28c0a9608cff499d3621944c9243"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redi缓存模型和思路/1653322506393.png",
+      "bytes": 258807,
+      "sha256": "7b9fae9d41f464f93b74d2412236d0ecdb67909a825949ec137e5c97a443f2a0",
+      "gitBlob": "aa8d0b5a419d2ef19c2f2caa9baed60520061d7a"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redi缓存模型和思路/1653322857620.png",
+      "bytes": 155948,
+      "sha256": "4152c6339a0542930f6cac856b557be58a2605c41f535580306a4862c8150df6",
+      "gitBlob": "f755775fab6d0e2ddb77e0891a8ef4f0857a7c6d"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redi缓存模型和思路/1653323595206.png",
+      "bytes": 233250,
+      "sha256": "be1b78815b3a981b7f59929528088d60ed18021c8e94670790cc26996735bd70",
+      "gitBlob": "d9520678e0e2e5438498f298c9b278956884fdc2"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redi缓存模型和思路/1653326156516.png",
+      "bytes": 136034,
+      "sha256": "74557e9314c271753f284d25cd392387f26ef2493d0e752f2808a0597b793532",
+      "gitBlob": "746b4c722410259567eae0088e7dea8f1d6672cc"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redi缓存模型和思路/1653327884526.png",
+      "bytes": 121270,
+      "sha256": "1674300fb2c44ea0eac74f2db91727ef2b76f2ac2e771cc31e31c9f957260d95",
+      "gitBlob": "f1e89a4f52a63c3b0ef1259d08158067abefa673"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redi缓存模型和思路/1653328022622.png",
+      "bytes": 158612,
+      "sha256": "42d0fd7ad5b4ac27c9656a3d4cf39e4294a4e7f49ad6f1f0f45ddb6f59d77933",
+      "gitBlob": "bc7e3fc2f7e6ce690f39f329ae2b9b1d17c083da"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redi缓存模型和思路/1653328288627.png",
+      "bytes": 144794,
+      "sha256": "a0cc94c2aacdaf3d6480782c3a6a163966e343ee45ad4d2d4d9cb93332e58a7b",
+      "gitBlob": "a35dd75f4f6742414582a1b0df104fd2ea4d3936"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redi缓存模型和思路/1653328663897.png",
+      "bytes": 248665,
+      "sha256": "73da8bb10d854043cf11eae1dbebee2fd0a622d29e93057161222375fab52187",
+      "gitBlob": "c659b8dd91f901ef3f7becc6a8c8240d810a92e5"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redi缓存模型和思路/1653357522914.png",
+      "bytes": 48877,
+      "sha256": "aac9dd719f4ee9ecdebbe7bc80971c9cdb9f39dc69ab6c71cfa7eb40697582d5",
+      "gitBlob": "15d25baf41f4034ae02872404f6968725a2b2c54"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redi缓存模型和思路/1749010575049.png",
+      "bytes": 201995,
+      "sha256": "e62e79bbf62bca8c4c214fff5a4bd0411a3df2deab2823390c5eecb26fe3e2d1",
+      "gitBlob": "851a9705d189ea9822674022bf7367aea84cc3b7"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/Redi缓存模型和思路/1749011282398.png",
+      "bytes": 125867,
+      "sha256": "d9a1e3206e8bcf3ae7881b2ffcec2bf873e55687a360fcfc12ec31159b6f43af",
+      "gitBlob": "83a37209af83b9270d333c8c6a4e2f3b110e6782"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/f0375368-1382-4a10-85bc-acbcad593169.png",
+      "bytes": 2990893,
+      "sha256": "06f6aae943de17d89fd4bd987150a22a2a7a4cfc9738baaae460ff473a91b853",
+      "gitBlob": "6b42dfba73356a9b99204475975859b26f16a4c7"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/乐观锁和悲观锁/1653368335155.png",
+      "bytes": 128093,
+      "sha256": "949ea1e8f340192148dac3a7d92d82574b680a58460e50d08766006cd8f6e845",
+      "gitBlob": "952b85f802bc255288c9a00dce47578c86602a97"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/乐观锁和悲观锁/1653369268550.png",
+      "bytes": 214444,
+      "sha256": "d8c88fb4af61839e2e63e4f5c57f5a34e7bad4484139dafd0ef06e2d74ffbe0b",
+      "gitBlob": "88f25e53b295cd86e3ab56ac1904e318c7eaf0bb"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/乐观锁和悲观锁/1653370271627.png",
+      "bytes": 140432,
+      "sha256": "b113744c3c3e6e8354a9bdc07fb0a8b6df8115843f1a1bfa4c3d66d12baaf16f",
+      "gitBlob": "2f36ac7b24d7aff9d0e4c747815a2dbae3d0616f"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/分布式锁/1653385920025.png",
+      "bytes": 173010,
+      "sha256": "c36cd3a22d013416e9f230c6a34682a11c1b4e88f684b4173133b2984e5874f9",
+      "gitBlob": "2bca2d2e82d51c36465c8d8247c5b5f4cf30b5f2"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/分布式锁/1653387398820.png",
+      "bytes": 147447,
+      "sha256": "8b324566fba043234009871808cc7d7c614e939ab937e4be3d9f17a0d97f0d2e",
+      "gitBlob": "0c3c83b62e07bb928d022bd739dc0376b132390a"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/分布式锁-redission/1653548087334.png",
+      "bytes": 421656,
+      "sha256": "1f287e667a7b0d81fffcbe548a9db699567e92ec6b447fe5e04d6dee847f10f1",
+      "gitBlob": "30dedbdaf9018f03daf746db36a1e84559ed9dd7"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/分布式锁-redission/1653553093967.png",
+      "bytes": 58716,
+      "sha256": "af2d1ff7aa1ef908c929b1d1e45caf5b2d2a71e98f252424701a48260554faa8",
+      "gitBlob": "17f10d40f97e84f5a4f4e6655c5970df00266c4c"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/秒杀任务/1653363100502.png",
+      "bytes": 26687,
+      "sha256": "7a05e8cde4802ff7d8e855811633d86b163a5aa8b1f951cd3aab926d9d6d0e6d",
+      "gitBlob": "9199ad2b8671ce20da39c48e460c63a96c1fcf24"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/秒杀任务/1653363172079.png",
+      "bytes": 9273,
+      "sha256": "101bc283c47703310f7632d2c7cd6d1b7fd8dc86a5ff057690fb6353b9392cc1",
+      "gitBlob": "bf8598b2c9af7b4c011f4886fb3cf11a4d178e8d"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/秒杀任务/1653371854389.png",
+      "bytes": 143927,
+      "sha256": "cf10ba13688372d561993a32c419ed43b337fb4155b00f3a3baaa55640a34c1d",
+      "gitBlob": "a759b81a7e1204d45bc7dcdb046b63ae1c4f68cc"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/秒杀任务/1653374296906.png",
+      "bytes": 336546,
+      "sha256": "23dc2cb0926d514d9647d4aa082ff89d58085922d0964579c6cd8cde8af2f0cf",
+      "gitBlob": "98c6cda059fec1c9853e982db5d04a85b95f1b74"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/秒杀任务/1653381992018.png",
+      "bytes": 93865,
+      "sha256": "83715530052ca9226dc5b8d5bb1408d2e8a2fde784500ba0adb64ce4da0e1bfd",
+      "gitBlob": "3568771e4622f496f56065c20c85ef00fbca1fa1"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/秒杀任务/1653561657295.png",
+      "bytes": 239369,
+      "sha256": "c041499668942037859ad092792ea0c942872524d0c2438cfe8ee0eb72cd6abc",
+      "gitBlob": "62a3387e4031728edbb021b208ff786a8e5db5fd"
+    },
+    {
+      "path": "src/content/posts/redis/principle/images/秒杀任务/1749374505858.png",
+      "bytes": 76665,
+      "sha256": "1573e25a7baa2aee74809a73ae080e0734163e050ad810682168e5579d379149",
+      "gitBlob": "9460f3a78ef8e90c307c606e7697c1cba2186049"
+    },
+    {
+      "path": "src/content/posts/spark/OverviewOfTheGlobalComputingEngineFramework.md",
+      "bytes": 13995,
+      "sha256": "eb9d861018472076dbc8e891f37558c975e17c156dadd8e71139d892e31f2914",
+      "gitBlob": "01eb51b7fdd67a8b30b653263e6892f0b266fb86"
+    },
+    {
+      "path": "src/content/posts/spark/SparkOperatingMode.md",
+      "bytes": 19450,
+      "sha256": "f700083019a18df4b0c5ef111d1aec4c169d3dc2c4c3e2b588fe040776f7de34",
+      "gitBlob": "536f03bc27bc5109fca943d4708632f929db5520"
+    },
+    {
+      "path": "src/content/posts/spark/SparkOverview.md",
+      "bytes": 30088,
+      "sha256": "33886448018822a851f3800f0c3a32903f0f2ab7380bee03e023739b2c1342ba",
+      "gitBlob": "1dd705d9fac65b696c58d0ed1bcfe605d2e3f32c"
+    },
+    {
+      "path": "src/content/posts/springboot/SpringBootAuto-configuration.md",
+      "bytes": 12531,
+      "sha256": "b84676f85704b80f248f61c9a0fc337393152f68bbe5da85822e5a57ae9a9e1c",
+      "gitBlob": "2922da9b604193e52683debb8588c59fd70a396d"
+    },
+    {
+      "path": "src/content/posts/springboot/SpringBootStartupProcess.md",
+      "bytes": 1157,
+      "sha256": "e82099ead4b2597f8f16b31c16bd08f8576cfb809d9a18ab3d42d08684d2ac08",
+      "gitBlob": "318844296be83d0e27bb665f858d03bd90bd314b"
+    },
+    {
+      "path": "src/content/posts/springboot/SpringTransactions.md",
+      "bytes": 34250,
+      "sha256": "2c9b49446683d25fc47a9789b22cfb4c62b36b01dce0e22f54e3d09a633a9d57",
+      "gitBlob": "2d2609834a1d4f47f485afa0be6c8501dde5abac"
+    },
+    {
+      "path": "src/content/posts/springcloud/BulkHeadBasics​.md",
+      "bytes": 56880,
+      "sha256": "579ef14bee102e74578f4ec052c7f124d1d3dc39ca0dab272ac9dfa1eceb5012",
+      "gitBlob": "8f982bf1a7d0e215bcc5024d018237b824c653fb"
+    },
+    {
+      "path": "src/content/posts/springcloud/CircuitBreakerPatterns​​.md",
+      "bytes": 33881,
+      "sha256": "174b7fbb64c10beebba9cc6d05075b4c9b008891c804c4a872549e2f0a6e1160",
+      "gitBlob": "0cf5b8ca8970ca15af91432d094a19d82113f4a1"
+    },
+    {
+      "path": "src/content/posts/springcloud/ConsulServiceRegistrationandDiscovery.md",
+      "bytes": 28520,
+      "sha256": "737b685950189f28e5130074ccd91842da91cff26efd94a08cfb3e9a70a9f715",
+      "gitBlob": "96af0f1b988a26159171e09dac4699dcf5f0ed9a",
+      "sourceBytes": 28502,
+      "sourceSha256": "f0d46c68c8a9fc663a78a5a09a2632f42e3ab394193b4c27a18135733109f332",
+      "sourceGitBlob": "b173f1512c4b13e5e20175163bc8add508d39a77",
+      "redactions": [
+        "Network addresses replaced with documentation range",
+        "Internal screenshot reference removed"
+      ]
+    },
+    {
+      "path": "src/content/posts/springcloud/LoadBalancer.md",
+      "bytes": 17566,
+      "sha256": "ba288c065429b7a046a05daddbab8da2e75cda3e8340689fec14f433d36e173f",
+      "gitBlob": "745ecae951e5fa2ddc8206177dcd756fc488f0bf",
+      "sourceBytes": 17572,
+      "sourceSha256": "aa8968950a90c18a3f8faa9e9ba8aa29771bb3c4c7e7471a51ec28ef573d023b",
+      "sourceGitBlob": "89c2d6b4c016115cb2b6142a2f31df48485bf120",
+      "redactions": [
+        "Network addresses replaced with documentation range"
+      ]
+    },
+    {
+      "path": "src/content/posts/springcloud/Nacos.md",
+      "bytes": 13022,
+      "sha256": "00b0926f850a82ec079bb93a7d175064c3e68250449cf52ef7122d8b24897372",
+      "gitBlob": "4c591886c1d61187ec4e6210686dda9254ae427c",
+      "sourceBytes": 13018,
+      "sourceSha256": "4d680bd3a37ba2c0d16cf665ad79962c793a77b154c38bd994c4b5e1a81292b0",
+      "sourceGitBlob": "8eeb315e32e17ab679fe095ecef0aae592fe526c",
+      "redactions": [
+        "Network addresses replaced with documentation range",
+        "Credential assignments replaced",
+        "Nacos auth token replaced",
+        "Inline token example omitted"
+      ]
+    },
+    {
+      "path": "src/content/posts/springcloud/OpenFeign.md",
+      "bytes": 18928,
+      "sha256": "10c5bf5893d5824aee7e7d83eb063054582bb76326f2a5a5f0910b396da131a5",
+      "gitBlob": "2bf424309ba44c96f1e6fde5b522fbcfa7bc920a",
+      "sourceBytes": 18934,
+      "sourceSha256": "a8194b0927cb83a235aa2e17fdfe9802a36acc3e87727f179c3ca0c756165e8d",
+      "sourceGitBlob": "07d6430264a08bc1beaba550cd1086d601489df6",
+      "redactions": [
+        "Network addresses replaced with documentation range"
+      ]
+    },
+    {
+      "path": "src/content/posts/springcloud/Sentinel.md",
+      "bytes": 9064,
+      "sha256": "b5f2183263b46a46f533d37f24ef7009bf7e06b2ae957584eefef4fcd9976b34",
+      "gitBlob": "dd465e3906f5756f4eea28a99e88f0f862ea2358",
+      "sourceBytes": 9063,
+      "sourceSha256": "07da42b45db5e123bbcd54797e7a5b7a318ed5d8c75ee3f6b6235274ddf247c0",
+      "sourceGitBlob": "e227cd02389005ff2878d6747b615dcbe930b440",
+      "redactions": [
+        "Network addresses replaced with documentation range"
+      ]
+    },
+    {
+      "path": "src/content/posts/springcloud/SetupofMicrometerandZipkinTracing.md",
+      "bytes": 7299,
+      "sha256": "bc9a4129a0c288d9c59f935c72ac3f9d7c4509f6df9c054c8404eb408c078df3",
+      "gitBlob": "22b1cfebf84a16d0ca1d9eed9f9c2bbd42a7c0d8",
+      "sourceBytes": 7298,
+      "sourceSha256": "191d4dd05c1f28e7a51f77b4707e2cdb112420d9a4cc7ca7103cd9ed01eba75c",
+      "sourceGitBlob": "10cbeb9443de247414dcca9cf92262f33f9fc75f",
+      "redactions": [
+        "Network addresses replaced with documentation range"
+      ]
+    },
+    {
+      "path": "src/content/posts/springcloud/SpringCloudGateway.md",
+      "bytes": 22766,
+      "sha256": "219857d255142b76c4dea90bb67143edfbf0595b593eeebeec43e044f7755054",
+      "gitBlob": "a271f3058757585337bfe34487c9bf4cf53b4aa0",
+      "sourceBytes": 25541,
+      "sourceSha256": "543592b6977a8275de1b2b459879e383715d400131c9abf3a9085db841948e68",
+      "sourceGitBlob": "de92a1622883ca634ac99cb877ac3dcf4d989fcf",
+      "redactions": [
+        "Network addresses replaced with documentation range",
+        "Four unsafe authentication, credentialed CORS and identifying request-log examples omitted; safe explanatory guidance retained"
+      ]
+    },
+    {
+      "path": "src/content/posts/springcloud/SpringSecurityAndCloudPermissionService.md",
+      "bytes": 42088,
+      "sha256": "56945b565a794abdc63a3c03ccad995a002aeb1618e3ca9679970f15e18c0270",
+      "gitBlob": "f4b517db759fc09dddea53e9cd2c62c51a55122e",
+      "sourceBytes": 42060,
+      "sourceSha256": "e1e97f2cddb71e940ca2a3f9b13a7833349fd11f919e80fdce175777610708b6",
+      "sourceGitBlob": "006aaabe629cc57cf8f14e8927d57f4e87d52fd1",
+      "redactions": [
+        "Network addresses replaced with documentation range",
+        "Credential assignments replaced"
+      ]
+    },
+    {
+      "path": "src/content/posts/springcloud/images/BulkHeadBasics​/b9458502-9fa7-452a-844c-602043064f32.png",
+      "bytes": 104664,
+      "sha256": "bbc3e9bb6f829a998de82505358fa796d555e38dd8613bddaf2b214e8ad0d6b2",
+      "gitBlob": "9949d9fd4d18e9e2348cd1cc5b17d5d6c515b090"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/BulkHeadBasics​/b9458502-9fa7-452a-844c-602043064f33.png",
+      "bytes": 76423,
+      "sha256": "8154030719669ad16b067322a872eee89360d424a8292e968e88f8986e1af24e",
+      "gitBlob": "c4189a9991e911f813ca138b8c481d5f0f5be38b"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/BulkHeadBasics​/b9458502-9fa7-452a-844c-602043064f34.png",
+      "bytes": 153878,
+      "sha256": "df023e5be211cf9f18d1b90e1706f90edf95aa56fcc76e67b99dbf05dbee6544",
+      "gitBlob": "15deb2d290902cc549039b3dda30de518cb6402b"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/BulkHeadBasics​/pfHd2OXcN8RgFwt4MBzm0.png",
+      "bytes": 152354,
+      "sha256": "b6a394451b586029244513933a24a7607fd5c5e8c852ffce5f7fa30e31d366bb",
+      "gitBlob": "b1e1de71b056c2731773b0e6dceebc1f1eab1a4e"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/BulkHeadBasics​/pfHd2OXcN8RgFwt4MBzm1.png",
+      "bytes": 85462,
+      "sha256": "10cc51022be639c515b9c95c80fee0a268301c8910dcd9e3dbf8d6977138204c",
+      "gitBlob": "edee2b9bf0d0d1761bbe48995cf91de5e95c4d9f"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/BulkHeadBasics​/pfHd2OXcN8RgFwt4MBzm2.png",
+      "bytes": 75542,
+      "sha256": "61a5b037ab268b484e9f38e67fd32813a0aa7daef9f4e0273da09982ab23e431",
+      "gitBlob": "44692eb04213979af751915e0fd3657bcc7d3bda"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/Gemini_Generated_Image_6r28di6r28di6r28.png",
+      "bytes": 4630629,
+      "sha256": "f97f3083065d3d4e8b0ce457710075e02df2cbaec8fff1b373bbee7eb0e7f8c8",
+      "gitBlob": "5213dcab31c3ef31b9b21c6a34d623922c1e4dc9"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/Gemini_Generated_Image_goodjvgoodjvgood.png",
+      "bytes": 5928395,
+      "sha256": "bb3f1e01ae263692b000ae4ea64de563319097f707beec04ac5c971cb256beaf",
+      "gitBlob": "27a4d62a79d01919a872ab941e758056b0bd1f8c"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/Sentinel/image1.png",
+      "bytes": 40525,
+      "sha256": "fabe6dfda7c183cba1220a099f1b17b1f48cf26a677c1a935f61420ba5bcad7c",
+      "gitBlob": "965f505d9fe631989afe82747ce1154ce0c72de5"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/Sentinel/image2.png",
+      "bytes": 64183,
+      "sha256": "7eb913a467ab8fea23c372ca760261a5d2f0cb9f4695ed3166a74ade8426ea1c",
+      "gitBlob": "e1c8c67f813e17734cea5af91440d6ca3e3b1740"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/Sentinel/image3.png",
+      "bytes": 53793,
+      "sha256": "c3502e14b2252edebf64ecaede2c793a93cccc09ebef437f84015307c899b166",
+      "gitBlob": "b2c4cdc35e61809738f80ce8abf98ab9c0c5c1f4"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/Sentinel/image4.png",
+      "bytes": 44512,
+      "sha256": "8a863f549b92ba269773d29677de89a8c33a72001f6e8f35ab5283aed705962a",
+      "gitBlob": "2662cd38c4f5d9ae9f63af1f5f4bb47c320943da"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/Sentinel/image5.png",
+      "bytes": 57567,
+      "sha256": "1d371e6e64d834340b9f339ae6932a245fbce035345199dcb40f54b2c3e0aecf",
+      "gitBlob": "bffd24b89f396c0f8471181925f0a2369dbba5ac"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/Sentinel/image6.png",
+      "bytes": 59273,
+      "sha256": "8f6f46b87de7c91b5c03dcfaf34791ccf0ba34feede415f43eae864c01cfaed7",
+      "gitBlob": "6d5ee7615332bbb6a96cd607ffaf6d3ca8e584f9"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/Sentinel/image7.png",
+      "bytes": 45190,
+      "sha256": "12c1401f37a28e040f485d8fe855217a8fc4222a2f714758a30966289277527c",
+      "gitBlob": "98c07414727c348a057190729560e022bf389e33"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/Sentinel/image8.png",
+      "bytes": 58825,
+      "sha256": "c1d069e2c3712371a32c0eb2b2ba9dc68618f4e2e3a312476dba51653debf177",
+      "gitBlob": "81dca9d141e74cbb327aa38ce86df5d3728f76ea"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/Sentinel/image9.png",
+      "bytes": 65762,
+      "sha256": "43cd6744b0449fbe030ff80602934180fddf23638e003f5d3da3a87c8aee25f2",
+      "gitBlob": "68595ecb29fac1c1abf7d504a72fd8db23ac6221"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/SpringCloudGateway/461b820b-71ef-4089-87dc-b0ef65c06c58.png",
+      "bytes": 139462,
+      "sha256": "9764c46d4bf82acf2dea971fd6723b81d8a0cf718171843374fa9a39f8c66d3a",
+      "gitBlob": "a5e9981b2bb00fe07794be00839eef42bef903ec"
+    },
+    {
+      "path": "src/content/posts/vue.md",
+      "bytes": 22653,
+      "sha256": "ddf75efc1532ca7e076999346bf1ac69d3dabe28b8452a6776159872a512aa47",
+      "gitBlob": "7bca9373550ae2bce27adceed73fe2eb8a83fbac"
+    }
+  ],
+  "omittedFiles": [
+    {
+      "path": "src/content/posts/hbase/image/Master-Web-UI.png",
+      "bytes": 144340,
+      "sha256": "bcf89aeb4378f2e342d3e255a096251ba5e5cbb5578dacae53ac5c14a60a4e68",
+      "gitBlob": "1744bad46f446531ca1175b03ea68d8351d6f6a4",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    },
+    {
+      "path": "src/content/posts/hbase/image/Region1.png",
+      "bytes": 79910,
+      "sha256": "28617080a6391d791e797f989ae0ecf25b676ab30034e3065cf62a77e38539b8",
+      "gitBlob": "88b7a15116f8ebf5fae607e9f2889e4b2197aa0d",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    },
+    {
+      "path": "src/content/posts/hbase/image/RegionServer.png",
+      "bytes": 79910,
+      "sha256": "28617080a6391d791e797f989ae0ecf25b676ab30034e3065cf62a77e38539b8",
+      "gitBlob": "88b7a15116f8ebf5fae607e9f2889e4b2197aa0d",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    },
+    {
+      "path": "src/content/posts/hbase/image/StartKey-EndKey.png",
+      "bytes": 134959,
+      "sha256": "a9a23e9f12e2086505997e040550cd249e492bdc5a1f926e10436144b3d6dde6",
+      "gitBlob": "c559f2a4f85bc046549c4135c972a03b289e1175",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    },
+    {
+      "path": "src/content/posts/hbase/image/p1.png",
+      "bytes": 128735,
+      "sha256": "6cfd798d21eb922de8b3cd6bc4c1297463df480f749a18d4e27cbbcda5e08368",
+      "gitBlob": "7cb18e3eff34509a2743ce56276dbbde4151305d",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    },
+    {
+      "path": "src/content/posts/hbase/image/p2.png",
+      "bytes": 167504,
+      "sha256": "3ad1d46a54804e9909dd36e0687d5f6c85917e5200b259a275bd3d9a98938f63",
+      "gitBlob": "db1d3faf0228f59b453b6a24373edbf193db24bf",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/Consul/66a49d4147dcd.png",
+      "bytes": 56067,
+      "sha256": "ce6cb0a2007adff180f0aef3d2d91ae42fba952726856c73db6d3997b27865e3",
+      "gitBlob": "87e1997ca40b03f91201d02b29da503f144c0715",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/Consul/66a4a2c57b886.png",
+      "bytes": 54480,
+      "sha256": "09ac5cbb0fcd0fb6e1a8a02f8a4262e8509cbd50804f67789daf554c355aabe2",
+      "gitBlob": "71a4d6db9082c33c728185fb68ff22c719c56fe9",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    }
+  ]
+}
