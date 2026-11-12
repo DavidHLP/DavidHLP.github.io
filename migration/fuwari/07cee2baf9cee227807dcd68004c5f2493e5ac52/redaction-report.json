@@ -1,0 +1,176 @@
+{
+  "sourceCommit": "07cee2baf9cee227807dcd68004c5f2493e5ac52",
+  "changes": [
+    {
+      "path": "src/content/posts/basic/FRPSecurityAlertAnalysis.md",
+      "reasons": [
+        "Network addresses replaced with documentation range",
+        "Credential assignments replaced",
+        "Connection IDs omitted",
+        "Timestamped connection logs omitted"
+      ],
+      "sourceSha256": "b8cd97c15cab29cba202fa07d7b3c22e2b9551db5e5c9cec7c886e38e4d47784",
+      "publishedSha256": "57529ffb1d715c994b8caed20adc1bcd29f016ebfab3523186078d0974a3ff4c"
+    },
+    {
+      "path": "src/content/posts/essays/ubunturesolvesversionconflicts.md",
+      "reasons": [
+        "Email addresses replaced with example.com"
+      ],
+      "sourceSha256": "54df2d9a6d4876affa743b8ad98427f190dc7f66088090818e9dbe6ad7ccbc91",
+      "publishedSha256": "fa417bf5ca7728051ae43d42c9910d7cc9e0aadd9c2792e621460c6880a0e725"
+    },
+    {
+      "path": "src/content/posts/hbase/HBase-Data-Model-Explained.md",
+      "reasons": [
+        "Email addresses replaced with example.com"
+      ],
+      "sourceSha256": "b03b7df0efda8b96385ca18342caa7dd32a8b228a6ce1af976ffb99b69839fdf",
+      "publishedSha256": "9bd8e83ddb1741819ce13a24aea6e0facbe567b5a1af2a53ea99d68b60075b0e"
+    },
+    {
+      "path": "src/content/posts/hbase/HBase-Logical-Data-Model.md",
+      "reasons": [
+        "Internal screenshot reference removed"
+      ],
+      "sourceSha256": "ff27f342a4fdaf12840d568c31c85c7ad473872bdb5fe80f4f5619c5de97e837",
+      "publishedSha256": "2f35b0523817c5f91249277763b398c863dfa07d864fcde3f8915e1589c24cbf"
+    },
+    {
+      "path": "src/content/posts/hbase/HBase-System-Architecture-Deep-Dive.md",
+      "reasons": [
+        "Internal screenshot reference removed"
+      ],
+      "sourceSha256": "ed07c4270b47d1ca67a34a849740e9b9bafcb9278d370124800fe4e0bb03952d",
+      "publishedSha256": "71bfb6d59ea0927924a4ee89fa37328f6e02dcbea144d11046c0ba79e9cede73"
+    },
+    {
+      "path": "src/content/posts/hbase/HBase-Table-Schema-Design-Best-Practices.md",
+      "reasons": [
+        "Internal screenshot reference removed"
+      ],
+      "sourceSha256": "b4a604652ffe70d378aec76ca96204c6b6bab98edd39c367dad748d1a7c3a24e",
+      "publishedSha256": "94230d7ae1dae13b37e67eb9df562eafa5004428aaa20b2410d6fc1dc1d13bd4"
+    },
+    {
+      "path": "src/content/posts/redis/principle/Distributed-lock-redisson.md",
+      "reasons": [
+        "Credential setter literal replaced"
+      ],
+      "sourceSha256": "0d87f772e14181fb5bb48854fb7776d05fedd2fad573b69c647958fa29d96c31",
+      "publishedSha256": "dac7b6bb4802800e4761fb7511494fd1a48dc5ea4dab2257ce58ecc39163d7ce"
+    },
+    {
+      "path": "src/content/posts/springcloud/ConsulServiceRegistrationandDiscovery.md",
+      "reasons": [
+        "Network addresses replaced with documentation range",
+        "Internal screenshot reference removed"
+      ],
+      "sourceSha256": "f0d46c68c8a9fc663a78a5a09a2632f42e3ab394193b4c27a18135733109f332",
+      "publishedSha256": "737b685950189f28e5130074ccd91842da91cff26efd94a08cfb3e9a70a9f715"
+    },
+    {
+      "path": "src/content/posts/springcloud/LoadBalancer.md",
+      "reasons": [
+        "Network addresses replaced with documentation range"
+      ],
+      "sourceSha256": "aa8968950a90c18a3f8faa9e9ba8aa29771bb3c4c7e7471a51ec28ef573d023b",
+      "publishedSha256": "ba288c065429b7a046a05daddbab8da2e75cda3e8340689fec14f433d36e173f"
+    },
+    {
+      "path": "src/content/posts/springcloud/Nacos.md",
+      "reasons": [
+        "Network addresses replaced with documentation range",
+        "Credential assignments replaced",
+        "Nacos auth token replaced",
+        "Inline token example omitted"
+      ],
+      "sourceSha256": "4d680bd3a37ba2c0d16cf665ad79962c793a77b154c38bd994c4b5e1a81292b0",
+      "publishedSha256": "00b0926f850a82ec079bb93a7d175064c3e68250449cf52ef7122d8b24897372"
+    },
+    {
+      "path": "src/content/posts/springcloud/OpenFeign.md",
+      "reasons": [
+        "Network addresses replaced with documentation range"
+      ],
+      "sourceSha256": "a8194b0927cb83a235aa2e17fdfe9802a36acc3e87727f179c3ca0c756165e8d",
+      "publishedSha256": "10c5bf5893d5824aee7e7d83eb063054582bb76326f2a5a5f0910b396da131a5"
+    },
+    {
+      "path": "src/content/posts/springcloud/Sentinel.md",
+      "reasons": [
+        "Network addresses replaced with documentation range"
+      ],
+      "sourceSha256": "07da42b45db5e123bbcd54797e7a5b7a318ed5d8c75ee3f6b6235274ddf247c0",
+      "publishedSha256": "b5f2183263b46a46f533d37f24ef7009bf7e06b2ae957584eefef4fcd9976b34"
+    },
+    {
+      "path": "src/content/posts/springcloud/SetupofMicrometerandZipkinTracing.md",
+      "reasons": [
+        "Network addresses replaced with documentation range"
+      ],
+      "sourceSha256": "191d4dd05c1f28e7a51f77b4707e2cdb112420d9a4cc7ca7103cd9ed01eba75c",
+      "publishedSha256": "bc9a4129a0c288d9c59f935c72ac3f9d7c4509f6df9c054c8404eb408c078df3"
+    },
+    {
+      "path": "src/content/posts/springcloud/SpringCloudGateway.md",
+      "reasons": [
+        "Network addresses replaced with documentation range",
+        "Four unsafe authentication, credentialed CORS and identifying request-log examples omitted; safe explanatory guidance retained"
+      ],
+      "sourceSha256": "543592b6977a8275de1b2b459879e383715d400131c9abf3a9085db841948e68",
+      "publishedSha256": "219857d255142b76c4dea90bb67143edfbf0595b593eeebeec43e044f7755054"
+    },
+    {
+      "path": "src/content/posts/springcloud/SpringSecurityAndCloudPermissionService.md",
+      "reasons": [
+        "Network addresses replaced with documentation range",
+        "Credential assignments replaced"
+      ],
+      "sourceSha256": "e1e97f2cddb71e940ca2a3f9b13a7833349fd11f919e80fdce175777610708b6",
+      "publishedSha256": "56945b565a794abdc63a3c03ccad995a002aeb1618e3ca9679970f15e18c0270"
+    }
+  ],
+  "omittedScreenshots": [
+    {
+      "path": "src/content/posts/hbase/image/Master-Web-UI.png",
+      "sourceSha256": "bcf89aeb4378f2e342d3e255a096251ba5e5cbb5578dacae53ac5c14a60a4e68",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    },
+    {
+      "path": "src/content/posts/hbase/image/Region1.png",
+      "sourceSha256": "28617080a6391d791e797f989ae0ecf25b676ab30034e3065cf62a77e38539b8",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    },
+    {
+      "path": "src/content/posts/hbase/image/RegionServer.png",
+      "sourceSha256": "28617080a6391d791e797f989ae0ecf25b676ab30034e3065cf62a77e38539b8",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    },
+    {
+      "path": "src/content/posts/hbase/image/StartKey-EndKey.png",
+      "sourceSha256": "a9a23e9f12e2086505997e040550cd249e492bdc5a1f926e10436144b3d6dde6",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    },
+    {
+      "path": "src/content/posts/hbase/image/p1.png",
+      "sourceSha256": "6cfd798d21eb922de8b3cd6bc4c1297463df480f749a18d4e27cbbcda5e08368",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    },
+    {
+      "path": "src/content/posts/hbase/image/p2.png",
+      "sourceSha256": "3ad1d46a54804e9909dd36e0687d5f6c85917e5200b259a275bd3d9a98938f63",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/Consul/66a49d4147dcd.png",
+      "sourceSha256": "ce6cb0a2007adff180f0aef3d2d91ae42fba952726856c73db6d3997b27865e3",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    },
+    {
+      "path": "src/content/posts/springcloud/images/Consul/66a4a2c57b886.png",
+      "sourceSha256": "09ac5cbb0fcd0fb6e1a8a02f8a4262e8509cbd50804f67789daf554c355aabe2",
+      "reason": "Omitted internal infrastructure screenshot after independent privacy review"
+    }
+  ]
+}
