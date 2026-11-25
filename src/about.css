@@ -31,8 +31,6 @@ button { font: inherit; color: inherit; background: transparent; cursor: pointer
 .profile-contacts { list-style: none; padding: 12px 0 0; margin: 16px 0 0; border-top: 1px solid var(--line); font-size: 13px; line-height: 1.8; }
 .profile-contacts li { margin-block: 10px; }
 .profile-contacts a { display: inline-block; padding-block: 3px; }
-.about-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-top: 16px; font-size: 13px; }
-.about-actions button { border: 1px solid var(--line); padding: 10px 16px; text-align: left; min-height: 44px; }
 .about-variants { margin-top: 20px; }
 .about-variants > p { font-size: 11px; letter-spacing: .1em; color: var(--muted); margin: 0 0 8px; }
 .about-variants ul { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
@@ -77,7 +75,6 @@ button { font: inherit; color: inherit; background: transparent; cursor: pointer
   .about-contents { margin-top: 28px; }
   .about-contents ol { display: flex; flex-wrap: wrap; gap: 8px 24px; }
   .about-contents li { margin: 0; }
-  .about-actions { flex-direction: row; flex-wrap: wrap; align-items: center; }
 }
 @media (max-width: 480px) {
   .about-nav, .about-sheet, .about-footer { width: calc(100% - 40px); }
@@ -92,7 +89,7 @@ button { font: inherit; color: inherit; background: transparent; cursor: pointer
 @media print {
   @page { size: A4 portrait; margin: 11mm; background: #eae5e1; }
   :root, :root[data-dark-surface="true"] { color-scheme: light; --paper: #eae5e1; --ink: #20231f; --muted: #60635b; --line: #bdbbb1; --accent: #77532f; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-  .about-nav, .about-actions, .about-variants, .about-contents, .about-footer, .about-skip, .about-document-label { display: none !important; }
+  .about-nav, .about-variants, .about-contents, .about-footer, .about-skip, .about-document-label { display: none !important; }
   .about-sheet { display: block; width: auto; margin: 0; padding: 0; }
   .about-page { font-size: 16px; line-height: 1.8; }
   .about-identity { margin: 0 0 10pt; padding: 0 0 8pt; border-bottom: 1px solid var(--line); break-inside: avoid; }

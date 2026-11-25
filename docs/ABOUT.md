@@ -1,6 +1,6 @@
 # About / 个人档案
 
-地址：`/about/`、`/en/about/`、`/ja/about/`。这是独立的 Astro 文档：不加载 Three.js、固定舞台或开场，禁用 JavaScript 仍可阅读和切换语言。导航语言跟随正文；直接打开一个语言地址始终显示该语言，不被旧偏好重定向。打印使用浏览器打印或保存 PDF。
+地址：`/about/`、`/en/about/`、`/ja/about/`。这是独立的 Astro 文档：不加载 Three.js、固定舞台或开场，禁用 JavaScript 仍可阅读和切换语言。导航语言跟随正文；直接打开一个语言地址始终显示该语言，不被旧偏好重定向。页面不再提供打印或 PDF 导出按钮。
 
 ## 修改个人资料
 
@@ -21,13 +21,12 @@ profile:
       href: https://github.com/your-name
     - label: 其他联系方式（可不设置链接）
   # avatar: /images/portrait.jpg
-  # resume: /downloads/resume.pdf
 ---
 
 一段介绍即可，不必填写所有模块。
 ```
 
-只有 `title` 和 `lang` 必填。可删除整个 `profile`，或省略角色、介绍、地点、头像、联系、PDF。头像和简历须是 `public/` 下真实文件；不存在时不生成入口，不请求不存在的图片。链接接受 HTTP(S)、mailto、tel 或站内路径。无 PDF 时仍可打印。
+只有 `title` 和 `lang` 必填。可删除整个 `profile`，或省略角色、介绍、地点、头像、联系。头像须是 `public/` 下真实文件；不存在时不生成入口，不请求不存在的图片。链接接受 HTTP(S)、mailto、tel 或站内路径。
 
 ## 多份求职方向
 
@@ -48,37 +47,11 @@ summary: 当前方向的一句话介绍。
 
 每个方向必须恰好有 `zh-CN`、`en`、`ja` 三份文档；缺失或重复会使构建失败。方向ID只允许小写字母开头的字母、数字与连字符。示例地址为 `/about/research/`、`/en/about/research/`、`/ja/about/research/`。
 
-方向文档只覆盖正文、职业和介绍，姓名、联系与头像继承默认文档，避免维护多套个人资料。没有方向文档时不生成切换区域。方向与语言链接可直接访问，静态模式会保留；canonical、hreflang、站点地图及离线页面均指向各自方向。打印导出当前方向，默认文档的静态PDF附件不会被误用于其他方向。正文和公开资料仅放在博客；模板的研究方向示例为虚构信息。
+方向文档只覆盖正文、职业和介绍，姓名、联系与头像继承默认文档，避免维护多套个人资料。没有方向文档时不生成切换区域。方向与语言链接可直接访问，静态模式会保留；canonical、hreflang、站点地图及离线页面均指向各自方向。正文和公开资料仅放在博客；模板的研究方向示例为虚构信息。
 
-## LaTeX 简历
+## 已移除的导出功能
 
-安装 Poppler（`pdfinfo`、`pdftocairo`）、Pandoc、XeLaTeX（含 XeCJK 和 titlesec）以及 Noto Serif、Noto Sans 和 Noto CJK 字体后，执行 `RHINE_RESUME_PDF=1 npm run build`。Ubuntu 可用 `apt install poppler-utils pandoc texlive-xetex texlive-lang-chinese texlive-fonts-recommended lmodern fonts-noto-core fonts-noto-cjk` 安装所需工具。部署工作流也可用相同的环境变量启用生成。
-
-每个语言与方向的 About 页面会提供自己的 `resume.pdf`。A4 单栏版式由 [layout.tex](../scripts/resume/layout.tex) 维护，正文、姓名和联系方式来自该页面渲染所用的 Markdown。修改内容后重新构建即可更新 PDF。LaTeX 导出隐藏网页导航和档案编号，保留章节、正文及可点击链接。浏览器打印和已有附件仍可使用。
-
-## 未启用 LaTeX 时的浏览器打印
-
-“打印 / 保存 PDF”使用 A4 竖版纸张（210×297mm）、11mm 页边距，固定为暖灰亮色，不受当前屏幕宽度或暗色偏好影响。身份与联系方式置于紧凑页眉，完整履历按单列从上到下自然续页；正文 10pt、1.35 倍行高，不保留身份侧栏或正文分栏。现有三语长履历以两页为排版目标；模板不截断内容或强制限制页数，新增内容仍自然续页。
-
-导出隐藏网页导航、操作按钮和目录；标题与后文、段落、列表项及表格行尽量保持在同一页，超出整页的长块允许继续分页。打印对话框选择“另存为 PDF”，纸张选择 A4 竖版，使用 CSS 页边距、100% 缩放并关闭浏览器页眉页脚；自定义纸张、缩放或边距可能改变页数。
-
-正文用 `##` 写经历、项目、技能、教育、开源等章节，`###` 写具体项目或单位。章节目录从实际二级标题生成；没有章节时不生成空目录。删除不需要的模块及标题即可。建议保留职责、关键技术、成果三层信息，不使用能力百分比。
-
-面向不同岗位时，可在正文开头用三条“核心优势”概括本方向最相关、可核对的成果，再用经历与项目支撑。每条优先写问题、行动及验证结果；同一实习经历可合并重复背景，但保留职责和事实。数字必须有来源与适用范围，开发集命中率不写成用户收益，界面夹具不写成真实业务数据，阶段验收不扩大为生产交付。技术栈版本以当前代码为准，三语同步维护；原始文档与证据另行保留，不为两页目标裁切正文。
-
-```md
-## 项目
-### 项目名称
-<p class="resume-meta">2025–2026 · 个人职责</p>
-
-项目背景与范围。
-
-<p class="resume-stack">技术栈：TypeScript / Astro</p>
-
-- **关键工作**：具体行动，以及有来源支持的结果。
-```
-
-主题复用 `rhine-settings.colorTheme`，其他设置保留。首页与静态阅读导航都有入口；从静态模式进入时，返回首页继续静态模式。关于页正文不参与 UI 词条替换。
+About 页底部原有的“打印 / 保存 PDF”按钮与 LaTeX 简历下载已彻底移除：`scripts/export-resumes.mjs`、`scripts/resume/`、`RHINE_RESUME_PDF` 环境变量以及构建中的 PDF 生成步骤都已删除。浏览器自带的打印功能仍可用于保存页面，但不属于站点功能。
 
 ## 复用现有内容
 
@@ -86,8 +59,8 @@ summary: 当前方向的一句话介绍。
 
 上游同步使用 Git merge：通用组件、样式和字段来自模板，个人正文和 `site.json` 留在博客。如果已有迁移 catch-all，请将三个真实 About 地址从旧重定向生成列表中移除，保留旧介绍文章及其迁移入口。静态路由自动进入站点地图；页面包含 canonical、hreflang 和语言信息。
 
-验收清单见 [ABOUT-ACCEPTANCE.md](ABOUT-ACCEPTANCE.md)。`check:viewport` 仅验证档案布局计算，不能代替实际 About 截图、打印和浏览器操作。
+验收清单见 [ABOUT-ACCEPTANCE.md](ABOUT-ACCEPTANCE.md)。`check:viewport` 仅验证档案布局计算，不能代替实际 About 截图与浏览器操作。
 
-网页默认直接显示文字履历及个人信息，保留方向、语言、目录导航和无 JavaScript 阅读。启用 LaTeX 后可下载对应 PDF；构建检查每份 PDF 为 1–2 页，超出时失败，不裁切或删减正文。
+网页默认直接显示文字介绍与公开资料，保留方向、语言、目录导航和无 JavaScript 阅读。
 
-浏览器原生打印使用文字版的打印样式，下载的 PDF 使用 LaTeX 排版，两者分页可能不同。CI 的 `scripts/check-about-browser.mjs` 检查九种语言/方向组合的 PDF 正文、页数、原生打印、375/768/1440px 亮暗主题与无 JavaScript 阅读，并保存 PDF、截图及 JSON 报告；人工逐页视觉审查仍须另行记录。
+CI 的 `scripts/check-about-browser.mjs` 检查三种语言的 375/768/1440px 亮暗主题、无 JavaScript 阅读与页面元素可见性，并保存截图及 JSON 报告；人工逐页视觉审查仍须另行记录。

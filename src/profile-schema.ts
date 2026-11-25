@@ -7,7 +7,6 @@ export const profileSchema = z.object({
   summary: text.optional(),
   location: text.optional(),
   avatar: localFile.optional(),
-  resume: localFile.optional(),
   contacts: z.array(z.object({
     label: text,
     href: text.refine(value => {

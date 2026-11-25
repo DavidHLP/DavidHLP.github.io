@@ -6,8 +6,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      RHINE_RESUME_PDF: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -15,12 +13,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends poppler-utils pandoc texlive-xetex texlive-lang-chinese texlive-fonts-recommended lmodern fonts-noto-core fonts-noto-cjk
       - run: npm run build:cloudflare
-      - name: Preserve generated About documents
-        run: |
-          mkdir -p .reports/about-browser/build
-          find dist/about dist/en/about dist/ja/about -type f \( -name 'resume.pdf' -o -name 'index.html' \) -exec cp --parents {} .reports/about-browser/build/ \;
       - run: npm run check:content
       - run: npm run check:viewport
       - run: npm run kb:lint
@@ -29,7 +22,7 @@ jobs:
         run: |
           npm install --prefix "$RUNNER_TEMP/about-browser-tools" --package-lock=false --no-audit --no-fund playwright@1.62.1
           node "$RUNNER_TEMP/about-browser-tools/node_modules/playwright/cli.js" install --with-deps chromium
-      - name: Verify all About PDFs and browser views
+      - name: Verify About pages in a browser
         run: node scripts/check-about-browser.mjs
         env:
           PLAYWRIGHT_MODULE: ${{ runner.temp }}/about-browser-tools/node_modules/playwright/index.mjs

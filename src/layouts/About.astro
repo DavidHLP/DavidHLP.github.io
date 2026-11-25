@@ -23,11 +23,10 @@ const profile = {
   summary: selected?.data.summary ?? base.data.profile.summary,
 };
 const copy = {
-  "zh-CN": { about: "关于", home: "档案首页", contents: "本页目录", print: "打印 / 保存 PDF", download: "下载简历", skip: "跳至正文", theme: "暗色", note: "个人介绍与实践记录", top: "回到顶部" },
-  en: { about: "About", home: "Archives", contents: "On this page", print: "Print / Save PDF", download: "Download résumé", skip: "Skip to content", theme: "Dark", note: "Profile & selected practice", top: "Back to top" },
-  ja: { about: "プロフィール", home: "アーカイブ", contents: "目次", print: "印刷 / PDF 保存", download: "履歴書をダウンロード", skip: "本文へ", theme: "ダーク", note: "自己紹介と実践の記録", top: "先頭へ戻る" },
+  "zh-CN": { about: "关于", home: "档案首页", contents: "本页目录", skip: "跳至正文", theme: "暗色", note: "个人介绍与实践记录", top: "回到顶部" },
+  en: { about: "About", home: "Archives", contents: "On this page", skip: "Skip to content", theme: "Dark", note: "Profile & selected practice", top: "Back to top" },
+  ja: { about: "プロフィール", home: "アーカイブ", contents: "目次", skip: "本文へ", theme: "ダーク", note: "自己紹介と実践の記録", top: "先頭へ戻る" },
 }[language];
-const latexDownload = { "zh-CN": "下载 LaTeX 简历", en: "Download LaTeX résumé", ja: "LaTeX 履歴書をダウンロード" }[language];
 const sections = headings.filter(heading => heading.depth === 2);
 const variantCopy = {
   "zh-CN": { heading: "简历方向", standard: "标准版" },
@@ -38,9 +37,6 @@ const title = `${name} · ${selected?.data.title ?? base.data.resumeLabel ?? cop
 const description = profile.summary ?? profile.role ?? name;
 const canonical = new URL(aboutPath(language, variant), Astro.site);
 const avatar = publicFile(profile.avatar);
-const latexResume = import.meta.env.PROD && process.env.RHINE_RESUME_PDF === "1"
-  ? `${aboutPath(language, variant)}resume.pdf` : undefined;
-const resume = variant ? undefined : publicFile(profile.resume);
 ---
 <!doctype html>
 <html lang={language}>
@@ -85,11 +81,6 @@ const resume = variant ? undefined : publicFile(profile.resume);
             {variants.map(item => <li><a href={aboutPath(language, item.data.variant)} data-about-variant={item.data.variant} aria-current={item.data.variant === variant ? "page" : undefined}>{item.data.title}</a></li>)}
           </ul>
         </nav>}
-        <div class="about-actions">
-          <button id="about-print" hidden>{copy.print}<span aria-hidden="true"> ↗</span></button>
-          {latexResume && <a href={latexResume} download>{latexDownload} ↓</a>}
-          {resume && <a href={resume} download>{copy.download} ↓</a>}
-        </div>
         {sections.length > 0 && <nav class="about-contents" aria-label={copy.contents}>
           <p>{copy.contents}</p>
           <ol>{sections.map(heading => <li><a href={`#${heading.slug}`}>{heading.text.replace(/\[ SEC \d+ \]\s*/, "")}</a></li>)}</ol>
@@ -115,9 +106,6 @@ const resume = variant ? undefined : publicFile(profile.resume);
           localStorage.setItem("rhine-settings", JSON.stringify({ ...prefs, colorTheme: dark ? "dark" : "light" }));
         } catch {}
       });
-      const print = document.querySelector<HTMLButtonElement>("#about-print")!;
-      print.hidden = false;
-      print.addEventListener("click", () => window.print());
       try { localStorage.setItem("rhine-language", root.lang); } catch {}
       const home = document.querySelector<HTMLAnchorElement>(".about-home")!;
       if (new URLSearchParams(location.search).get("view") === "static") {
