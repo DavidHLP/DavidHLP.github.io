@@ -23,7 +23,7 @@ const profile = {
   summary: selected?.data.summary ?? base.data.profile.summary,
 };
 const copy = {
-  "zh-CN": { about: "关于", home: "档案首页", contents: "履历目录", print: "打印 / 保存 PDF", download: "下载简历", skip: "跳至正文", theme: "暗色", note: "个人介绍与实践记录", top: "回到顶部" },
+  "zh-CN": { about: "关于", home: "档案首页", contents: "本页目录", print: "打印 / 保存 PDF", download: "下载简历", skip: "跳至正文", theme: "暗色", note: "个人介绍与实践记录", top: "回到顶部" },
   en: { about: "About", home: "Archives", contents: "On this page", print: "Print / Save PDF", download: "Download résumé", skip: "Skip to content", theme: "Dark", note: "Profile & selected practice", top: "Back to top" },
   ja: { about: "プロフィール", home: "アーカイブ", contents: "目次", print: "印刷 / PDF 保存", download: "履歴書をダウンロード", skip: "本文へ", theme: "ダーク", note: "自己紹介と実践の記録", top: "先頭へ戻る" },
 }[language];
@@ -73,7 +73,7 @@ const resume = variant ? undefined : publicFile(profile.resume);
     <main class="about-sheet">
       <aside class="about-identity">
         <p class="about-eyebrow">{copy.about}<span aria-hidden="true"> / 01</span></p>
-        {avatar && <img class="about-avatar" src={avatar} alt="" width="112" height="149" />}
+        {avatar && <img class="about-avatar" src={avatar} alt="" width="112" height="112" />}
         <div class="resume-export-identity">
           <h1>{name}</h1>
           <Profile profile={profile} />
