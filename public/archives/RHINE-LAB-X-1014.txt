@@ -8,32 +8,31 @@ PROFILE
 访问范围: 公开
 
 Java 后端开发
-关注缓存、分布式系统与工程可维护性，维护 ResiCache、UltiCode 等开源项目。
+关注缓存一致性、分布式任务与可维护的工程实现，维护 ResiCache 与 UltiCode。
 GitHub · DavidHLP: https://github.com/DavidHLP
 知识库: https://davidhlp.github.io/kb/
 站点源码: https://github.com/DavidHLP/DavidHLP.github.io
 
 ## 关于我
 
-Java 后端开发，关注缓存、分布式系统与工程可维护性。日常在做两件事：把系统里容易出错的地方（缓存一致性、任务投递、并发控制）想清楚，并把过程写成可复查的笔记。
+Java 后端开发，关注缓存一致性、分布式任务与可维护的工程实现。日常工作里反复处理的是同一类问题：并发回源怎么合并、任务投递失败后怎么补齐、序列化边界怎么保证不越权。把这些想清楚并写成可复查的笔记，是本站的主要内容来源。
 
-## GitHub
+## 开源项目
 
-用户名 `DavidHLP`，主页：<https://github.com/DavidHLP>。
-
-主要公开项目：
-
-- **ResiCache** — 面向 Spring Cache + Redis 的缓存防护，处理穿透、击穿、雪崩与热 Key 刷新。
-- **UltiCode** — 开源的在线评测平台，包含题库、比赛、沙箱判题与后台管理。
-- **RhineLabUI-Astro** — 本站使用的档案式界面主题，Astro + TypeScript 实现。
-- **codebase-memory-mcp** — 代码知识图谱 MCP 服务，参与客户端接入相关贡献。
+- **ResiCache** — 为使用 Redis 的 Spring Cache 应用提供缓存防护：合并同 Key 的并发回源、错开集中到期带来的压力、支持热点 Key 提前刷新。
+- **UltiCode** — 从题库练习到比赛判题的开源在线评测平台：独立判题进程从 Redis Streams 领取提交，在 Docker 沙箱中执行。
+- **codebase-memory-mcp**（上游贡献）— 代码知识图谱 MCP 服务：[Oh My Pi 客户端接入](https://github.com/DeusData/codebase-memory-mcp/pull/1229)、[Linux 安装别名兼容](https://github.com/DeusData/codebase-memory-mcp/pull/2203)、[Swift 声明与调用关系解析](https://github.com/DeusData/codebase-memory-mcp/pull/2436)。
 
 ## 这个站点
 
-- 文记与工程笔记的检索入口：<https://davidhlp.github.io/kb/>
+写作集中在 Java 并发、Redis 缓存与存储、分布式任务投递与故障恢复，以及 MCP 与 AI 工程工具。
+
+界面主题派生自 [RhineLabUI](https://github.com/LBEILC/RhineLabUI)，在 [RhineLabUI-Astro](https://github.com/DavidHLP/RhineLabUI-Astro) 中移植为 Astro + TypeScript。
+
+- 知识库：<https://davidhlp.github.io/kb/>
 - 站点源码：<https://github.com/DavidHLP/DavidHLP.github.io>
 
 研究记录
-1. 本页只介绍公开的技术身份与项目，不包含联系方式。
+1. 本页只包含公开的技术身份与项目，不含联系方式。
 
 原文来源: https://github.com/DavidHLP

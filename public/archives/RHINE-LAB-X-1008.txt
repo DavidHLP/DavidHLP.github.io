@@ -8,29 +8,28 @@ PROFILE
 アクセス: 公開
 
 Java バックエンド開発
-キャッシュ、分散システム、保守しやすい設計に関心。ResiCache と UltiCode を運営。
+キャッシュ整合性、分散タスク、保守しやすい設計に関心。ResiCache と UltiCode を運営。
 GitHub · DavidHLP: https://github.com/DavidHLP
 ナレッジベース: https://davidhlp.github.io/kb/
 サイトのソース: https://github.com/DavidHLP/DavidHLP.github.io
 
 ## プロフィール
 
-Java バックエンド開発。キャッシュ、分散システム、保守しやすい設計に関心があります。システムで壊れやすい部分（キャッシュ整合性、タスク配信、並行制御）を明確にし、その過程を後から検証できる形で記録することを中心にしています。
+Java バックエンド開発。キャッシュ整合性、分散タスク、保守しやすい設計に関心があります。日々向き合うのは同じ種類の問題です。同時リロードをどう畳むか、配信に失敗したタスクをどう補うか、シリアライズの境界が権限を広げないようにするにはどうするか。考えた内容を後から検証できる形で書き残すことが、このサイトの中心です。
 
-## GitHub
+## オープンソース
 
-ユーザー名 `DavidHLP`、プロフィール：<https://github.com/DavidHLP>。
-
-主な公開プロジェクト：
-
-- **ResiCache** — Spring Cache + Redis 向けのキャッシュ保護。穿透・ブレイクダウン・アバランチ・ホットキー更新を扱う。
-- **UltiCode** — 問題ライブラリ、コンテスト、サンドボックス判定、管理画面を備えたオープンソースのオンラインジャッジ。
-- **RhineLabUI-Astro** — 本サイトで使用しているアーカイブ風テーマ。Astro と TypeScript で実装。
-- **codebase-memory-mcp** — コード知識グラフの MCP サーバー。クライアント連携に貢献。
+- **ResiCache** — Redis を使う Spring Cache アプリケーション向けのキャッシュ保護。同一キーの同時リロードの集約、一斉失効による負荷集中の平準化、ホットキーの先行更新を扱う。
+- **UltiCode** — 問題演習からコンテスト判定までを担うオープンソースのオンラインジャッジ。独立した判定プロセスが Redis Streams から提出を受け取り、Docker サンドボックスで実行する。
+- **codebase-memory-mcp**（上流への貢献）— コード知識グラフの MCP サーバー。[Oh My Pi クライアント対応](https://github.com/DeusData/codebase-memory-mcp/pull/1229)、[Linux インストール時のエイリアス処理](https://github.com/DeusData/codebase-memory-mcp/pull/2203)、[Swift の宣言とコールエッジ解析](https://github.com/DeusData/codebase-memory-mcp/pull/2436)。
 
 ## このサイト
 
-- 記事とエンジニアリングノートの入口：<https://davidhlp.github.io/kb/>
+記事は Java の並行処理、Redis のキャッシュとストレージ、分散タスクの配信と障害復旧、MCP と AI エンジニアリングツールを扱います。
+
+画面テーマは [RhineLabUI](https://github.com/LBEILC/RhineLabUI) を元に、[RhineLabUI-Astro](https://github.com/DavidHLP/RhineLabUI-Astro) で Astro と TypeScript に移植したものです。
+
+- ナレッジベース：<https://davidhlp.github.io/kb/>
 - サイトのソース：<https://github.com/DavidHLP/DavidHLP.github.io>
 
 研究記録
