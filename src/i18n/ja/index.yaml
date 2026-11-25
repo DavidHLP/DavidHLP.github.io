@@ -91,22 +91,6 @@ home:
     preface: 序文
     activity: 活動ログ
     latest: 最新リリース
-  profile:
-    name: [redacted] (が れんほう)
-    title: Java バックエンドエンジニア
-    meta:
-      - [redacted]
-      - [redacted]・学士
-      - データサイエンス・ビッグデータ技術専攻
-      - "[redacted]"
-    highlightsTitle: 経歴・プロジェクト
-    highlights:
-      - "<strong>[redacted]・バックエンド実習（2026.01–2026.06）</strong>：Alibaba Cloud のプライベートクラウド向け安騎士プロジェクトに参加。GPU リソース連携、AI 資産識別、SQL 最適化、Arthas・containerd・Harbor による障害調査を担当。"
-      - "<strong>ResiCache</strong>：同一 Key のリクエスト集約、分散ロード調整、Lua によるバージョン検証付き早期失効、デシリアライズの安全性検証を実装。並行処理テストと Redis 統合テストで障害・競合を検証。"
-      - "<strong>UltiCode</strong>：トランザクショナル Outbox と Redis Streams で判定タスクを配信。generation + attemptId で結果書き込みを検証し、Docker で信頼できないコードの権限とリソースを制限。"
-      - "<strong>OSS 貢献・受賞</strong>：OMP クライアント連携を追加した codebase-memory-mcp PR #1229 がマージ済み。2025 年「藍橋杯」Java ソフトウェア設計 B 組で全国三等賞。"
-    linkText: 履歴書を見る
-filters:
   searchContent: 知識ページのタイトル・タグ・本文を検索…
   searchHint: キーワードは空白で区切り、シリーズやタグでも絞り込めます
   results: '{count} 件'

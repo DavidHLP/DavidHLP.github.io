@@ -91,22 +91,6 @@ home:
     preface: 序文
     activity: 活动日志
     latest: 最新发布
-  profile:
-    name: [redacted]
-    title: Java 后端开发工程师
-    meta:
-      - [redacted]
-      - [redacted] · 本科
-      - 数据科学与大数据技术
-      - "[redacted]"
-    highlightsTitle: 经历与项目亮点
-    highlights:
-      - "<strong>[redacted] · 后端实习（2026.01–2026.06）</strong>：参与阿里云专有云安骑士项目，完成 GPU 资源接入，参与 AI 资产识别、SQL 查询优化及 Arthas、containerd / Harbor 排障。"
-      - "<strong>ResiCache 缓存防护</strong>：实现同 Key 请求合并、分布式加载协调、Lua 版本校验与提前过期、安全反序列化，通过并发测试与 Redis 集成测试验证故障和竞态。"
-      - "<strong>UltiCode 在线评测</strong>：以事务 Outbox 与 Redis Streams 投递判题任务，通过 generation + attemptId 校验结果写回，并以 Docker 限制不可信代码的权限与资源占用。"
-      - "<strong>开源贡献与荣誉</strong>：codebase-memory-mcp 的 OMP 客户端接入 PR #1229 已合并；获 2025 蓝桥杯 Java 软件设计 B 组国家级三等奖。"
-    linkText: 查看完整简历
-filters:
   searchContent: 搜索知识页标题、标签或正文…
   searchHint: 空格分隔多个关键词，可叠加系列与标签筛选
   results: '找到 {count} 篇'

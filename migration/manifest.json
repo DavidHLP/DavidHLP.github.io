@@ -59,19 +59,16 @@
     "public/licenses/RhineLabUI-MIT.txt",
     "public/licenses/rolling-number.txt",
     "src/content/information/en/chronicle.yaml",
-    "src/content/information/en/introduction.md",
     "src/content/information/en/kb-index.md",
     "src/content/information/en/kb-log.md",
     "src/content/information/en/linkroll.mdx",
     "src/content/information/en/policy.md",
     "src/content/information/ja/chronicle.yaml",
-    "src/content/information/ja/introduction.md",
     "src/content/information/ja/kb-index.md",
     "src/content/information/ja/kb-log.md",
     "src/content/information/ja/linkroll.mdx",
     "src/content/information/ja/policy.md",
     "src/content/information/zh-cn/chronicle.yaml",
-    "src/content/information/zh-cn/introduction.md",
     "src/content/information/zh-cn/kb-index.md",
     "src/content/information/zh-cn/kb-log.md",
     "src/content/information/zh-cn/linkroll.mdx",
@@ -338,12 +335,6 @@
       "draft": false
     },
     {
-      "path": "src/content/information/en/introduction.md",
-      "slug": "legacy/information/en/introduction",
-      "archiveId": "X-1002",
-      "draft": false
-    },
-    {
       "path": "src/content/information/en/kb-index.md",
       "slug": "legacy/information/en/kb-index",
       "archiveId": "X-1003",
@@ -374,12 +365,6 @@
       "draft": false
     },
     {
-      "path": "src/content/information/ja/introduction.md",
-      "slug": "legacy/information/ja/introduction",
-      "archiveId": "X-1008",
-      "draft": false
-    },
-    {
       "path": "src/content/information/ja/kb-index.md",
       "slug": "legacy/information/ja/kb-index",
       "archiveId": "X-1009",
@@ -407,12 +392,6 @@
       "path": "src/content/information/zh-cn/chronicle.yaml",
       "slug": "legacy/information/zh-cn/chronicle",
       "archiveId": "X-1013",
-      "draft": false
-    },
-    {
-      "path": "src/content/information/zh-cn/introduction.md",
-      "slug": "legacy/information/zh-cn/introduction",
-      "archiveId": "X-1014",
       "draft": false
     },
     {
