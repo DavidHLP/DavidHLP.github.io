@@ -95,22 +95,6 @@ home:
     preface: PREFACE
     activity: ACTIVITY.LOG
     latest: LATEST.RELEASE
-  profile:
-    name: "[redacted] (David)"
-    title: Java Backend Engineer
-    meta:
-      - "[redacted]"
-      - [redacted] · Bachelor's degree
-      - Data Science and Big Data Technology
-      - "[redacted]"
-    highlightsTitle: EXPERIENCE & PROJECTS
-    highlights:
-      - "<strong>[redacted] · Backend Intern (Jan–Jun 2026)</strong>: Worked on Alibaba Cloud's private-cloud Aegis project: GPU resource integration, AI asset identification, SQL optimization, and diagnostics with Arthas, containerd and Harbor."
-      - "<strong>ResiCache</strong>: Implemented single-flight request coalescing, distributed loading coordination, version-checked early expiration with Lua, and guarded deserialization; verified failures and races with concurrency and Redis integration tests."
-      - "<strong>UltiCode</strong>: Delivered judging tasks through a transactional Outbox and Redis Streams, fenced result writes with generation + attemptId, and constrained untrusted code permissions and resources with Docker."
-      - "<strong>Open Source & Awards</strong>: Merged codebase-memory-mcp PR #1229 for OMP client integration; national third prize in the 2025 Blue Bridge Cup, Java Software Design Group B."
-    linkText: Read full resume
-filters:
   searchContent: Search knowledge titles, tags or content…
   searchHint: Separate keywords with spaces; combine with series and tags
   results: '{count} results'
