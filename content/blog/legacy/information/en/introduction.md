@@ -50,19 +50,21 @@
 
 ## About
 
-Java backend developer focused on cache consistency, distributed tasks and maintainable engineering. Most of the work is the same class of problem: how to coalesce concurrent reloads, how to recover a task after a failed delivery, how to keep serialization boundaries from widening access. Writing those decisions down so they can be reviewed is what most of this site is built on.
+I work on backends with Java and Spring, with a focus on Redis cache consistency, distributed tasks, and trust boundaries in serialization. When I work on concurrent or asynchronous code, I start by asking which component owns each step and what state it can rely on after a timeout or failure.
+
+For cache reloads, I test separately for a waiting caller timing out, the loader failing, and a successful load followed by a failed cache write. I write down which cases the tests cover so I can revisit the conclusions alongside the code.
 
 ## Open source
 
-- **ResiCache** — cache protection for Spring Cache applications on Redis: coalesces concurrent reloads for the same key, spreads the load of mass expiry, and refreshes hot keys ahead of time.
-- **UltiCode** — an open-source online judge covering practice problems and contests: a separate judging process pulls submissions from Redis Streams and runs code in a Docker sandbox.
-- **codebase-memory-mcp** (upstream contributions) — a code knowledge-graph MCP server: [Oh My Pi client surface](https://github.com/DeusData/codebase-memory-mcp/pull/1229), [Linux install alias handling](https://github.com/DeusData/codebase-memory-mcp/pull/2203), and [Swift declaration and call-edge parsing](https://github.com/DeusData/codebase-memory-mcp/pull/2436).
+- [**ResiCache**](https://github.com/DavidHLP/ResiCache) adds cache protection to Spring Cache applications backed by Redis. It coalesces concurrent reloads for the same key, staggers expiry to spread the load, and can refresh hot keys ahead of time.
+- [**UltiCode**](https://github.com/DavidHLP/UltiCode) is an online judge for practice problems and contests. A database outbox records pending judging tasks so delivery can be retried, and a separate worker takes tasks from Redis Streams and runs submitted code in a Docker sandbox.
+- I contributed [Oh My Pi client support](https://github.com/DeusData/codebase-memory-mcp/pull/1229), [Linux install alias handling](https://github.com/DeusData/codebase-memory-mcp/pull/2203), and [Swift declaration and call-edge parsing](https://github.com/DeusData/codebase-memory-mcp/pull/2436) to **codebase-memory-mcp**, an MCP server for querying a code graph.
 
 ## This site
 
-Writing covers Java concurrency, Redis caching and storage, distributed task delivery and failure recovery, and MCP with AI engineering tooling.
+I write about Java concurrency, Redis caching and storage, and how distributed tasks are delivered and recovered after failure. I’m also exploring how MCP tools fit into code review, starting with symbols and call relationships in a code graph and then checking index coverage and reading the source to verify what I find.
 
-The interface theme derives from [RhineLabUI](https://github.com/LBEILC/RhineLabUI), ported to Astro and TypeScript in [RhineLabUI-Astro](https://github.com/DavidHLP/RhineLabUI-Astro).
+The site uses [RhineLabUI-Astro](https://github.com/DavidHLP/RhineLabUI-Astro), an Astro and TypeScript port of [RhineLabUI](https://github.com/LBEILC/RhineLabUI).
 
 - Knowledge base: <https://davidhlp.github.io/kb/>
 - Site source: <https://github.com/DavidHLP/DavidHLP.github.io>

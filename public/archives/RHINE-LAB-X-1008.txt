@@ -15,19 +15,21 @@ GitHub · DavidHLP: https://github.com/DavidHLP
 
 ## プロフィール
 
-Java バックエンド開発。キャッシュ整合性、分散タスク、保守しやすい設計に関心があります。日々向き合うのは同じ種類の問題です。同時リロードをどう畳むか、配信に失敗したタスクをどう補うか、シリアライズの境界が権限を広げないようにするにはどうするか。考えた内容を後から検証できる形で書き残すことが、このサイトの中心です。
+主に Java と Spring でバックエンドを開発し、Redis のキャッシュ整合性、分散タスク、シリアライズにおける信頼境界に関心があります。並行処理や非同期処理では、各段階をどのコンポーネントが担当し、タイムアウトや失敗の後にどの状態を頼りにできるかを先に整理します。
+
+たとえばキャッシュの再読み込みでは、待機側のタイムアウト、読み込み自体の失敗、読み込み成功後のキャッシュ書き込み失敗をそれぞれテストします。後からコードを読み返して結論を確かめられるように、テストで扱ったケースも書き残しています。
 
 ## オープンソース
 
-- **ResiCache** — Redis を使う Spring Cache アプリケーション向けのキャッシュ保護。同一キーの同時リロードの集約、一斉失効による負荷集中の平準化、ホットキーの先行更新を扱う。
-- **UltiCode** — 問題演習からコンテスト判定までを担うオープンソースのオンラインジャッジ。独立した判定プロセスが Redis Streams から提出を受け取り、Docker サンドボックスで実行する。
-- **codebase-memory-mcp**（上流への貢献）— コード知識グラフの MCP サーバー。[Oh My Pi クライアント対応](https://github.com/DeusData/codebase-memory-mcp/pull/1229)、[Linux インストール時のエイリアス処理](https://github.com/DeusData/codebase-memory-mcp/pull/2203)、[Swift の宣言とコールエッジ解析](https://github.com/DeusData/codebase-memory-mcp/pull/2436)。
+- [**ResiCache**](https://github.com/DavidHLP/ResiCache) は、Redis を使う Spring Cache アプリケーションにキャッシュ保護を追加します。同じキーの再読み込みが重なったときに処理をまとめ、有効期限をずらして負荷を分散し、頻繁に使われるキーを期限前に更新できます。
+- [**UltiCode**](https://github.com/DavidHLP/UltiCode) は、問題演習やコンテスト向けのオンラインジャッジです。配信に失敗しても再試行できるよう、判定タスクをデータベースの outbox に記録し、独立したワーカーが Redis Streams からタスクを受け取って Docker サンドボックスで提出コードを実行します。
+- コードグラフを検索する MCP サーバー **codebase-memory-mcp** には、[Oh My Pi クライアント対応](https://github.com/DeusData/codebase-memory-mcp/pull/1229)、[Linux インストール時のエイリアス処理](https://github.com/DeusData/codebase-memory-mcp/pull/2203)、[Swift の宣言と呼び出し関係の解析](https://github.com/DeusData/codebase-memory-mcp/pull/2436)に関する変更を送りました。
 
 ## このサイト
 
-記事は Java の並行処理、Redis のキャッシュとストレージ、分散タスクの配信と障害復旧、MCP と AI エンジニアリングツールを扱います。
+ここでは Java の並行処理、Redis のキャッシュとストレージ、分散タスクの配信と障害復旧について書いています。コードの調査に MCP ツールをどう組み込めるかも試しており、コードグラフでシンボルと呼び出し関係を探した後、インデックスの対象範囲を確認し、ソースを読んで結果を確かめます。
 
-画面テーマは [RhineLabUI](https://github.com/LBEILC/RhineLabUI) を元に、[RhineLabUI-Astro](https://github.com/DavidHLP/RhineLabUI-Astro) で Astro と TypeScript に移植したものです。
+サイトのテーマには、[RhineLabUI](https://github.com/LBEILC/RhineLabUI) を Astro と TypeScript に移植した [RhineLabUI-Astro](https://github.com/DavidHLP/RhineLabUI-Astro) を使っています。
 
 - ナレッジベース：<https://davidhlp.github.io/kb/>
 - サイトのソース：<https://github.com/DavidHLP/DavidHLP.github.io>

@@ -15,19 +15,21 @@ GitHub · DavidHLP: https://github.com/DavidHLP
 
 ## 关于我
 
-Java 后端开发，关注缓存一致性、分布式任务与可维护的工程实现。日常工作里反复处理的是同一类问题：并发回源怎么合并、任务投递失败后怎么补齐、序列化边界怎么保证不越权。把这些想清楚并写成可复查的笔记，是本站的主要内容来源。
+我主要用 Java 和 Spring 做后端开发，关注 Redis 缓存一致性、分布式任务和序列化的信任边界。遇到并发或异步问题，我会先理清每一步由谁负责，以及超时或失败后还能依赖什么状态。
+
+以缓存回源为例，我会分别验证等待者超时、加载异常和加载成功后写缓存失败这几条路径。笔记里也会写清测试覆盖了哪些场景，方便以后沿着代码复查结论。
 
 ## 开源项目
 
-- **ResiCache** — 为使用 Redis 的 Spring Cache 应用提供缓存防护：合并同 Key 的并发回源、错开集中到期带来的压力、支持热点 Key 提前刷新。
-- **UltiCode** — 从题库练习到比赛判题的开源在线评测平台：独立判题进程从 Redis Streams 领取提交，在 Docker 沙箱中执行。
-- **codebase-memory-mcp**（上游贡献）— 代码知识图谱 MCP 服务：[Oh My Pi 客户端接入](https://github.com/DeusData/codebase-memory-mcp/pull/1229)、[Linux 安装别名兼容](https://github.com/DeusData/codebase-memory-mcp/pull/2203)、[Swift 声明与调用关系解析](https://github.com/DeusData/codebase-memory-mcp/pull/2436)。
+- [**ResiCache**](https://github.com/DavidHLP/ResiCache) 为使用 Redis 的 Spring Cache 应用提供缓存防护。它合并同一个键的并发回源、错开过期时间以分散负载，并支持热点键提前刷新。
+- [**UltiCode**](https://github.com/DavidHLP/UltiCode) 是覆盖题库练习和比赛判题的在线评测平台。判题投递用数据库 outbox 保留待发送任务，以便失败后重试；独立判题进程从 Redis Streams 领取任务，在 Docker 沙箱中执行提交的代码。
+- 我给代码知识图谱 MCP 服务 **codebase-memory-mcp** 提交过 [Oh My Pi 客户端接入](https://github.com/DeusData/codebase-memory-mcp/pull/1229)、[Linux 安装别名兼容](https://github.com/DeusData/codebase-memory-mcp/pull/2203)和 [Swift 声明与调用关系解析](https://github.com/DeusData/codebase-memory-mcp/pull/2436)方面的改动。
 
 ## 这个站点
 
-写作集中在 Java 并发、Redis 缓存与存储、分布式任务投递与故障恢复，以及 MCP 与 AI 工程工具。
+我在这里记录 Java 并发、Redis 缓存与存储、分布式任务投递与故障恢复。最近也在探索如何把 MCP 工具用在代码走查里，例如先用代码图定位符号和调用关系，再查索引覆盖范围并回到源码核对。
 
-界面主题派生自 [RhineLabUI](https://github.com/LBEILC/RhineLabUI)，在 [RhineLabUI-Astro](https://github.com/DavidHLP/RhineLabUI-Astro) 中移植为 Astro + TypeScript。
+界面主题源自 [RhineLabUI](https://github.com/LBEILC/RhineLabUI)，本站采用移植到 Astro 和 TypeScript 的 [RhineLabUI-Astro](https://github.com/DavidHLP/RhineLabUI-Astro)。
 
 - 知识库：<https://davidhlp.github.io/kb/>
 - 站点源码：<https://github.com/DavidHLP/DavidHLP.github.io>
