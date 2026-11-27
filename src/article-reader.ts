@@ -81,7 +81,10 @@ export class ArticleReader {
     const bounds = root.getBoundingClientRect();
     const scale = root.offsetHeight ? bounds.height / root.offsetHeight : 1;
     const toolbar = root === this.dialog ? (this.dialog.firstElementChild as HTMLElement)?.offsetHeight ?? 0 : 0;
-    const outline = this.article.querySelector<HTMLElement>(".article-outline")?.offsetHeight ?? 0;
+    const layout = this.article.querySelector<HTMLElement>(".article-layout");
+    const outline = layout?.dataset.outlineMode === "sheet"
+      ? this.article.querySelector<HTMLElement>(".article-outline summary")?.offsetHeight ?? 0
+      : 0;
     const padding = outline ? parseFloat(getComputedStyle(root).paddingTop) || 0 : 0;
     return bounds.top + (toolbar + padding + outline) * (scale || 1);
   }
