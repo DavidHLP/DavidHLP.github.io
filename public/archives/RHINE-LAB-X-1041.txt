@@ -36,7 +36,7 @@ Business methods still return `null`, while the backend stores a recognizable no
 - A `static final INSTANCE` reuses one marker in a JVM, so the adapter can recognize it by identity.
 - `Serializable` plus `readResolve()` returns the canonical instance after Java serialization, preventing a deserialized object from losing identity with `INSTANCE`.
 
-`equals(null)`, a stable `hashCode()`, and `toString()` support the semantic presentation. Business code should not treat `NullValue` as a user object.
+`equals(null)`, a stable `hashCode()`, and `toString()` support the semantic presentation. Business code should not treat `NullValue` as a user object. For a concrete project-level `cacheNullValues` implementation in Redis caching, see [ResiCache: Verifiable Concurrency and Consistency Boundaries for Cache Protection](/blog/legacy/note/en/resicache/).
 
 ### 3. A placeholder is not a consistency strategy
 
@@ -72,10 +72,13 @@ Negative caching blocks only an absent key that has already been observed. It st
 
 ## Related pages
 
+
 - [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/en/java-online-performance-debug/)
 - [AutoCloseable: Resource Ownership and Close-Exception Semantics](/blog/legacy/note/en/java-auto-closeable/)
 - [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/en/java-internship-interview-blog-polished/)
-
+- [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/en/redis-jackson-java-time/)
+- [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Flash Sales](/blog/legacy/note/en/redis-business-patterns/)
+- [ResiCache: Verifiable Concurrency and Consistency Boundaries for Cache Protection](/blog/legacy/note/en/resicache/)
 
 ## Sources and related documents
 

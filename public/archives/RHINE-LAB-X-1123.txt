@@ -74,7 +74,7 @@ Bloom は実際のロード前に確実に存在しない key を遮断し、Syn
 
 全体の protection スイッチを無効にしても、TTL と ActualCache は残る。個別スイッチは対応する handler のみを除外する。保護の無効化はキャッシュ自体の無効化ではない。
 
-責任チェーンは組み合わせを、名前、順序、無効化条件、テストを持つ policy にまとめる。レビューでは各 handler の局所実装に加え、経路全体の契約を確認できる。
+責任チェーンは組み合わせを、名前、順序、無効化条件、テストを持つ policy にまとめる。レビューでは各 handler の局所実装に加え、経路全体の契約を確認できる。`HandlerResult`・順序・snapshot の全体機構は [ResiCache のキャッシュ責務連鎖：制御フロー、ネストされた fragment と observer ライフサイクル](/blog/legacy/note/ja/resicache-handler-chain-and-observer/) を参照。
 
 ## 2. single-flight はロードの所有者を定める
 
@@ -130,7 +130,7 @@ ThreadLocal<Set<String>> reentrantKeys;
 - `SyncSingleFlightIntegrationTest`：`sync=true` の並行メソッドが一度だけ実行される。
 - `LoaderOrchestratorTest`：Bloom の短絡、sync の経路選択、二重チェック、書き戻し失敗、ロード失敗。
 
-テスト名はリポジトリの証拠であり、この記事の生成時に再実行して成功したという意味ではない。ロード回数、失敗伝播、再入を実装上の偶然ではなく設計契約として扱っていることを示す。
+テスト名はリポジトリの証拠であり、この記事の生成時に再実行して成功したという意味ではない。ロード回数、失敗伝播、再入を実装上の偶然ではなく設計契約として扱っていることを示す。leader/follower・再入・ロック内 double-check の詳細は [キャッシュスタンピード対策に Future・分散ロック・double-check がすべて必要な理由](/blog/legacy/note/ja/resicache-single-flight/) を参照。
 
 ## 3. 早期期限切れの中心は stale-task fence
 
@@ -175,7 +175,7 @@ GET current value
 
 `CachedValue` は現在のプロセス内では `startNanoTime` で単調時間を計算できる。このフィールドはシリアライズせず、復元後は wall-clock に戻る。プロセス内のナノ秒基準を、永続化可能なプロセス間の時刻情報と取り違えない。
 
-時刻計算の基準系をデータのライフサイクルに合わせることが、早期期限切れの信頼性を支える。
+時刻計算の基準系をデータのライフサイクルに合わせることが、早期期限切れの信頼性を支える。TTL のみを短縮し古いタスクに新しい値を上書きさせない条件付き CAS の詳細は [非同期の早期期限切れが TTL を短縮するだけな理由：version CAS で古いタスクを自動失効させる](/blog/legacy/note/ja/resicache-early-expiration-cas/) を参照。
 
 ## 4. 安全なシリアライズは生成前に検査する
 
@@ -192,7 +192,7 @@ GET current value
 
 許可される型のデフォルト接頭辞は `io.github.davidhlp`。ホワイトリスト制約付きの `PolymorphicTypeValidator` を常に入れ、Jackson default typing はデフォルトでは有効にしない。業務型が許可範囲外なら明示設定が必要で、なければデシリアライズは拒否される。
 
-streaming preflight は、設定された type property、`@class`、wrapper-array 形式の型 ID を検査する。Jackson がオブジェクトを生成する前に、許可されない型を拒否する。
+streaming preflight は、設定された type property、`@class`、wrapper-array 形式の型 ID を検査する。Jackson がオブジェクトを生成する前に、許可されない型を拒否する。旧フォーマットの段階的移行・切替・ロールバックの詳細は [Redis serializer の交換は一行の設定変更ではない：object trust から rollback 可能な migration へ](/blog/legacy/note/ja/resicache-serialization-migration/) を参照。
 
 Spring `NullValue` の限定的な互換経路、未知の envelope version の失敗方針、更新用メタデータを欠く旧 `CachedValue` にも対応する。旧 payload を wall-clock で読むことはできても、すべての過去 serializer と相互互換であることは意味しない。
 
@@ -272,10 +272,15 @@ prompt/schema の形式 version は、会話、タスク、ツール呼び出し
 
 ## 関連ページ
 
+
 - [ResiCache：observer の入れ子実行におけるライフサイクル、fragment、scope token](/blog/legacy/note/ja/resicache-observer-nested-execution/)
 - [Java NullValue：null キャッシュは貫通防止策であり業務の意味ではない](/blog/legacy/note/ja/java-null-value/)
 - [Redis 業務パターン：責務を分けてから二重削除、TTL、一貫性方針を選ぶ](/blog/legacy/note/ja/redis-business-patterns/)
 - [Redis と Jackson の Java 時刻型：実験で互換性を確認する](/blog/legacy/note/ja/redis-jackson-java-time/)
+- [非同期の早期期限切れが TTL 短縮だけを行う理由：version CAS で古い task を無効化する](/blog/legacy/note/ja/resicache-early-expiration-cas/)
+- [ResiCache の cache responsibility chain：control flow、nested fragment、observer lifecycle](/blog/legacy/note/ja/resicache-handler-chain-and-observer/)
+- [Redis serializer の交換は一行の設定変更ではない：object trust から rollback 可能な migration へ](/blog/legacy/note/ja/resicache-serialization-migration/)
+- [cache stampede に Future、distributed lock、double-check が同時に必要な理由](/blog/legacy/note/ja/resicache-single-flight/)
 
 ## 出典と関連文書
 

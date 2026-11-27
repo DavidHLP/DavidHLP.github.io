@@ -58,14 +58,13 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "hindsight-local-deployment-and-agent-integration"
   ],
   "related": [
     "hindsight-omp-codex-integration",
-    "hindsight-troubleshooting",
-    "mcp-codebase-memory-workflow"
+    "hindsight-troubleshooting"
   ]
 }
 ---
@@ -239,11 +238,15 @@ This is a checklist, not results from that revision. Up means running; `ollama l
 
 - [Hindsight unified memory integration](/blog/legacy/note/en/hindsight-omp-codex-integration/)
 - [Hindsight runtime troubleshooting](/blog/legacy/note/en/hindsight-troubleshooting/)
-- [MCP Codebase Memory workflow](/blog/legacy/note/en/mcp-codebase-memory-workflow/)
 
 ## Sources and related documents
 
 - [hindsight-local-deployment-and-agent-integration](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/hindsight-local-deployment-and-agent-integration.md)
 - [Hindsight Unified Memory Access: FastMCP Bridge and Dynamic Multi-Project Routing](/blog/legacy/note/en/hindsight-omp-codex-integration/)
 - [Hindsight Runtime Troubleshooting Matrix and Failure Modes](/blog/legacy/note/en/hindsight-troubleshooting/)
-- [MCP Protocol Era Boundary and the codebase-memory-mcp v0.10.2 Graph Workflow](/blog/legacy/note/en/mcp-codebase-memory-workflow/)
+
+## Graduation checks
+
+- Image digests, model revision/checksum, device and driver
+- isolated preflight for mount permissions and unavailable dependencies
+- anonymous health, retrieval, and restart retention plus deployment/troubleshooting backlinks

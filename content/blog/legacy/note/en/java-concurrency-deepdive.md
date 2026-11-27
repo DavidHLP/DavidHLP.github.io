@@ -60,15 +60,16 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "ingest-java-concurrency"
   ],
   "related": [
     "java-atomic-boolean",
-    "java-auto-closeable",
     "java-online-performance-debug",
-    "jjwt-013-security-api"
+    "java-cas-and-aba",
+    "java-locks-and-thread-coordination",
+    "java-reference-types"
   ]
 }
 ---
@@ -77,11 +78,10 @@ The 15 JUC/Java notes in Fuwari are the most systematic concurrency series in th
 
 ## Core Mechanism
 
-- **CAS**: `CASDeepDive.md` expands three layers from `Unsafe.compareAndSwap` to `cmpxchg`; ABA is solved with `AtomicStampedReference`.
-- **Atomics**: `JavaAtomicClasses.md` distinguishes `AtomicInteger/Long/Reference` from `LongAdder` (striped accumulation, see `LongAdderVSAtomicLong.md`).
-- **Locks**: `synchronized`/`Monitor.md` covers object headers and monitors; `ReentrantLock.md`/`Reentrancy.md` covers reentrancy and AQS; `LockSupport.md` covers `park/unpark`.
-- **Coordination**: `CompletableFutureAction`/`FutureTaskAction` and `ThreadLocal.md` cover async and thread binding; `JavaInterruptMechanism` and deadlock diagnosis cover interruption and troubleshooting.
-- **References**: Two articles on JDK8/17 cover strong/soft/weak/phantom reference reclamation semantics.
+- **CAS and Atomics**: `CASDeepDive.md`, `JavaAtomicClasses.md`, and `LongAdderVSAtomicLong.md` cover hardware CAS / `Unsafe`, ABA version stamps (`AtomicStampedReference`), and striped `LongAdder` `Cell` arrays; see [Java CAS, ABA Problem, and LongAdder: Lock-Free Primitives and Contention Boundaries](/blog/legacy/note/en/java-cas-and-aba/) and binary flag [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/en/java-atomic-boolean/).
+- **Locks and Coordination**: `synchronized` / `ObjectMonitor`, `ReentrantLock` (AQS fairness tradeoffs), `LockSupport` (`park`/`unpark` permits), and `ThreadLocal` thread-pool cleanup live in [Java Locks, LockSupport, and ThreadLocal: Monitors, AQS, and Thread-Bound State](/blog/legacy/note/en/java-locks-and-thread-coordination/).
+- **Async and Interruption**: `CompletableFutureAction`/`FutureTaskAction` and `JavaInterruptMechanism`/deadlock diagnosis connect thread coordination to live triage in [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/en/java-online-performance-debug/).
+- **References**: `java.lang.ref.Reference` four-state lifecycle, JDK 17 `VarHandle`/`Cleaner`, and strong/soft/weak/phantom boundaries live in [Java Reference Types and Lifecycle State Machine: Strong, Soft, Weak, Phantom, and Cleaner](/blog/legacy/note/en/java-reference-types/).
 
 ## Applicability
 
@@ -108,16 +108,24 @@ The 15 JUC/Java notes in Fuwari are the most systematic concurrency series in th
 
 ## Related Pages
 
-- [java-atomic-boolean](/blog/legacy/note/en/java-atomic-boolean/)
-- [java-auto-closeable](/blog/legacy/note/en/java-auto-closeable/)
-- [java-online-performance-debug](/blog/legacy/note/en/java-online-performance-debug/)
-- [jjwt-013-security-api](/blog/legacy/note/en/jjwt-013-security-api/)
 
+- [java-atomic-boolean](/blog/legacy/note/en/java-atomic-boolean/)
+- [java-online-performance-debug](/blog/legacy/note/en/java-online-performance-debug/)
+- [Java CAS, ABA Problem, and LongAdder](/blog/legacy/note/en/java-cas-and-aba/)
+- [Java Locks, LockSupport, and ThreadLocal](/blog/legacy/note/en/java-locks-and-thread-coordination/)
+- [Java Reference Types and Lifecycle State Machine](/blog/legacy/note/en/java-reference-types/)
 
 ## Sources and related documents
 
 - [ingest-java-concurrency](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-java-concurrency.md)
+- [Java CAS, ABA Problem, and LongAdder: Lock-Free Primitives and Contention Boundaries](/blog/legacy/note/en/java-cas-and-aba/)
+- [Java Locks, LockSupport, and ThreadLocal: Monitors, AQS, and Thread-Bound State](/blog/legacy/note/en/java-locks-and-thread-coordination/)
+- [Java Reference Types and Lifecycle State Machine: Strong, Soft, Weak, Phantom, and Cleaner](/blog/legacy/note/en/java-reference-types/)
 - [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/en/java-atomic-boolean/)
-- [AutoCloseable: Resource Ownership and Close-Exception Semantics](/blog/legacy/note/en/java-auto-closeable/)
 - [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/en/java-online-performance-debug/)
-- [JJWT 0.13.0: Explicitly Fixing the Signature Algorithm, Verifying by Key Type](/blog/legacy/note/en/jjwt-013-security-api/)
+
+## Graduation checks
+
+- Pinned JDK build reruns CAS/ABA and version stamps
+- lock contention, interruption, and pooled ThreadLocal cleanup
+- reference-queue behavior under the declared GC plus C19/C21 backlinks

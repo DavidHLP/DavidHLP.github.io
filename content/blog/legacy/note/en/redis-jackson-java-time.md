@@ -174,9 +174,10 @@ Locate "write exception" or "write succeeds, read fails" in this order:
 
 ## Related pages
 
+
 - [NullValue: placeholder objects for caching null and the serialization boundary](/blog/legacy/note/en/java-null-value/)
 - [Java online performance troubleshooting: the minimal decision tree from symptom to evidence](/blog/legacy/note/en/java-online-performance-debug/)
-
+- [ResiCache: Observer Nested Execution Must Distinguish Lifecycle, Fragments, and Scope Tokens](/blog/legacy/note/en/resicache-observer-nested-execution/)
 
 ## Sources and related documents
 

@@ -23,11 +23,12 @@ const profile = {
   summary: selected?.data.summary ?? base.data.profile.summary,
 };
 const copy = {
-  "zh-CN": { about: "关于", home: "档案首页", contents: "本页目录", skip: "跳至正文", theme: "暗色", note: "个人介绍与实践记录", top: "回到顶部" },
-  en: { about: "About", home: "Archives", contents: "On this page", skip: "Skip to content", theme: "Dark", note: "Profile & selected practice", top: "Back to top" },
-  ja: { about: "プロフィール", home: "アーカイブ", contents: "目次", skip: "本文へ", theme: "ダーク", note: "自己紹介と実践の記録", top: "先頭へ戻る" },
+  "zh-CN": { about: "关于", home: "档案首页", contents: "本页目录", skip: "跳至正文", theme: "暗色", note: "个人介绍与实践记录", top: "回到顶部", jump: "查看开源项目 ↓" },
+  en: { about: "About", home: "Archives", contents: "On this page", skip: "Skip to content", theme: "Dark", note: "Profile & selected practice", top: "Back to top", jump: "Open-source projects ↓" },
+  ja: { about: "プロフィール", home: "アーカイブ", contents: "目次", skip: "本文へ", theme: "ダーク", note: "自己紹介と実践の記録", top: "先頭へ戻る", jump: "オープンソースを見る ↓" },
 }[language];
 const sections = headings.filter(heading => heading.depth === 2);
+const projectSection = sections.find(heading => /开源|Open source|オープンソース/i.test(heading.text.replace(/\[ SEC \d+ \]\s*/, ""))) ?? sections[0];
 const variantCopy = {
   "zh-CN": { heading: "简历方向", standard: "标准版" },
   en: { heading: "Résumé focus", standard: "Standard" },
@@ -70,9 +71,10 @@ const avatar = publicFile(profile.avatar);
       <aside class="about-identity">
         <p class="about-eyebrow">{copy.about}<span aria-hidden="true"> / 01</span></p>
         {avatar && <img class="about-avatar" src={avatar} alt="" width="112" height="112" />}
-        <div class="resume-export-identity">
+        <div class="about-identity-content">
           <h1>{name}</h1>
           <Profile profile={profile} />
+          {projectSection && <a class="about-jump" href={`#${projectSection.slug}`}>{copy.jump}</a>}
         </div>
         {variants.length > 0 && <nav class="about-variants" aria-label={variantCopy.heading}>
           <p>{variantCopy.heading}</p>
@@ -81,14 +83,14 @@ const avatar = publicFile(profile.avatar);
             {variants.map(item => <li><a href={aboutPath(language, item.data.variant)} data-about-variant={item.data.variant} aria-current={item.data.variant === variant ? "page" : undefined}>{item.data.title}</a></li>)}
           </ul>
         </nav>}
-        {sections.length > 0 && <nav class="about-contents" aria-label={copy.contents}>
-          <p>{copy.contents}</p>
-          <ol>{sections.map(heading => <li><a href={`#${heading.slug}`}>{heading.text.replace(/\[ SEC \d+ \]\s*/, "")}</a></li>)}</ol>
-        </nav>}
       </aside>
+      {sections.length > 0 && <nav class="about-contents" aria-label={copy.contents}>
+        <p>{copy.contents}</p>
+        <ol>{sections.map(heading => <li><a href={`#${heading.slug}`}>{heading.text.replace(/\[ SEC \d+ \]\s*/, "")}</a></li>)}</ol>
+      </nav>}
       <article class="resume-body" id="rhine:about:content" tabindex="-1">
         <div class="about-document-label" aria-hidden="true"><span>{copy.note}</span><span>RHINE LAB / ARCHIVE</span></div>
-        <div class="resume-export-body"><Content /></div>
+        <div class="about-body-content"><Content /></div>
       </article>
     </main>
     <footer class="about-footer"><span>{site.title}</span><a href="#rhine:about:top">{copy.top} ↑</a></footer>

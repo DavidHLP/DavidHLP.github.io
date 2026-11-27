@@ -826,9 +826,30 @@ test("blog migration preserves source evidence and applies only recorded transla
   const manifest = JSON.parse(await readFile(new URL("../migration/manifest.json", import.meta.url), "utf8"));
   const { overrides } = JSON.parse(await readFile(new URL("../migration/publication-overrides.json", import.meta.url), "utf8"));
   assert.equal(Object.values(overrides).filter(value => value.draft === false).length, 74);
-  assert.ok(Object.keys(overrides).every(slug => /\/(en|ja)\//.test(slug) && manifest.entries.some(entry => entry.slug === slug)));
+  assert.ok(Object.keys(overrides).every(slug => /\/(zh-cn|en|ja)\//.test(slug) && manifest.entries.some(entry => entry.slug === slug)));
   const live = new Map(published.records.map(record => [record.id, record]));
-  assert.ok(published.records.every(record => record.legacy && !record.legacy.path.startsWith("src/content/raw/")));
+  const manifestSlugs = new Set(manifest.entries.map(entry => entry.slug));
+  const manifestIds = new Set(manifest.entries.map(entry => entry.archiveId));
+  const rawSlugs = new Set(
+    (await readdir(new URL("../src/content/raw/zh-cn/", import.meta.url)))
+      .filter(name => name.endsWith(".md"))
+      .map(name => name.replace(/\.md$/, "")),
+  );
+  const migrated = published.records.filter(record => record.legacy);
+  const nativeWiki = published.records.filter(record => !record.legacy);
+  assert.ok(migrated.every(record => !record.legacy.path.startsWith("src/content/raw/")));
+  for (const record of nativeWiki) {
+    const match = record.slug.match(/^legacy\/note\/(zh-cn|en|ja)\/([a-z0-9-]+)$/);
+    assert.ok(match, `Native record outside wiki note path: ${record.slug}`);
+    assert.ok(!manifestSlugs.has(record.slug), `Migrated entry missing legacy: ${record.slug}`);
+    assert.ok(!manifestIds.has(record.id), `Native wiki reuses migrated archiveId: ${record.id}`);
+    assert.match(record.id, /^X-\d{4,}$/, `Native wiki archiveId invalid: ${record.id}`);
+    assert.ok(Number(record.id.slice(2)) >= 1300, `Native wiki archiveId must be >= X-1300: ${record.id}`);
+    assert.equal(record.translationKey, `legacy/note/${match[2]}`, `Native wiki missing/mismatched translationKey: ${record.slug}`);
+    assert.ok(["concept", "entity", "synthesis"].includes(record.kind), `Native wiki missing/invalid kind: ${record.slug}`);
+    assert.ok(["active", "provisional", "deprecated"].includes(record.status), `Native wiki missing/invalid status: ${record.slug}`);
+    assert.ok(Array.isArray(record.sources) && record.sources.length > 0 && record.sources.every(source => rawSlugs.has(source)), `Native wiki invalid sources: ${record.slug}`);
+  }
   assert.ok(manifest.entries.every(entry => entry.path.startsWith("src/content/") && !entry.path.startsWith("src/content/raw/")));
   for (const path of manifest.documents) {
     const snapshot = await readFile(new URL(`../migration/source/${path}`, import.meta.url));
@@ -860,6 +881,10 @@ test("blog migration preserves source evidence and applies only recorded transla
     if (overrides[entry.slug]?.draft ?? entry.draft) await assert.rejects(readFile(path), { code: "ENOENT" });
     else assert.ok((await readFile(path, "utf8")).includes(translateUiText("原文来源", live.get(entry.archiveId).lang)));
   }
+  for (const record of nativeWiki) {
+    const path = new URL(`blog/${record.slug}/index.html`, dist);
+    assert.ok((await readFile(path, "utf8")).includes(translateUiText("设定参考", record.lang)), record.slug);
+  }
   for (const [path, target] of Object.entries(manifest.routes)) {
     const output = new URL(path.slice(1) + (target === "/rss.xml" ? "" : "/index.html"), dist);
     const html = await readFile(output, "utf8");
@@ -875,7 +900,8 @@ test("published Mermaid fences retain the markup used by both readers", async ()
   assert.ok(diagrams.length > 0);
   for (const record of diagrams) {
     const entry = manifest.entries.find(entry => entry.archiveId === record.id);
-    const html = await readFile(new URL(`../dist/blog/${entry.slug}/index.html`, import.meta.url), "utf8");
-    assert.ok(html.includes('data-language="mermaid"'), entry.slug);
+    const slug = entry?.slug ?? record.slug;
+    const html = await readFile(new URL(`../dist/blog/${slug}/index.html`, import.meta.url), "utf8");
+    assert.ok(html.includes('data-language="mermaid"'), slug);
   }
 });

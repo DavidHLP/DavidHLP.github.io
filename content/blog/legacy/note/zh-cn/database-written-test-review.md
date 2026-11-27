@@ -62,7 +62,7 @@
       "toc": true
     }
   },
-  "kind": "synthesis",
+  "kind": "concept",
   "status": "provisional",
   "sources": [
     "database-written-test-review"
@@ -71,7 +71,11 @@
     "mysql-performance-troubleshooting",
     "mysql-storage-and-deadlock",
     "database-schema-drift",
-    "spark-bigdata-ecosystem"
+    "spark-bigdata-ecosystem",
+    "sql-join-null-semantics",
+    "sql-date-dialect-boundaries",
+    "mysql-same-table-dml",
+    "recoverable-batch-extraction"
   ]
 }
 ---
@@ -126,23 +130,7 @@ ADD COLUMN email VARCHAR(254);
 
 ## 二、连接题：先判断保留哪些行，再判断怎样匹配
 
-连接题中，要把两个问题分开：**哪些行必须保留，以及用什么条件判断匹配**。内连接只保留满足连接条件的组合；左外连接保留左表所有行；右外连接保留右表所有行。外连接中没有匹配的一侧，会补出 `NULL`。[^9]
-
-“外连接必须是等值连接”是不正确的理解。等值、大小比较、区间匹配讨论的是连接条件；内连接、外连接讨论的是结果保留规则。外连接同样可以使用非等值条件。[^9]
-
-例如，查询所有学生及其课程 `C002` 的成绩，没有该课程记录的学生也要出现：
-
-```sql
-SELECT s.sno, r.score
-FROM student AS s
-LEFT JOIN sc AS r
-  ON r.sno = s.sno
- AND r.cno = 'C002';
-```
-
-这里课程条件放在 `ON` 中，只限制哪些成绩记录可以匹配。如果把它移到 `WHERE r.cno = 'C002'`，没有匹配记录的学生会因为右侧字段为 `NULL` 而被过滤掉，达不到“保留所有学生”的目的。[^10]
-
-我的检查习惯是：看到外连接，先在纸上构造一条“完全匹配不到”的记录，再追踪它是否会被后面的过滤条件删除。这个反例比背诵 `LEFT JOIN` 的定义更能防止条件放错位置。
+连接题把**结果保留规则**（内连接、左/右外连接）与**匹配条件**（等值或非等值比较）拆成两层：`ON` 约束右表参与匹配的行，放到 `WHERE` 中过滤右表字段会把原本补为 `NULL` 的左表未匹配行一并删掉。完整反例、三值逻辑与教学表比较规则已拆至 [SQL 连接语义、集合去重与 NULL 边界](/blog/legacy/note/zh-cn/sql-join-null-semantics/)。
 
 ## 三、游标、字段类型与约束：不要把状态、存储和合法性混在一起
 
@@ -209,50 +197,11 @@ LIMIT 20;
 
 ### `UNION` 和 `UNION ALL`
 
-`UNION` 默认对合并结果去重，`UNION ALL` 保留重复行。去重针对的是**整个投影结果行**，不是只看某一个字段。例如，查询结果为 `(sno, cno)` 时，同一个学生对应不同课程的两行，不属于重复行。[^18]
-
-不需要去重时，可以优先考虑 `UNION ALL`，避免无意义的去重工作，但不能承诺它在所有查询里都快多少倍。两者也都不能代替最终的 `ORDER BY`；需要稳定展示顺序时，应显式排序。[^18]
+`UNION` 对**整行投影结果**默认去重，而 `UNION ALL` 保留重复行；两者都不替代显式的 `ORDER BY` 顺序。集合去重粒度、性能边界与显式排序约束详见 [SQL 连接语义、集合去重与 NULL 边界](/blog/legacy/note/zh-cn/sql-join-null-semantics/)。
 
 ## 五、日期表达式：先认方言，再计算结果
 
-遇到同时出现 `date_format`、`trunc` 和 `add_months` 的表达式，不能仅凭函数名就断定它“混用了数据库语法”。在 Spark SQL 中，这些函数可以合法组合，例如：[^19]
-
-```sql
--- Spark SQL
-SELECT date_format(
-    trunc(add_months(current_date(), -1), 'MM'),
-    'yyyy'
-) AS previous_month_year;
-```
-
-按这些函数的定义，执行过程是：取得当前日期，向前移动一个月，截断到该月第一天，再格式化为四位年份字符串。结果是**上一个月所属的年份**，而不是“永远等于今年”。按公历月份理解，当前处于一月时会得到上一年的年份，其余月份通常仍属于当年。[^19][^20]
-
-同一意图在 Oracle 中可以写成：
-
-```sql
--- Oracle
-SELECT TO_CHAR(
-    TRUNC(ADD_MONTHS(CURRENT_DATE, -1), 'MM'),
-    'YYYY'
-) AS previous_month_year
-FROM dual;
-```
-
-这里分别使用 Oracle 的月份运算、日期截断与格式化函数。[^21][^22][^23]
-
-在 MySQL 中，只提取年份时不必先截断到月初：
-
-```sql
--- MySQL
-SELECT DATE_FORMAT(
-    DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH),
-    '%Y'
-) AS previous_month_year;
-```
-
-MySQL 的日期格式符使用 `%Y`，不能把其他引擎的 `yyyy` 或 `YYYY` 原样搬过来。[^24]
-
-这类题的检查顺序应该是：**确认引擎 → 检查函数和格式符 → 分析返回类型 → 验证跨年边界。**日期题最小的反例就是把当前日期设为一月，确认结果是否跨到上一年。
+`date_format(trunc(add_months(current_date(), -1), 'MM'), 'yyyy')` 在 Spark SQL 中是合法组合，求的是**上一个月所属的年份**（一月时跨到上一年），不能按函数名混猜方言。Spark SQL、Oracle 与 MySQL 的函数名、格式符（如 `'yyyy'`、`YYYY`、`%Y`）与跨年验证步骤已独立收口至 [SQL 日期与方言边界：Spark SQL / Oracle / MySQL](/blog/legacy/note/zh-cn/sql-date-dialect-boundaries/)。
 
 ## 六、四表 SQL：查询写对之后，还要处理空值和重复记录
 
@@ -271,135 +220,33 @@ teacher(tno, tname)             教师
 
 ### 1. 查询 C001 成绩高于 C002 的学生学号
 
-同一名学生的两门成绩分别是一行，可以通过自连接放到同一行比较：
-
-```sql
-SELECT a.sno
-FROM sc AS a
-JOIN sc AS b
-  ON b.sno = a.sno
-WHERE a.cno = 'C001'
-  AND b.cno = 'C002'
-  AND a.score > b.score;
-```
-
-从这段查询的条件可以直接看出：两门课程都存在记录、成绩满足严格大于关系的学生才会被选中；缺少任意一条课程记录、成绩相同，或比较涉及 `NULL` 的情况，都不满足本题条件。内连接与过滤条件共同决定结果。[^9][^10]
+两门课程在同一张 `sc` 表的不同行中，需通过自连接对齐并注意 `NULL` 比较不会为真。完整 SQL、缺失记录与平分边界分析见 [SQL 连接语义、集合去重与 NULL 边界](/blog/legacy/note/zh-cn/sql-join-null-semantics/)。
 
 ### 2. 查询平均成绩大于 60 的学生及其平均成绩
 
-```sql
-SELECT sno, AVG(score) AS avg_score
-FROM sc
-GROUP BY sno
-HAVING AVG(score) > 60;
-```
-
-`AVG(score)` 默认忽略 `NULL`，因此它不是自动把缺考、未录入成绩或未选课程记为零分。某个学生全部成绩都是 `NULL` 时，平均值也为 `NULL`，不会通过大于 `60` 的条件。是否把缺考视为零分，应先由业务规则确定，再设计表达式。[^25]
+`AVG(score)` 默认忽略 `NULL`，不会把缺考或未录入自动视为零分；“全为空”和“缺考记零”需先定业务口径。分组聚合的 `NULL` 语义与条件写法见 [SQL 连接语义、集合去重与 NULL 边界](/blog/legacy/note/zh-cn/sql-join-null-semantics/)。
 
 ### 3. 把某教师所授课程的成绩改为各课程自身的平均分
 
-这里的关键是“**各课程自身**”：先按 `cno` 分组计算平均分，再更新对应课程，不能把该教师全部课程混算成一个平均值。
-
-```sql
--- MySQL 8.4
-UPDATE sc AS s
-JOIN course AS c
-  ON c.cno = s.cno
-JOIN teacher AS t
-  ON t.tno = c.tno
-JOIN (
-    SELECT cno, AVG(score) AS avg_score
-    FROM sc
-    GROUP BY cno
-) AS a
-  ON a.cno = s.cno
-SET s.score = ROUND(a.avg_score, 2)
-WHERE t.tno = 'T001'
-  AND a.avg_score IS NOT NULL;
-```
-
-使用教师编号，是为了避免把“姓名一定唯一”当作前提。过滤空平均值，则是为了不为整门课都没有有效成绩的情况臆造分数。
-
-MySQL 对修改目标表并在子查询中读取同表有额外限制。这里使用带 `GROUP BY` 和聚合函数的派生表；这些结构会阻止派生表被合并，使其按物化方式参与更新。这不是可以无条件套用到任意同表更新子查询的模板。[^26][^27]
-
-按本题写法，只要该课程存在有效平均分，课程中原本为 `NULL` 的成绩也会被替换。若业务要求保留未录入状态，需要额外加入 `s.score IS NOT NULL`。
+本题须按 `cno` 分组算各自课程均分，并用物化派生表避开 MySQL 8.4 修改目标表时在子查询直接读取同表的限制。完整多表更新语句与空值保留边界见 [MySQL 同表读写 DML 边界：物化派生表与临时表](/blog/legacy/note/zh-cn/mysql-same-table-dml/)。
 
 ### 4. 为缺少 C002 记录的学生补记录，成绩取该课程现有平均分
 
-先明确题意：这里把“尚没有该课程成绩”解释为 **`sc` 中不存在该课程记录**。已经有记录、只是 `score IS NULL`，属于另一种情况，应使用更新逻辑，不能再插入重复记录。
-
-下面用临时表先固定课程平均分，再通过左连接寻找缺失记录：
-
-```sql
--- MySQL 8.4；假设在无并发写入的练习环境中执行
-CREATE TEMPORARY TABLE tmp_review_course_avg AS
-SELECT cno, AVG(score) AS avg_score
-FROM sc
-WHERE cno = 'C002'
-GROUP BY cno;
-
-INSERT INTO sc (sno, cno, score)
-SELECT stu.sno, a.cno, ROUND(a.avg_score, 2)
-FROM student AS stu
-CROSS JOIN tmp_review_course_avg AS a
-LEFT JOIN sc AS existing
-  ON existing.sno = stu.sno
- AND existing.cno = a.cno
-WHERE existing.sno IS NULL
-  AND a.avg_score IS NOT NULL;
-
-DROP TEMPORARY TABLE tmp_review_course_avg;
-```
-
-采用这种写法，也是为了避开 MySQL `INSERT ... SELECT` 的一个边界：目标表可以出现在主查询的 `FROM` 中，但不能直接出现在该查询的子查询中。因此，不宜未经确认就把“同表求平均值的子查询”和“同表 `NOT EXISTS`”塞进一次插入。[^28]
-
-从代码还能推导出几个结果：课程完全没有记录时不插入；已有记录全部没有有效分数时也不插入；已有课程记录但分数为空的学生不会被重复插入。这里没有把“未知平均分”擅自替换为零分。
-
-生产环境还要单独设计一致性与并发处理。联合主键可以防止重复记录，却不能让多条语句自动获得统一快照；冲突后的重试、事务边界和平均分采用哪个时间点的数据，都需要明确。
+须先区分“不存在 `sc` 记录（插入）”与“存在记录但 `score IS NULL`（更新）”，并用临时表固定平均分以绕开 `INSERT ... SELECT` 对同表子查询的限制。完整 SQL 与并发快照边界见 [MySQL 同表读写 DML 边界：物化派生表与临时表](/blog/legacy/note/zh-cn/mysql-same-table-dml/)。
 
 ## 七、Kettle：吞吐调优与海量抽取是两个层面的问题
 
 ### 先定位瓶颈，而不是直接增加并发
 
-面对 Kettle / Pentaho Data Integration 的性能问题，我会先把链路分成输入、转换和输出三个阶段，观察每个步骤的行数、吞吐、等待与资源占用，再决定优化哪一段。这比一开始就放大线程数或 JVM 堆更容易形成可验证的判断。
-
-**输入阶段，尽量减少不必要的数据读取。** 只查询必要字段，能在数据库完成的过滤尽量下推。还要留意是否开启了“对每个输入行执行查询”之类的行为，避免在不需要时把一次批量读取变成大量小查询。Table Input 支持 SQL 参数与逐行执行配置，这些配置应与任务语义一致。[^29]
-
-**转换阶段，检查逐行成本。** 重复数据库查询、不必要的字段类型转换、复杂脚本和大量排序，都值得单独测量。缓存、延迟转换和步骤多副本可以作为候选方案，但增加副本之前，应确认不会破坏顺序、分组或去重要求。[^30]
-
-**输出阶段，区分批量提交和事务提交。** Table Output 的 `Commit size` 控制累计多少条插入后提交事务；`Use batch update for inserts` 用于批量发送插入语句，两者不是同一个开关。批处理还受驱动能力及其他步骤配置限制，应确认确实生效，而不只是勾选选项。[^31]
-
-提交批次也不是越大越好。我的验证标准是同时比较吞吐、内存占用、失败后的重做成本与目标库压力，而不是只记录一次任务的最快耗时。
+定位 Kettle / PDI 性能瓶颈需按输入（列裁剪、下推、关闭无必要的逐行查询）、转换（逐行计算与多副本有序性约束）和输出（区分 `Commit size` 与 `Use batch update for inserts`）分段测量，而非盲目拉高线程或堆内存。细节与检查表见 [可恢复批处理抽取与超大表分段变更](/blog/legacy/note/zh-cn/recoverable-batch-extraction/)。
 
 ### 一次性抽取海量数据，重点是可恢复和可对账
 
-“调快一个转换”并不能替代“设计一个可靠的抽取任务”。对海量抽取，我会采用有明确边界的分片，为每一片记录起止范围、完成状态、输出数量与重试次数，而不是让一个长期运行的查询承担全部工作。
-
-分片可以按稳定主键范围或固定时间窗口设计，但必须明确端点，保证范围不重叠、不遗漏。任务重启后，应能从已确认完成的位置继续；目标端则通过唯一键、幂等写入或暂存区合并，承受必要的重试。
-
-如果源数据仍在持续变化，还必须定义抽取对应哪个时间点。仅记录最大主键，不能捕获旧记录的更新或删除，也不能自动替代一致性快照。我的设计会进一步考虑快照与增量衔接，并对分片行数、关键汇总值和抽样内容做校验。
-
-这里评价方案的标准，不是“成功跑完一次”，而是“中断后能继续，重复执行不会污染结果，最终能够说明数据为什么完整”。
+可靠的一次性海量抽取依赖不重叠不遗漏的有界分片、断点状态记录、幂等或 staging 合并重试、变更窗口快照口径以及行数/汇总校验。分片状态表与恢复设计详见 [可恢复批处理抽取与超大表分段变更](/blog/legacy/note/zh-cn/recoverable-batch-extraction/)。
 
 ## 八、超大表增删改：先缩小工作范围，再控制执行代价
 
-面对数十亿行级别的表，我不会直接回答“分库分表”或“关闭索引”。先要问清楚：本次影响多少行，能否命中索引或分区，是否允许离线处理，源数据是否仍在写入，以及业务需要怎样的回滚与恢复能力。
-
-以 MySQL / InnoDB 为例，三类操作的关注点并不完全相同：
-
-| 操作 | 可以评估的处理方式 | 需要重点控制的风险 |
-| --- | --- | --- |
-| 大量删除 | 有界范围分批删除；大比例删除时评估重建保留数据 | 锁、日志、磁盘空间与失败恢复 |
-| 大量更新 | 暂存表校验后分批关联更新；限制目标范围 | 更新匹配是否唯一、锁竞争与事务大小 |
-| 大量插入 | 批量写入或适用的批量装载方式 | 约束正确性、索引维护与目标库压力 |
-
-这些方式应结合实际条件验证。MySQL 文档分别讨论了单表删除的 `LIMIT`、关联更新，以及 InnoDB 批量装载中的事务与导入策略；它们不是一个可以脱离场景套用的“万能大表优化 SQL”。[^32][^26][^33]
-
-如果删除比例非常高，“复制保留数据，再切换表”可以成为候选方案。但我会把它视为一次数据迁移：需要处理复制期间的增量写入、对象依赖、索引与约束、切换窗口以及校验和回退。只有拷贝与改名语句，而没有一致性方案，不能称为完整方案。MySQL 文档也将保留数据复制与表切换列为特定大批量删除场景的可选做法。[^32]
-
-尤其不能把 `TRUNCATE` 当成“更快且随时能回滚的 DELETE”。在 MySQL 中，`TRUNCATE TABLE` 会隐式提交，不能通过普通事务回滚恢复，也不支持按 `WHERE` 条件删除。它适合允许清空整表且满足相关限制的场景，不适合盲目替代线上业务删除。[^34]
-
-我的执行原则是：先在可控范围验证正确性，再根据锁等待、吞吐、日志和复制压力调整批次；异常时暂停或缩小范围，而不是用更大的事务强行推进。
+数十亿行级 MySQL / InnoDB 表的大量删除、更新、插入不能靠单一模板或把 `TRUNCATE`（隐式提交、不可普通事务回滚、不支持 `WHERE`）当作快速 `DELETE`。分批限流、高比例删重建表切换边界与逐类控制风险详见 [可恢复批处理抽取与超大表分段变更](/blog/legacy/note/zh-cn/recoverable-batch-extraction/)。
 
 ## 结论边界：这次复盘能证明什么，不能证明什么
 
@@ -455,10 +302,6 @@ DROP TEMPORARY TABLE tmp_review_course_avg;
 
 [^8]: MySQL 8.4 Reference Manual — ALTER TABLE Statement。`https://dev.mysql.com/doc/refman/8.4/en/alter-table.html`
 
-[^9]: Oracle Database 19c SQL Language Reference — Joins。`https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/Joins.html`
-
-[^10]: MySQL 8.4 Reference Manual — Outer Join Simplification。`https://dev.mysql.com/doc/refman/8.4/en/outer-join-simplification.html`
-
 [^11]: Oracle AI Database PL/SQL Language Reference — Cursors Overview。`https://docs.oracle.com/en/database/oracle/oracle-database/26/lnpls/cursors-overview.html`
 
 [^12]: MySQL 8.4 Reference Manual — The CHAR and VARCHAR Types。`https://dev.mysql.com/doc/refman/8.4/en/char.html`
@@ -473,44 +316,14 @@ DROP TEMPORARY TABLE tmp_review_course_avg;
 
 [^17]: MySQL 8.4 Reference Manual — Multiple-Column Indexes。`https://dev.mysql.com/doc/refman/8.4/en/multiple-column-indexes.html`
 
-[^18]: MySQL 8.4 Reference Manual — Set Operations with UNION, INTERSECT, and EXCEPT。`https://dev.mysql.com/doc/refman/8.4/en/set-operations.html`
-
-[^19]: Apache Spark 3.5.7 — Built-in Functions。`https://spark.apache.org/docs/3.5.7/api/sql/index.html`
-
-[^20]: Apache Spark 3.5.7 — Datetime Patterns。`https://spark.apache.org/docs/3.5.7/sql-ref-datetime-pattern.html`
-
-[^21]: Oracle Database 19c SQL Language Reference — ADD_MONTHS。`https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/ADD_MONTHS.html`
-
-[^22]: Oracle Database 19c SQL Language Reference — TRUNC (date)。`https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/TRUNC-date.html`
-
-[^23]: Oracle Database 19c SQL Language Reference — TO_CHAR (datetime)。`https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/TO_CHAR-datetime.html`
-
-[^24]: MySQL 8.4 Reference Manual — Date and Time Functions。`https://dev.mysql.com/doc/refman/8.4/en/date-and-time-functions.html`
-
-[^25]: MySQL 8.4 Reference Manual — Aggregate Function Descriptions。`https://dev.mysql.com/doc/refman/8.4/en/aggregate-functions.html`
-
-[^26]: MySQL 8.4 Reference Manual — UPDATE Statement。`https://dev.mysql.com/doc/refman/8.4/en/update.html`
-
-[^27]: MySQL 8.4 Reference Manual — Optimizing Derived Tables, View References, and Common Table Expressions with Merging or Materialization。`https://dev.mysql.com/doc/refman/8.4/en/derived-table-optimization.html`
-
-[^28]: MySQL 8.4 Reference Manual — INSERT ... SELECT Statement。`https://dev.mysql.com/doc/refman/8.4/en/insert-select.html`
-
-[^29]: Pentaho Data Integration — Table Input。`https://docs.pentaho.com/pdia-data-integration/pdi-transformation-steps-reference-overview/table-input`
-
-[^30]: Pentaho Data Integration — Performance Tips。`https://docs.pentaho.com/pdia-admin/optimize-the-pentaho-system/performance-tuning/pentaho-data-integration-performance-tips`
-
-[^31]: Pentaho Data Integration — Table Output。`https://docs.pentaho.com/pdia-data-integration/pdi-transformation-steps-reference-overview/table-output`
-
-[^32]: MySQL 8.4 Reference Manual — DELETE Statement。`https://dev.mysql.com/doc/refman/8.4/en/delete.html`
-
-[^33]: MySQL 8.4 Reference Manual — Bulk Data Loading for InnoDB Tables。`https://dev.mysql.com/doc/refman/8.4/en/optimizing-innodb-bulk-data-loading.html`
-
-[^34]: MySQL 8.4 Reference Manual — TRUNCATE TABLE Statement。`https://dev.mysql.com/doc/refman/8.4/en/truncate-table.html`
-
 
 ## 来源与关联文档
 
 - [database-written-test-review](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md)
+- [SQL 连接语义、集合去重与 NULL 边界](/blog/legacy/note/zh-cn/sql-join-null-semantics/)
+- [SQL 日期与方言边界：Spark SQL / Oracle / MySQL](/blog/legacy/note/zh-cn/sql-date-dialect-boundaries/)
+- [MySQL 同表读写 DML 边界：物化派生表与临时表](/blog/legacy/note/zh-cn/mysql-same-table-dml/)
+- [可恢复批处理抽取与超大表分段变更](/blog/legacy/note/zh-cn/recoverable-batch-extraction/)
 - [MySQL 性能排查：现象→指标→定位层→安全缓解](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
 - [MySQL 存储引擎与死锁检测](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/)
 - [数据库 Schema 漂移：用 history、schema 与 query 三视图定位](/blog/legacy/note/zh-cn/database-schema-drift/)

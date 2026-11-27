@@ -62,8 +62,6 @@
     "ingest-frontend-essays"
   ],
   "related": [
-    "java-concurrency-deepdive",
-    "spring-cloud-and-boot",
     "intranet-penetration-ssh-guide"
   ]
 }
@@ -96,14 +94,10 @@
 
 ## 関連ページ
 
-- [java-concurrency-deepdive](/blog/legacy/note/ja/java-concurrency-deepdive/)
-- [spring-cloud-and-boot](/blog/legacy/note/ja/spring-cloud-and-boot/)
-- [intranet-penetration-ssh-guide](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)
 
+- [intranet-penetration-ssh-guide](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)
 
 ## 出典と関連文書
 
 - [ingest-frontend-essays](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-frontend-essays.md)
-- [Java 並行処理の深掘り：JUC、CAS、アトミック、ロックとスレッド機構](/blog/legacy/note/ja/java-concurrency-deepdive/)
-- [Spring Boot と Spring Cloud：自動構成、トランザクション、サービス検出、ゲートウェイと可観測性](/blog/legacy/note/ja/spring-cloud-and-boot/)
 - [SSH 内網アクセス：接続方向・公開面・障害復旧](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)

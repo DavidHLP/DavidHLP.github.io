@@ -65,7 +65,8 @@
     "ulticode-engineering-highlights-f801a1076"
   ],
   "related": [
-    "ulticode"
+    "ulticode",
+    "ulticode-owner-local-audit-inbox"
   ]
 }
 ---
@@ -114,7 +115,7 @@ real dispatch 还受 shadow 标记和 cutover watermark 控制，这对迁移期
 
 [`UnackedStreamEntriesReaper`](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge-runtime/src/main/java/com/ulticode/modules/queue/outbox/reaper/UnackedStreamEntriesReaper.java) 默认每 10 秒扫描空闲条目，每次 sweep 最多推进一条，并暴露 PEL 大小、队列延迟、最老条目年龄和 DLQ 等指标。当前 visibility timeout 常量为 `1_800_000L`，即 30 分钟；它是实现参数，不是 SLO。
 
-重新领取的任务还要经过判题执行器的 generation/attempt 围栏。也就是说，消息可恢复不等于旧消息拥有永久写入资格。
+重新领取的任务还要经过判题执行器的 generation/attempt 围栏。也就是说，消息可恢复不等于旧消息拥有永久写入资格。对于跨 owner 审计链路，需要消费者先落本地 inbox 再 ACK 的同类持久化模型见 [跨 Owner 审计别靠跨库写入：UltiCode 的 Local Outbox 与 Consumer Inbox](/blog/legacy/note/zh-cn/ulticode-owner-local-audit-inbox/)。
 
 ## 这不是 exactly-once
 
@@ -143,3 +144,4 @@ Agent 的长任务也不应只靠内存队列：用户请求、工具调用意�
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
 - [UltiCode：把在线评测做成可验证的工程系统](/blog/legacy/note/zh-cn/ulticode/)
+- [跨 Owner 审计别靠跨库写入：UltiCode 的 Local Outbox 与 Consumer Inbox](/blog/legacy/note/zh-cn/ulticode-owner-local-audit-inbox/)

@@ -1,0 +1,104 @@
+---
+import site from "../../content/site.json";
+import contentLabels from "../../content/locales.json" with { type: "json" };
+import { getPosts } from "../lib/blog";
+import { postPath } from "../blog-path";
+import type { UiLanguage } from "../ui-language";
+
+interface Props { language: UiLanguage }
+const { language } = Astro.props;
+const copy = {
+  "zh-CN": { eyebrow: "RHINE LAB / ARCHIVE DIRECTORY", title: "档案索引", intro: "全部公开档案，按五列归档。", home: "回到档案首页", about: "个人介绍", top: "回到顶部" },
+  en: { eyebrow: "RHINE LAB / ARCHIVE DIRECTORY", title: "Archive index", intro: "Every public archive, filed across the five columns.", home: "Back to the archives", about: "About", top: "Back to top" },
+  ja: { eyebrow: "RHINE LAB / 資料目録", title: "アーカイブ索引", intro: "公開中の資料を五つの列で一覧できます。", home: "アーカイブへ戻る", about: "プロフィール", top: "先頭へ戻る" },
+}[language];
+const posts = await getPosts();
+const labels = contentLabels[language] as Record<string, string> | undefined;
+const groups = site.columns
+  .map(column => ({ column, label: language === "zh-CN" ? column : labels?.[column] ?? column, posts: posts.filter(post => post.data.category === column) }))
+  .filter(group => group.posts.length > 0);
+const path = language === "zh-CN" ? "/archive/" : `/${language}/archive/`;
+const canonical = new URL(path, Astro.site);
+const description = `${copy.intro} ${site.title}`;
+---
+<!doctype html>
+<html lang={language}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {(["zh-CN", "en", "ja"] as const).map(lang => <link rel="alternate" hreflang={lang} href={new URL(lang === "zh-CN" ? "/archive/" : `/${lang}/archive/`, Astro.site)} />)}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{copy.title} · {site.title}</title>
+  </head>
+  <body id="top">
+    <header>
+      <a class="home" href={language === "zh-CN" ? "/" : `/?lang=${language}`}>← {copy.home}</a>
+      <p class="eyebrow">{copy.eyebrow}</p>
+      <h1>{copy.title}</h1>
+      <p class="intro">{copy.intro}</p>
+    </header>
+    <main>
+      {groups.map(group => (
+        <section>
+          <h2>{group.label}<span>{String(group.posts.length).padStart(2, "0")}</span></h2>
+          <ul>
+            {group.posts.map(post => (
+              <li>
+                <a href={postPath(post.id)}>{post.data.title}</a>
+                <span class="meta">{post.data.archiveId} · {post.data.lang}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </main>
+    <footer>
+      <span>{site.title}</span>
+      <nav aria-label={copy.title}>
+        <a href={language === "zh-CN" ? "/about/" : `/${language}/about/`}>{copy.about}</a>
+        <a href="#top">{copy.top} ↑</a>
+      </nav>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 40px 24px 64px;
+    background: #edebe4;
+    color: #23241e;
+    font-family: "MiSans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: #9b7247; }
+  a:focus-visible { outline: 2px solid #a67d48; outline-offset: 3px; }
+  header, main, footer { max-width: 720px; margin-inline: auto; }
+  .home { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; letter-spacing: 0.7px; color: #6f6757; }
+  .eyebrow { margin: 24px 0 8px; font-size: 11px; letter-spacing: 1.4px; color: #6f6757; }
+  h1 { margin: 0 0 8px; font-size: 32px; font-weight: 600; letter-spacing: 0.5px; }
+  .intro { margin: 0; color: #4b4a42; }
+  main { margin-top: 40px; display: grid; gap: 36px; }
+  section h2 {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid #cfc9b9;
+    font-size: 14px; font-weight: 600; letter-spacing: 1px;
+  }
+  section h2 span { font-size: 11px; font-weight: 400; color: #6f6757; }
+  ul { margin: 0; padding: 0; list-style: none; }
+  li { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid #e2ded1; }
+  li a { min-height: 24px; }
+  .meta { margin-left: auto; font-size: 11px; letter-spacing: 0.5px; color: #6f6757; font-variant-numeric: tabular-nums; }
+  footer { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; margin-top: 56px; padding-top: 16px; border-top: 1px solid #cfc9b9; font-size: 12px; color: #6f6757; }
+  footer nav { display: flex; gap: 20px; }
+  footer a { display: inline-flex; align-items: center; min-height: 32px; }
+  @media (max-width: 480px) {
+    body { padding: 24px 16px 48px; }
+    h1 { font-size: 26px; }
+  }
+</style>

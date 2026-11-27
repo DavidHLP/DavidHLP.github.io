@@ -1,122 +1,55 @@
-<!-- AUTO-GENERATED -->
 # Script Reference
 
-## Available Commands
+本文件是 `package.json` 中 npm 脚本的映射说明，不复制实现细节；命令以 `package.json` 与 `package-lock.json` 为唯一事实源。
 
-| Command | Description |
-|---------|-------------|
-| `pnpm new` | Create a new content file using interactive prompts |
-| `pnpm dev` | Start local development server (default: `http://localhost:4321`) |
-| `pnpm check` | Run Astro type checking |
-| `pnpm build` | Build production version |
-| `pnpm preview` | Preview the built site locally |
-| `pnpm format` | Format code using Biome |
-| `pnpm lint` | Lint code using Biome |
-| `pnpm kb:ingest -- --help` | Inspect or incrementally ingest local coding-session stores |
-| `pnpm count` | Count git lines added/removed |
-| `pnpm prepare` | Set up Husky git hooks |
+## 命令清单
 
-## Script Details
+| 命令 | 作用 |
+|---|---|
+| `npm install` | 安装依赖，并触发 `postinstall` |
+| `npm run postinstall` | 安装后给 `@kitlangton/rolling-number` 打补丁 |
+| `npm run predev` | 开发前打补丁并导出档案记录 |
+| `npm run dev` | 启动开发服务器（`127.0.0.1:4321`），启动前执行 `predev` |
+| `npm run prebuild` | 构建前打补丁、导出档案记录并准备网页字体 |
+| `npm run build` | 类型检查、静态构建并生成 PWA 产物，构建前执行 `prebuild` |
+| `npm run preview` | 预览 `dist/`（`127.0.0.1:4321`） |
+| `npm run check` | 运行 `astro check` 类型检查 |
+| `npm run check:content` | 运行内容校验与 Fuwari 归档校验 |
+| `npm run check:viewport` | 检查视口相关约束 |
+| `npm run export:archives` | 重新生成 `public/archives/*.txt` |
+| `npm run build:cloudflare` | 构建后打包 Cloudflare 静态包 |
+| `npm run format` | 用 Prettier 格式化 `src`、`scripts`、`content` 与配置文件 |
+| `npm run kb:lint` | 校验知识库证据与索引不变量 |
+| `npm run kb:ingest` | 增量摄入本地编码会话记录（默认 dry run） |
+| `npm run test:kb` | 运行知识库摄入测试（Vitest） |
 
-### `pnpm new`
-```bash
-tsx --loader esm-loader-yaml scripts/new.ts
-```
-Interactive content creation script. Guides through:
-- Content type selection (note/jotting)
-- Title and metadata input
-- Locale selection
-- File placement in appropriate content directory
+## 生命周期钩子
 
-### `pnpm dev`
-```bash
-astro dev
-```
-Starts Astro development server with:
-- Hot module replacement (HMR)
-- Live reload on file changes
-- Default port: 4321
+- `postinstall`：运行 `scripts/patch-rolling-number.mjs`，给 `@kitlangton/rolling-number` 打补丁。
+- `predev`：再次打补丁，并运行 `scripts/export-records.mjs` 导出档案记录。
+- `prebuild`：打补丁、导出档案记录，并运行 `scripts/prepare-webfonts.mjs` 准备网页字体。
 
-### `pnpm check`
-```bash
-astro check
-```
-Runs Astro's built-in type checker to validate:
-- TypeScript types in `.astro` files
-- Content collection schemas
-- Configuration validity
+`npm run dev`、`npm run build` 与 `npm run build:cloudflare` 会自动触发对应钩子，无需单独调用。
 
-### `pnpm build`
-```bash
-astro build
-```
-Production build that:
-- Compiles all pages to static HTML
-- Bundles and minifies JavaScript/CSS
-- Generates sitemap and RSS feed
-- Outputs to `dist/` directory
+## 使用说明
 
-### `pnpm preview`
-```bash
-astro preview
-```
-Serves the production build locally for testing before deployment.
+- 开发：`npm ci` 后运行 `npm run dev`。
+- 提交前：`npm run check:content`、`npm run check:viewport`、`npm run kb:lint`、`npm run test:kb`。
+- 发布构建：`npm run build`；需要 Cloudflare 静态包时运行 `npm run build:cloudflare`。
+- 格式化：`npm run format`（Prettier）。
+- 知识库摄入：默认只读 dry run；只有显式 `--write` 才写入已忽略的 `.agent/` 检查点。
 
-### `pnpm format`
-```bash
-biome format --write
-```
-Formats all supported files using Biome:
-- JavaScript/TypeScript
-- JSON/JSONC
-- CSS
-- Svelte/Astro (fallback to Prettier)
+## CI
 
-### `pnpm lint`
-```bash
-biome lint
-```
-Lints code using Biome for:
-- Code style violations
-- Potential bugs
-- Best practices
+`.github/workflows/astro.yml`（Astro blog）：
 
-### `pnpm kb:ingest`
-```bash
-pnpm kb:ingest -- --help
-pnpm kb:ingest -- --skip-hindsight
-pnpm kb:ingest -- --write --skip-hindsight
-```
-Discovers configured OMP, OpenCode, Codex, and optional Hindsight sources, then writes only redacted hashes and candidate ledgers under the ignored `.agent/` directory. The default is a dry run; use `--write` only to persist a checkpoint. Source files are opened read-only.
+- 触发：推送到 `main` 与 Pull Request。
+- 步骤：`npm ci` → `npm run build:cloudflare` → `check:content` → `check:viewport` → `kb:lint` → `test:kb` → 安装 Playwright → `scripts/check-about-browser.mjs` → 上传 About 浏览器证据。
 
-### `pnpm count`
-```bash
-git log --pretty=tformat: --numstat | grep -v package | awk '{ A += $1; S += $2; T += $1 - $2 } END { printf "+ %s\tLines\n- %s\tLines\n= %s\tLines\n", A, S, T }'
-```
-Shows git statistics:
-- Lines added
-- Lines removed
-- Net change
+`.github/workflows/deploy.yml`（Deploy blog to GitHub Pages）：
 
-### `pnpm prepare`
-```bash
-husky
-```
-Sets up Git hooks via Husky for:
-- Pre-commit: lint-staged formatting
-- Commit message validation
+- 触发：推送到 `main` 或手动 `workflow_dispatch`。
+- 步骤：`npm ci` → `npm run build` → `check:content` → `check:viewport` → `kb:lint` → `test:kb` → 上传 `dist/` → 发布到 GitHub Pages。
+- 运行时：Node.js 22，npm 缓存。
 
-## CI/CD Scripts
-
-### GitHub Actions Workflows
-
-#### Site validation (`site-validation.yaml`)
-- **Trigger**: Pull requests, manual dispatches, and reusable calls from deployment
-- **Actions**: Install the locked dependencies, run Biome, Astro checks, unit tests, the production build, editorial smoke checks, SVG checks, and browser checks
-- **Purpose**: Shared validation gate and uploaded validation evidence
-
-#### Deploy (`deploy.yml`)
-- **Trigger**: Push to `main` branch or manual dispatch
-- **Actions**: Reuse site validation → Build → Upload Pages artifact → Deploy to GitHub Pages
-- **Environment**: Node.js 22, pnpm 10.30.0
-<!-- /AUTO-GENERATED -->
+两个工作流都以 `npm` 和 `package-lock.json` 为准。

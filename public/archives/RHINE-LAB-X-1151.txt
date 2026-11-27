@@ -134,7 +134,6 @@ node --check ~/.hindsight/hindsight-bridge.mjs
 
 - [Hindsight 本地算力分工与 Docker 容器化部署](/blog/legacy/note/zh-cn/hindsight-local-deployment/)
 - [Hindsight 统一记忆接入：FastMCP 桥接与多项目动态路由](/blog/legacy/note/zh-cn/hindsight-omp-codex-integration/)
-- [OMP Hook 扩展指南](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
 
 
 ## 来源与关联文档
@@ -142,7 +141,12 @@ node --check ~/.hindsight/hindsight-bridge.mjs
 - [hindsight-local-deployment-and-agent-integration](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/hindsight-local-deployment-and-agent-integration.md)
 - [Hindsight 本地算力分工与 Docker 容器化部署](/blog/legacy/note/zh-cn/hindsight-local-deployment/)
 - [Hindsight 统一记忆接入：FastMCP 桥接与多项目动态路由](/blog/legacy/note/zh-cn/hindsight-omp-codex-integration/)
-- [OMP Hook 扩展概念：决策点提示、硬阻断与状态桥接](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
+
+## 毕业检查
+
+- 每一诊断分支记录精确服务、模型或客户端版本
+- 隔离环境复现权限、URL 与会话三类症状
+- 用“语法通过但会话失败”反例核对误判
 
 研究记录
 1. 原始文档: src/content/note/zh-cn/hindsight-troubleshooting.md

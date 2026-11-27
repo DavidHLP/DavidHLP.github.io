@@ -58,14 +58,13 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "hindsight-local-deployment-and-agent-integration"
   ],
   "related": [
     "hindsight-omp-codex-integration",
-    "hindsight-troubleshooting",
-    "mcp-codebase-memory-workflow"
+    "hindsight-troubleshooting"
   ]
 }
 ---
@@ -240,7 +239,6 @@ docker exec hindsight-ollama-gpu ollama list
 
 - [Hindsight 统一记忆接入：FastMCP 桥接与多项目动态路由](/blog/legacy/note/zh-cn/hindsight-omp-codex-integration/)
 - [Hindsight 记忆系统运行时排障矩阵与失效模式](/blog/legacy/note/zh-cn/hindsight-troubleshooting/)
-- [MCP Codebase Memory 工作流](/blog/legacy/note/zh-cn/mcp-codebase-memory-workflow/)
 
 
 ## 来源与关联文档
@@ -248,4 +246,9 @@ docker exec hindsight-ollama-gpu ollama list
 - [hindsight-local-deployment-and-agent-integration](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/hindsight-local-deployment-and-agent-integration.md)
 - [Hindsight 统一记忆接入：FastMCP 桥接与多项目动态路由](/blog/legacy/note/zh-cn/hindsight-omp-codex-integration/)
 - [Hindsight 记忆系统运行时排障矩阵与失效模式](/blog/legacy/note/zh-cn/hindsight-troubleshooting/)
-- [MCP 协议时代边界与 codebase-memory-mcp v0.10.2 图工作流](/blog/legacy/note/zh-cn/mcp-codebase-memory-workflow/)
+
+## 毕业检查
+
+- 记录镜像 digest、模型 revision/校验和、设备与驱动
+- 隔离预检覆盖挂载权限和依赖不可用
+- 匿名样本验证健康、检索与重启保留并验收接入/排障双链

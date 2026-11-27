@@ -62,8 +62,6 @@
     "ingest-frontend-essays"
   ],
   "related": [
-    "java-concurrency-deepdive",
-    "spring-cloud-and-boot",
     "intranet-penetration-ssh-guide"
   ]
 }
@@ -96,14 +94,10 @@ The following is historical archive content:
 
 ## Related Pages
 
-- [java-concurrency-deepdive](/blog/legacy/note/en/java-concurrency-deepdive/)
-- [spring-cloud-and-boot](/blog/legacy/note/en/spring-cloud-and-boot/)
-- [intranet-penetration-ssh-guide](/blog/legacy/note/en/intranet-penetration-ssh-guide/)
 
+- [intranet-penetration-ssh-guide](/blog/legacy/note/en/intranet-penetration-ssh-guide/)
 
 ## Sources and related documents
 
 - [ingest-frontend-essays](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-frontend-essays.md)
-- [Java Concurrency Deep Dive: JUC, CAS, Atomics, Locks, and Threading](/blog/legacy/note/en/java-concurrency-deepdive/)
-- [Spring Boot and Spring Cloud: Auto-Configuration, Transactions, Service Discovery, Gateway, and Observability](/blog/legacy/note/en/spring-cloud-and-boot/)
 - [SSH Intranet Access: Connection Direction, Exposure, and Recovery](/blog/legacy/note/en/intranet-penetration-ssh-guide/)

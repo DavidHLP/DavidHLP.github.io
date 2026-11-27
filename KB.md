@@ -6,32 +6,36 @@
 
 以下内容是个人身份层，除非用户明确要求，否则不得改写或删除：
 
-- `src/pages/[...locale]/index.astro`：首页布局、个人档案卡和首页体验。
-- `src/content/information/{locale}/introduction.md`：个人简历、经历、项目和技能。
-- `src/content/information/{locale}/linkroll.mdx`：关于页使用的链接集合。
-- `src/content/information/{locale}/chronicle.yaml`：关于页使用的站点时间线。
-- `src/content/information/{locale}/policy.md`：政策页面。
+- `src/pages/index.astro`：首页布局、个人档案卡和首页体验。
+- `content/blog/legacy/information/{locale}/introduction.md`：个人简历、经历、项目和技能。
+- `content/blog/legacy/information/{locale}/linkroll.md`：关于页使用的链接集合。
+- `content/blog/legacy/information/{locale}/chronicle.md`：关于页使用的站点时间线。
+- `content/blog/legacy/information/{locale}/policy.md`：政策页面。
 
 知识库入口 `/kb` 可以扩展导航，但不能把首页或简历改造成知识库列表。
 
 ## 三层架构
 
 ```text
-src/content/raw/{locale}/          原始来源：人采集，LLM 只读，不得修改
-src/content/note/{locale}/         Wiki：LLM 维护的 entity/concept/synthesis 页面
-src/content/jotting/{locale}/      捕获收件箱：未整理想法，不是稳定知识页
-KB.md                              Schema：本宪法与不变量
-.claude/skills/knowledge-base.md   Agent 执行规程
-src/content/information/{locale}/
-  kb-index.md                       面向内容的目录
-  kb-log.md                         面向时间的 append-only 操作日志
+src/content/raw/zh-cn/             原始来源：人采集，LLM 只读，不得修改
+content/blog/legacy/note/{locale}/           Wiki：LLM 维护的 entity/concept/synthesis 页面
+content/blog/legacy/jotting/{locale}/        捕获收件箱：未整理想法，不是稳定知识页
+KB.md                                        Schema：本宪法与不变量
+.claude/skills/knowledge-base.md             Agent 执行规程
+content/blog/legacy/information/{locale}/
+  kb-index.md                                 面向内容的目录
+  kb-log.md                                   面向时间的 append-only 操作日志
+src/content/{note,information,jotting,preface}/
+  冻结于 f49953fb 的迁移快照，只读，不再作为编辑入口
 ```
+
+现行 Wiki、索引、日志与收件箱以 `content/blog/legacy/` 为正典，因为 Astro loader、`npm run kb:lint` 与发布路由都指向该目录。`src/content/` 除 `raw/` 外是迁移证据，不是线上内容。全仓分类口径见 `docs/DOCUMENT-CLASSIFICATION.md`。
 
 `zh-cn` 是知识库的正典语言。`en` 和 `ja` 只保留站点导航、简历和必要的说明性入口；不为了表面同步而复制一份会漂移的 wiki。需要对外发布翻译时，先完成 `zh-cn` 正典，再由一次明确的翻译任务生成对应版本。
 
 ## Wiki 页面类型
 
-所有稳定知识页位于 `src/content/note/{locale}/`，并在 frontmatter 中声明：
+所有稳定知识页位于 `content/blog/legacy/note/{locale}/`，并在 frontmatter 中声明：
 
 - `kind: concept`：解释一个概念、方法或框架。
 - `kind: entity`：描述一个具体项目、工具、人物或系统。
@@ -59,7 +63,7 @@ raw 文件是证据快照。不得为了让 wiki 看起来正确而修改 raw；
 
 ### `query <问题>`
 
-1. 先读 `src/content/information/zh-cn/kb-index.md`，不要直接盲搜全文。
+1. 先读 `content/blog/legacy/information/zh-cn/kb-index.md`，不要直接盲搜全文。
 2. 再阅读相关 wiki 页面及其 `sources` 指向的 raw 文件。
 3. 回答时区分来源事实、wiki 综合和当前推断，并附页面链接或来源 slug。
 4. 如果回答形成了可复用的比较、决策或新结论，将它归档为新的 `synthesis` 页面。
@@ -78,7 +82,7 @@ raw 文件是证据快照。不得为了让 wiki 看起来正确而修改 raw；
 - 是否有孤儿页、重复页或应该合并的页。
 - `raw` 是否被意外修改，且 `src/content/raw/.manifest.sha256` 是否与快照一致。
 
-仓库提供 `pnpm kb:lint` 执行上述可自动化检查；它还会拒绝已登记 raw 快照的修改或删除。
+仓库提供 `npm run kb:lint` 执行上述可自动化检查；它还会拒绝已登记 raw 快照的修改或删除。
 
 lint 发现问题时，优先修复证据链和索引，再修正文案；不要为了消除告警删除事实来源。
 

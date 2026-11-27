@@ -58,14 +58,15 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "legacy-containerd-tls-troubleshooting"
   ],
   "related": [
     "intranet-penetration-ssh-guide",
     "mysql-performance-troubleshooting",
-    "testcontainers-docker-api"
+    "testcontainers-docker-api",
+    "docker-fundamentals"
   ]
 }
 ---
@@ -81,6 +82,8 @@ Pod → kubelet → imagePullSecrets/ServiceAccount → CRI → containerd
     → config_path in config.toml → certs.d/<registry>/hosts.toml
     → Registry TLS → manifest/layer
 ```
+
+This pull path isolates Kubernetes node CRI/CA/Secret trust boundaries; Docker image layers, builds, and host runtime fundamentals belong in [Docker Fundamentals: Layered Builds, Persistence, and Production Compose](/blog/legacy/note/en/docker-fundamentals/).
 
 | Observation                                     | First layer               | Reusable interpretation                                                                            |
 | ----------------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------- |
@@ -165,9 +168,11 @@ openssl x509 -in /etc/containerd/certs.d/harbor.example.com/ca.crt -noout -subje
 
 ## Related pages
 
+
 - [SSH intranet access options](/blog/legacy/note/en/intranet-penetration-ssh-guide/)
 - [MySQL performance problem model](/blog/legacy/note/en/mysql-performance-troubleshooting/)
-
+- [Testcontainers 1.20.6: Rule Out the Docker API Version First, Then Judge the daemon Unavailable](/blog/legacy/note/en/testcontainers-docker-api/)
+- [Docker Fundamentals: Image Layers, Container Operations, and Compose Networking](/blog/legacy/note/en/docker-fundamentals/)
 
 ## Sources and related documents
 
@@ -175,3 +180,9 @@ openssl x509 -in /etc/containerd/certs.d/harbor.example.com/ca.crt -noout -subje
 - [SSH Intranet Access: Connection Direction, Exposure, and Recovery](/blog/legacy/note/en/intranet-penetration-ssh-guide/)
 - [MySQL Performance Triage: Symptom → Metric → Layer → Safe Mitigation](/blog/legacy/note/en/mysql-performance-troubleshooting/)
 - [Testcontainers 1.20.6: Rule Out the Docker API Version First, Then Judge the daemon Unavailable](/blog/legacy/note/en/testcontainers-docker-api/)
+
+## Graduation checks
+
+- Pinned containerd 1.x/2.x with an anonymous registry fixture
+- trusted CA succeeds and wrong CA/SAN fails at the expected layer
+- Pod credential positive/negative cases plus the Docker backlink

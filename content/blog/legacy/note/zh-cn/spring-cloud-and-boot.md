@@ -59,7 +59,7 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "ingest-spring-cloud"
   ],
@@ -67,7 +67,9 @@
     "dubbo-nacos-runtime",
     "multi-service-readiness",
     "microservice-data-ownership",
-    "containerd-tls-troubleshooting"
+    "spring-boot-auto-configuration",
+    "spring-transaction-boundaries",
+    "spring-cloud-discovery-and-gateway"
   ]
 }
 ---
@@ -77,10 +79,10 @@ Fuwari 13 篇 Spring Boot/Cloud 原文构成微服务笔记的主体：自动装
 
 ## 核心机制
 
-- **Boot**：`SpringBootAuto-configuration.md` 讲 `@EnableAutoConfiguration` 与条件化；`SpringTransactions.md` 讲事务传播与隔离。
-- **注册发现**：`Nacos.md` 与 `ConsulServiceRegistrationandDiscovery.md` 对比 AP/CP、健康检查与配置中心；`dubbo-nacos-runtime` 页已有 Dubbo+Nacos 的固定版本证据。
-- **调用与网关**：`OpenFeign.md`、`LoadBalancer.md`、`SpringCloudGateway.md` 覆盖声明式调用、负载与路由。
-- **容错与可观测**：`Sentinel.md`、`CircuitBreakerPatterns`、`BulkHeadBasics` 讲熔断/限流/隔离；`SetupofMicrometerandZipkinTracing.md` 讲 Trace。
+- **自动装配与启动**：`@EnableAutoConfiguration`、`AutoConfiguration.imports` / `spring.factories`、条件注解与排除规则拆至 [Spring Boot 自动装配与启动顺序：Imports、条件注解与显式排除](/blog/legacy/note/zh-cn/spring-boot-auto-configuration/)。
+- **本地事务边界**：`PlatformTransactionManager`、AOP + `ThreadLocal`、七种传播行为与回滚边界拆至 [Spring 事务边界与传播行为：AOP 代理、隔离级别与回滚规则](/blog/legacy/note/zh-cn/spring-transaction-boundaries/)。
+- **注册发现、调用与网关**：`Nacos`、`Consul`、`Spring Cloud LoadBalancer`、`OpenFeign` 与 `Spring Cloud Gateway` 拆至 [Spring Cloud 注册发现、负载均衡、OpenFeign 与 Gateway](/blog/legacy/note/zh-cn/spring-cloud-discovery-and-gateway/)；Dubbo + Nacos 固定版本证据见 [Dubbo + Nacos：先核对注册名、group/version，再做真实 smoke test](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)。
+- **容错与可观测**：`Sentinel.md`、`CircuitBreakerPatterns`、`BulkHeadBasics` 归纳熔断/限流/隔离边界；`SetupofMicrometerandZipkinTracing.md` 归纳链路追踪接入。
 
 ## 适用条件
 
@@ -105,16 +107,26 @@ Fuwari 13 篇 Spring Boot/Cloud 原文构成微服务笔记的主体：自动装
 
 ## 相关页面
 
+
 - [dubbo-nacos-runtime](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
 - [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
 - [microservice-data-ownership](/blog/legacy/note/zh-cn/microservice-data-ownership/)
-- [containerd-tls-troubleshooting](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-
+- [Spring Boot 自动装配与启动顺序](/blog/legacy/note/zh-cn/spring-boot-auto-configuration/)
+- [Spring 事务边界与传播行为](/blog/legacy/note/zh-cn/spring-transaction-boundaries/)
+- [Spring Cloud 注册发现、负载均衡、OpenFeign 与 Gateway](/blog/legacy/note/zh-cn/spring-cloud-discovery-and-gateway/)
 
 ## 来源与关联文档
 
 - [ingest-spring-cloud](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md)
+- [Spring Boot 自动装配与启动顺序：Imports、条件注解与显式排除](/blog/legacy/note/zh-cn/spring-boot-auto-configuration/)
+- [Spring 事务边界与传播行为：AOP 代理、隔离级别与回滚规则](/blog/legacy/note/zh-cn/spring-transaction-boundaries/)
+- [Spring Cloud 注册发现、负载均衡、OpenFeign 与 Gateway](/blog/legacy/note/zh-cn/spring-cloud-discovery-and-gateway/)
 - [Dubbo + Nacos：先核对注册名、group/version，再做真实 smoke test](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
 - [多服务启动就绪：running、ready 与依赖/失败/重启传播](/blog/legacy/note/zh-cn/multi-service-readiness/)
 - [微服务数据所有权：先定领域 owner，再谈拆库与迁移](/blog/legacy/note/zh-cn/microservice-data-ownership/)
-- [containerd TLS：证书信任链与临时跳过验证的决策](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
+
+## 毕业检查
+
+- 固定 BOM/JDK 确认自动装配候选、条件与显式退出
+- 测试本地事务传播、回滚与代理调用边界
+- 固定网关/注册组合验证发现、predicate/filter 并复核 C45/C47

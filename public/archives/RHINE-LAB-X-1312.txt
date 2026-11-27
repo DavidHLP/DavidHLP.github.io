@@ -1,0 +1,96 @@
+﻿RHINE LAB · 内部数据库
+档案 X-1312 / Redis 反序列化安全与类型白名单：在对象创建前验证包边界
+工程笔记
+
+科室: 工程笔记
+编目范围: 2026-11-27
+相关人物: DavidHLPL
+访问范围: 公开
+
+当 Redis 中写入的多态类型标识可能来自旧程序、外部服务或不可信输入时，“先让 Jackson 按 `@class` 创建对象，再在业务层检查类型”已经太晚。反序列化安全边界必须建立在**对象实例化之前**：读取字节 -> 验证全部类型标识是否命中白名单 -> 仅在全部通过后才由 `EnvelopeCodec.read` 反序列化对象。
+
+本文聚焦 ResiCache 在 [`SecureJacksonRedisSerializer.java`](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/SecureJacksonRedisSerializer.java#L132-L205) 与 [`WhitelistPolicy.java`](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/WhitelistPolicy.java#L89-L134) 中实现的序列化安全边界；四阶段迁移与 Lua CAS 切换流程见 [换 Redis 序列化器不是改一行配置：从对象信任到可回滚迁移](/blog/legacy/note/zh-cn/resicache-serialization-migration/)。
+
+## 核心机制
+
+### 1. 版本化 envelope 只标识格式版本
+
+非空缓存值会先包装在固定结构的 envelope 中：
+
+```json
+{
+  "version": 2,
+  "payload": "..."
+}
+```
+
+这里的 `version` 仅用于标记序列化格式版本，既不是业务对象版本，也不是缓存值的 CAS token。`VersionEnvelope.payload` 上的 `@JsonTypeInfo` 当前固定使用 `@class`；若后续调整 type property，注解与配置必须同步修改。
+
+### 2. streaming preflight：先扫描类型标识再实例化
+
+在真正进入 `EnvelopeCodec.read` 之前，`SecureJacksonRedisSerializer` 会先通过流式 `JsonParser` 预检多态载荷中的类型标识，包括：
+
+- 配置的 type property；
+- `@class`；
+- wrapper-array 形式的类型 id；
+- 多态 payload 中嵌套出现的类型标识。
+
+```java
+try (JsonParser parser = objectMapper.createParser(bytes)) {
+    validateTypeIdsStreaming(parser);
+}
+
+Object envelope = EnvelopeCodec.read(objectMapper, bytes);
+
+if (EnvelopeCodec.version(envelope)
+        != EnvelopeCodec.currentVersion()) {
+    // failOnUnknownType=true 时拒绝
+}
+```
+
+即便是在读取旧缓存格式的迁移或回放阶段，legacy decoder 同样不能绕过白名单校验——像 `@class: "com.attacker.Gadget"` 这样的恶意载荷不会因为来源被标为旧数据而被放行。
+
+### 3. `WhitelistPolicy` 的包边界与 `startsWith` 差异
+
+默认允许的业务包前缀为 `io.github.davidhlp`，同时放行 `java.lang`、部分 `java.time`、`java.math` 类型及明确枚举的集合类型。`WhitelistPolicy` 的前缀规则存在必须区分的配置语义：
+
+```text
+com.example.*  -> 按包边界匹配
+com.example    -> 按 startsWith 匹配
+```
+
+若配置成不带 `.*` 的 `com.example`，`startsWith` 可能连带放行 `com.exampleX.SomeType`。凡要求严格包边界时，必须显式使用 `.*` 后缀或精确到具体类名。
+
+## 已验证与未验证边界
+
+当前单元/序列化测试已覆盖以下验证点：
+
+- 拒绝 `@class` 白名单外类型；
+- 拒绝 wrapper-array 类型标识；
+- 拒绝自定义或非预期 type property；
+- 白名单内类型 round-trip 与 serializer factory 配置传递；
+- 旧 `CachedValue` 缺少刷新元数据时仍可读取。
+
+**尚未验证的边界（需继续保留）：**
+
+- streaming preflight + 白名单只覆盖显式类型 id 校验，不能等同于完整的供应链安全审计或所有 Jackson custom deserializer 路径；
+- 本轮未测试不同 payload 嵌套深度下的流式预检延迟、CPU 与 GC 开销，不能推导吞吐百分比；
+- 真实运行环境中自定义业务类与多模块包结构仍需结合具体应用类加载清单复核。
+
+## 毕业检查
+
+1. 在目标应用的 serializer 配置检查中核对所有自定义包规则均采用 `.*` 包边界或精确类名，无裸 `startsWith` 误放行相邻包前缀。
+2. 对混合旧格式数据集与常见多态封装（`@class`、wrapper-array、自定义 type property）运行序列化安全测试，确认非法类型在 `EnvelopeCodec.read` 之前被拦截。
+3. 在压测环境单独采样序列化安全校验引入的 CPU 与 GC 耗时后，再将性能基线从“未测量”改为实测记录。
+
+## 相关页面
+
+- [换 Redis 序列化器不是改一行配置：从对象信任到可回滚迁移](/blog/legacy/note/zh-cn/resicache-serialization-migration/)
+- [resicache-engineering-highlights-2954fff（raw 原文）](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md)
+
+研究记录
+1. 原始证据: src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md
+2. 证据状态: 暂定
+
+设定参考: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md
+本文为基于公开设定的档案式改写，非游戏原文。

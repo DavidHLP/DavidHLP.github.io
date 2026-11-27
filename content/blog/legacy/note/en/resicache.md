@@ -73,7 +73,11 @@
     "resicache-observer-nested-execution",
     "java-null-value",
     "redis-business-patterns",
-    "redis-jackson-java-time"
+    "redis-jackson-java-time",
+    "resicache-early-expiration-cas",
+    "resicache-handler-chain-and-observer",
+    "resicache-serialization-migration",
+    "resicache-single-flight"
   ]
 }
 ---
@@ -145,7 +149,7 @@ This order determines control flow: Bloom can reject a definitely nonexistent ke
 
 Turning off the global protection switch disables those four protections while retaining TTL and ActualCache. A per-mechanism switch filters only its handler. Disabling protection does not disable caching itself.
 
-The chain turns feature composition into named, ordered, individually disableable, testable policies. Review can focus on the chain contract as well as each handler's local implementation.
+The chain turns feature composition into named, ordered, individually disableable, testable policies. Review can focus on the chain contract as well as each handler's local implementation; see full `HandlerResult`, ordering, and snapshot details in [ResiCache's Handler Chain: Control Flow, Nested Fragments, and Observer Lifecycle](/blog/legacy/note/en/resicache-handler-chain-and-observer/).
 
 ## 2. Single-flight defines who owns a load
 
@@ -201,7 +205,7 @@ The pinned commit contains these scenarios:
 - `SyncSingleFlightIntegrationTest`: a concurrent method with `sync=true` executes only once.
 - `LoaderOrchestratorTest`: Bloom short-circuiting, sync routing, double-checking, write-back failure, and load-failure outcomes.
 
-These names identify repository evidence, not tests rerun and passed when this article was produced. They show that load counts, failure propagation, and reentry are design contracts rather than implementation accidents.
+These names identify repository evidence, not tests rerun and passed when this article was produced. They show that load counts, failure propagation, and reentry are design contracts rather than implementation accidents; for leader/follower coordination, reentrancy, and locked double-checking, see [Why Stampede Protection Needs Futures, Distributed Locks, and Double-Checking Together](/blog/legacy/note/en/resicache-single-flight/).
 
 ## 3. Early expiration is a stale-task fence
 
@@ -246,7 +250,7 @@ Scheduling creates a controlled miss; the main load protocol continues to own lo
 
 `CachedValue` can use `startNanoTime` for monotonic time within the current process. That field is not serialized; deserialization falls back to wall-clock semantics. A process-local nanosecond origin is not treated as a persistent cross-process time fact.
 
-The time reference must match the data's lifecycle for early expiration to be reliable.
+The time reference must match the data's lifecycle for early expiration to be reliable; for the complete CAS condition showing why it only shortens TTL and stops stale tasks from overwriting new values, see [Why Asynchronous Early Expiration Only Shortens TTL: Using Version CAS to Reject Stale Tasks](/blog/legacy/note/en/resicache-early-expiration-cas/).
 
 ## 4. Secure serialization checks before object construction
 
@@ -263,7 +267,7 @@ The time reference must match the data's lifecycle for early expiration to be re
 
 The default allowed type prefix is `io.github.davidhlp`. A whitelist-constrained `PolymorphicTypeValidator` is always installed; Jackson default typing is not enabled by default. Business types outside the allowed range require explicit configuration or deserialization is rejected.
 
-Streaming preflight checks the configured type property, `@class`, and wrapper-array type IDs, rejecting disallowed types before Jackson instantiates objects. The trust check happens before an object has a chance to be created.
+Streaming preflight checks the configured type property, `@class`, and wrapper-array type IDs, rejecting disallowed types before Jackson instantiates objects. The trust check happens before an object has a chance to be created. For legacy formats, phased switchover (`SHADOW_READ` / `DUAL_WRITE` / `CUTOVER`), and conditional rollback, see [Replacing a Redis Serializer Is Not a One-Line Configuration Change: Object Trust and Rollback-Safe Migration](/blog/legacy/note/en/resicache-serialization-migration/).
 
 The layer also handles a restricted compatibility path for Spring `NullValue`, failure on unknown envelope versions, and old `CachedValue` payloads without refresh metadata. Old payloads can fall back to wall-clock reads; this does not establish mutual compatibility with every historical serializer.
 
@@ -343,10 +347,15 @@ Streaming type-whitelist preflight transfers to tool calls, plugin loading, temp
 
 ## Related pages
 
+
 - [ResiCache observer nesting: lifecycle, fragments, and scope tokens](/blog/legacy/note/en/resicache-observer-nested-execution/)
 - [Java NullValue: null caching prevents penetration but does not define business semantics](/blog/legacy/note/en/java-null-value/)
 - [Redis business patterns: choose responsibilities before double deletion, TTL, or consistency policies](/blog/legacy/note/en/redis-business-patterns/)
 - [Redis and Jackson Java time types: verify compatibility with serialization experiments](/blog/legacy/note/en/redis-jackson-java-time/)
+- [Why Async Early Expiration Only Shortens TTL: Version CAS Makes Stale Jobs Harmless](/blog/legacy/note/en/resicache-early-expiration-cas/)
+- [ResiCache's Cache Responsibility Chain: Control Flow, Nested Fragments, and Observer Lifecycles](/blog/legacy/note/en/resicache-handler-chain-and-observer/)
+- [Replacing a Redis Serializer Is Not a One-Line Configuration Change: Object Trust and Rollback-Safe Migration](/blog/legacy/note/en/resicache-serialization-migration/)
+- [Why Cache Stampedes Need a Future, a Distributed Lock, and a Double-Check](/blog/legacy/note/en/resicache-single-flight/)
 
 ## Sources and related documents
 

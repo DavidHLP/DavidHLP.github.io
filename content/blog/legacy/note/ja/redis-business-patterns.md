@@ -60,15 +60,15 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
-    "ingest-redis-business"
+    "ingest-redis-business",
+    "ingest-redis-heima"
   ],
   "related": [
     "redis-persistence-principle",
     "java-null-value",
-    "redis-jackson-java-time",
-    "resicache-observer-nested-execution"
+    "resicache"
   ]
 }
 ---
@@ -81,6 +81,8 @@
 
 - `Redi缓存模型和思路.md` と `Redis-Caching-Models.md` は Cache-Aside、Read/Write-Through、無効化戦略を区別します；TTL、能動的削除、遅延二重削除はそれぞれトレードオフがあります。
 - キャッシュの null（`java-null-value` 参照）はプレースホルダーで存在しないデータへの反復問い合わせを防ぎます；`Spring Cache` アノテーションは `CacheableAndCacheEvict` で別途説明。
+- 講座資料には多層キャッシュの設計例もあります：Caffeine/JVM ローカル層、Redis 共有層、Nginx/OpenResty エッジ層がそれぞれ異なる無効化責任を負います。この例は層の分離だけを示し、再利用可能な期限値は提供しません。
+- バッチ処理の例は Pipeline と MGET を区別します：Pipeline は往復を減らしますが、クライアントのバッファ、応答サイズ、実行時の上限に制約されます；MGET は key 単位でまとめて読みます。どちらも単一応答と実行時の制限を変えません。
 
 ### 2. 分散ロックと並行制御
 
@@ -102,7 +104,7 @@
 ## 不適用とリスク
 
 - 強いトランザクション、厳密に 1 回の意味、複雑なクエリは純粋な Redis には不向き。
-- 分散ロックがビジネスロジック完了前に失効すると二重実行を招きます；watchdog の更新、ネットワーク分断、時計のずれを明示的に評価する必要があります（`resicache` 関連ページ参照）。
+- 分散ロックがビジネスロジック完了前に失効すると二重実行を招きます；watchdog の更新、ネットワーク分断、時計のずれを明示的に評価する必要があります（キャッシュ保護・ロード所有権・ロック境界を扱う有界プロジェクト実装は [ResiCache：キャッシュ保護を検証可能な並行性・一貫性の境界にする](/blog/legacy/note/ja/resicache/) を参照）。
 - 数量限定・時間限定販売と Feed の容量設計は負荷試験されておらず、閾値をそのままコピーすべきではありません。
 
 ## 最小検証
@@ -119,16 +121,19 @@
 
 ## 関連ページ
 
+
 - [redis-persistence-principle](/blog/legacy/note/ja/redis-persistence-principle/)
 - [java-null-value](/blog/legacy/note/ja/java-null-value/)
-- [redis-jackson-java-time](/blog/legacy/note/ja/redis-jackson-java-time/)
-- [resicache-observer-nested-execution](/blog/legacy/note/ja/resicache-observer-nested-execution/)
-
+- [ResiCache：キャッシュ保護を検証可能な並行性・一貫性の境界にする](/blog/legacy/note/ja/resicache/)
 
 ## 出典と関連文書
 
 - [ingest-redis-business](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-redis-business.md)
 - [Redis 永続化と原理：RDB/AOF、データ構造と高度な仕組み](/blog/legacy/note/ja/redis-persistence-principle/)
 - [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/ja/java-null-value/)
-- [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/ja/redis-jackson-java-time/)
-- [ResiCache：observer のネスト実行はライフサイクル、fragment、scope token を区別しなければならない](/blog/legacy/note/ja/resicache-observer-nested-execution/)
+
+## 昇格チェック
+
+- 固定 Redis/client で invalidation と penetration 境界を再現
+- 別 client で lock 取得・非保持者解放失敗・更新境界を検証
+- XACK・未確認保持・回収・冪等消費と C32 回帰

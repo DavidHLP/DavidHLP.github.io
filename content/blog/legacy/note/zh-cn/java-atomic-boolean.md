@@ -63,7 +63,8 @@
   "related": [
     "java-auto-closeable",
     "java-online-performance-debug",
-    "java-internship-interview-blog-polished"
+    "java-internship-interview-blog-polished",
+    "java-concurrency-deepdive"
   ]
 }
 ---
@@ -101,7 +102,7 @@ try {
 
 CAS 只在当前值等于 `expected` 时写入 `newValue`，并返回是否成功。它适合一次性执行、取消通知、启动/停止、重复提交保护等小状态机：成功者拥有一次动作，失败者快速返回或按业务重试。
 
-原子读写还提供相应的内存可见性语义，但它不会自动保护 `data`、计数器、集合等其他普通字段。只有在发布关系和所有相关字段都经过正确同步时，读线程才能安全使用它们。
+原子读写还提供相应的内存可见性语义，但它不会自动保护 `data`、计数器、集合等其他普通字段。只有在发布关系和所有相关字段都经过正确同步时，读线程才能安全使用它们。若场景超出二值开关、涉及 ABA 版本戳或高竞争分段原子类对比，请转至 [Java 并发深度：JUC、CAS、原子类、锁与线程机制](/blog/legacy/note/zh-cn/java-concurrency-deepdive/)。
 
 ## 适用条件
 
@@ -133,10 +134,11 @@ CAS 只在当前值等于 `expected` 时写入 `newValue`，并返回是否成�
 
 ## 相关页面
 
+
 - [AutoCloseable：资源所有权与关闭异常语义](/blog/legacy/note/zh-cn/java-auto-closeable/)
 - [Java 线上性能排障：从症状到证据的最小决策树](/blog/legacy/note/zh-cn/java-online-performance-debug/)
 - [Java 后端面试复盘：项目真实性、工程机制与生产证据](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
-
+- [Java 并发深度：JUC、CAS、原子类、锁与线程机制](/blog/legacy/note/zh-cn/java-concurrency-deepdive/)
 
 ## 来源与关联文档
 

@@ -170,11 +170,12 @@ mock 探针至少断言：非目标工具静默、目标工具只提示一次或
 
 ## 相关页面
 
+
 - [Headroom 单端口演进](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
 - [OMP 配置分层](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
 - [Headroom 路由持久化](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
 - [LLM wiki pattern](/blog/legacy/note/zh-cn/llm-wiki-pattern/)
-
+- [Headroom 0.34 压缩与检索契约：字段、模式与真实端点验证](/blog/legacy/note/zh-cn/headroom-compress-retrieve-contract/)
 
 ## 来源与关联文档
 

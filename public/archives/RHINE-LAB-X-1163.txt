@@ -19,7 +19,7 @@
   -> consumer 与迁移门禁
 ```
 
-不要从“现在谁直接查这张表”反推设计 owner；那通常只说明历史耦合。一个领域应有一个最终写入 owner。其他服务的复制表、读模型或缓存必须明确是派生数据，并定义刷新、失效和重建方式。
+不要从“现在谁直接查这张表”反推设计 owner；那通常只说明历史耦合。一个领域应有一个最终写入 owner。其他服务的复制表、读模型或缓存必须明确是派生数据，并定义刷新、失效和重建方式。具体项目落地上，可参考 [UltiCode：把在线评测做成可验证的工程系统](/blog/legacy/note/zh-cn/ulticode/) 如何严格区分五个数据 owner 与无写表权限的 Worker。
 
 ## 2. database-per-service 的边界
 
@@ -98,6 +98,7 @@ revision-pinned 文档与 live 页面分层见仓库 `src/content/raw/zh-cn/micr
 - [数据库 Schema 漂移：用 history、schema 与 query 三视图定位](/blog/legacy/note/zh-cn/database-schema-drift/)
 - [多服务启动就绪：running、ready 与依赖/失败/重启传播](/blog/legacy/note/zh-cn/multi-service-readiness/)
 - [Dubbo + Nacos：先核对注册名、group/version，再做真实 smoke test](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
+- [UltiCode：把在线评测做成可验证的工程系统](/blog/legacy/note/zh-cn/ulticode/)
 
 研究记录
 1. 原始文档: src/content/note/zh-cn/microservice-data-ownership.md

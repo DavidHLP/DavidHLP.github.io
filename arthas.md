@@ -1,3 +1,7 @@
+> 来源说明：本地历史稿，未经验证。
+> 正典见 `content/blog/legacy/note/zh-cn/java-online-performance-debug.md`。
+> 本文不作为知识库 `sources`。
+
 # Arthas：Java开发者的线上诊断利器
 
 ## 引言

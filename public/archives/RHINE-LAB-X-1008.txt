@@ -10,7 +10,7 @@ PROFILE
 Java バックエンド開発
 キャッシュ整合性、分散タスク、保守しやすい設計に関心。ResiCache と UltiCode を運営。
 GitHub · DavidHLP: https://github.com/DavidHLP
-ナレッジベース: https://davidhlp.github.io/kb/
+ナレッジベース: https://davidhlp.github.io/ja/kb/
 サイトのソース: https://github.com/DavidHLP/DavidHLP.github.io
 
 ## プロフィール
@@ -21,18 +21,23 @@ GitHub · DavidHLP: https://github.com/DavidHLP
 
 ## オープンソース
 
-- [**ResiCache**](https://github.com/DavidHLP/ResiCache) は、Redis を使う Spring Cache アプリケーションにキャッシュ保護を追加します。同じキーの再読み込みが重なったときに処理をまとめ、有効期限をずらして負荷を分散し、頻繁に使われるキーを期限前に更新できます。
-- [**UltiCode**](https://github.com/DavidHLP/UltiCode) は、問題演習やコンテスト向けのオンラインジャッジです。配信に失敗しても再試行できるよう、判定タスクをデータベースの outbox に記録し、独立したワーカーが Redis Streams からタスクを受け取って Docker サンドボックスで提出コードを実行します。
-- コードグラフを検索する MCP サーバー **codebase-memory-mcp** には、[Oh My Pi クライアント対応](https://github.com/DeusData/codebase-memory-mcp/pull/1229)、[Linux インストール時のエイリアス処理](https://github.com/DeusData/codebase-memory-mcp/pull/2203)、[Swift の宣言と呼び出し関係の解析](https://github.com/DeusData/codebase-memory-mcp/pull/2436)に関する変更を送りました。
+### ResiCache
+
+[**ResiCache**](https://github.com/DavidHLP/ResiCache) は、Redis を使う Spring Cache アプリケーションにキャッシュ保護を追加します。同じキーの再読み込みが重なったときに処理をまとめ、有効期限をずらして負荷を分散し、頻繁に使われるキーを期限前に更新できます。
+
+### UltiCode
+
+[**UltiCode**](https://github.com/DavidHLP/UltiCode) は、問題演習やコンテスト向けのオンラインジャッジです。配信に失敗しても再試行できるよう、判定タスクをデータベースの outbox に記録し、独立したワーカーが Redis Streams からタスクを受け取って Docker サンドボックスで提出コードを実行します。
+
+### 上流への貢献
+
+コードグラフを検索する MCP サーバー **codebase-memory-mcp** には、[Oh My Pi クライアント対応](https://github.com/DeusData/codebase-memory-mcp/pull/1229)、[Linux インストール時のエイリアス処理](https://github.com/DeusData/codebase-memory-mcp/pull/2203)、[Swift の宣言と呼び出し関係の解析](https://github.com/DeusData/codebase-memory-mcp/pull/2436)に関する変更を送りました。
 
 ## このサイト
 
 ここでは Java の並行処理、Redis のキャッシュとストレージ、分散タスクの配信と障害復旧について書いています。コードの調査に MCP ツールをどう組み込めるかも試しており、コードグラフでシンボルと呼び出し関係を探した後、インデックスの対象範囲を確認し、ソースを読んで結果を確かめます。
 
 サイトのテーマには、[RhineLabUI](https://github.com/LBEILC/RhineLabUI) を Astro と TypeScript に移植した [RhineLabUI-Astro](https://github.com/DavidHLP/RhineLabUI-Astro) を使っています。
-
-- ナレッジベース：<https://davidhlp.github.io/kb/>
-- サイトのソース：<https://github.com/DavidHLP/DavidHLP.github.io>
 
 研究記録
 1. 本ページは公開されている技術的なプロフィールとプロジェクトのみを扱い、連絡先は含みません。

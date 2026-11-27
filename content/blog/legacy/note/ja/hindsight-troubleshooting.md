@@ -58,14 +58,13 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "hindsight-local-deployment-and-agent-integration"
   ],
   "related": [
     "hindsight-local-deployment",
-    "hindsight-omp-codex-integration",
-    "omp-hook-extension-guide"
+    "hindsight-omp-codex-integration"
   ]
 }
 ---
@@ -195,7 +194,6 @@ node --check ~/.hindsight/hindsight-bridge.mjs
 
 - [Hindsight のローカル計算資源分担と Docker コンテナ化デプロイ](/blog/legacy/note/ja/hindsight-local-deployment/)
 - [Hindsight 統合メモリアクセス：FastMCP ブリッジと動的マルチプロジェクトルーティング](/blog/legacy/note/ja/hindsight-omp-codex-integration/)
-- [OMP Hook 拡張ガイド](/blog/legacy/note/ja/omp-hook-extension-guide/)
 
 
 ## 出典と関連文書
@@ -203,4 +201,9 @@ node --check ~/.hindsight/hindsight-bridge.mjs
 - [hindsight-local-deployment-and-agent-integration](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/hindsight-local-deployment-and-agent-integration.md)
 - [Hindsight のローカル計算資源分担と Docker コンテナ化デプロイ](/blog/legacy/note/ja/hindsight-local-deployment/)
 - [Hindsight 統合メモリアクセス：FastMCP ブリッジと動的マルチプロジェクトルーティング](/blog/legacy/note/ja/hindsight-omp-codex-integration/)
-- [OMP Hook 拡張の概念：意思決定ポイントのヒント、ハードブロック、ステータス橋渡し](/blog/legacy/note/ja/omp-hook-extension-guide/)
+
+## 昇格チェック
+
+- 診断分岐ごとに正確な service/model/client 版を記録
+- 隔離環境で権限・URL・session の三症状を再現
+- “構文通過だが session 失敗”の反例で誤判定を確認

@@ -67,7 +67,8 @@
     "java-auto-closeable",
     "java-internship-interview-blog-polished",
     "redis-jackson-java-time",
-    "redis-business-patterns"
+    "redis-business-patterns",
+    "resicache"
   ]
 }
 ---
@@ -102,7 +103,7 @@ value = store == NullValue.INSTANCE ? null : store;
 - `static final INSTANCE`：同一 JVM 内复用一个标记，缓存层可用引用比较识别它。
 - 实现 `Serializable` 并提供 `readResolve()`：Java 序列化后返回规范实例，避免反序列化对象与 `INSTANCE` 失去身份一致性。
 
-`equals(null)`、稳定 `hashCode()` 和 `toString()` 是辅助语义；业务代码不应把 `NullValue` 当成用户对象处理。
+`equals(null)`、稳定 `hashCode()` 和 `toString()` 是辅助语义；业务代码不应把 `NullValue` 当成用户对象处理。具体的项目级封装与 `cacheNullValues` 开关实例可见 [ResiCache：把缓存防护写成可验证的并发与一致性边界](/blog/legacy/note/zh-cn/resicache/)。
 
 ### 3. 占位值不是一致性方案
 
@@ -138,10 +139,13 @@ value = store == NullValue.INSTANCE ? null : store;
 
 ## 相关页面
 
+
 - [Java 线上性能排障：从症状到证据的最小决策树](/blog/legacy/note/zh-cn/java-online-performance-debug/)
 - [AutoCloseable：资源所有权与关闭异常语义](/blog/legacy/note/zh-cn/java-auto-closeable/)
 - [Java 后端面试复盘：项目真实性、工程机制与生产证据](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
-
+- [Redisson/Jackson 对 LocalDateTime 的默认序列化行为与写读不对称边界](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
+- [Redis 业务模式：缓存、分布式锁、消息队列、Feed 流与秒杀](/blog/legacy/note/zh-cn/redis-business-patterns/)
+- [ResiCache：把缓存防护写成可验证的并发与一致性边界](/blog/legacy/note/zh-cn/resicache/)
 
 ## 来源与关联文档
 

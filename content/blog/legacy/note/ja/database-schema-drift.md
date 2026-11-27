@@ -66,7 +66,8 @@
   "related": [
     "mysql-performance-troubleshooting",
     "multi-service-readiness",
-    "microservice-data-ownership"
+    "microservice-data-ownership",
+    "database-written-test-review"
   ]
 }
 ---
@@ -140,7 +141,7 @@ MySQL 8.4.11 の最小実験の結果：
 3. **actual schema を見る**：`SHOW CREATE TABLE`/`SHOW COLUMNS` で列・インデックス・制約を照合し、history の外の変化を探す。
 4. **migration ファイルと照合する**：同一バージョンが書き換えられたか、欠落、乱順、または非トランザクション DDL を複数含むかを確認する。
 5. **前方修復を選ぶ**：本番では新しい migration を追加して実状態を唯一の目標に進めるのが優先。履歴レコード自体が誤りと確認できた場合だけ `repair` を実行する。
-6. **二経路で検証する**：空 DB でゼロから一度 migration、既存 DB を現バージョンから一度アップグレードし、その後アプリの最小 query を実行する。
+6. **二経路で検証する**：空 DB でゼロから一度 migration、既存 DB を現バージョンから一度アップグレードし、その後アプリの最小 query を実行する。三ビューで特定した DDL ドリフトが SQL 式・制約・方言差と交差する場合は、移行履歴の証拠と式セマンティクスの境界を分けたうえで [データベース筆記試験の復盤：SQL セマンティクスからバッチ処理まで](/blog/legacy/note/ja/database-written-test-review/) を照合する。
 
 ## 最小 MySQL 再現
 
@@ -176,9 +177,11 @@ docker rm -f schema-drift-mysql
 
 ## 関連ページ
 
+
 - [MySQL 性能トラブルシューティング：現象→指標→特定層→安全な緩和](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
 - [マルチサービス起動レディネス：running、ready、依存の伝播](/blog/legacy/note/ja/multi-service-readiness/)
-
+- [マイクロサービスデータ所有権：領域 owner を先に決めてから、DB 分割と移行を考える](/blog/legacy/note/ja/microservice-data-ownership/)
+- [データベース筆記試験の復盤：SQL セマンティクスからバッチ処理まで](/blog/legacy/note/ja/database-written-test-review/)
 
 ## 出典と関連文書
 

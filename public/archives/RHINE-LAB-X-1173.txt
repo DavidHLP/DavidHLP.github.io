@@ -9,6 +9,8 @@
 
 黑马 Redis 实战是 5 篇（6 文件含重复）构成的课程笔记：快速入门、实战 156KB、分布式缓存、多级缓存与最佳实践。本页把 200+ 页课程压成清单，删除截图与重复副本。
 
+> 本页是历史课程笔记，状态已降为 `deprecated`。多级缓存与批处理已并入 [Redis 业务模式](/blog/legacy/note/zh-cn/redis-business-patterns/)，持久化见 [Redis 持久化与原理](/blog/legacy/note/zh-cn/redis-persistence-principle/)。
+
 ## 核心机制
 
 ### 1. 快速入门与实战
@@ -48,17 +50,15 @@
 
 ## 相关页面
 
+
 - [redis-business-patterns](/blog/legacy/note/zh-cn/redis-business-patterns/)
 - [redis-persistence-principle](/blog/legacy/note/zh-cn/redis-persistence-principle/)
-- [plugin-lifecycle-management](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
-
 
 ## 来源与关联文档
 
 - [ingest-redis-heima](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-redis-heima.md)
 - [Redis 业务模式：缓存、分布式锁、消息队列、Feed 流与秒杀](/blog/legacy/note/zh-cn/redis-business-patterns/)
 - [Redis 持久化与原理：RDB/AOF、数据结构与高级机制](/blog/legacy/note/zh-cn/redis-persistence-principle/)
-- [百万级终端插件生命周期管理：状态、心跳与受控发布](/blog/legacy/note/zh-cn/plugin-lifecycle-management/)
 
 研究记录
 1. 原始文档: src/content/note/zh-cn/redis-heima-practice.md

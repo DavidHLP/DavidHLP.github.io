@@ -167,11 +167,12 @@ The mock probe should assert at least: non-target tools stay silent, a target to
 
 ## Related pages
 
+
 - [Headroom single-port evolution](/blog/legacy/note/en/headroom-single-port-evolution/)
 - [OMP configuration layers](/blog/legacy/note/en/omp-config-and-rules-guide/)
 - [Headroom route persistence](/blog/legacy/note/en/omp-headroom-persistence/)
 - [LLM wiki pattern](/blog/legacy/note/en/llm-wiki-pattern/)
-
+- [Headroom 0.34 Compression and Retrieval Contract: Fields, Modes, and Real-Endpoint Tests](/blog/legacy/note/en/headroom-compress-retrieve-contract/)
 
 ## Sources and related documents
 

@@ -1,0 +1,101 @@
+---
+{
+  "archiveId": "X-1323",
+  "translationKey": "legacy/note/java-locks-and-thread-coordination",
+  "title": "Java ロック機構・LockSupport・ThreadLocal：Monitor・AQS・スレッド束縛状態",
+  "en": "ENGINEERING NOTES",
+  "category": "后端工程",
+  "department": "工程笔记",
+  "date": "2026-11-27",
+  "lead": "DavidHLPL",
+  "clearance": "PUBLIC",
+  "abstract": "JUC のロックとスレッド協調資料に基づき、synchronized / ObjectMonitor（_EntryList と _WaitSet）、ReentrantLock の AQS 公平/非公平トレードオフ、LockSupport のパーミット機構、および ThreadLocal の弱参照キーとプール回収境界を整理する。",
+  "findings": [
+    "一次情報源: src/content/raw/zh-cn/ingest-java-concurrency.md",
+    "証拠の状態: 暫定"
+  ],
+  "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-java-concurrency.md",
+  "pubDate": "2026-11-27T00:00:00.000Z",
+  "tags": [
+    "Java",
+    "JUC",
+    "Lock",
+    "ReentrantLock",
+    "LockSupport",
+    "ThreadLocal",
+    "ja",
+    "note"
+  ],
+  "draft": false,
+  "lang": "ja",
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ingest-java-concurrency"
+  ],
+  "related": [
+    "java-concurrency-deepdive"
+  ]
+}
+---
+
+ロックフリーの単一変数プリミティブだけでは複数変数の一貫性を保てない場合や、条件待ちでスレッドを休止させる必要がある場合は、排他ロックとスレッド協調層へ移る。公平性方針の誤選択、起床順序の欠落、スレッドプールでの状態未解放は、スループット低下や飢餓、メモリリークを招く。
+
+本稿は [Java 並行処理の深掘り：JUC、CAS、アトミック、ロックとスレッド機構](/blog/legacy/note/ja/java-concurrency-deepdive/) から `Monitor.md`、`ReentrantLock.md`、`LockSupport.md`、`ThreadLocal.md` を切り出したものである。
+
+## 中核メカニズム
+
+### 1. 組み込みモニタ：`ObjectMonitor` の排他・待機キュー
+
+`synchronized` は JVM モニタを用い、競合増大時にバイアスロック -> 軽量ロック -> 重量ロック（`ObjectMonitor`）へ拡張する。HotSpot の `ObjectMonitor` は役割を 2 つのキューに分離する。
+
+- **`_EntryList`**：ロック獲得競合に失敗し休止しているスレッドを管理（`monitorenter` で `_owner` CAS 失敗時に積まれ、`monitorexit` で `_count` が 0 になり `_owner` を解放する際 `unpark` で起床）。
+- **`_WaitSet`**：ロック保持中に `wait()` を呼んで条件待ちに入ったスレッドを保持。`notify()` / `notifyAll()` により `_WaitSet` から `_EntryList` へ戻され、再競争を行う。
+
+### 2. `ReentrantLock` と AQS の公平性トレードオフ
+
+`AbstractQueuedSynchronizer`（AQS）上に構築された `ReentrantLock` は、割り込み可能な取得（`lockInterruptibly()`）、タイムアウト指定（`tryLock(long, TimeUnit)`）、複数の `Condition` を備える。
+
+- **非公平ロック（既定、`new ReentrantLock(false)`）**：解放タイミングで新規到着スレッドが CAS で割り込み取得（Barging）でき、コンテキストスイッチを抑えてスループットを高めやすい一方、待機スレッドの飢餓が起こり得る。
+- **公平ロック（`new ReentrantLock(true)`）**：AQS キューの FIFO 順を厳守して先客がいれば末尾へ並び飢餓を防ぐが、休止・起床が増えて切り替えコストが増す。
+
+### 3. `LockSupport` のパーミット対 `Object.wait/notify`
+
+| 比較軸 | `LockSupport`（`park`/`unpark`） | `Object`（`wait`/`notify`） |
+| --- | --- | --- |
+| ロック要件 | オブジェクトロック不要 | `synchronized` ブロック内が必須 |
+| 起床対象 | `unpark(thread)` で指定スレッドを正確に起床 | `notify` は任意 1 つ、`notifyAll` は全待機スレッド |
+| 順序制約 | 蓄積しない上限 `1` のパーミットで `unpark` 先行可 | `notify` が先行すると通知が消失 |
+| 実装基盤 | `sun.misc.Unsafe` ネイティブメソッド（JUC 基盤） | `ObjectMonitor` と密結合 |
+
+### 4. `ThreadLocal`：スレッド分離と `remove()` の境界
+
+`ThreadLocal` は各スレッドの `ThreadLocalMap` に独立した値を保持して共有競合をなくす。`Entry` は `key`（`ThreadLocal`）を**弱参照**にして外部強参照が消えた後に回収可能とする一方、**`value` は強参照のまま残る**。スレッドプールで再利用時に回収されないと `key == null` の汚れエントリが蓄積するため、`get()` / `set()` / `remove()` 時の `expungeStaleEntry` 頼みではなく、必ず `finally` で `remove()` を呼ぶ。
+
+```java
+try {
+    userContext.set("User-A");
+    // 業務処理
+} finally {
+    userContext.remove();
+}
+```
+
+## 適用境界と未検証内容
+
+- **適用**：複合状態の排他制御、割り込み・タイムアウト付きロック、条件待ち協調、スレッド単位コンテキスト伝播。
+- **不適用**：単一変数の加算・フラグ更新（CAS / アトミック優先）や実測プロファイリングの代替。
+- **未検証境界（raw 資料の制限を明示保持）**：
+  - 資料は公平/非公平ロックや `park`/`unpark` モデルを比較するが、**固定 JDK ビルドでの実測レイテンシ分位値や競合ベンチマークは含まない**；
+  - スレッドプール上の `ThreadLocal` 残留実験やデッドロック解析の再現ログは同一ハーネスで計測していない。
+
+## 卒業チェック
+
+1. 固定 JDK ビルドで `ReentrantLock(false)` と `ReentrantLock(true)` の多スレッド競合スループットおよびテール遅延を比較測定する。
+2. スレッドプールで `remove()` 漏れによるデータ混線とヒープ残留を再現し、`finally { remove(); }` での解消を確認する。
+3. `LockSupport.unpark` 先行後に `park()` が停止せず、連続 `unpark` でもパーミットが 1 を超えない挙動を検証する。
+
+## 関連ページ
+
+- [Java 並行処理の深掘り：JUC、CAS、アトミック、ロックとスレッド機構](/blog/legacy/note/ja/java-concurrency-deepdive/)
+- [ingest-java-concurrency（raw 原文）](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-java-concurrency.md)

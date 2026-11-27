@@ -1,0 +1,96 @@
+﻿RHINE LAB · 内部データベース
+資料 X-1314 / Redis 逆シリアライズ安全性と型許可リスト：インスタンス化前のパッケージ境界検証
+技術ノート
+
+部門: 技術ノート
+収録範囲: 2026-11-27
+関連人物: DavidHLPL
+アクセス: 公開
+
+Redis に格納された多態型識別子が旧システムや外部サービス、または信頼できない入力に由来する可能性がある場合、「まず Jackson に `@class` からオブジェクトを生成させ、あとで業務層が確認する」では手遅れになる。逆シリアライズの信頼境界は**オブジェクトのインスタンス化より前**に置く必要がある。すなわち bytes を読み、すべての型識別子が許可リストに一致するか確認し、通過した後にだけ `EnvelopeCodec.read` へ渡す。
+
+本稿は [`SecureJacksonRedisSerializer.java`](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/SecureJacksonRedisSerializer.java#L132-L205) と [`WhitelistPolicy.java`](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/WhitelistPolicy.java#L89-L134) における ResiCache の直列化信頼境界に絞って解説する。4 段階マイグレーションと Lua CAS 切替の手順は [Redis serializer の交換は一行の設定変更ではない：object trust から rollback 可能な migration へ](/blog/legacy/note/ja/resicache-serialization-migration/) を参照。
+
+## 中核メカニズム
+
+### 1. バージョン付き envelope は形式バージョンのみを示す
+
+null でないキャッシュ値は、次の固定形式の envelope で包まれる。
+
+```json
+{
+  "version": 2,
+  "payload": "..."
+}
+```
+
+ここでの `version` は直列化形式のバージョンのみを表し、業務オブジェクトのバージョンやキャッシュ値の CAS トークンではない。`VersionEnvelope.payload` の `@JsonTypeInfo` は現状 `@class` に固定されているため、type property を変更する場合はアノテーションと設定を同時に更新する必要がある。
+
+### 2. streaming preflight：インスタンス化前に型識別子を走査する
+
+`EnvelopeCodec.read` を呼ぶ前に、`SecureJacksonRedisSerializer` はストリーミング `JsonParser` で次の多態型識別子を事前検査する。
+
+- 設定された type property；
+- `@class`；
+- wrapper-array 形式の型 ID；
+- 多態 payload 内にネストして現れる型識別子。
+
+```java
+try (JsonParser parser = objectMapper.createParser(bytes)) {
+    validateTypeIdsStreaming(parser);
+}
+
+Object envelope = EnvelopeCodec.read(objectMapper, bytes);
+
+if (EnvelopeCodec.version(envelope)
+        != EnvelopeCodec.currentVersion()) {
+    // failOnUnknownType=true のとき reject
+}
+```
+
+旧フォーマットのデコードやマイグレーション再実行の段階でも、legacy decoder は同じ許可リスト境界を再利用しなければならない。`@class: "com.attacker.Gadget"` のような悪意あるペイロードが旧データ由来であることを理由に許可されてはならない。
+
+### 3. `WhitelistPolicy` のパッケージ境界と `startsWith` の違い
+
+デフォルトで許可される業務パッケージ接頭辞は `io.github.davidhlp` であり、`java.lang`、一部の `java.time`・`java.math` 型、および明示列挙されたコレクション型が通過できる。`WhitelistPolicy` の一致規則には注意すべき設定境界がある。
+
+```text
+com.example.*  -> package boundary で match
+com.example    -> startsWith で match
+```
+
+末尾に `.*` を付けない `com.example` は、`startsWith` 一致によって `com.exampleX.SomeType` まで許可し得る。厳密なパッケージ境界を求める場合は、明示的に `.*` を付けるか具体的なクラス名を指定する必要がある。
+
+## 検証済み境界と未検証境界
+
+現在のシリアライザ単体テストでは次を確認している。
+
+- 許可リスト外の `@class` 値の拒否；
+- wrapper-array 型識別子の拒否；
+- カスタムまたは想定外の type property の拒否；
+- 許可リスト内型の round-trip と serializer factory による設定伝搬；
+- 更新メタデータのない古い `CachedValue` ペイロードの読み取り互換。
+
+**明示的に残す未検証境界：**
+
+- streaming preflight と許可リストは明示的な型識別子の事前検証にとどまり、サプライチェーン全体のセキュリティ監査や任意のカスタム Jackson デシリアライザ経路を網羅するものではない；
+- 本ラウンドでは payload のネスト深度に応じた preflight 遅延・CPU・GC 負荷を計測しておらず、スループット倍率の主張はできない；
+- 実運用でのカスタム業務クラス群とマルチモジュール構成については、対象アプリの実クラス許可リストで別途再確認が必要である。
+
+## 卒業チェック
+
+1. 対象アプリの serializer 設定で、すべてのカスタムパッケージ規則が裸の `startsWith` ではなく `.*` パッケージ境界または厳密なクラス名を使っているか点検する。
+2. 旧フォーマット混在データと複数の多態表現（`@class`、wrapper-array、カスタム type property）に対してセキュリティテストを実行し、不正な型が `EnvelopeCodec.read` 到達前に拒否されることを確認する。
+3. 負荷検証環境で streaming preflight の CPU と GC コストを実測したうえで、「未計測」から実測ベースラインへ更新する。
+
+## 関連ページ
+
+- [Redis serializer の交換は一行の設定変更ではない：object trust から rollback 可能な migration へ](/blog/legacy/note/ja/resicache-serialization-migration/)
+- [resicache-engineering-highlights-2954fff（raw 原文）](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md)
+
+研究記録
+1. 一次情報源: src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md
+2. 証拠の状態: 暫定
+
+参考資料: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md
+公開設定資料を基にした資料形式の再構成であり、ゲームの原文ではありません。

@@ -1,0 +1,118 @@
+---
+{
+  "archiveId": "X-1300",
+  "title": "SQL 连接保留规则、NULL 语义与集合去重",
+  "en": "ENGINEERING NOTES",
+  "category": "系统运维",
+  "department": "工程笔记",
+  "date": "2026-11-27",
+  "lead": "DavidHLPL",
+  "clearance": "PUBLIC",
+  "abstract": "拆分连接类型与连接条件、ON 与 WHERE 对外连接的过滤差异、UNION 与 UNION ALL 的整行去重规则，以及 AVG/比较运算中的 NULL 语义。",
+  "findings": [
+    "原生知识页: content/blog/legacy/note/zh-cn/sql-join-null-semantics.md",
+    "来源快照: database-written-test-review",
+    "证据状态: 暂定"
+  ],
+  "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md",
+  "pubDate": "2026-11-27T00:00:00.000Z",
+  "tags": [
+    "SQL",
+    "JOIN",
+    "NULL",
+    "UNION",
+    "Database",
+    "zh-cn",
+    "note"
+  ],
+  "draft": false,
+  "lang": "zh-CN",
+  "translationKey": "legacy/note/sql-join-null-semantics",
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "database-written-test-review"
+  ],
+  "related": [
+    "database-written-test-review"
+  ]
+}
+---
+
+判断一条 SQL 查询的结果集，必须先把两件事拆开：**哪些行必须保留**，以及**用什么条件匹配或比较**。外连接中右表条件放在 `ON` 还是 `WHERE`、`UNION` 按整行还是单列去重、`AVG(score)` 是否忽略 `NULL`，都会直接改变输出结果。
+
+## 连接保留规则与 `ON` / `WHERE` 过滤边界
+
+内连接只保留满足连接条件的组合；左外连接保留左表所有行；右外连接保留右表所有行。外连接中没有匹配的一侧会补出 `NULL`。“外连接必须是等值连接”是不正确的理解：等值、大小比较或区间匹配属于连接条件，而内连接与外连接讨论的是结果保留规则，外连接同样可以使用非等值条件。
+
+例如，查询所有学生及其课程 `C002` 的成绩，且没有该课程记录的学生也必须出现：
+
+```sql
+SELECT s.sno, r.score
+FROM student AS s
+LEFT JOIN sc AS r
+  ON r.sno = s.sno
+ AND r.cno = 'C002';
+```
+
+| 条件位置 | 无匹配行时右表列值 | 结果集影响 |
+| --- | --- | --- |
+| `ON r.cno = 'C002'` | 仅限制右表可参与匹配的行，左表行保留并补 `NULL` | 保留所有学生 |
+| `WHERE r.cno = 'C002'` | `r.cno` 为 `NULL`，比较结果为未知（非真） | 无记录学生被过滤，退化为近似内连接 |
+
+检查外连接时，应先构造一条“完全匹配不到”的记录，再追踪它是否会被后续 `WHERE` 条件删除。
+
+## `UNION` 与 `UNION ALL` 的集合去重语义
+
+`UNION` 默认对合并结果去重，`UNION ALL` 保留重复行。去重针对的是**整个投影结果行**，而不是只看某一个字段。例如投影列为 `(sno, cno)` 时，同一个学生对应不同课程的两行不属于重复行。
+
+不需要去重时可优先评估 `UNION ALL` 以避免额外去重开销，但不能承诺它在所有查询中都快固定倍数。两者都不能替代最终的 `ORDER BY`；需要稳定展示顺序时应显式排序。
+
+## 四表教学模型中的 `NULL` 与比较语义
+
+四表练习使用同一组教学表约定：
+
+```text
+student(sno, sname, sage, ssex)  学生，主键 sno
+course(cno, cname, tno)          课程，主键 cno
+sc(sno, cno, score)              选课与成绩，联合主键 (sno, cno)，score 可空 DECIMAL(5, 2)
+teacher(tno, tname)              教师，主键 tno
+```
+
+### 1. 自连接比较：`C001` 成绩高于 `C002`
+
+同一学生的两门成绩位于不同行，可通过自连接放到同一行比较：
+
+```sql
+SELECT a.sno
+FROM sc AS a
+JOIN sc AS b
+  ON b.sno = a.sno
+WHERE a.cno = 'C001'
+  AND b.cno = 'C002'
+  AND a.score > b.score;
+```
+
+该查询要求两门课程都存在记录且 `a.score > b.score` 严格成立；缺少任意一门记录、成绩相等，或任一成绩为 `NULL`，都不会进入结果集。
+
+### 2. 聚合与 `HAVING`：平均成绩大于 60
+
+```sql
+SELECT sno, AVG(score) AS avg_score
+FROM sc
+GROUP BY sno
+HAVING AVG(score) > 60;
+```
+
+`AVG(score)` 默认忽略 `NULL`，不会把缺考、未录入成绩或未选课自动记为零分。若某学生全部记录的 `score` 均为 `NULL`，`AVG(score)` 为 `NULL`，不会满足 `> 60`。是否将缺考视为零分属于业务规则，应在写表达式前明确。
+
+## 证据边界与未验证项
+
+- **来源事实**：本页拆自 [数据库笔试复盘](/blog/legacy/note/zh-cn/database-written-test-review/) 的第 二、四、六（第 1/2 题）节，底层依据为 `database-written-test-review` 快照及其引用的 Oracle 19c 与 MySQL 8.4 参考手册。
+- **未验证项**：本轮未在真实 Oracle 19c 或 MySQL 8.4 实例上执行上述 SQL，也未在真实数据集上比较 `UNION` 与 `UNION ALL` 的执行计划和耗时；空输入、未匹配、重复行与全 `NULL` 对照仍需在目标引擎中实测。
+
+## 毕业检查
+
+- 在固定版本的 MySQL 8.4 / Oracle 19c 中构建空输入、未匹配、重复行与全 `NULL` 四组对照数据并复跑全部查询
+- 验证 `LEFT JOIN` 条件置于 `ON` 与 `WHERE` 的行数差异并留存实际输出
+- 实测 `UNION` 与 `UNION ALL` 在 `(sno, cno)` 投影上的去重及 `ORDER BY` 行为，并保留与父页的双向链接

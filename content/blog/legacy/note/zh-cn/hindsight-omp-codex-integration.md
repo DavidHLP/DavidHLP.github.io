@@ -57,8 +57,8 @@
       "toc": true
     }
   },
-  "kind": "entity",
-  "status": "active",
+  "kind": "concept",
+  "status": "provisional",
   "sources": [
     "hindsight-local-deployment-and-agent-integration"
   ],
@@ -300,3 +300,9 @@ HINDSIGHT_API_BASE_URL = "http://127.0.0.1:8888"
 - [Hindsight 本地算力分工与 Docker 容器化部署](/blog/legacy/note/zh-cn/hindsight-local-deployment/)
 - [Hindsight 记忆系统运行时排障矩阵与失效模式](/blog/legacy/note/zh-cn/hindsight-troubleshooting/)
 - [OMP 配置分层：模型角色、Agent 覆盖与降级链](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
+
+## 毕业检查
+
+- 固定服务、桥接器与两端 CLI，验证 Bank 路由及命名碰撞
+- 完整重演 MCP 初始化、会话与失败处理
+- 两客户端各一次匿名调用并完成 C17 回链

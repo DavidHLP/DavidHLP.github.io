@@ -197,3 +197,23 @@ index concept 群・観察板に登録。固定 main `2954fff217257e9cf7c906450a
 不変 raw を追加し sources で引用。index C、昇格板、53 raw 数・表、manifest 更新。Downloads 原稿、home/履歴書、既存 Rhine 変更は不変。commit/push/公開なし。
 
 `git diff --check` 成功。pnpm lint は `/tmp` の tsx IPC `listen EPERM` で未完了、等価 Node loader で成功（53 raw/146 wiki）。check 0 error/0 warning/4 hint、build 98 頁、対象 `/note/database-written-test-review` と OG を生成。既存 duplicate-id/Node/PhotoSwipe/chunk は残し code 修正しない。Oracle/MySQL/Spark/Kettle 実行、性能、browser、live 公開は未検証。
+
+
+## [2026-11-27] maintenance | リポジトリ全体の文書分類と索引修正
+
+`docs/DOCUMENT-CLASSIFICATION.md` に文書分類を登録した。`content/blog/legacy/{note,information,jotting,preface}` を現行の正典層、`src/content/` の `raw/` 以外を凍結された移行スナップショット、`migration/` と `public/archives/` を登録のみの層とした。三言語の索引で六域間の移動を 10 件実行し（Headroom/OMP の 7 ページを F→A、Java 本番障害調査を B→E、プラグインライフサイクルを E→F、ResiCache observer を D→F）、`database-written-test-review`、`headroom-cc-switch-coexistence`、`hindsight-omp-codex-integration` の最上位 `kind` を `concept` に修正し、昇格観察を 12 件から 22 件に拡張した。`docs/README.md`、`AGENTS.md`、`KB.md`、`.claude/skills/knowledge-base.md` のパスと `npm` コマンドも現行構成に合わせた。
+
+raw 証拠、archive ID、URL、draft フラグ、保護面の本文、`legacy.metadata` は変更していない。13 件の active→provisional と `redis-heima-practice`→deprecated の降格、10 組のページ分割、57 件の片方向関連の補完はページ単位の作業として残る。検証：`npm run kb:lint`、`npm run check:content`。
+
+## [2026-11-27] maintenance | 最終裁定の実行：ライフサイクル、関係グラフ、保守文書
+
+`docs/classification/decisions-wiki.md` と `decisions-maintenance.md` の裁定を実行した。13 の集約ページを `active` から `provisional` へ降格し、`redis-heima-practice` を `deprecated` にして G へ移動、三言語の最上位状態と公開上書きを同期した。現在は 20 active / 35 provisional / 3 deprecated。昇格観察板を 35 件の一意な provisional に校正し、降格した 13 ページに反証可能な昇格チェックを 3 件ずつ追加した。関係グラフは 23 本の逆リンクを追加し、22 本のノイズ辺（A14 の付随削除を含む）を削除、三言語の `related` と上書き記録を一致させた。`redis-heima-practice` の多層キャッシュとバッチ処理の選段は `redis-business-patterns` に統合し、講座ページは本文を保持したまま冒頭で歴史状態を明示した。保守文書は裁定に従い 25 件をアーカイブ、13 件を書き換え、4 件を削除、3 件を保持した。`arthas.md` はローカル歴史稿として保持し、出典バナーを付した。
+
+五つのページ分割（データベース復盤、ResiCache 直列化、MCP 互換、Java 並行、Spring）は DEFER のまま、ネイティブ公開経路と各主題の固定版証拠を待つ。raw、`legacy.metadata`、archive ID、URL、draft、保護面は変更していない。検証：`npm run kb:lint`、`npm run build`、`npm run check:content`、`npm run check:viewport`。
+
+## [2026-11-27] maintenance | T0-T8 実施：ネイティブ Wiki 公開経路、5 主題の分割、本文ハンドオフと台帳同期
+
+- T0 ネイティブ公開経路：`scripts/check-content.mjs` を拡張し、`legacy` を持たない `content/blog/legacy/note/<locale>/` のネイティブ Wiki ページ検証（`archiveId >= X-1300`、一意の `translationKey`、`kind: concept`、`status: provisional`、raw slug のみの `sources`、3 言語構造一致）を追加し、既存の `legacy.metadata`・`draft: false`（74）・archiveId/URL 検証をすべて保持した。
+- T1-T5 主題分割と親ページ縮約：12 個の `provisional` slug × 3 言語の計 36 ページ（`X-1300`..`X-1335`）を新設し、`database-written-test-review`（`sql-join-null-semantics`、`sql-date-dialect-boundaries`、`mysql-same-table-dml`、`recoverable-batch-extraction`）、`resicache-serialization-migration`（`resicache-serialization-trust`）、`mcp-codebase-memory-workflow`（`mcp-modern-legacy-compatibility`）、`java-concurrency-deepdive`（`java-cas-and-aba`、`java-locks-and-thread-coordination`、`java-reference-types`）、`spring-cloud-and-boot`（`spring-boot-auto-configuration`、`spring-transaction-boundaries`、`spring-cloud-discovery-and-gateway`）を分割した。5 親ページは既存の見出し・番号・アンカー・要約・子ページ誘導を保持したまま本文を縮約し、B04/B05/B09/B10 は単一ページのまま維持した。
+- T6-T8 索引・関係辺・保守文書同期：`decisions-wiki.md` §C に沿って 3 言語で 23 本の本文ハンドオフを追加し 22 本の剪定辺（A14 を含む）を削除した。3 言語 `kb-index.md`（70 slug：`20 active / 47 provisional / 3 deprecated`、卒業監視 47 件）、`migration/publication-overrides.json`、`docs/DOCUMENT-CLASSIFICATION.md`、および `docs/kb-convergence-design.md` の凍結パス参照を更新した。
+- `src/content/raw/`、`legacy.metadata`、既存 archive ID、既存 URL、`draft`、保護面は変更していない。検証：`npm run kb:lint`、`npm run build`、`npm run check:content`、`npm run check:viewport`。

@@ -54,7 +54,7 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "legacy-plugin-lifecycle-management"
   ],
@@ -167,3 +167,9 @@ lock:{uuid}:{plugin}:{op}:{targetVersion}
 
 - [legacy-plugin-lifecycle-management](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-plugin-lifecycle-management.md)
 - [Enhanced UISA：异构节点信息同步的 owner、边界与恢复模型](/blog/legacy/note/zh-cn/uisa-architecture-design/)
+
+## 毕业检查
+
+- 固定一份实现或可运行最小模型，验证重复心跳与并发调度只产生一个未完成操作
+- 注入重复、迟到、失败回执并验证版本单调、灰度与熔断
+- 记录离线恢复与容量边界

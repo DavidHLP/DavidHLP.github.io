@@ -70,7 +70,8 @@
   "related": [
     "database-schema-drift",
     "multi-service-readiness",
-    "dubbo-nacos-runtime"
+    "dubbo-nacos-runtime",
+    "ulticode"
   ]
 }
 ---
@@ -87,7 +88,7 @@
   -> consumer と移行ゲート
 ```
 
-「今だれがこのテーブルを直接参照しているか」から owner を逆算してはならない。それはたいてい歴史的な結合を表すだけだ。一つの領域には最終書き込み owner が一つあるべきだ。他のサービスの複製テーブル、read model、cache は派生データだと明示し、リフレッシュ・無効化・再構築の方法を定義しなければならない。
+「今だれがこのテーブルを直接参照しているか」から owner を逆算してはならない。それはたいてい歴史的な結合を表すだけだ。一つの領域には最終書き込み owner が一つあるべきだ。他のサービスの複製テーブル、read model、cache は派生データだと明示し、リフレッシュ・無効化・再構築の方法を定義しなければならない。Data Owner とテーブル書込権限を持たない Worker の具体事例は [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/) を参照。
 
 ## 2. database-per-service の境界
 
@@ -166,3 +167,4 @@ revision-pinned ドキュメントと live ページの階層はリポジトリ 
 - [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/ja/database-schema-drift/)
 - [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)
 - [Dubbo + Nacos：登録名と group/version を先に確認してから、本物の smoke test を実行する](/blog/legacy/note/ja/dubbo-nacos-runtime/)
+- [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/)

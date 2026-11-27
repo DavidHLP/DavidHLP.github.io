@@ -64,7 +64,8 @@
   "related": [
     "java-auto-closeable",
     "java-online-performance-debug",
-    "java-internship-interview-blog-polished"
+    "java-internship-interview-blog-polished",
+    "java-concurrency-deepdive"
   ]
 }
 ---
@@ -101,7 +102,7 @@ try {
 
 CAS writes `newValue` only when the current value equals `expectedValue`, and reports success. It fits one-shot work, cancellation notices, start/stop transitions, duplicate-submit guards, and other small state machines: the winner performs one action and losers fail fast or retry under an explicit policy.
 
-Atomic reads and writes also carry the relevant memory-visibility semantics, but they do not make `data`, counters, collections, or other ordinary fields thread-safe. Those fields still need a correct publication and synchronization design.
+Atomic reads and writes also carry the relevant memory-visibility semantics, but they do not make `data`, counters, collections, or other ordinary fields thread-safe. Those fields still need a correct publication and synchronization design. When a problem moves beyond a two-state flag to ABA version stamps or atomic class comparisons under contention, continue to [Java Concurrency Deep Dive: JUC, CAS, Atomics, Locks, and Threading](/blog/legacy/note/en/java-concurrency-deepdive/).
 
 ## Applicability
 
@@ -133,10 +134,11 @@ Atomic reads and writes also carry the relevant memory-visibility semantics, but
 
 ## Related pages
 
+
 - [AutoCloseable: Resource Ownership and Close-Exception Semantics](/blog/legacy/note/en/java-auto-closeable/)
 - [Java Production Performance Troubleshooting: A Minimal Symptom-to-Evidence Decision Tree](/blog/legacy/note/en/java-online-performance-debug/)
 - [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/en/java-internship-interview-blog-polished/)
-
+- [Java Concurrency Deep Dive: JUC, CAS, Atomics, Locks, and Threading](/blog/legacy/note/en/java-concurrency-deepdive/)
 
 ## Sources and related documents
 

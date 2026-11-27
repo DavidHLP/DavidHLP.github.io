@@ -149,7 +149,7 @@ Do not write these values into shared observer fields, and do not stuff them int
 
 ## 3. Why a fragment must not re-trigger the around hook
 
-While the synchronized-lock handler continues subsequent nodes inside the lock, the outer `execute` remains responsible for:
+While the synchronized-lock handler continues subsequent nodes inside the lock, the outer `execute` remains responsible for (this captures the `75ed279` model; compare with the current `2954fff` fragment/scope chain in [ResiCache's Handler Chain: Control Flow, Nested Fragments, and Observer Lifecycle](/blog/legacy/note/en/resicache-handler-chain-and-observer/)):
 
 - the lifetime of the current snapshot;
 - the start/end pairing of the around hook;
@@ -227,6 +227,7 @@ This page only promises behavior in the public fixed commit and does not treat u
 
 - [resicache-observer-nested-execution-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-observer-nested-execution-contract.md)
 - [ResiCache: Verifiable Concurrency and Consistency Boundaries for Cache Protection](/blog/legacy/note/en/resicache/)
+- [ResiCache's Handler Chain: Control Flow, Nested Fragments, and Observer Lifecycle](/blog/legacy/note/en/resicache-handler-chain-and-observer/)
 - [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/en/redis-jackson-java-time/)
 
 Research notes

@@ -16,100 +16,23 @@ Redis serializer の変更は、一つの Bean を編集するだけに見える
 
 ## deserialization の危険は object 作成前に発生する
 
-Jackson の polymorphic data は通常 type identifier を持つ。
-
-```json
-{
-  "version": 2,
-  "payload": {
-    "@class": "com.example.User"
-  }
-}
-```
-
-type identifier が Redis 由来で、その内容を別 application、古い program、攻撃者が書ける可能性があるなら、「先に Jackson に type で object を作らせ、business layer で確認する」では遅すぎる。
-
-必要な境界は次である。
-
-```text
-bytes を読む
-  -> type identifier が許可されるか確認
-  -> 通過してから Jackson に object を instantiate させる
-```
-
-これは通常の DTO conversion ではなく trust boundary である。
+`@class` のような多態型識別子が旧プログラムや外部入力に由来し得る Redis バイト列に含まれる場合、Jackson にオブジェクトを生成させてから業務層で確認するのでは手遅れであり、インスタンス化前の検査が不可欠である。この信頼境界と事前検査の実装は [Redis 逆シリアライズ安全性と型許可リスト：インスタンス化前のパッケージ境界検証](/blog/legacy/note/ja/resicache-serialization-trust/) に分離した。
 
 ## ResiCache の serializer は三層の制約を持つ
 
-現在の SecureJacksonRedisSerializer には三つの関連 mechanism がある。
+移行切替とは別に、`SecureJacksonRedisSerializer` は形式と型安全に関する三つの制約を担う。実装の詳細は [Redis 逆シリアライズ安全性と型許可リスト：インスタンス化前のパッケージ境界検証](/blog/legacy/note/ja/resicache-serialization-trust/) を参照。
 
 ### versioned envelope
 
-null ではない cache value は次のように包まれる。
-
-```json
-{
-  "version": 2,
-  "payload": "..."
-}
-```
-
-ここでの version は serialization format version であり、business object version や cache value の CAS token ではない。
+null でないキャッシュ値は `{"version": 2, "payload": "..."}` で包まれる。`version` は直列化形式バージョンのみを表し、業務バージョンや CAS トークンではない。
 
 ### allowlist policy
 
-default で許可される business package prefix は次である。
-
-```text
-io.github.davidhlp
-```
-
-java.lang、java.time、java.math の一部 type と、明示列挙された collection type も通過できる。
-
-allowlist は単なる「polymorphism を on/off」ではない。次に答える必要がある。
-
-```text
-この完全修飾 class name は cache bytes に現れてよいか？
-```
-
-現在の設定には注意すべき境界がある。
-
-```text
-com.example.*  -> package boundary で match
-com.example    -> startsWith で match
-```
-
-そのため com.example は com.exampleX.SomeType にも match し得る。厳密な package boundary が必要なら .* 付き prefix、または十分に限定した prefix を使う。
+`WhitelistPolicy` は `io.github.davidhlp` などの許可型を判定する。`com.example.*` はパッケージ境界一致であるのに対し、末尾なし `com.example` は `startsWith` 一致になる点に注意が必要である。
 
 ### streaming preflight
 
-serializer は envelope を本当に読む前に streaming parser で次を確認する。
-
-- 設定された type property。
-- @class。
-- wrapper-array 形式の type id。
-- polymorphic payload に現れる type identifier。
-
-確認を通過してから EnvelopeCodec.read に入る。
-
-中心の flow は次の通り。
-
-```java
-try (JsonParser parser = objectMapper.createParser(bytes)) {
-    validateTypeIdsStreaming(parser);
-}
-
-Object envelope = EnvelopeCodec.read(objectMapper, bytes);
-
-if (EnvelopeCodec.version(envelope)
-        != EnvelopeCodec.currentVersion()) {
-    // failOnUnknownType=true のとき reject
-}
-```
-
-完全な deserialization security audit ではないが、最も重要な type check を object instantiation 前に置いている。
-
-[SecureJacksonRedisSerializer.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/SecureJacksonRedisSerializer.java#L132-L205) と [WhitelistPolicy.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/WhitelistPolicy.java#L89-L134) を参照。
+`EnvelopeCodec.read` に入る前にストリーミングパーサで設定済みの type property、`@class`、wrapper-array、ネストした型識別子を検証し、未許可クラスのインスタンス化を阻止する。
 
 ## 古い cache の migration をなぜ支えるのか
 
@@ -233,32 +156,11 @@ cache が本当に捨てられ、business が一度の full source reload を受
 
 ## type safety と migration safety は同時に成立する必要がある
 
-legacy decoder も allowlist を bypass してはいけない。
-
-test で使う悪意ある old JSON は次である。
-
-```json
-{
-  "@class": "com.attacker.Gadget"
-}
-```
-
-old format 由来だからと信頼せず、migration 中も reject される。
-
-migration は security boundary 外の一時 script ではない。同じ untrusted または uncertain data を読むため、type constraint を再利用する必要がある。
+legacy decoder も allowlist を bypass してはいけない。test で使う悪意ある old JSON（`@class: "com.attacker.Gadget"`）は old format 由来だからと信頼せず、migration 中も reject される。同じ untrusted または uncertain data を読むため、[Redis 逆シリアライズ安全性と型許可リスト：インスタンス化前のパッケージ境界検証](/blog/legacy/note/ja/resicache-serialization-trust/) の型制約を再利用する必要がある。
 
 ## test が検証する境界
 
-serializer test は次を含む。
-
-- allowlist 外の @class を拒否。
-- wrapper-array type identifier を拒否。
-- custom type property を拒否。
-- allowlist 内 type の round-trip。
-- serializer factory の設定伝達。
-- refresh metadata のない古い CachedValue の read。
-
-real Redis integration test の SerializationMigrationIntegrationTest は 8 test がすべて通過し、次をカバーする。
+シリアライザの許可リストと事前検査の単体テスト項目は [Redis 逆シリアライズ安全性と型許可リスト：インスタンス化前のパッケージ境界検証](/blog/legacy/note/ja/resicache-serialization-trust/) に整理した。real Redis integration test の SerializationMigrationIntegrationTest は 8 test がすべて通過し、次をカバーする。
 
 - SHADOW_READ は source key に write しない。
 - DUAL_WRITE は old value を保持し idempotent に実行できる。
@@ -306,6 +208,7 @@ persistence format を変更するとき、少なくとも次を確認する。
 - [resicache-engineering-highlights-2954fff](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md)
 - [resicache-project-overview](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-project-overview.md)
 - [ResiCache：キャッシュ保護を検証可能な並行性・一貫性の境界にする](/blog/legacy/note/ja/resicache/)
+- [Redis 逆シリアライズ安全性と型許可リスト：インスタンス化前のパッケージ境界検証](/blog/legacy/note/ja/resicache-serialization-trust/)
 - [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/ja/redis-jackson-java-time/)
 
 研究記録

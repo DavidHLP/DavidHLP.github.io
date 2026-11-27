@@ -29,11 +29,11 @@
 - 60 秒を超える Sleep が自動的に無害とは限らない。トランザクションを保持していれば DDL を止め undo を増やすため、`INNODB_TRX` と照合する。
 - MySQL 5.7 の行ロックは `INNODB_LOCKS`/`INNODB_LOCK_WAITS` で確認できる。MySQL 8.0 では raw が `performance_schema.data_locks`、`data_lock_waits`、`sys.innodb_lock_waits` を推奨している。
 - `Waiting for table metadata lock` は MDL を示す。典型的には未コミットの長期トランザクションがあり、別セッションが `ALTER`/`DROP` を実行し、その後の全アクセスがキューに並ぶ。
-- デッドロックの証拠は `SHOW ENGINE INNODB STATUS \G` の `LATEST DETECTED DEADLOCK` セクションである。raw の方向性は、ロック順序の統一、トランザクション短縮、必要に応じた RR→RC の分離レベル評価である。
+- デッドロックの証拠は `SHOW ENGINE INNODB STATUS \G` の `LATEST DETECTED DEADLOCK` セクションである。raw の方向性は、ロック順序の統一、トランザクション短縮、必要に応じた RR→RC の分離レベル評価である。通常のロック待ちと再現可能な交差ロックによるデッドロックモデルを切り分ける手順は [MySQL ストレージエンジンとデッドロック検出](/blog/legacy/note/ja/mysql-storage-and-deadlock/) を参照。
 
 ### 3. SQL、インデックス、トランザクション
 
-- スロークエリは動的な `slow_query_log`、または `performance_schema.events_statements_summary_by_digest` の指紋集計で切り分ける。`rows_examined / rows_sent` が 100 を大きく超えることを raw は典型的なインデックス失敗の信号としている。
+- スロークエリは動的な `slow_query_log`、または `performance_schema.events_statements_summary_by_digest` の指紋集計で切り分ける。`rows_examined / rows_sent` が 100 を大きく超えることを raw は典型的なインデックス失敗の信号としている。本番の `EXPLAIN` と負荷証拠をもとに設問上のインデックス選択と運用結論を切り分ける際は [データベース筆記試験の復盤：SQL セマンティクスからバッチ処理まで](/blog/legacy/note/ja/database-written-test-review/) も参照。
 - `EXPLAIN` では `type`、`key`、`rows`、`filtered`、`Extra` を見る。`ALL`、`key=NULL`、`Using filesort`、`Using temporary` は調査信号であり、それだけで修正方法を決めない。
 - raw が挙げるインデックス失敗は、列を関数で包む、暗黙の型変換、複合インデックスの左端プレフィックス欠落、範囲条件の右側列、先頭ワイルドカード `LIKE`、一方にインデックスがない `OR` である。MySQL 8.0 では `EXPLAIN FORMAT=JSON`、`EXPLAIN ANALYZE`、一時的な `INVISIBLE` インデックスで仮説を検証できる。
 - 長期トランザクションの連鎖は「undo バージョンを purge できない → history list 増大 → 表/インデックス膨張 → 行参照が遅い」である。30 秒超は raw の例示フィルタであり、全システム共通の SLA ではない。
@@ -111,9 +111,13 @@ SHOW STATUS LIKE 'Created_tmp%';
 
 ## 関連ページ
 
+
 - [containerd TLS 信頼チェーン](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
 - [SSH 内網アクセスの選択](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)
-
+- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/ja/database-schema-drift/)
+- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)
+- [データベース筆記試験の復盤：SQL セマンティクスからバッチ処理まで](/blog/legacy/note/ja/database-written-test-review/)
+- [MySQL ストレージエンジンとデッドロック検出](/blog/legacy/note/ja/mysql-storage-and-deadlock/)
 
 ## 出典と関連文書
 

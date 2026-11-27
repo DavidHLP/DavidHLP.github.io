@@ -1,0 +1,81 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-1331 / Spring Transaction Boundaries and Propagation: AOP Proxies, Isolation, and Rollback Rules
+ENGINEERING NOTES
+
+Department: Engineering notes
+Collection: 2026-11-27
+Related people: DavidHLPL
+Access: Public
+
+`@Transactional` decouples connection binding, commits, and rollbacks into AOP interceptors, which also introduces subtle failure boundaries when rollback or isolation does not match intuition: exception classes, nested propagation choices, `timeout`/`readOnly` inheritance, and whether calls actually pass through a proxy all determine runtime behavior.
+
+This page extracts `SpringTransactions.md` details from [Spring Boot and Spring Cloud: Auto-Configuration, Transactions, Service Discovery, Gateway, and Observability](/blog/legacy/note/en/spring-cloud-and-boot/).
+
+## Core Mechanisms
+
+### 1. Core interfaces and AOP + `ThreadLocal`
+
+Spring declarative transactions coordinate three abstractions:
+
+- **`PlatformTransactionManager`**: defines `getTransaction`, `commit`, and `rollback` (e.g., `DataSourceTransactionManager`).
+- **`TransactionDefinition`**: encapsulates isolation level, propagation behavior, `timeout`, and `readOnly`.
+- **`TransactionStatus`**: tracks whether a transaction is new or marked rollback-only.
+
+At runtime an AOP proxy (CGLIB by default) with `TransactionInterceptor` intercepts external calls, binds the JDBC connection/status into `ThreadLocal`, executes the target method, commits or rolls back, and clears `ThreadLocal`.
+
+### 2. Seven propagation behaviors and attribute scope
+
+| Propagation | Active outer transaction | No outer transaction | Key boundary |
+| --- | --- | --- | --- |
+| `PROPAGATION_REQUIRED` (default) | Joins current transaction | Starts a new one | Shares connection and rollback boundary |
+| `PROPAGATION_SUPPORTS` | Joins current transaction | Executes non-transactionally | Fits read/query helpers |
+| `PROPAGATION_MANDATORY` | Joins current transaction | Throws exception | Enforces caller-managed transaction |
+| `PROPAGATION_REQUIRES_NEW` | Suspends outer, starts independent tx | Starts a new one | Independent commit (audit/log) unaffected by outer rollback |
+| `PROPAGATION_NOT_SUPPORTED` | Suspends outer, runs non-transactionally | Runs non-transactionally | Avoids holding locks on non-transactional work |
+| `PROPAGATION_NEVER` | Throws exception | Runs non-transactionally | Forbids execution inside any transaction |
+| `PROPAGATION_NESTED` | Nested via JDBC Savepoint | Starts a new one | Outer rollback rolls back inner; depends on DB/manager Savepoint support |
+
+**Attribute boundaries**: `timeout` (seconds) and `readOnly=true` **apply only when a method starts a new transaction** (`REQUIRED` creating one or `REQUIRES_NEW`). Joining an existing transaction ignores the inner method's `timeout`/`readOnly`. Moreover, `readOnly=true` is an optimization hint rather than an enforced write block at every layer.
+
+### 3. Isolation levels and rollback rules
+
+Spring maps four isolation levels alongside `DEFAULT`: `READ_UNCOMMITTED`, `READ_COMMITTED`, `REPEATABLE_READ` (prevents dirty and non-repeatable reads, phantom reads remain possible), and `SERIALIZABLE`.
+
+**Default rollback rule**: only `RuntimeException` and `Error` trigger automatic rollback; checked exceptions **commit by default**. Override explicitly when required:
+
+```java
+@Transactional(
+    isolation = Isolation.REPEATABLE_READ,
+    rollbackFor = IOException.class,
+    noRollbackFor = InsufficientStockException.class
+)
+public void processOrder() {
+    // business logic
+}
+```
+
+## Applicability and Unverified Boundaries
+
+- **Applicable**: single-database local transaction design and verifying `@Transactional` propagation and exception policies.
+- **Not applicable**: cross-service distributed transactions (not covered separately in raw sources) or bypassing runtime proxy verification.
+- **Unverified boundaries preserved from raw sources**:
+  - `SpringTransactions.md` documents `AOP + ThreadLocal`, `timeout`/`readOnly`, `rollbackFor`/`noRollbackFor`, and Savepoints (`NESTED`), **without pinned MySQL/Spring Boot integration test logs for self-invocation or exception isolation**;
+  - read/write routing, `REQUIRES_NEW` connection-pool exhaustion, and distributed transactions were not measured.
+
+## Graduation Checks
+
+1. Run integration tests comparing commit/rollback outcomes across `REQUIRED`, `REQUIRES_NEW`, and `NESTED` (Savepoints) under inner and outer exceptions.
+2. Verify default vs. `rollbackFor`/`noRollbackFor` behavior with checked (`IOException`) and unchecked domain exceptions.
+3. Confirm proxy interception triggers on external bean calls vs. failing to intercept direct internal self-invocation.
+
+## Related Pages
+
+- [Spring Boot and Spring Cloud: Auto-Configuration, Transactions, Service Discovery, Gateway, and Observability](/blog/legacy/note/en/spring-cloud-and-boot/)
+- [ingest-spring-cloud (raw source)](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md)
+
+Research notes
+1. Raw source: src/content/raw/zh-cn/ingest-spring-cloud.md
+2. Evidence status: provisional
+
+Reference: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md
+This archive adaptation is based on publicly available setting material, not the game's original text.

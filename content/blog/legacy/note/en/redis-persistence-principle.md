@@ -59,14 +59,12 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "ingest-redis-persistence"
   ],
   "related": [
-    "redis-business-patterns",
-    "redis-heima-practice",
-    "database-schema-drift"
+    "redis-business-patterns"
   ]
 }
 ---
@@ -102,14 +100,16 @@ Persistence and internals are centered on RDB/AOF, data structures, and expirati
 
 ## Related Pages
 
-- [redis-business-patterns](/blog/legacy/note/en/redis-business-patterns/)
-- [redis-heima-practice](/blog/legacy/note/en/redis-heima-practice/)
-- [database-schema-drift](/blog/legacy/note/en/database-schema-drift/)
 
+- [redis-business-patterns](/blog/legacy/note/en/redis-business-patterns/)
 
 ## Sources and related documents
 
 - [ingest-redis-persistence](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-redis-persistence.md)
 - [Redis Business Patterns: Caching, Distributed Locks, Message Queues, Feed Streams, and Flash Sales](/blog/legacy/note/en/redis-business-patterns/)
-- [Redis Heima Practice: Distributed Cache, Multi-Level Cache, and Best Practices](/blog/legacy/note/en/redis-heima-practice/)
-- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/en/database-schema-drift/)
+
+## Graduation checks
+
+- Pinned Redis version and RDB/AOF/mixed configuration
+- abnormal shutdown recovery and timing on a temporary instance
+- rewrite latency and fork impact plus the business-page backlink

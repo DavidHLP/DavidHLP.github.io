@@ -1,0 +1,76 @@
+﻿RHINE LAB · 内部数据库
+档案 X-1333 / Spring Cloud 注册发现、负载均衡、OpenFeign 与 Gateway
+工程笔记
+
+科室: 工程笔记
+编目范围: 2026-11-27
+相关人物: DavidHLPL
+访问范围: 公开
+
+微服务体系中把硬编码 `IP:Port` 换成逻辑服务名后，请求实际上穿过四个相互衔接的控制点：注册中心（谁在线且健康）、客户端负载均衡（挑哪一个实例）、声明式 HTTP 客户端（怎样拼出远端调用），以及边缘网关（外部流量如何匹配断言与执行横切过滤）。
+
+本页承接 [Spring Boot 与 Spring Cloud：自动装配、事务、注册发现、网关与可观测性](/blog/legacy/note/zh-cn/spring-cloud-and-boot/) 中 `ConsulServiceRegistrationandDiscovery.md`、`Nacos.md`、`LoadBalancer.md`、`OpenFeign.md` 与 `SpringCloudGateway.md` 的细则；Dubbo + Nacos 的固定版本实操边界另见 `dubbo-nacos-runtime`。
+
+## 核心机制
+
+### 1. 注册发现与配置中心：Consul vs Nacos 重点差异
+
+- **Consul**：Agent 周期执行 TCP / HTTP / 脚本健康检查并自动剔除异常实例；内置 KV 配置存储（早期 Cloud 常用 `bootstrap.yml` 在主上下文启动前加载外部配置）、mTLS（Consul Connect）与默认 `8500` Web UI。
+- **Nacos**：同时承担 Discovery 与动态配置中心角色；Nacos 2.x 除控制台 `8848` 外引入客户端/服务端 gRPC 通信端口 `9848`/`9849`，生产环境应锁定版本标签（避免 `latest`）并开启 `NACOS_AUTH_ENABLE=true` 鉴权。
+
+### 2. 客户端负载均衡：`Spring Cloud LoadBalancer` 链路
+
+自 Spring Cloud `2020.0.0`（Ilford）移除阻塞式的 Netflix Ribbon 后，`Spring Cloud LoadBalancer` 基于 Project Reactor 提供非阻塞选路，围绕两组组件工作：
+
+- **`ServiceInstanceListSupplier`**：通过 `DiscoveryClientServiceInstanceListSupplier` 拉取实例，叠加 `CachingServiceInstanceListSupplier` 缓存、`HealthCheckServiceInstanceListSupplier` 过滤状态为 `DOWN` / `OUT_OF_SERVICE` 的实例，及区域优先 `ZonePreferenceServiceInstanceListSupplier`。
+- **`ServiceInstanceChooser` / `ReactiveLoadBalancer<T>`**：默认实现为 `RoundRobinLoadBalancer`（原子计数器取模轮询）与 `RandomLoadBalancer`；拦截器 `LoadBalancerClientFilter`（或阻塞 `LoadBalancerClient`）在选定 `ServiceInstance` 后将逻辑服务名（如 `http://user-service/users/1`）重写为物理地址并转发。
+
+### 3. 声明式调用：`OpenFeign`
+
+`OpenFeign` 在消费者主类标注 `@EnableFeignClients` 后扫描 `@FeignClient(name = "user-service")` 接口并生成动态代理，统一接管 Service ID 发现、`Spring Cloud LoadBalancer` 选路与 Resilience4j 降级：
+
+```java
+@FeignClient(name = "user-service")
+public interface UserClient {
+    @GetMapping("/users/{id}")
+    UserDto findById(@PathVariable("id") Long id);
+}
+```
+
+### 4. 边缘入口：`Spring Cloud Gateway` 三要素
+
+Gateway 处于外部请求与微服务群之间，所有路由能力围绕三个基本构件组合：
+
+| 构件 | 职责 | 典型形态 |
+| --- | --- | --- |
+| **Route（路由）** | 网关基本转发单元 | 唯一 `id` + 目标 `uri` + 断言集合 + 过滤器集合 |
+| **Predicate（断言）** | 匹配请求是否命中路由 | 按 `Headers`、`Query`、`Path`、`Method`、时间、Cookie、Host 判定 |
+| **Filter（过滤器）** | 请求前/后横切修改 | `GatewayFilter` 执行参数校验、鉴权、指标统计与限流整合 |
+
+## 适用边界与未验证内容
+
+- **适用**：Spring Cloud 服务调用链设计、`Service ID -> Discovery -> LoadBalancer -> 实例地址` 排障与网关路由拆解。
+- **不适用**：把 Spring Boot/Cloud 2.x 旧配置习惯（如无条件依赖 `bootstrap.yml` 或已移除的 Ribbon）直接照搬到现代 Cloud 2023+ / Boot 3.x。
+- **未验证边界（来自 raw 既有限制）**：
+  - 原料横跨多个版本快照，**未锁定单一 Spring Cloud BOM 验证 Gateway 谓词、`spring-cloud-starter-bootstrap` 启用条件与 `OpenFeign` 重试超时矩阵**；
+  - 熔断（Sentinel/CircuitBreaker/Bulkhead）与 Micrometer/Zipkin Trace 仍在母页保留总览，未在本页展开全套压测数据。
+
+## 毕业检查
+
+1. 在固定 Spring Cloud 2023+ BOM 与 JDK 版本下起停本地 Nacos/Consul，验证服务注销摘流与 `HealthCheckServiceInstanceListSupplier` 剔除延迟。
+2. 对单个 `@FeignClient` 调用注入故障实例，验证 `LoadBalancer` 缓存失效与 `RoundRobinLoadBalancer` 故障转移表现。
+3. 为网关配置一条带 `Path`/`Header` 断言与前置 `GatewayFilter` 的路由，运行集成测试确认转发目标 URI 与响应码。
+
+## 相关页面
+
+- [Spring Boot 与 Spring Cloud：自动装配、事务、注册发现、网关与可观测性](/blog/legacy/note/zh-cn/spring-cloud-and-boot/)
+- [Dubbo + Nacos：先核对注册名、group/version，再做真实 smoke test](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
+- [多服务启动就绪：running、ready 与依赖/失败/重启传播](/blog/legacy/note/zh-cn/multi-service-readiness/)
+- [ingest-spring-cloud（raw 原文）](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md)
+
+研究记录
+1. 原始证据: src/content/raw/zh-cn/ingest-spring-cloud.md
+2. 证据状态: 暂定
+
+设定参考: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md
+本文为基于公开设定的档案式改写，非游戏原文。

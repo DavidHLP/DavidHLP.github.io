@@ -33,4 +33,4 @@ The original blog GPL license, content policies and third-party asset attributio
 
 ## About and résumé
 
-Read `/about/`, `/en/about/`, or `/ja/about/`. Edit the existing `content/blog/legacy/information/{zh-cn,en,ja}/introduction.md`: identity lives in its `profile` frontmatter and the résumé remains in the same body. No second résumé copy is maintained. See [About configuration](docs/ABOUT.md) and [content review](docs/ABOUT-CONTENT-AUDIT.md).
+Read `/about/`, `/en/about/`, or `/ja/about/`. Edit the existing `content/blog/legacy/information/{zh-cn,en,ja}/introduction.md`: identity lives in its `profile` frontmatter and the résumé remains in the same body. No second résumé copy is maintained. See [About configuration](docs/ABOUT.md) and [acceptance checklist](docs/ABOUT-ACCEPTANCE.md).

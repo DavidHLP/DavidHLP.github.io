@@ -20,6 +20,8 @@
 | ordering（排序）                | 只决定先后，不建立依赖       | Compose 短语法 `depends_on: [db]`（等价 `service_started`）；systemd `After=`/`Before=` | 短语法只保证启动顺序；`After=` 与 `Requires=`/`Wants=` 正交     |
 | requirement（依赖建立）         | 声明“依赖满足才启动”         | 长语法 `condition: service_healthy`；systemd `Requires=`/`Wants=`                       | `Wants=` 是弱形式，失败不影响整体事务                           |
 | failure propagation（失败传播） | 依赖不健康时依赖方不启动     | `up --wait` 失败退出；`--abort-on-container-failure` 全停；systemd `Requires=`+`After=` | `--abort-on-container-failure` 与 `-d` 不兼容、与 `--wait` 互斥 |
+
+若尚未理清 Compose 的 `service`、网络与持久化 `volume` 基础边界，可先对照 [Docker 核心原理、分层构建、持久化与生产 Compose](/blog/legacy/note/zh-cn/docker-fundamentals/) 再设定 `healthcheck` 门禁。
 | restart propagation（重启传播） | 只有显式操作触发的重启才传播 | `depends_on.restart: true`；systemd `Requires=` 的显式 stop/restart                     | 容器运行时自动重启不传播；systemd 意外失败需 `BindsTo=`         |
 
 ### 2. 关键语义拆分
@@ -117,7 +119,7 @@ systemd-analyze verify <unit>.service          # 单元文件校验
 ## 编排器不能替代的部分
 
 - **migration 不在编排器职责内**：spec 唯一的“一次性任务”排序原语是 `condition: service_completed_successfully`（Compose v2.20.0+ 标注），它只负责排序；迁移逻辑本身必须由用户定义为 service/命令。schema 变更、数据回填等业务就绪不在编排器职责内。
-- **业务就绪不在 healthcheck 语义内**：缓存预热、一致性、业务断言等应用内状态，编排器不验证；探针只是用户定义的任意命令。
+- **业务就绪不在 healthcheck 语义内**：缓存预热、一致性、业务断言等应用内状态，编排器不验证；探针只是用户定义的任意命令。微服务场景下，容器探针通过不等同于服务已在注册中心可路由或网关可转发，注册健康与路由核对见 [Spring Boot 与 Spring Cloud：自动装配、事务、注册发现、网关与可观测性](/blog/legacy/note/zh-cn/spring-cloud-and-boot/)。
 - 因此“迁移完成后再启动 app”这类需求，正确写法是用户把迁移做成一次性 service 并在 app 上声明 `service_completed_successfully` 依赖，而不是依赖编排器自动推断。
 
 ## 适用条件
@@ -140,9 +142,14 @@ systemd-analyze verify <unit>.service          # 单元文件校验
 
 ## 相关页面
 
+
 - [MySQL 性能排查](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
 - [数据库 Schema 漂移](/blog/legacy/note/zh-cn/database-schema-drift/)
-
+- [Testcontainers 1.20.6：先排查 Docker API 版本，再判断 daemon 不可用](/blog/legacy/note/zh-cn/testcontainers-docker-api/)
+- [Dubbo + Nacos：先核对注册名、group/version，再做真实 smoke test](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
+- [微服务数据所有权：先定领域 owner，再谈拆库与迁移](/blog/legacy/note/zh-cn/microservice-data-ownership/)
+- [Docker 基础：镜像分层、容器操作与 Compose 网络](/blog/legacy/note/zh-cn/docker-fundamentals/)
+- [Spring Boot 与 Spring Cloud：自动装配、事务、注册发现、网关与可观测性](/blog/legacy/note/zh-cn/spring-cloud-and-boot/)
 
 ## 来源与关联文档
 

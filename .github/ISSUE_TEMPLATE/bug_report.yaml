@@ -26,7 +26,6 @@ body:
       description: Which branch are you using?
       options:
         - main
-        - cloudflare
     validations:
       required: true
 
@@ -57,15 +56,16 @@ body:
     id: envinfo
     attributes:
       label: Environment Information
-      description: Run `pnpx astro info` to get the environment details
+      description: Run `npx astro info` to get the environment details, and include your browser.
       placeholder: |
         Astro             ...
-        Node              ...
+        Node              ... (22.12 or newer)
         System            ...
-        Package Manager   ...
+        Package Manager   ... (npm)
         Output            ...
         Adapter           ...
         Integrations      ...
+        Browser           ... (name and version)
       render: shell
     validations:
       required: false

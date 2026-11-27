@@ -1,147 +1,49 @@
-# DavidHLPL · ThoughtLite 知识库
+# DavidHLPL 博客
 
 [English](README.md) · [简体中文](README.zh-cn.md) · [日本語](README.ja.md)
 
-DavidHLPL 是一个基于 Astro 构建的多语言个人博客与有证据支撑的 AI 知识库。本项目沿用 [ThoughtLite](https://github.com/tuyuritio/astro-theme-thought-lite) 的内容工作流，并将 [RhineLabUI](https://github.com/LBEILC/RhineLabUI) 的可交互三维档案终端适配到 Astro 站点中，同时在本仓库维护自己的内容、翻译和知识库规则。
+[davidhlp.github.io](https://davidhlp.github.io) 上的个人博客与工程知识库，基于 [RhineLabUI-Astro 上游模板](https://github.com/DavidHLP/RhineLabUI-Astro)构建。
 
-已发布的文记与随笔会生成带语言前缀的页面、Feed 和可检索的档案记录。本项目是静态站点，不需要数据库、API Key 或后端服务。
+仓库保留博客原始文档、许可证与 Git 历史。站长已批准发布既有的 74 份英文/日文译文，具体变更记录在 [publication overrides](migration/publication-overrides.json) 中；来源快照与原始草稿元数据保持不变。现有 67 个文章组均已发布三种语言版本，模板示例文章仍不纳入。详见[迁移说明与清单](migration/README.md)。
 
-> 完整档案界面需要支持 WebGL 2；当 JavaScript 或 WebGL 不可用时，仍提供构建生成的 HTML 文章目录。
+语言路由、目录、下载与校验见[全内容语言切换](docs/I18N.md)。
 
-## 特性
+## 开发
 
-- **可交互的档案操作系统** — Three.js 开场、档案浏览、分类与关键词检索、文章详情、收藏、文本导出，以及带解密和拆解交互的 360° 模型查看器。
-- **有证据支撑的知识库** — 稳定的 `note` 页面、轻量的 `jotting` 随笔和不可变的 `raw` 原始来源遵循项目的内容维护流程。
-- **内容驱动的档案** — 构建时从当前语言已发布的 `note` 和 `jotting` 内容生成档案记录；草稿、下划线文件和 raw 原始来源不会进入公开档案。
-- **Astro 内容管道** — 支持 Markdown/MDX、代码高亮、数学公式、Mermaid、表格、图片、脚注、阅读时间和自动标题。
-- **多语言路由** — 支持英文、简体中文和日文，知识库以 `zh-cn` 为正典语言。
-- **主题与响应式体验** — 亮色/暗色主题、自适应布局、触摸友好的导航，以及减少动态效果偏好。
-- **静态发布能力** — 自动生成 Atom Feed、站点地图和 Open Graph 元数据，输出的 `dist/` 可部署到 GitHub Pages 或其他静态托管平台。
-- **可降级访问** — 空档案、禁用 JavaScript 或 WebGL 加载失败时，仍可使用构建生成的 HTML 文章目录。
-- **内容保护规则** — 原始来源和知识库日志与公开集合分离，并遵循仓库中记录的不变量。
-
-嵌入的 Rhine 界面已针对本博客适配。上游项目的独立 PWA 和 Wallpaper Engine 宿主功能未在本项目中启用。
-
-## 快速开始
-
-### 环境要求
-
-- Node.js 22.12 或更高版本。
-- `package.json` 声明的 pnpm 10.30.0。
-- 如需完整档案体验，需要支持 WebGL 2 的现代浏览器。
-
-### 安装并启动
+需要 Node.js 22.12 或更高版本；依赖安装、构建与检查均在 `remote-dev` 上执行：
 
 ```sh
-git clone https://github.com/DavidHLP/DavidHLP.github.io.git
-cd DavidHLP.github.io
-pnpm install --frozen-lockfile
-pnpm dev
+npm ci
+npm run dev
+npm run build
+npm run check:content
+npm run check:viewport
 ```
 
-打开 Astro 输出的地址，通常是 [`http://localhost:4321`](http://localhost:4321)。如果本地环境无法正确解析 `localhost`，可以使用：
-
-```sh
-pnpm dev --host 127.0.0.1
-```
-
-### 构建与预览
-
-```sh
-pnpm build
-pnpm preview
-```
-
-生产站点输出到 `dist/`。请通过 HTTP 服务访问它，不要直接双击 `dist/index.html`。
-
-## 常用命令
-
-| 命令 | 用途 |
-| --- | --- |
-| `pnpm install --frozen-lockfile` | 按锁文件安装依赖 |
-| `pnpm new` | 通过项目辅助脚本创建新的内容文件 |
-| `pnpm dev` | 启动 Astro 开发服务器，默认端口为 4321 |
-| `pnpm check` | 执行 Astro 和 TypeScript 检查 |
-| `pnpm test:run` | 一次性运行 Vitest 测试套件 |
-| `pnpm build` | 构建静态生产站点 |
-| `pnpm preview` | 本地预览构建结果 |
-| `pnpm format` | 使用 Biome 格式化支持的源文件 |
-| `pnpm lint` | 执行 Biome 代码检查 |
-| `pnpm kb:lint` | 检查知识库证据和索引不变量 |
-| `node scripts/editorial-smoke.mjs` | 构建后检查生成路由、档案记录、资源和许可证 |
+`content/site.json` 配置站点身份与五个档案栏目。可编辑文章位于 `content/blog/legacy/`。原始 `src/content/` 文档与 `migration/source/` 快照保持只读。构建产物包含 RSS、搜索、离线阅读与 TXT 下载。GitHub Pages 工作流在验证通过后从 `main` 部署 `dist/`。
 
 ## 项目结构
 
 | 路径 | 职责 |
-| --- | --- |
-| `src/components/RhineArchive.astro` | 将 Astro 内容集合接入档案界面，并提供 HTML 降级目录 |
-| `src/rhine/` | 适配后的 Three.js 档案 UI、开场、模型查看器、音频、动效和渲染设置 |
-| `src/content/note/{locale}/` | 有证据支撑的稳定知识页 |
-| `src/content/jotting/{locale}/` | 轻量随笔和知识库待摄入收件箱 |
-| `src/content/information/{locale}/` | 自述、政策、连结、编年、知识库索引和日志 |
-| `src/content/preface/{locale}/` | 站点序文内容 |
-| `src/content/raw/{locale}/` | 知识库不可变原始来源，不属于公开集合 |
-| `src/i18n/` | `en`、`zh-cn` 和 `ja` 的界面翻译资源 |
-| `src/components/` | 可复用的 Astro 和 Svelte UI 组件 |
-| `src/pages/[...locale]/` | 首页、档案、内容、Feed 和说明页的多语言路由 |
-| `src/layouts/` | 共用页面和文档布局 |
-| `public/assets/` | 运行时模型和其他档案资源 |
-| `public/audio/` | 档案音频、来源说明和生成元数据 |
-| `public/fonts/` | MiSans 网页字体及其声明/许可证 |
-| `public/licenses/` | 集成界面使用的第三方许可证文本 |
-| `docs/rhine-migration.md` | 迁移范围、内容映射、降级行为和验证记录 |
-| `site.config.ts` | 站点身份、语言、内容、分页和 Feed 配置 |
-| `astro.config.ts` | Astro 集成、Markdown/MDX 处理、路由、站点地图和构建行为 |
+|---|---|
+| `content/blog/legacy/` | 可编辑并发布的文章（note、jotting、information、preface） |
+| `src/content/` | 冻结的迁移快照，只读 |
+| `src/content/raw/` | 不可变原始证据，只读 |
+| `src/pages/` | 路由（`/blog/[...slug]`、`/about`、`/kb`、`/rss.xml`） |
+| `content/site.json` | 站点标题、五列分类与 About 入口 |
+| `docs/` | 仓库维护文档，不发布为文章 |
 
-## 内容与知识库
-
-已发布内容按语言和集合组织：
-
-- `note`：结构化的技术与工程知识。
-- `jotting`：轻量观察和等待编译为稳定知识页的材料。
-- `information`：自述、政策、连结、编年以及知识库索引/日志。
-- `preface`：站点序文。
-- `raw`：不可变证据层，不作为公开内容列出。
-
-知识库以 `zh-cn` 为正典语言；只有在需要多语言输出时才维护英文和日文译文。新增已发布内容后，档案列表、页面和 Feed 会在下一次构建时自动更新。
-
-## 配置
-
-主要配置入口如下：
-
-- [`site.config.ts`](site.config.ts) — 站点身份、作者、描述、语言、分页、Feed 和最新内容设置。
-- [`astro.config.ts`](astro.config.ts) — Astro 集成、Markdown/MDX 处理、多语言路由、别名、站点地图和构建行为。
-- [`src/i18n/`](src/i18n/) — 界面翻译和标签。
-
-## 部署与验证
-
-仓库已配置 GitHub Pages 部署。推送到 `main` 后，部署工作流会先复用验证工作流；验证通过后才安装锁定的 pnpm 依赖、构建 `dist/`、添加 `.nojekyll`，再通过 GitHub Pages 发布。
-
-验证工作流会执行 Biome 检查、类型检查、单元测试、静态构建、档案/资源 smoke 检查、已提交 SVG 检查，以及桌面和移动宽度下关于页的浏览器/打印 smoke 检查。
-
-本地验证可以运行：
+## 上游模板
 
 ```sh
-pnpm check
-pnpm test:run
-pnpm build
-node scripts/editorial-smoke.mjs
+git remote add upstream git@github.com:DavidHLP/RhineLabUI-Astro.git
+git fetch upstream
 ```
 
-## 上游与许可证
+模板历史已包含在本仓库中，后续上游变更在任务分支上合并，并与博客专属配置一起审查。GitHub 仓库本身保留，不删除重建。
 
-本仓库由两个上游层和本站自己的内容/集成代码组成：
+原始博客的 GPL 许可证、内容政策与第三方素材署名继续适用。上游模板的 MIT 声明收录于 `public/licenses/`。
 
-- [ThoughtLite](https://github.com/tuyuritio/astro-theme-thought-lite) 提供原始 Astro 内容主题基础，可参阅[上游 README](https://raw.githubusercontent.com/tuyuritio/astro-theme-thought-lite/refs/heads/main/README.md)。本项目继续使用 [GPLv3](LICENSE)。
-- [RhineLabUI](https://github.com/LBEILC/RhineLabUI) 提供适配后的 Three.js 档案界面。集成源码位于 `src/rhine/`，固定于经过审阅的提交 `8799b03179a9a0ebd2611843e644a5a0530b24bf`。可参阅[上游 README](https://raw.githubusercontent.com/LBEILC/RhineLabUI/refs/heads/main/README.md)和本地 [MIT 许可证声明](public/licenses/RhineLabUI-MIT.txt)。
+## About 与个人档案
 
-RhineLabUI 的 MIT 声明只适用于其覆盖的适配界面代码，不会自动将本仓库的所有文件和资源重新授权为 MIT。MiSans、Rolling Number、音频文件、其他依赖，以及相关作品的名称、标志、模型和源素材仍适用各自的权利和声明。详见 [`public/fonts/NOTICE.txt`](public/fonts/NOTICE.txt)、[`public/audio/README.md`](public/audio/README.md)、[`public/licenses/rolling-number.txt`](public/licenses/rolling-number.txt) 和 [`docs/rhine-migration.md`](docs/rhine-migration.md)。
-
-原始 RhineLabUI 是非官方的界面复刻项目，与相关游戏、角色、标志或源视频的权利人不存在隶属关系。相关第三方作品的权利仍归各自权利人所有。
-
-## 参考
-
-- [DavidHLPL](https://github.com/DavidHLP)
-- [DavidHLP.github.io](https://github.com/DavidHLP/DavidHLP.github.io)
-- [ThoughtLite](https://github.com/tuyuritio/astro-theme-thought-lite)
-- [RhineLabUI](https://github.com/LBEILC/RhineLabUI)
+访问 `/about/`、`/en/about/` 或 `/ja/about/`。编辑现有的 `content/blog/legacy/information/{zh-cn,en,ja}/introduction.md`：身份信息位于其 `profile` frontmatter，履历保留在同一正文中，不再维护第二份副本。参见 [About 配置](docs/ABOUT.md) 与 [验收清单](docs/ABOUT-ACCEPTANCE.md)。

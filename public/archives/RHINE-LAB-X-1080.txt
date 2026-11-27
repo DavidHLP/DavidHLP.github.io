@@ -19,6 +19,8 @@ Pod → kubelet → imagePullSecrets/ServiceAccount → CRI → containerd
     → Registry TLS → manifest/layer
 ```
 
+ここは Kubernetes ノード側の CRI/CA/Secret 信頼チェーンのみを切り分ける範囲であり、イメージ層・ビルド・単体 Docker 基礎は [Docker の核となる仕組み：レイヤー構築・永続化・本番 Compose](/blog/legacy/note/ja/docker-fundamentals/) を参照。
+
 | 観測結果                                        | 最初に見る層                | 再利用できる判断                                                                      |
 | ----------------------------------------------- | --------------------------- | ------------------------------------------------------------------------------------- |
 | `x509: certificate signed by unknown authority` | Registry TLS / containerd   | 証明書チェーン、SAN、`config_path`、ノード上の `ca.crt` を確認する。                  |
@@ -102,9 +104,11 @@ openssl x509 -in /etc/containerd/certs.d/harbor.example.com/ca.crt -noout -subje
 
 ## 関連ページ
 
+
 - [SSH 内網アクセスの選択](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)
 - [MySQL パフォーマンス問題モデル](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
-
+- [Testcontainers 1.20.6：Docker API バージョンを先に切り分けてから、daemon の利用不可を判断する](/blog/legacy/note/ja/testcontainers-docker-api/)
+- [Docker 基礎：イメージレイヤー、コンテナ操作と Compose ネットワーク](/blog/legacy/note/ja/docker-fundamentals/)
 
 ## 出典と関連文書
 
@@ -112,6 +116,12 @@ openssl x509 -in /etc/containerd/certs.d/harbor.example.com/ca.crt -noout -subje
 - [SSH 内網アクセス：接続方向・公開面・障害復旧](/blog/legacy/note/ja/intranet-penetration-ssh-guide/)
 - [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
 - [Testcontainers 1.20.6：Docker API バージョンを先に切り分けてから、daemon の利用不可を判断する](/blog/legacy/note/ja/testcontainers-docker-api/)
+
+## 昇格チェック
+
+- 固定 containerd 1.x/2.x と匿名 Registry fixture
+- 信頼 CA の成功、誤 CA/SAN の失敗層
+- Pod 資格情報の正負例と Docker 回帰リンク
 
 研究記録
 1. 元の文書: src/content/note/ja/containerd-tls-troubleshooting.md

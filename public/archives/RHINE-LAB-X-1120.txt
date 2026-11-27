@@ -149,7 +149,7 @@ try {
 
 ## 3. fragment が around hook を再発火できない理由
 
-同期ロック handler がロック内で後続ノードを続行するとき、外側の `execute` が引き続き責任を持つのは：
+同期ロック handler がロック内で後続ノードを続行するとき、外側の `execute` が引き続き責任を持つのは（ここは `75ed279` 時点のモデルであり、最新 `2954fff` の fragment/scope 実装との差分は [ResiCache のキャッシュ責務連鎖：制御フロー、ネストされた fragment と observer ライフサイクル](/blog/legacy/note/ja/resicache-handler-chain-and-observer/) を参照）：
 
 - 現在の snapshot のライフサイクル；
 - around hook の start/end のペア；
@@ -227,6 +227,7 @@ observer は「今回のチェーン実行がどのライフサイクルイベ�
 
 - [resicache-observer-nested-execution-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-observer-nested-execution-contract.md)
 - [ResiCache：キャッシュ保護を検証可能な並行性・一貫性の境界にする](/blog/legacy/note/ja/resicache/)
+- [ResiCache のキャッシュ責務連鎖：制御フロー、ネストされた fragment と observer ライフサイクル](/blog/legacy/note/ja/resicache-handler-chain-and-observer/)
 - [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/ja/redis-jackson-java-time/)
 
 研究記録

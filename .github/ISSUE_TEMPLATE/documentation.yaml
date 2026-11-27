@@ -41,7 +41,7 @@ body:
     attributes:
       label: Documentation Location
       description: Which file or section has the issue?
-      placeholder: e.g., README.md, src/content/note/en/configuration.md
+      placeholder: e.g., README.md, content/blog/legacy/note/zh-cn/*.md, docs/DOCUMENT-CLASSIFICATION.md
     validations:
       required: true
 

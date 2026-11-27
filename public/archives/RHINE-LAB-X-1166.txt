@@ -12,7 +12,7 @@ MySQL 3 篇原文以存储引擎与死锁为主：`存储引擎.md`、`基础面
 ## 核心机制
 
 - **存储引擎**：InnoDB（行锁、MVCC、崩溃恢复）vs MyISAM（表锁、无事务）；原文含存储引擎对比图。
-- **死锁检测**：`checkmysqldeadlock.md` 给出 `SHOW ENGINE INNODB STATUS`、`information_schema` 与 `performance_schema` 的排查步骤。
+- **死锁检测**：`checkmysqldeadlock.md` 给出 `SHOW ENGINE INNODB STATUS`、`information_schema` 与 `performance_schema` 的排查步骤；围绕四表写入、同表 DML 限制与跨事务并发复核的题型对照见 [数据库笔试复盘：从 SQL 语义到批量数据处理](/blog/legacy/note/zh-cn/database-written-test-review/)。
 
 ## 适用条件
 
@@ -35,17 +35,20 @@ MySQL 3 篇原文以存储引擎与死锁为主：`存储引擎.md`、`基础面
 
 ## 相关页面
 
-- [mysql-performance-troubleshooting](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [database-schema-drift](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
 
+- [mysql-performance-troubleshooting](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
+- [数据库笔试复盘：从 SQL 语义到批量数据处理](/blog/legacy/note/zh-cn/database-written-test-review/)
 
 ## 来源与关联文档
 
 - [ingest-mysql-storage](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-mysql-storage.md)
 - [MySQL 性能排查：现象→指标→定位层→安全缓解](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-- [数据库 Schema 漂移：用 history、schema 与 query 三视图定位](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [多服务启动就绪：running、ready 与依赖/失败/重启传播](/blog/legacy/note/zh-cn/multi-service-readiness/)
+
+## 毕业检查
+
+- 固定 MySQL 小版本、引擎与隔离级别跑引擎事务差异
+- 两个匿名事务稳定观察受害者回滚与死锁日志
+- 同序加锁对照并核对性能页双链
 
 研究记录
 1. 原始文档: src/content/note/zh-cn/mysql-storage-and-deadlock.md

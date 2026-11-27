@@ -89,10 +89,6 @@
   ],
   "related": [
     "microservice-data-ownership",
-    "dubbo-nacos-runtime",
-    "jjwt-013-security-api",
-    "multi-service-readiness",
-    "database-schema-drift",
     "ulticode-owner-and-facts",
     "ulticode-owner-local-audit-inbox",
     "ulticode-outbox-redis-streams",
@@ -361,10 +357,6 @@ UltiCode 的领域对象是代码提交，不是 prompt；但它给 LLM 系统�
 - [ulticode-project-context](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-project-context.md)
 - [ulticode-reliability-core-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-reliability-core-f801a1076.md)
 - [微服务数据所有权：先定领域 owner，再谈拆库与迁移](/blog/legacy/note/zh-cn/microservice-data-ownership/)
-- [Dubbo + Nacos：先核对注册名、group/version，再做真实 smoke test](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/)
-- [JJWT 0.13.0：显式固定签名算法，按 key 类型验签](/blog/legacy/note/zh-cn/jjwt-013-security-api/)
-- [多服务启动就绪：running、ready 与依赖/失败/重启传播](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [数据库 Schema 漂移：用 history、schema 与 query 三视图定位](/blog/legacy/note/zh-cn/database-schema-drift/)
 - [UltiCode 数据 Owner 与事实快照：跨服务提交如何保持边界](/blog/legacy/note/zh-cn/ulticode-owner-and-facts/)
 - [跨 Owner 审计别靠跨库写入：UltiCode 的 Local Outbox 与 Consumer Inbox](/blog/legacy/note/zh-cn/ulticode-owner-local-audit-inbox/)
 - [UltiCode Outbox 与 Redis Streams：把判题投递做成可恢复状态](/blog/legacy/note/zh-cn/ulticode-outbox-redis-streams/)

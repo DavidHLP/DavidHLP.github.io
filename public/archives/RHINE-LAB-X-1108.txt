@@ -12,7 +12,7 @@
 ## 核心メカニズム
 
 - **ストレージエンジン**：InnoDB（行ロック、MVCC、クラッシュリカバリ） vs MyISAM（テーブルロック、トランザクションなし）；出典には比較図が含まれます。
-- **デッドロック検出**：`checkmysqldeadlock.md` は `SHOW ENGINE INNODB STATUS`、`information_schema`、`performance_schema` によるトラブルシューティング手順を示します。
+- **デッドロック検出**：`checkmysqldeadlock.md` は `SHOW ENGINE INNODB STATUS`、`information_schema`、`performance_schema` によるトラブルシューティング手順を示します；4 表の書き込み演習・同一表 DML 制約・トランザクション間同時実行の確認は [データベース筆記試験の復盤：SQL セマンティクスからバッチ処理まで](/blog/legacy/note/ja/database-written-test-review/) を参照。
 
 ## 適用条件
 
@@ -35,17 +35,20 @@
 
 ## 関連ページ
 
-- [mysql-performance-troubleshooting](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
-- [database-schema-drift](/blog/legacy/note/ja/database-schema-drift/)
-- [multi-service-readiness](/blog/legacy/note/ja/multi-service-readiness/)
 
+- [mysql-performance-troubleshooting](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
+- [データベース筆記試験の復盤：SQL セマンティクスからバッチ処理まで](/blog/legacy/note/ja/database-written-test-review/)
 
 ## 出典と関連文書
 
 - [ingest-mysql-storage](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-mysql-storage.md)
 - [MySQL パフォーマンス切り分け：現象 → 指標 → 層 → 安全な緩和](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
-- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/ja/database-schema-drift/)
-- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)
+
+## 昇格チェック
+
+- 固定 MySQL 小版・engine・分離レベルで engine 差を実行
+- 二つの匿名 transaction で victim rollback と deadlock log を観察
+- 同順 lock 対照と性能頁リンク
 
 研究記録
 1. 元の文書: src/content/note/ja/mysql-storage-and-deadlock.md

@@ -174,9 +174,10 @@ RedisSerializer<Object> serializer = new GenericJackson2JsonRedisSerializer(mapp
 
 ## 関連ページ
 
+
 - [NullValue：null をキャッシュするプレースホルダオブジェクトと直列化の境界](/blog/legacy/note/ja/java-null-value/)
 - [Java 本番パフォーマンストラブルシューティング：症状から証拠への最小決定木](/blog/legacy/note/ja/java-online-performance-debug/)
-
+- [ResiCache：observer のネスト実行はライフサイクル、fragment、scope token を区別しなければならない](/blog/legacy/note/ja/resicache-observer-nested-execution/)
 
 ## 出典と関連文書
 

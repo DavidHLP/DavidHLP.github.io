@@ -29,3 +29,7 @@ remote-dev：模板 build 125 页、check:content 38/38；博客 build 433 页�
 已操作：静态与交互 About 入口、主题/语言、章节锚点与前进后退/刷新、键盘焦点、文字选择复制、减少动态效果、旧介绍跳转、搜索公开邮箱命中、收藏及取消、全屏阅读器开关。三方向独立审查完成，发现的搜索/导出字段遗漏、static 参数、ID 冲突及 URL 校验问题均已修复。
 
 原始资料、三维场景保持；没有真实头像/PDF，页面不显示对应入口。未做真实 iPhone/Safari 或物理打印测试；截图是浏览器模拟，PDF 是 Chromium 输出。
+
+## 2026-11-27 变更注记
+
+`c4e49d1` 移除了打印、PDF 与 LaTeX 简历导出（删除 `scripts/export-resumes.mjs`、`scripts/resume/*`，并修改 `docs/ABOUT.md`、`About.astro`、`about.css`）。上文的打印、A4 PDF 3 页及相关按钮检查仅代表 2026-11-01 的版本，现不再适用。当前验收以 `scripts/check-about-browser.mjs` 与页面不提供导出入口为准；历史验收结论保留，不作改写。

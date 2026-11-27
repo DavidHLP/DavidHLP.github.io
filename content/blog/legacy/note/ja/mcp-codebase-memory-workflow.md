@@ -62,7 +62,8 @@
     "mcp-codebase-memory-workflow"
   ],
   "related": [
-    "llm-wiki-pattern"
+    "llm-wiki-pattern",
+    "mcp-modern-legacy-compatibility"
   ]
 }
 ---
@@ -71,41 +72,11 @@
 
 ## プロトコル時代の境界：request 単位の `_meta` と `initialize` ハンドシェイク
 
-MCP 2026-07-28 仕様（commit `5f5440bb`）の "modern" バージョンは、接続レベルのネゴシエーションハンドシェイクを廃止し、各リクエストを自己記述型にした：
-
-| 次元                   | legacy（2025-11-25 以前）                                                                                                       | modern（2026-07-28 以降）                                                                                                                 |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| セッション確立         | `initialize` ハンドシェイク ＋ `notifications/initialized`                                                                      | ハンドシェイクなし、`notifications/initialized` なし                                                                                      |
-| バージョン／能力の宣言 | ハンドシェイク時にネゴシエーション                                                                                              | 各リクエストの `_meta` が携帯                                                                                                             |
-| サーバー状態の前提     | セッション状態を許可                                                                                                            | **stateless**：同一接続の以前のリクエストから capabilities／バージョン／identity を推測することを禁止。stdio プロセスはセッションではない |
-| バージョン発見         | ネゴシエーション                                                                                                                | サーバーは `server/discover` を実装しなければならない（クライアントが先に呼んでもよい）                                                   |
-| 互換                   | dual-era 実装は二つの時代を同時にサポートでき、リクエスト形状で判別する（modern `_meta` なら modern、`initialize` なら legacy） | 同じ規則                                                                                                                                  |
-
-modern の request 単位 `_meta` フィールド（`basic/index.mdx` より）：
-
-- `io.modelcontextprotocol/protocolVersion`：**必須**。
-- `io.modelcontextprotocol/clientCapabilities`：**必須**。
-- `io.modelcontextprotocol/clientInfo`、`logLevel`：任意。
-
-**エラーコードは契約ごとに区別しなければならない**：
-
-| エラー                                 | エラーコード         | 発生条件                                                | 付随データ                                                                            |
-| -------------------------------------- | -------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| Invalid params                         | `-32602`（HTTP 400） | 必須の `_meta` フィールドが欠落、またはリクエストが不正 | —                                                                                     |
-| `MissingRequiredClientCapabilityError` | `-32021`（HTTP 400） | サーバーがクライアント未宣言の能力を必要とする          | `data.requiredCapabilities` が欠落項目を列挙                                          |
-| `UnsupportedProtocolVersionError`      | `-32022`             | プロトコルバージョンの不一致                            | `data.supported` が対応バージョンを列挙し、クライアントは共通バージョンを選んで再試行 |
-
-拡張ネゴシエーションは `capabilities.extensions`（拡張識別子 → settings オブジェクト）で行う。一方が拡張に対応しない場合、コアプロトコルの挙動にフォールバックするかエラーを返す。レスポンスの `resultType`：`"complete"` は成功、`"input_required"` はさらなる入力が必要（MRTR 多ラウンド要求）、未知の値は無効扱い、デフォルトは `"complete"`。
+MCP `2026-07-28`（commit `5f5440bb`）は接続レベルの `initialize` ハンドシェイクとセッション状態前提を廃止し、各リクエストに `io.modelcontextprotocol/protocolVersion` や `clientCapabilities` などの `_meta` フィールド、`server/discover`、および `-32602`・`-32021`（`MissingRequiredClientCapabilityError`）・`-32022`（`UnsupportedProtocolVersionError`）のエラー契約を求める。両時代の比較表とエラー契約の詳細は [MCP プロトコル時代間の互換境界：2026-07-28 Modern と Legacy ハンドシェイク契約](/blog/legacy/note/ja/mcp-modern-legacy-compatibility/) を参照。
 
 ## v0.10.2 のプロトコル時代の帰属（決定的な互換事実）
 
-固定コミット `b377c62a` の `src/mcp/mcp.c` は **legacy 時代（initialize ハンドシェイク）のサーバー**であり、2026-07-28 の modern サーバーではない：
-
-- `SUPPORTED_PROTOCOL_VERSIONS[]`（第 1222–1231 行）には新しい順で `"2025-11-25"`、`"2025-06-18"`、`"2025-03-26"`、`"2024-11-05"` しかなく、**`2026-07-28` は含まれない**。
-- 第 1262–1293 行の `cbm_mcp_initialize_response_for_profile` が legacy `initialize` ハンドシェイクを実装する（リクエスト引数 `protocolVersion` を読み、対応可能ならエコーし、`protocolVersion` ＋ `serverInfo` ＋ `capabilities` を返す）。第 11341 行からリクエスト分岐で `"initialize"` メソッドを処理する。
-- ソースには `server/discover`、modern の request 単位 `_meta` プロトコルフィールド、`notifications/initialized` の処理は存在しない。
-
-2026-07-28 仕様の互換マトリクスによると、"Modern client | Legacy server" の組み合わせは **Fails** である。modern クライアントは v0.10.2 に対して以下のワークフローを直接実行できない。v0.10.2 を検証するには legacy `2025-11-25` 契約（`initialize` ハンドシェイク ＋ `notifications/initialized` 通知）か、dual-era アダプターを使う必要がある。
+固定コミット `b377c62a` の `src/mcp/mcp.c` は **legacy（`initialize` ハンドシェイク）サーバー**であり、`SUPPORTED_PROTOCOL_VERSIONS[]`（第 1222–1231 行）は最高 `"2025-11-25"` までで **`2026-07-28` を含まず**、`server/discover` や modern `_meta` の処理も存在しない。2026-07-28 互換マトリクス上、"Modern client | Legacy server" は **Fails** となるため、下記のグラフワークフローを実行する前に legacy `2025-11-25`（`initialize` ＋ `notifications/initialized`）または dual-era アダプターで接続を確立する必要がある。ソース根拠は [MCP プロトコル時代間の互換境界：2026-07-28 Modern と Legacy ハンドシェイク契約](/blog/legacy/note/ja/mcp-modern-legacy-compatibility/) を参照。
 
 ## 最小ワークフロー：確認 → 検索 → 呼び出しチェーン → ソース → カバレッジ
 
@@ -172,10 +143,12 @@ modern の request 単位 `_meta` フィールド（`basic/index.mdx` より）�
 
 ## 関連ページ
 
+- [MCP プロトコル時代間の互換境界：2026-07-28 Modern と Legacy ハンドシェイク契約](/blog/legacy/note/ja/mcp-modern-legacy-compatibility/)：ステートレス `_meta`・エラー契約と `v0.10.2` legacy 世代帰属の詳細
 - [LLM-Wiki パターン](/blog/legacy/note/ja/llm-wiki-pattern/)：このナレッジベースがこうしたソースを証拠駆動の wiki ページへ編纂する運用方式
 
 
 ## 出典と関連文書
 
 - [mcp-codebase-memory-workflow](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/mcp-codebase-memory-workflow.md)
+- [MCP プロトコル時代間の互換境界：2026-07-28 Modern と Legacy ハンドシェイク契約](/blog/legacy/note/ja/mcp-modern-legacy-compatibility/)
 - [LLM-Wiki パターン：LLM で蓄積する個人 AI ナレッジベース](/blog/legacy/note/ja/llm-wiki-pattern/)

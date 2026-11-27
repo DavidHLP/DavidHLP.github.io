@@ -67,7 +67,7 @@
       "toc": true
     }
   },
-  "kind": "synthesis",
+  "kind": "concept",
   "status": "provisional",
   "sources": [
     "headroom-cc-switch-coexistence-runtime"
@@ -161,10 +161,11 @@ Seeing only `/health` or a single HTTP 200 is not enough to prove the request re
 
 ## Related pages
 
+
 - [Headroom single-port synthesis](/blog/legacy/note/en/headroom-single-port-evolution/)
 - [Headroom route persistence synthesis](/blog/legacy/note/en/omp-headroom-persistence/)
+- [OMP Headroom Bridge: External Routing Controller and Native Codex/OMP Proxy Boundaries](/blog/legacy/note/en/omp-headroom-provider-proxy/)
 - [Headroom 0.34 compression and retrieval contract](/blog/legacy/note/en/headroom-compress-retrieve-contract/)
-
 
 ## Sources and related documents
 

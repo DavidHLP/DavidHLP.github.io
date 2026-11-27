@@ -175,6 +175,26 @@
 
 验证结果：`git diff --check` 通过；原生 `pnpm kb:lint` 因本机 tsx IPC 在 `/tmp` 上报 `listen EPERM` 未完成，随后用等价入口 `node --import tsx scripts/kb-lint.ts` 通过（53 raw、146 wiki）；`pnpm check` 通过（0 errors、0 warnings、4 hints）；`pnpm build` 通过并生成 98 页，目标路由 `/note/database-written-test-review` 与 OG 元数据均生成。保留项目现有 duplicate-id、Node 弃用、PhotoSwipe 动态/静态导入和大 chunk 提示，未扩展到程序代码修复；未运行 Oracle/MySQL/Spark/Kettle 实际环境、性能基准、浏览器视觉检查或线上发布验证。
 
+
+## [2026-11-27] maintenance | 全仓文档分类收敛与索引校正
+
+按 `docs/DOCUMENT-CLASSIFICATION.md` 完成文档分类登记：将 `content/blog/legacy/{note,information,jotting,preface}` 确认为线上正典，`src/content/` 除 `raw/` 外冻结为迁移快照，`migration/` 与 `public/archives/` 只登记不改写。三语索引执行 10 项主域迁移（Headroom/OMP 七页 F→A，Java 线上排障 B→E，插件生命周期 E→F，ResiCache observer D→F），将 `database-written-test-review`、`headroom-cc-switch-coexistence`、`hindsight-omp-codex-integration` 的顶层 `kind` 收正为 `concept`，并把毕业观察板从 12 项补齐到 22 项。`docs/README.md`、`AGENTS.md`、`KB.md` 与 `.claude/skills/knowledge-base.md` 的路径和 `npm` 命令已对齐。
+
+未修改 `src/content/raw/`、归档 ID、URL、draft 开关、保护面正文或 `legacy.metadata`。13 篇 active→provisional 与 `redis-heima-practice`→deprecated 的降级建议、10 组长页拆分与 57 条单向关系补链仍待逐篇内容工作。验证：`npm run kb:lint`、`npm run check:content`。
+
+## [2026-11-27] maintenance | 最终裁决执行：生命周期、关系图与维护文档
+
+执行 `docs/classification/decisions-wiki.md` 与 `decisions-maintenance.md` 的裁决。13 篇聚合页由 `active` 降为 `provisional`，`redis-heima-practice` 降为 `deprecated` 并移入 G，三语顶层状态与发布覆盖同步；当前 20 active / 35 provisional / 3 deprecated。毕业观察板校正为 35 个唯一 provisional，13 篇降级页各补 3 条可证伪毕业检查。关系图新增 23 条反链、剪除 22 条噪音边（含 A14 附带剪边），三语 `related` 与覆盖记录一致。`redis-heima-practice` 的多级缓存与批处理选段并入 `redis-business-patterns`，课程页保留原文并在首屏声明历史状态。维护文档按裁决归档 25 份、重写 13 份、删除 4 份、保留 3 份；`arthas.md` 保留为本地历史稿并加来源横幅。
+
+五组页面拆分（数据库复盘、ResiCache 序列化、MCP 兼容、Java 并发、Spring）维持 DEFER，待原生发布路径与各自固定版本证据。未改 raw、`legacy.metadata`、归档 ID、URL、draft 与保护面。验证：`npm run kb:lint`、`npm run build`、`npm run check:content`、`npm run check:viewport`。
+
+## [2026-11-27] maintenance | 执行 T0-T8：原生 Wiki 发布路径、5 组主题拆分、正文交接与台账收敛
+
+- T0 原生发布路径：扩展 `scripts/check-content.mjs` 支持无 `legacy` 的 `content/blog/legacy/note/<locale>/` 原生 Wiki 页发布校验（`archiveId >= X-1300`、唯一 `translationKey`、`kind: concept`、`status: provisional`、raw slug `sources` 与三语结构对齐），保留全部既有 `legacy.metadata`、`draft: false`（74）与 archiveId/URL 断言。
+- T1-T5 主题拆分与父页收窄：新建 12 个 `provisional` slug × 3 语共 36 篇（`X-1300`..`X-1335`），覆盖 `database-written-test-review`（`sql-join-null-semantics`、`sql-date-dialect-boundaries`、`mysql-same-table-dml`、`recoverable-batch-extraction`）、`resicache-serialization-migration`（`resicache-serialization-trust`）、`mcp-codebase-memory-workflow`（`mcp-modern-legacy-compatibility`）、`java-concurrency-deepdive`（`java-cas-and-aba`、`java-locks-and-thread-coordination`、`java-reference-types`）与 `spring-cloud-and-boot`（`spring-boot-auto-configuration`、`spring-transaction-boundaries`、`spring-cloud-discovery-and-gateway`）；收窄 5 个父页正文同时保留全部既有标题、编号、锚点、摘要与子页跳转；B04/B05/B09/B10 保持单页。
+- T6-T8 索引、关系边与维护文档同步：按 `decisions-wiki.md` §C 同步补入 23 条正文交接与跳转并剪除 22 条噪音边（含 A14 附带剪边）；更新三语 `kb-index.md`（70 slug：`20 active / 47 provisional / 3 deprecated`，毕业观察板 47 项）、`migration/publication-overrides.json`、`docs/DOCUMENT-CLASSIFICATION.md` 及 `docs/kb-convergence-design.md` 的冻结路径引用。
+- 未改 `src/content/raw/`、`legacy.metadata`、既有归档 ID、既有 URL、`draft` 与保护面。验证：`npm run kb:lint`、`npm run build`、`npm run check:content`、`npm run check:viewport`。
+
 研究记录
 1. 原始文档: src/content/information/zh-cn/kb-log.md
 2. 来源版本: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64

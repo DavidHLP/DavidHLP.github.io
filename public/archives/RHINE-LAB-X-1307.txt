@@ -1,0 +1,100 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-1307 / MySQL Same-Table Read/Write DML: Derived-Table Materialization, Temporary Tables, and Update Boundaries
+ENGINEERING NOTES
+
+Department: Engineering notes
+Collection: 2026-11-27
+Related people: DavidHLPL
+Access: Public
+
+In MySQL 8.4, reading aggregates from the same table being modified by `UPDATE` or `INSERT` cannot rely on standard-SQL subqueries as a universal template. This page isolates questions 3 and 4 from the four-table exercises: derived-table materialization for same-table updates, temporary-table separation for same-table inserts, and distinguishing a missing row from an existing row with `score IS NULL`.
+
+## Schema Convention and Input Isolation
+
+The exercises reuse the four-table schema from [Database Written-Test Review](/blog/legacy/note/en/database-written-test-review/): `student(sno, sname, sage, ssex)`, `course(cno, cname, tno)`, `sc(sno, cno, score)` (composite primary key `(sno, cno)`, nullable `DECIMAL(5, 2)`), and `teacher(tno, tname)`. Each data-modifying exercise starts from the same clean initial dataset rather than chaining mutations.
+
+## 1. Same-Table `UPDATE`: Preventing Merge via `GROUP BY` Materialization
+
+Goal: update scores in courses taught by teacher `T001` to **each course's own average** (grouped by `cno`, not one combined average across all of the teacher's courses).
+
+```sql
+-- MySQL 8.4
+UPDATE sc AS s
+JOIN course AS c
+  ON c.cno = s.cno
+JOIN teacher AS t
+  ON t.tno = c.tno
+JOIN (
+    SELECT cno, AVG(score) AS avg_score
+    FROM sc
+    GROUP BY cno
+) AS a
+  ON a.cno = s.cno
+SET s.score = ROUND(a.avg_score, 2)
+WHERE t.tno = 'T001'
+  AND a.avg_score IS NOT NULL;
+```
+
+Key boundaries:
+
+- Filter by `t.tno = 'T001'` instead of teacher name so uniqueness of names is not assumed.
+- Filter `a.avg_score IS NOT NULL` so a course with no valid scores is never assigned a fabricated value.
+- MySQL restricts reading the target table in a subquery during an `UPDATE`. The `GROUP BY` and aggregate in the derived table prevent derived-table merging so it participates via materialization; however, this is not an unconditional template for arbitrary same-table subqueries.
+- As written, existing `NULL` scores in a course with a valid average are also overwritten; add `s.score IS NOT NULL` if business rules require preserving unentered scores.
+
+## 2. Same-Table `INSERT ... SELECT`: Fixing the Average in a Temporary Table
+
+Goal: insert `C002` records for students who lack one, using the course's current average score.
+
+Distinguish two states first:
+
+| Current `sc` state | Semantic meaning | Required action |
+| --- | --- | --- |
+| No `(sno, 'C002')` row exists | Missing course enrollment record | `INSERT` a new row |
+| `(sno, 'C002')` exists with `score IS NULL` | Score not yet entered | Use `UPDATE`; do not insert a duplicate |
+
+```sql
+-- MySQL 8.4; assume no concurrent writes in this exercise
+CREATE TEMPORARY TABLE tmp_review_course_avg AS
+SELECT cno, AVG(score) AS avg_score
+FROM sc
+WHERE cno = 'C002'
+GROUP BY cno;
+
+INSERT INTO sc (sno, cno, score)
+SELECT stu.sno, a.cno, ROUND(a.avg_score, 2)
+FROM student AS stu
+CROSS JOIN tmp_review_course_avg AS a
+LEFT JOIN sc AS existing
+  ON existing.sno = stu.sno
+ AND existing.cno = a.cno
+WHERE existing.sno IS NULL
+  AND a.avg_score IS NOT NULL;
+
+DROP TEMPORARY TABLE tmp_review_course_avg;
+```
+
+Using a temporary table avoids a MySQL `INSERT ... SELECT` boundary: the target table may appear in the main `FROM` clause, but not directly inside a subquery of that statement, so combining an unverified same-table average subquery and same-table `NOT EXISTS` in one `INSERT` is unsafe. Likewise, `a.avg_score IS NOT NULL` prevents inventing a `0` score when no valid `C002` scores exist.
+
+## Concurrency and Snapshot Boundaries
+
+The composite primary key `(sno, cno)` prevents duplicate rows, but it does not automatically give multiple statements a single shared snapshot. Production paths must explicitly define transaction boundaries, isolation levels, conflict retries, and which point in time the average represents.
+
+## Evidence Boundaries and Unverified Items
+
+- **Source facts**: Split from section 6 (questions 3 and 4) of [Database Written-Test Review](/blog/legacy/note/en/database-written-test-review/), grounded in `database-written-test-review` and its cited MySQL 8.4 documentation on `UPDATE`, `derived-table-optimization`, and `INSERT ... SELECT`.
+- **Unverified items**: These statements were not run on a pinned MySQL 8.4 patch version in this round; derived-table materialization plans, unique-key conflicts, all-`NULL` courses, and concurrent reruns remain untested.
+
+## Graduation Checks
+
+- Execute questions 3 and 4 on a pinned MySQL 8.4 patch version and confirm via `EXPLAIN` that the derived table is materialized rather than merged
+- Test all-`NULL` courses, existing `NULL`-score rows, empty tables, and unique-key conflict cases
+- Run a two-session concurrent rerun control under explicit isolation levels to document snapshot and conflict behavior, retaining bidirectional links with the parent page
+
+Research notes
+1. Native wiki page: content/blog/legacy/note/en/mysql-same-table-dml.md
+2. Source snapshot: database-written-test-review
+3. Evidence status: provisional
+
+Reference: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md
+This archive adaptation is based on publicly available setting material, not the game's original text.

@@ -86,10 +86,11 @@ path=/v1/messages status=200
 
 ## 相关页面
 
+
 - [Headroom 单端口路由综合](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
 - [Headroom 路由持久化综合](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
+- [OMP Headroom Bridge：外部路由控制器与原生 Codex/OMP 代理边界](/blog/legacy/note/zh-cn/omp-headroom-provider-proxy/)
 - [Headroom 0.34 压缩与检索契约](/blog/legacy/note/zh-cn/headroom-compress-retrieve-contract/)
-
 
 ## 来源与关联文档
 

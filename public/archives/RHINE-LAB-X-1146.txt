@@ -112,11 +112,13 @@ retrieval_count
 
 ## 相关页面
 
+
 - [Headroom 单端口路由](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
 - [Headroom 路由持久化](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
+- [Headroom 与 cc-switch / Claude Code 共存：单一整理与安全边界](/blog/legacy/note/zh-cn/headroom-cc-switch-coexistence/)
+- [OMP Headroom Bridge：外部路由控制器与原生 Codex/OMP 代理边界](/blog/legacy/note/zh-cn/omp-headroom-provider-proxy/)
 - [OMP Hook 扩展](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
 - [LLM-Wiki 模式](/blog/legacy/note/zh-cn/llm-wiki-pattern/)
-
 
 ## 来源与关联文档
 

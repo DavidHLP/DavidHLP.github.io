@@ -1,0 +1,94 @@
+﻿RHINE LAB · 内部データベース
+資料 X-1302 / SQL 結合の保持規則、NULL セマンティクスと集合の重複排除
+技術ノート
+
+部門: 技術ノート
+収録範囲: 2026-11-27
+関連人物: DavidHLPL
+アクセス: 公開
+
+SQL クエリの結果集合を判断するには、まず「**どの行を残すか**」と「**どの条件で一致・比較するか**」を分離する必要がある。外部結合で右表条件を `ON` と `WHERE` のどちらに置くか、`UNION` が行全体と単一列のどちらで重複排除するか、`AVG(score)` が `NULL` を無視するかによって結果は直接変わる。
+
+## 結合の保持規則と `ON` / `WHERE` のフィルタ境界
+
+内部結合は結合条件を満たす組だけを残し、左外部結合は左表のすべての行を、右外部結合は右表のすべての行を残す。外部結合で一致しない側は `NULL` で補われる。「外部結合は等値結合でなければならない」という理解は誤りであり、等値・大小・範囲の比較は結合条件の話、内部/外部は保持規則の話であるため、外部結合でも非等値条件を使える。
+
+例えば、すべての学生と `C002` の成績を表示し、履修記録がない学生も残す場合：
+
+```sql
+SELECT s.sno, r.score
+FROM student AS s
+LEFT JOIN sc AS r
+  ON r.sno = s.sno
+ AND r.cno = 'C002';
+```
+
+| 条件の位置 | 一致行がない場合の右表列値 | 結果集合への影響 |
+| --- | --- | --- |
+| `ON r.cno = 'C002'` | 右表のマッチ候補だけを絞り、左表行は `NULL` 補完で保持 | 全学生が残る |
+| `WHERE r.cno = 'C002'` | `r.cno` が `NULL` となり比較結果が未知（真ではない） | 未履修学生が除外され、実質的に内部結合へ近づく |
+
+外部結合を読むときは、まず「絶対に一致しない 1 行」を作り、後続の `WHERE` で消えないかを追跡する。
+
+## `UNION` と `UNION ALL` の集合重複排除セマンティクス
+
+`UNION` はデフォルトで結合結果の重複を排除し、`UNION ALL` は重複行を残す。重複排除の単位は単一列ではなく**投影された結果行全体**である。例えば投影が `(sno, cno)` なら、同じ学生でも別科目の 2 行は重複とみなされない。
+
+重複排除が不要なら `UNION ALL` で無駄な処理を省けるが、すべてのクエリで一定の倍率だけ速くなるとは限らない。どちらも最終的な `ORDER BY` の代わりにはならないため、安定した表示順が必要なら明示的にソートする。
+
+## 4 表演習モデルにおける `NULL` と比較セマンティクス
+
+4 表演習は次のスキーマ規約を前提とする：
+
+```text
+student(sno, sname, sage, ssex)  学生、主キー sno
+course(cno, cname, tno)          科目、主キー cno
+sc(sno, cno, score)              履修・成績、複合主キー (sno, cno)、NULL 可 DECIMAL(5, 2)
+teacher(tno, tname)              教師、主キー tno
+```
+
+### 1. 自己結合の比較：`C001` が `C002` より高い学生
+
+同じ学生の 2 科目は別行にあるため、自己結合で 1 行に並べて比較する：
+
+```sql
+SELECT a.sno
+FROM sc AS a
+JOIN sc AS b
+  ON b.sno = a.sno
+WHERE a.cno = 'C001'
+  AND b.cno = 'C002'
+  AND a.score > b.score;
+```
+
+両方の科目行が存在し `a.score > b.score` が厳密に成り立つ場合のみ選ばれる。片方の欠落、同点、または `NULL` を含む比較は結果に含まれない。
+
+### 2. 集約と `HAVING`：平均成績が 60 より大きい学生
+
+```sql
+SELECT sno, AVG(score) AS avg_score
+FROM sc
+GROUP BY sno
+HAVING AVG(score) > 60;
+```
+
+`AVG(score)` はデフォルトで `NULL` を無視するため、欠席・未入力・未履修を自動的に 0 点にはしない。ある学生の成績がすべて `NULL` なら `AVG(score)` も `NULL` となり `> 60` を満たさない。欠席を 0 点とするかは業務ルールであり、式を書く前に確定する必要がある。
+
+## 証拠の境界と未検証項目
+
+- **出典の事実**：本ページは [データベース筆記試験の復盤](/blog/legacy/note/ja/database-written-test-review/) の第 2・4・6（問 1・2）節から分離され、`database-written-test-review` スナップショットおよび引用元の Oracle 19c / MySQL 8.4 マニュアルを根拠とする。
+- **未検証項目**：今回の作業では Oracle 19c や MySQL 8.4 実機で上記 SQL を実行しておらず、実データでの `UNION` と `UNION ALL` の実行計画・所要時間も未計測である。空入力・不一致・重複・全 `NULL` の対照検証は固定エンジン上で実施する必要がある。
+
+## 昇格チェック
+
+- 固定版の MySQL 8.4 / Oracle 19c 上で、空入力・不一致行・重複行・全 `NULL` の 4 対照データを作成し全クエリを再実行する
+- `LEFT JOIN` の `ON` と `WHERE` における行数差を実測し、実際の出力を記録する
+- `(sno, cno)` 投影での `UNION` / `UNION ALL` 重複排除と `ORDER BY` 挙動を確認し、親ページとの双方向リンクを維持する
+
+研究記録
+1. ネイティブ wiki ページ: content/blog/legacy/note/ja/sql-join-null-semantics.md
+2. 出典スナップショット: database-written-test-review
+3. 証拠の状態: 暫定
+
+参考資料: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md
+公開設定資料を基にした資料形式の再構成であり、ゲームの原文ではありません。

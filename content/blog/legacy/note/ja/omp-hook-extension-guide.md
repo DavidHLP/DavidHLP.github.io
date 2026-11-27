@@ -167,11 +167,12 @@ mock 探針では少なくとも、対象外ツールが静かであること、
 
 ## 関連ページ
 
+
 - [Headroom 単一ポート移行](/blog/legacy/note/ja/headroom-single-port-evolution/)
 - [OMP 設定の階層](/blog/legacy/note/ja/omp-config-and-rules-guide/)
 - [Headroom ルート永続化](/blog/legacy/note/ja/omp-headroom-persistence/)
 - [LLM wiki pattern](/blog/legacy/note/ja/llm-wiki-pattern/)
-
+- [Headroom 0.34 圧縮・取得契約：フィールド、モード、実エンドポイント検証](/blog/legacy/note/ja/headroom-compress-retrieve-contract/)
 
 ## 出典と関連文書
 
