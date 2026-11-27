@@ -1,4 +1,5 @@
 import { articleScrollRoot } from "./article-reader.ts";
+import { translateUiText } from "./ui-language.ts";
 
 export function collectArticleHeadings(body: HTMLElement) {
   const headings = [...body.querySelectorAll<HTMLElement>("h1,h2,h3,h4,h5,h6")]
@@ -21,6 +22,8 @@ export function collectArticleHeadings(body: HTMLElement) {
 
 export class ArticleOutline {
   private outline: HTMLDetailsElement | null = null;
+  private layout: HTMLElement | null = null;
+  private mode: "rail" | "sheet" | null = null;
   private root: HTMLElement | null = null;
   private headings: HTMLElement[] = [];
   private links: HTMLAnchorElement[] = [];
@@ -45,18 +48,30 @@ export class ArticleOutline {
     this.links = [];
     this.count = this.title = null;
     this.current = -1;
+    this.mode = null;
     this.article.style.removeProperty("--article-outline-top");
     this.article.style.removeProperty("--article-heading-offset");
     this.article.style.removeProperty("--article-outline-max-height");
     const body = this.article.querySelector<HTMLElement>(".blog-body");
+    const language = (body?.lang || "zh-CN") as "zh-CN" | "en" | "ja";
+    const contentsLabel = translateUiText("章节目录", language);
     this.headings = body ? collectArticleHeadings(body) : [];
-    if (!body || !this.headings.length) return;
+    if (!body || !this.headings.length) {
+      this.unwrap();
+      return;
+    }
+    if (!this.layout?.isConnected) {
+      this.layout = document.createElement("div");
+      this.layout.className = "article-layout";
+      body.before(this.layout);
+      this.layout.append(body);
+    }
 
     const outline = document.createElement("details");
     outline.className = "article-outline";
     const summary = document.createElement("summary");
     const label = document.createElement("span");
-    label.textContent = "章节目录";
+    label.textContent = contentsLabel;
     this.count = document.createElement("span");
     this.count.className = "article-outline-count";
     this.title = document.createElement("span");
@@ -68,7 +83,7 @@ export class ArticleOutline {
     chevron.textContent = "⌄";
     summary.append(label, this.count, this.title, chevron);
     const nav = document.createElement("nav");
-    nav.setAttribute("aria-label", "章节目录");
+    nav.setAttribute("aria-label", contentsLabel);
     const list = document.createElement("ol");
     const minimum = Math.min(...this.headings.map(heading => Number(heading.tagName.slice(1))));
     this.headings.forEach(heading => {
@@ -107,9 +122,17 @@ export class ArticleOutline {
       this.collapse();
       summary.focus({ preventScroll: true });
     });
-    body.before(outline);
     this.outline = outline;
+    this.layout.append(outline);
     this.refresh();
+  }
+
+  private unwrap() {
+    if (!this.layout) return;
+    const body = this.layout.querySelector<HTMLElement>(".blog-body");
+    if (body) this.layout.before(body);
+    this.layout.remove();
+    this.layout = null;
   }
 
   collapse() {
@@ -117,7 +140,8 @@ export class ArticleOutline {
   }
 
   refresh() {
-    if (!this.outline) return;
+    if (!this.outline || !this.layout) return;
+    this.applyMode();
     const root = articleScrollRoot(this.article);
     if (root !== this.root) {
       this.root?.removeEventListener("scroll", this.schedule);
@@ -127,8 +151,18 @@ export class ArticleOutline {
     const toolbar = root instanceof HTMLDialogElement ? (root.firstElementChild as HTMLElement)?.offsetHeight ?? 0 : 0;
     const padding = parseFloat(getComputedStyle(root).paddingTop) || 0;
     this.article.style.setProperty("--article-outline-top", `${toolbar}px`);
-    this.article.style.setProperty("--article-heading-offset", `${toolbar + padding + this.outline.offsetHeight + 8}px`);
+    const overlay = this.mode === "sheet" ? (this.outline.querySelector("summary")?.offsetHeight ?? 44) + 8 : 0;
+    this.article.style.setProperty("--article-heading-offset", `${toolbar + padding + overlay}px`);
     this.schedule();
+  }
+
+  private applyMode() {
+    if (!this.outline || !this.layout) return;
+    const mode = this.article.clientWidth >= 820 ? "rail" : "sheet";
+    if (mode === this.mode) return;
+    this.mode = mode;
+    this.layout.dataset.outlineMode = mode;
+    this.outline.open = mode === "rail";
   }
 
   private schedule = () => {
@@ -139,8 +173,16 @@ export class ArticleOutline {
       const bounds = this.root.getBoundingClientRect();
       const scale = this.root.offsetHeight ? bounds.height / this.root.offsetHeight : 1;
       const outlineBounds = this.outline.getBoundingClientRect();
-      const available = `${Math.max(44, (bounds.bottom - outlineBounds.bottom) / (scale || 1) - 8)}px`;
-      if (this.article.style.getPropertyValue("--article-outline-max-height") !== available) this.article.style.setProperty("--article-outline-max-height", available);
+      const summaryRect = this.outline.querySelector("summary")!.getBoundingClientRect();
+      const space = this.mode === "rail"
+        ? (bounds.bottom - outlineBounds.top) / (scale || 1) - summaryRect.height - 16
+        : (bounds.bottom - summaryRect.bottom) / (scale || 1) - 8;
+      const available = `${Math.max(96, space)}px`;
+      if (this.article.style.getPropertyValue("--article-outline-max-height") !== available) {
+        this.article.style.setProperty("--article-outline-max-height", available);
+        this.schedule();
+        return;
+      }
       const top = Math.max(bounds.top, outlineBounds.bottom) + 8 * (scale || 1);
       let current = 0;
       let lastVisible = 0;
