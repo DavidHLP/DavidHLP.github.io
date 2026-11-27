@@ -13,7 +13,7 @@ interface Props { post?: CollectionEntry<"blog"> }
 const { post } = Astro.props;
 const posts = await getPosts();
 const rendered = post ? [{ entry: post, ...await render(post) }] : [];
-const records = posts.map(entry => ({ ...entry.data, id: entry.data.archiveId, slug: entry.id }));
+const records = posts.map(entry => ({ ...entry.data, id: entry.data.archiveId, slug: entry.id, nativeWiki: Boolean(!entry.data.legacy && entry.data.translationKey) }));
 const payload = JSON.stringify({ records, categories: site.categories, columns: site.columns })
   .replace(/</g, "\\u003c");
 const title = post ? `${post.data.title} · ${site.title}` : site.title;
@@ -60,7 +60,7 @@ const t = (value: string) => translateUiText(value, language);
         {post.data.profile && <Profile profile={post.data.profile} />}
         <div class="blog-body" lang={post.data.lang} translate="no">{rendered.map(({ Content }) => <Content />)}</div>
         <h2>{t("研究记录")}</h2><ol translate="no">{post.data.findings.map(finding => <li>{finding}</li>)}</ol>
-        <p><a href={post.data.source} rel="noopener">{t(post.data.legacy ? "原文来源 ↗" : "设定参考 ↗")}</a></p>
+        <p><a href={post.data.source} rel="noopener">{t(post.data.legacy ? "原文来源 ↗" : post.data.translationKey ? "Wiki 来源 ↗" : "设定参考 ↗")}</a></p>
       </article> : <section>
         <h1 translate="no">{site.title}</h1><p>{site.description}</p>
         {site.columns.map(column => <section><h2>{column}</h2><ul>

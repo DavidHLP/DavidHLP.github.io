@@ -77,5 +77,4 @@ public void processOrder() {
 1. 原始证据: src/content/raw/zh-cn/ingest-spring-cloud.md
 2. 证据状态: 暂定
 
-设定参考: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md
-本文为基于公开设定的档案式改写，非游戏原文。
+Wiki 来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md

@@ -9,7 +9,7 @@
   "date": "2026-11-27",
   "lead": "DavidHLPL",
   "clearance": "PUBLIC",
-  "abstract": "JDK 8/17 の参照型ノートに基づき、java.lang.ref.Reference の 4 状態遷移、JDK 9+ の VarHandle 化、4 種の参照強度の回収仕様、SoftReference が低遅延キャッシュで反パターンになる理由と Cleaner への置き換えを整理する。",
+  "abstract": "JDK 8/17 の参照型ノートに基づき、java.lang.ref.Reference の 4 状態遷移、JDK 8/17 の get/clear 実装差、4 種の参照強度の回収仕様、SoftReference が低遅延キャッシュで反パターンになる理由と Cleaner への置き換えを整理する。",
   "findings": [
     "一次情報源: src/content/raw/zh-cn/ingest-java-concurrency.md",
     "証拠の状態: 暫定"
@@ -53,18 +53,22 @@ Java はオブジェクト到達可能性とオフヒープ資源の解放を非
 3. **`Enqueued`（キュー登録）**：JVM の `Reference-Handler` スレッドが `referent` を `null` にしたうえで関連付けられた `ReferenceQueue` へ投入する。
 4. **`Inactive`（非活性）**：アプリがキューから取り出すか、キュー未指定のまま回収完了して到達する終端状態。
 
-JDK 9 以降では G1GC や ZGC などの並行 GC と整合するため、`VarHandle REFERENT`（`getAcquire` / `setRelease`）で操作する。
+`get()` と `clear()` の実装は、ネット上でよく見る例とは異なる。JDK 17 の `java.lang.ref.Reference` は Java 層で `VarHandle` を使って `referent` を読み書きしない。`get()` は `this.referent` をそのまま返し（`@IntrinsicCandidate` が付与され、JIT と GC が協調する）、`clear()` は native の `clear0()` に委譲する。可視性と回収バリアは VM とネイティブコードが保証するもので、Java 層の acquire/release 操作からは推論できない。
 
 ```java
-// Reference<T> の取得・消去セマンティクス（JDK 9+ VarHandle 方式）
+// OpenJDK 17 java.lang.ref.Reference（抜粋）
 public T get() {
-    return (T) REFERENT.getAcquire(this);
+    return this.referent;
 }
 
 public void clear() {
-    REFERENT.setRelease(this, null);
+    clear0();
 }
+
+private native void clear0();
 ```
+
+よく見る `REFERENT.getAcquire(this)` / `REFERENT.setRelease(this, null)` はメモリバリアの意図を説明するための擬似コードであり、JDK のソースでも JDK 17 の `Reference` の実装でもない。
 
 ### 2. 4 種の参照強度の比較と設計判断
 

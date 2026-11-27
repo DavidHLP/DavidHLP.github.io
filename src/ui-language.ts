@@ -169,6 +169,8 @@ const labels: Record<string, readonly [string, string, string?]> = {
   "设定参考": ["Reference", "参考資料"],
   "原文来源 ↗": ["Original source ↗", "原文の出典 ↗"],
   "原文来源": ["Original source", "原文の出典"],
+  "Wiki 来源 ↗": ["Wiki source ↗", "Wiki 出典 ↗"],
+  "Wiki 来源": ["Wiki source", "Wiki 出典"],
   "关闭窗口": ["Close window", "ウィンドウを閉じる"],
   "档案检索": ["Archive search", "資料検索"],
   "内部档案检索": ["Internal archive search", "内部資料検索"],

@@ -17,6 +17,7 @@ export interface ArchiveRecord {
   findings: string[];
   source: string;
   legacy?: { path: string };
+  nativeWiki?: boolean;
   slug?: string;
   body?: string;
   tags?: string[];

@@ -47,7 +47,7 @@
 
 ### 1. レジストリと設定管理の境界：Consul 対 Nacos
 
-- **Consul**：Agent が TCP・HTTP・スクリプトヘルスチェックを定期実行し不健全インスタンスを自動除外する。KV ストア（旧構成では `bootstrap.yml` で主コンテキスト起動前に外部設定を読込）、mTLS（Consul Connect）、既定ポート `8500` の Web UI を持つ。
+- **Consul**：Agent が TCP・HTTP・スクリプトのヘルスチェックを定期実行し、失敗したインスタンスは `critical` としてカタログに残り、自動では削除されない。ヘルスチェック合格のインスタンスだけを返すには `spring.cloud.consul.discovery.query-passing=true` が必要（既定は `false` で全インスタンスを返す）。失敗インスタンスの自動登録解除には critical タイムアウト（Consul の `deregister_critical_service_after` / Spring Cloud の `deregister-critical-service-after`）の設定が要る。KV ストア（旧構成では `bootstrap.yml` で主コンテキスト起動前に外部設定を読込）、mTLS（Consul Connect）、既定ポート `8500` の Web UI も持つ。
 - **Nacos**：Discovery と動的設定管理を兼ねる。Nacos 2.x は管理ポート `8848` に加えクライアント・サーバ間 gRPC 用ポート `9848`/`9849` を用い、本番運用では `latest` を避け固定タグ指定と `NACOS_AUTH_ENABLE=true` の認証有効化が必要になる。
 
 ### 2. クライアント側負荷分散：`Spring Cloud LoadBalancer`
@@ -89,7 +89,7 @@ public interface UserClient {
 
 ## 卒業チェック
 
-1. 固定された Spring Cloud 2023+ BOM・JDK 環境でローカルの Nacos/Consul を起動・停止し、インスタンス登録解除と `HealthCheckServiceInstanceListSupplier` の除外遅延を計測する。
+1. 固定された Spring Cloud 2023+ BOM・JDK 環境でローカルの Nacos/Consul を起動・停止し、`query-passing` フィルタ、critical タイムアウトによる登録解除、`HealthCheckServiceInstanceListSupplier` の除外遅延を検証する。
 2. `@FeignClient` 配下に不健全インスタンスを混ぜ、`LoadBalancer` キャッシュ期限切れと `RoundRobinLoadBalancer` のフェイルオーバーを確認する。
 3. `Path`/`Header` 述語と前置 `GatewayFilter` を持つ Gateway ルートに対し結合テストを書き、転送先 URI と応答コードを確認する。
 

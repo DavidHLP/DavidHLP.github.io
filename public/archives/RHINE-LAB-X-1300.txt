@@ -90,5 +90,4 @@ HAVING AVG(score) > 60;
 2. 来源快照: database-written-test-review
 3. 证据状态: 暂定
 
-设定参考: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md
-本文为基于公开设定的档案式改写，非游戏原文。
+Wiki 来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md
