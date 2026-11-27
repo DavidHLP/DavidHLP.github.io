@@ -44,7 +44,7 @@ Therefore, even if an old message reappears in the Redis PEL, it carries an old 
 
 ## This is a boundary, not magic
 
-A result fence protects only the write seam it covers. It does not replace message durability, cross-owner authorization, business auditing, or idempotency in external systems. It also does not guarantee that old code will never execute; it guarantees that an old execution result has no authority to overwrite new state.
+A result fence protects only the write seam it covers. It does not replace message durability, cross-owner authorization, business auditing, or idempotency in external systems. It also does not guarantee that old code will never execute; it guarantees that an old execution result has no authority to overwrite new state. To compare submission `generation`/`attemptId` fencing against fencing tokens for singleton database leases, see [A Database Lease Is Not Enough: UltiCode Uses Fence Tokens to Stop Stale Singleton Jobs](/blog/legacy/note/en/ulticode-fenced-singleton-lease/).
 
 That is the value of conditional updates: concurrency correctness is narrowed from “every caller must be careful” to one database rule that can be inspected.
 
@@ -62,6 +62,7 @@ Read [SubmissionMapper.java](https://github.com/DavidHLP/UltiCode/blob/f801a1076
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
 - [UltiCode: Verifiable Boundaries for Online Judging and Agent Engineering](/blog/legacy/note/en/ulticode/)
+- [A Database Lease Is Not Enough: UltiCode Uses Fence Tokens to Stop Stale Singleton Jobs](/blog/legacy/note/en/ulticode-fenced-singleton-lease/)
 
 Research notes
 1. Original document: src/content/note/en/ulticode-generation-attempt-fence.md

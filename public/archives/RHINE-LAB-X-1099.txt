@@ -36,7 +36,7 @@ value = store == NullValue.INSTANCE ? null : store;
 - `static final INSTANCE` で JVM 内の一つの標識を再利用し、adapter は identity で認識できる。
 - `Serializable` と `readResolve()` で Java シリアライズ後に canonical instance を返し、デシリアライズしたオブジェクトが `INSTANCE` と別 identity になるのを防ぐ。
 
-`equals(null)`、安定した `hashCode()`、`toString()` は表示上の意味を補助します。業務コードは `NullValue` をユーザーオブジェクトとして扱いません。
+`equals(null)`、安定した `hashCode()`、`toString()` は表示上の意味を補助します。業務コードは `NullValue` をユーザーオブジェクトとして扱いません。Redis キャッシュにおける具体的な `cacheNullValues` 実装例は [ResiCache：キャッシュ保護を検証可能な並行性・一貫性の境界にする](/blog/legacy/note/ja/resicache/) を参照。
 
 ### 3. プレースホルダーは整合性戦略ではない
 
@@ -72,10 +72,13 @@ value = store == NullValue.INSTANCE ? null : store;
 
 ## 関連ページ
 
+
 - [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)
 - [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/ja/java-auto-closeable/)
 - [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/ja/java-internship-interview-blog-polished/)
-
+- [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/ja/redis-jackson-java-time/)
+- [Redis ビジネスパターン：キャッシュ、分散ロック、メッセージキュー、Feed と数量限定・時間限定販売](/blog/legacy/note/ja/redis-business-patterns/)
+- [ResiCache：キャッシュ保護を検証可能な並行性・一貫性の境界にする](/blog/legacy/note/ja/resicache/)
 
 ## 出典と関連文書
 

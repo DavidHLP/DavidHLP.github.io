@@ -56,17 +56,21 @@
 
 ## 関連ページ
 
-- [spark-bigdata-ecosystem](/blog/legacy/note/ja/spark-bigdata-ecosystem/)
-- [database-schema-drift](/blog/legacy/note/ja/database-schema-drift/)
-- [mysql-storage-and-deadlock](/blog/legacy/note/ja/mysql-storage-and-deadlock/)
 
+- [spark-bigdata-ecosystem](/blog/legacy/note/ja/spark-bigdata-ecosystem/)
+- [mysql-storage-and-deadlock](/blog/legacy/note/ja/mysql-storage-and-deadlock/)
 
 ## 出典と関連文書
 
 - [ingest-hbase-foundation](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-hbase-foundation.md)
 - [Spark とビッグデータエコシステム：Hadoop、HBase、Spark 実行モードとクラスタ](/blog/legacy/note/ja/spark-bigdata-ecosystem/)
-- [データベース Schema ドリフト：history、schema、query の三ビューで特定する](/blog/legacy/note/ja/database-schema-drift/)
 - [MySQL ストレージエンジンとデッドロック検出](/blog/legacy/note/ja/mysql-storage-and-deadlock/)
+
+## 昇格チェック
+
+- 固定 HBase/Hadoop/ZooKeeper で論理 Cell と物理所有を確認
+- 同一 fixture で Region split を再観察
+- 順序/分散 RowKey の負荷対照と Spark 双方向リンク
 
 研究記録
 1. 元の文書: src/content/note/ja/hbase-foundation-and-ops.md

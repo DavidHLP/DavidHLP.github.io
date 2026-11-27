@@ -15,6 +15,8 @@ The 20 Redis business notes across the two repositories mirror each other (each 
 
 - `Redi缓存模型和思路.md` (Redis Cache Model) and `Redis-Caching-Models.md` distinguish Cache-Aside, Read/Write-Through, and invalidation strategies; TTL, proactive eviction, and delayed double-delete each have trade-offs.
 - Cache nulls (see `java-null-value`) use placeholders to avoid penetration; `Spring Cache` annotations are covered separately in `CacheableAndCacheEvict`.
+- The course material also offers a multi-level cache design case: a Caffeine/JVM local tier, a Redis shared tier, and an Nginx/OpenResty edge tier each own a different invalidation responsibility. The case describes the layering only; it provides no reusable expiration values.
+- A batching case distinguishes Pipeline from MGET: Pipeline cuts round trips but is bounded by client buffering, response size, and runtime limits; MGET reads by key in batches. Neither changes the single-response and runtime limits.
 
 ### 2. Distributed locks and concurrency control
 
@@ -36,7 +38,7 @@ The 20 Redis business notes across the two repositories mirror each other (each 
 ## Not Applicable and Risks
 
 - Strong transactions, exactly-once semantics, and complex queries are not suited to pure Redis.
-- If a distributed lock expires before business logic completes, it can cause dual activity; watchdog renewal, network partitions, and clock drift must be evaluated explicitly (see `resicache` related pages).
+- If a distributed lock expires before business logic completes, it can cause dual activity; watchdog renewal, network partitions, and clock drift must be evaluated explicitly (see the bounded project instance covering cache protection, loader ownership, and lock boundaries in [ResiCache: Verifiable Concurrency and Consistency Boundaries for Cache Protection](/blog/legacy/note/en/resicache/)).
 - Capacity designs for flash sales and Feed were not load-tested; thresholds must not be copied verbatim.
 
 ## Minimum Verification
@@ -53,19 +55,22 @@ The 20 Redis business notes across the two repositories mirror each other (each 
 
 ## Related Pages
 
+
 - [redis-persistence-principle](/blog/legacy/note/en/redis-persistence-principle/)
 - [java-null-value](/blog/legacy/note/en/java-null-value/)
-- [redis-jackson-java-time](/blog/legacy/note/en/redis-jackson-java-time/)
-- [resicache-observer-nested-execution](/blog/legacy/note/en/resicache-observer-nested-execution/)
-
+- [ResiCache: Verifiable Concurrency and Consistency Boundaries for Cache Protection](/blog/legacy/note/en/resicache/)
 
 ## Sources and related documents
 
 - [ingest-redis-business](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-redis-business.md)
 - [Redis Persistence and Internals: RDB/AOF, Data Structures, and Advanced Mechanisms](/blog/legacy/note/en/redis-persistence-principle/)
 - [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/en/java-null-value/)
-- [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/en/redis-jackson-java-time/)
-- [ResiCache: Observer Nested Execution Must Distinguish Lifecycle, Fragments, and Scope Tokens](/blog/legacy/note/en/resicache-observer-nested-execution/)
+
+## Graduation checks
+
+- Pinned Redis/client reproducing invalidation and penetration edges
+- an independent client verifying lock acquisition, release, and renewal
+- XACK, pending retention, reclaim, and idempotent consumption with the C32 backlink
 
 Research notes
 1. Original document: src/content/note/en/redis-business-patterns.md

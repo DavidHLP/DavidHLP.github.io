@@ -21,6 +21,8 @@ This page is a decision tree for Java production performance incidents, not a 1,
 | High CPU with frequent GC and a near-full heap          | Allocation pressure, memory shortage, or collection storm | `jstat`, GC logs, heap/allocation evidence                      |
 | High load with modest CPU and `BLOCKED/WAITING` threads | Lock contention, exhausted pool, or blocked dependency    | Stacks, pool queues, locks, and downstream timeouts             |
 
+Once live thread dumps point to `BLOCKED`/`WAITING` contention, preserve the stacks and cross-check monitor/lock mechanics and deadlock triggers in [Java Concurrency Deep Dive: JUC, CAS, Atomics, Locks, and Threading](/blog/legacy/note/en/java-concurrency-deepdive/).
+
 ### 2. The evidence chain matters more than a single command
 
 ```text
@@ -70,10 +72,13 @@ Arthas connects to a running JVM and observes threads or methods. `watch`, `trac
 
 ## Related pages
 
+
 - [NullValue: The Cache-Null Placeholder and Serialization Boundary](/blog/legacy/note/en/java-null-value/)
 - [AtomicBoolean: Atomic Boolean State and CAS Boundaries](/blog/legacy/note/en/java-atomic-boolean/)
 - [Java Backend Interview Retrospective: Project Truth, Engineering Mechanisms, and Production Evidence](/blog/legacy/note/en/java-internship-interview-blog-polished/)
-
+- [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/en/redis-jackson-java-time/)
+- [JJWT 0.13.0: Explicitly Fixing the Signature Algorithm, Verifying by Key Type](/blog/legacy/note/en/jjwt-013-security-api/)
+- [Java Concurrency Deep Dive: JUC, CAS, Atomics, Locks, and Threading](/blog/legacy/note/en/java-concurrency-deepdive/)
 
 ## Sources and related documents
 

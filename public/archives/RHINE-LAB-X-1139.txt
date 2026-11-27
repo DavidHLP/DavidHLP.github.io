@@ -76,7 +76,7 @@ MySQL 8.4.11 最小实验得到：
 3. **看 actual schema**：用 `SHOW CREATE TABLE`/`SHOW COLUMNS` 核对列、索引和约束，找 history 之外的变化。
 4. **对照 migration 文件**：确认同一版本是否被改写、缺失、乱序或包含多条非事务 DDL。
 5. **选择向前修复**：生产环境优先新增 migration，把实际状态推进到唯一目标；只有确认历史记录本身错误时才运行 `repair`。
-6. **双路径验证**：空库从零迁移一次，已有库从当前版本升级一次，再执行应用最小查询。
+6. **双路径验证**：空库从零迁移一次，已有库从当前版本升级一次，再执行应用最小查询。若三视图定位出 DDL 变更与 SQL 表达式、字段约束或方言差异交叉，需限定语境核对 [数据库笔试复盘：从 SQL 语义到批量数据处理](/blog/legacy/note/zh-cn/database-written-test-review/) 中的语义与迁移历史边界（迁移历史证据不等同于表达式方言假设）。
 
 ## 最小 MySQL 复现
 
@@ -112,9 +112,11 @@ docker rm -f schema-drift-mysql
 
 ## 相关页面
 
+
 - [MySQL 性能排查：现象→指标→定位层→安全缓解](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
 - [多服务启动就绪：running、ready 与依赖传播](/blog/legacy/note/zh-cn/multi-service-readiness/)
-
+- [微服务数据所有权：先定领域 owner，再谈拆库与迁移](/blog/legacy/note/zh-cn/microservice-data-ownership/)
+- [数据库笔试复盘：从 SQL 语义到批量数据处理](/blog/legacy/note/zh-cn/database-written-test-review/)
 
 ## 来源与关联文档
 

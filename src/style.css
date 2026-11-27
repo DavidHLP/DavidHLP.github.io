@@ -1030,7 +1030,7 @@ button {
 }
 .terminal-modal h2 small {
   font-size: 15px;
-  color: #817a6c;
+  color: #6f6757;
   font-weight: 400;
   letter-spacing: 2px;
 }
@@ -1105,7 +1105,7 @@ button {
 }
 .category-filters button {
   font-size: 12px;
-  color: #8c8373;
+  color: #6f6757;
   transition: color 0.2s;
   display: inline-flex;
   align-items: center;
@@ -1182,9 +1182,9 @@ button {
 }
 .result-name small {
   display: block;
-  font-size: 9px;
-  letter-spacing: 0.7px;
-  color: #9b907e;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: #6f6757;
   margin-top: 7px;
 }
 .result-name > i {
@@ -1194,12 +1194,12 @@ button {
 }
 .result-row > span:nth-child(2) {
   font-size: 12px;
-  color: #7d7565;
+  color: #6f6757;
 }
 .result-row > span:last-child {
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0.5px;
-  color: #6b6d54;
+  color: #665f50;
   display: flex;
   align-items: center;
   justify-content: space-between;

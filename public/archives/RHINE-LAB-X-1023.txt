@@ -76,7 +76,7 @@ Minimal experiments on MySQL 8.4.11 give:
 3. **Look at the actual schema**: use `SHOW CREATE TABLE`/`SHOW COLUMNS` to verify columns, indexes, and constraints, and find changes outside history.
 4. **Compare against the migration files**: confirm whether the same version was rewritten, is missing, is out of order, or contains multiple non-transactional DDL statements.
 5. **Choose a forward fix**: in production, prefer adding a new migration that advances the actual state to a single target; only run `repair` when the history records themselves are confirmed wrong.
-6. **Dual-path verification**: migrate an empty database from scratch once, upgrade an existing database from the current version once, then run the application's minimal query.
+6. **Dual-path verification**: migrate an empty database from scratch once, upgrade an existing database from the current version once, then run the application's minimal query. Once the three views narrow down DDL drift that intersects with SQL expressions, constraints, or dialect differences, cross-check [Database Written-Test Review: From SQL Semantics to Batch Data Processing](/blog/legacy/note/en/database-written-test-review/) while keeping migration-history evidence distinct from dialect semantics.
 
 ## Minimal MySQL reproduction
 
@@ -112,9 +112,11 @@ In the second command the duplicate column is expected to report `1060`, and `c2
 
 ## Related pages
 
+
 - [MySQL performance troubleshooting: symptom → metric → layer → safe mitigation](/blog/legacy/note/en/mysql-performance-troubleshooting/)
 - [Multi-service startup readiness: running, ready, and dependency propagation](/blog/legacy/note/en/multi-service-readiness/)
-
+- [Microservice Data Ownership: Establish the Domain Owner First, Then Talk About Database Splitting and Migration](/blog/legacy/note/en/microservice-data-ownership/)
+- [Database Written-Test Review: From SQL Semantics to Batch Data Processing](/blog/legacy/note/en/database-written-test-review/)
 
 ## Sources and related documents
 

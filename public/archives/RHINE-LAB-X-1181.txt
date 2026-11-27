@@ -74,7 +74,7 @@ BLOOM_FILTER(100)
 
 全局 protection 开关关闭时，四类防护被关闭，但 TTL 和 ActualCache 仍然保留；单机制开关只过滤对应 handler。这是一个很容易被忽略的设计决定：关闭防护不等于关闭缓存本身。
 
-因此，责任链的核心价值不是“以后可以随意插插件”，而是把功能组合收敛为一组可以命名、排序、禁用和测试的 policy。它让代码审查可以针对链路契约，而不是只看每个 handler 的局部实现。
+因此，责任链的核心价值不是“以后可以随意插插件”，而是把功能组合收敛为一组可以命名、排序、禁用和测试的 policy。它让代码审查可以针对链路契约，而不是只看每个 handler 的局部实现；`HandlerResult`、排序规则与执行 snapshot 的完整机制见 [ResiCache 的缓存责任链：控制流、嵌套 fragment 与 observer 生命周期](/blog/legacy/note/zh-cn/resicache-handler-chain-and-observer/)。
 
 ## 二、single-flight 解决的不是“加锁”，而是“谁拥有这次加载”
 
@@ -130,7 +130,7 @@ ThreadLocal<Set<String>> reentrantKeys;
 - `SyncSingleFlightIntegrationTest` 验证 `sync=true` 并发方法只执行一次。
 - `LoaderOrchestratorTest` 验证 Bloom 短路、sync 路由、double-check、写回失败和加载失败结果。
 
-这些测试名称是仓库证据，不等于本文生成时重新执行并通过；但它们说明作者把“并发加载次数、失败传播和重入”当成设计契约，而不是实现偶然性。
+这些测试名称是仓库证据，不等于本文生成时重新执行并通过；但它们说明作者把“并发加载次数、失败传播和重入”当成设计契约，而不是实现偶然性。关于 leader/follower 协调、可重入语义与锁内 double-check 的细节，见 [缓存击穿时，为什么要同时有 Future、分布式锁和 double-check？](/blog/legacy/note/zh-cn/resicache-single-flight/)。
 
 ## 三、提前过期的核心是 stale-task fence，而不是后台刷新
 
@@ -169,7 +169,7 @@ GET current value
 
 因此，如果异步任务排队期间 key 已经被新值替换，旧版本比较失败，新值的 TTL 不会被误缩短。`EarlyExpirationHandlerRaceConditionIntegrationTest` 将“版本未变”和“值已替换”分为两个场景：前者允许 TTL 进入 1–5 秒范围，后者跳过 TTL 缩短。
 
-这是一种比“后台线程直接刷新”更小的设计：刷新调度只负责制造一次受控 miss，回源、写回和错误处理仍由主加载协议统一负责。
+这是一种比“后台线程直接刷新”更小的设计：刷新调度只负责制造一次受控 miss，回源、写回和错误处理仍由主加载协议统一负责；关于“只缩 TTL 且旧任务不得覆盖新值”的条件 CAS 完整分析见 [异步提前过期为什么只缩短 TTL：用版本 CAS 让旧任务自动失效](/blog/legacy/note/zh-cn/resicache-early-expiration-cas/)。
 
 ### 时间语义也被分开处理
 
@@ -192,7 +192,7 @@ GET current value
 
 默认允许的类型前缀是 `io.github.davidhlp`，并始终安装白名单约束的 `PolymorphicTypeValidator`；默认不主动开启 Jackson default typing。业务类型如果不在允许范围内，需要显式配置，否则反序列化被拒绝。
 
-更值得注意的是 streaming preflight。它会检查配置的 type property、`@class` 以及 wrapper-array 形式的类型 id，在 Jackson 真正实例化对象之前拒绝不允许的类型。安全检查的位置从“对象已经创建后再判断”提前到了“对象还没有机会被创建”。
+更值得注意的是 streaming preflight。它会检查配置的 type property、`@class` 以及 wrapper-array 形式的类型 id，在 Jackson 真正实例化对象之前拒绝不允许的类型。安全检查的位置从“对象已经创建后再判断”提前到了“对象还没有机会被创建”。关于旧格式解码、分阶段切换（`SHADOW_READ` / `DUAL_WRITE` / `CUTOVER`）与条件回滚，详见 [换 Redis 序列化器不是改一行配置：从对象信任到可回滚迁移](/blog/legacy/note/zh-cn/resicache-serialization-migration/)。
 
 序列化层还处理了几个现实边界：Spring `NullValue` 的受限兼容路径、未知 envelope version 的失败策略，以及缺少刷新元数据的旧 `CachedValue`。旧 payload 可以回退到 wall-clock 读取，但这不等于所有历史 serializer 都能互读。
 
@@ -272,11 +272,15 @@ prompt/schema 的格式版本，不能代替某个会话、任务或工具调用
 
 ## 相关页面
 
+
 - [ResiCache：observer 嵌套执行必须区分生命周期、fragment 与 scope token](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
 - [Java NullValue：缓存空值是防穿透策略，不是业务语义](/blog/legacy/note/zh-cn/java-null-value/)
 - [Redis 业务模式：先区分缓存职责，再选择双删、TTL 或一致性策略](/blog/legacy/note/zh-cn/redis-business-patterns/)
 - [Redis 与 Jackson Java 时间类型：配置兼容要落到序列化实验](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
-
+- [异步提前过期为什么只缩短 TTL：用版本 CAS 让旧任务自动失效](/blog/legacy/note/zh-cn/resicache-early-expiration-cas/)
+- [ResiCache 的缓存责任链：控制流、嵌套 fragment 与 observer 生命周期](/blog/legacy/note/zh-cn/resicache-handler-chain-and-observer/)
+- [换 Redis 序列化器不是改一行配置：从对象信任到可回滚迁移](/blog/legacy/note/zh-cn/resicache-serialization-migration/)
+- [缓存击穿时，为什么要同时有 Future、分布式锁和 double-check？](/blog/legacy/note/zh-cn/resicache-single-flight/)
 
 ## 来源与关联文档
 

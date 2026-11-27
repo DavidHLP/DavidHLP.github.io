@@ -38,17 +38,19 @@
 
 ## 相关页面
 
-- [redis-business-patterns](/blog/legacy/note/zh-cn/redis-business-patterns/)
-- [redis-heima-practice](/blog/legacy/note/zh-cn/redis-heima-practice/)
-- [database-schema-drift](/blog/legacy/note/zh-cn/database-schema-drift/)
 
+- [redis-business-patterns](/blog/legacy/note/zh-cn/redis-business-patterns/)
 
 ## 来源与关联文档
 
 - [ingest-redis-persistence](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-redis-persistence.md)
 - [Redis 业务模式：缓存、分布式锁、消息队列、Feed 流与秒杀](/blog/legacy/note/zh-cn/redis-business-patterns/)
-- [Redis 黑马实战与进阶：分布式缓存、多级缓存与最佳实践](/blog/legacy/note/zh-cn/redis-heima-practice/)
-- [数据库 Schema 漂移：用 history、schema 与 query 三视图定位](/blog/legacy/note/zh-cn/database-schema-drift/)
+
+## 毕业检查
+
+- 固定 Redis 版本与 RDB/AOF/混合持久化配置
+- 临时实例与目录比较异常停机恢复、记录边界与耗时
+- 重写期间测延迟与 fork 影响并复核业务页双链
 
 研究记录
 1. 原始文档: src/content/note/zh-cn/redis-persistence-principle.md

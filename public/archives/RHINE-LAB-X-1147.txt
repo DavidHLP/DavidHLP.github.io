@@ -85,11 +85,14 @@ headroom wrap omp
 
 ## 相关页面
 
+
 - [OMP 配置分层](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/)
 - [Headroom 路由持久化](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
+- [Headroom 与 cc-switch / Claude Code 共存：单一整理与安全边界](/blog/legacy/note/zh-cn/headroom-cc-switch-coexistence/)
+- [OMP Headroom Bridge：外部路由控制器与原生 Codex/OMP 代理边界](/blog/legacy/note/zh-cn/omp-headroom-provider-proxy/)
 - [OMP Hook 扩展](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
 - [LLM wiki pattern](/blog/legacy/note/zh-cn/llm-wiki-pattern/)
-
+- [Headroom 0.34 压缩与检索契约：字段、模式与真实端点验证](/blog/legacy/note/zh-cn/headroom-compress-retrieve-contract/)
 
 ## 来源与关联文档
 

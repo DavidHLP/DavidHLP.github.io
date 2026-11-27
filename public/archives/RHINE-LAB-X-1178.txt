@@ -149,7 +149,7 @@ try {
 
 ## 3. fragment 为什么不能再次触发 around hook
 
-同步锁 handler 在锁内继续执行后续节点时，外层 execute 仍然负责：
+同步锁 handler 在锁内继续执行后续节点时，外层 execute 仍然负责（本文记录 `75ed279` 期间模型，与当前 `2954fff` 的 fragment/scope 模型在 [ResiCache 的缓存责任链：控制流、嵌套 fragment 与 observer 生命周期](/blog/legacy/note/zh-cn/resicache-handler-chain-and-observer/) 中给出完整对照）：
 
 - 当前 snapshot 的生命周期；
 - around hook 的 start/end 配对；
@@ -227,6 +227,7 @@ observer 负责回答“这一次链执行经历了哪些生命周期事件”�
 
 - [resicache-observer-nested-execution-contract](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-observer-nested-execution-contract.md)
 - [ResiCache：把缓存防护写成可验证的并发与一致性边界](/blog/legacy/note/zh-cn/resicache/)
+- [ResiCache 的缓存责任链：控制流、嵌套 fragment 与 observer 生命周期](/blog/legacy/note/zh-cn/resicache-handler-chain-and-observer/)
 - [Redisson/Jackson 对 LocalDateTime 的默认序列化行为与写读不对称边界](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
 
 研究记录

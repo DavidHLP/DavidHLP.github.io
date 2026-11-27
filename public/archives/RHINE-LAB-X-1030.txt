@@ -112,11 +112,13 @@ Rollback does not require deleting data: restore new requests to the default mar
 
 ## Related pages
 
+
 - [Headroom single-port routing](/blog/legacy/note/en/headroom-single-port-evolution/)
 - [Headroom route persistence](/blog/legacy/note/en/omp-headroom-persistence/)
+- [Headroom with cc-switch / Claude Code Coexistence: Single Synthesis and Security Boundaries](/blog/legacy/note/en/headroom-cc-switch-coexistence/)
+- [OMP Headroom Bridge: External Routing Controller and Native Codex/OMP Proxy Boundaries](/blog/legacy/note/en/omp-headroom-provider-proxy/)
 - [OMP Hook extensions](/blog/legacy/note/en/omp-hook-extension-guide/)
 - [LLM-Wiki pattern](/blog/legacy/note/en/llm-wiki-pattern/)
-
 
 ## Sources and related documents
 

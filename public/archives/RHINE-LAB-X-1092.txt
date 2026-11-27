@@ -238,6 +238,12 @@ HINDSIGHT_API_BASE_URL = "http://127.0.0.1:8888"
 - [Hindsight ランタイムトラブルシューティングマトリクスと失敗モード](/blog/legacy/note/ja/hindsight-troubleshooting/)
 - [OMP 設定の階層：モデルロール、Agent オーバーライド、フォールバックチェーン](/blog/legacy/note/ja/omp-config-and-rules-guide/)
 
+## 昇格チェック
+
+- service・bridge・両端 CLI を固定し Bank route と衝突を検証
+- MCP initialize/session/失敗処理を再演
+- 両 client 各一度の匿名呼出と C17 回帰
+
 研究記録
 1. 元の文書: src/content/note/ja/hindsight-omp-codex-integration.md
 2. 出典リビジョン: f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64

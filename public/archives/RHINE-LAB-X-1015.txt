@@ -17,7 +17,7 @@
 
 ## 导航与路径
 
-**6 域速览**：[A 知识库与 AI 工程](#a-知识库与-ai-工程) · [B Java 与并发](#b-java-与并发) · [C 存储与缓存](#c-存储与缓存) · [D 分布式与微服务](#d-分布式与微服务) · [E 基础设施与运维](#e-基础设施与运维) · [F 工程与架构](#f-工程与架构) · [毕业观察](#毕业观察12-个-provisional) · [已归档](#g-已归档与已废弃deprecated) · [原始来源](#原始来源raw)
+**6 域速览**：[A 知识库与 AI 工程](#a-知识库与-ai-工程) · [B Java 与并发](#b-java-与并发) · [C 存储与缓存](#c-存储与缓存) · [D 分布式与微服务](#d-分布式与微服务) · [E 基础设施与运维](#e-基础设施与运维) · [F 工程与架构](#f-工程与架构) · [毕业观察](#毕业观察47-个-provisional) · [已归档](#g-已归档与已废弃deprecated) · [原始来源](#原始来源raw)
 
 ### 学习路径（按意图进入）
 
@@ -25,7 +25,7 @@
 2. **路径 2 — 分布式进阶**：`microservice-data-ownership` → `database-schema-drift` → `dubbo-nacos-runtime` → `spring-cloud-and-boot` → `resicache-observer-nested-execution` → `plugin-lifecycle-management`。产出：能判定拆库/注册/迁移边界。
 3. **路径 3 — Agent 全链**：`omp-config-and-rules-guide` → `omp-hook-extension-guide` → `headroom-compress-retrieve-contract` → `mcp-codebase-memory-workflow` → `hindsight-local-deployment` / `hindsight-omp-codex-integration` → `omp-headroom-provider-proxy`。产出：能本地复现 OMP/Headroom/Codex 记忆与路由链路。
 
-### 毕业观察（12 个 provisional）
+### 毕业观察（47 个 provisional）
 
 | 页面 | 毕业需补的 3 个可验证检查 |
 |---|---|
@@ -33,15 +33,49 @@
 | [Headroom 路由持久化综合](/blog/legacy/note/zh-cn/omp-headroom-persistence/) | Named Profile 隔离的独立复现；`model_cache` 作为派生状态的删除重建实验；旧 reconciler 仅在迁移场景的触发条件 |
 | [Headroom 与 cc-switch 共存](/blog/legacy/note/zh-cn/headroom-cc-switch-coexistence/) | `8787→15721` 链路的脱敏抓包/日志证据；单一整理责任的负例（双写冲突）；`BindPaths` 安全边界说明的定版 |
 | [OMP Headroom Bridge](/blog/legacy/note/zh-cn/omp-headroom-provider-proxy/) | loopback proxy、OMP provider route、Codex 共享 provider 的三者共存 smoke test；atomic restore 与 mode 判定；rollback 顺序的可重复步骤 |
-| [UltiCode 架构](/blog/legacy/note/zh-cn/ulticode/) | owner 边界、outbox/Streams 投递、generation/attempt 围栏、Docker 沙箱与可追溯交付门禁 |
+| [UltiCode 架构](/blog/legacy/note/zh-cn/ulticode/) | owner 边界、outbox/Streams 投递、generation/attempt 围栏、Docker 沙箱与可追溯交付门禁；固定提交执行 static/unit/integration 并记录版本；多副本/重启下 receipt 与投递；独立验证沙箱边界 |
 | [Enhanced UISA 架构](/blog/legacy/note/zh-cn/uisa-architecture-design/) | 去除“规模/阈值”隐含承诺，改为可复现的重试/幂等约束描述；owner→边界→恢复的最小决策树；失败模式矩阵 |
 | [Java 面试复盘](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/) | 1 个脱敏生产止损案例（现象→定位→恢复）；缓存/异步机制的版本固定证据；能力模型与证据的分离 |
 | [数据库笔试复盘](/blog/legacy/note/zh-cn/database-written-test-review/) | 固定 Oracle/MySQL/Spark/PDI 版本的代表性复现；`NULL`、跨年与同表读写边界测试；Kettle/大表分片恢复与对账演练 |
-| [ResiCache 责任链与 observer](/blog/legacy/note/zh-cn/resicache-handler-chain-and-observer/) | 当前主线的 `HandlerResult` 控制流、snapshot/fragment 边界、observer token 配对和异常收尾测试 |
-| [ResiCache single-flight](/blog/legacy/note/zh-cn/resicache-single-flight/) | 10 路并发、leader/follower/reentrant、锁内 double-check、写回失败与跨实例边界 |
-| [ResiCache 提前过期 CAS](/blog/legacy/note/zh-cn/resicache-early-expiration-cas/) | 真实 Redis 版本竞态、Lua TTL CAS、旧任务失效和“只缩短 TTL、不直接回源”边界 |
-| [ResiCache 序列化迁移](/blog/legacy/note/zh-cn/resicache-serialization-migration/) | 类型白名单、streaming preflight、shadow/dual/cutover/rollback 与并发写保护 |
-
+| [ResiCache 责任链与 observer](/blog/legacy/note/zh-cn/resicache-handler-chain-and-observer/) | 当前主线的 `HandlerResult` 控制流、snapshot/fragment 边界、observer token 配对和异常收尾测试；序列与 `HandlerResult` 控制流；重建 snapshot/fragment 作用域隔离；token 配对与异常收尾 |
+| [ResiCache single-flight](/blog/legacy/note/zh-cn/resicache-single-flight/) | 10 路并发、leader/follower/reentrant、锁内 double-check、写回失败与跨实例边界；十路并发只有一个有效 loader；锁内二次检查含跨实例；重入与写回失败状态分开 |
+| [ResiCache 提前过期 CAS](/blog/legacy/note/zh-cn/resicache-early-expiration-cas/) | 真实 Redis 版本竞态、Lua TTL CAS、旧任务失效和“只缩短 TTL、不直接回源”边界；真实 Redis 旧/新版竞态；旧任务不改变 TTL；成功只缩短 TTL 且不触发 loader |
+| [ResiCache 序列化迁移](/blog/legacy/note/zh-cn/resicache-serialization-migration/) | 类型白名单、streaming preflight、shadow/dual/cutover/rollback 与并发写保护；白名单/preflight 拒绝异常输入；三阶段切换与回滚可重演；并发重写时旧迁移不覆盖新值 |
+| [ResiCache：把缓存防护写成可验证的并发与一致性边界](/blog/legacy/note/zh-cn/resicache/) | 固定五个机制入口与版本矩阵；执行最小并发与 TTL/序列化验证集；把生产、跨实例与安全结论限制在已证明边界 |
+| [UltiCode 数据 Owner 与事实快照：跨服务提交如何保持边界](/blog/legacy/note/zh-cn/ulticode-owner-and-facts/) | 拒绝错误 owner；拒绝错误 schemaVersion/缺失事实；事务重放前后事实快照一致 |
+| [UltiCode 跨 Owner 审计别靠跨库写入：Local Outbox 与 Consumer Inbox](/blog/legacy/note/zh-cn/ulticode-owner-local-audit-inbox/) | owner 业务与 outbox 同成同败；durable inbox 后才 ACK；重复/租约过期后只接管有效一次 |
+| [UltiCode Outbox 与 Redis Streams：把判题投递做成可恢复状态](/blog/legacy/note/zh-cn/ulticode-outbox-redis-streams/) | 业务/outbox 原子落库；重复投递去重；PEL 回收与死信可追溯 |
+| [UltiCode generation 与 attemptId：用条件更新拦截过期判题结果](/blog/legacy/note/zh-cn/ulticode-generation-attempt-fence/) | stale generation 写入零行；旧 attemptId 写入零行；正确的新结果只完成一次 |
+| [containerd TLS：证书信任链与临时跳过验证的决策](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/) | 固定 containerd 1.x/2.x 各一精确版本与匿名 Registry fixture；受信 CA 成功、错误 CA/SAN 在对应错误层失败；Pod 凭证正反例并验收 Docker 镜像基础回链 |
+| [Docker 基础：镜像分层、容器操作与 Compose 网络](/blog/legacy/note/zh-cn/docker-fundamentals/) | 固定 Engine/BuildKit/Compose 与基础镜像并记录缓存命中；临时 volume/bind 的重启与重建数据差异；Compose 服务名、端口、失败场景并接回 C05/C07 |
+| [HBase 基础、架构与运维：数据模型、表设计、Shell 与 Java API](/blog/legacy/note/zh-cn/hbase-foundation-and-ops/) | 固定 HBase/Hadoop/ZooKeeper 组合核对逻辑 Cell 与物理归属；同一 fixture 重跑 Region 分裂观察；顺序/分散 RowKey 负载对照并保留 Spark 双链 |
+| [Hindsight 本地算力分工与 Docker 容器化部署](/blog/legacy/note/zh-cn/hindsight-local-deployment/) | 记录镜像 digest、模型 revision/校验和、设备与驱动；隔离预检覆盖挂载权限和依赖不可用；匿名样本验证健康、检索与重启保留并验收接入/排障双链 |
+| [Hindsight 统一记忆接入：FastMCP 桥接与多项目动态路由](/blog/legacy/note/zh-cn/hindsight-omp-codex-integration/) | 固定服务、桥接器与两端 CLI，验证 Bank 路由及命名碰撞；完整重演 MCP 初始化、会话与失败处理；两客户端各一次匿名调用并完成 C17 回链 |
+| [Hindsight 记忆系统运行时排障矩阵与失效模式](/blog/legacy/note/zh-cn/hindsight-troubleshooting/) | 每一诊断分支记录精确服务、模型或客户端版本；隔离环境复现权限、URL 与会话三类症状；用“语法通过但会话失败”反例核对误判 |
+| [Java 并发深度：JUC、CAS、原子类、锁与线程机制](/blog/legacy/note/zh-cn/java-concurrency-deepdive/) | 固定 JDK build 复跑 CAS/ABA 与版本戳对照；复跑锁竞争、中断与池化 ThreadLocal 清理；声明 JDK/GC 下验证引用队列条件并确认 C19/C21 双链 |
+| [MySQL 存储引擎与死锁检测](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/) | 固定 MySQL 小版本、引擎与隔离级别跑引擎事务差异；两个匿名事务稳定观察受害者回滚与死锁日志；同序加锁对照并核对性能页双链 |
+| [百万级终端插件生命周期管理：状态、心跳与受控发布](/blog/legacy/note/zh-cn/plugin-lifecycle-management/) | 固定一份实现或可运行最小模型，验证重复心跳与并发调度只产生一个未完成操作；注入重复、迟到、失败回执并验证版本单调、灰度与熔断；记录离线恢复与容量边界 |
+| [Redis 业务模式：缓存、分布式锁、消息队列、Feed 流与秒杀](/blog/legacy/note/zh-cn/redis-business-patterns/) | 固定 Redis/客户端版本复现缓存失效与空值穿透；独立客户端验证拿锁、非持有人释放失败与续期边界；明确 XACK、未确认留存、回收与幂等消费并验收 C32 |
+| [Redis 持久化与原理：RDB/AOF、数据结构与高级机制](/blog/legacy/note/zh-cn/redis-persistence-principle/) | 固定 Redis 版本与 RDB/AOF/混合持久化配置；临时实例与目录比较异常停机恢复、记录边界与耗时；重写期间测延迟与 fork 影响并复核业务页双链 |
+| [Spark 与大数据生态：Hadoop、HBase、Spark 运行模式与集群](/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/) | 固定 Spark/JDK/Hadoop 与部署模式重跑 Local；声明适用模式并记录 Driver/Executor 放置与 shuffle 对照；补一项失败/重试路径并完成 C04 与 HBase 双链 |
+| [Spring Boot 与 Spring Cloud：自动装配、事务、注册发现、网关与可观测性](/blog/legacy/note/zh-cn/spring-cloud-and-boot/) | 固定 BOM/JDK 确认自动装配候选、条件与显式退出；测试本地事务传播、回滚与代理调用边界；固定网关/注册组合验证发现、predicate/filter 并复核 C45/C47 |
+| [UltiCode 异步执行契约：idempotency、fingerprint 与有界 receipt](/blog/legacy/note/zh-cn/ulticode-async-execution-contract/) | 固定 commit 跑 submit/poll/cancel 状态机；重复提交验证幂等键与 fingerprint；receipt 上限与重启后的可恢复性 |
+| [UltiCode 验证与供应链门禁：从 static contract 到可验证发布](/blog/legacy/note/zh-cn/ulticode-ci-supply-chain/) | 固定 workflow 跑 static 与集成负例；同一 digest 的签名、SBOM 与 provenance 匹配；零基础设施门禁的阻断证据 |
+| [UltiCode 模块化单体实验场：Core 的 Allowlist、超时与 Close-once 生命周期](/blog/legacy/note/zh-cn/ulticode-core-bounded-testbed/) | opt-in/allowlist 拒绝未授权 owner；有界启动、超时与 close-once 资源交接；fail-closed readiness 与恢复 |
+| [UltiCode Docker 沙箱：资源隔离与基础设施错误分类](/blog/legacy/note/zh-cn/ulticode-docker-sandbox/) | seccomp 与资源限制的用户错误分类；基础设施错误与用户错误分离；逃逸/越权负例 |
+| [UltiCode 数据库租约不够：用 Fence Token 拦住过期单例任务](/blog/legacy/note/zh-cn/ulticode-fenced-singleton-lease/) | 数据库时间与单调递增 fence token；reconciliation 完成写入竞态；stale completion 拒绝与重试 |
+| [SQL 连接语义、集合去重与 NULL 边界](/blog/legacy/note/zh-cn/sql-join-null-semantics/) | 真实 MySQL 8.4/Oracle 执行对比；外连接反例与 `NULL` 比较验证；聚合/平均口径显式核对 |
+| [SQL 日期与方言边界：Spark SQL / Oracle / MySQL](/blog/legacy/note/zh-cn/sql-date-dialect-boundaries/) | 固定 Spark SQL/Oracle/MySQL 运行版本跑跨年用例；核对格式符与返回类型；验证时区/边界行为 |
+| [MySQL 同表读写 DML 边界：物化派生表与临时表](/blog/legacy/note/zh-cn/mysql-same-table-dml/) | 固定 MySQL 8.4 复现 1093 报错与绕过写法；验证并发隔离快照与回滚；补齐 `score IS NULL` 差异用例 |
+| [可恢复批处理抽取与超大表分段变更](/blog/legacy/note/zh-cn/recoverable-batch-extraction/) | 固定 PDI 版本与真实数据集测吞吐；分片断点重启与对账校验；受控验证锁等待与切换窗口 |
+| [Redis 反序列化安全与类型白名单：在对象创建前验证包边界](/blog/legacy/note/zh-cn/resicache-serialization-trust/) | 核对 `.*` 包边界规则与应用白名单；混合数据集 `@class`/wrapper-array preflight 拦截实验；实测 preflight CPU/GC 开销 |
+| [MCP 协议时代兼容边界：2026-07-28 Modern 与 Legacy 握手契约](/blog/legacy/note/zh-cn/mcp-modern-legacy-compatibility/) | 实跑 `v0.10.2` 二进制 legacy `initialize` 与 modern 直连失败；升级版本复核 `SUPPORTED_PROTOCOL_VERSIONS[]`；验证 dual-era 适配器混合流量隔离 |
+| [Java CAS、ABA 问题与 LongAdder：无锁原子原语及竞争边界](/blog/legacy/note/zh-cn/java-cas-and-aba/) | 固定 JDK 17/21 复跑 ABA 版本戳与 `VarHandle`；1/4/16/64 线程 JMH 对照 `AtomicLong`/`LongAdder`；验证 `lazySet` 可见性延迟 |
+| [Java 锁机制、LockSupport 与 ThreadLocal：Monitor、AQS 与线程绑定](/blog/legacy/note/zh-cn/java-locks-and-thread-coordination/) | 多核对比公平/非公平 `ReentrantLock` 延迟与吞吐；线程池 `ThreadLocal` `remove()` 泄漏复现；验证 `unpark` 先行与许可上限 |
+| [Java 引用类型与生命周期状态机：Strong/Soft/Weak/Phantom 与 Cleaner](/blog/legacy/note/zh-cn/java-reference-types/) | 固定 `-XX:+UseG1GC`/ZGC 测 `WeakHashMap`/`Cleaner` 入队；核实 `Cleaner` 无宿主反向强引用；复核确定性淘汰替代 |
+| [Spring Boot 自动装配与启动顺序：Imports、条件注解与显式排除](/blog/legacy/note/zh-cn/spring-boot-auto-configuration/) | 固定 Boot 3.x BOM/JDK 开启 `--debug` 核对 Condition Report；自定义 starter 验证 `AutoConfiguration.imports`；验证 `exclude` 一致性 |
+| [Spring 事务边界与传播行为：AOP 代理、隔离级别与回滚规则](/blog/legacy/note/zh-cn/spring-transaction-boundaries/) | 集成测试验证 `REQUIRED`/`REQUIRES_NEW`/`NESTED` 提交回滚；受检异常与 `rollbackFor`/`noRollbackFor` 验证；外部代理 vs 自调用测试 |
+| [Spring Cloud 注册发现、负载均衡、OpenFeign 与 Gateway](/blog/legacy/note/zh-cn/spring-cloud-discovery-and-gateway/) | 固定 Cloud 2023+ BOM 测 Nacos/Consul 摘流延迟；`@FeignClient` 故障转移验证；Gateway `Path`/`Header` 路由集成测试 |
 > 未毕业前保留 provisional，但不再进入“核心概念”主视图；季度审视未达标则 `deprecated`。
 
 ---
@@ -50,28 +84,41 @@
 
 - [LLM-Wiki 模式：用 LLM 增量维护一个持久的个人知识库](/blog/legacy/note/zh-cn/llm-wiki-pattern/) — 解释 raw、wiki、schema 三层，以及 ingest、query、lint 三个操作。来源：`karpathy-llm-wiki`。
 - [KB 会话摄入管道契约：增量复用、redaction v19 与不可变 raw](/blog/legacy/note/zh-cn/kb-session-ingest-contract/) — 固定来源身份/内容哈希、失败重处理、控制面过滤、断点账本与脱敏审计。来源：`kb-ingest-pipeline-v19`。
-- [MCP 协议时代边界与 codebase-memory-mcp v0.10.2 图工作流](/blog/legacy/note/zh-cn/mcp-codebase-memory-workflow/) — 固定 modern MCP 契约与图搜索、源码和 coverage 证据纪律。来源：`mcp-codebase-memory-workflow`。
+- [MCP 协议时代边界与 codebase-memory-mcp v0.10.2 图工作流](/blog/legacy/note/zh-cn/mcp-codebase-memory-workflow/) — 图搜索最小工作流与覆盖证据纪律；协议兼容性已拆出。来源：`mcp-codebase-memory-workflow`。
+- [MCP 协议时代兼容边界：2026-07-28 Modern 与 Legacy 握手契约](/blog/legacy/note/zh-cn/mcp-modern-legacy-compatibility/) — **provisional** 2026-07-28 stateless `_meta`、`-32602`/`-32021`/`-32022` 错误契约与 `v0.10.2` legacy `2025-11-25` 归属。来源：`mcp-codebase-memory-workflow`。
 - [Hindsight 本地算力分工与 Docker 容器化部署](/blog/legacy/note/zh-cn/hindsight-local-deployment/) — v0.9.1 历史部署：GPU/CPU 分工、容器网络与 UID 映射边界；模型 provenance 与当前复现待核验。来源：`hindsight-local-deployment-and-agent-integration`。
 - [Hindsight 统一记忆接入：FastMCP 桥接与多项目动态路由](/blog/legacy/note/zh-cn/hindsight-omp-codex-integration/) — 历史桥接示例、Bank 逻辑分区与命名碰撞、MCP 协议缺口；保留单次检索记录。来源：`hindsight-local-deployment-and-agent-integration`。
 - [Hindsight 记忆系统运行时排障矩阵与失效模式](/blog/legacy/note/zh-cn/hindsight-troubleshooting/) — 7 项历史故障与排查条件，区分本地模型清单、运行状态、语法检查和端到端验证。来源：`hindsight-local-deployment-and-agent-integration`。
+- [Headroom 与 cc-switch / Claude Code 共存：单一整理与安全边界](/blog/legacy/note/zh-cn/headroom-cc-switch-coexistence/) — **provisional** 8787/15721/`/v1/messages`/`BindPaths`。来源：`headroom-cc-switch-coexistence-runtime`。
+- [Headroom 0.34 压缩与检索契约：字段、模式与真实端点验证](/blog/legacy/note/zh-cn/headroom-compress-retrieve-contract/) — `/v1/compress`、`/v1/retrieve`、CCR 与 contract test。来源：`headroom-0-34-compress-retrieve-contract`。
+- [Headroom 单端口路由综合：入口、动态上游与验证边界](/blog/legacy/note/zh-cn/headroom-single-port-evolution/) — **provisional** 8787 入口、动态上游与历史假设。来源：`legacy-headroom-single-port-evolution`。
+- [Headroom 路由持久化综合：Named Profile、model_cache 与恢复](/blog/legacy/note/zh-cn/omp-headroom-persistence/) — **provisional** 隔离、reconciler、恢复验证。来源：`legacy-omp-headroom-persistence`。
+- [OMP Headroom Bridge：外部路由控制器与原生 Codex/OMP 代理边界](/blog/legacy/note/zh-cn/omp-headroom-provider-proxy/) — **provisional** loopback Headroom、provider route、Codex 共享 provider、事务与回滚。来源：`omp-headroom-provider-proxy-codex-routing-runtime`。
+- [OMP 配置分层：模型角色、Agent 覆盖与降级链](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/) — 配置责任边界与优先级。来源：`legacy-omp-config-and-rules-guide`。
+- [OMP Hook 扩展概念：决策点提示、硬阻断与状态桥接](/blog/legacy/note/zh-cn/omp-hook-extension-guide/) — 软提示、硬护栏、状态栏事件。来源：`legacy-omp-hook-extension-guide`。
 
 ## B. Java 与并发
 
 - [AtomicBoolean：原子布尔状态与 CAS 边界](/blog/legacy/note/zh-cn/java-atomic-boolean/) — 可见性、原子性与 CAS 最小状态转换，何时改用更强同步工具。来源：`legacy-java-atomic-boolean`。
 - [AutoCloseable：资源所有权与关闭异常语义](/blog/legacy/note/zh-cn/java-auto-closeable/) — try-with-resources 的所有权、关闭顺序与异常传播。来源：`legacy-java-auto-closeable`。
 - [NullValue：缓存 null 的占位对象与序列化边界](/blog/legacy/note/zh-cn/java-null-value/) — 空对象与序列化恢复如何避免缓存穿透。来源：`legacy-java-null-value`。
-- [Java 并发深度：JUC、CAS、原子类、锁与线程机制](/blog/legacy/note/zh-cn/java-concurrency-deepdive/) — 以 CAS 串联原子类、锁、协作与引用类型，标注 ABA。来源：`ingest-java-concurrency`。
+- [Java 并发深度：JUC、CAS、原子类、锁与线程机制](/blog/legacy/note/zh-cn/java-concurrency-deepdive/) — **provisional** JUC 并发专题总览导航入口，串联 `AtomicBoolean` 与线上锁排障，细分主题已拆出。来源：`ingest-java-concurrency`。
+- [Java CAS、ABA 问题与 LongAdder：无锁原子原语及竞争边界](/blog/legacy/note/zh-cn/java-cas-and-aba/) — **provisional** CAS/`Unsafe`/`AtomicStampedReference` 与高竞争 `LongAdder` `Cell` 分段边界。来源：`ingest-java-concurrency`。
+- [Java 锁机制、LockSupport 与 ThreadLocal：Monitor、AQS 与线程绑定](/blog/legacy/note/zh-cn/java-locks-and-thread-coordination/) — **provisional** `ObjectMonitor`、`ReentrantLock` 公平权衡、`park`/`unpark` 与 `ThreadLocal` 清理边界。来源：`ingest-java-concurrency`。
+- [Java 引用类型与生命周期状态机：Strong/Soft/Weak/Phantom 与 Cleaner](/blog/legacy/note/zh-cn/java-reference-types/) — **provisional** `Reference` 四态、`VarHandle`/`Cleaner` 与强软弱虚回收边界。来源：`ingest-java-concurrency`。
 - [Redisson/Jackson 对 LocalDateTime 的默认序列化行为与写读不对称边界](/blog/legacy/note/zh-cn/redis-jackson-java-time/) — 写入失败 vs 跨 mapper 读取失败。来源：`redis-jackson-java-time-contract`。
-- [Java 线上性能排障：从症状到证据的最小决策树](/blog/legacy/note/zh-cn/java-online-performance-debug/) — CPU/线程/GC 止损→定位→恢复。来源：`legacy-java-online-performance-debug`。
 - [JJWT 0.13.0：显式固定签名算法，按 key 类型验签](/blog/legacy/note/zh-cn/jjwt-013-security-api/) — `signWith(Key)`/`verifyWith` key 类型与 audience builder。来源：`jjwt-013-security-api-contract`, `jjwt-013-security-api-contract-correction`。
 
 ## C. 存储与缓存
 
 - [Redis 业务模式：缓存、分布式锁、消息队列、Feed 流与秒杀](/blog/legacy/note/zh-cn/redis-business-patterns/) — 以一致性、互斥、语义收敛缓存与业务。来源：`ingest-redis-business`。
 - [Redis 持久化与原理：RDB/AOF、数据结构与高级机制](/blog/legacy/note/zh-cn/redis-persistence-principle/) — 快照 vs 追加日志的恢复与性能。来源：`ingest-redis-persistence`。
-- [Redis 黑马实战与进阶：分布式缓存、多级缓存与最佳实践](/blog/legacy/note/zh-cn/redis-heima-practice/) — 200+ 页提炼清单，标注版本缺口。来源：`ingest-redis-heima`。
 - [MySQL 存储引擎与死锁检测](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/) — 引擎能力与死锁日志路径。来源：`ingest-mysql-storage`。
-- [数据库笔试复盘：从 SQL 语义到批量数据处理](/blog/legacy/note/zh-cn/database-written-test-review/) — 把连接、`NULL`、索引、日期方言、四表 SQL、Kettle 与超大表操作整理为语义→方言→执行边界。来源：`database-written-test-review`。
+- [数据库笔试复盘：从 SQL 语义到批量数据处理](/blog/legacy/note/zh-cn/database-written-test-review/) — **provisional** 数据库复盘方法总入口，保留基础概念、游标/字段/约束/索引主线与锚点；专项详述已拆为四页。来源：`database-written-test-review`。
+- [SQL 连接语义、集合去重与 NULL 边界](/blog/legacy/note/zh-cn/sql-join-null-semantics/) — **provisional** `ON`/`WHERE` 保留规则、`UNION` 整行去重、`AVG(score)` 与自连接空值边界。来源：`database-written-test-review`。
+- [SQL 日期与方言边界：Spark SQL / Oracle / MySQL](/blog/legacy/note/zh-cn/sql-date-dialect-boundaries/) — **provisional** Spark SQL/Oracle/MySQL 日期函数、格式符差异与跨年反例检查。来源：`database-written-test-review`。
+- [MySQL 同表读写 DML 边界：物化派生表与临时表](/blog/legacy/note/zh-cn/mysql-same-table-dml/) — **provisional** `UPDATE` 派生表物化与 `INSERT ... SELECT` 临时表绕过 1093 限制及快照边界。来源：`database-written-test-review`。
+- [可恢复批处理抽取与超大表分段变更](/blog/legacy/note/zh-cn/recoverable-batch-extraction/) — **provisional** Kettle 三阶段瓶颈、`Commit size`/batch、有界分片对账与 `TRUNCATE` 风险。来源：`database-written-test-review`。
 - [HBase 基础、架构与运维：数据模型、表设计、Shell 与 Java API](/blog/legacy/note/zh-cn/hbase-foundation-and-ops/) — 逻辑/物理模型、组件与表设计，RDBMS 取舍。来源：`ingest-hbase-foundation`。
 - [Spark 与大数据生态：Hadoop、HBase、Spark 运行模式与集群](/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/) — 批/流引擎与运行模式对比。来源：`ingest-spark-ecosystem`。
 - [MySQL 性能排查：现象→指标→定位层→安全缓解](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/) — 连接、锁、索引、事务、IO、Buffer Pool 模型。来源：`legacy-mysql-performance-troubleshooting`。
@@ -79,10 +126,12 @@
 ## D. 分布式与微服务
 
 - [Dubbo + Nacos：先核对注册名、group/version，再做真实 smoke test](/blog/legacy/note/zh-cn/dubbo-nacos-runtime/) — 接口级/应用级注册、metadata、启动检查。来源：`dubbo-nacos-runtime-registration`, `dubbo-nacos-runtime-registration-correction`。
-- [Spring Boot 与 Spring Cloud：自动装配、事务、注册发现、网关与可观测性](/blog/legacy/note/zh-cn/spring-cloud-and-boot/) — 以注册发现锚定调用链。来源：`ingest-spring-cloud`。
+- [Spring Boot 与 Spring Cloud：自动装配、事务、注册发现、网关与可观测性](/blog/legacy/note/zh-cn/spring-cloud-and-boot/) — **provisional** 微服务调用链总入口，保留 Sentinel/CircuitBreaker/Bulkhead 与追踪导览；装配/事务/发现网关已拆出。来源：`ingest-spring-cloud`。
+- [Spring Boot 自动装配与启动顺序：Imports、条件注解与显式排除](/blog/legacy/note/zh-cn/spring-boot-auto-configuration/) — **provisional** `AutoConfiguration.imports` vs `spring.factories`、`@Conditional` 与三种排除边界。来源：`ingest-spring-cloud`。
+- [Spring 事务边界与传播行为：AOP 代理、隔离级别与回滚规则](/blog/legacy/note/zh-cn/spring-transaction-boundaries/) — **provisional** AOP+`ThreadLocal`、七种传播、`timeout`/`readOnly` 继承与异常回滚规则。来源：`ingest-spring-cloud`。
+- [Spring Cloud 注册发现、负载均衡、OpenFeign 与 Gateway](/blog/legacy/note/zh-cn/spring-cloud-discovery-and-gateway/) — **provisional** Consul/Nacos、`LoadBalancer`、`OpenFeign` 与 Gateway 三要素模型。来源：`ingest-spring-cloud`。
 - [微服务数据所有权：先定领域 owner，再谈拆库与迁移](/blog/legacy/note/zh-cn/microservice-data-ownership/) — bounded context、private schema、saga/outbox、`expand→migrate→contract`。来源：`microservice-domain-data-ownership`, `microservice-domain-data-ownership-correction`。
 - [数据库 Schema 漂移：用 history、schema 与 query 三视图定位](/blog/legacy/note/zh-cn/database-schema-drift/) — Flyway history vs 实际 schema vs 应用 query，repair 非 DDL 回滚。来源：`database-schema-drift-contract`。
-- [ResiCache：observer 嵌套执行必须区分生命周期、fragment 与 scope token](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/) — 锁内续跑设计复盘，附固定源码、可运行生命周期模型与反例；区分模型验证和真实并发测试。来源：`resicache-observer-nested-execution-contract`。
 - [多服务启动就绪：running、ready 与依赖/失败/重启传播](/blog/legacy/note/zh-cn/multi-service-readiness/) — Compose/systemd 排序、依赖、健康门禁。来源：`multi-service-readiness-contract`, `multi-service-readiness-contract-correction`, `multi-service-readiness-safety-correction`。
 
 ## E. 基础设施与运维
@@ -91,14 +140,15 @@
 - [containerd TLS：证书信任链与临时跳过验证的决策](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/) — CA 信任、运行时配置、Kubernetes 凭证与缓存。来源：`legacy-containerd-tls-troubleshooting`。
 - [SSH 内网访问方案：连接方向、暴露面与故障恢复](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/) — Tunnel、Tailscale、FRP 比较。来源：`legacy-intranet-penetration-ssh-guide`。
 - [Testcontainers 1.20.6：先排查 Docker API 版本，再判断 daemon 不可用](/blog/legacy/note/zh-cn/testcontainers-docker-api/) — 固定 `1.32` fallback、`api.version`、400 诊断。来源：`testcontainers-docker-api-negotiation`, `testcontainers-docker-api-negotiation-correction`。
-- [百万级终端插件生命周期管理：状态、心跳与受控发布](/blog/legacy/note/zh-cn/plugin-lifecycle-management/) — 状态、合并心跳、幂等、灰度、熔断。来源：`legacy-plugin-lifecycle-management`。
-- *运维排障另见 B 域的 [Java 线上性能排障](/blog/legacy/note/zh-cn/java-online-performance-debug/)（跨域复用）。*
+- [Java 线上性能排障：从症状到证据的最小决策树](/blog/legacy/note/zh-cn/java-online-performance-debug/) — CPU/线程/GC 止损→定位→恢复。来源：`legacy-java-online-performance-debug`。
 
 ## F. 工程与架构
 
+- [ResiCache：observer 嵌套执行必须区分生命周期、fragment 与 scope token](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/) — 锁内续跑设计复盘，附固定源码、可运行生命周期模型与反例；区分模型验证和真实并发测试。来源：`resicache-observer-nested-execution-contract`。
+- [百万级终端插件生命周期管理：状态、心跳与受控发布](/blog/legacy/note/zh-cn/plugin-lifecycle-management/) — 状态、合并心跳、幂等、灰度、熔断。来源：`legacy-plugin-lifecycle-management`。
+
 ### 实体（entity）
 
-- [OMP Headroom Bridge：外部路由控制器与原生 Codex/OMP 代理边界](/blog/legacy/note/zh-cn/omp-headroom-provider-proxy/) — **provisional** loopback Headroom、provider route、Codex 共享 provider、事务与回滚。来源：`omp-headroom-provider-proxy-codex-routing-runtime`。
 - [ResiCache：把缓存防护写成可验证的并发与一致性边界](/blog/legacy/note/zh-cn/resicache/) — **provisional** 责任链、single-flight、值版本 CAS、安全序列化与 observer 生命周期。来源：`resicache-engineering-highlights-2954fff`、`resicache-project-overview`、`resicache-observer-nested-execution-contract`。
 - [UltiCode：把在线评测做成可验证的工程系统](/blog/legacy/note/zh-cn/ulticode/) — **provisional** 总览入口，串起 owner、审计、投递、结果围栏、租约、沙箱、异步执行、Core 生命周期与交付门禁九篇拆解。来源：`ulticode-engineering-highlights-f801a1076`、`ulticode-project-context`、`ulticode-reliability-core-f801a1076`。
 
@@ -107,7 +157,8 @@
 - [ResiCache 的缓存责任链：控制流、嵌套 fragment 与 observer 生命周期](/blog/legacy/note/zh-cn/resicache-handler-chain-and-observer/) — **provisional** `HandlerResult` 决策、ThreadLocal snapshot、锁内 fragment、observer token 配对和异常收尾。
 - [缓存击穿时，为什么要同时有 Future、分布式锁和 double-check？](/blog/legacy/note/zh-cn/resicache-single-flight/) — **provisional** 进程内 single-flight、跨实例锁、锁内二次检查、角色切换和写回失败边界。
 - [异步提前过期为什么只缩短 TTL：用版本 CAS 让旧任务自动失效](/blog/legacy/note/zh-cn/resicache-early-expiration-cas/) — **provisional** `CachedValue.version`、Lua TTL CAS、按键任务取消和旧任务失效。
-- [换 Redis 序列化器不是改一行配置：从对象信任到可回滚迁移](/blog/legacy/note/zh-cn/resicache-serialization-migration/) — **provisional** 类型白名单、streaming preflight、shadow/dual/cutover/rollback 和并发写保护。
+- [换 Redis 序列化器不是改一行配置：从对象信任到可回滚迁移](/blog/legacy/note/zh-cn/resicache-serialization-migration/) — **provisional** shadow/dual/cutover/rollback 四阶段迁移与并发写保护；类型信任与 preflight 见拆分页。来源：`resicache-engineering-highlights-2954fff`, `resicache-project-overview`。
+- [Redis 反序列化安全与类型白名单：在对象创建前验证包边界](/blog/legacy/note/zh-cn/resicache-serialization-trust/) — **provisional** 版本化 envelope、`WhitelistPolicy`（`.*` vs `startsWith`）与 streaming preflight 类型拦截。来源：`resicache-engineering-highlights-2954fff`。
 
 ### UltiCode 设计拆解（concept）
 
@@ -123,17 +174,12 @@
 
 ### 综合与架构模式
 
-- [OMP 配置分层：模型角色、Agent 覆盖与降级链](/blog/legacy/note/zh-cn/omp-config-and-rules-guide/) — 配置责任边界与优先级。来源：`legacy-omp-config-and-rules-guide`。
-- [OMP Hook 扩展概念：决策点提示、硬阻断与状态桥接](/blog/legacy/note/zh-cn/omp-hook-extension-guide/) — 软提示、硬护栏、状态栏事件。来源：`legacy-omp-hook-extension-guide`。
-- [Headroom 0.34 压缩与检索契约：字段、模式与真实端点验证](/blog/legacy/note/zh-cn/headroom-compress-retrieve-contract/) — `/v1/compress`、`/v1/retrieve`、CCR 与 contract test。来源：`headroom-0-34-compress-retrieve-contract`。
 - [Enhanced UISA：异构节点信息同步的 owner、边界与恢复模型](/blog/legacy/note/zh-cn/uisa-architecture-design/) — **provisional** owner/可靠性/幂等/异构/恢复权衡。来源：`legacy-uisa-architecture-design`。
-- [Headroom 单端口路由综合：入口、动态上游与验证边界](/blog/legacy/note/zh-cn/headroom-single-port-evolution/) — **provisional** 8787 入口、动态上游与历史假设。来源：`legacy-headroom-single-port-evolution`。
-- [Headroom 路由持久化综合：Named Profile、model_cache 与恢复](/blog/legacy/note/zh-cn/omp-headroom-persistence/) — **provisional** 隔离、reconciler、恢复验证。来源：`legacy-omp-headroom-persistence`。
-- [Headroom 与 cc-switch / Claude Code 共存：单一整理与安全边界](/blog/legacy/note/zh-cn/headroom-cc-switch-coexistence/) — **provisional** 8787/15721/`/v1/messages`/`BindPaths`。来源：`headroom-cc-switch-coexistence-runtime`。
 - [Java 后端面试复盘：项目真实性、工程机制与生产证据](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/) — **provisional** 能力模型，非题库。来源：`legacy-java-internship-interview-blog-polished`。
 
 ## G. 已归档与已废弃（Deprecated）
 
+- [Redis 黑马实战与进阶：分布式缓存、多级缓存与最佳实践](/blog/legacy/note/zh-cn/redis-heima-practice/) — 200+ 页提炼清单，标注版本缺口。来源：`ingest-redis-heima`。 **deprecated** — 历史课程页；多级缓存与批处理已并入 [Redis 业务模式](/blog/legacy/note/zh-cn/redis-business-patterns/)，持久化见 [Redis 持久化与原理](/blog/legacy/note/zh-cn/redis-persistence-principle/)。
 - [Hindsight 完全本地化部署与 OMP / Codex 统一记忆集成实践（已拆分归档）](/blog/legacy/note/zh-cn/hindsight-local-deployment-and-agent-integration/) — 历史 445 行巨石页面，已按 LLM-Wiki 原子化原则拆分为部署、接入与排障 3 页。
 - [前端与综合随笔：Vue、MyBatis、UniApp、缓存注解与环境排障（已溶解归档）](/blog/legacy/note/zh-cn/frontend-mybatis-essays/) — 历史 10 篇零散随笔收纳袋，已溶解归档，事实保留在不可变 raw 快照 `ingest-frontend-essays` 中。
 

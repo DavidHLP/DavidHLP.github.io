@@ -108,9 +108,10 @@ RedisSerializer<Object> serializer = new GenericJackson2JsonRedisSerializer(mapp
 
 ## 相关页面
 
+
 - [NullValue：缓存 null 的占位对象与序列化边界](/blog/legacy/note/zh-cn/java-null-value/)
 - [Java 线上性能排障：从症状到证据的最小决策树](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-
+- [ResiCache：observer 嵌套执行必须区分生命周期、fragment 与 scope token](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
 
 ## 来源与关联文档
 

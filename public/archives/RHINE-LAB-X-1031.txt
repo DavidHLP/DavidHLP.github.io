@@ -86,11 +86,14 @@ While the wrapped session is running, execute `headroom doctor` and `headroom pe
 
 ## Related pages
 
+
 - [OMP configuration layers](/blog/legacy/note/en/omp-config-and-rules-guide/)
 - [Headroom route persistence](/blog/legacy/note/en/omp-headroom-persistence/)
+- [Headroom with cc-switch / Claude Code Coexistence: Single Synthesis and Security Boundaries](/blog/legacy/note/en/headroom-cc-switch-coexistence/)
+- [OMP Headroom Bridge: External Routing Controller and Native Codex/OMP Proxy Boundaries](/blog/legacy/note/en/omp-headroom-provider-proxy/)
 - [OMP Hook extension](/blog/legacy/note/en/omp-hook-extension-guide/)
 - [LLM wiki pattern](/blog/legacy/note/en/llm-wiki-pattern/)
-
+- [Headroom 0.34 Compression and Retrieval Contract: Fields, Modes, and Real-Endpoint Tests](/blog/legacy/note/en/headroom-compress-retrieve-contract/)
 
 ## Sources and related documents
 

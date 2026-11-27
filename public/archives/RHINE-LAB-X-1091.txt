@@ -176,14 +176,18 @@ docker exec hindsight-ollama-gpu ollama list
 
 - [Hindsight 統一記憶接続](/blog/legacy/note/ja/hindsight-omp-codex-integration/)
 - [Hindsight 実行時障害調査](/blog/legacy/note/ja/hindsight-troubleshooting/)
-- [MCP Codebase Memory](/blog/legacy/note/ja/mcp-codebase-memory-workflow/)
 
 ## 出典と関連文書
 
 - [hindsight-local-deployment-and-agent-integration](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/hindsight-local-deployment-and-agent-integration.md)
 - [Hindsight 統合メモリアクセス：FastMCP ブリッジと動的マルチプロジェクトルーティング](/blog/legacy/note/ja/hindsight-omp-codex-integration/)
 - [Hindsight ランタイムトラブルシューティングマトリクスと失敗モード](/blog/legacy/note/ja/hindsight-troubleshooting/)
-- [MCP プロトコル時代の境界と codebase-memory-mcp v0.10.2 のグラフワークフロー](/blog/legacy/note/ja/mcp-codebase-memory-workflow/)
+
+## 昇格チェック
+
+- image digest、model revision/checksum、device/driver を記録
+- mount 権限と依存欠如の隔離 preflight
+- 匿名 sample で health・retrieval・再起動保持を検証し接入/排障へ接続
 
 研究記録
 1. 元の文書: src/content/note/ja/hindsight-local-deployment.md

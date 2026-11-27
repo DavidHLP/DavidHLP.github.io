@@ -31,10 +31,10 @@ try {
     const errors = [];
     page.on("pageerror", error => errors.push(error.message));
     await page.goto(origin + path, { waitUntil: "networkidle" });
-    assert.equal(await page.locator(".resume-export-identity h1").isVisible(), true, `${path}: identity`);
-    assert.equal(await page.locator(".resume-export-body").isVisible(), true, `${path}: body`);
+    assert.equal(await page.locator(".about-identity-content h1").isVisible(), true, `${path}: identity`);
+    assert.equal(await page.locator(".about-body-content").isVisible(), true, `${path}: body`);
     assert.equal(await page.locator(".about-actions, #about-print, a[download]").count(), 0, `${path}: no export actions`);
-    const paragraphs = await page.locator(".resume-export-body h2, .resume-export-body p, .resume-export-body li").count();
+    const paragraphs = await page.locator(".about-body-content h2, .about-body-content p, .about-body-content li").count();
     assert.ok(paragraphs > 0, `${path}: body has content`);
     const widths = [];
     for (const width of [375, 768, 1440]) {
@@ -44,9 +44,9 @@ try {
           await page.locator("#about-theme").click();
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
         assert.equal(overflow, false, `${path}: ${width}px overflow`);
-        assert.equal(await page.locator(".resume-export-body").isVisible(), true, `${path}: text visible by default`);
-        assert.equal(await page.locator(".resume-export-identity h1").isVisible(), true, `${path}: identity visible`);
-        assert.ok(await page.locator(".resume-export-body").evaluate(node => parseFloat(getComputedStyle(node).fontSize) >= 16), `${path}: readable text size`);
+        assert.equal(await page.locator(".about-body-content").isVisible(), true, `${path}: text visible by default`);
+        assert.equal(await page.locator(".about-identity-content h1").isVisible(), true, `${path}: identity visible`);
+        assert.ok(await page.locator(".about-body-content").evaluate(node => parseFloat(getComputedStyle(node).fontSize) >= 16), `${path}: readable text size`);
         await page.screenshot({ path: join(evidence, `${name}-${width}-${dark ? "dark" : "light"}.png`), fullPage: true });
         widths.push({ width, dark, overflow });
       }
@@ -62,8 +62,8 @@ try {
     const noJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 375, height: 1000 } });
     const reader = await noJs.newPage();
     await reader.goto(origin + path);
-    assert.equal(await reader.locator(".resume-export-body").isVisible(), true, `${path}: no-JavaScript text`);
-    assert.equal(await reader.locator(".resume-export-identity h1").isVisible(), true, `${path}: no-JavaScript identity`);
+    assert.equal(await reader.locator(".about-body-content").isVisible(), true, `${path}: no-JavaScript text`);
+    assert.equal(await reader.locator(".about-identity-content h1").isVisible(), true, `${path}: no-JavaScript identity`);
     await noJs.close();
     results.push({ path, textBlocks: paragraphs, noJavaScript: true, widths });
     await writeFile(join(evidence, "report.json"), JSON.stringify({ commit: process.env.GITHUB_SHA ?? "local", results }, null, 2));

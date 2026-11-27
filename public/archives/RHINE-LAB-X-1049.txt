@@ -29,11 +29,11 @@ This page answers a triage question: when MySQL becomes slow or stuck, which met
 - A Sleep session over 60 seconds is not automatically harmless. If it owns a transaction, it can block DDL and grow undo; compare it with `INNODB_TRX`.
 - On MySQL 5.7, row-lock evidence can come from `INNODB_LOCKS`/`INNODB_LOCK_WAITS`. On MySQL 8.0, the source recommends `performance_schema.data_locks`, `data_lock_waits`, or `sys.innodb_lock_waits`.
 - `Waiting for table metadata lock` points to MDL. A common chain is an uncommitted long transaction, another session running `ALTER`/`DROP`, and then every access to that table queues.
-- Deadlock evidence is the `LATEST DETECTED DEADLOCK` section of `SHOW ENGINE INNODB STATUS \G`. The source directions are consistent lock order, shorter transactions, and—when appropriate—evaluating RR→RC isolation changes.
+- Deadlock evidence is the `LATEST DETECTED DEADLOCK` section of `SHOW ENGINE INNODB STATUS \G`. The source directions are consistent lock order, shorter transactions, and—when appropriate—evaluating RR→RC isolation changes. To separate reproducible cross-locking deadlocks from ordinary lock waits, see [MySQL Storage Engines and Deadlock Detection](/blog/legacy/note/en/mysql-storage-and-deadlock/).
 
 ### 3. SQL, indexes, and transactions
 
-- Slow-query triage can use dynamic `slow_query_log`, or aggregate fingerprints with `performance_schema.events_statements_summary_by_digest`. A `rows_examined / rows_sent` ratio far above 100 is the source's typical index-failure signal.
+- Slow-query triage can use dynamic `slow_query_log`, or aggregate fingerprints with `performance_schema.events_statements_summary_by_digest`. A `rows_examined / rows_sent` ratio far above 100 is the source's typical index-failure signal. When using production `EXPLAIN` and workload metrics to separate exercise index choices from live conclusions, compare with [Database Written-Test Review: From SQL Semantics to Batch Data Processing](/blog/legacy/note/en/database-written-test-review/).
 - For `EXPLAIN`, inspect `type`, `key`, `rows`, `filtered`, and `Extra`. `ALL`, `key=NULL`, `Using filesort`, and `Using temporary` are investigation signals, not standalone fixes.
 - The source lists these index-failure shapes: wrapping a column in a function, implicit type conversion, a missing leftmost prefix in a composite index, columns to the right of a range predicate, leading-wildcard `LIKE`, and an `OR` branch without an index. MySQL 8.0 can use `EXPLAIN FORMAT=JSON`, `EXPLAIN ANALYZE`, and a temporary `INVISIBLE` index to test a hypothesis.
 - The long-transaction chain is “undo versions cannot purge → history list grows → table/index expands → row lookups slow.” More than 30 seconds is the source's example filter, not a universal SLA.
@@ -111,9 +111,13 @@ SHOW STATUS LIKE 'Created_tmp%';
 
 ## Related pages
 
+
 - [containerd TLS trust chain](/blog/legacy/note/en/containerd-tls-troubleshooting/)
 - [SSH intranet access options](/blog/legacy/note/en/intranet-penetration-ssh-guide/)
-
+- [Database Schema Drift: Locating with the history, schema, and query Views](/blog/legacy/note/en/database-schema-drift/)
+- [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/en/multi-service-readiness/)
+- [Database Written-Test Review: From SQL Semantics to Batch Data Processing](/blog/legacy/note/en/database-written-test-review/)
+- [MySQL Storage Engines and Deadlock Detection](/blog/legacy/note/en/mysql-storage-and-deadlock/)
 
 ## Sources and related documents
 

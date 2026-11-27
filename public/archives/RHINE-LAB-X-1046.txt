@@ -11,41 +11,11 @@ When treating a code-graph tool as an evidence source, first separate the two ve
 
 ## Protocol-era boundary: per-request `_meta` vs the `initialize` handshake
 
-The "modern" version of the MCP 2026-07-28 specification (commit `5f5440bb`) removes the connection-level negotiation handshake and makes each request self-describing:
-
-| Dimension                      | legacy (2025-11-25 and earlier)                                                                                                           | modern (2026-07-28 onward)                                                                                                                         |
-| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Session establishment          | `initialize` handshake + `notifications/initialized`                                                                                      | No handshake, no `notifications/initialized`                                                                                                       |
-| Version/capability declaration | Negotiated during the handshake                                                                                                           | Carried in each request's `_meta`                                                                                                                  |
-| Server-state assumption        | Session state allowed                                                                                                                     | **Stateless**: inferring capabilities/version/identity from earlier requests on the same connection is forbidden; a stdio process is not a session |
-| Version discovery              | Negotiated                                                                                                                                | The server must implement `server/discover` (the client may call it first)                                                                         |
-| Compatibility                  | A dual-era implementation can support both eras at once, distinguishing by request shape (modern `_meta` → modern; `initialize` → legacy) | Same rule                                                                                                                                          |
-
-The modern per-request `_meta` fields (from `basic/index.mdx`):
-
-- `io.modelcontextprotocol/protocolVersion`: **required**.
-- `io.modelcontextprotocol/clientCapabilities`: **required**.
-- `io.modelcontextprotocol/clientInfo`, `logLevel`: optional.
-
-**Error codes must be distinguished by contract**:
-
-| Error                                  | Error code          | Trigger condition                                               | Attached data                                                                                  |
-| -------------------------------------- | ------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| Invalid params                         | `-32602` (HTTP 400) | A required `_meta` field is missing or the request is malformed | —                                                                                              |
-| `MissingRequiredClientCapabilityError` | `-32021` (HTTP 400) | The server needs a capability the client did not declare        | `data.requiredCapabilities` lists the missing items                                            |
-| `UnsupportedProtocolVersionError`      | `-32022`            | The protocol version does not match                             | `data.supported` lists the supported versions; the client selects a common version and retries |
-
-Extension negotiation goes through `capabilities.extensions` (extension identifier → settings object); when one side does not support an extension, it falls back to core protocol behavior or reports an error. Response `resultType`: `"complete"` means success, `"input_required"` means more input is needed (MRTR multi-round requests), unknown values are treated as invalid, and the default is `"complete"`.
+MCP `2026-07-28` (commit `5f5440bb`) removes the connection-level `initialize` handshake and session-state assumptions, requiring per-request `_meta` fields (`io.modelcontextprotocol/protocolVersion`, `clientCapabilities`, etc.), `server/discover`, and contract error codes `-32602`, `-32021` (`MissingRequiredClientCapabilityError`), and `-32022` (`UnsupportedProtocolVersionError`). The full cross-era table and error contract live in [MCP Protocol-Era Compatibility Boundaries: 2026-07-28 Modern vs. Legacy Handshake Contracts](/blog/legacy/note/en/mcp-modern-legacy-compatibility/).
 
 ## v0.10.2's protocol-era attribution (decisive compatibility fact)
 
-The `src/mcp/mcp.c` at pinned commit `b377c62a` is a **legacy-era (initialize handshake) server**, not a 2026-07-28 modern server:
-
-- `SUPPORTED_PROTOCOL_VERSIONS[]` (lines 1222–1231) contains only `"2025-11-25"`, `"2025-06-18"`, `"2025-03-26"`, `"2024-11-05"` from newest to oldest, **without `2026-07-28`**.
-- Lines 1262–1293 implement the legacy `initialize` handshake in `cbm_mcp_initialize_response_for_profile` (reads the request parameter `protocolVersion`, echoes it if supported, returns `protocolVersion` + `serverInfo` + `capabilities`); the `"initialize"` method is handled in request dispatch starting at line 11341.
-- The source contains no handling of `server/discover`, the modern per-request `_meta` protocol fields, or `notifications/initialized`.
-
-Under the 2026-07-28 specification's compatibility matrix, the "Modern client | Legacy server" combination **Fails**: a modern client cannot run the workflow below directly against v0.10.2. Validating v0.10.2 requires the legacy `2025-11-25` contract (`initialize` handshake + `notifications/initialized` notification), or a dual-era adapter.
+At pinned commit `b377c62a`, `src/mcp/mcp.c` is a **legacy (`initialize` handshake) server**: `SUPPORTED_PROTOCOL_VERSIONS[]` (lines 1222–1231) supports up to `"2025-11-25"` and **excludes `2026-07-28`**, with no `server/discover` or modern `_meta` handling. Under the 2026-07-28 matrix, "Modern client | Legacy server" **Fails** — before running the graph workflow below, connect via legacy `2025-11-25` (`initialize` + `notifications/initialized`) or a dual-era adapter. See source evidence in [MCP Protocol-Era Compatibility Boundaries: 2026-07-28 Modern vs. Legacy Handshake Contracts](/blog/legacy/note/en/mcp-modern-legacy-compatibility/).
 
 ## Minimal workflow: confirm → search → call chain → source → coverage
 
@@ -112,12 +82,14 @@ Therefore, "X is not found in the graph" or "trace_path has no callers" cannot b
 
 ## Related pages
 
+- [MCP Protocol-Era Compatibility Boundaries: 2026-07-28 Modern vs. Legacy Handshake Contracts](/blog/legacy/note/en/mcp-modern-legacy-compatibility/): stateless `_meta`, error-code contract, and `v0.10.2` legacy-era attribution details
 - [LLM wiki pattern](/blog/legacy/note/en/llm-wiki-pattern/): the way this knowledge base compiles such sources into evidence-driven wiki pages
 
 
 ## Sources and related documents
 
 - [mcp-codebase-memory-workflow](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/mcp-codebase-memory-workflow.md)
+- [MCP Protocol-Era Compatibility Boundaries: 2026-07-28 Modern vs. Legacy Handshake Contracts](/blog/legacy/note/en/mcp-modern-legacy-compatibility/)
 - [The LLM-Wiki Pattern: Maintaining a Compounding Personal Knowledge Base](/blog/legacy/note/en/llm-wiki-pattern/)
 
 Research notes

@@ -53,7 +53,7 @@ service name + Nacos group + version + provider metadata
 
 ### 接口级
 
-consumer 订阅同名 `providers:...` 服务，由 Nacos naming event 推送实例。version/group 必须严格匹配；需要范围时才使用 `*` 或逗号表达式。
+consumer 订阅同名 `providers:...` 服务，由 Nacos naming event 推送实例。version/group 必须严格匹配；需要范围时才使用 `*` 或逗号表达式。对比纯 Spring Cloud / Nacos 服务名发现与 OpenFeign 网关路由边界，详见 [Spring Boot 与 Spring Cloud：自动装配、事务、注册发现、网关与可观测性](/blog/legacy/note/zh-cn/spring-cloud-and-boot/)（本页保留 Dubbo 接口级注册名、group/version 的独立证明边界）。
 
 ### 应用级
 
@@ -129,6 +129,7 @@ Dubbo registry-nacos 自带测试以 mock `NamingService` 为主，不能替代�
 - [dubbo-nacos-runtime-registration-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/dubbo-nacos-runtime-registration-correction.md)
 - [多服务启动就绪：running、ready 与依赖/失败/重启传播](/blog/legacy/note/zh-cn/multi-service-readiness/)
 - [微服务数据所有权：先定领域 owner，再谈拆库与迁移](/blog/legacy/note/zh-cn/microservice-data-ownership/)
+- [Spring Boot 与 Spring Cloud：自动装配、事务、注册发现、网关与可观测性](/blog/legacy/note/zh-cn/spring-cloud-and-boot/)
 
 研究记录
 1. 原始文档: src/content/note/zh-cn/dubbo-nacos-runtime.md
