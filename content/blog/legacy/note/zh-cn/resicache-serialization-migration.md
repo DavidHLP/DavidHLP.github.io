@@ -63,7 +63,8 @@
   ],
   "related": [
     "resicache",
-    "redis-jackson-java-time"
+    "redis-jackson-java-time",
+    "resicache-serialization-trust"
   ]
 }
 ---
@@ -78,100 +79,23 @@
 
 ## 反序列化的危险发生在对象创建之前
 
-Jackson 多态类型数据通常会携带类型标识，例如：
-
-```json
-{
-  "version": 2,
-  "payload": {
-    "@class": "com.example.User"
-  }
-}
-```
-
-如果类型标识来自 Redis，而 Redis 中的内容又可能被其他应用、旧程序或攻击者写入，那么“先让 Jackson 按类型创建对象，再在业务层检查”已经太晚了。
-
-真正需要保证的是：
-
-```text
-读取字节
-  -> 检查类型标识是否允许
-  -> 通过后才让 Jackson 实例化对象
-```
-
-这是一条信任边界，不是普通的 DTO 转换。
+如果多态类型标识（如 `@class`）来自可能被外部或旧程序写入的 Redis 字节，等 Jackson 实例化对象后再做业务校验就已经太晚，必须把校验放在对象实例化之前。该信任边界与反序列化 preflight 细节已独立收口至 [Redis 反序列化安全与类型白名单：在对象创建前验证包边界](/blog/legacy/note/zh-cn/resicache-serialization-trust/)。
 
 ## ResiCache 的 serializer 做了三层约束
 
-当前 `SecureJacksonRedisSerializer` 有三个相关机制。
+当前 `SecureJacksonRedisSerializer` 在迁移切流之外承担三项与格式和类型安全相关的约束，具体源码实现见 [Redis 反序列化安全与类型白名单：在对象创建前验证包边界](/blog/legacy/note/zh-cn/resicache-serialization-trust/)：
 
 ### 版本化 envelope
 
-非空缓存值会被包在：
-
-```json
-{
-  "version": 2,
-  "payload": "..."
-}
-```
-
-这里的 `version` 是序列化格式版本。它不是业务对象版本，也不是缓存值的 CAS token。
+非空缓存值使用 `{"version": 2, "payload": "..."}` 包装；这里的 `version` 仅标识序列化格式版本，既不是业务对象版本，也不是缓存值的 CAS token。
 
 ### 白名单策略
 
-默认允许的业务包前缀是：
-
-```text
-io.github.davidhlp
-```
-
-同时，`java.lang`、部分 `java.time`、`java.math` 类型和明确枚举的集合类型可以通过。
-
-白名单不是简单的“开启或关闭多态”。它必须回答：
-
-```text
-这个具体的全限定类名是否允许出现在缓存字节中？
-```
-
-当前实现有一个配置边界值得特别注意：
-
-```text
-com.example.*  -> 按包边界匹配
-com.example    -> 按 startsWith 匹配
-```
-
-因此，`com.example` 可能匹配 `com.exampleX.SomeType`。如果需要严格的包边界，应使用带 `.*` 的形式，或者配置足够精确的前缀。
+`WhitelistPolicy` 默认允许 `io.github.davidhlp` 等显式白名单类型；需特别区分 `com.example.*` 按包边界匹配，而裸前缀 `com.example` 按 `startsWith` 匹配。
 
 ### streaming preflight
 
-serializer 在真正读取 envelope 之前，会通过流式 parser 检查：
-
-- 配置的 type property；
-- `@class`；
-- wrapper-array 形式的类型 id；
-- 多态 payload 中出现的类型标识。
-
-只有检查通过后，才进入 `EnvelopeCodec.read`。
-
-当前源码的核心流程可以概括为：
-
-```java
-try (JsonParser parser = objectMapper.createParser(bytes)) {
-    validateTypeIdsStreaming(parser);
-}
-
-Object envelope = EnvelopeCodec.read(objectMapper, bytes);
-
-if (EnvelopeCodec.version(envelope)
-        != EnvelopeCodec.currentVersion()) {
-    // failOnUnknownType=true 时拒绝
-}
-```
-
-这不是完整的反序列化安全审计，但它把最关键的类型检查放到了对象实例化之前。
-
-源码见 [`SecureJacksonRedisSerializer.java`](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/SecureJacksonRedisSerializer.java#L132-L205) 和 [`WhitelistPolicy.java`](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/WhitelistPolicy.java#L89-L134)。
+在进入 `EnvelopeCodec.read` 之前先用流式 parser 校验配置 type property、`@class`、wrapper-array 与嵌套类型标识，确保未授权类型不会触发对象实例化。
 
 ## 为什么还要支持旧缓存迁移
 
@@ -295,32 +219,11 @@ end
 
 ## 类型安全和迁移安全必须同时成立
 
-迁移旧数据时，legacy decoder 也不能绕过白名单。
-
-测试中的恶意旧 JSON：
-
-```json
-{
-  "@class": "com.attacker.Gadget"
-}
-```
-
-在迁移阶段同样会被拒绝，而不是因为它来自旧格式就自动信任。
-
-这说明迁移流程不能被视为安全边界之外的临时脚本。它读取的是同一批不可信或不确定来源的数据，因此必须复用类型约束。
+迁移旧数据时，legacy decoder 也不能绕过白名单。测试中的恶意旧 JSON（`@class: "com.attacker.Gadget"`）在迁移阶段同样会被拒绝，不会因为它来自旧格式就自动信任。原因在于迁移流程读取的仍是同一批不可信或不确定来源的数据，必须复用 [Redis 反序列化安全与类型白名单：在对象创建前验证包边界](/blog/legacy/note/zh-cn/resicache-serialization-trust/) 中的类型约束。
 
 ## 测试验证了哪些边界
 
-当前 serializer 测试覆盖了：
-
-- `@class` 白名单外类型拒绝；
-- wrapper-array 类型标识拒绝；
-- 自定义 type property 拒绝；
-- 白名单内类型 round-trip；
-- serializer factory 正确传递配置；
-- 旧 `CachedValue` 缺少刷新元数据时仍可读取。
-
-真实 Redis 集成测试中，`SerializationMigrationIntegrationTest` 共 8 个测试全部通过，覆盖：
+序列化白名单与 preflight 单测清单已收口至 [Redis 反序列化安全与类型白名单：在对象创建前验证包边界](/blog/legacy/note/zh-cn/resicache-serialization-trust/)；真实 Redis 集成测试中，`SerializationMigrationIntegrationTest` 共 8 个测试全部通过，覆盖：
 
 - `SHADOW_READ` 不写源 key；
 - `DUAL_WRITE` 保留旧值并可幂等执行；
@@ -367,4 +270,5 @@ end
 - [resicache-engineering-highlights-2954fff](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md)
 - [resicache-project-overview](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-project-overview.md)
 - [ResiCache：把缓存防护写成可验证的并发与一致性边界](/blog/legacy/note/zh-cn/resicache/)
+- [Redis 反序列化安全与类型白名单：在对象创建前验证包边界](/blog/legacy/note/zh-cn/resicache-serialization-trust/)
 - [Redisson/Jackson 对 LocalDateTime 的默认序列化行为与写读不对称边界](/blog/legacy/note/zh-cn/redis-jackson-java-time/)

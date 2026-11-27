@@ -65,7 +65,8 @@
     "ulticode-engineering-highlights-f801a1076"
   ],
   "related": [
-    "ulticode"
+    "ulticode",
+    "ulticode-fenced-singleton-lease"
   ]
 }
 ---
@@ -107,7 +108,7 @@ rejudge/reaper: expected generation -> generation + 1
 
 ## これは境界であり、魔法ではない
 
-結果フェンスが守れるのは、対象となる書き込み seam だけである。メッセージの永続性、owner 間の認可、業務監査、外部システムの冪等性を自動的に代替するものではない。また古いコードが実行されないことを保証するのでもなく、古い実行結果が新しい状態を上書きする資格を持たないことを保証する。
+結果フェンスが守れるのは、対象となる書き込み seam だけである。メッセージの永続性、owner 間の認可、業務監査、外部システムの冪等性を自動的に代替するものではない。また古いコードが実行されないことを保証するのでもなく、古い実行結果が新しい状態を上書きする資格を持たないことを保証する。判定の `generation`＋`attemptId` とシングルトンジョブ用の lease fencing token との違いは [database lease だけでは足りない：UltiCode の fence token で期限切れ singleton task を止める](/blog/legacy/note/ja/ulticode-fenced-singleton-lease/) を参照。
 
 これが条件付き更新の価値である。並行性の正しさを「すべての呼び出し側が注意する」状態から、検査可能な一つのデータベース規則へ収束させる。
 
@@ -125,3 +126,4 @@ Agent のタスクも retry、キャンセル後の再開、model の切り替�
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
 - [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/)
+- [database lease だけでは足りない：UltiCode の fence token で期限切れ singleton task を止める](/blog/legacy/note/ja/ulticode-fenced-singleton-lease/)

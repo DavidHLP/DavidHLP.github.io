@@ -55,7 +55,7 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "legacy-plugin-lifecycle-management"
   ],
@@ -167,3 +167,9 @@ lock:{uuid}:{plugin}:{op}:{targetVersion}
 
 - [legacy-plugin-lifecycle-management](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-plugin-lifecycle-management.md)
 - [Enhanced UISA：異種ノード同期の owner・boundary・復旧モデル](/blog/legacy/note/ja/uisa-architecture-design/)
+
+## 昇格チェック
+
+- 実装または最小 model を固定し heartbeat 冪等を検証
+- 重複・遅延・失敗 receipt で version 単調・canary・circuit breaker を確認
+- offline 復旧と容量境界を記録

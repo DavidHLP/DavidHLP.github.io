@@ -58,14 +58,15 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "legacy-containerd-tls-troubleshooting"
   ],
   "related": [
     "intranet-penetration-ssh-guide",
     "mysql-performance-troubleshooting",
-    "testcontainers-docker-api"
+    "testcontainers-docker-api",
+    "docker-fundamentals"
   ]
 }
 ---
@@ -82,6 +83,8 @@ Pod → kubelet → imagePullSecrets/ServiceAccount → CRI → containerd
     → config.toml 的 config_path → certs.d/<registry>/hosts.toml
     → Registry TLS → manifest/layer
 ```
+
+这里仅定位 Kubernetes 节点侧 CRI/CA/Secret 信任链；构建镜像层、Dockerfile 与单机容器运行时基础另见 [Docker 核心原理、分层构建、持久化与生产 Compose](/blog/legacy/note/zh-cn/docker-fundamentals/)。
 
 | 观察到的现象                                    | 首要层                    | 可复用判断                                                                |
 | ----------------------------------------------- | ------------------------- | ------------------------------------------------------------------------- |
@@ -166,9 +169,11 @@ openssl x509 -in /etc/containerd/certs.d/harbor.example.com/ca.crt -noout -subje
 
 ## 相关页面
 
+
 - [内网穿透 SSH 方案](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
 - [MySQL 性能问题模型](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
-
+- [Testcontainers 1.20.6：先排查 Docker API 版本，再判断 daemon 不可用](/blog/legacy/note/zh-cn/testcontainers-docker-api/)
+- [Docker 基础：镜像分层、容器操作与 Compose 网络](/blog/legacy/note/zh-cn/docker-fundamentals/)
 
 ## 来源与关联文档
 
@@ -176,3 +181,9 @@ openssl x509 -in /etc/containerd/certs.d/harbor.example.com/ca.crt -noout -subje
 - [SSH 内网访问方案：连接方向、暴露面与故障恢复](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
 - [MySQL 性能排查：现象→指标→定位层→安全缓解](/blog/legacy/note/zh-cn/mysql-performance-troubleshooting/)
 - [Testcontainers 1.20.6：先排查 Docker API 版本，再判断 daemon 不可用](/blog/legacy/note/zh-cn/testcontainers-docker-api/)
+
+## 毕业检查
+
+- 固定 containerd 1.x/2.x 各一精确版本与匿名 Registry fixture
+- 受信 CA 成功、错误 CA/SAN 在对应错误层失败
+- Pod 凭证正反例并验收 Docker 镜像基础回链

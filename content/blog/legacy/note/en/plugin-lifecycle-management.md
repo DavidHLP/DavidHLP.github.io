@@ -55,7 +55,7 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "legacy-plugin-lifecycle-management"
   ],
@@ -167,3 +167,9 @@ Accept heartbeat delay, lost receipts, duplicate reports, and lagging versions; 
 
 - [legacy-plugin-lifecycle-management](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/legacy-plugin-lifecycle-management.md)
 - [Enhanced UISA: Owners, Boundaries, and Recovery for Heterogeneous-Node Sync](/blog/legacy/note/en/uisa-architecture-design/)
+
+## Graduation checks
+
+- Pinned implementation or minimal model proving heartbeat idempotency
+- duplicate, late, and failed receipts with monotonic version, canary, and circuit breaking
+- offline recovery and capacity boundaries

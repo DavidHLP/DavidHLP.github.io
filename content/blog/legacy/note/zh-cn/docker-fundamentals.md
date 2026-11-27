@@ -58,14 +58,13 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "ingest-docker-fundamentals"
   ],
   "related": [
     "containerd-tls-troubleshooting",
-    "multi-service-readiness",
-    "intranet-penetration-ssh-guide"
+    "multi-service-readiness"
   ]
 }
 ---
@@ -122,14 +121,18 @@
 
 ## 相关页面
 
+
 - [containerd-tls-troubleshooting](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
 - [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [intranet-penetration-ssh-guide](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
-
 
 ## 来源与关联文档
 
 - [ingest-docker-fundamentals](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-docker-fundamentals.md)
 - [containerd TLS：证书信任链与临时跳过验证的决策](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
 - [多服务启动就绪：running、ready 与依赖/失败/重启传播](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [SSH 内网访问方案：连接方向、暴露面与故障恢复](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
+
+## 毕业检查
+
+- 固定 Engine/BuildKit/Compose 与基础镜像并记录缓存命中
+- 临时 volume/bind 的重启与重建数据差异
+- Compose 服务名、端口、失败场景并接回 C05/C07

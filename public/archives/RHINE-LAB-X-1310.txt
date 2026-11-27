@@ -1,0 +1,61 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-1310 / Recoverable Bulk Extraction and Huge-Table Mutations: Partitioning, Idempotency, Reconciliation, and Cutover Boundaries
+ENGINEERING NOTES
+
+Department: Engineering notes
+Collection: 2026-11-27
+Related people: DavidHLPL
+Access: Public
+
+Making a single transformation faster or raising thread counts does not replace a resumable, idempotent, reconcilable bulk-extraction or table-mutation design. The standard is not "it finished once," but **non-overlapping gap-free ranges, safe resumption after interruption, idempotent retries, and verifiable reconciliation**.
+
+## Kettle / PDI: Locate the Stage Bottleneck Before Partitioning
+
+### 1. Separate Input, Transformation, and Output Bottlenecks
+
+Before raising concurrency or JVM heap, measure row counts, throughput, waits, and resource usage per stage:
+
+- **Input**: select only needed columns and push filters down to the database; check whether per-row query execution is enabled accidentally, turning one batch scan into many small queries (Table Input SQL parameters and per-row execution must match task semantics).
+- **Transformation**: measure repeated DB lookups, redundant type conversions, heavy scripts, and large sorts separately; confirm that extra step copies will not break ordering, grouping, or deduplication.
+- **Output**: distinguish `Commit size` (rows accumulated per transaction commit) from `Use batch update for inserts` (batched SQL submission); driver support and adjacent step settings can disable batching even when checked. Larger commit batches are not automatically better: weigh throughput against memory, failure redo cost, and target DB load.
+
+### 2. Recoverable and Reconcilable Bulk Extraction
+
+For large one-off extractions, split the work into explicit partitions (stable primary-key ranges or fixed time windows), tracking start/end bounds, state, output count, and retry count without overlaps or gaps:
+
+- Resume from confirmed checkpoints after restarts; rely on target unique keys, idempotent writes, or staging merges to absorb retries.
+- When source data continues changing, define the extraction snapshot point. Tracking only the maximum primary key misses updates and deletes on older rows and does not replace a consistent snapshot; design the snapshot-to-incremental handoff explicitly and reconcile partition counts, key aggregates, and sampled rows.
+
+## Very Large MySQL / InnoDB Mutations: Narrow Scope Before Controlling Cost
+
+Before touching billion-row tables, check affected row counts, index/partition selectivity, offline allowance, ongoing writes, and rollback/recovery requirements:
+
+| Operation | Candidate approach | Risks to control |
+| --- | --- | --- |
+| Large delete | Bounded batched range deletes; evaluate copying retained rows and switching tables at high delete ratios | Locks, logs, disk space, and failure recovery |
+| Large update | Validate via staging table, then run bounded batched joined updates | Match uniqueness, lock contention, and transaction size |
+| Large insert | Batched writes or an appropriate bulk-loading path | Constraint validity, index maintenance, and target load |
+
+Two hard limits:
+
+- **Copy-and-switch for high delete ratios is a full data migration**: it must handle concurrent writes during copying, object dependencies, indexes and constraints, the cutover window, checksums, and rollback; a copy-and-rename snippet alone is incomplete.
+- **Do not treat `TRUNCATE TABLE` as a faster, rollbackable `DELETE`**: in MySQL, `TRUNCATE TABLE` commits implicitly, cannot be rolled back inside an ordinary transaction, and does not accept `WHERE`. Verify on a controlled range first, tune batch sizes from lock waits, logs, and replication pressure, and pause or shrink ranges on anomalies.
+
+## Evidence Boundaries and Unverified Items
+
+- **Source facts**: Split from sections 7 and 8 of [Database Written-Test Review](/blog/legacy/note/en/database-written-test-review/), backed by `database-written-test-review` and its cited PDI (Table Input, Table Output, Performance Tips) and MySQL 8.4 (`DELETE`, `UPDATE`, `TRUNCATE TABLE`, InnoDB bulk loading) documentation.
+- **Unverified items**: No partitioned interruption/rerun, reconciliation, throughput benchmark, or live table-cutover experiment was run on a pinned PDI or MySQL 8.4 instance in this round; no speedup multiplier or zero-downtime claim can be inferred.
+
+## Graduation Checks
+
+- Execute a partitioned extraction interruption, checkpoint resume, duplicate-write deduplication, and count/aggregate reconciliation drill on pinned PDI and target DB versions
+- Verify bounded batch delete/update lock waits and batch tuning on a controlled MySQL 8.4 test table, plus the implicit-commit non-rollback boundary of `TRUNCATE`
+- Document explicit stop/rollback prerequisites and incremental-verification checklists for table-cutover candidates, retaining bidirectional links with the parent page
+
+Research notes
+1. Native wiki page: content/blog/legacy/note/en/recoverable-batch-extraction.md
+2. Source snapshot: database-written-test-review
+3. Evidence status: provisional
+
+Reference: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md
+This archive adaptation is based on publicly available setting material, not the game's original text.

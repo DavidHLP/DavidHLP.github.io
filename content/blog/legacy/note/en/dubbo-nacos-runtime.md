@@ -66,7 +66,8 @@
   ],
   "related": [
     "multi-service-readiness",
-    "microservice-data-ownership"
+    "microservice-data-ownership",
+    "spring-cloud-and-boot"
   ]
 }
 ---
@@ -117,7 +118,7 @@ The default `register-mode=all` registers both application-level and interface-l
 
 ### Interface-level
 
-The consumer subscribes to the same-name `providers:...` service, and instances are pushed by Nacos naming events. version/group must match strictly; use `*` or comma expressions only when a range is needed.
+The consumer subscribes to the same-name `providers:...` service, and instances are pushed by Nacos naming events. version/group must match strictly; use `*` or comma expressions only when a range is needed. For a comparison with Spring Cloud/Nacos service-level discovery and OpenFeign routing without conflating Dubbo's interface registration and group/version bounds, see [Spring Boot and Spring Cloud: Auto-Configuration, Transactions, Service Discovery, Gateway, and Observability](/blog/legacy/note/en/spring-cloud-and-boot/).
 
 ### Application-level
 
@@ -193,3 +194,4 @@ Pinned commits, official docs, config key corrections, and unverified items are 
 - [dubbo-nacos-runtime-registration-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/dubbo-nacos-runtime-registration-correction.md)
 - [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/en/multi-service-readiness/)
 - [Microservice Data Ownership: Establish the Domain Owner First, Then Talk About Database Splitting and Migration](/blog/legacy/note/en/microservice-data-ownership/)
+- [Spring Boot and Spring Cloud: Auto-Configuration, Transactions, Service Discovery, Gateway, and Observability](/blog/legacy/note/en/spring-cloud-and-boot/)

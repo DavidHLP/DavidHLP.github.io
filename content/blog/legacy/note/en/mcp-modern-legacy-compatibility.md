@@ -1,0 +1,105 @@
+---
+{
+  "archiveId": "X-1316",
+  "translationKey": "legacy/note/mcp-modern-legacy-compatibility",
+  "title": "MCP Protocol-Era Compatibility Boundaries: 2026-07-28 Modern vs. Legacy Handshake Contracts",
+  "en": "ENGINEERING NOTES",
+  "category": "AI 工具",
+  "department": "工程笔记",
+  "date": "2026-11-27",
+  "lead": "DavidHLPL",
+  "clearance": "PUBLIC",
+  "abstract": "Summarizes the protocol differences and error-code contracts between MCP 2026-07-28 (commit 5f5440bb) modern stateless per-request _meta and the legacy initialize handshake, alongside the decisive compatibility fact that codebase-memory-mcp v0.10.2 (commit b377c62a) supports up to 2025-11-25.",
+  "findings": [
+    "Raw source: src/content/raw/zh-cn/mcp-codebase-memory-workflow.md",
+    "Evidence status: provisional"
+  ],
+  "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/mcp-codebase-memory-workflow.md",
+  "pubDate": "2026-11-27T00:00:00.000Z",
+  "tags": [
+    "MCP",
+    "Specification",
+    "Protocol Compatibility",
+    "Codebase Memory",
+    "en",
+    "note"
+  ],
+  "draft": false,
+  "lang": "en",
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "mcp-codebase-memory-workflow"
+  ],
+  "related": [
+    "mcp-codebase-memory-workflow"
+  ]
+}
+---
+
+When a client follows the modern MCP specification while the target server remains on an older protocol era, tool workflows fail at handshake negotiation before any domain call executes. Based on pinned upstream spec `2026-07-28` (commit `5f5440bb26a62e2cf3440b92da5a667efa03b267`) and `codebase-memory-mcp` `v0.10.2` (commit `b377c62a4e8b7ad64ccd295e4aa88abc8d275180`), this note isolates the era boundary, error contracts, and cross-era compatibility rules; for the minimal `v0.10.2` graph workflow and coverage discipline, see [MCP Protocol Era Boundary and the codebase-memory-mcp v0.10.2 Graph Workflow](/blog/legacy/note/en/mcp-codebase-memory-workflow/).
+
+## Core Mechanisms
+
+### 1. Protocol-era boundary: per-request `_meta` vs. the `initialize` handshake
+
+MCP `2026-07-28` (modern) eliminates connection-level handshake negotiation in favor of stateless per-request self-description:
+
+| Dimension | legacy (`2025-11-25` and earlier) | modern (`2026-07-28` onward) |
+| --- | --- | --- |
+| Session establishment | `initialize` handshake + `notifications/initialized` | No handshake, no `notifications/initialized` |
+| Version/capability declaration | Negotiated during handshake | Carried inside each request's `_meta` |
+| Server-state assumption | Session state permitted | **Stateless**: forbidden to infer capabilities, version, or identity from prior requests on the same connection; a stdio process is not a session |
+| Version discovery | Negotiated | Server must implement `server/discover` (client may call it first) |
+| Compatibility | A dual-era server can support both eras, routing by request shape (modern `_meta` → modern; `initialize` → legacy) | Same rule |
+
+Required and optional modern per-request `_meta` fields (from `basic/index.mdx`):
+
+- `io.modelcontextprotocol/protocolVersion`: **required**.
+- `io.modelcontextprotocol/clientCapabilities`: **required**.
+- `io.modelcontextprotocol/clientInfo`, `logLevel`: optional.
+
+Extension negotiation uses `capabilities.extensions` (extension identifier -> settings object), falling back to core behavior or returning an error when unsupported on one side; response `resultType` is `"complete"` (default) or `"input_required"` (multi-round MRTR requests), with unknown values treated as invalid.
+
+### 2. Error codes and version-mismatch contract
+
+| Error | Error code | Trigger condition | Attached data |
+| --- | --- | --- | --- |
+| Invalid params | `-32602` (HTTP 400) | Missing required `_meta` field or malformed request | — |
+| `MissingRequiredClientCapabilityError` | `-32021` (HTTP 400) | Server needs a capability not declared by the client | `data.requiredCapabilities` lists missing capabilities |
+| `UnsupportedProtocolVersionError` | `-32022` | Protocol version mismatch | `data.supported` lists supported versions so the client can pick a common version and retry |
+
+### 3. Source-level era attribution of `v0.10.2`
+
+At pinned commit `b377c62a`, `src/mcp/mcp.c` is unambiguously a **legacy-era server**:
+
+- `SUPPORTED_PROTOCOL_VERSIONS[]` (lines 1222–1231) lists only `"2025-11-25"`, `"2025-06-18"`, `"2025-03-26"`, and `"2024-11-05"`, **excluding `2026-07-28`**.
+- `cbm_mcp_initialize_response_for_profile` (lines 1262–1293) handles the legacy `initialize` handshake (reading `protocolVersion`, echoing a supported value, and returning `protocolVersion` + `serverInfo` + `capabilities`), dispatched from `"initialize"` starting at line 11341.
+- The source contains no handling for `server/discover`, modern per-request `_meta` fields, or modern stateless lifecycles.
+
+Under the 2026-07-28 compatibility matrix, "Modern client | Legacy server" **Fails**. Calling `v0.10.2` therefore requires speaking legacy `2025-11-25` (`initialize` + `notifications/initialized`) or going through a dual-era adapter:
+
+```text
+initialize { protocolVersion: "2025-11-25" }
+  -> notifications/initialized
+  -> tool calls (list_projects / search_graph / trace_path ...)
+```
+
+## Verified and Unverified Boundaries
+
+- **Verified against pinned spec and source**: the two pinned upstream commits, the exact range of `SUPPORTED_PROTOCOL_VERSIONS[]` in `src/mcp/mcp.c`, legacy `initialize` dispatch/response functions, required `_meta` fields, and the three contract error codes.
+- **Unverified boundaries retained explicitly**:
+  - `2026-07-28` authorization, transports, and subscriptions details are not expanded;
+  - the legacy `initialize`/`notifications/initialized` sequence references only the `2025-06-18` lifecycle document and was not diffed line-by-line against older revisions;
+  - conclusions rest on spec and source reading rather than a **live handshake or dual-era adapter runtime experiment against the binary**.
+
+## Graduation Checks
+
+1. Run a real client session (stdio or HTTP) against the `codebase-memory-mcp v0.10.2` binary to record the live `initialize` exchange and the direct modern-client failure response, replacing the unexecuted runtime note.
+2. Re-audit `SUPPORTED_PROTOCOL_VERSIONS[]` and `server/discover` support whenever upgrading past `v0.10.2` or adopting a newer client SDK.
+3. If deploying a dual-era adapter, verify request-shape routing isolation when mixed legacy `initialize` and modern `_meta` requests arrive, ensuring stateless guarantees are not breached.
+
+## Related Pages
+
+- [MCP Protocol Era Boundary and the codebase-memory-mcp v0.10.2 Graph Workflow](/blog/legacy/note/en/mcp-codebase-memory-workflow/)
+- [mcp-codebase-memory-workflow (raw source)](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/mcp-codebase-memory-workflow.md)

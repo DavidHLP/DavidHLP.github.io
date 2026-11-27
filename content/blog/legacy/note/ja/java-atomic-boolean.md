@@ -64,7 +64,8 @@
   "related": [
     "java-auto-closeable",
     "java-online-performance-debug",
-    "java-internship-interview-blog-polished"
+    "java-internship-interview-blog-polished",
+    "java-concurrency-deepdive"
   ]
 }
 ---
@@ -101,7 +102,7 @@ try {
 
 CAS は現在値が `expectedValue` と一致したときだけ `newValue` を書き込み、成功可否を返します。一度だけの処理、キャンセル通知、開始/停止、二重送信防止などの小さな状態機械に向きます。成功者が処理し、失敗者は即時失敗または明示した回数だけ再試行します。
 
-原子的な読み書きには該当するメモリ可視性もありますが、`data`、カウンタ、コレクションなど他の通常フィールドまで安全にはしません。それらには正しい公開順序と同期設計が必要です。
+原子的な読み書きには該当するメモリ可視性もありますが、`data`、カウンタ、コレクションなど他の通常フィールドまで安全にはしません。それらには正しい公開順序と同期設計が必要です。二値フラグを超えて ABA バージョンスタンプや競合下のアトミッククラス比較へ進む場合は [Java 並行処理の深掘り：JUC、CAS、アトミック、ロックとスレッド機構](/blog/legacy/note/ja/java-concurrency-deepdive/) を参照。
 
 ## 適用条件
 
@@ -133,10 +134,11 @@ CAS は現在値が `expectedValue` と一致したときだけ `newValue` を�
 
 ## 関連ページ
 
+
 - [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/ja/java-auto-closeable/)
 - [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)
 - [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/ja/java-internship-interview-blog-polished/)
-
+- [Java 並行処理の深掘り：JUC、CAS、アトミック、ロックとスレッド機構](/blog/legacy/note/ja/java-concurrency-deepdive/)
 
 ## 出典と関連文書
 

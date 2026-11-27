@@ -59,15 +59,15 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
-    "ingest-redis-business"
+    "ingest-redis-business",
+    "ingest-redis-heima"
   ],
   "related": [
     "redis-persistence-principle",
     "java-null-value",
-    "redis-jackson-java-time",
-    "resicache-observer-nested-execution"
+    "resicache"
   ]
 }
 ---
@@ -81,6 +81,8 @@
 
 - `Redi缓存模型和思路.md` 与 `Redis-Caching-Models.md` 区分 Cache-Aside、Read/Write-Through 与失效策略；TTL、主动淘汰与延迟双删各有取舍。
 - 缓存 null（见 `java-null-value`）用占位避免穿透；`Spring Cache` 注解在 `CacheableAndCacheEvict` 中有单独说明。
+- 课程材料另给出多级缓存的设计案例：Caffeine/JVM 本地层、Redis 共享层与 Nginx/OpenResty 边缘层各自承担不同的失效责任。案例只说明层次划分，不提供可复用的过期参数。
+- 批处理案例区分 Pipeline 与 MGET：前者减少往返，但受客户端缓冲、响应体大小与运行时上限约束；后者按 key 批量读取。两者都不改变单次响应与运行时的限制。
 
 ### 2. 分布式锁与并发控制
 
@@ -102,7 +104,7 @@
 ## 不适用与风险
 
 - 强事务、精确一次语义、复杂查询不适合纯 Redis。
-- 分布式锁的过期早于业务执行会造成双活；看门狗续期、网络分区与时钟漂移需显式评估（见 `resicache` 相关页）。
+- 分布式锁的过期早于业务执行会造成双活；看门狗续期、网络分区与时钟漂移需显式评估（有界项目实例对缓存保护、加载归属与锁边界的实现见 [ResiCache：把缓存防护写成可验证的并发与一致性边界](/blog/legacy/note/zh-cn/resicache/)）。
 - 秒杀与 Feed 流的容量设计未做压测，不可直接套阈值。
 
 ## 最小验证
@@ -119,16 +121,19 @@
 
 ## 相关页面
 
+
 - [redis-persistence-principle](/blog/legacy/note/zh-cn/redis-persistence-principle/)
 - [java-null-value](/blog/legacy/note/zh-cn/java-null-value/)
-- [redis-jackson-java-time](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
-- [resicache-observer-nested-execution](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
-
+- [ResiCache：把缓存防护写成可验证的并发与一致性边界](/blog/legacy/note/zh-cn/resicache/)
 
 ## 来源与关联文档
 
 - [ingest-redis-business](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-redis-business.md)
 - [Redis 持久化与原理：RDB/AOF、数据结构与高级机制](/blog/legacy/note/zh-cn/redis-persistence-principle/)
 - [NullValue：缓存 null 的占位对象与序列化边界](/blog/legacy/note/zh-cn/java-null-value/)
-- [Redisson/Jackson 对 LocalDateTime 的默认序列化行为与写读不对称边界](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
-- [ResiCache：observer 嵌套执行必须区分生命周期、fragment 与 scope token](/blog/legacy/note/zh-cn/resicache-observer-nested-execution/)
+
+## 毕业检查
+
+- 固定 Redis/客户端版本复现缓存失效与空值穿透
+- 独立客户端验证拿锁、非持有人释放失败与续期边界
+- 明确 XACK、未确认留存、回收与幂等消费并验收 C32

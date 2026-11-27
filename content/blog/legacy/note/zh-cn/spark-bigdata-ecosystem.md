@@ -56,14 +56,14 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "ingest-spark-ecosystem"
   ],
   "related": [
     "hbase-foundation-and-ops",
     "multi-service-readiness",
-    "containerd-tls-troubleshooting"
+    "database-written-test-review"
   ]
 }
 ---
@@ -76,6 +76,7 @@ Personal 4 篇与 Fuwari 3 篇 Spark/大数据原文互为镜像，另含 `hadoo
 - **引擎概述**：`分布式计算引擎框架概述.md` 对比 MapReduce/Spark/Flink 的批/流模型。
 - **Spark 概述与运行模式**：`Spark概述.md` 与 `Spark运行模式整理.md` 区分 Local/Standalone/YARN/K8s，Driver/Executor 角色与 shuffle 边界。
 - **集群脚本**：`hadoop-hbase-spark` 目录含 `hadoop-compose.yml`、`start-*.sh` 等本地验证脚本。
+- **Spark SQL 日期方言边界**：`date_format(trunc(add_months(current_date(), -1), 'MM'), 'yyyy')` 在 Spark SQL 中属于合法函数组合，具体跨方言（Oracle/MySQL）对照与跨年反例见 [数据库笔试复盘：五、日期表达式](/blog/legacy/note/zh-cn/database-written-test-review/#五日期表达式先认方言再计算结果)（SQL 方言结果不能代替上文部署模式证据）。
 
 ## 适用条件
 
@@ -99,14 +100,19 @@ Personal 4 篇与 Fuwari 3 篇 Spark/大数据原文互为镜像，另含 `hadoo
 
 ## 相关页面
 
+
 - [hbase-foundation-and-ops](/blog/legacy/note/zh-cn/hbase-foundation-and-ops/)
 - [multi-service-readiness](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [containerd-tls-troubleshooting](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
-
+- [数据库笔试复盘：从 SQL 语义到批量数据处理](/blog/legacy/note/zh-cn/database-written-test-review/)
 
 ## 来源与关联文档
 
 - [ingest-spark-ecosystem](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spark-ecosystem.md)
 - [HBase 基础、架构与运维：数据模型、表设计、Shell 与 Java API](/blog/legacy/note/zh-cn/hbase-foundation-and-ops/)
 - [多服务启动就绪：running、ready 与依赖/失败/重启传播](/blog/legacy/note/zh-cn/multi-service-readiness/)
-- [containerd TLS：证书信任链与临时跳过验证的决策](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
+
+## 毕业检查
+
+- 固定 Spark/JDK/Hadoop 与部署模式重跑 Local
+- 声明适用模式并记录 Driver/Executor 放置与 shuffle 对照
+- 补一项失败/重试路径并完成 C04 与 HBase 双链

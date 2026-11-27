@@ -67,7 +67,7 @@
       "toc": true
     }
   },
-  "kind": "synthesis",
+  "kind": "concept",
   "status": "provisional",
   "sources": [
     "headroom-cc-switch-coexistence-runtime"
@@ -161,10 +161,11 @@ path=/v1/messages status=200
 
 ## 関連ページ
 
+
 - [Headroom 単一ポート総合](/blog/legacy/note/ja/headroom-single-port-evolution/)
 - [Headroom ルート永続化の総合](/blog/legacy/note/ja/omp-headroom-persistence/)
+- [OMP Headroom Bridge：外部ルーティングコントローラとネイティブ Codex/OMP プロキシ境界](/blog/legacy/note/ja/omp-headroom-provider-proxy/)
 - [Headroom 0.34 圧縮・取得契約](/blog/legacy/note/ja/headroom-compress-retrieve-contract/)
-
 
 ## 出典と関連文書
 

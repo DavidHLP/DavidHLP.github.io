@@ -78,7 +78,8 @@
     "headroom-single-port-evolution",
     "omp-headroom-persistence",
     "omp-hook-extension-guide",
-    "llm-wiki-pattern"
+    "llm-wiki-pattern",
+    "hindsight-omp-codex-integration"
   ]
 }
 ---
@@ -109,6 +110,8 @@ flowchart LR
 | Runtime controls (retry, usage-aware policy, etc.) | When to retry, cool down, reserve usage, or return to the preferred model                  | Redefining what a role means                                                |
 | Headroom / `models.db`                             | The provider-to-network route and proxy lifecycle                                          | Selecting an OMP role or injecting Agent rules                              |
 | Rule discovery and injection                       | Applying constraints by `globs`, conditions, or `alwaysApply`                              | Changing model routing or translating `paths` into `globs` automatically    |
+
+`modelRoles` and Rules stay inside client model tiers and instruction injection; for `mcp.json` and FastMCP client wiring into Hindsight memory, see [Hindsight Unified Memory Access: FastMCP Bridge and Dynamic Multi-Project Routing](/blog/legacy/note/en/hindsight-omp-codex-integration/).
 
 ### 2. Boundaries between selection and recovery
 
@@ -176,11 +179,12 @@ The smallest useful evidence set contains: the final selector for one default ro
 
 ## Related pages
 
+
 - [Headroom single-port evolution](/blog/legacy/note/en/headroom-single-port-evolution/)
 - [Headroom route persistence](/blog/legacy/note/en/omp-headroom-persistence/)
 - [OMP Hook extension](/blog/legacy/note/en/omp-hook-extension-guide/)
 - [LLM wiki pattern](/blog/legacy/note/en/llm-wiki-pattern/)
-
+- [Hindsight Unified Memory Access: FastMCP Bridge and Dynamic Multi-Project Routing](/blog/legacy/note/en/hindsight-omp-codex-integration/)
 
 ## Sources and related documents
 

@@ -60,7 +60,7 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "ingest-spring-cloud"
   ],
@@ -68,7 +68,9 @@
     "dubbo-nacos-runtime",
     "multi-service-readiness",
     "microservice-data-ownership",
-    "containerd-tls-troubleshooting"
+    "spring-boot-auto-configuration",
+    "spring-transaction-boundaries",
+    "spring-cloud-discovery-and-gateway"
   ]
 }
 ---
@@ -77,10 +79,10 @@ The 13 Spring Boot/Cloud notes in Fuwari form the main body of microservice note
 
 ## Core Mechanism
 
-- **Boot**: `SpringBootAuto-configuration.md` covers `@EnableAutoConfiguration` and conditionals; `SpringTransactions.md` covers propagation and isolation.
-- **Service discovery**: `Nacos.md` and `ConsulServiceRegistrationandDiscovery.md` compare AP/CP, health checks, and config centers; `dubbo-nacos-runtime` already has pinned evidence for Dubbo+Nacos.
-- **Calls and gateway**: `OpenFeign.md`, `LoadBalancer.md`, `SpringCloudGateway.md` cover declarative calls, load balancing, and routing.
-- **Resilience and observability**: `Sentinel.md`, `CircuitBreakerPatterns`, `BulkHeadBasics` cover circuit breaking/rate limiting/isolation; `SetupofMicrometerandZipkinTracing.md` covers tracing.
+- **Auto-Configuration and Startup**: `@EnableAutoConfiguration`, `AutoConfiguration.imports` / `spring.factories`, conditionals, and exclusions live in [Spring Boot Auto-Configuration and Startup Sequence: Imports, Conditionals, and Exclusions](/blog/legacy/note/en/spring-boot-auto-configuration/).
+- **Local Transaction Boundaries**: `PlatformTransactionManager`, AOP + `ThreadLocal`, seven propagation modes, and rollback rules live in [Spring Transaction Boundaries and Propagation: AOP Proxies, Isolation, and Rollback Rules](/blog/legacy/note/en/spring-transaction-boundaries/).
+- **Discovery, Calls, and Gateway**: `Nacos`, `Consul`, `Spring Cloud LoadBalancer`, `OpenFeign`, and `Spring Cloud Gateway` live in [Spring Cloud Service Discovery, LoadBalancer, OpenFeign, and Gateway](/blog/legacy/note/en/spring-cloud-discovery-and-gateway/), while pinned Dubbo + Nacos runtime evidence lives in [Dubbo + Nacos: Verify the Registration Name and group/version First, Then Run a Real Smoke Test](/blog/legacy/note/en/dubbo-nacos-runtime/).
+- **Resilience and Observability**: `Sentinel.md`, `CircuitBreakerPatterns`, and `BulkHeadBasics` summarize circuit breaking/rate limiting/isolation boundaries; `SetupofMicrometerandZipkinTracing.md` summarizes distributed tracing setup.
 
 ## Applicability
 
@@ -105,16 +107,26 @@ The 13 Spring Boot/Cloud notes in Fuwari form the main body of microservice note
 
 ## Related Pages
 
+
 - [dubbo-nacos-runtime](/blog/legacy/note/en/dubbo-nacos-runtime/)
 - [multi-service-readiness](/blog/legacy/note/en/multi-service-readiness/)
 - [microservice-data-ownership](/blog/legacy/note/en/microservice-data-ownership/)
-- [containerd-tls-troubleshooting](/blog/legacy/note/en/containerd-tls-troubleshooting/)
-
+- [Spring Boot Auto-Configuration and Startup Sequence](/blog/legacy/note/en/spring-boot-auto-configuration/)
+- [Spring Transaction Boundaries and Propagation](/blog/legacy/note/en/spring-transaction-boundaries/)
+- [Spring Cloud Service Discovery, LoadBalancer, OpenFeign, and Gateway](/blog/legacy/note/en/spring-cloud-discovery-and-gateway/)
 
 ## Sources and related documents
 
 - [ingest-spring-cloud](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md)
+- [Spring Boot Auto-Configuration and Startup Sequence: Imports, Conditionals, and Exclusions](/blog/legacy/note/en/spring-boot-auto-configuration/)
+- [Spring Transaction Boundaries and Propagation: AOP Proxies, Isolation, and Rollback Rules](/blog/legacy/note/en/spring-transaction-boundaries/)
+- [Spring Cloud Service Discovery, LoadBalancer, OpenFeign, and Gateway](/blog/legacy/note/en/spring-cloud-discovery-and-gateway/)
 - [Dubbo + Nacos: Verify the Registration Name and group/version First, Then Run a Real Smoke Test](/blog/legacy/note/en/dubbo-nacos-runtime/)
 - [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/en/multi-service-readiness/)
 - [Microservice Data Ownership: Establish the Domain Owner First, Then Talk About Database Splitting and Migration](/blog/legacy/note/en/microservice-data-ownership/)
-- [containerd TLS: Choosing a Trusted Chain or Temporary Verification Bypass](/blog/legacy/note/en/containerd-tls-troubleshooting/)
+
+## Graduation checks
+
+- Pinned BOM/JDK confirming auto-configuration candidates and exclusions
+- local transaction propagation, rollback, and proxy boundaries
+- discovery, predicate, and filter against a pinned gateway/registry pair plus C45/C47

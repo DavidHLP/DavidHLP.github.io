@@ -1,0 +1,94 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-1301 / SQL Join Retention Rules, NULL Semantics, and Set Deduplication
+ENGINEERING NOTES
+
+Department: Engineering notes
+Collection: 2026-11-27
+Related people: DavidHLPL
+Access: Public
+
+Evaluating a SQL query result requires separating two questions first: **which rows must be kept**, and **what condition defines a match or comparison**. Placing a right-table filter in `ON` vs `WHERE` in an outer join, deduplicating by full projected row in `UNION`, and ignoring `NULL` in `AVG(score)` each change the output directly.
+
+## Join Retention Rules and `ON` vs `WHERE` Filtering
+
+An inner join retains only combinations satisfying the join condition; a left outer join retains all rows from the left table; a right outer join retains all rows from the right table. The unmatched side of an outer join is padded with `NULL`. Saying "an outer join must be an equality join" is incorrect: equality, comparison, and range matching describe the join condition, whereas inner and outer joins describe the row-retention rule, so outer joins can also use non-equality conditions.
+
+For example, to list every student and their `C002` score while keeping students with no `C002` record:
+
+```sql
+SELECT s.sno, r.score
+FROM student AS s
+LEFT JOIN sc AS r
+  ON r.sno = s.sno
+ AND r.cno = 'C002';
+```
+
+| Filter placement | Right-side columns when unmatched | Effect on result set |
+| --- | --- | --- |
+| `ON r.cno = 'C002'` | Restricts only which right-side rows can match; left row stays with `NULL` | Retains every student |
+| `WHERE r.cno = 'C002'` | `r.cno` is `NULL`, so the predicate evaluates to unknown (not true) | Unmatched students are dropped, effectively turning into an inner join |
+
+When reviewing an outer join, construct a row that cannot match and trace whether a later `WHERE` filter deletes it.
+
+## Set Deduplication in `UNION` and `UNION ALL`
+
+`UNION` removes duplicate rows by default, while `UNION ALL` preserves duplicates. Deduplication applies to the **entire projected row**, not a single column. When the projection is `(sno, cno)`, two rows for the same student and different courses are not duplicates.
+
+When deduplication is unnecessary, `UNION ALL` avoids extra deduplication work, though no fixed speedup multiplier can be promised across all queries. Neither operator replaces a final `ORDER BY`; add explicit ordering when a stable display order is required.
+
+## `NULL` and Comparison Semantics in the Four-Table Teaching Schema
+
+The four-table exercises share this schema convention:
+
+```text
+student(sno, sname, sage, ssex)  students, primary key sno
+course(cno, cname, tno)          courses, primary key cno
+sc(sno, cno, score)              enrollments and scores, composite PK (sno, cno), nullable DECIMAL(5, 2)
+teacher(tno, tname)              teachers, primary key tno
+```
+
+### 1. Self-Join Comparison: `C001` Higher Than `C002`
+
+Two course scores for one student live on separate rows, so a self-join puts them on the same row:
+
+```sql
+SELECT a.sno
+FROM sc AS a
+JOIN sc AS b
+  ON b.sno = a.sno
+WHERE a.cno = 'C001'
+  AND b.cno = 'C002'
+  AND a.score > b.score;
+```
+
+Both course rows must exist and `a.score > b.score` must hold strictly; a missing record, equal scores, or a `NULL` score excludes the student.
+
+### 2. Aggregation and `HAVING`: Average Score Above 60
+
+```sql
+SELECT sno, AVG(score) AS avg_score
+FROM sc
+GROUP BY sno
+HAVING AVG(score) > 60;
+```
+
+`AVG(score)` ignores `NULL` by default and does not treat absences, unentered scores, or unselected courses as zero. If all scores for a student are `NULL`, `AVG(score)` is `NULL` and fails `> 60`. Whether an absence counts as zero is a business rule that must be decided before writing the expression.
+
+## Evidence Boundaries and Unverified Items
+
+- **Source facts**: Split from sections 2, 4, and 6 (questions 1 and 2) of [Database Written-Test Review](/blog/legacy/note/en/database-written-test-review/), backed by the `database-written-test-review` snapshot and its Oracle 19c and MySQL 8.4 manual references.
+- **Unverified items**: These queries were not executed live against Oracle 19c or MySQL 8.4 in this round, nor were `UNION` vs `UNION ALL` execution plans or timings measured on real data; empty-input, unmatched, duplicate, and all-`NULL` controls remain to be tested against a pinned engine.
+
+## Graduation Checks
+
+- Build four control cases (empty input, unmatched rows, duplicates, and all-`NULL` scores) on pinned MySQL 8.4 / Oracle 19c and rerun every query
+- Verify row-count differences between `ON` and `WHERE` filtering in `LEFT JOIN` and record actual outputs
+- Verify `(sno, cno)` projection deduplication and `ORDER BY` behavior for `UNION` vs `UNION ALL`, keeping bidirectional links with the parent page
+
+Research notes
+1. Native wiki page: content/blog/legacy/note/en/sql-join-null-semantics.md
+2. Source snapshot: database-written-test-review
+3. Evidence status: provisional
+
+Reference: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md
+This archive adaptation is based on publicly available setting material, not the game's original text.

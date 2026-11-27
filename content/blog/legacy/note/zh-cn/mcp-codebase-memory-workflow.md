@@ -61,7 +61,8 @@
     "mcp-codebase-memory-workflow"
   ],
   "related": [
-    "llm-wiki-pattern"
+    "llm-wiki-pattern",
+    "mcp-modern-legacy-compatibility"
   ]
 }
 ---
@@ -71,41 +72,11 @@
 
 ## 协议时代边界：逐请求 `_meta` vs `initialize` 握手
 
-MCP 2026-07-28 规范（commit `5f5440bb`）中 "modern" 版本取消连接级协商握手，改为每个请求自描述：
-
-| 维度           | legacy（2025-11-25 及更早）                                                                            | modern（2026-07-28 起）                                                            |
-| -------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
-| 会话建立       | `initialize` 握手 + `notifications/initialized`                                                        | 无握手，无 `notifications/initialized`                                             |
-| 版本/能力声明  | 握手时协商                                                                                             | 每个请求的 `_meta` 携带                                                            |
-| 服务器状态假设 | 允许会话状态                                                                                           | **stateless**：禁止从同连接先前请求推断 capabilities/版本/身份；stdio 进程不是会话 |
-| 版本发现       | 协商                                                                                                   | 服务器必须实现 `server/discover`（客户端可选先调用）                               |
-| 兼容           | dual-era 实现可同时支持两种时代，按请求形态区分（带 modern `_meta` 按 modern；`initialize` 按 legacy） | 同一规则                                                                           |
-
-modern 逐请求 `_meta` 字段（来自 `basic/index.mdx`）：
-
-- `io.modelcontextprotocol/protocolVersion`：**必需**。
-- `io.modelcontextprotocol/clientCapabilities`：**必需**。
-- `io.modelcontextprotocol/clientInfo`、`logLevel`：可选。
-
-**错误码必须按契约区分**：
-
-| 错误                                   | 错误码               | 触发条件                      | 附带数据                                              |
-| -------------------------------------- | -------------------- | ----------------------------- | ----------------------------------------------------- |
-| Invalid params                         | `-32602`（HTTP 400） | 缺必需 `_meta` 字段，请求畸形 | —                                                     |
-| `MissingRequiredClientCapabilityError` | `-32021`（HTTP 400） | 服务器需要客户端未声明的能力  | `data.requiredCapabilities` 列出缺失项                |
-| `UnsupportedProtocolVersionError`      | `-32022`             | 协议版本不匹配                | `data.supported` 列出支持的版本，客户端选共同版本重试 |
-
-扩展协商走 `capabilities.extensions`（扩展标识 → settings 对象）；一方不支持某扩展时回退到核心协议行为或报错。响应 `resultType`：`"complete"` 表示成功，`"input_required"` 表示需要更多输入（MRTR 多轮请求），未知值视为无效，缺省按 `"complete"` 处理。
+MCP `2026-07-28`（commit `5f5440bb`）取消连接级 `initialize` 握手与会话状态假设，要求每个请求携带 `io.modelcontextprotocol/protocolVersion`、`clientCapabilities` 等 `_meta` 字段并提供 `server/discover`，缺失或版本不匹配时按 `-32602`、`-32021`（`MissingRequiredClientCapabilityError`）、`-32022`（`UnsupportedProtocolVersionError`）返回契约错误。两代协议字段表与错误码明细见 [MCP 协议时代兼容边界：2026-07-28 Modern 与 Legacy 握手契约](/blog/legacy/note/zh-cn/mcp-modern-legacy-compatibility/)。
 
 ## v0.10.2 的协议时代归属（决定性兼容事实）
 
-固定 commit `b377c62a` 的 `src/mcp/mcp.c` 是 **legacy 时代（initialize 握手）服务器**，不是 2026-07-28 modern 服务器：
-
-- `SUPPORTED_PROTOCOL_VERSIONS[]`（第 1222–1231 行）新到旧只有 `"2025-11-25"`、`"2025-06-18"`、`"2025-03-26"`、`"2024-11-05"`，**不含 `2026-07-28`**。
-- 第 1262–1293 行 `cbm_mcp_initialize_response_for_profile` 实现 legacy `initialize` 握手（读请求参数 `protocolVersion`、能支持则回显，返回 `protocolVersion` + `serverInfo` + `capabilities`）；第 11341 行起在请求分发中处理 `"initialize"` 方法。
-- 源码中不存在 `server/discover`、modern `_meta` 逐请求协议字段或 `notifications/initialized` 的任何处理。
-
-按 2026-07-28 规范的兼容矩阵，"Modern client | Legacy server" 组合结果是 **Fails**：modern 客户端无法直接对 v0.10.2 执行下面的工作流。验证 v0.10.2 必须使用 legacy `2025-11-25` 契约（`initialize` 握手 + `notifications/initialized` 通知），或经 dual-era 适配器。
+固定 commit `b377c62a` 的 `src/mcp/mcp.c` 属于 **legacy（`initialize` 握手）服务器**：`SUPPORTED_PROTOCOL_VERSIONS[]`（第 1222–1231 行）最高仅支持 `"2025-11-25"`，**不含 `2026-07-28`**，且无 `server/discover` 或 modern `_meta` 处理。按 2026-07-28 兼容矩阵，“Modern client | Legacy server”为 **Fails**——运行下文图检索工作流前，必须先按 legacy `2025-11-25`（`initialize` + `notifications/initialized`）或经 dual-era 适配器建立连接。源码依据见 [MCP 协议时代兼容边界：2026-07-28 Modern 与 Legacy 握手契约](/blog/legacy/note/zh-cn/mcp-modern-legacy-compatibility/)。
 
 ## 最小工作流：确认 → 搜索 → 调用链 → 源码 → 覆盖
 
@@ -172,10 +143,12 @@ modern 逐请求 `_meta` 字段（来自 `basic/index.mdx`）：
 
 ## 相关页面
 
+- [MCP 协议时代兼容边界：2026-07-28 Modern 与 Legacy 握手契约](/blog/legacy/note/zh-cn/mcp-modern-legacy-compatibility/)：modern 无状态 `_meta`、错误码契约与 `v0.10.2` legacy 协议归属明细
 - [LLM-Wiki 模式](/blog/legacy/note/zh-cn/llm-wiki-pattern/)：本知识库把此类来源编译为证据驱动 wiki 页的运行方式
 
 
 ## 来源与关联文档
 
 - [mcp-codebase-memory-workflow](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/mcp-codebase-memory-workflow.md)
+- [MCP 协议时代兼容边界：2026-07-28 Modern 与 Legacy 握手契约](/blog/legacy/note/zh-cn/mcp-modern-legacy-compatibility/)
 - [LLM-Wiki 模式：用 LLM 增量维护一个持久的个人知识库](/blog/legacy/note/zh-cn/llm-wiki-pattern/)

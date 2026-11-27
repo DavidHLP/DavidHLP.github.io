@@ -63,8 +63,6 @@
     "ingest-frontend-essays"
   ],
   "related": [
-    "java-concurrency-deepdive",
-    "spring-cloud-and-boot",
     "intranet-penetration-ssh-guide"
   ]
 }
@@ -98,14 +96,10 @@
 
 ## 相关页面
 
-- [java-concurrency-deepdive](/blog/legacy/note/zh-cn/java-concurrency-deepdive/)
-- [spring-cloud-and-boot](/blog/legacy/note/zh-cn/spring-cloud-and-boot/)
-- [intranet-penetration-ssh-guide](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
 
+- [intranet-penetration-ssh-guide](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
 
 ## 来源与关联文档
 
 - [ingest-frontend-essays](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-frontend-essays.md)
-- [Java 并发深度：JUC、CAS、原子类、锁与线程机制](/blog/legacy/note/zh-cn/java-concurrency-deepdive/)
-- [Spring Boot 与 Spring Cloud：自动装配、事务、注册发现、网关与可观测性](/blog/legacy/note/zh-cn/spring-cloud-and-boot/)
 - [SSH 内网访问方案：连接方向、暴露面与故障恢复](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)

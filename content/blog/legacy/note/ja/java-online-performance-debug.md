@@ -76,7 +76,8 @@
     "java-atomic-boolean",
     "java-internship-interview-blog-polished",
     "redis-jackson-java-time",
-    "jjwt-013-security-api"
+    "jjwt-013-security-api",
+    "java-concurrency-deepdive"
   ]
 }
 ---
@@ -94,6 +95,8 @@
 | `iowait` が高い                                       | disk、logging、DB、下流 I/O 待ち               | I/O latency、connection、依存先メトリクスを確認       |
 | 高 CPU、GC 頻発、heap が上限に近い                    | allocation 圧力、メモリ不足、collection storm  | `jstat`、GC log、heap/allocation 証拠                 |
 | CPU は中程度なのに load が高く `BLOCKED/WAITING`      | lock 競合、pool 枯渇、依存先ブロック           | stack、pool queue、lock、下流 timeout                 |
+
+スレッドダンプで `BLOCKED`/`WAITING` 競合を確認した後は、スタック証拠を保全したうえで [Java 並行処理の深掘り：JUC、CAS、アトミック、ロックとスレッド機構](/blog/legacy/note/ja/java-concurrency-deepdive/) のロック・デッドロック機構へつなげて原因を切り分ける。
 
 ### 2. 単一コマンドより証拠の鎖
 
@@ -144,10 +147,13 @@ Arthas は実行中 JVM に接続して thread/method を観測します。`watc
 
 ## 関連ページ
 
+
 - [NullValue：キャッシュ null のプレースホルダーとシリアライズ境界](/blog/legacy/note/ja/java-null-value/)
 - [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/ja/java-atomic-boolean/)
 - [Java バックエンド面接の振り返り：プロジェクトの真正性、設計機構、実運用の証拠](/blog/legacy/note/ja/java-internship-interview-blog-polished/)
-
+- [Redisson/Jackson による LocalDateTime のデフォルト直列化挙動と書き込み・読み出し非対称の境界](/blog/legacy/note/ja/redis-jackson-java-time/)
+- [JJWT 0.13.0：署名アルゴリズムを明示固定し、key 型で検証する](/blog/legacy/note/ja/jjwt-013-security-api/)
+- [Java 並行処理の深掘り：JUC、CAS、アトミック、ロックとスレッド機構](/blog/legacy/note/ja/java-concurrency-deepdive/)
 
 ## 出典と関連文書
 

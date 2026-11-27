@@ -1,0 +1,100 @@
+﻿RHINE LAB · 内部データベース
+資料 X-1308 / MySQL 同一表読み書き DML：派生表のマテリアライズ、一時表と更新境界
+技術ノート
+
+部門: 技術ノート
+収録範囲: 2026-11-27
+関連人物: DavidHLPL
+アクセス: 公開
+
+MySQL 8.4 では、同じテーブルから集約値を読み取りつつ `UPDATE` や `INSERT` を行う場合、標準 SQL のサブクエリをそのまま汎用テンプレートにはできない。本ページは 4 表演習の問 3・4 を独立させ、同一表更新の派生表マテリアライズ条件、同一表挿入の一時表分離、「行がない」と「行はあるが `score IS NULL`」の境界を整理する。
+
+## スキーマ規約と入力の独立性
+
+教育用テーブルは [データベース筆記試験の復盤](/blog/legacy/note/ja/database-written-test-review/) の定義を共有する：`student(sno, sname, sage, ssex)`、`course(cno, cname, tno)`、`sc(sno, cno, score)`（複合主キー `(sno, cno)`、NULL 可 `DECIMAL(5, 2)`）、`teacher(tno, tname)`。データを変更する各問は同一の初期データから独立して開始し、前の問題の変更結果を引き継がない。
+
+## 1. 同一表 `UPDATE`：`GROUP BY` 派生表でマージを防ぐ
+
+要件：教師 `T001` が担当する各科目の成績を**科目ごとの平均点**へ更新する（教師の全科目を 1 つの平均に混ぜない）。
+
+```sql
+-- MySQL 8.4
+UPDATE sc AS s
+JOIN course AS c
+  ON c.cno = s.cno
+JOIN teacher AS t
+  ON t.tno = c.tno
+JOIN (
+    SELECT cno, AVG(score) AS avg_score
+    FROM sc
+    GROUP BY cno
+) AS a
+  ON a.cno = s.cno
+SET s.score = ROUND(a.avg_score, 2)
+WHERE t.tno = 'T001'
+  AND a.avg_score IS NOT NULL;
+```
+
+主な境界：
+
+- 教師名の一意性を仮定せず `t.tno = 'T001'` を用いる。
+- `a.avg_score IS NOT NULL` により、有効成績が 1 件もない科目へ架空の点数を入れない。
+- MySQL には更新対象表をサブクエリで読む際の制約がある。ここでは `GROUP BY` と集約関数が派生表のマージを妨げてマテリアライズ経由で結合更新させるが、任意の同一表更新サブクエリへ無条件に流用できる型ではない。
+- この SQL では有効平均がある科目の既存 `NULL` 成績も置き換わるため、未入力を保持したい場合は `s.score IS NOT NULL` を追加する。
+
+## 2. 同一表 `INSERT ... SELECT`：一時表で平均点を固定する
+
+要件：`C002` の行がない学生に、当該科目の既存平均点でレコードを補う。
+
+まず 2 つの業務状態を区別する：
+
+| 現在の `sc` 状態 | 意味の区別 | 必要な処理 |
+| --- | --- | --- |
+| `(sno, 'C002')` の行が存在しない | 科目記録が欠落 | 新規行を `INSERT` |
+| `(sno, 'C002')` はあるが `score IS NULL` | 成績が未入力 | `UPDATE` 対象であり重複挿入しない |
+
+```sql
+-- MySQL 8.4；この練習では同時書き込みがないと仮定
+CREATE TEMPORARY TABLE tmp_review_course_avg AS
+SELECT cno, AVG(score) AS avg_score
+FROM sc
+WHERE cno = 'C002'
+GROUP BY cno;
+
+INSERT INTO sc (sno, cno, score)
+SELECT stu.sno, a.cno, ROUND(a.avg_score, 2)
+FROM student AS stu
+CROSS JOIN tmp_review_course_avg AS a
+LEFT JOIN sc AS existing
+  ON existing.sno = stu.sno
+ AND existing.cno = a.cno
+WHERE existing.sno IS NULL
+  AND a.avg_score IS NOT NULL;
+
+DROP TEMPORARY TABLE tmp_review_course_avg;
+```
+
+一時表を用いるのは MySQL `INSERT ... SELECT` の制限を避けるためである。対象表は主クエリの `FROM` には置けても、そのサブクエリ内で直接読むことはできない。さらに `a.avg_score IS NOT NULL` により、有効な成績がない科目に 0 点を補う誤りを防ぐ。
+
+## 同時実行とスナップショットの境界
+
+複合主キー `(sno, cno)` は重複行を防ぐが、複数文に共通のスナップショットを自動保証するものではない。本番ではトランザクション境界、分離レベル、競合リトライ、平均値の基準時点を明示設計する必要がある。
+
+## 証拠の境界と未検証項目
+
+- **出典の事実**：本ページは [データベース筆記試験の復盤](/blog/legacy/note/ja/database-written-test-review/) 第 6 節問 3・4 から分離され、`database-written-test-review` スナップショットと MySQL 8.4 の `UPDATE`・`derived-table-optimization`・`INSERT ... SELECT` 文書を根拠とする。
+- **未検証項目**：今回の作業では固定版の MySQL 8.4 実機で上記 SQL を実行しておらず、派生表マテリアライズの実行計画、一意キー競合、全 `NULL` 科目、同時再実行の挙動は未実測である。
+
+## 昇格チェック
+
+- 固定した MySQL 8.4 マイナー版で問 3・4 を実行し、`EXPLAIN` で派生表がマージされずマテリアライズされることを確認する
+- 全 `NULL` 科目、既存 `NULL` 行、空表、一意キー競合の 4 境界ケースを検証する
+- 明示的な分離レベル下で 2 セッション同時再実行を行い、親ページとの双方向リンクを維持する
+
+研究記録
+1. ネイティブ wiki ページ: content/blog/legacy/note/ja/mysql-same-table-dml.md
+2. 出典スナップショット: database-written-test-review
+3. 証拠の状態: 暫定
+
+参考資料: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md
+公開設定資料を基にした資料形式の再構成であり、ゲームの原文ではありません。

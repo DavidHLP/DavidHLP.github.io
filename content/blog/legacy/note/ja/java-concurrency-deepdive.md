@@ -60,15 +60,16 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "ingest-java-concurrency"
   ],
   "related": [
     "java-atomic-boolean",
-    "java-auto-closeable",
     "java-online-performance-debug",
-    "jjwt-013-security-api"
+    "java-cas-and-aba",
+    "java-locks-and-thread-coordination",
+    "java-reference-types"
   ]
 }
 ---
@@ -77,11 +78,10 @@ Fuwari の 15 の JUC/Java ノートは本知識ベースで最も体系的な�
 
 ## 核心メカニズム
 
-- **CAS**：`CASDeepDive.md` は `Unsafe.compareAndSwap` から `cmpxchg` までの 3 層を展開し、ABA は `AtomicStampedReference` で解決します。
-- **アトミック**：`JavaAtomicClasses.md` は `AtomicInteger/Long/Reference` と `LongAdder`（ストライプ集計、`LongAdderVSAtomicLong.md` 参照）を区別します。
-- **ロック**：`synchronized`/`Monitor.md` はオブジェクトヘッダとモニタを、`ReentrantLock.md`/`Reentrancy.md` は再入可能性と AQS を、`LockSupport.md` は `park/unpark` をカバーします。
-- **協調**：`CompletableFutureAction`/`FutureTaskAction` と `ThreadLocal.md` は非同期とスレッド束縛を、`JavaInterruptMechanism` とデッドロック診断は割り込みとトラブルシューティングをカバーします。
-- **参照**：JDK8/17 の 2 つの記事は強参照・ソフト参照・弱参照・ファントム参照の回収意味をカバーします。
+- **CAS とアトミック**：`CASDeepDive.md`、`JavaAtomicClasses.md`、`LongAdderVSAtomicLong.md` のハードウェア CAS / `Unsafe`、ABA スタンプ（`AtomicStampedReference`）、`LongAdder` の分散 `Cell` は [Java CAS・ABA 問題・LongAdder：ロックフリー原子プリミティブと競合境界](/blog/legacy/note/ja/java-cas-and-aba/) を参照。二値フラグは [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/ja/java-atomic-boolean/) を参照。
+- **ロックとスレッド協調**：組み込み `synchronized` / `ObjectMonitor`、`ReentrantLock`（AQS 公平性判断）、`LockSupport`（`park`/`unpark`）、`ThreadLocal` プール清掃境界は [Java ロック機構・LockSupport・ThreadLocal：Monitor・AQS・スレッド束縛状態](/blog/legacy/note/ja/java-locks-and-thread-coordination/) を参照。
+- **非同期と割り込み**：`CompletableFutureAction`/`FutureTaskAction` と `JavaInterruptMechanism`/デッドロック診断は協調機構と本番調査 [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/) に接続する。
+- **参照型と解放**：`java.lang.ref.Reference` の 4 状態、JDK 17 の `VarHandle`/`Cleaner`、強/ソフト/弱/ファントム参照境界は [Java 参照型とライフサイクル状態機械：Strong・Soft・Weak・Phantom と Cleaner](/blog/legacy/note/ja/java-reference-types/) を参照。
 
 ## 適用条件
 
@@ -108,16 +108,24 @@ Fuwari の 15 の JUC/Java ノートは本知識ベースで最も体系的な�
 
 ## 関連ページ
 
-- [java-atomic-boolean](/blog/legacy/note/ja/java-atomic-boolean/)
-- [java-auto-closeable](/blog/legacy/note/ja/java-auto-closeable/)
-- [java-online-performance-debug](/blog/legacy/note/ja/java-online-performance-debug/)
-- [jjwt-013-security-api](/blog/legacy/note/ja/jjwt-013-security-api/)
 
+- [java-atomic-boolean](/blog/legacy/note/ja/java-atomic-boolean/)
+- [java-online-performance-debug](/blog/legacy/note/ja/java-online-performance-debug/)
+- [Java CAS・ABA 問題・LongAdder](/blog/legacy/note/ja/java-cas-and-aba/)
+- [Java ロック機構・LockSupport・ThreadLocal](/blog/legacy/note/ja/java-locks-and-thread-coordination/)
+- [Java 参照型とライフサイクル状態機械](/blog/legacy/note/ja/java-reference-types/)
 
 ## 出典と関連文書
 
 - [ingest-java-concurrency](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-java-concurrency.md)
+- [Java CAS・ABA 問題・LongAdder：ロックフリー原子プリミティブと競合境界](/blog/legacy/note/ja/java-cas-and-aba/)
+- [Java ロック機構・LockSupport・ThreadLocal：Monitor・AQS・スレッド束縛状態](/blog/legacy/note/ja/java-locks-and-thread-coordination/)
+- [Java 参照型とライフサイクル状態機械：Strong・Soft・Weak・Phantom と Cleaner](/blog/legacy/note/ja/java-reference-types/)
 - [AtomicBoolean：原子ブール状態と CAS の境界](/blog/legacy/note/ja/java-atomic-boolean/)
-- [AutoCloseable：リソース所有権と close 例外の意味](/blog/legacy/note/ja/java-auto-closeable/)
 - [Java 本番性能トラブルシューティング：症状から証拠への最小判断木](/blog/legacy/note/ja/java-online-performance-debug/)
-- [JJWT 0.13.0：署名アルゴリズムを明示固定し、key 型で検証する](/blog/legacy/note/ja/jjwt-013-security-api/)
+
+## 昇格チェック
+
+- 固定 JDK build で CAS/ABA と version stamp を再実行
+- lock 競合・interrupt・pool 化 ThreadLocal の清掃
+- 宣言 GC 下の reference queue と C19/C21 双方向リンク

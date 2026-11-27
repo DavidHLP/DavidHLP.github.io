@@ -181,11 +181,14 @@ flowchart TB
 
 ## 関連ページ
 
+
 - [Headroom 単一ポート総合](/blog/legacy/note/ja/headroom-single-port-evolution/)
+- [Headroom と cc-switch / Claude Code の共存：単一の整理責任とセキュリティ境界](/blog/legacy/note/ja/headroom-cc-switch-coexistence/)
+- [OMP Headroom Bridge：外部ルーティングコントローラとネイティブ Codex/OMP プロキシ境界](/blog/legacy/note/ja/omp-headroom-provider-proxy/)
 - [OMP 設定の階層](/blog/legacy/note/ja/omp-config-and-rules-guide/)
 - [OMP Hook 拡張](/blog/legacy/note/ja/omp-hook-extension-guide/)
 - [LLM wiki pattern](/blog/legacy/note/ja/llm-wiki-pattern/)
-
+- [Headroom 0.34 圧縮・取得契約：フィールド、モード、実エンドポイント検証](/blog/legacy/note/ja/headroom-compress-retrieve-contract/)
 
 ## 出典と関連文書
 

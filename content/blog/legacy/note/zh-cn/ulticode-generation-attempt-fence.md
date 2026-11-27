@@ -65,7 +65,8 @@
     "ulticode-engineering-highlights-f801a1076"
   ],
   "related": [
-    "ulticode"
+    "ulticode",
+    "ulticode-fenced-singleton-lease"
   ]
 }
 ---
@@ -108,7 +109,7 @@ rejudge/reaper: expected generation -> generation + 1
 
 ## 这是一道边界，不是魔法
 
-结果围栏只能保护它覆盖的写入 seam。它不能自动替代消息持久性、跨 owner 授权、业务审计或外部系统幂等。它也不保证旧代码不会被执行；它保证的是旧执行结果没有资格覆盖新状态。
+结果围栏只能保护它覆盖的写入 seam。它不能自动替代消息持久性、跨 owner 授权、业务审计或外部系统幂等。它也不保证旧代码不会被执行；它保证的是旧执行结果没有资格覆盖新状态。如果需要对比“判题 `generation` + `attemptId`”与“单例任务拿数据库租约后的 fencing token”，见 [数据库租约不够：UltiCode 用 Fence Token 拦住过期单例任务](/blog/legacy/note/zh-cn/ulticode-fenced-singleton-lease/)。
 
 这正是条件更新的价值：把并发正确性从“所有调用方都要小心”收敛为一条可检查的数据库规则。
 
@@ -125,3 +126,4 @@ rejudge/reaper: expected generation -> generation + 1
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
 - [UltiCode：把在线评测做成可验证的工程系统](/blog/legacy/note/zh-cn/ulticode/)
+- [数据库租约不够：UltiCode 用 Fence Token 拦住过期单例任务](/blog/legacy/note/zh-cn/ulticode-fenced-singleton-lease/)

@@ -1,0 +1,111 @@
+---
+{
+  "archiveId": "X-1303",
+  "title": "SQL 日期表达式的方言边界：Spark SQL、Oracle 与 MySQL",
+  "en": "ENGINEERING NOTES",
+  "category": "系统运维",
+  "department": "工程笔记",
+  "date": "2026-11-27",
+  "lead": "DavidHLPL",
+  "clearance": "PUBLIC",
+  "abstract": "辨析 Spark SQL、Oracle 与 MySQL 中月份加减、截断、格式符与跨年边界，建立先认方言再求值的排查顺序。",
+  "findings": [
+    "原生知识页: content/blog/legacy/note/zh-cn/sql-date-dialect-boundaries.md",
+    "来源快照: database-written-test-review",
+    "证据状态: 暂定"
+  ],
+  "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md",
+  "pubDate": "2026-11-27T00:00:00.000Z",
+  "tags": [
+    "SQL",
+    "Spark SQL",
+    "Oracle",
+    "MySQL",
+    "Datetime",
+    "zh-cn",
+    "note"
+  ],
+  "draft": false,
+  "lang": "zh-CN",
+  "translationKey": "legacy/note/sql-date-dialect-boundaries",
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "database-written-test-review"
+  ],
+  "related": [
+    "database-written-test-review"
+  ]
+}
+---
+
+看到同一段 SQL 里同时出现 `date_format`、`trunc` 和 `add_months` 时，不能仅凭函数名就断定“混用了多种数据库语法”。正确顺序是：**先确认引擎方言，再核对函数签名与日期格式符，最后用一月跨年边界验证返回结果。**
+
+## 三种方言的同意图对照
+
+需求：计算**上一个月所属的四位年份**。
+
+| 引擎 | 月份回退 | 月初截断 | 年份格式符 | 源文档基准 |
+| --- | --- | --- | --- | --- |
+| Spark SQL | `add_months(current_date(), -1)` | `trunc(..., 'MM')` | `date_format(..., 'yyyy')` | Spark 3.5.7 |
+| Oracle | `ADD_MONTHS(CURRENT_DATE, -1)` | `TRUNC(..., 'MM')` | `TO_CHAR(..., 'YYYY')` | Oracle 19c |
+| MySQL | `DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)` | 提取年份时不必截断 | `DATE_FORMAT(..., '%Y')` | MySQL 8.4 |
+
+### Spark SQL
+
+在 Spark SQL 中，`date_format`、`trunc` 和 `add_months` 可以合法组合：
+
+```sql
+-- Spark SQL
+SELECT date_format(
+    trunc(add_months(current_date(), -1), 'MM'),
+    'yyyy'
+) AS previous_month_year;
+```
+
+执行顺序为：取当前日期 → 向前移动一个月 → 截断至该月第一天 → 格式化为四位年份字符串。结果是**上一个月所属年份**，而不是“永远等于今年”；按公历月份理解，当前为一月时会得到上一年的年份，其余月份通常仍属于当年。
+
+### Oracle
+
+Oracle 使用同名的月份加减与截断函数，但格式化使用 `TO_CHAR` 且通常需要 `FROM dual`：
+
+```sql
+-- Oracle
+SELECT TO_CHAR(
+    TRUNC(ADD_MONTHS(CURRENT_DATE, -1), 'MM'),
+    'YYYY'
+) AS previous_month_year
+FROM dual;
+```
+
+### MySQL
+
+MySQL 不支持把 Spark/Oracle 的 `yyyy` 或 `YYYY` 格式符原样搬过来，格式化年份必须使用 `%Y`，且仅提取年份时不必先截断到月初：
+
+```sql
+-- MySQL
+SELECT DATE_FORMAT(
+    DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH),
+    '%Y'
+) AS previous_month_year;
+```
+
+## 固定排查顺序与跨年反例
+
+排查日期表达式时遵循四步：
+
+1. **确认引擎**：先锁定是 Spark SQL、Oracle 还是 MySQL 及其版本。
+2. **核对函数与格式符**：区分 `yyyy`/`YYYY`/`%Y`，避免跨方言直接复制格式串。
+3. **分析返回类型**：区分日期值与格式化后的字符串类型。
+4. **验证跨年与月末边界**：最小反例是把当前日期设为一月，确认结果是否跨到上一年。
+
+## 证据边界与未验证项
+
+- **来源事实**：本页拆自 [数据库笔试复盘](/blog/legacy/note/zh-cn/database-written-test-review/) 第五节，引用 `database-written-test-review` 快照中的 Spark 3.5.7、Oracle 19c 与 MySQL 8.4 文档出处。
+- **未验证项**：本轮未在真实 Spark 3.5.7、Oracle 19c 和 MySQL 8.4 环境中实跑上述语句；跨年、月末（如 3 月 31 日减一个月）及无效日期格式在各版本上的实际输出与返回类型尚未由实测验证。
+
+## 毕业检查
+
+- 分别固定 Spark 3.5.7、Oracle 19c 与 MySQL 8.4 实例复跑上述三条日期表达式
+- 构造一月跨年与月末日期对照样本，核对结果年份及返回类型
+- 验证错误格式符（如 MySQL 中传入 `yyyy`/`YYYY`）在各自方言下的实际行为，并与父页保持双向链接

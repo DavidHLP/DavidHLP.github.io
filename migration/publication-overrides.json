@@ -6,27 +6,54 @@
       "related": [
         "intranet-penetration-ssh-guide",
         "mysql-performance-troubleshooting",
-        "testcontainers-docker-api"
-      ]
+        "testcontainers-docker-api",
+        "docker-fundamentals"
+      ],
+      "status": "provisional"
     },
     "legacy/note/en/database-schema-drift": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "mysql-performance-troubleshooting",
+        "multi-service-readiness",
+        "microservice-data-ownership",
+        "database-written-test-review"
+      ]
     },
     "legacy/note/en/docker-fundamentals": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "containerd-tls-troubleshooting",
+        "multi-service-readiness"
+      ]
     },
     "legacy/note/en/dubbo-nacos-runtime": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "multi-service-readiness",
+        "microservice-data-ownership",
+        "spring-cloud-and-boot"
+      ]
     },
     "legacy/note/en/frontend-mybatis-essays": {
       "draft": false,
-      "status": "deprecated"
+      "status": "deprecated",
+      "related": [
+        "intranet-penetration-ssh-guide"
+      ]
     },
     "legacy/note/en/hbase-foundation-and-ops": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "spark-bigdata-ecosystem",
+        "mysql-storage-and-deadlock"
+      ]
     },
     "legacy/note/en/headroom-cc-switch-coexistence": {
-      "draft": false
+      "draft": false,
+      "kind": "concept"
     },
     "legacy/note/en/headroom-single-port-evolution": {
       "draft": false,
@@ -53,13 +80,27 @@
       "draft": false
     },
     "legacy/note/en/java-atomic-boolean": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "java-auto-closeable",
+        "java-online-performance-debug",
+        "java-internship-interview-blog-polished",
+        "java-concurrency-deepdive"
+      ]
     },
     "legacy/note/en/java-auto-closeable": {
       "draft": false
     },
     "legacy/note/en/java-concurrency-deepdive": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "java-atomic-boolean",
+        "java-online-performance-debug",
+        "java-cas-and-aba",
+        "java-locks-and-thread-coordination",
+        "java-reference-types"
+      ]
     },
     "legacy/note/en/java-internship-interview-blog-polished": {
       "draft": false
@@ -71,7 +112,8 @@
         "java-auto-closeable",
         "java-internship-interview-blog-polished",
         "redis-jackson-java-time",
-        "redis-business-patterns"
+        "redis-business-patterns",
+        "resicache"
       ]
     },
     "legacy/note/en/java-online-performance-debug": {
@@ -81,7 +123,8 @@
         "java-atomic-boolean",
         "java-internship-interview-blog-polished",
         "redis-jackson-java-time",
-        "jjwt-013-security-api"
+        "jjwt-013-security-api",
+        "java-concurrency-deepdive"
       ]
     },
     "legacy/note/en/jjwt-013-security-api": {
@@ -91,13 +134,32 @@
       "draft": false
     },
     "legacy/note/en/mcp-codebase-memory-workflow": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "llm-wiki-pattern",
+        "mcp-modern-legacy-compatibility"
+      ]
     },
     "legacy/note/en/microservice-data-ownership": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "database-schema-drift",
+        "multi-service-readiness",
+        "dubbo-nacos-runtime",
+        "ulticode"
+      ]
     },
     "legacy/note/en/multi-service-readiness": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "mysql-performance-troubleshooting",
+        "database-schema-drift",
+        "testcontainers-docker-api",
+        "dubbo-nacos-runtime",
+        "microservice-data-ownership",
+        "docker-fundamentals",
+        "spring-cloud-and-boot"
+      ]
     },
     "legacy/note/en/mysql-performance-troubleshooting": {
       "draft": false,
@@ -105,11 +167,18 @@
         "containerd-tls-troubleshooting",
         "intranet-penetration-ssh-guide",
         "database-schema-drift",
-        "multi-service-readiness"
+        "multi-service-readiness",
+        "database-written-test-review",
+        "mysql-storage-and-deadlock"
       ]
     },
     "legacy/note/en/mysql-storage-and-deadlock": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "mysql-performance-troubleshooting",
+        "database-written-test-review"
+      ]
     },
     "legacy/note/en/omp-config-and-rules-guide": {
       "draft": false,
@@ -117,6 +186,13 @@
         "legacy-omp-config-and-rules-guide",
         "omp-17-2-15-runtime-contract",
         "omp-17-2-15-runtime-contract-correction"
+      ],
+      "related": [
+        "headroom-single-port-evolution",
+        "omp-headroom-persistence",
+        "omp-hook-extension-guide",
+        "llm-wiki-pattern",
+        "hindsight-omp-codex-integration"
       ]
     },
     "legacy/note/en/omp-headroom-persistence": {
@@ -157,25 +233,46 @@
       ]
     },
     "legacy/note/en/plugin-lifecycle-management": {
-      "draft": false
+      "draft": false,
+      "status": "provisional"
     },
     "legacy/note/en/redis-business-patterns": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "redis-persistence-principle",
+        "java-null-value",
+        "resicache"
+      ],
+      "sources": [
+        "ingest-redis-business",
+        "ingest-redis-heima"
+      ]
     },
     "legacy/note/en/redis-heima-practice": {
-      "draft": false
+      "draft": false,
+      "status": "deprecated",
+      "related": [
+        "redis-business-patterns",
+        "redis-persistence-principle"
+      ]
     },
     "legacy/note/en/redis-jackson-java-time": {
       "draft": false
     },
     "legacy/note/en/redis-persistence-principle": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "redis-business-patterns"
+      ]
     },
     "legacy/note/en/resicache-observer-nested-execution": {
       "draft": false,
       "related": [
         "resicache",
-        "redis-jackson-java-time"
+        "redis-jackson-java-time",
+        "resicache-handler-chain-and-observer"
       ]
     },
     "legacy/note/en/resicache": {
@@ -184,13 +281,38 @@
         "resicache-engineering-highlights-2954fff",
         "resicache-project-overview",
         "resicache-observer-nested-execution-contract"
+      ],
+      "related": [
+        "resicache-observer-nested-execution",
+        "java-null-value",
+        "redis-business-patterns",
+        "redis-jackson-java-time",
+        "resicache-early-expiration-cas",
+        "resicache-handler-chain-and-observer",
+        "resicache-serialization-migration",
+        "resicache-single-flight"
       ]
     },
     "legacy/note/en/spark-bigdata-ecosystem": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "hbase-foundation-and-ops",
+        "multi-service-readiness",
+        "database-written-test-review"
+      ]
     },
     "legacy/note/en/spring-cloud-and-boot": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "dubbo-nacos-runtime",
+        "multi-service-readiness",
+        "microservice-data-ownership",
+        "spring-boot-auto-configuration",
+        "spring-transaction-boundaries",
+        "spring-cloud-discovery-and-gateway"
+      ]
     },
     "legacy/note/en/testcontainers-docker-api": {
       "draft": false
@@ -203,27 +325,54 @@
       "related": [
         "intranet-penetration-ssh-guide",
         "mysql-performance-troubleshooting",
-        "testcontainers-docker-api"
-      ]
+        "testcontainers-docker-api",
+        "docker-fundamentals"
+      ],
+      "status": "provisional"
     },
     "legacy/note/ja/database-schema-drift": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "mysql-performance-troubleshooting",
+        "multi-service-readiness",
+        "microservice-data-ownership",
+        "database-written-test-review"
+      ]
     },
     "legacy/note/ja/docker-fundamentals": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "containerd-tls-troubleshooting",
+        "multi-service-readiness"
+      ]
     },
     "legacy/note/ja/dubbo-nacos-runtime": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "multi-service-readiness",
+        "microservice-data-ownership",
+        "spring-cloud-and-boot"
+      ]
     },
     "legacy/note/ja/frontend-mybatis-essays": {
       "draft": false,
-      "status": "deprecated"
+      "status": "deprecated",
+      "related": [
+        "intranet-penetration-ssh-guide"
+      ]
     },
     "legacy/note/ja/hbase-foundation-and-ops": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "spark-bigdata-ecosystem",
+        "mysql-storage-and-deadlock"
+      ]
     },
     "legacy/note/ja/headroom-cc-switch-coexistence": {
-      "draft": false
+      "draft": false,
+      "kind": "concept"
     },
     "legacy/note/ja/headroom-single-port-evolution": {
       "draft": false,
@@ -250,13 +399,27 @@
       "draft": false
     },
     "legacy/note/ja/java-atomic-boolean": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "java-auto-closeable",
+        "java-online-performance-debug",
+        "java-internship-interview-blog-polished",
+        "java-concurrency-deepdive"
+      ]
     },
     "legacy/note/ja/java-auto-closeable": {
       "draft": false
     },
     "legacy/note/ja/java-concurrency-deepdive": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "java-atomic-boolean",
+        "java-online-performance-debug",
+        "java-cas-and-aba",
+        "java-locks-and-thread-coordination",
+        "java-reference-types"
+      ]
     },
     "legacy/note/ja/java-internship-interview-blog-polished": {
       "draft": false
@@ -268,7 +431,8 @@
         "java-auto-closeable",
         "java-internship-interview-blog-polished",
         "redis-jackson-java-time",
-        "redis-business-patterns"
+        "redis-business-patterns",
+        "resicache"
       ]
     },
     "legacy/note/ja/java-online-performance-debug": {
@@ -278,7 +442,8 @@
         "java-atomic-boolean",
         "java-internship-interview-blog-polished",
         "redis-jackson-java-time",
-        "jjwt-013-security-api"
+        "jjwt-013-security-api",
+        "java-concurrency-deepdive"
       ]
     },
     "legacy/note/ja/jjwt-013-security-api": {
@@ -288,13 +453,32 @@
       "draft": false
     },
     "legacy/note/ja/mcp-codebase-memory-workflow": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "llm-wiki-pattern",
+        "mcp-modern-legacy-compatibility"
+      ]
     },
     "legacy/note/ja/microservice-data-ownership": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "database-schema-drift",
+        "multi-service-readiness",
+        "dubbo-nacos-runtime",
+        "ulticode"
+      ]
     },
     "legacy/note/ja/multi-service-readiness": {
-      "draft": false
+      "draft": false,
+      "related": [
+        "mysql-performance-troubleshooting",
+        "database-schema-drift",
+        "testcontainers-docker-api",
+        "dubbo-nacos-runtime",
+        "microservice-data-ownership",
+        "docker-fundamentals",
+        "spring-cloud-and-boot"
+      ]
     },
     "legacy/note/ja/mysql-performance-troubleshooting": {
       "draft": false,
@@ -302,11 +486,18 @@
         "containerd-tls-troubleshooting",
         "intranet-penetration-ssh-guide",
         "database-schema-drift",
-        "multi-service-readiness"
+        "multi-service-readiness",
+        "database-written-test-review",
+        "mysql-storage-and-deadlock"
       ]
     },
     "legacy/note/ja/mysql-storage-and-deadlock": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "mysql-performance-troubleshooting",
+        "database-written-test-review"
+      ]
     },
     "legacy/note/ja/omp-config-and-rules-guide": {
       "draft": false,
@@ -314,6 +505,13 @@
         "legacy-omp-config-and-rules-guide",
         "omp-17-2-15-runtime-contract",
         "omp-17-2-15-runtime-contract-correction"
+      ],
+      "related": [
+        "headroom-single-port-evolution",
+        "omp-headroom-persistence",
+        "omp-hook-extension-guide",
+        "llm-wiki-pattern",
+        "hindsight-omp-codex-integration"
       ]
     },
     "legacy/note/ja/omp-headroom-persistence": {
@@ -354,25 +552,46 @@
       ]
     },
     "legacy/note/ja/plugin-lifecycle-management": {
-      "draft": false
+      "draft": false,
+      "status": "provisional"
     },
     "legacy/note/ja/redis-business-patterns": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "redis-persistence-principle",
+        "java-null-value",
+        "resicache"
+      ],
+      "sources": [
+        "ingest-redis-business",
+        "ingest-redis-heima"
+      ]
     },
     "legacy/note/ja/redis-heima-practice": {
-      "draft": false
+      "draft": false,
+      "status": "deprecated",
+      "related": [
+        "redis-business-patterns",
+        "redis-persistence-principle"
+      ]
     },
     "legacy/note/ja/redis-jackson-java-time": {
       "draft": false
     },
     "legacy/note/ja/redis-persistence-principle": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "redis-business-patterns"
+      ]
     },
     "legacy/note/ja/resicache-observer-nested-execution": {
       "draft": false,
       "related": [
         "resicache",
-        "redis-jackson-java-time"
+        "redis-jackson-java-time",
+        "resicache-handler-chain-and-observer"
       ]
     },
     "legacy/note/ja/resicache": {
@@ -381,13 +600,38 @@
         "resicache-engineering-highlights-2954fff",
         "resicache-project-overview",
         "resicache-observer-nested-execution-contract"
+      ],
+      "related": [
+        "resicache-observer-nested-execution",
+        "java-null-value",
+        "redis-business-patterns",
+        "redis-jackson-java-time",
+        "resicache-early-expiration-cas",
+        "resicache-handler-chain-and-observer",
+        "resicache-serialization-migration",
+        "resicache-single-flight"
       ]
     },
     "legacy/note/ja/spark-bigdata-ecosystem": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "hbase-foundation-and-ops",
+        "multi-service-readiness",
+        "database-written-test-review"
+      ]
     },
     "legacy/note/ja/spring-cloud-and-boot": {
-      "draft": false
+      "draft": false,
+      "status": "provisional",
+      "related": [
+        "dubbo-nacos-runtime",
+        "multi-service-readiness",
+        "microservice-data-ownership",
+        "spring-boot-auto-configuration",
+        "spring-transaction-boundaries",
+        "spring-cloud-discovery-and-gateway"
+      ]
     },
     "legacy/note/ja/testcontainers-docker-api": {
       "draft": false
@@ -424,10 +668,6 @@
       ],
       "related": [
         "microservice-data-ownership",
-        "dubbo-nacos-runtime",
-        "jjwt-013-security-api",
-        "multi-service-readiness",
-        "database-schema-drift",
         "ulticode-owner-and-facts",
         "ulticode-owner-local-audit-inbox",
         "ulticode-outbox-redis-streams",
@@ -468,10 +708,6 @@
       ],
       "related": [
         "microservice-data-ownership",
-        "dubbo-nacos-runtime",
-        "jjwt-013-security-api",
-        "multi-service-readiness",
-        "database-schema-drift",
         "ulticode-owner-and-facts",
         "ulticode-owner-local-audit-inbox",
         "ulticode-outbox-redis-streams",
@@ -481,6 +717,407 @@
         "ulticode-async-execution-contract",
         "ulticode-core-bounded-testbed",
         "ulticode-ci-supply-chain"
+      ]
+    },
+    "legacy/note/zh-cn/database-written-test-review": {
+      "kind": "concept",
+      "related": [
+        "mysql-performance-troubleshooting",
+        "mysql-storage-and-deadlock",
+        "database-schema-drift",
+        "spark-bigdata-ecosystem",
+        "sql-join-null-semantics",
+        "sql-date-dialect-boundaries",
+        "mysql-same-table-dml",
+        "recoverable-batch-extraction"
+      ]
+    },
+    "legacy/note/zh-cn/headroom-cc-switch-coexistence": {
+      "kind": "concept"
+    },
+    "legacy/note/zh-cn/hindsight-omp-codex-integration": {
+      "kind": "concept",
+      "status": "provisional"
+    },
+    "legacy/note/en/database-written-test-review": {
+      "kind": "concept",
+      "related": [
+        "mysql-performance-troubleshooting",
+        "mysql-storage-and-deadlock",
+        "database-schema-drift",
+        "spark-bigdata-ecosystem",
+        "sql-join-null-semantics",
+        "sql-date-dialect-boundaries",
+        "mysql-same-table-dml",
+        "recoverable-batch-extraction"
+      ]
+    },
+    "legacy/note/en/hindsight-omp-codex-integration": {
+      "kind": "concept",
+      "status": "provisional"
+    },
+    "legacy/note/ja/database-written-test-review": {
+      "kind": "concept",
+      "related": [
+        "mysql-performance-troubleshooting",
+        "mysql-storage-and-deadlock",
+        "database-schema-drift",
+        "spark-bigdata-ecosystem",
+        "sql-join-null-semantics",
+        "sql-date-dialect-boundaries",
+        "mysql-same-table-dml",
+        "recoverable-batch-extraction"
+      ]
+    },
+    "legacy/note/ja/hindsight-omp-codex-integration": {
+      "kind": "concept",
+      "status": "provisional"
+    },
+    "legacy/note/zh-cn/containerd-tls-troubleshooting": {
+      "status": "provisional",
+      "related": [
+        "intranet-penetration-ssh-guide",
+        "mysql-performance-troubleshooting",
+        "testcontainers-docker-api",
+        "docker-fundamentals"
+      ]
+    },
+    "legacy/note/zh-cn/docker-fundamentals": {
+      "status": "provisional",
+      "related": [
+        "containerd-tls-troubleshooting",
+        "multi-service-readiness"
+      ]
+    },
+    "legacy/note/zh-cn/hbase-foundation-and-ops": {
+      "status": "provisional",
+      "related": [
+        "spark-bigdata-ecosystem",
+        "mysql-storage-and-deadlock"
+      ]
+    },
+    "legacy/note/zh-cn/hindsight-local-deployment": {
+      "status": "provisional",
+      "related": [
+        "hindsight-omp-codex-integration",
+        "hindsight-troubleshooting"
+      ]
+    },
+    "legacy/note/zh-cn/hindsight-troubleshooting": {
+      "status": "provisional",
+      "related": [
+        "hindsight-local-deployment",
+        "hindsight-omp-codex-integration"
+      ]
+    },
+    "legacy/note/zh-cn/java-concurrency-deepdive": {
+      "status": "provisional",
+      "related": [
+        "java-atomic-boolean",
+        "java-online-performance-debug",
+        "java-cas-and-aba",
+        "java-locks-and-thread-coordination",
+        "java-reference-types"
+      ]
+    },
+    "legacy/note/zh-cn/mysql-storage-and-deadlock": {
+      "status": "provisional",
+      "related": [
+        "mysql-performance-troubleshooting",
+        "database-written-test-review"
+      ]
+    },
+    "legacy/note/zh-cn/plugin-lifecycle-management": {
+      "status": "provisional"
+    },
+    "legacy/note/zh-cn/redis-business-patterns": {
+      "status": "provisional",
+      "related": [
+        "redis-persistence-principle",
+        "java-null-value",
+        "resicache"
+      ],
+      "sources": [
+        "ingest-redis-business",
+        "ingest-redis-heima"
+      ]
+    },
+    "legacy/note/zh-cn/redis-persistence-principle": {
+      "status": "provisional",
+      "related": [
+        "redis-business-patterns"
+      ]
+    },
+    "legacy/note/zh-cn/spark-bigdata-ecosystem": {
+      "status": "provisional",
+      "related": [
+        "hbase-foundation-and-ops",
+        "multi-service-readiness",
+        "database-written-test-review"
+      ]
+    },
+    "legacy/note/zh-cn/spring-cloud-and-boot": {
+      "status": "provisional",
+      "related": [
+        "dubbo-nacos-runtime",
+        "multi-service-readiness",
+        "microservice-data-ownership",
+        "spring-boot-auto-configuration",
+        "spring-transaction-boundaries",
+        "spring-cloud-discovery-and-gateway"
+      ]
+    },
+    "legacy/note/zh-cn/mcp-codebase-memory-workflow": {
+      "related": [
+        "llm-wiki-pattern",
+        "mcp-modern-legacy-compatibility"
+      ]
+    },
+    "legacy/note/zh-cn/resicache-serialization-migration": {
+      "related": [
+        "resicache",
+        "redis-jackson-java-time",
+        "resicache-serialization-trust"
+      ]
+    },
+    "legacy/note/en/resicache-serialization-migration": {
+      "related": [
+        "resicache",
+        "redis-jackson-java-time",
+        "resicache-serialization-trust"
+      ]
+    },
+    "legacy/note/ja/resicache-serialization-migration": {
+      "related": [
+        "resicache",
+        "redis-jackson-java-time",
+        "resicache-serialization-trust"
+      ]
+    },
+    "legacy/note/en/hindsight-local-deployment": {
+      "status": "provisional",
+      "related": [
+        "hindsight-omp-codex-integration",
+        "hindsight-troubleshooting"
+      ]
+    },
+    "legacy/note/en/hindsight-troubleshooting": {
+      "status": "provisional",
+      "related": [
+        "hindsight-local-deployment",
+        "hindsight-omp-codex-integration"
+      ]
+    },
+    "legacy/note/ja/hindsight-local-deployment": {
+      "status": "provisional",
+      "related": [
+        "hindsight-omp-codex-integration",
+        "hindsight-troubleshooting"
+      ]
+    },
+    "legacy/note/ja/hindsight-troubleshooting": {
+      "status": "provisional",
+      "related": [
+        "hindsight-local-deployment",
+        "hindsight-omp-codex-integration"
+      ]
+    },
+    "legacy/note/zh-cn/redis-heima-practice": {
+      "status": "deprecated",
+      "related": [
+        "redis-business-patterns",
+        "redis-persistence-principle"
+      ]
+    },
+    "legacy/note/zh-cn/database-schema-drift": {
+      "related": [
+        "mysql-performance-troubleshooting",
+        "multi-service-readiness",
+        "microservice-data-ownership",
+        "database-written-test-review"
+      ]
+    },
+    "legacy/note/zh-cn/mysql-performance-troubleshooting": {
+      "related": [
+        "containerd-tls-troubleshooting",
+        "intranet-penetration-ssh-guide",
+        "database-schema-drift",
+        "multi-service-readiness",
+        "database-written-test-review",
+        "mysql-storage-and-deadlock"
+      ]
+    },
+    "legacy/note/zh-cn/multi-service-readiness": {
+      "related": [
+        "mysql-performance-troubleshooting",
+        "database-schema-drift",
+        "testcontainers-docker-api",
+        "dubbo-nacos-runtime",
+        "microservice-data-ownership",
+        "docker-fundamentals",
+        "spring-cloud-and-boot"
+      ]
+    },
+    "legacy/note/zh-cn/omp-config-and-rules-guide": {
+      "related": [
+        "headroom-single-port-evolution",
+        "omp-headroom-persistence",
+        "omp-hook-extension-guide",
+        "llm-wiki-pattern",
+        "hindsight-omp-codex-integration"
+      ]
+    },
+    "legacy/note/zh-cn/java-atomic-boolean": {
+      "related": [
+        "java-auto-closeable",
+        "java-online-performance-debug",
+        "java-internship-interview-blog-polished",
+        "java-concurrency-deepdive"
+      ]
+    },
+    "legacy/note/zh-cn/java-online-performance-debug": {
+      "related": [
+        "java-null-value",
+        "java-atomic-boolean",
+        "java-internship-interview-blog-polished",
+        "redis-jackson-java-time",
+        "jjwt-013-security-api",
+        "java-concurrency-deepdive"
+      ]
+    },
+    "legacy/note/zh-cn/java-null-value": {
+      "related": [
+        "java-online-performance-debug",
+        "java-auto-closeable",
+        "java-internship-interview-blog-polished",
+        "redis-jackson-java-time",
+        "redis-business-patterns",
+        "resicache"
+      ]
+    },
+    "legacy/note/zh-cn/resicache": {
+      "related": [
+        "resicache-observer-nested-execution",
+        "java-null-value",
+        "redis-business-patterns",
+        "redis-jackson-java-time",
+        "resicache-early-expiration-cas",
+        "resicache-handler-chain-and-observer",
+        "resicache-serialization-migration",
+        "resicache-single-flight"
+      ]
+    },
+    "legacy/note/zh-cn/resicache-observer-nested-execution": {
+      "related": [
+        "resicache",
+        "redis-jackson-java-time",
+        "resicache-handler-chain-and-observer"
+      ]
+    },
+    "legacy/note/zh-cn/dubbo-nacos-runtime": {
+      "related": [
+        "multi-service-readiness",
+        "microservice-data-ownership",
+        "spring-cloud-and-boot"
+      ]
+    },
+    "legacy/note/zh-cn/microservice-data-ownership": {
+      "related": [
+        "database-schema-drift",
+        "multi-service-readiness",
+        "dubbo-nacos-runtime",
+        "ulticode"
+      ]
+    },
+    "legacy/note/zh-cn/ulticode-generation-attempt-fence": {
+      "related": [
+        "ulticode",
+        "ulticode-fenced-singleton-lease"
+      ]
+    },
+    "legacy/note/zh-cn/ulticode-outbox-redis-streams": {
+      "related": [
+        "ulticode",
+        "ulticode-owner-local-audit-inbox"
+      ]
+    },
+    "legacy/note/zh-cn/ulticode-owner-and-facts": {
+      "related": [
+        "ulticode",
+        "ulticode-owner-local-audit-inbox"
+      ]
+    },
+    "legacy/note/zh-cn/frontend-mybatis-essays": {
+      "related": [
+        "intranet-penetration-ssh-guide"
+      ]
+    },
+    "legacy/note/zh-cn/ulticode": {
+      "related": [
+        "microservice-data-ownership",
+        "ulticode-owner-and-facts",
+        "ulticode-owner-local-audit-inbox",
+        "ulticode-outbox-redis-streams",
+        "ulticode-generation-attempt-fence",
+        "ulticode-fenced-singleton-lease",
+        "ulticode-docker-sandbox",
+        "ulticode-async-execution-contract",
+        "ulticode-core-bounded-testbed",
+        "ulticode-ci-supply-chain"
+      ]
+    },
+    "legacy/note/zh-cn/ulticode-core-bounded-testbed": {
+      "related": [
+        "ulticode",
+        "ulticode-owner-and-facts"
+      ]
+    },
+    "legacy/note/en/ulticode-generation-attempt-fence": {
+      "related": [
+        "ulticode",
+        "ulticode-fenced-singleton-lease"
+      ]
+    },
+    "legacy/note/en/ulticode-outbox-redis-streams": {
+      "related": [
+        "ulticode",
+        "ulticode-owner-local-audit-inbox"
+      ]
+    },
+    "legacy/note/en/ulticode-owner-and-facts": {
+      "related": [
+        "ulticode",
+        "ulticode-owner-local-audit-inbox"
+      ]
+    },
+    "legacy/note/en/ulticode-core-bounded-testbed": {
+      "related": [
+        "ulticode",
+        "ulticode-owner-and-facts"
+      ]
+    },
+    "legacy/note/ja/ulticode-generation-attempt-fence": {
+      "related": [
+        "ulticode",
+        "ulticode-fenced-singleton-lease"
+      ]
+    },
+    "legacy/note/ja/ulticode-outbox-redis-streams": {
+      "related": [
+        "ulticode",
+        "ulticode-owner-local-audit-inbox"
+      ]
+    },
+    "legacy/note/ja/ulticode-owner-and-facts": {
+      "related": [
+        "ulticode",
+        "ulticode-owner-local-audit-inbox"
+      ]
+    },
+    "legacy/note/ja/ulticode-core-bounded-testbed": {
+      "related": [
+        "ulticode",
+        "ulticode-owner-and-facts"
       ]
     }
   }

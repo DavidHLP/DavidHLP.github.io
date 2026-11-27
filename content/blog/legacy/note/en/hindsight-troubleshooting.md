@@ -58,14 +58,13 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "hindsight-local-deployment-and-agent-integration"
   ],
   "related": [
     "hindsight-local-deployment",
-    "hindsight-omp-codex-integration",
-    "omp-hook-extension-guide"
+    "hindsight-omp-codex-integration"
   ]
 }
 ---
@@ -193,7 +192,6 @@ The table preserves the source narrative. Missing model tags, successful downloa
 
 - [Hindsight Local Compute Allocation and Dockerized Deployment](/blog/legacy/note/en/hindsight-local-deployment/)
 - [Hindsight Unified Memory Access: FastMCP Bridge and Dynamic Multi-Project Routing](/blog/legacy/note/en/hindsight-omp-codex-integration/)
-- [OMP Hook Extension Guide](/blog/legacy/note/en/omp-hook-extension-guide/)
 
 
 ## Sources and related documents
@@ -201,4 +199,9 @@ The table preserves the source narrative. Missing model tags, successful downloa
 - [hindsight-local-deployment-and-agent-integration](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/hindsight-local-deployment-and-agent-integration.md)
 - [Hindsight Local Compute Allocation and Dockerized Deployment](/blog/legacy/note/en/hindsight-local-deployment/)
 - [Hindsight Unified Memory Access: FastMCP Bridge and Dynamic Multi-Project Routing](/blog/legacy/note/en/hindsight-omp-codex-integration/)
-- [OMP Hook Extension Concept: Decision-Point Nudges, Hard Blocks, and Status Bridges](/blog/legacy/note/en/omp-hook-extension-guide/)
+
+## Graduation checks
+
+- Exact versions per diagnostic branch
+- reproduce permission, URL, and session symptoms in isolation
+- verify the syntax-passes-but-session-fails counterexample

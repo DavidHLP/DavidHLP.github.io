@@ -67,7 +67,9 @@
     "containerd-tls-troubleshooting",
     "intranet-penetration-ssh-guide",
     "database-schema-drift",
-    "multi-service-readiness"
+    "multi-service-readiness",
+    "database-written-test-review",
+    "mysql-storage-and-deadlock"
   ]
 }
 ---
@@ -95,11 +97,11 @@
 - `Sleep` 超过 60 秒不等于无害；若同时持有事务，会阻塞 DDL 并撑大 undo。必须和 `INNODB_TRX` 对照。
 - 行锁在 MySQL 5.7 可从 `INNODB_LOCKS`/`INNODB_LOCK_WAITS` 看；MySQL 8.0 推荐 `performance_schema.data_locks`、`data_lock_waits` 或 `sys.innodb_lock_waits`。
 - `Waiting for table metadata lock` 指向 MDL：常见链路是长事务未提交，另一个会话执行 `ALTER`/`DROP`，随后访问该表的语句排队。
-- 死锁证据在 `SHOW ENGINE INNODB STATUS \G` 的 `LATEST DETECTED DEADLOCK`；来源给出的修复方向是统一加锁顺序、缩短事务，必要时评估 RR→RC 的隔离级别变化。
+- 死锁证据在 `SHOW ENGINE INNODB STATUS \G` 的 `LATEST DETECTED DEADLOCK`；来源给出的修复方向是统一加锁顺序、缩短事务，必要时评估 RR→RC 的隔离级别变化。区别于普通长事务锁等待，可复现的交叉加锁死锁模型详见 [MySQL 存储引擎与死锁检测](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/)。
 
 ### 3. SQL、索引与事务
 
-- 慢查询可用动态 `slow_query_log`，或用 `performance_schema.events_statements_summary_by_digest` 按指纹聚合；`rows_examined / rows_sent` 远大于 100 是来源给出的典型索引失效信号。
+- 慢查询可用动态 `slow_query_log`，或用 `performance_schema.events_statements_summary_by_digest` 按指纹聚合；`rows_examined / rows_sent` 远大于 100 是来源给出的典型索引失效信号。结合线上 `EXPLAIN` 负载证据区分常见题设索引选择与生产结论时，可对照 [数据库笔试复盘：从 SQL 语义到批量数据处理](/blog/legacy/note/zh-cn/database-written-test-review/)。
 - `EXPLAIN` 重点看 `type`、`key`、`rows`、`filtered` 和 `Extra`。`ALL`、`key=NULL`、`Using filesort`、`Using temporary` 是进一步定位的信号，不是单独的修复结论。
 - 来源列出的失效形状包括：函数包列、隐式类型转换、联合索引缺最左前缀、范围条件右侧列、左模糊 `LIKE`、`OR` 一侧无索引。MySQL 8.0 可用 `EXPLAIN FORMAT=JSON`、`EXPLAIN ANALYZE` 和临时 `INVISIBLE` 索引验证假设。
 - 长事务链路是“undo 版本不能 purge → history list 增长 → 表/索引膨胀 → 回表扫描变慢”。运行超过 30 秒是来源示例的筛选条件，不是所有系统的通用 SLA。
@@ -177,9 +179,13 @@ SHOW STATUS LIKE 'Created_tmp%';
 
 ## 相关页面
 
+
 - [containerd TLS 信任链](/blog/legacy/note/zh-cn/containerd-tls-troubleshooting/)
 - [SSH 内网访问方案](/blog/legacy/note/zh-cn/intranet-penetration-ssh-guide/)
-
+- [数据库 Schema 漂移：用 history、schema 与 query 三视图定位](/blog/legacy/note/zh-cn/database-schema-drift/)
+- [多服务启动就绪：running、ready 与依赖/失败/重启传播](/blog/legacy/note/zh-cn/multi-service-readiness/)
+- [数据库笔试复盘：从 SQL 语义到批量数据处理](/blog/legacy/note/zh-cn/database-written-test-review/)
+- [MySQL 存储引擎与死锁检测](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/)
 
 ## 来源与关联文档
 

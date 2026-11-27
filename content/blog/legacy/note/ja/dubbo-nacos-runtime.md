@@ -66,7 +66,8 @@
   ],
   "related": [
     "multi-service-readiness",
-    "microservice-data-ownership"
+    "microservice-data-ownership",
+    "spring-cloud-and-boot"
   ]
 }
 ---
@@ -117,7 +118,7 @@ service name + Nacos group + version + provider metadata
 
 ### インターフェースレベル
 
-consumer は同名の `providers:...` サービスを購読し、Nacos naming event がインスタンスをプッシュする。version/group は厳密に一致させる。範囲が必要なときだけ `*` やカンマ式を使う。
+consumer は同名の `providers:...` サービスを購読し、Nacos naming event がインスタンスをプッシュする。version/group は厳密に一致させる。範囲が必要なときだけ `*` やカンマ式を使う。Dubbo のインターフェース単位登録名と group/version の検証境界を保ったまま一般的な Spring Cloud / Nacos サービス検出と対比するには [Spring Boot と Spring Cloud：自動構成、トランザクション、サービス検出、ゲートウェイと可観測性](/blog/legacy/note/ja/spring-cloud-and-boot/) を参照。
 
 ### アプリケーションレベル
 
@@ -193,3 +194,4 @@ dubbo registry-nacos 付属のテストは主に `NamingService` を mock する
 - [dubbo-nacos-runtime-registration-correction](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/dubbo-nacos-runtime-registration-correction.md)
 - [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)
 - [マイクロサービスデータ所有権：領域 owner を先に決めてから、DB 分割と移行を考える](/blog/legacy/note/ja/microservice-data-ownership/)
+- [Spring Boot と Spring Cloud：自動構成、トランザクション、サービス検出、ゲートウェイと可観測性](/blog/legacy/note/ja/spring-cloud-and-boot/)

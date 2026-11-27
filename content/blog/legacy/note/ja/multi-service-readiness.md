@@ -74,7 +74,9 @@
     "database-schema-drift",
     "testcontainers-docker-api",
     "dubbo-nacos-runtime",
-    "microservice-data-ownership"
+    "microservice-data-ownership",
+    "docker-fundamentals",
+    "spring-cloud-and-boot"
   ]
 }
 ---
@@ -92,6 +94,8 @@
 | ordering（順序付け）                | 前後関係だけを決め、依存は作らない                            | Compose の短い構文 `depends_on: [db]`（`service_started` と同等）；systemd の `After=`/`Before=`   | 短い構文は起動順序しか保証しない。`After=` は `Requires=`/`Wants=` と直交              |
 | requirement（依存確立）             | 「依存が満たされなければ起動しない」と宣言                    | 長い構文 `condition: service_healthy`；systemd の `Requires=`/`Wants=`                             | `Wants=` は弱い形式で、失敗しても全体トランザクションに影響しない                      |
 | failure propagation（失敗の伝播）   | 依存が不健康なら依存側は起動しない                            | `up --wait` が失敗終了；`--abort-on-container-failure` で全停止；systemd の `Requires=`+`After=`   | `--abort-on-container-failure` は `-d` と非互換、`--wait` とは排他                     |
+
+`healthcheck` ゲートを組む前の Compose の service・network・volume の基礎境界は [Docker の核となる仕組み：レイヤー構築・永続化・本番 Compose](/blog/legacy/note/ja/docker-fundamentals/) を先に確認する。
 | restart propagation（再起動の伝播） | 明示操作で起きた再起動だけが伝播する                          | `depends_on.restart: true`；systemd の `Requires=` による明示 stop/restart                         | コンテナ実行時の自動再起動は伝播しない。systemd の予期しない失敗には `BindsTo=` が必要 |
 
 ### 2. 重要な意味論の切り分け
@@ -189,7 +193,7 @@ systemd-analyze verify <unit>.service          # ユニットファイルを検�
 ## オーケストレーターが代替できない部分
 
 - **migration はオーケストレーターの責務にない**：spec で唯一の「ワンショットタスク」順序プリミティブは `condition: service_completed_successfully`（Compose v2.20.0+ と注記）で、順序付けだけを担う。移行ロジック自体はユーザーが service/コマンドとして定義しなければならない。schema 変更、データバックフィルなどの業務レディネスはオーケストレーターの責務にない。
-- **業務レディネスは healthcheck の意味論にない**：キャッシュウォームアップ、整合性、業務アサーションなどのアプリ内状態をオーケストレーターは検証しない。プローブはユーザー定義の任意コマンドにすぎない。
+- **業務レディネスは healthcheck の意味論にない**：キャッシュウォームアップ、整合性、業務アサーションなどのアプリ内状態をオーケストレーターは検証しない。プローブはユーザー定義の任意コマンドにすぎない。マイクロサービスでは、オーケストレーターのプローブ通過とレジストリ登録・ゲートウェイ転送可能は同義ではなく、サービス登録の健全性とルーティング検証は [Spring Boot と Spring Cloud：自動構成、トランザクション、サービス検出、ゲートウェイと可観測性](/blog/legacy/note/ja/spring-cloud-and-boot/) を参照。
 - したがって「移行完了後に app を起動する」のような要件は、ユーザーが移行をワンショット service にし、app に `service_completed_successfully` の依存を宣言するのが正しい書き方であり、オーケストレーターの自動推論に頼るべきではない。
 
 ## 適用条件
@@ -212,9 +216,14 @@ systemd-analyze verify <unit>.service          # ユニットファイルを検�
 
 ## 関連ページ
 
+
 - [MySQL 性能トラブルシューティング](/blog/legacy/note/ja/mysql-performance-troubleshooting/)
 - [データベース Schema ドリフト](/blog/legacy/note/ja/database-schema-drift/)
-
+- [Testcontainers 1.20.6：Docker API バージョンを先に切り分けてから、daemon の利用不可を判断する](/blog/legacy/note/ja/testcontainers-docker-api/)
+- [Dubbo + Nacos：登録名と group/version を先に確認してから、本物の smoke test を実行する](/blog/legacy/note/ja/dubbo-nacos-runtime/)
+- [マイクロサービスデータ所有権：領域 owner を先に決めてから、DB 分割と移行を考える](/blog/legacy/note/ja/microservice-data-ownership/)
+- [Docker 基礎：イメージレイヤー、コンテナ操作と Compose ネットワーク](/blog/legacy/note/ja/docker-fundamentals/)
+- [Spring Boot と Spring Cloud：自動構成、トランザクション、サービス検出、ゲートウェイと可観測性](/blog/legacy/note/ja/spring-cloud-and-boot/)
 
 ## 出典と関連文書
 

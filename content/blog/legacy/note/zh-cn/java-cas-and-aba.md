@@ -1,0 +1,113 @@
+---
+{
+  "archiveId": "X-1318",
+  "translationKey": "legacy/note/java-cas-and-aba",
+  "title": "Java CAS、ABA 问题与 LongAdder：无锁原子原语及竞争边界",
+  "en": "ENGINEERING NOTES",
+  "category": "后端工程",
+  "department": "工程笔记",
+  "date": "2026-11-27",
+  "lead": "DavidHLPL",
+  "clearance": "PUBLIC",
+  "abstract": "基于 JUC 原子类源码笔记，梳理 CAS（cmpxchg / Unsafe）三操作数原语、ABA 问题与 AtomicStampedReference 版本戳修复，以及高竞争下 AtomicLong 热点自旋与 LongAdder 分段 Cell（防伪共享）的设计边界。",
+  "findings": [
+    "原始证据: src/content/raw/zh-cn/ingest-java-concurrency.md",
+    "证据状态: 暂定"
+  ],
+  "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-java-concurrency.md",
+  "pubDate": "2026-11-27T00:00:00.000Z",
+  "tags": [
+    "Java",
+    "JUC",
+    "CAS",
+    "Atomic",
+    "LongAdder",
+    "ABA",
+    "zh-cn",
+    "note"
+  ],
+  "draft": false,
+  "lang": "zh-CN",
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "ingest-java-concurrency"
+  ],
+  "related": [
+    "java-concurrency-deepdive"
+  ]
+}
+---
+
+CAS（Compare-And-Swap）以乐观非阻塞方式代替悲观阻塞锁：冲突假定为小概率事件，失败线程不直接挂起，而是返回失败结果由调用方决定重试或自旋。但在真实业务与高竞争计数器中，无锁并不自动等于“绝对正确”或“永远更快”。
+
+本页承接 [Java 并发深度：JUC、CAS、原子类、锁与线程机制](/blog/legacy/note/zh-cn/java-concurrency-deepdive/) 中 `CASDeepDive.md`、`JavaAtomicClasses.md` 与 `LongAdderVSAtomicLong.md` 的细则；二元开关 `AtomicBoolean` 边界另见 `java-atomic-boolean`。
+
+## 核心机制
+
+### 1. CAS 原语与 `Unsafe` 基础
+
+CAS 原语操作三个值：**内存地址 `V`、预期旧值 `A`、目标新值 `B`**。仅当 `V` 当前值等于 `A` 时才原子更新为 `B`，由硬件指令（如 x86 的 `cmpxchg`）提供多处理器原子性。
+
+```java
+// V: 内存值, A: 预期值, B: 新值
+public boolean compareAndSwap(V, A, B) {
+    if (V == A) {
+        V = B;
+        return true;
+    } else {
+        return false;
+    }
+}
+```
+
+JUC 原子类（如 `AtomicInteger`、`AtomicLong`、`AtomicBoolean`）内部围绕核心 `volatile` 字段提供以下核心方法族：
+
+- `get()` / `set(newValue)`：分别提供 `volatile` 读、写语义。
+- `lazySet(newValue)`：延迟写，不保证后续读立即可见，适合监控计数重置等低实时性场景。
+- `compareAndSet(expect, update)` / `weakCompareAndSet(expect, update)`：其中弱 CAS 在部分平台允许“值未变却虚假失败”，只能在重试循环中使用。
+
+### 2. ABA 问题与 `AtomicStampedReference` 版本戳
+
+只比较“当前值是否仍等于 `A`”无法感知变量在两次读取之间被其他线程改写过（`A -> B -> A`）。在无锁栈等结构中，栈顶虽恢复为原节点引用 `A`，其内部链接状态可能已经失效，导致盲目 CAS 破坏数据结构。
+
+`AtomicStampedReference` 通过把“引用”与“整型版本号（stamp）”绑定成对 `Pair(reference, stamp)` 解决该问题——每次更新同时比对引用与版本号：
+
+```java
+// 仅当引用等于 expectedReference 且版本号等于 expectedStamp 时才更新
+stampedRef.compareAndSet(expectedReference, newReference, stamp, stamp + 1);
+```
+
+若竞争线程已经完成一次 `A -> B -> A` 往返并将版本号推进，后续持有旧版本号的 CAS 会因版本号不匹配而直接返回 `false`。
+
+### 3. 高竞争计数器：`AtomicLong` vs `LongAdder`
+
+| 维度 | `AtomicLong` | `LongAdder`（继承 `Striped64`） |
+| --- | --- | --- |
+| 内部存储 | 单一共享 `volatile long value` | `base` + `volatile Cell[] cells` 分段数组 |
+| 无/低竞争路径 | 直接 CAS 更新 `value` | 优先快速路径 CAS 更新 `base` |
+| 高竞争表现 | 多线程自旋竞争同一缓存行（热点竞争） | 按线程 `ThreadLocalRandom` 探针哈希到不同 `Cell` |
+| 伪共享防护 | 单变量写使相邻缓存失效 | `Cell` 使用 `@sun.misc.Contended` 隔离独立缓存行 |
+| 读写取舍 | `get()` 读瞬时一致准确值 | `add()` 分散写入，`sum()` 非原子快照汇总 |
+
+当热点仅停留在低/中竞争且要求严格精确读时，`AtomicLong` 结构最简单；当大量线程并发写入计数且允许 `sum()` 读取汇总快照时，`LongAdder` 用空间分散热点。
+
+## 适用边界与未验证内容
+
+- **适用**：单变量状态转换、计数、标记切换或小临界区，且能承受失败重试。
+- **不适用**：涉及多变量复合不变式、需要阻塞等待/条件队列，或在极高写竞争下盲目使用单一热点自旋。
+- **未验证边界（来自 raw 既有限制）**：
+  - `sun.misc.Unsafe` 的反射访问（`theUnsafe`）在 JDK 17+ 环境下受模块化与封装策略限制，原料未覆盖 `VarHandle` 替代实现细节；
+  - 原料仅从算法与缓存行原理对比 `AtomicLong` 与 `LongAdder`，**未附带固定 JDK build 与真实硬件上的 JMH 吞吐数据，不得外推具体加速倍数**。
+
+## 毕业检查
+
+1. 在固定 JDK 17/21 构建与 `--illegal-access` 默认限制下，使用受支持 API（`AtomicStampedReference` / `VarHandle`）复跑 ABA 对照实验并记录失败拦截日志。
+2. 在多核心压力机上用 JMH 对照 `AtomicLong` 与 `LongAdder` 在 1/4/16/64 线程下的吞吐与 CPU 消耗，记录真实拐点阈值。
+3. 验证弱引用/无锁结构改造后的 `lazySet` 可见性延迟是否满足业务监控指标读取周期。
+
+## 相关页面
+
+- [Java 并发深度：JUC、CAS、原子类、锁与线程机制](/blog/legacy/note/zh-cn/java-concurrency-deepdive/)
+- [AtomicBoolean：原子布尔状态与 CAS 边界](/blog/legacy/note/zh-cn/java-atomic-boolean/)
+- [ingest-java-concurrency（raw 原文）](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-java-concurrency.md)

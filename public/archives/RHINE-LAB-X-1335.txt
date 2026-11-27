@@ -1,0 +1,76 @@
+﻿RHINE LAB · 内部データベース
+資料 X-1335 / Spring Cloud サービス検出・LoadBalancer・OpenFeign・Gateway
+技術ノート
+
+部門: 技術ノート
+収録範囲: 2026-11-27
+関連人物: DavidHLPL
+アクセス: 公開
+
+マイクロサービスで固定の `IP:Port` を論理サービス名へ置き換えると、1 回の呼び出しは 4 つの制御点を通過する。サービスレジストリ（誰が登録され健全か）、クライアント側負荷分散（どのインスタンスを選ぶか）、宣言的 HTTP クライアント（どう呼び出すか）、エッジゲートウェイ（外部要求をどう判定・加工するか）である。
+
+本稿は [Spring Boot と Spring Cloud：自動構成、トランザクション、サービス検出、ゲートウェイと可観測性](/blog/legacy/note/ja/spring-cloud-and-boot/) から `ConsulServiceRegistrationandDiscovery.md`、`Nacos.md`、`LoadBalancer.md`、`OpenFeign.md`、`SpringCloudGateway.md` を切り出したものである。Dubbo + Nacos の固定検証根拠は `dubbo-nacos-runtime` を参照。
+
+## 中核メカニズム
+
+### 1. レジストリと設定管理の境界：Consul 対 Nacos
+
+- **Consul**：Agent が TCP・HTTP・スクリプトヘルスチェックを定期実行し不健全インスタンスを自動除外する。KV ストア（旧構成では `bootstrap.yml` で主コンテキスト起動前に外部設定を読込）、mTLS（Consul Connect）、既定ポート `8500` の Web UI を持つ。
+- **Nacos**：Discovery と動的設定管理を兼ねる。Nacos 2.x は管理ポート `8848` に加えクライアント・サーバ間 gRPC 用ポート `9848`/`9849` を用い、本番運用では `latest` を避け固定タグ指定と `NACOS_AUTH_ENABLE=true` の認証有効化が必要になる。
+
+### 2. クライアント側負荷分散：`Spring Cloud LoadBalancer`
+
+Spring Cloud `2020.0.0`（Ilford）でブロッキング I/O の Netflix Ribbon が削除された後、Project Reactor ベースの非ブロッキング `Spring Cloud LoadBalancer` が 2 系統の部品で動作する。
+
+- **`ServiceInstanceListSupplier`**：`DiscoveryClientServiceInstanceListSupplier` に `CachingServiceInstanceListSupplier`、`HealthCheckServiceInstanceListSupplier`（`DOWN` / `OUT_OF_SERVICE` を除外）、`ZonePreferenceServiceInstanceListSupplier` を連結する。
+- **`ServiceInstanceChooser` / `ReactiveLoadBalancer<T>`**：既定実装は原子カウンタ剰余による `RoundRobinLoadBalancer` と `RandomLoadBalancer`。`LoadBalancerClientFilter`（または同期 `LoadBalancerClient`）が論理ホスト名（例：`http://user-service/users/1`）を実体 `host:port` に書き換えて転送する。
+
+### 3. 宣言的クライアント：`OpenFeign`
+
+起動クラスに `@EnableFeignClients` を付与すると `@FeignClient(name = "user-service")` インターフェースを走査して動的プロキシを生成し、Service ID 検出・`Spring Cloud LoadBalancer`・Resilience4j フォールバックを統合する。
+
+```java
+@FeignClient(name = "user-service")
+public interface UserClient {
+    @GetMapping("/users/{id}")
+    UserDto findById(@PathVariable("id") Long id);
+}
+```
+
+### 4. エッジ入口：`Spring Cloud Gateway` の三要素
+
+外部要求とバックエンド群の境界に位置する Gateway は 3 つの基本概念で構成される。
+
+| 構成要素 | 役割 | 代表形態 |
+| --- | --- | --- |
+| **Route（ルート）** | ゲートウェイ転送の基本単位 | 一意 `id` ＋ 転送先 `uri` ＋ 述語群 ＋ フィルタ鎖 |
+| **Predicate（述語）** | 受信リクエストの一致判定 | `Headers`、`Query`、`Path`、`Method`、時刻、Cookie、Host 条件 |
+| **Filter（フィルタ）** | 転送前後の横断加工 | `GatewayFilter` による引数検証、認証、メトリクス収集・流量制御連携 |
+
+## 適用境界と未検証内容
+
+- **適用**：Spring Cloud 呼び出し鎖設計、`Service ID -> Discovery -> LoadBalancer -> インスタンス` 経路調査、Gateway ルート設計。
+- **不適用**：旧世代設定（無条件の `bootstrap.yml` 依存や廃止済み Ribbon 設定）をそのまま Cloud 2023+ / Boot 3.x に持ち込む運用。
+- **未検証境界（raw 資料の制限を明示保持）**：
+  - 原文は複数バージョンの記述を含み、**単一固定 BOM で Gateway 述語構文・`spring-cloud-starter-bootstrap` 有効条件・`OpenFeign` リトライ/タイムアウト表を一貫検証していない**；
+  - 耐障害（Sentinel/CircuitBreaker/Bulkhead）と Micrometer/Zipkin トレースは親ページの概要にとどまり、負荷試験数値は含まれない。
+
+## 卒業チェック
+
+1. 固定された Spring Cloud 2023+ BOM・JDK 環境でローカルの Nacos/Consul を起動・停止し、インスタンス登録解除と `HealthCheckServiceInstanceListSupplier` の除外遅延を計測する。
+2. `@FeignClient` 配下に不健全インスタンスを混ぜ、`LoadBalancer` キャッシュ期限切れと `RoundRobinLoadBalancer` のフェイルオーバーを確認する。
+3. `Path`/`Header` 述語と前置 `GatewayFilter` を持つ Gateway ルートに対し結合テストを書き、転送先 URI と応答コードを確認する。
+
+## 関連ページ
+
+- [Spring Boot と Spring Cloud：自動構成、トランザクション、サービス検出、ゲートウェイと可観測性](/blog/legacy/note/ja/spring-cloud-and-boot/)
+- [Dubbo + Nacos：登録名と group/version を先に確認してから、本物の smoke test を実行する](/blog/legacy/note/ja/dubbo-nacos-runtime/)
+- [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)
+- [ingest-spring-cloud（raw 原文）](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md)
+
+研究記録
+1. 一次情報源: src/content/raw/zh-cn/ingest-spring-cloud.md
+2. 証拠の状態: 暫定
+
+参考資料: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md
+公開設定資料を基にした資料形式の再構成であり、ゲームの原文ではありません。

@@ -78,7 +78,8 @@
     "headroom-single-port-evolution",
     "omp-headroom-persistence",
     "omp-hook-extension-guide",
-    "llm-wiki-pattern"
+    "llm-wiki-pattern",
+    "hindsight-omp-codex-integration"
   ]
 }
 ---
@@ -109,6 +110,8 @@ flowchart LR
 | 実行制御（retry、usage-aware など） | retry、冷却、使用量予約、優先モデルへの復帰のタイミング                       | ロールの意味を再定義すること                              |
 | Headroom / `models.db`              | provider からネットワーク入口までのルートとプロキシのライフサイクル           | OMP ロールの選択、Agent ルールの注入                      |
 | ルールの検出と注入                  | `globs`、条件、`alwaysApply` による制約の適用                                 | モデルルーティングの変更、`paths` の `globs` への自動変換 |
+
+`modelRoles` と Rules はクライアント内部のモデル帯と制約注入を担う。Hindsight 記憶サービスの `mcp.json` や FastMCP クライアント接続の責務は [Hindsight 統合メモリアクセス：FastMCP ブリッジと動的マルチプロジェクトルーティング](/blog/legacy/note/ja/hindsight-omp-codex-integration/) を参照。
 
 ### 2. 選択と復旧の境界
 
@@ -176,11 +179,12 @@ flowchart LR
 
 ## 関連ページ
 
+
 - [Headroom 単一ポート移行](/blog/legacy/note/ja/headroom-single-port-evolution/)
 - [Headroom ルート永続化](/blog/legacy/note/ja/omp-headroom-persistence/)
 - [OMP Hook 拡張](/blog/legacy/note/ja/omp-hook-extension-guide/)
 - [LLM wiki pattern](/blog/legacy/note/ja/llm-wiki-pattern/)
-
+- [Hindsight 統合メモリアクセス：FastMCP ブリッジと動的マルチプロジェクトルーティング](/blog/legacy/note/ja/hindsight-omp-codex-integration/)
 
 ## 出典と関連文書
 

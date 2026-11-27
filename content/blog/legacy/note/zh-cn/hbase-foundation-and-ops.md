@@ -58,13 +58,12 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "ingest-hbase-foundation"
   ],
   "related": [
     "spark-bigdata-ecosystem",
-    "database-schema-drift",
     "mysql-storage-and-deadlock"
   ]
 }
@@ -120,14 +119,18 @@
 
 ## 相关页面
 
-- [spark-bigdata-ecosystem](/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/)
-- [database-schema-drift](/blog/legacy/note/zh-cn/database-schema-drift/)
-- [mysql-storage-and-deadlock](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/)
 
+- [spark-bigdata-ecosystem](/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/)
+- [mysql-storage-and-deadlock](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/)
 
 ## 来源与关联文档
 
 - [ingest-hbase-foundation](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-hbase-foundation.md)
 - [Spark 与大数据生态：Hadoop、HBase、Spark 运行模式与集群](/blog/legacy/note/zh-cn/spark-bigdata-ecosystem/)
-- [数据库 Schema 漂移：用 history、schema 与 query 三视图定位](/blog/legacy/note/zh-cn/database-schema-drift/)
 - [MySQL 存储引擎与死锁检测](/blog/legacy/note/zh-cn/mysql-storage-and-deadlock/)
+
+## 毕业检查
+
+- 固定 HBase/Hadoop/ZooKeeper 组合核对逻辑 Cell 与物理归属
+- 同一 fixture 重跑 Region 分裂观察
+- 顺序/分散 RowKey 负载对照并保留 Spark 双链

@@ -65,7 +65,8 @@
     "ulticode-engineering-highlights-f801a1076"
   ],
   "related": [
-    "ulticode"
+    "ulticode",
+    "ulticode-owner-local-audit-inbox"
   ]
 }
 ---
@@ -89,7 +90,7 @@ UltiCode は先に data owner の境界を定め、submit に必要な外部事�
 | Notification | notification、preference、delivery ledger、email、retry | 通知状態を各業務 owner に分散させない |
 | Judge/Search Worker | 判定実行または派生 search index | 業務 table を書かず、HTTP 業務入口を持たない |
 
-出典：[owner と module の境界](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/docs/architecture/modules.md)。owner 間の呼び出しには provider-owned contract または consumer-owned port を使い、shared Entity、Mapper、業務 Service を統合プロトコルにしない。
+出典：[owner と module の境界](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/docs/architecture/modules.md)。owner 間の呼び出しには provider-owned contract または consumer-owned port を使い、shared Entity、Mapper、業務 Service を統合プロトコルにしない。データベース境界を保ったまま owner 間で監査記録を残す Local Outbox / Consumer Inbox の実例は [Owner 間 audit を cross-database write にしない：UltiCode の Local Outbox と Consumer Inbox](/blog/legacy/note/ja/ulticode-owner-local-audit-inbox/) を参照。
 
 ## Submission は不変の fact snapshot を受け取る
 
@@ -137,3 +138,4 @@ LLM tool call にも request 時点の事実が必要である。アクセス可
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
 - [UltiCode：オンラインジャッジと Agent 工学の検証可能な境界](/blog/legacy/note/ja/ulticode/)
+- [Owner 間 audit を cross-database write にしない：UltiCode の Local Outbox と Consumer Inbox](/blog/legacy/note/ja/ulticode-owner-local-audit-inbox/)

@@ -1,0 +1,77 @@
+﻿RHINE LAB · 内部データベース
+資料 X-1329 / Spring Boot 自動構成と起動順序：Imports・条件アノテーション・明示的除外
+技術ノート
+
+部門: 技術ノート
+収録範囲: 2026-11-27
+関連人物: DavidHLPL
+アクセス: 公開
+
+Spring Boot の「設定より規約」はブラックボックスではなく、メインアノテーションを起点にクラスパス記述子から候補を収集し、条件アノテーションと順序規則で選別する組み立てパイプラインである。2.x から 3.x への移行で古い記述子を残したり除外設定を誤ったりすると、設定が黙って読み込まれない、あるいは Bean 衝突が生じる。
+
+本稿は [Spring Boot と Spring Cloud：自動構成、トランザクション、サービス検出、ゲートウェイと可観測性](/blog/legacy/note/ja/spring-cloud-and-boot/) から `SpringBootAuto-configuration.md` と `SpringBootStartupProcess.md` の詳細を切り出したものである。
+
+## 中核メカニズム
+
+### 1. `@EnableAutoConfiguration` と候補記述子の変遷
+
+`@SpringBootApplication` は内部に `@EnableAutoConfiguration` を含み、`@Import({AutoConfigurationImportSelector.class})` により自動構成候補を読み込むと同時に `@AutoConfigurationPackage` で主クラス配下のパッケージを登録する。候補探索パスはバージョン間で明確に分かれる。
+
+| バージョン帯 | 候補記述子パス | 備考 |
+| --- | --- | --- |
+| Spring Boot 2.x 以前 | `META-INF/spring.factories`（キー `org.springframework.boot.autoconfigure.EnableAutoConfiguration`） | 旧世代の探索方式 |
+| Spring Boot 2.7+ / 3.x | `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` | 1 行 1 完全修飾クラス名；Boot 3.x は旧 `spring.factories` 自動構成探索を廃止 |
+
+### 2. 条件アノテーション選別と読み込み順序制御
+
+候補の一覧にあってもすべてが有効化されるわけではなく、`@Conditional` 群で取捨選択される。
+
+- `@ConditionalOnClass`：クラスパスに指定クラス（例：`DataSource.class`）が存在する場合にのみ有効化。
+- `@ConditionalOnMissingBean`：同型の独自 Bean が未登録の場合にのみデフォルト Bean を提供。
+- `@ConditionalOnProperty`：指定プロパティが存在し条件に一致する場合に有効化。
+- `@ConditionalOnWebApplication` / `@ConditionalOnNotWebApplication`：Web 環境と非 Web 環境を切り分ける。
+
+構成クラス間の前後関係は `@AutoConfigureBefore` / `@AutoConfigureAfter` で指定する（例：`@AutoConfigureBefore(DataSourceAutoConfiguration.class)`）。
+
+### 3. 3 通りの明示的除外と起動タイムライン
+
+不要な自動構成（例：`DataSourceAutoConfiguration`）を無効化する際はスコープに応じて次を選択する。
+
+```yaml
+# 方法 1：設定ファイルでの除外（最も一般的）
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+```
+
+- 方法 2：主クラスで `@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})`；
+- 方法 3：カスタム設定クラスで `@EnableAutoConfiguration(exclude = ...)` または `excludeName`。
+
+`SpringApplication.run()` の流れ：アプリ種別（Servlet / Reactive / 非 Web）推論とリスナー設定 -> `ConfigurableEnvironment` による設定読込 -> `ApplicationContext` 生成・リフレッシュ（設定・自動構成読込と Bean 初期化） -> 組込 Web サーバ起動 -> `CommandLineRunner` / `ApplicationRunner` 実行 -> `ApplicationReadyEvent` 発行。
+
+## 適用境界と未検証内容
+
+- **適用**：Spring Boot starter 作成、Bean 競合調査、2.x から 3.x への移行点検。
+- **不適用**：記述子の記載だけでは実行時の有効 Bean は確定せず、実クラスパス、`@Conditional` 判定結果、設定プロパティの組合わせに依存する。
+- **未検証境界（raw 資料の制限を明示保持）**：
+  - 資料は 2.x と 3.x の記述が混在し、**単一の固定 BOM / JDK で `--debug` の Conditions Evaluation Report を実測していない**；
+  - 新版 `@AutoConfiguration` や派生条件アノテーションは固定ビルドでの逐一照合をしていない。
+
+## 卒業チェック
+
+1. 固定された Spring Boot 3.x BOM・JDK 環境で `--debug` を付けて起動し、`CONDITIONS EVALUATION REPORT` の一致・除外理由を記録する。
+2. `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` を用いる自作 starter を作成し、`@ConditionalOnMissingBean` が業務側 Bean で上書きされることを検証する。
+3. テストスライス上で `spring.autoconfigure.exclude` と `@SpringBootApplication(exclude = ...)` の挙動一致を確認する。
+
+## 関連ページ
+
+- [Spring Boot と Spring Cloud：自動構成、トランザクション、サービス検出、ゲートウェイと可観測性](/blog/legacy/note/ja/spring-cloud-and-boot/)
+- [ingest-spring-cloud（raw 原文）](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md)
+
+研究記録
+1. 一次情報源: src/content/raw/zh-cn/ingest-spring-cloud.md
+2. 証拠の状態: 暫定
+
+参考資料: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md
+公開設定資料を基にした資料形式の再構成であり、ゲームの原文ではありません。

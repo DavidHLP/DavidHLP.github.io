@@ -60,7 +60,7 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "ingest-spring-cloud"
   ],
@@ -68,7 +68,9 @@
     "dubbo-nacos-runtime",
     "multi-service-readiness",
     "microservice-data-ownership",
-    "containerd-tls-troubleshooting"
+    "spring-boot-auto-configuration",
+    "spring-transaction-boundaries",
+    "spring-cloud-discovery-and-gateway"
   ]
 }
 ---
@@ -77,10 +79,10 @@ Fuwari の 13 の Spring Boot/Cloud ノートはマイクロサービスノー�
 
 ## 核心メカニズム
 
-- **Boot**：`SpringBootAuto-configuration.md` は `@EnableAutoConfiguration` と条件分岐を、`SpringTransactions.md` は伝播と分離をカバーします。
-- **サービス検出**：`Nacos.md` と `ConsulServiceRegistrationandDiscovery.md` は AP/CP、ヘルスチェック、コンフィグセンターを比較します；`dubbo-nacos-runtime` にはすでに Dubbo+Nacos の固定された証拠があります。
-- **呼び出しとゲートウェイ**：`OpenFeign.md`、`LoadBalancer.md`、`SpringCloudGateway.md` は宣言的呼び出し、負荷分散、ルーティングをカバーします。
-- **耐性と可観測性**：`Sentinel.md`、`CircuitBreakerPatterns`、`BulkHeadBasics` はサーキットブレーク/レート制限/隔離を、`SetupofMicrometerandZipkinTracing.md` はトレーシングをカバーします。
+- **自動構成と起動**：`@EnableAutoConfiguration`、`AutoConfiguration.imports` / `spring.factories`、条件分岐と除外設定は [Spring Boot 自動構成と起動順序：Imports・条件アノテーション・明示的除外](/blog/legacy/note/ja/spring-boot-auto-configuration/) を参照。
+- **ローカルトランザクション境界**：`PlatformTransactionManager`、AOP + `ThreadLocal`、7 種の伝播動作とロールバック規則は [Spring トランザクション境界と伝播動作：AOP プロキシ・分離レベル・ロールバック規則](/blog/legacy/note/ja/spring-transaction-boundaries/) を参照。
+- **サービス検出・呼び出し・ゲートウェイ**：`Nacos`、`Consul`、`Spring Cloud LoadBalancer`、`OpenFeign`、`Spring Cloud Gateway` は [Spring Cloud サービス検出・LoadBalancer・OpenFeign・Gateway](/blog/legacy/note/ja/spring-cloud-discovery-and-gateway/) を参照。Dubbo + Nacos の固定検証根拠は [Dubbo + Nacos：登録名と group/version を先に確認してから、本物の smoke test を実行する](/blog/legacy/note/ja/dubbo-nacos-runtime/) を参照。
+- **耐性と可観測性**：`Sentinel.md`、`CircuitBreakerPatterns`、`BulkHeadBasics` はサーキットブレーク/レート制限/隔離の境界をまとめ、`SetupofMicrometerandZipkinTracing.md` は分散トレーシング接続を扱う。
 
 ## 適用条件
 
@@ -105,16 +107,26 @@ Fuwari の 13 の Spring Boot/Cloud ノートはマイクロサービスノー�
 
 ## 関連ページ
 
+
 - [dubbo-nacos-runtime](/blog/legacy/note/ja/dubbo-nacos-runtime/)
 - [multi-service-readiness](/blog/legacy/note/ja/multi-service-readiness/)
 - [microservice-data-ownership](/blog/legacy/note/ja/microservice-data-ownership/)
-- [containerd-tls-troubleshooting](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
-
+- [Spring Boot 自動構成と起動順序](/blog/legacy/note/ja/spring-boot-auto-configuration/)
+- [Spring トランザクション境界と伝播動作](/blog/legacy/note/ja/spring-transaction-boundaries/)
+- [Spring Cloud サービス検出・LoadBalancer・OpenFeign・Gateway](/blog/legacy/note/ja/spring-cloud-discovery-and-gateway/)
 
 ## 出典と関連文書
 
 - [ingest-spring-cloud](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md)
+- [Spring Boot 自動構成と起動順序：Imports・条件アノテーション・明示的除外](/blog/legacy/note/ja/spring-boot-auto-configuration/)
+- [Spring トランザクション境界と伝播動作：AOP プロキシ・分離レベル・ロールバック規則](/blog/legacy/note/ja/spring-transaction-boundaries/)
+- [Spring Cloud サービス検出・LoadBalancer・OpenFeign・Gateway](/blog/legacy/note/ja/spring-cloud-discovery-and-gateway/)
 - [Dubbo + Nacos：登録名と group/version を先に確認してから、本物の smoke test を実行する](/blog/legacy/note/ja/dubbo-nacos-runtime/)
 - [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)
 - [マイクロサービスデータ所有権：領域 owner を先に決めてから、DB 分割と移行を考える](/blog/legacy/note/ja/microservice-data-ownership/)
-- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
+
+## 昇格チェック
+
+- 固定 BOM/JDK で auto-configuration 候補・条件・除外を確認
+- local transaction の伝播・rollback・proxy 境界
+- 固定 gateway/registry で discovery・predicate/filter と C45/C47

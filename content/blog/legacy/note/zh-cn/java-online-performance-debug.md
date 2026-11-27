@@ -77,7 +77,8 @@
     "java-atomic-boolean",
     "java-internship-interview-blog-polished",
     "redis-jackson-java-time",
-    "jjwt-013-security-api"
+    "jjwt-013-security-api",
+    "java-concurrency-deepdive"
   ]
 }
 ---
@@ -96,6 +97,8 @@
 | `iowait` 高                                | 磁盘、日志、数据库或下游 I/O 等待  | 查 I/O 延迟、连接和下游指标              |
 | CPU 高且 GC 频繁、堆接近上限               | 分配压力、内存不足或回收风暴       | `jstat`、GC 日志、堆/分配证据            |
 | load 高但 CPU 不高，线程 `BLOCKED/WAITING` | 锁竞争、线程池耗尽或依赖阻塞       | 线程栈、池队列、锁和下游超时             |
+
+当线程证据指向持续 `BLOCKED`/`WAITING` 与锁竞争时，可在保存线程栈之后结合 [Java 并发深度：JUC、CAS、原子类、锁与线程机制](/blog/legacy/note/zh-cn/java-concurrency-deepdive/) 中的管程、AQS 公平策略与死锁排查机制分析根因。
 
 ### 2. 证据链比单个命令重要
 
@@ -146,10 +149,13 @@ Arthas 的价值是连接运行中的 JVM、观察线程和方法；`watch/trace
 
 ## 相关页面
 
+
 - [NullValue：缓存 null 的占位对象与序列化边界](/blog/legacy/note/zh-cn/java-null-value/)
 - [AtomicBoolean：原子布尔状态与 CAS 边界](/blog/legacy/note/zh-cn/java-atomic-boolean/)
 - [Java 后端面试复盘：项目真实性、工程机制与生产证据](/blog/legacy/note/zh-cn/java-internship-interview-blog-polished/)
-
+- [Redisson/Jackson 对 LocalDateTime 的默认序列化行为与写读不对称边界](/blog/legacy/note/zh-cn/redis-jackson-java-time/)
+- [JJWT 0.13.0：显式固定签名算法，按 key 类型验签](/blog/legacy/note/zh-cn/jjwt-013-security-api/)
+- [Java 并发深度：JUC、CAS、原子类、锁与线程机制](/blog/legacy/note/zh-cn/java-concurrency-deepdive/)
 
 ## 来源与关联文档
 

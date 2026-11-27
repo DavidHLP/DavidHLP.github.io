@@ -65,7 +65,8 @@
     "ulticode-engineering-highlights-f801a1076"
   ],
   "related": [
-    "ulticode"
+    "ulticode",
+    "ulticode-owner-local-audit-inbox"
   ]
 }
 ---
@@ -89,7 +90,7 @@ The current architecture document separates five Data Owners and two Workers:
 | Notification | notifications, preferences, delivery ledger, email, and retries | does not scatter notification state into business owners |
 | Judge/Search Worker | judge execution or derived search indexes | does not write business tables or expose an HTTP business entry point |
 
-Source: [owner and module boundaries](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/docs/architecture/modules.md). Cross-owner calls use provider-owned contracts or consumer-owned ports; shared Entities, Mappers, and business Services are not used as integration protocols.
+Source: [owner and module boundaries](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/docs/architecture/modules.md). Cross-owner calls use provider-owned contracts or consumer-owned ports; shared Entities, Mappers, and business Services are not used as integration protocols. For how cross-owner auditing preserves storage boundaries using a local Outbox and consumer Inbox, see [Do Not Audit Across Owners by Writing Across Databases: UltiCode's Local Outbox and Consumer Inbox](/blog/legacy/note/en/ulticode-owner-local-audit-inbox/).
 
 ## Submission receives an immutable fact snapshot
 
@@ -137,3 +138,4 @@ Read [SubmissionFactsSnapshot.java](https://github.com/DavidHLP/UltiCode/blob/f8
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
 - [UltiCode: Verifiable Boundaries for Online Judging and Agent Engineering](/blog/legacy/note/en/ulticode/)
+- [Do Not Audit Across Owners by Writing Across Databases: UltiCode's Local Outbox and Consumer Inbox](/blog/legacy/note/en/ulticode-owner-local-audit-inbox/)

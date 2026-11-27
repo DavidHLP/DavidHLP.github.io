@@ -1,11 +1,11 @@
 # LLM Wiki 内容收敛设计（KB Convergence Design v1）
 
 > 状态：`active` | 决策人：DavidHLPL + LLM | 生效：2026-08-22
-> 约束：`KB.md` 三层不变量不变；`zh-cn` 正典；raw 不可变；`pnpm kb:lint` 必须通过
+> 约束：`KB.md` 三层不变量不变；`zh-cn` 正典；raw 不可变；`npm run kb:lint` 必须通过
 
 ## 一、问题定义（基于 2026-08-22 全库扫描）
 
-量化事实（`pnpm kb:lint` passed: 49 raw, 44 zh-cn pages (35 active, 7 provisional, 2 deprecated), 122 total）：
+量化事实（`npm run kb:lint` passed: 49 raw, 44 zh-cn pages (35 active, 7 provisional, 2 deprecated), 122 total）：
 
 1. **索引失焦**：原 `kb-index.md` 143 行平铺 8 个 series + 49 行 raw 表（收敛后为 182 行结构化 6 域、路径与观察板呈现，以 POSIX 编辑器行数为准）。读者入口是“列表”不是“路径”，完成一次主题探索需滚动整页，无学习路径、无时效信号、无能力分层。示意图在渲染侧已坍缩为单段文本，导航价值几乎丧失。
 2. **分类正交混乱**：8 个 series 横跨“语言/领域/阶段”三维度：
@@ -88,7 +88,7 @@
 
 > **2026-08-23 修订**：初稿的“每域 ≤6 行、超出折叠”与“index 行数 -30%”两条指标经复审撤销。前者与 lint 的全量登记要求冲突且无扫描收益；后者是虚荣指标，行数不衡量查询成本。替换为上述结构性验收。
 
-本次改动**仅 kb-index.md 一个文件**，验证：`pnpm kb:lint && pnpm build` 双通过即视为收敛完成。
+本次改动**仅 kb-index.md 一个文件**，验证：`npm run kb:lint && npm run build` 双通过即视为收敛完成。
 
 ## 七、执行路线（3 阶段）
 
@@ -103,8 +103,8 @@
 
 ## 九、验证与回滚
 
-- 验证：`pnpm kb:lint` + `pnpm build && grep -c "provisional" src/content/information/zh-cn/kb-index.md` 应为 7。
-- 回滚：`git checkout HEAD -- src/content/information/zh-cn/kb-index.md` 单文件回滚；本文档为说明性文件，不影响构建。
+- 验证：`npm run kb:lint` + `npm run build && grep -c "provisional" content/blog/legacy/information/zh-cn/kb-index.md` 应符合当前登记数量（初始设计时为 7）。
+- 回滚：`git checkout HEAD -- content/blog/legacy/information/zh-cn/kb-index.md` 单文件回滚；本文档为说明性文件，不影响构建。
 
 ---
 *Ponytail 注：本设计刻意选择“最少文件、呈现层收敛”而非“存储层重构”。跳过的重工作：44 页 series 批量迁移、10 个 bulk raw 拆分、全文重写。触发重做的阈值：当新增 10+ 页或连续 2 次 query 失败定位到索引时，再评估 Phase 3 的枚举级迁移。*

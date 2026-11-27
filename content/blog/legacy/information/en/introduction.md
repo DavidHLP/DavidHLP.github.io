@@ -37,7 +37,7 @@
       },
       {
         "label": "Knowledge base",
-        "href": "https://davidhlp.github.io/kb/"
+        "href": "https://davidhlp.github.io/en/kb/"
       },
       {
         "label": "Site source",
@@ -56,15 +56,20 @@ For cache reloads, I test separately for a waiting caller timing out, the loader
 
 ## Open source
 
-- [**ResiCache**](https://github.com/DavidHLP/ResiCache) adds cache protection to Spring Cache applications backed by Redis. It coalesces concurrent reloads for the same key, staggers expiry to spread the load, and can refresh hot keys ahead of time.
-- [**UltiCode**](https://github.com/DavidHLP/UltiCode) is an online judge for practice problems and contests. A database outbox records pending judging tasks so delivery can be retried, and a separate worker takes tasks from Redis Streams and runs submitted code in a Docker sandbox.
-- I contributed [Oh My Pi client support](https://github.com/DeusData/codebase-memory-mcp/pull/1229), [Linux install alias handling](https://github.com/DeusData/codebase-memory-mcp/pull/2203), and [Swift declaration and call-edge parsing](https://github.com/DeusData/codebase-memory-mcp/pull/2436) to **codebase-memory-mcp**, an MCP server for querying a code graph.
+### ResiCache
+
+[**ResiCache**](https://github.com/DavidHLP/ResiCache) adds cache protection to Spring Cache applications backed by Redis. It coalesces concurrent reloads for the same key, staggers expiry to spread the load, and can refresh hot keys ahead of time.
+
+### UltiCode
+
+[**UltiCode**](https://github.com/DavidHLP/UltiCode) is an online judge for practice problems and contests. A database outbox records pending judging tasks so delivery can be retried, and a separate worker takes tasks from Redis Streams and runs submitted code in a Docker sandbox.
+
+### Upstream contributions
+
+I contributed [Oh My Pi client support](https://github.com/DeusData/codebase-memory-mcp/pull/1229), [Linux install alias handling](https://github.com/DeusData/codebase-memory-mcp/pull/2203), and [Swift declaration and call-edge parsing](https://github.com/DeusData/codebase-memory-mcp/pull/2436) to **codebase-memory-mcp**, an MCP server for querying a code graph.
 
 ## This site
 
 I write about Java concurrency, Redis caching and storage, and how distributed tasks are delivered and recovered after failure. I’m also exploring how MCP tools fit into code review, starting with symbols and call relationships in a code graph and then checking index coverage and reading the source to verify what I find.
 
 The site uses [RhineLabUI-Astro](https://github.com/DavidHLP/RhineLabUI-Astro), an Astro and TypeScript port of [RhineLabUI](https://github.com/LBEILC/RhineLabUI).
-
-- Knowledge base: <https://davidhlp.github.io/kb/>
-- Site source: <https://github.com/DavidHLP/DavidHLP.github.io>

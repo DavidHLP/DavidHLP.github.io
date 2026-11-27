@@ -65,7 +65,8 @@
     "ulticode-engineering-highlights-f801a1076"
   ],
   "related": [
-    "ulticode"
+    "ulticode",
+    "ulticode-owner-local-audit-inbox"
   ]
 }
 ---
@@ -90,7 +91,7 @@ UltiCode 的做法是先划清数据 Owner，再把提交所需的外部事实�
 | Notification | 通知、偏好、投递 ledger、邮件和重试 | 不把通知状态散落到业务 owner |
 | Judge/Search Worker | 判题执行或派生搜索索引 | 不写业务表、不提供 HTTP 业务入口 |
 
-来源：[owner 与模块边界](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/docs/architecture/modules.md)。跨 owner 的调用使用 provider-owned contract 或 consumer-owned port，禁止把共享 Entity、Mapper 或业务 Service 当成集成协议。
+来源：[owner 与模块边界](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/docs/architecture/modules.md)。跨 owner 的调用使用 provider-owned contract 或 consumer-owned port，禁止把共享 Entity、Mapper 或业务 Service 当成集成协议。跨 owner 记录审计事件而不破坏库边界的本地 Outbox/Consumer Inbox 示例见 [跨 Owner 审计别靠跨库写入：UltiCode 的 Local Outbox 与 Consumer Inbox](/blog/legacy/note/zh-cn/ulticode-owner-local-audit-inbox/)。
 
 ## Submission 接收不可变事实快照
 
@@ -137,3 +138,4 @@ LLM 工具调用同样需要一组请求时事实：允许访问的文件、用�
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
 - [UltiCode：把在线评测做成可验证的工程系统](/blog/legacy/note/zh-cn/ulticode/)
+- [跨 Owner 审计别靠跨库写入：UltiCode 的 Local Outbox 与 Consumer Inbox](/blog/legacy/note/zh-cn/ulticode-owner-local-audit-inbox/)

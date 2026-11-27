@@ -74,7 +74,9 @@
     "database-schema-drift",
     "testcontainers-docker-api",
     "dubbo-nacos-runtime",
-    "microservice-data-ownership"
+    "microservice-data-ownership",
+    "docker-fundamentals",
+    "spring-cloud-and-boot"
   ]
 }
 ---
@@ -92,6 +94,8 @@ This page answers one question: after declaring dependencies in Compose or syste
 | ordering                               | Only decides sequence, does not establish a dependency        | Compose short syntax `depends_on: [db]` (equivalent to `service_started`); systemd `After=`/`Before=`         | Short syntax only guarantees startup order; `After=` is orthogonal to `Requires=`/`Wants=`    |
 | requirement (dependency establishment) | Declares "start only when the dependency is satisfied"        | Long syntax `condition: service_healthy`; systemd `Requires=`/`Wants=`                                        | `Wants=` is a weak form; failure does not affect the overall transaction                      |
 | failure propagation                    | A dependent does not start when a dependency is unhealthy     | `up --wait` exits with failure; `--abort-on-container-failure` stops everything; systemd `Requires=`+`After=` | `--abort-on-container-failure` is incompatible with `-d` and mutually exclusive with `--wait` |
+
+Before wiring `healthcheck` gates, confirm baseline Compose service, network, and volume semantics in [Docker Fundamentals: Layered Builds, Persistence, and Production Compose](/blog/legacy/note/en/docker-fundamentals/).
 | restart propagation                    | Only restarts triggered by explicit operations propagate      | `depends_on.restart: true`; explicit stop/restart with systemd `Requires=`                                    | Runtime automatic restarts do not propagate; unexpected systemd failure needs `BindsTo=`      |
 
 ### 2. Key semantic distinctions
@@ -190,7 +194,7 @@ Interpret the results against the decision table: `ps`'s healthy column only pro
 ## What the orchestrator cannot replace
 
 - **migration is not within the orchestrator's responsibility**: the spec's only "one-shot task" ordering primitive is `condition: service_completed_successfully` (marked Compose v2.20.0+), which only handles ordering; the migration logic itself must be defined by the user as a service/command. schema changes, data backfills, and other business readiness are not within the orchestrator's responsibility.
-- **business readiness is not within healthcheck semantics**: in-app state such as cache warm-up, consistency, and business assertions is not verified by the orchestrator; the probe is just an arbitrary user-defined command.
+- **business readiness is not within healthcheck semantics**: in-app state such as cache warm-up, consistency, and business assertions is not verified by the orchestrator; the probe is just an arbitrary user-defined command. In microservices, an orchestrator probe passing is not equivalent to routable registry health or gateway forwarding; see [Spring Boot and Spring Cloud: Auto-Configuration, Transactions, Service Discovery, Gateway, and Observability](/blog/legacy/note/en/spring-cloud-and-boot/).
 - Therefore, for requirements like "start the app only after migration completes", the correct approach is for the user to make the migration a one-shot service and declare a `service_completed_successfully` dependency on the app, rather than relying on the orchestrator to infer it automatically.
 
 ## Applicable conditions
@@ -213,9 +217,14 @@ Interpret the results against the decision table: `ps`'s healthy column only pro
 
 ## Related pages
 
+
 - [MySQL performance troubleshooting](/blog/legacy/note/en/mysql-performance-troubleshooting/)
 - [Database schema drift](/blog/legacy/note/en/database-schema-drift/)
-
+- [Testcontainers 1.20.6: Rule Out the Docker API Version First, Then Judge the daemon Unavailable](/blog/legacy/note/en/testcontainers-docker-api/)
+- [Dubbo + Nacos: Verify the Registration Name and group/version First, Then Run a Real Smoke Test](/blog/legacy/note/en/dubbo-nacos-runtime/)
+- [Microservice Data Ownership: Establish the Domain Owner First, Then Talk About Database Splitting and Migration](/blog/legacy/note/en/microservice-data-ownership/)
+- [Docker Fundamentals: Image Layers, Container Operations, and Compose Networking](/blog/legacy/note/en/docker-fundamentals/)
+- [Spring Boot and Spring Cloud: Auto-Configuration, Transactions, Service Discovery, Gateway, and Observability](/blog/legacy/note/en/spring-cloud-and-boot/)
 
 ## Sources and related documents
 

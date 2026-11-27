@@ -57,8 +57,8 @@
       "toc": true
     }
   },
-  "kind": "entity",
-  "status": "active",
+  "kind": "concept",
+  "status": "provisional",
   "sources": [
     "hindsight-local-deployment-and-agent-integration"
   ],
@@ -300,3 +300,9 @@ HINDSIGHT_API_BASE_URL = "http://127.0.0.1:8888"
 - [Hindsight のローカル計算資源分担と Docker コンテナ化デプロイ](/blog/legacy/note/ja/hindsight-local-deployment/)
 - [Hindsight ランタイムトラブルシューティングマトリクスと失敗モード](/blog/legacy/note/ja/hindsight-troubleshooting/)
 - [OMP 設定の階層：モデルロール、Agent オーバーライド、フォールバックチェーン](/blog/legacy/note/ja/omp-config-and-rules-guide/)
+
+## 昇格チェック
+
+- service・bridge・両端 CLI を固定し Bank route と衝突を検証
+- MCP initialize/session/失敗処理を再演
+- 両 client 各一度の匿名呼出と C17 回帰

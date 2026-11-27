@@ -63,7 +63,8 @@
   ],
   "related": [
     "resicache",
-    "redis-jackson-java-time"
+    "redis-jackson-java-time",
+    "resicache-serialization-trust"
   ]
 }
 ---
@@ -77,100 +78,23 @@ If old cache entries use a JDK serializer or GenericJackson2JsonRedisSerializer 
 
 ## Deserialization is dangerous before the object is created
 
-Jackson polymorphic data often carries a type identifier, for example:
-
-```json
-{
-  "version": 2,
-  "payload": {
-    "@class": "com.example.User"
-  }
-}
-```
-
-If the type identifier came from Redis, and Redis content may have been written by another application, an old program, or an attacker, then “let Jackson create the object by type and check it in the business layer” is already too late.
-
-The required boundary is:
-
-```text
-read bytes
-  -> check whether the type identifier is allowed
-  -> only then let Jackson instantiate the object
-```
-
-This is a trust boundary, not ordinary DTO conversion.
+If polymorphic type identifiers such as `@class` originate from Redis bytes written by legacy code or external sources, checking them in business logic after Jackson constructs the object is already too late; enforcement must happen prior to instantiation. That trust boundary and preflight implementation live in [Redis Deserialization Security and Type Allowlists: Validating Package Boundaries Before Instantiation](/blog/legacy/note/en/resicache-serialization-trust/).
 
 ## ResiCache's serializer applies three constraints
 
-The current SecureJacksonRedisSerializer has three related mechanisms.
+Outside migration cutover, `SecureJacksonRedisSerializer` applies three format and type-safety constraints, detailed in [Redis Deserialization Security and Type Allowlists: Validating Package Boundaries Before Instantiation](/blog/legacy/note/en/resicache-serialization-trust/):
 
 ### Versioned envelope
 
-Every non-null cached value is wrapped as:
-
-```json
-{
-  "version": 2,
-  "payload": "..."
-}
-```
-
-This version is the serialization-format version. It is not the business-object version and not a cache-value CAS token.
+Non-null cache values are wrapped in `{"version": 2, "payload": "..."}`, where `version` identifies the serialization wire format only rather than a business-object version or CAS token.
 
 ### Allowlist policy
 
-The default allowed business-package prefix is:
-
-```text
-io.github.davidhlp
-```
-
-Some java.lang, java.time, and java.math types, along with explicitly enumerated collection types, are also allowed.
-
-An allowlist is not simply “polymorphism on or off.” It must answer:
-
-```text
-Is this exact fully qualified class name allowed to appear in the cache bytes?
-```
-
-One configuration boundary in the current implementation deserves attention:
-
-```text
-com.example.*  -> match by package boundary
-com.example    -> match by startsWith
-```
-
-Thus com.example may also match com.exampleX.SomeType. For strict package boundaries, use a prefix with .* or a sufficiently precise prefix.
+`WhitelistPolicy` permits `io.github.davidhlp` and explicit allowlisted runtime types; notice that `com.example.*` matches on package boundaries whereas bare `com.example` matches by `startsWith`.
 
 ### Streaming preflight
 
-Before reading the envelope, the serializer uses a streaming parser to inspect:
-
-- the configured type property;
-- @class;
-- wrapper-array type IDs;
-- type identifiers appearing in polymorphic payloads.
-
-Only after these checks pass does it enter EnvelopeCodec.read.
-
-The core flow is:
-
-```java
-try (JsonParser parser = objectMapper.createParser(bytes)) {
-    validateTypeIdsStreaming(parser);
-}
-
-Object envelope = EnvelopeCodec.read(objectMapper, bytes);
-
-if (EnvelopeCodec.version(envelope)
-        != EnvelopeCodec.currentVersion()) {
-    // reject when failOnUnknownType=true
-}
-```
-
-This is not a complete deserialization security audit, but it places the most important type check before object instantiation.
-
-See [SecureJacksonRedisSerializer.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/SecureJacksonRedisSerializer.java#L132-L205) and [WhitelistPolicy.java](https://github.com/DavidHLP/ResiCache/blob/2954fff217257e9cf7c906450a75070d5e092637/src/main/java/io/github/davidhlp/spring/cache/redis/cache/WhitelistPolicy.java#L89-L134).
+Before calling `EnvelopeCodec.read`, a streaming parser inspects the configured type property, `@class`, wrapper-array IDs, and nested polymorphic type markers so disallowed classes cannot be instantiated.
 
 ## Why support migration of old cache entries
 
@@ -294,32 +218,11 @@ This is not “more advanced” by itself. It exchanges operational complexity f
 
 ## Type safety and migration safety must both hold
 
-The legacy decoder must not bypass the allowlist.
-
-The malicious old JSON used in tests is:
-
-```json
-{
-  "@class": "com.attacker.Gadget"
-}
-```
-
-It is rejected during migration too, rather than being trusted merely because it came from an old format.
-
-Migration is not a temporary script outside the security boundary. It reads the same untrusted or uncertain data, so it must reuse the type constraints.
+The legacy decoder must not bypass the allowlist. Malicious legacy payloads used in tests (`@class: "com.attacker.Gadget"`) are rejected during migration as well rather than trusted simply for being legacy bytes, because migration reads the same untrusted source data and must reuse the type constraints in [Redis Deserialization Security and Type Allowlists: Validating Package Boundaries Before Instantiation](/blog/legacy/note/en/resicache-serialization-trust/).
 
 ## What the tests verify
 
-Current serializer tests cover:
-
-- rejection of an @class outside the allowlist;
-- rejection of wrapper-array type identifiers;
-- rejection of a custom type property;
-- round-trip for an allowed type;
-- correct configuration propagation by the serializer factory;
-- reading an old CachedValue with missing refresh metadata.
-
-In the real Redis integration test, SerializationMigrationIntegrationTest has eight passing tests covering:
+Unit-test coverage for allowlist enforcement and streaming preflight is detailed in [Redis Deserialization Security and Type Allowlists: Validating Package Boundaries Before Instantiation](/blog/legacy/note/en/resicache-serialization-trust/); in the real Redis integration test, SerializationMigrationIntegrationTest has eight passing tests covering:
 
 - SHADOW_READ does not write the source key;
 - DUAL_WRITE preserves the old value and is idempotent;
@@ -367,4 +270,5 @@ If these questions have no answers, changing a serializer configuration is not t
 - [resicache-engineering-highlights-2954fff](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-engineering-highlights-2954fff.md)
 - [resicache-project-overview](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/resicache-project-overview.md)
 - [ResiCache: Verifiable Concurrency and Consistency Boundaries for Cache Protection](/blog/legacy/note/en/resicache/)
+- [Redis Deserialization Security and Type Allowlists: Validating Package Boundaries Before Instantiation](/blog/legacy/note/en/resicache-serialization-trust/)
 - [Redisson/Jackson's Default Serialization Behavior for LocalDateTime and the Write-Read Asymmetry Boundary](/blog/legacy/note/en/redis-jackson-java-time/)

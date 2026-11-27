@@ -65,7 +65,8 @@
     "ulticode-engineering-highlights-f801a1076"
   ],
   "related": [
-    "ulticode"
+    "ulticode",
+    "ulticode-owner-local-audit-inbox"
   ]
 }
 ---
@@ -113,7 +114,7 @@ The consumer group is created from `0-0`, so entries that existed before group c
 
 [UnackedStreamEntriesReaper](https://github.com/DavidHLP/UltiCode/blob/f801a1076b2fa9aa06ce3d63821f0778b477042c/services/judge-runtime/src/main/java/com/ulticode/modules/queue/outbox/reaper/UnackedStreamEntriesReaper.java) scans idle entries every 10 seconds by default, advances at most one entry per sweep, and exposes PEL size, queue delay, oldest-entry age, and DLQ metrics. The current visibility-timeout constant is `1_800_000L`, or 30 minutes; it is an implementation parameter, not an SLO.
 
-Reclaimed jobs still pass through the generation/attempt fence in the judge executor. Recoverable delivery does not give an old message permanent permission to write.
+Reclaimed jobs still pass through the generation/attempt fence in the judge executor. Recoverable delivery does not give an old message permanent permission to write. For the cross-owner auditing pattern that writes a durable consumer inbox before ACKing, see [Do Not Audit Across Owners by Writing Across Databases: UltiCode's Local Outbox and Consumer Inbox](/blog/legacy/note/en/ulticode-owner-local-audit-inbox/).
 
 ## This is not exactly-once
 
@@ -143,3 +144,4 @@ Read [JudgeOutboxDispatcher.java](https://github.com/DavidHLP/UltiCode/blob/f801
 
 - [ulticode-engineering-highlights-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-engineering-highlights-f801a1076.md)
 - [UltiCode: Verifiable Boundaries for Online Judging and Agent Engineering](/blog/legacy/note/en/ulticode/)
+- [Do Not Audit Across Owners by Writing Across Databases: UltiCode's Local Outbox and Consumer Inbox](/blog/legacy/note/en/ulticode-owner-local-audit-inbox/)

@@ -59,14 +59,13 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "ingest-docker-fundamentals"
   ],
   "related": [
     "containerd-tls-troubleshooting",
-    "multi-service-readiness",
-    "intranet-penetration-ssh-guide"
+    "multi-service-readiness"
   ]
 }
 ---
@@ -122,14 +121,18 @@ The source notes `Layer和BaseImage概念.md` (Layer and Base Image) shows layer
 
 ## Related Pages
 
+
 - [containerd-tls-troubleshooting](/blog/legacy/note/en/containerd-tls-troubleshooting/)
 - [multi-service-readiness](/blog/legacy/note/en/multi-service-readiness/)
-- [intranet-penetration-ssh-guide](/blog/legacy/note/en/intranet-penetration-ssh-guide/)
-
 
 ## Sources and related documents
 
 - [ingest-docker-fundamentals](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-docker-fundamentals.md)
 - [containerd TLS: Choosing a Trusted Chain or Temporary Verification Bypass](/blog/legacy/note/en/containerd-tls-troubleshooting/)
 - [Multi-Service Startup Readiness: running, ready, and Dependency/Failure/Restart Propagation](/blog/legacy/note/en/multi-service-readiness/)
-- [SSH Intranet Access: Connection Direction, Exposure, and Recovery](/blog/legacy/note/en/intranet-penetration-ssh-guide/)
+
+## Graduation checks
+
+- Pinned Engine/BuildKit/Compose and base image with recorded cache hits
+- temporary volume/bind restart-versus-rebuild differences
+- Compose service-name, port, and failure cases linked to C05/C07

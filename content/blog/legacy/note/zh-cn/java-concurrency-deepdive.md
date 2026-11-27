@@ -59,15 +59,16 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "ingest-java-concurrency"
   ],
   "related": [
     "java-atomic-boolean",
-    "java-auto-closeable",
     "java-online-performance-debug",
-    "jjwt-013-security-api"
+    "java-cas-and-aba",
+    "java-locks-and-thread-coordination",
+    "java-reference-types"
   ]
 }
 ---
@@ -77,11 +78,10 @@ Fuwari 15 篇 JUC/Java 原文是本知识库最系统的并发专题，覆盖 CA
 
 ## 核心机制
 
-- **CAS**：`CASDeepDive.md` 从 `Unsafe.compareAndSwap` 到 `cmpxchg` 三层展开，ABA 用 `AtomicStampedReference` 解决。
-- **原子类**：`JavaAtomicClasses.md` 区分 `AtomicInteger/Long/Reference` 与 `LongAdder`（分段累加，见 `LongAdderVSAtomicLong.md`）。
-- **锁**：`synchronized`/`Monitor.md` 讲对象头与监视器；`ReentrantLock.md`/`Reentrancy.md` 讲可重入与 AQS；`LockSupport.md` 讲 `park/unpark`。
-- **协作**：`CompletableFutureAction`/`FutureTaskAction` 与 `ThreadLocal.md` 讲异步与线程绑定；`JavaInterruptMechanism` 与死锁诊断讲中断与排查。
-- **引用**：JDK8/17 两篇讲强/软/弱/虚引用的回收语义。
+- **CAS 与原子类**：以硬件原子原语与 `Unsafe` 为基础，`CASDeepDive.md`、`JavaAtomicClasses.md` 与 `LongAdderVSAtomicLong.md` 覆盖 ABA 版本戳（`AtomicStampedReference`）及高竞争下的 `LongAdder` 分段 `Cell`，详见 [Java CAS、ABA 问题与 LongAdder：无锁原子原语及竞争边界](/blog/legacy/note/zh-cn/java-cas-and-aba/)；二元状态开关见 [AtomicBoolean：原子布尔状态与 CAS 边界](/blog/legacy/note/zh-cn/java-atomic-boolean/)。
+- **锁与线程协作**：内置 `synchronized` / `ObjectMonitor`、`ReentrantLock`（AQS 公平性权衡）、`LockSupport`（`park`/`unpark` 许可）及 `ThreadLocal` 线程隔离与线程池清理边界，详见 [Java 锁机制、LockSupport 与 ThreadLocal：Monitor、AQS 与线程绑定](/blog/legacy/note/zh-cn/java-locks-and-thread-coordination/)。
+- **异步与中断**：`CompletableFutureAction`/`FutureTaskAction` 与 `JavaInterruptMechanism`/死锁诊断衔接线程协作与故障排查，具体排障证据树另见 [Java 线上性能排障：从症状到证据的最小决策树](/blog/legacy/note/zh-cn/java-online-performance-debug/)。
+- **引用类型与资源回收**：`java.lang.ref.Reference` 四态生命周期、JDK 17 `VarHandle`/`Cleaner` 与强/软/弱/虚引用边界，详见 [Java 引用类型与生命周期状态机：Strong/Soft/Weak/Phantom 与 Cleaner](/blog/legacy/note/zh-cn/java-reference-types/)。
 
 ## 适用条件
 
@@ -108,16 +108,24 @@ Fuwari 15 篇 JUC/Java 原文是本知识库最系统的并发专题，覆盖 CA
 
 ## 相关页面
 
-- [java-atomic-boolean](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [java-auto-closeable](/blog/legacy/note/zh-cn/java-auto-closeable/)
-- [java-online-performance-debug](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [jjwt-013-security-api](/blog/legacy/note/zh-cn/jjwt-013-security-api/)
 
+- [java-atomic-boolean](/blog/legacy/note/zh-cn/java-atomic-boolean/)
+- [java-online-performance-debug](/blog/legacy/note/zh-cn/java-online-performance-debug/)
+- [Java CAS、ABA 问题与 LongAdder](/blog/legacy/note/zh-cn/java-cas-and-aba/)
+- [Java 锁机制、LockSupport 与 ThreadLocal](/blog/legacy/note/zh-cn/java-locks-and-thread-coordination/)
+- [Java 引用类型与生命周期状态机](/blog/legacy/note/zh-cn/java-reference-types/)
 
 ## 来源与关联文档
 
 - [ingest-java-concurrency](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-java-concurrency.md)
+- [Java CAS、ABA 问题与 LongAdder：无锁原子原语及竞争边界](/blog/legacy/note/zh-cn/java-cas-and-aba/)
+- [Java 锁机制、LockSupport 与 ThreadLocal：Monitor、AQS 与线程绑定](/blog/legacy/note/zh-cn/java-locks-and-thread-coordination/)
+- [Java 引用类型与生命周期状态机：Strong/Soft/Weak/Phantom 与 Cleaner](/blog/legacy/note/zh-cn/java-reference-types/)
 - [AtomicBoolean：原子布尔状态与 CAS 边界](/blog/legacy/note/zh-cn/java-atomic-boolean/)
-- [AutoCloseable：资源所有权与关闭异常语义](/blog/legacy/note/zh-cn/java-auto-closeable/)
 - [Java 线上性能排障：从症状到证据的最小决策树](/blog/legacy/note/zh-cn/java-online-performance-debug/)
-- [JJWT 0.13.0：显式固定签名算法，按 key 类型验签](/blog/legacy/note/zh-cn/jjwt-013-security-api/)
+
+## 毕业检查
+
+- 固定 JDK build 复跑 CAS/ABA 与版本戳对照
+- 复跑锁竞争、中断与池化 ThreadLocal 清理
+- 声明 JDK/GC 下验证引用队列条件并确认 C19/C21 双链

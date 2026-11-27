@@ -1,0 +1,105 @@
+---
+{
+  "archiveId": "X-1317",
+  "translationKey": "legacy/note/mcp-modern-legacy-compatibility",
+  "title": "MCP プロトコル時代間の互換境界：2026-07-28 Modern と Legacy ハンドシェイク契約",
+  "en": "ENGINEERING NOTES",
+  "category": "AI 工具",
+  "department": "工程笔记",
+  "date": "2026-11-27",
+  "lead": "DavidHLPL",
+  "clearance": "PUBLIC",
+  "abstract": "MCP 2026-07-28（commit 5f5440bb）における modern のステートレス request 単位 _meta と legacy initialize ハンドシェイクの差分・エラーコード契約、および codebase-memory-mcp v0.10.2（commit b377c62a）が最高 2025-11-25 までしか対応しない互換事実を整理する。",
+  "findings": [
+    "一次情報源: src/content/raw/zh-cn/mcp-codebase-memory-workflow.md",
+    "証拠の状態: 暫定"
+  ],
+  "source": "https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/mcp-codebase-memory-workflow.md",
+  "pubDate": "2026-11-27T00:00:00.000Z",
+  "tags": [
+    "MCP",
+    "Specification",
+    "Protocol Compatibility",
+    "Codebase Memory",
+    "ja",
+    "note"
+  ],
+  "draft": false,
+  "lang": "ja",
+  "kind": "concept",
+  "status": "provisional",
+  "sources": [
+    "mcp-codebase-memory-workflow"
+  ],
+  "related": [
+    "mcp-codebase-memory-workflow"
+  ]
+}
+---
+
+クライアントが新しい MCP 仕様に準拠し、対象サーバーが旧時代のプロトコルにとどまる場合、ツールワークフローはドメイン呼び出しへ到達する前のハンドシェイク契約段階で失敗する。固定された上流仕様 `2026-07-28`（commit `5f5440bb26a62e2cf3440b92da5a667efa03b267`）と `codebase-memory-mcp` `v0.10.2`（commit `b377c62a4e8b7ad64ccd295e4aa88abc8d275180`）のソースに基づき、本稿は時代の境界、エラーコード、および世代間の互換条件を切り出す。`v0.10.2` の最小グラフワークフローとカバレッジ規律は [MCP プロトコル時代の境界と codebase-memory-mcp v0.10.2 のグラフワークフロー](/blog/legacy/note/ja/mcp-codebase-memory-workflow/) を参照。
+
+## 中核メカニズム
+
+### 1. プロトコル時代の境界：request 単位の `_meta` と `initialize` ハンドシェイク
+
+MCP `2026-07-28`（modern）は接続単位の初期化ネゴシエーションを廃止し、ステートレスな request 単位の自己記述方式へ移行した。
+
+| 次元 | legacy（`2025-11-25` 以前） | modern（`2026-07-28` 以降） |
+| --- | --- | --- |
+| セッション確立 | `initialize` ハンドシェイク ＋ `notifications/initialized` | ハンドシェイクなし、`notifications/initialized` なし |
+| バージョン／能力の宣言 | ハンドシェイク時にネゴシエーション | 各リクエストの `_meta` に含める |
+| サーバー状態の前提 | セッション状態を許可 | **stateless**：同一接続の過去リクエストから capabilities／バージョン／identity を推測することを禁止。stdio プロセスはセッションではない |
+| バージョン発見 | ネゴシエーション | サーバーは `server/discover` の実装必須（クライアントが先に呼んでもよい） |
+| 互換 | dual-era 実装はリクエスト形状で両時代を判別可能（modern `_meta` → modern、`initialize` → legacy） | 同じ規則 |
+
+modern の request 単位 `_meta` フィールド（`basic/index.mdx` より）：
+
+- `io.modelcontextprotocol/protocolVersion`：**必須**。
+- `io.modelcontextprotocol/clientCapabilities`：**必須**。
+- `io.modelcontextprotocol/clientInfo`、`logLevel`：任意。
+
+拡張ネゴシエーションは `capabilities.extensions`（拡張識別子 → settings オブジェクト）で行い、片側が非対応ならコアプロトコルへフォールバックするかエラーを返す。レスポンスの `resultType` は `"complete"`（デフォルト）または `"input_required"`（MRTR 多ラウンド要求）を取り、未知の値は無効扱いとなる。
+
+### 2. エラーコードとバージョン不一致契約
+
+| エラー | エラーコード | 発生条件 | 付随データ |
+| --- | --- | --- | --- |
+| Invalid params | `-32602`（HTTP 400） | 必須の `_meta` フィールド欠落または不正リクエスト | — |
+| `MissingRequiredClientCapabilityError` | `-32021`（HTTP 400） | サーバーが要求する能力をクライアントが未宣言 | `data.requiredCapabilities` が不足項目を列挙 |
+| `UnsupportedProtocolVersionError` | `-32022` | プロトコルバージョンの不一致 | `data.supported` が対応バージョン一覧を返し、クライアントが共通版で再試行 |
+
+### 3. `v0.10.2` のソース水準での世代帰属
+
+固定コミット `b377c62a` の `src/mcp/mcp.c` は明確に **legacy 時代のサーバー**である。
+
+- `SUPPORTED_PROTOCOL_VERSIONS[]`（第 1222–1231 行）は新しい順に `"2025-11-25"`、`"2025-06-18"`、`"2025-03-26"`、`"2024-11-05"` のみを含み、**`2026-07-28` を含まない**。
+- `cbm_mcp_initialize_response_for_profile`（第 1262–1293 行）が legacy `initialize` ハンドシェイクを実装し（`protocolVersion` を読んで一致すればエコーし、`protocolVersion` ＋ `serverInfo` ＋ `capabilities` を返却）、第 11341 行以降で `"initialize"` ディスパッチを行う。
+- ソース内に `server/discover`、modern の request 単位 `_meta` フィールド、および modern ステートレスライフサイクルの処理は存在しない。
+
+2026-07-28 の互換マトリクス上、"Modern client | Legacy server" の組合せは **Fails** となる。したがって `v0.10.2` へ接続するには legacy `2025-11-25` 契約（`initialize` ＋ `notifications/initialized`）を使うか dual-era アダプターを経由する必要がある。
+
+```text
+initialize { protocolVersion: "2025-11-25" }
+  -> notifications/initialized
+  -> ツール呼び出し (list_projects / search_graph / trace_path ...)
+```
+
+## 検証済み境界と未検証境界
+
+- **固定仕様・ソースから照合済みの事実**：2 つの上流固定コミット、`src/mcp/mcp.c` におけるバージョン配列の範囲、legacy `initialize` 応答・ディスパッチ箇所、`_meta` 必須フィールドおよび 3 種の契約エラーコード。
+- **明示的に残す未検証境界**：
+  - `2026-07-28` の authorization・transports・subscriptions の詳細は展開していない；
+  - legacy `initialize`/`notifications/initialized` シーケンスは `2025-06-18` ライフサイクル文書のみを参照し、より旧版との逐一差分は照合していない；
+  - 結論は仕様書・ソース読解に基づき、**実バイナリに対するハンドシェイクや dual-era アダプターの実行時実験は実施していない**。
+
+## 卒業チェック
+
+1. `codebase-memory-mcp v0.10.2` 実バイナリに対して stdio または HTTP クライアント接続実験を 1 回実行し、実際の `initialize` 応答と modern 直結時の失敗応答を記録して未検証注記を更新する。
+2. `v0.10.2` より新しいリリースへ更新する際や新規クライアント SDK を導入する際は、`SUPPORTED_PROTOCOL_VERSIONS[]` と `server/discover` 実装を再点検する。
+3. dual-era アダプターを導入する場合、legacy `initialize` と modern `_meta` が混在するリクエストでルーティング分離とステートレス前提が破られないか検証する。
+
+## 関連ページ
+
+- [MCP プロトコル時代の境界と codebase-memory-mcp v0.10.2 のグラフワークフロー](/blog/legacy/note/ja/mcp-codebase-memory-workflow/)
+- [mcp-codebase-memory-workflow（raw 原文）](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/mcp-codebase-memory-workflow.md)

@@ -79,7 +79,8 @@
     "headroom-single-port-evolution",
     "omp-headroom-persistence",
     "omp-hook-extension-guide",
-    "llm-wiki-pattern"
+    "llm-wiki-pattern",
+    "hindsight-omp-codex-integration"
   ]
 }
 ---
@@ -111,6 +112,8 @@ flowchart LR
 | 运行控制（retry、usage-aware 等） | 决定何时重试、冷却、预留额度或回到首选                        | 不重新定义角色语义                              |
 | Headroom / `models.db`            | provider 到网络入口的实际路由与代理生命周期                   | 不选择 OMP role，也不注入 Agent 规则            |
 | Rules 发现与注入                  | 将约束按 `globs`、条件或 `alwaysApply` 注入上下文             | 不改变模型路由，不把 `paths` 自动翻译成 `globs` |
+
+`modelRoles` 与 Rules 负责客户端内部模型档位与规则注入；如果涉及 Hindsight 长期记忆服务的 `mcp.json` / FastMCP 客户端接入，见 [Hindsight 统一记忆接入：FastMCP 桥接与多项目动态路由](/blog/legacy/note/zh-cn/hindsight-omp-codex-integration/)。
 
 ### 2. 选择与恢复的边界
 
@@ -178,11 +181,12 @@ flowchart LR
 
 ## 相关页面
 
+
 - [Headroom 单端口演进](/blog/legacy/note/zh-cn/headroom-single-port-evolution/)
 - [Headroom 路由持久化](/blog/legacy/note/zh-cn/omp-headroom-persistence/)
 - [OMP Hook 扩展](/blog/legacy/note/zh-cn/omp-hook-extension-guide/)
 - [LLM wiki pattern](/blog/legacy/note/zh-cn/llm-wiki-pattern/)
-
+- [Hindsight 统一记忆接入：FastMCP 桥接与多项目动态路由](/blog/legacy/note/zh-cn/hindsight-omp-codex-integration/)
 
 ## 来源与关联文档
 

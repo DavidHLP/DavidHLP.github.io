@@ -68,8 +68,7 @@
   ],
   "related": [
     "ulticode",
-    "ulticode-owner-and-facts",
-    "ulticode-generation-attempt-fence"
+    "ulticode-owner-and-facts"
   ]
 }
 ---
@@ -222,4 +221,3 @@ Agent runtime 也可能同时运行多个 provider、工具插件或任务上下
 - [ulticode-reliability-core-f801a1076](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ulticode-reliability-core-f801a1076.md)
 - [UltiCode：把在线评测做成可验证的工程系统](/blog/legacy/note/zh-cn/ulticode/)
 - [UltiCode 数据 Owner 与事实快照：跨服务提交如何保持边界](/blog/legacy/note/zh-cn/ulticode-owner-and-facts/)
-- [UltiCode generation 与 attemptId：用条件更新拦截过期判题结果](/blog/legacy/note/zh-cn/ulticode-generation-attempt-fence/)

@@ -1,0 +1,76 @@
+﻿RHINE LAB · INTERNAL DATABASE
+FILE X-1322 / Java Locks, LockSupport, and ThreadLocal: Monitors, AQS, and Thread-Bound State
+ENGINEERING NOTES
+
+Department: Engineering notes
+Collection: 2026-11-27
+Related people: DavidHLPL
+Access: Public
+
+When multi-variable invariants cannot remain consistent via lock-free single-word primitives, or threads must block awaiting condition signals, execution moves into mutual exclusion and thread coordination. Choosing the wrong fairness policy, losing wakeup ordering, or leaking thread-bound state in pooled threads directly causes throughput collapse, starvation, or memory retention.
+
+This page expands `Monitor.md`, `ReentrantLock.md`, `LockSupport.md`, and `ThreadLocal.md` from [Java Concurrency Deep Dive: JUC, CAS, Atomics, Locks, and Threading](/blog/legacy/note/en/java-concurrency-deepdive/).
+
+## Core Mechanisms
+
+### 1. Intrinsic monitors: `ObjectMonitor` contention and wait queues
+
+`synchronized` uses JVM monitors, escalating under contention from biased -> lightweight -> heavyweight locks (`ObjectMonitor`). HotSpot separates roles across two internal queues:
+
+- **`_EntryList`**: holds threads blocked competing for ownership (enqueued and `park()`ed when `monitorenter` CAS on `_owner` fails; `monitorexit` wakes a waiter via `unpark` once `_count` reaches zero).
+- **`_WaitSet`**: holds threads that owned the lock and called `wait()`; `notify()` / `notifyAll()` moves nodes from `_WaitSet` back to `_EntryList` to re-compete rather than granting lock ownership directly.
+
+### 2. `ReentrantLock` and AQS fairness tradeoffs
+
+Built on `AbstractQueuedSynchronizer` (AQS), `ReentrantLock` adds interruptible acquisition (`lockInterruptibly()`), timed acquisition (`tryLock(long, TimeUnit)`), and multiple `Condition` queues. Fairness trades throughput against starvation prevention:
+
+- **Non-fair (default, `new ReentrantLock(false)`)**: permits arriving threads to "barge" via direct CAS when the lock is released, cutting wake-up/enqueue context switches at the risk of queue starvation.
+- **Fair (`new ReentrantLock(true)`)**: checks AQS FIFO queue order first and enqueues behind waiting threads, avoiding starvation at the cost of extra blocking and context switches.
+
+### 3. `LockSupport` permits vs. `Object.wait/notify`
+
+| Dimension | `LockSupport` (`park`/`unpark`) | `Object` (`wait`/`notify`) |
+| --- | --- | --- |
+| Lock requirement | No object lock required | Must be invoked inside `synchronized` |
+| Targeting | `unpark(thread)` wakes a specific thread | `notify` wakes one arbitrarily; `notifyAll` wakes all |
+| Order coupling | Single non-accumulating permit (max `1`); `unpark` may precede `park` | `notify` must follow `wait` or signal is lost |
+| Backing layer | `sun.misc.Unsafe` native primitives (JUC foundation) | Tightly coupled to `ObjectMonitor` |
+
+### 4. `ThreadLocal`: space for isolation and `remove()` boundaries
+
+`ThreadLocal` avoids sharing by storing per-thread values in each `Thread`'s `ThreadLocalMap`. `Entry` keeps a **weak reference** to its `ThreadLocal` key so keys are collected once external references drop, while **`value` remains strongly referenced**. In reused thread pools, stale entries (`key == null`) persist unless cleaned up. Although `get()`, `set()`, and `remove()` run opportunistic `expungeStaleEntry` cleanups and rehash, the safe rule is always calling `remove()` inside `finally`:
+
+```java
+try {
+    userContext.set("User-A");
+    // business logic
+} finally {
+    userContext.remove();
+}
+```
+
+## Applicability and Unverified Boundaries
+
+- **Applicable**: multi-variable critical sections, interruptible/timed locks, multi-condition coordination, and thread-scoped context propagation.
+- **Not applicable**: simple counters (prefer CAS/atomics) or replacing runtime profiling with generic rules of thumb.
+- **Unverified boundaries preserved from raw sources**:
+  - the sources contrast fair vs. non-fair locks and `park`/`unpark` semantics **without pinned-JDK latency percentiles or throughput benchmarks**;
+  - thread-pool `ThreadLocal` retention and deadlock-troubleshooting runs were not logged against a single reproducible harness.
+
+## Graduation Checks
+
+1. Benchmark `ReentrantLock(false)` vs. `ReentrantLock(true)` under multi-core contention on a pinned JDK build, recording throughput and tail latency.
+2. Reproduce missing `remove()` cross-request state leakage and heap retention in a fixed-size thread pool and verify resolution with `finally { remove(); }`.
+3. Verify `LockSupport.unpark` preceding `park()` does not block while two consecutive `unpark()` calls yield at most one permit.
+
+## Related Pages
+
+- [Java Concurrency Deep Dive: JUC, CAS, Atomics, Locks, and Threading](/blog/legacy/note/en/java-concurrency-deepdive/)
+- [ingest-java-concurrency (raw source)](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-java-concurrency.md)
+
+Research notes
+1. Raw source: src/content/raw/zh-cn/ingest-java-concurrency.md
+2. Evidence status: provisional
+
+Reference: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-java-concurrency.md
+This archive adaptation is based on publicly available setting material, not the game's original text.

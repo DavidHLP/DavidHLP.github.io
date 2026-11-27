@@ -57,8 +57,8 @@
       "toc": true
     }
   },
-  "kind": "entity",
-  "status": "active",
+  "kind": "concept",
+  "status": "provisional",
   "sources": [
     "hindsight-local-deployment-and-agent-integration"
   ],
@@ -300,3 +300,9 @@ Metrics: reranker score 0.965, semantic score 0.668, retrieval latency 0.059s.
 - [Hindsight Local Compute Allocation and Dockerized Deployment](/blog/legacy/note/en/hindsight-local-deployment/)
 - [Hindsight Runtime Troubleshooting Matrix and Failure Modes](/blog/legacy/note/en/hindsight-troubleshooting/)
 - [OMP Configuration Layers: Model Roles, Agent Overrides, and Fallback Chains](/blog/legacy/note/en/omp-config-and-rules-guide/)
+
+## Graduation checks
+
+- Pinned service, bridge, and both CLIs with Bank routing and collision cases
+- full MCP initialize, session, and failure handling
+- one anonymous call per client plus the C17 backlink

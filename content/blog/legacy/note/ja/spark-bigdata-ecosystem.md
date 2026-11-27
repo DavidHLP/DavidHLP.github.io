@@ -57,14 +57,14 @@
     }
   },
   "kind": "concept",
-  "status": "active",
+  "status": "provisional",
   "sources": [
     "ingest-spark-ecosystem"
   ],
   "related": [
     "hbase-foundation-and-ops",
     "multi-service-readiness",
-    "containerd-tls-troubleshooting"
+    "database-written-test-review"
   ]
 }
 ---
@@ -76,6 +76,7 @@ Personal の 4 つと Fuwari の 3 つの Spark/ビッグデータノートは�
 - **エンジン概要**：`分布式计算引擎框架概述.md` は MapReduce/Spark/Flink のバッチ/ストリームモデルを比較します。
 - **Spark 概要と実行モード**：`Spark概述.md` と `Spark运行模式整理.md` は Local/Standalone/YARN/K8s、Driver/Executor の役割、シャッフル境界を区別します。
 - **クラスタスクリプト**：`hadoop-hbase-spark` には `hadoop-compose.yml`、`start-*.sh` などのローカル検証スクリプトが含まれます。
+- **Spark SQL 日付方言の例**：`date_format(trunc(add_months(current_date(), -1), 'MM'), 'yyyy')` は Spark SQL で合法な組み合わせであり、Oracle/MySQL との対比は [データベース筆記試験の復盤：5. 日付式](/blog/legacy/note/ja/database-written-test-review/#5-日付式結果を計算する前に方言を認識する) を参照（SQL 方言の結果は実行モードの証拠にはならない）。
 
 ## 適用条件
 
@@ -99,14 +100,19 @@ Personal の 4 つと Fuwari の 3 つの Spark/ビッグデータノートは�
 
 ## 関連ページ
 
+
 - [hbase-foundation-and-ops](/blog/legacy/note/ja/hbase-foundation-and-ops/)
 - [multi-service-readiness](/blog/legacy/note/ja/multi-service-readiness/)
-- [containerd-tls-troubleshooting](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
-
+- [データベース筆記試験の復盤：SQL セマンティクスからバッチ処理まで](/blog/legacy/note/ja/database-written-test-review/)
 
 ## 出典と関連文書
 
 - [ingest-spark-ecosystem](https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spark-ecosystem.md)
 - [HBase 基礎・アーキテクチャと運用：データモデル、テーブル設計、Shell と Java API](/blog/legacy/note/ja/hbase-foundation-and-ops/)
 - [マルチサービス起動レディネス：running、ready と依存/失敗/再起動の伝播](/blog/legacy/note/ja/multi-service-readiness/)
-- [containerd TLS：信頼チェーンと一時的な検証スキップの判断](/blog/legacy/note/ja/containerd-tls-troubleshooting/)
+
+## 昇格チェック
+
+- 固定 Spark/JDK/Hadoop と deploy mode で Local を再実行
+- 宣言 mode の Driver/Executor 配置と shuffle 対照
+- 失敗/再試行経路と C04・HBase 双方向リンク
