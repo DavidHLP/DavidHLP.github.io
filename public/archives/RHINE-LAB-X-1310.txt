@@ -57,5 +57,4 @@ Research notes
 2. Source snapshot: database-written-test-review
 3. Evidence status: provisional
 
-Reference: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md
-This archive adaptation is based on publicly available setting material, not the game's original text.
+Wiki source: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md

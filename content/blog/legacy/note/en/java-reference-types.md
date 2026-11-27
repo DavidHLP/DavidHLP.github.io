@@ -9,7 +9,7 @@
   "date": "2026-11-27",
   "lead": "DavidHLPL",
   "clearance": "PUBLIC",
-  "abstract": "Distills JDK 8/17 reference notes covering the four-state Reference lifecycle, VarHandle adoption since JDK 9, reclamation semantics across all four reference strengths, why SoftReference caches act as jitter anti-patterns, and why off-heap cleanup should favor Cleaner.",
+  "abstract": "Distills JDK 8/17 reference notes covering the four-state Reference lifecycle, the get/clear implementations in JDK 8 and 17, reclamation semantics across all four reference strengths, why SoftReference caches act as jitter anti-patterns, and why off-heap cleanup should favor Cleaner.",
   "findings": [
     "Raw source: src/content/raw/zh-cn/ingest-java-concurrency.md",
     "Evidence status: provisional"
@@ -53,18 +53,22 @@ Non-strong references coordinate with GC and a JVM daemon thread across four sta
 3. **`Enqueued`**: the JVM `Reference-Handler` daemon clears `referent` to `null` and places the `Reference` into its associated `ReferenceQueue`.
 4. **`Inactive`**: final state reached once the application polls it from `ReferenceQueue` (or after collection when no queue is attached).
 
-Since JDK 9, `Reference` accesses `referent` via `VarHandle REFERENT` (`getAcquire` / `setRelease`) to coordinate safely with concurrent collectors such as `G1GC` and `ZGC`.
+The `get()` and `clear()` implementations differ from the snippets often circulated online. In JDK 17, `java.lang.ref.Reference` does not read or write `referent` through a `VarHandle` at the Java level: `get()` returns `this.referent` directly (annotated `@IntrinsicCandidate`, coordinated with the JIT and GC), and `clear()` delegates to the native `clear0()`. Visibility and collection barriers are guaranteed by the VM and native code, not by acquire/release operations at the Java level.
 
 ```java
-// Core Reference<T> read/clear semantics (JDK 9+ VarHandle pattern)
+// OpenJDK 17 java.lang.ref.Reference (excerpt)
 public T get() {
-    return (T) REFERENT.getAcquire(this);
+    return this.referent;
 }
 
 public void clear() {
-    REFERENT.setRelease(this, null);
+    clear0();
 }
+
+private native void clear0();
 ```
+
+The `REFERENT.getAcquire(this)` / `REFERENT.setRelease(this, null)` variants seen in some write-ups are illustrative pseudocode for the intended memory-barrier semantics, not JDK source, and they are not what JDK 17's `Reference` does.
 
 ### 2. Comparing the four reference strengths and architectural tradeoffs
 

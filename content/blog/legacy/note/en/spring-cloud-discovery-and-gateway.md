@@ -47,7 +47,7 @@ This page extracts `ConsulServiceRegistrationandDiscovery.md`, `Nacos.md`, `Load
 
 ### 1. Registry and configuration boundaries: Consul vs. Nacos
 
-- **Consul**: runs periodic TCP/HTTP/script agent health checks and removes failing instances automatically; provides hierarchical KV config (`bootstrap.yml` historically loads remote config before the main context), mTLS (Consul Connect), and a default `8500` Web UI.
+- **Consul**: runs periodic TCP/HTTP/script agent health checks; a failing check marks the instance `critical` and keeps it in the catalog rather than removing it. Returning only healthy instances requires `spring.cloud.consul.discovery.query-passing=true` (default `false`, meaning all instances are returned), and automatic deregistration of failed instances requires `spring.cloud.consul.discovery.health-check-critical-timeout` (registered with Consul as the service's `deregister_critical_service_after`). It also provides a hierarchical KV config store (`bootstrap.yml` historically loads remote config before the main context), mTLS (Consul Connect), and a default `8500` Web UI.
 - **Nacos**: combines Discovery and dynamic configuration management; Nacos 2.x uses gRPC client/server ports `9848`/`9849` alongside console port `8848`, and production containers should pin explicit tags instead of `latest` while enabling `NACOS_AUTH_ENABLE=true`.
 
 ### 2. Client-side load balancing: `Spring Cloud LoadBalancer`
@@ -89,7 +89,7 @@ Positioned between external callers and backend microservices, Gateway builds ro
 
 ## Graduation Checks
 
-1. Start and stop a local Nacos/Consul instance under a pinned Spring Cloud 2023+ BOM and JDK to observe deregistration and `HealthCheckServiceInstanceListSupplier` eviction lag.
+1. Start and stop a local Nacos/Consul instance under a pinned Spring Cloud 2023+ BOM and JDK to verify `query-passing` filtering, critical-timeout deregistration, and `HealthCheckServiceInstanceListSupplier` eviction lag.
 2. Inject an unhealthy backend instance behind an `@FeignClient` call to verify `LoadBalancer` cache expiration and `RoundRobinLoadBalancer` failover.
 3. Write an integration test for a Gateway route combining `Path`/`Header` predicates with a pre-`GatewayFilter`, asserting target URI forwarding and response codes.
 

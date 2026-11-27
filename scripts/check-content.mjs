@@ -883,7 +883,7 @@ test("blog migration preserves source evidence and applies only recorded transla
   }
   for (const record of nativeWiki) {
     const path = new URL(`blog/${record.slug}/index.html`, dist);
-    assert.ok((await readFile(path, "utf8")).includes(translateUiText("设定参考", record.lang)), record.slug);
+    assert.ok((await readFile(path, "utf8")).includes(translateUiText("Wiki 来源", record.lang)), record.slug);
   }
   for (const [path, target] of Object.entries(manifest.routes)) {
     const output = new URL(path.slice(1) + (target === "/rss.xml" ? "" : "/index.html"), dist);

@@ -15,7 +15,7 @@
 
 ### 1. 注册发现与配置中心：Consul vs Nacos 重点差异
 
-- **Consul**：Agent 周期执行 TCP / HTTP / 脚本健康检查并自动剔除异常实例；内置 KV 配置存储（早期 Cloud 常用 `bootstrap.yml` 在主上下文启动前加载外部配置）、mTLS（Consul Connect）与默认 `8500` Web UI。
+- **Consul**：Agent 周期执行 TCP / HTTP / 脚本健康检查，检查失败时把实例标记为 `critical` 并继续留在目录中，不会自动剔除；发现结果只返回健康实例需要开启 `spring.cloud.consul.discovery.query-passing=true`（默认 `false`，即返回全部实例），失联实例自动注销还需配置 `spring.cloud.consul.discovery.health-check-critical-timeout`（底层写入 Consul 服务的 `deregister_critical_service_after`）。另提供 KV 配置存储（早期 Cloud 常用 `bootstrap.yml` 在主上下文启动前加载外部配置）、mTLS（Consul Connect）与默认 `8500` Web UI。
 - **Nacos**：同时承担 Discovery 与动态配置中心角色；Nacos 2.x 除控制台 `8848` 外引入客户端/服务端 gRPC 通信端口 `9848`/`9849`，生产环境应锁定版本标签（避免 `latest`）并开启 `NACOS_AUTH_ENABLE=true` 鉴权。
 
 ### 2. 客户端负载均衡：`Spring Cloud LoadBalancer` 链路
@@ -57,7 +57,7 @@ Gateway 处于外部请求与微服务群之间，所有路由能力围绕三个
 
 ## 毕业检查
 
-1. 在固定 Spring Cloud 2023+ BOM 与 JDK 版本下起停本地 Nacos/Consul，验证服务注销摘流与 `HealthCheckServiceInstanceListSupplier` 剔除延迟。
+1. 在固定 Spring Cloud 2023+ BOM 与 JDK 版本下起停本地 Nacos/Consul，验证 `query-passing` 过滤、critical 超时注销与 `HealthCheckServiceInstanceListSupplier` 剔除延迟。
 2. 对单个 `@FeignClient` 调用注入故障实例，验证 `LoadBalancer` 缓存失效与 `RoundRobinLoadBalancer` 故障转移表现。
 3. 为网关配置一条带 `Path`/`Header` 断言与前置 `GatewayFilter` 的路由，运行集成测试确认转发目标 URI 与响应码。
 
@@ -72,5 +72,4 @@ Gateway 处于外部请求与微服务群之间，所有路由能力围绕三个
 1. 原始证据: src/content/raw/zh-cn/ingest-spring-cloud.md
 2. 证据状态: 暂定
 
-设定参考: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md
-本文为基于公开设定的档案式改写，非游戏原文。
+Wiki 来源: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/ingest-spring-cloud.md

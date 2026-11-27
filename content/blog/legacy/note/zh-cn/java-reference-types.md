@@ -9,7 +9,7 @@
   "date": "2026-11-27",
   "lead": "DavidHLPL",
   "clearance": "PUBLIC",
-  "abstract": "基于 JDK 8/17 引用类型原文笔记，梳理 java.lang.ref.Reference 四态状态机、VarHandle（JDK 9+/17）访问演进、四种引用强度的回收语义差异，以及为什么 SoftReference 缓存常构成抖动反模式、堆外清理应优先使用 Cleaner。",
+  "abstract": "基于 JDK 8/17 引用类型原文笔记，梳理 java.lang.ref.Reference 四态状态机、get/clear 在 JDK 8 与 17 的实现差异、四种引用强度的回收语义差异，以及为什么 SoftReference 缓存常构成抖动反模式、堆外清理应优先使用 Cleaner。",
   "findings": [
     "原始证据: src/content/raw/zh-cn/ingest-java-concurrency.md",
     "证据状态: 暂定"
@@ -53,18 +53,22 @@ Java 把对象可达性与堆外资源清理拆成一套异步事件通知模型
 3. **`Enqueued`（入队态）**：JVM 守护线程 `Reference-Handler` 轮询待处理链表，将 `referent` 置空并把该 `Reference` 对象放入关联的 `ReferenceQueue`。
 4. **`Inactive`（失活态）**：应用从 `ReferenceQueue` 取出该引用，或未关联队列的引用目标已被回收后进入终态。
 
-自 JDK 9 起，`Reference` 内部使用 `VarHandle REFERENT`（通过 `getAcquire` / `setRelease`）执行原子访问，以配合 G1GC、ZGC 等现代并发收集器的内存屏障要求。
+`get()` 与 `clear()` 的实现与网络上常见的示例不同。JDK 17 的 `java.lang.ref.Reference` 并没有在 Java 层用 `VarHandle` 读写 `referent`：`get()` 直接返回 `this.referent`（标注 `@IntrinsicCandidate`，由 JIT 与 GC 协同处理），`clear()` 调用 native `clear0()`。可见性与回收屏障由 VM 和原生代码保证，不能从 Java 层的 acquire/release 操作推断。
 
 ```java
-// Reference<T> 读取与清除核心语义（JDK 9+ VarHandle 模式）
+// OpenJDK 17 java.lang.ref.Reference（节选）
 public T get() {
-    return (T) REFERENT.getAcquire(this);
+    return this.referent;
 }
 
 public void clear() {
-    REFERENT.setRelease(this, null);
+    clear0();
 }
+
+private native void clear0();
 ```
+
+常见的 `REFERENT.getAcquire(this)` / `REFERENT.setRelease(this, null)` 写法只是解释内存屏障意图的示意伪代码，不是 JDK 源码，也不代表 JDK 17 的 `Reference` 使用了这些操作。
 
 ### 2. 四种引用强度对比与架构取舍
 

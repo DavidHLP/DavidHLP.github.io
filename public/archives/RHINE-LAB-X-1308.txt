@@ -96,5 +96,4 @@ DROP TEMPORARY TABLE tmp_review_course_avg;
 2. 出典スナップショット: database-written-test-review
 3. 証拠の状態: 暫定
 
-参考資料: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md
-公開設定資料を基にした資料形式の再構成であり、ゲームの原文ではありません。
+Wiki 出典: https://github.com/DavidHLP/DavidHLP.github.io/blob/f49953fb0d4bd52a39bf81167b0c4b7dd7d78a64/src/content/raw/zh-cn/database-written-test-review.md
