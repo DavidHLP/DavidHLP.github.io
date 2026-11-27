@@ -1,5 +1,7 @@
 # ADR 0004 — i18n `t()` returns `string | undefined`; fallback policy lives on the seam
 
+> 状态：已归档；适用代码已移除。
+
 - **Status**: Accepted
 - **Date**: 2026-07-02
 

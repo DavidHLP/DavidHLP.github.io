@@ -1,5 +1,7 @@
 # ADR 0003 — Locale-aware URL synthesis: a single `contentUrl` seam
 
+> 状态：已归档；适用代码已移除。
+
 - **Status**: Accepted
 - **Date**: 2026-07-02
 

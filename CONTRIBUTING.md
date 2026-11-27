@@ -5,22 +5,19 @@
 >
 > If you’re not comfortable writing in English, feel free to include a translation first, followed by your original text.
 
-Thank you for your interest in contributing!
-
-Before you dive in, please review the guidelines below.\
-Following these steps ensures that all contributions align with the project’s vision and maintain a streamlined workflow.
+Thank you for your interest in contributing. This repository is the personal blog `DavidHLP/DavidHLP.github.io`; the generic template lives separately at `DavidHLP/RhineLabUI-Astro`.
 
 ## Development Environment Setup
 
 ### Prerequisites
 
-- **Node.js**: 22.x or later
-- **pnpm**: 10.30.0 or later
-- **Git**: Latest version
+- **Node.js**: 22.12 or later
+- **npm**: bundled with Node.js, using `package-lock.json`
+- **Git**: latest version
 
 ### Installation
 
-1. **Fork and clone the repository**
+1. **Fork and clone this repository**
    ```bash
    git clone https://github.com/YOUR_USERNAME/DavidHLP.github.io.git
    cd DavidHLP.github.io
@@ -28,169 +25,115 @@ Following these steps ensures that all contributions align with the project’s 
 
 2. **Install dependencies**
    ```bash
-   pnpm install
+   npm ci
    ```
 
-3. **Start development server**
+3. **Start the development server**
    ```bash
-   pnpm dev
+   npm run dev
    ```
-   The site will be available at `http://localhost:4321`
+   The site is available at `http://127.0.0.1:4321`.
+
+Run installation, builds and checks on `remote-dev`.
 
 ### Available Scripts
 
 | Command | Description |
 |---------|-------------|
-| `pnpm new` | Create a new content file |
-| `pnpm dev` | Start development server |
-| `pnpm check` | Run type checking |
-| `pnpm build` | Build for production |
-| `pnpm preview` | Preview production build |
-| `pnpm format` | Format code |
-| `pnpm lint` | Lint code |
+| `npm run dev` | Start the development server |
+| `npm run build` | Run `astro check`, build the site and generate PWA output |
+| `npm run preview` | Preview the production build |
+| `npm run check` | Run `astro check` only |
+| `npm run check:content` | Validate content and the Fuwari archive |
+| `npm run check:viewport` | Check viewport constraints |
+| `npm run build:cloudflare` | Build and package for Cloudflare |
+| `npm run format` | Format with Prettier |
+| `npm run kb:lint` | Validate knowledge-base evidence and index invariants |
+| `npm run test:kb` | Run the knowledge-base ingestion tests |
 
 For detailed script documentation, see [docs/SCRIPTS.md](docs/SCRIPTS.md).
 
-## Code Style Enforcement
+## Code Style
 
-### Formatters and Linters
-
-This project uses:
-- **Biome**: Primary formatter and linter for JavaScript/TypeScript
-- **Prettier**: Fallback for Astro and Svelte files
-- **Husky**: Git hooks for pre-commit formatting
-- **lint-staged**: Format only staged files
-
-### Pre-commit Hooks
-
-When you commit changes, Husky will automatically:
-1. Run Biome on staged files
-2. Format code according to project standards
-3. Prevent commits with formatting issues
-
-### Manual Formatting
-
-```bash
-# Format all files
-pnpm format
-
-# Check for linting issues
-pnpm lint
-
-# Run both format and lint
-pnpm format && pnpm lint
-```
+- **Prettier** is the formatter. Run `npm run format` before committing.
+- No git hook or staged-file formatting setup is required.
+- Keep Astro components and project conventions consistent with the surrounding code.
 
 ## Testing Procedures
 
 ### Type Checking
 
 ```bash
-pnpm check
+npm run check
 ```
-
-This runs Astro’s type checker to validate:
-- TypeScript types in `.astro` files
-- Content collection schemas
-- Configuration validity
 
 ### Build Verification
 
 ```bash
-pnpm build
+npm run build
 ```
-
-Always verify your changes build successfully before submitting a PR.
 
 ### Content Validation
 
-When creating or modifying content:
-1. Ensure frontmatter schema is correct
-2. Test with different locales if applicable
-3. Verify markdown rendering
-
-## Content Creation
-
-### Using the New Command
-
 ```bash
-pnpm new
+npm run check:content
+npm run check:viewport
+npm run kb:lint
+npm run test:kb
 ```
 
-This interactive script will:
-1. Ask for content type (note/jotting)
-2. Prompt for title and metadata
-3. Create the file in the correct directory
+Always verify your changes build and pass the content checks before submitting a PR.
 
-### Content Structure
+## Content Structure
 
-- **note/**: Long-form articles with full metadata
-- **jotting/**: Short posts with minimal metadata
-- **preface/**: Homepage introductory content
-- **information/**: Static pages (about, policy)
+Editable articles live under `content/blog/legacy/`:
 
-### i18n Support
+- `note/`: long-form, evidence-backed knowledge pages.
+- `jotting/`: short posts and the knowledge-base inbox.
+- `information/`: about, policy, linkroll, chronology and knowledge-base index/log.
+- `preface/`: site preface.
 
-All content supports three locales:
-- `en`: English
-- `zh-cn`: Simplified Chinese
-- `ja`: Japanese
+`src/content/` is a frozen migration snapshot. `src/content/raw/` is immutable evidence and must not be edited. Do not edit or delete archive IDs, URLs, draft flags, languages or original metadata.
 
-Create content in all supported locales when possible.
+All published content supports three locales: `en`, `zh-cn` and `ja`. The knowledge base uses `zh-cn` as its canonical language. When a change touches the knowledge base, read `KB.md` and `.claude/skills/knowledge-base.md` first.
 
 ## Issues
 
-> [!Tip]
-> **Developers in mainland China**:\
-> Before creating an Issue regarding connectivity, please verify that the *terminal environment* has unrestricted access to GitHub and Google services.
+Issues live in this repository's GitHub Issues and are managed with the `gh` CLI; see [docs/agents/issue-tracker.md](docs/agents/issue-tracker.md).
 
-- Check existing Issues (*including closed ones*) to avoid duplicates.
-- Follow the provided **template** to ensure all necessary context is included.
-
-### Bug Reports
-
-- Document the steps to reproduce the bug and the expected behavior.
-- Whenever possible, provide a link to a live demo, a screenshot, or the relevant configuration files to help isolate the Issue.
-
-### Enhancement Proposals
-
-- Clearly describe the proposed enhancement and its intended function.
-- Outline the reasoning behind the request and how it improves the user experience.
-- Whenever possible, provide examples, references, or mockups to illustrate the concept.
+- Check existing issues, including closed ones, to avoid duplicates.
+- Use the provided templates.
+- For bug reports, document the reproduction steps, expected behavior and environment.
+- For proposals, describe the problem, the intended behavior and the reasoning.
 
 ## Pull Requests
 
 > [!Warning]
-> **About AI Assistance**:\
+> **About AI Assistance**:
 > Pull Requests failing to meet the following requirements will be **closed immediately**:
-> - Manually review and test all code to prevent hallucinated logic or syntax
-> - Ensure PR descriptions provide clear, meaningful value to the review process
-> - Maintain strict adherence to the established workflow and commit specifications
-> - Disclose any use of AI tools for code or documentation generation within the PR description
+> - Manually review and test all code to prevent hallucinated logic or syntax.
+> - Ensure PR descriptions provide clear, meaningful value to the review process.
+> - Maintain strict adherence to the established workflow and commit specifications.
+> - Disclose any use of AI tools for code or documentation generation within the PR description.
 
-- An Issue describing the problem or feature is **required** before submitting a Pull Request.
-- A **single problem** or a **single feature** per Pull Request to avoid bundling unrelated changes.
-- Updated documentation for any new **user-facing features** or **configuration options**.
-- Separate Pull Requests for **code refactoring** before submitting a new feature.
-- Compliance with **basic tests** and the project's existing **code style**.
-
-> [!Note]
-> This project uses [Biome](https://biomejs.dev/) as the primary formatter and linter.\
-> Due to current limitations in Biome's formatting for **Astro** and **Svelte** files, Prettier is used as a fallback for those specific file types.\
-> Please format with Prettier first, then run Biome.
+- An issue describing the problem or feature is required before submitting a Pull Request.
+- Keep a **single problem or single feature** per Pull Request; do not bundle unrelated changes.
+- Update documentation for any new user-facing feature or configuration option.
+- Submit code refactoring in a separate Pull Request.
+- Ensure the required checks and the project's code style pass.
 
 ### Development Workflow
 
-1. [Fork](https://github.com/tuyuritio/astro-theme-thought-lite/fork) this repository to your own GitHub account.
-2. Create a new branch for your changes: `git checkout -b feat/your-feature`
-3. Make your changes and [commit](#commit-convention) them: `git commit -m "feat: add new feature"`.
-4. Pull the latest changes from the base repository to avoid conflicts: `git pull origin main`
-5. Push your branch to your fork: `git push origin feat/your-feature`
-6. Open a Pull Request from your branch to the appropriate base branch in this repository.
+1. [Fork](https://github.com/DavidHLP/DavidHLP.github.io/fork) this repository to your own GitHub account.
+2. Create a new branch: `git checkout -b feat/your-feature`.
+3. Make your changes and commit them: `git commit -m "feat: add new feature"`.
+4. Pull the latest changes from the base repository: `git pull origin main`.
+5. Push your branch: `git push origin feat/your-feature`.
+6. Open a Pull Request against this repository.
 
 ### Commit Convention
 
-Using [Conventional Commits](https://www.conventionalcommits.org/). The commit message format is:
+This project uses [Conventional Commits](https://www.conventionalcommits.org/):
 
 ```
 <type>[(<scope>)]: <description>
@@ -198,12 +141,12 @@ Using [Conventional Commits](https://www.conventionalcommits.org/). The commit m
 
 **Common Types**:
 
-- `feat`: A new feature
-- `fix`: A bug fix
-- `docs`: Documentation changes
-- `style`: Code style changes
-- `refactor`: Code refactoring
+- `feat`: a new feature
+- `fix`: a bug fix
+- `docs`: documentation changes
+- `style`: code style changes
+- `refactor`: code refactoring
 
 ---
 
-Thank you for your contribution ❤️
+Thank you for your contribution.

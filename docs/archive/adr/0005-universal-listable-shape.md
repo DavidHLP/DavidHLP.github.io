@@ -1,5 +1,7 @@
 # ADR 0005 — `ContentCard[]` is the universal listable shape
 
+> 状态：已归档；适用代码已移除。
+
 - **Status**: Accepted
 - **Date**: 2026-07-02
 - **Deciders**: project owner (imposed by `src/utils/content-card.ts` + the listing / feed / heatmap / homepage consumers)

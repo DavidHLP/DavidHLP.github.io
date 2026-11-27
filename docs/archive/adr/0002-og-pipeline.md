@@ -1,5 +1,7 @@
 # ADR 0002 — Shared Open Graph pipeline behind two VDOM templates
 
+> 状态：已归档；适用代码已移除。
+
 - **Status**: Accepted
 - **Date**: 2026-07-02
 

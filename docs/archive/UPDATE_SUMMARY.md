@@ -10,7 +10,7 @@ Generated: 2026-06-01
 | `docs/ENV.md` | ✅ Created | Environment variables and configuration documentation |
 | `docs/RUNBOOK.md` | ✅ Created | Deployment procedures, health checks, and troubleshooting |
 | `CONTRIBUTING.md` | ✅ Updated | Added development setup, scripts, testing, and code style sections |
-| `docs/CODEMAPS/` | ✅ Created | Architecture documentation (see CODEMAPS/README.md) |
+| `docs/CODEMAPS/` | ✅ Created | Architecture documentation (see [CODEMAPS/architecture.md](CODEMAPS/architecture.md)) |
 
 ## New Documentation
 

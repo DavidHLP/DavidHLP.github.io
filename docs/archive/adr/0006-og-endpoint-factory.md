@@ -1,5 +1,7 @@
 # ADR 0006 — `defineContentGraphEndpoint` factory for per-content OG endpoints
 
+> 状态：已归档；适用代码已移除。
+
 - **Status**: Accepted
 - **Date**: 2026-07-02
 - **Deciders**: project owner (imposed by `src/utils/og-endpoint.ts`)

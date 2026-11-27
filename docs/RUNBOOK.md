@@ -1,287 +1,51 @@
 # Runbook
 
-## Deployment Procedures
+运维顺序与回滚说明。命令以 `package.json` 为准；Cloudflare 打包见 [CLOUDFLARE-DEPLOYMENT.md](CLOUDFLARE-DEPLOYMENT.md)，PWA 与离线更新见 [PWA.md](PWA.md)。
 
-### Automatic Deployment (Recommended)
+## 自动部署
 
-The site automatically deploys to GitHub Pages when changes are pushed to the `main` branch.
+- 推送到 `main` 触发 `.github/workflows/deploy.yml`。
+- 工作流在 `ubuntu-latest`、Node.js 22 上运行 `npm ci`，随后执行 `npm run build`、`check:content`、`check:viewport`、`kb:lint`、`test:kb`。
+- 通过后上传 `dist/` 并发布到 GitHub Pages；并发组为 `pages`，新推送会取消进行中的旧部署。
+- 监控：仓库 Actions 页的 “Deploy blog to GitHub Pages”，以及 Environments → `github-pages`。
+- 手动重跑：Actions → “Deploy blog to GitHub Pages” → Run workflow → 选择 `main`。
 
-**Workflow:**
-1. Push changes to `main`
-2. GitHub Actions triggers `deploy.yml`
-3. Build runs on `ubuntu-latest` with Node.js 22 and pnpm 10.30.0
-4. Static files generated in `dist/` directory
-5. `.nojekyll` file added for GitHub Pages
-6. Artifact uploaded and deployed
+## 本地验证
 
-**Monitor Deployment:**
-- Go to repository → Actions tab
-- Watch "Deploy to GitHub Pages" workflow
-- Check deployment status in Environments → github-pages
-
-### Manual Deployment
-
-If automatic deployment fails:
-
-1. **Check build locally**
-   ```bash
-   pnpm build
-   pnpm preview
-   ```
-
-2. **Verify dist directory**
-   ```bash
-   ls -la dist/
-   ```
-
-3. **Manual trigger**
-   - Go to Actions → Deploy to GitHub Pages
-   - Click "Run workflow"
-   - Select `main` branch
-
-### Rollback Procedure
-
-1. **Identify last good commit**
-   ```bash
-   git log --oneline
-   ```
-
-2. **Revert to previous version**
-   ```bash
-   git revert HEAD
-   git push origin main
-   ```
-
-3. **Or reset to specific commit**
-   ```bash
-   git reset --hard <commit-hash>
-   git push --force origin main
-   ```
-   > ⚠️ **Warning**: Force push rewrites history. Use with caution.
-
-## Health Checks
-
-### Site Accessibility
-
-- **Production URL**: https://davidhlp.github.io
-- **Check status**: Visit the URL and verify page loads
-- **Check RSS feed**: https://davidhlp.github.io/feed.xml
-
-### Build Health
-
-```bash
-# Local build test
-pnpm build
-
-# Type checking
-pnpm check
-
-# Linting
-pnpm lint
+```sh
+npm ci
+npm run build
+npm run check:content
+npm run check:viewport
+npm run kb:lint
+npm run test:kb
 ```
 
-### Content Validation
+`npm run build` 已包含 `astro check`、静态构建与 PWA 产物。需要验证 Cloudflare 打包时运行 `npm run build:cloudflare`。
 
-```bash
-# Check for broken links (if tool available)
-pnpm build 2>&1 | grep -i "error\|warning"
-```
+## 回滚
 
-## Common Issues and Fixes
+优先使用可追溯的反向提交，不改写历史：
 
-### Build Failures
-
-#### Issue: TypeScript Errors
-```
-Error: Type 'X' is not assignable to type 'Y'
-```
-
-**Fix:**
-1. Run `pnpm check` to see all type errors
-2. Fix TypeScript issues in the reported files
-3. Ensure content collection schemas match frontmatter
-
-#### Issue: Missing Dependencies
-```
-Error: Cannot find module 'X'
-```
-
-**Fix:**
-```bash
-pnpm install
-```
-
-#### Issue: Content Collection Errors
-```
-Error: Invalid frontmatter in X
-```
-
-**Fix:**
-1. Check the file's frontmatter against the schema in `src/content.config.ts`
-2. Ensure required fields are present
-3. Verify date format is correct
-
-### Deployment Failures
-
-#### Issue: GitHub Pages Not Updating
-
-**Check:**
-1. Verify workflow completed successfully
-2. Check GitHub Pages settings (Settings → Pages)
-3. Ensure source is set to "GitHub Actions"
-
-**Fix:**
-```bash
-# Force rebuild
-git commit --allow-empty -m "chore: force rebuild"
+```sh
+git log --oneline
+git revert <bad-commit>
 git push origin main
 ```
 
-#### Issue: 404 Errors on Refresh
+常规回滚不要使用 `git reset --hard` 或 `git push --force`；只有仓库所有者明确要求重写历史时才考虑强制推送。GitHub Pages 部署本身可通过重新运行上一良好提交的部署工作流恢复。
 
-**Cause:** GitHub Pages doesn't support SPA routing
+## 故障排查
 
-**Fix:** Already handled by Astro's static build. If issues persist:
-1. Check `astro.config.ts` for `trailingSlash` setting
-2. Verify all routes generate `index.html` files
+- 构建失败：先看 Actions 日志中失败步骤，再在本地复现对应 `npm run` 命令。
+- 部署未更新：检查 Actions 是否成功、Settings → Pages 的 Source 是否为 “GitHub Actions”。
+- Feed：中文 `/rss.xml`，英文 `/en/rss.xml`，日文 `/ja/rss.xml`；兼容地址 `/feed`、`/en/feed`、`/ja/feed`。
+- 离线更新：入口为 `/update.html`。
+- 依赖或内容集合报错：核对 `package.json`、`src/content.config.ts` 与 `content/site.json`，不要按旧文档修改。
+- 页面 404：静态构建应为每个路由生成 `index.html`；检查 `astro.config.ts` 的 `trailingSlash` 与 `src/pages/` 路由。
 
-### Content Issues
+## 维护节奏
 
-#### Issue: Images Not Loading
-
-**Check:**
-1. Image paths are relative to the markdown file
-2. Images are in the `public/` directory or properly imported
-3. File extensions are correct
-
-**Fix:**
-```markdown
-<!-- Correct -->
-![Alt text](./image.png)
-
-<!-- For public directory images -->
-![Alt text](/images/image.png)
-```
-
-#### Issue: i18n Content Not Showing
-
-**Check:**
-1. File is in the correct locale directory
-2. Frontmatter includes required fields
-3. File doesn't start with `_` (draft marker)
-
-**Fix:**
-- Ensure file is in `src/content/{collection}/{locale}/`
-- Verify locale code matches (`en`, `zh-cn`, `ja`)
-
-### Performance Issues
-
-#### Issue: Slow Build Times
-
-**Cause:** Large content collection or complex markdown processing
-
-**Fix:**
-1. Check for extremely large markdown files
-2. Verify remark/rehype plugins are necessary
-3. Consider splitting large content files
-
-#### Issue: Slow Page Loads
-
-**Check:**
-1. Image sizes (should be optimized)
-2. JavaScript bundle size
-3. External resource loading
-
-**Fix:**
-```bash
-# Build and check output
-pnpm build
-ls -lh dist/
-```
-
-## Monitoring and Alerts
-
-### GitHub Actions Monitoring
-
-- **Workflow failures**: Check Actions tab for red X marks
-- **Build time trends**: Monitor workflow duration
-- **Dependency updates**: Dependabot alerts
-
-### Site Monitoring
-
-- **Uptime**: Manual check or use external service
-- **Performance**: Lighthouse scores
-- **Content freshness**: Check RSS feed updates
-
-## Escalation Paths
-
-### For Build Issues
-
-1. Check GitHub Actions logs
-2. Review recent commits for breaking changes
-3. Check Astro/Svelte documentation for updates
-4. Open issue with error details
-
-### For Content Issues
-
-1. Verify frontmatter schema
-2. Check markdown syntax
-3. Test with minimal content
-4. Open issue with content example
-
-### For Deployment Issues
-
-1. Check GitHub Pages status
-2. Verify repository settings
-3. Check DNS configuration (if custom domain)
-4. Contact GitHub Support if needed
-
-## Maintenance Tasks
-
-### Regular Maintenance
-
-- **Weekly**: Check for dependency updates
-- **Monthly**: Review and update content
-- **Quarterly**: Audit performance and accessibility
-
-### Dependency Updates
-
-```bash
-# Check for updates
-pnpm outdated
-
-# Update dependencies
-pnpm update
-
-# Update specific package
-pnpm update <package-name>
-```
-
-### Content Cleanup
-
-1. Review draft content (`_*.md` files)
-2. Update outdated information
-3. Check for broken links
-4. Verify image references
-
-## Emergency Procedures
-
-### Site Down
-
-1. Check GitHub Pages status page
-2. Verify DNS resolution
-3. Check repository settings
-4. Deploy from backup if needed
-
-### Data Loss
-
-1. Check git history for recoverable content
-2. Restore from backup if available
-3. Recreate content from local copies
-
-### Security Issues
-
-1. Rotate any exposed credentials
-2. Review access logs
-3. Update dependencies with security patches
-4. Report to GitHub if platform issue
+- 依赖更新后重跑本地验证与 CI。
+- 内容改动遵循 `KB.md` 与 `.claude/skills/knowledge-base.md`。
+- 文档改动同步 `docs/README.md` 与 [DOCUMENT-CLASSIFICATION.md](DOCUMENT-CLASSIFICATION.md)。

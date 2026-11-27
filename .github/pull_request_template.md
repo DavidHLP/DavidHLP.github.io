@@ -1,7 +1,7 @@
 <!--
   !!IMPORTANT!!
   Before submitting a Pull Request, please make sure to read and follow the guidelines in CONTRIBUTING.md.
-  https://github.com/tuyuritio/astro-theme-thought-lite/blob/main/CONTRIBUTING.md
+  https://github.com/DavidHLP/DavidHLP.github.io/blob/main/CONTRIBUTING.md
 -->
 
 ## Description
@@ -14,6 +14,11 @@
 ## Testing
 
 <!-- How was this change tested? -->
+- [ ] `npm run build`
+- [ ] `npm run check:content`
+- [ ] `npm run check:viewport`
+- [ ] `npm run kb:lint`
+- [ ] `npm run test:kb`
 
 ## Docs
 

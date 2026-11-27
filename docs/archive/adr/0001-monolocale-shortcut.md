@@ -1,5 +1,7 @@
 # ADR 0001 — Monolocale shortcut: skip the locale prefix when only one locale is configured
 
+> 状态：已归档；适用代码已移除。
+
 - **Status**: Accepted
 - **Date**: 2026-07-02
 - **Deciders**: project owner (imposed by `astro.config.ts` & `site.config.ts`)
