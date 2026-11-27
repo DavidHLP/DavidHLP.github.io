@@ -47,7 +47,7 @@
 
 ### 1. レジストリと設定管理の境界：Consul 対 Nacos
 
-- **Consul**：Agent が TCP・HTTP・スクリプトのヘルスチェックを定期実行し、失敗したインスタンスは `critical` としてカタログに残り、自動では削除されない。ヘルスチェック合格のインスタンスだけを返すには `spring.cloud.consul.discovery.query-passing=true` が必要（既定は `false` で全インスタンスを返す）。失敗インスタンスの自動登録解除には critical タイムアウト（Consul の `deregister_critical_service_after` / Spring Cloud の `deregister-critical-service-after`）の設定が要る。KV ストア（旧構成では `bootstrap.yml` で主コンテキスト起動前に外部設定を読込）、mTLS（Consul Connect）、既定ポート `8500` の Web UI も持つ。
+- **Consul**：Agent が TCP・HTTP・スクリプトのヘルスチェックを定期実行し、失敗したインスタンスは `critical` としてカタログに残り、自動では削除されない。ヘルスチェック合格のインスタンスだけを返すには `spring.cloud.consul.discovery.query-passing=true` が必要（既定は `false` で全インスタンスを返す）。失敗インスタンスの自動登録解除には `spring.cloud.consul.discovery.health-check-critical-timeout`（Consul サービス側の `deregister_critical_service_after` として登録される）の設定が要る。KV ストア（旧構成では `bootstrap.yml` で主コンテキスト起動前に外部設定を読込）、mTLS（Consul Connect）、既定ポート `8500` の Web UI も持つ。
 - **Nacos**：Discovery と動的設定管理を兼ねる。Nacos 2.x は管理ポート `8848` に加えクライアント・サーバ間 gRPC 用ポート `9848`/`9849` を用い、本番運用では `latest` を避け固定タグ指定と `NACOS_AUTH_ENABLE=true` の認証有効化が必要になる。
 
 ### 2. クライアント側負荷分散：`Spring Cloud LoadBalancer`
